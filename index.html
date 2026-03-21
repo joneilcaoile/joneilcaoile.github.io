@@ -12,6 +12,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Joneil Caoile — Biomedical Engineer & UX Designer">
 <meta name="twitter:description" content="Building AI tools for medical device safety. Portfolio, projects, and contact.">
+<meta name="theme-color" content="#0a0a0f">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%230a0a0f'/><text x='50' y='68' font-family='system-ui' font-size='52' font-weight='700' fill='%2314b8a6' text-anchor='middle'>JC</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -272,6 +273,17 @@ a{color:var(--teal);text-decoration:none}
 /* Credential pill subtle glow */
 .cred{transition:all .25s var(--ease)}
 .cred:hover{border-color:rgba(20,184,166,.3);box-shadow:0 0 12px rgba(20,184,166,.06);transform:translateY(-2px)}
+
+/* ── Typing cursor ─────────────────────────────── */
+.type-cursor{color:var(--teal);animation:blink-cursor .6s step-end infinite;font-weight:300}
+@keyframes blink-cursor{50%{opacity:0}}
+
+/* ── Staggered work cards ──────────────────────── */
+.wc{opacity:0;transform:translateY(32px)}
+
+/* ── Metric counter glow ─────────────────────────── */
+.metric{display:inline-block}
+.met-v{transition:color .3s}
 </style>
 </head>
 <body>
@@ -319,7 +331,7 @@ a{color:var(--teal);text-decoration:none}
     <div class="orb orb-3" id="orb3"></div>
   </div>
   <div class="w hero-content">
-    <div class="hero-tag"><span id="htag">biomedical eng &mdash; ux design &mdash; ai &mdash; caffeine</span></div>
+    <div class="hero-tag"><span id="htag"></span><span class="type-cursor" id="typeCur">|</span></div>
     <h1>
       <span class="line"><span id="l1">Joneil</span></span>
       <span class="line"><span id="l2" class="thin">Caoile</span></span>
@@ -540,9 +552,10 @@ a{color:var(--teal);text-decoration:none}
       <div class="cta-form r">
         <h3>Send a message</h3>
         <form action="https://formspree.io/f/mjgaznkg" method="POST" onsubmit="event.preventDefault();let b=this.querySelector('button'),f=this;fetch(f.action,{method:'POST',body:new FormData(f),headers:{'Accept':'application/json'}}).then(r=>{if(r.ok){b.textContent='On it \u2714';b.style.background='var(--teal)';setTimeout(()=>{b.textContent='(You won\u2019t regret this)';f.reset();},1500)}else{b.textContent='Hmm, try again';b.style.background='#ef4444'}}).catch(()=>{window.location='mailto:joneilcaoile@gmail.com?subject=Portfolio Contact&body='+encodeURIComponent(f.querySelector('textarea').value)})">
-          <div class="fg"><label>Name</label><input type="text" placeholder="Your name" required></div>
-          <div class="fg"><label>Email</label><input type="email" placeholder="you@company.com" required></div>
-          <div class="fg"><label>Message</label><textarea placeholder="Tell me about the role, or just say hi. I respond fast." required></textarea></div>
+          <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+          <div class="fg"><label for="name">Name</label><input id="name" name="name" type="text" placeholder="Your name" required></div>
+          <div class="fg"><label for="email">Email</label><input id="email" name="email" type="email" placeholder="you@company.com" required></div>
+          <div class="fg"><label for="message">Message</label><textarea id="message" name="message" placeholder="Tell me about the role, or just say hi. I respond fast." required></textarea></div>
           <button type="submit" class="btn btn-glow" style="width:100%;justify-content:center">Send</button>
         </form>
       </div>
@@ -550,7 +563,7 @@ a{color:var(--teal);text-decoration:none}
   </div>
 </section>
 
-<footer class="foot"><div class="w"><p>Designed & built by Joneil Caoile with too much coffee and not enough sleep. 2026.</p></div></footer>
+<footer class="foot"><div class="w"><p>Designed & built by Joneil Caoile with too much coffee and not enough sleep. <script>document.write(new Date().getFullYear())</script>.</p></div></footer>
 
 <!-- GSAP -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -586,9 +599,11 @@ ltl.to(lt, { opacity: 1, duration: 0.4, delay: 0.1 })
 
 /* ── Hero entrance ───────────────────────────────── */
 function heroIn() {
-  gsap.set(['#htag span', '#l1', '#l2', '#hsub', '#hbtns', '#scrollInd'], { opacity: 0, y: 24 });
+  gsap.set(['#l1', '#l2', '#hsub', '#hbtns', '#scrollInd'], { opacity: 0, y: 24 });
+  gsap.set('.hero-tag', { opacity: 0, y: 24 });
   const h = gsap.timeline({ defaults: { ease: 'power3.out' } });
-  h.to('#htag span', { opacity: 1, y: 0, duration: 0.5 })
+  h.to('.hero-tag', { opacity: 1, y: 0, duration: 0.5 })
+   .call(() => typeLoop())
    .to('#l1', { opacity: 1, y: 0, duration: 0.7 }, '-=0.3')
    .to('#l2', { opacity: 1, y: 0, duration: 0.7 }, '-=0.5')
    .to('#hsub', { opacity: 1, y: 0, duration: 0.5 }, '-=0.4')
@@ -675,6 +690,44 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
+/* ── Typing effect ──────────────────────────────── */
+const roles = ['biomedical engineer', 'ux designer', 'ai builder', 'human factors nerd', 'coffee enthusiast'];
+let ri = 0, ci = 0, deleting = false;
+const htag = document.getElementById('htag');
+function typeLoop() {
+  const word = roles[ri];
+  if (!deleting) {
+    htag.textContent = word.slice(0, ++ci);
+    if (ci === word.length) { deleting = true; setTimeout(typeLoop, 2000); return; }
+    setTimeout(typeLoop, 60 + Math.random() * 40);
+  } else {
+    htag.textContent = word.slice(0, --ci);
+    if (ci === 0) { deleting = false; ri = (ri + 1) % roles.length; setTimeout(typeLoop, 300); return; }
+    setTimeout(typeLoop, 30);
+  }
+}
+
+/* ── Metric counter animation ───────────────────── */
+function animateCounters() {
+  document.querySelectorAll('.met-v[data-count]').forEach(el => {
+    const end = parseInt(el.dataset.count);
+    gsap.fromTo(el, { textContent: 0 }, {
+      textContent: end, duration: 1.5, ease: 'power2.out', snap: { textContent: 1 },
+      scrollTrigger: { trigger: el, start: 'top 90%', once: true }
+    });
+  });
+}
+animateCounters();
+
+/* ── Staggered work card entrance ───────────────── */
+const wCards = gsap.utils.toArray('.wc');
+wCards.forEach((card, i) => {
+  gsap.to(card, {
+    opacity: 1, y: 0, duration: 0.6, delay: i * 0.15, ease: 'power3.out',
+    scrollTrigger: { trigger: card, start: 'top 88%', once: true },
+  });
+});
+
 /* ── Console easter egg ──────────────────────────── */
 console.log(
   '%c Hey, you opened DevTools. \n%c I like you already. \n\n If you\'re hiring, let\'s skip the formalities: joneilcaoile@gmail.com \n If you\'re just curious how this was built — respect. \n\n Built with HTML, CSS, GSAP, and an unreasonable amount of attention to detail.',
@@ -721,7 +774,7 @@ if (window.matchMedia('(pointer:fine)').matches) {
 }
 
 /* ── Name click easter egg ────────────────────────── */
-const titles = ['Joneil Caoile', 'FDA Whisperer', 'Excel Eliminator', 'UX Engineer', 'Coffee Enthusiast', 'Joneil Caoile'];
+const titles = ['Joneil Caoile', 'FDA Whisperer', 'Excel Eliminator', 'UX Engineer', 'Coffee Enthusiast', 'Ctrl+Z Abuser', 'Warning Letter Sommelier', 'Joneil Caoile'];
 let ti = 0;
 document.querySelector('.nav-name').addEventListener('click', e => {
   e.preventDefault();
@@ -731,6 +784,15 @@ document.querySelector('.nav-name').addEventListener('click', e => {
     el.textContent = titles[ti];
     gsap.to(el, { opacity: 1, y: 0, duration: 0.25 });
   }});
+});
+
+/* ── Konami code → pixel team easter egg ─────────── */
+const konami = [38,38,40,40,37,39,37,39,66,65];
+let ki = 0;
+document.addEventListener('keydown', e => {
+  if (e.keyCode === konami[ki]) { ki++;
+    if (ki === konami.length) { ki = 0; window.open('pixel-team.html','_blank'); }
+  } else { ki = 0; }
 });
 
 /* ── Mobile nav ──────────────────────────────────── */
