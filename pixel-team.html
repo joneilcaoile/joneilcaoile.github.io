@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joneil's Pixel Team</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0d1117;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'Press Start 2P', monospace;
+    overflow: hidden;
+  }
+  .scene {
+    position: relative;
+    width: 900px;
+    height: 520px;
+  }
+  .ground {
+    position: absolute;
+    bottom: 80px;
+    left: 40px;
+    right: 40px;
+    height: 2px;
+    background: #21262d;
+  }
+  /* Character wrapper */
+  .char-wrap {
+    position: absolute;
+    bottom: 82px;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .char-wrap:hover { transform: translateY(-4px); }
+  .char-wrap:hover .role-tag { opacity: 1; transform: translateX(-50%) translateY(-6px); }
+  .char-wrap:hover .activity-tag { opacity: 1; }
+
+  canvas { image-rendering: pixelated; display: block; }
+
+  /* Idle bob - subtle movement */
+  .bob {
+    animation: bob 2.8s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-1.5px); }
+  }
+
+  /* Glow effect for hover */
+  .char-wrap.hovering canvas {
+    filter: drop-shadow(0 0 8px #14b8a6);
+  }
+
+  /* Role tag (above head on hover) */
+  .role-tag {
+    position: absolute;
+    top: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #14b8a6;
+    color: #0d1117;
+    padding: 4px 10px;
+    font-size: 7px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: all 0.25s;
+    z-index: 10;
+  }
+
+  /* Activity tag (below feet) */
+  .activity-tag {
+    position: absolute;
+    bottom: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #8b949e;
+    font-size: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.25s;
+    letter-spacing: 0.5px;
+  }
+
+  /* Title */
+  .title-row {
+    position: absolute;
+    top: 35px;
+    width: 100%;
+    text-align: center;
+  }
+  .title-row h1 {
+    color: #c9d1d9;
+    font-size: 13px;
+    letter-spacing: 2px;
+  }
+  .title-row h1 span { color: #14b8a6; }
+  .title-row p {
+    color: #8b949e;
+    font-size: 7px;
+    margin-top: 10px;
+    letter-spacing: 1px;
+  }
+
+  /* Floating particles */
+  .sparkle {
+    position: absolute;
+    width: 2px; height: 2px;
+    border-radius: 50%;
+    opacity: 0;
+    animation: sparkle-up 4s ease-out infinite;
+  }
+  @keyframes sparkle-up {
+    0% { opacity: 0; transform: translateY(0) scale(1); }
+    15% { opacity: 0.8; }
+    100% { opacity: 0; transform: translateY(-80px) scale(0.3); }
+  }
+</style>
+</head>
+<body>
+
+<div class="scene" id="scene">
+  <div class="title-row">
+    <h1>ONE PERSON · <span>FIVE HATS</span></h1>
+    <p>hover to see what everyone's working on</p>
+  </div>
+  <div class="ground"></div>
+</div>
+
+<script>
+const S = 6; // scale: each pixel = 6×6 real px
+const _ = '';
+
+// Palette
+const SK = '#dba97a';  // skin
+const HR = '#1a1209';  // hair
+const EY = '#1a1a1a';  // eyes
+const T  = '#14b8a6';  // teal
+const BL = '#3b82f6';  // blue
+const PR = '#8b5cf6';  // purple
+const W  = '#e5e7eb';  // white
+const GY = '#6b7280';  // gray
+const DK = '#1e1e2e';  // dark shirt
+const NV = '#1e3a5f';  // navy
+const GN = '#22c55e';  // green
+const OR = '#f97316';  // orange
+const RD = '#ef4444';  // red
+const SC = '#0ea5e9';  // screen blue
+const LB = '#7dd3fc';  // light blue
+const SH = '#4b4b4b';  // shoes
+const LP = '#2d1d3f';  // dark purple
+const WH = '#f9fafb';  // bright white
+const CB = '#d4a762';  // clipboard brown
+const GL = '#b8f7d5';  // green liquid
+
+// ===== 1. BIOMED ENGINEER (lab coat, holding test tube with green liquid) =====
+const biomed = [
+  [_,_,HR,HR,HR,HR,_,_,_,_],
+  [_,HR,HR,HR,HR,HR,HR,_,_,_],
+  [_,HR,SK,SK,SK,SK,HR,_,_,_],
+  [_,SK,SK,SK,SK,SK,SK,_,_,_],
+  [_,SK,EY,SK,SK,EY,SK,_,_,_],
+  [_,SK,SK,SK,SK,SK,SK,_,_,_],
+  [_,_,SK,SK,SK,SK,_,_,_,_],
+  [_,W,W,W,W,W,W,W,_,_],
+  [W,W,W,T,T,W,W,W,W,_],
+  [W,W,W,W,W,W,W,W,W,_],
+  [W,W,W,W,W,W,W,W,W,_],
+  [SK,W,W,W,W,W,W,SK,_,_],
+  [_,W,W,W,W,W,SK,W,GL,_],
+  [_,W,W,W,W,W,_,W,GL,_],
+  [_,_,NV,NV,_,NV,NV,W,GL,_],
+  [_,_,NV,NV,_,NV,NV,_,_,_],
+  [_,_,NV,NV,_,NV,NV,_,_,_],
+  [_,_,SH,SH,_,SH,SH,_,_,_],
+];
+
+// ===== 2. UX DESIGNER (purple shirt, holding stylus + drawing tablet below) =====
+const uxd = [
+  [_,_,HR,HR,HR,HR,_,_,_,_,_],
+  [_,HR,HR,HR,HR,HR,HR,_,_,_,_],
+  [_,HR,SK,SK,SK,SK,HR,_,_,_,_],
+  [_,SK,SK,SK,SK,SK,SK,_,_,_,_],
+  [_,SK,EY,SK,SK,EY,SK,_,_,_,_],
+  [_,SK,SK,SK,SK,SK,SK,_,_,_,_],
+  [_,_,SK,SK,SK,SK,_,_,_,_,_],
+  [_,PR,PR,PR,PR,PR,PR,_,_,_,_],
+  [PR,PR,PR,PR,PR,PR,PR,PR,_,_,_],
+  [PR,PR,PR,PR,PR,PR,PR,PR,_,_,_],
+  [PR,PR,PR,PR,PR,PR,PR,PR,_,_,_],
+  [SK,PR,PR,PR,PR,PR,_,SK,OR,_,_],
+  [_,PR,PR,PR,PR,PR,_,_,OR,_,_],
+  [_,_,_,_,_,_,_,_,_,_,_],
+  [_,DK,DK,DK,DK,DK,DK,DK,DK,DK,_],
+  [_,DK,PR,W,PR,W,PR,W,DK,DK,_],
+  [_,DK,DK,DK,DK,DK,DK,DK,DK,DK,_],
+  [_,_,DK,DK,_,DK,DK,_,_,_,_],
+  [_,_,DK,DK,_,DK,DK,_,_,_,_],
+  [_,_,SH,SH,_,SH,SH,_,_,_,_],
+];
+
+// ===== 3. AI BUILDER (dark hoodie, laptop with neural net nodes) =====
+const ai = [
+  [_,_,HR,HR,HR,HR,_,_,_,_,_,_,_,_],
+  [_,HR,HR,HR,HR,HR,HR,_,_,_,_,_,_,_],
+  [_,HR,SK,SK,SK,SK,HR,_,_,_,_,_,_,_],
+  [_,SK,SK,SK,SK,SK,SK,_,_,_,_,_,_,_],
+  [_,SK,EY,SK,SK,EY,SK,_,_,_,_,_,_,_],
+  [_,SK,SK,SK,SK,SK,SK,_,_,_,_,_,_,_],
+  [_,_,SK,SK,SK,SK,_,_,_,_,_,_,_,_],
+  [_,DK,DK,DK,DK,DK,DK,_,_,_,_,_,_,_],
+  [DK,DK,DK,T,DK,T,DK,DK,_,_,_,_,_,_],
+  [DK,DK,DK,DK,DK,DK,DK,DK,_,_,_,_,_,_],
+  [DK,DK,DK,DK,DK,DK,DK,DK,_,_,_,_,_,_],
+  [_,DK,DK,DK,DK,DK,SK,_,_,_,_,_,_,_],
+  [_,DK,DK,DK,DK,SK,_,_,_,_,_,_,_,_],
+  [_,_,_,_,_,_,_,DK,DK,DK,DK,DK,DK,_],
+  [_,_,_,_,_,_,_,DK,T,GN,_,T,DK,_],
+  [_,_,DK,DK,_,DK,DK,DK,_,T,GN,_,DK,_],
+  [_,_,DK,DK,_,DK,DK,DK,GN,_,T,GN,DK,_],
+  [_,_,SH,SH,_,SH,SH,GY,GY,GY,GY,GY,GY,_],
+];
+
+// ===== 4. HUMAN FACTORS ENGINEER (blue shirt, clipboard + stopwatch) =====
+const hfe = [
+  [_,_,HR,HR,HR,HR,_,_,_,_,_],
+  [_,HR,HR,HR,HR,HR,HR,_,_,_,_],
+  [_,HR,SK,SK,SK,SK,HR,_,_,_,_],
+  [_,SK,SK,SK,SK,SK,SK,_,_,_,_],
+  [_,SK,EY,SK,SK,EY,SK,_,_,_,_],
+  [_,SK,SK,SK,SK,SK,SK,_,_,_,_],
+  [_,_,SK,SK,SK,SK,_,_,_,_,_],
+  [_,BL,BL,BL,BL,BL,BL,_,_,_,_],
+  [BL,BL,BL,BL,BL,BL,BL,BL,_,_,_],
+  [BL,BL,BL,BL,BL,BL,BL,BL,_,_,_],
+  [BL,BL,BL,BL,BL,BL,BL,BL,_,_,_],
+  [_,BL,BL,BL,BL,BL,_,SK,_,_,_],
+  [SK,BL,BL,BL,BL,BL,_,CB,CB,CB,_],
+  [_,_,_,_,_,_,_,CB,W,CB,_],
+  [_,_,_,_,_,_,_,CB,GY,CB,_],
+  [_,_,DK,DK,_,DK,DK,CB,GY,CB,_],
+  [_,_,DK,DK,_,DK,DK,CB,CB,CB,_],
+  [_,_,SH,SH,_,SH,SH,_,_,_,_],
+];
+
+// ===== 5. DEVELOPER (dark shirt, headphones, monitor with colorful code) =====
+const dev = [
+  [_,_,GY,HR,HR,HR,GY,_,_,_,_,_,_,_,_],
+  [_,GY,HR,HR,HR,HR,HR,GY,_,_,_,_,_,_,_],
+  [_,GY,SK,SK,SK,SK,SK,GY,_,_,_,_,_,_,_],
+  [_,SK,SK,SK,SK,SK,SK,_,_,_,_,_,_,_,_],
+  [_,SK,EY,SK,SK,EY,SK,_,_,_,_,_,_,_,_],
+  [_,SK,SK,SK,SK,SK,SK,_,_,_,_,_,_,_,_],
+  [_,_,SK,SK,SK,SK,_,_,_,_,_,_,_,_,_],
+  [_,DK,DK,DK,DK,DK,DK,_,_,_,_,_,_,_,_],
+  [DK,DK,DK,DK,DK,DK,DK,DK,_,_,_,_,_,_,_],
+  [DK,DK,DK,DK,DK,DK,DK,DK,_,_,_,_,_,_,_],
+  [DK,DK,DK,DK,DK,DK,DK,DK,_,_,_,_,_,_,_],
+  [_,DK,DK,DK,DK,DK,SK,_,_,_,_,_,_,_,_],
+  [_,DK,DK,DK,DK,SK,_,_,_,_,_,_,_,_,_],
+  [_,_,_,_,_,_,_,DK,DK,DK,DK,DK,DK,DK,_],
+  [_,_,_,_,_,_,_,DK,GN,BL,PR,T,W,DK,_],
+  [_,_,DK,DK,_,DK,DK,DK,T,W,GN,BL,PR,DK,_],
+  [_,_,DK,DK,_,DK,DK,DK,PR,GN,T,W,BL,DK,_],
+  [_,_,SH,SH,_,SH,SH,GY,GY,GY,GY,GY,GY,GY,_],
+];
+
+// ============================================================
+// RENDER ALL CHARACTERS
+// ============================================================
+const chars = [
+  { data: biomed, x: 50,  role: 'BIOMED ENGINEER',  activity: 'validating a test protocol', delay: 0 },
+  { data: uxd,    x: 195, role: 'UX DESIGNER',       activity: 'sketching wireframes',       delay: 0.5 },
+  { data: ai,     x: 350, role: 'AI / ML BUILDER',   activity: 'training the model',         delay: 1.0 },
+  { data: hfe,    x: 530, role: 'HUMAN FACTORS',      activity: 'running a usability test',   delay: 1.5 },
+  { data: dev,    x: 700, role: 'DEVELOPER',          activity: 'shipping at 2am',            delay: 2.0 },
+];
+
+const scene = document.getElementById('scene');
+
+// ===== ANIMATION FUNCTIONS =====
+function drawBase(ctx, data, S) {
+  const rows = data.length;
+  for (let r = 0; r < rows; r++) {
+    for (let col = 0; col < data[r].length; col++) {
+      const px = data[r][col];
+      if (px) {
+        ctx.fillStyle = px;
+        ctx.fillRect(col * S, r * S, S, S);
+      }
+    }
+  }
+}
+
+// Biomed: swirling test tube (slight sway effect)
+function animateBiomedIdle(ctx, data, S, time) {
+  drawBase(ctx, data, S);
+  const sway = Math.sin(time * 0.003) * 0.6;
+
+  // Highlight the test tube with a glow
+  ctx.shadowColor = GL;
+  ctx.shadowBlur = 2;
+  ctx.fillStyle = GL;
+  const tubeCol = 8, tubeStartRow = 12;
+  ctx.fillRect((tubeCol + sway) * S, tubeStartRow * S, S, S);
+  ctx.shadowBlur = 0;
+}
+
+function hoverBiomedStart(ctx, data, S) {
+  drawBase(ctx, data, S);
+  // Bright highlight on test tube
+  ctx.fillStyle = '#ffffff';
+  ctx.globalAlpha = 0.6;
+  ctx.fillRect(8 * S, 11 * S, S, S);
+  ctx.globalAlpha = 1.0;
+}
+
+// UX Designer: stylus hand pulsing
+function animateUXDIdle(ctx, data, S, time) {
+  drawBase(ctx, data, S);
+  const pulse = Math.sin(time * 0.004) * 0.4 + 0.6;
+
+  // Pulsing glow on stylus hand
+  ctx.globalAlpha = pulse * 0.5;
+  ctx.fillStyle = OR;
+  ctx.fillRect(8 * S, 11 * S, S, S);
+  ctx.globalAlpha = 1.0;
+}
+
+function hoverUXDStart(ctx, data, S) {
+  drawBase(ctx, data, S);
+  // Bright highlight on tablet
+  ctx.fillStyle = T;
+  ctx.globalAlpha = 0.5;
+  ctx.fillRect(2 * S, 14 * S, 8 * S, 2 * S);
+  ctx.globalAlpha = 1.0;
+}
+
+// AI Builder: neural net pulsing
+function animateAIIdle(ctx, data, S, time) {
+  drawBase(ctx, data, S);
+
+  const pulse = Math.sin(time * 0.005) * 0.5 + 0.5;
+
+  // Pulsing glow on screen area
+  ctx.globalAlpha = pulse * 0.5;
+  ctx.fillStyle = T;
+  ctx.fillRect(8 * S, 14 * S, 6 * S, 3 * S);
+  ctx.globalAlpha = 1.0;
+}
+
+function hoverAIStart(ctx, data, S) {
+  drawBase(ctx, data, S);
+  // Bright screen highlight
+  ctx.fillStyle = GN;
+  ctx.globalAlpha = 0.6;
+  ctx.fillRect(8 * S, 14 * S, 6 * S, 3 * S);
+  ctx.globalAlpha = 1.0;
+}
+
+// Human Factors: clipboard pulsing
+function animateHFEIdle(ctx, data, S, time) {
+  drawBase(ctx, data, S);
+  const pulse = Math.sin(time * 0.0035) * 0.3 + 0.7;
+
+  // Pulsing glow on clipboard
+  ctx.globalAlpha = pulse * 0.5;
+  ctx.fillStyle = CB;
+  ctx.fillRect(8 * S, 12 * S, 2 * S, 5 * S);
+  ctx.globalAlpha = 1.0;
+}
+
+function hoverHFEStart(ctx, data, S) {
+  drawBase(ctx, data, S);
+  // Checkmark highlight on clipboard
+  ctx.fillStyle = GN;
+  ctx.globalAlpha = 0.7;
+  ctx.fillRect(8 * S, 13 * S, 2 * S, S);
+  ctx.globalAlpha = 1.0;
+}
+
+// Developer: code lines cycling colors
+function animateDevIdle(ctx, data, S, time) {
+  drawBase(ctx, data, S);
+
+  const lineShift = Math.floor((time * 0.002) % 5);
+  const colors = [GN, BL, PR, T, W];
+
+  // Color cycle on code lines (rows 14-16, cols 8-13)
+  for (let row = 14; row < 17; row++) {
+    for (let col = 8; col < 13; col++) {
+      const colorIdx = (col + lineShift) % colors.length;
+      ctx.fillStyle = colors[colorIdx];
+      ctx.fillRect(col * S, row * S, S, S);
+    }
+  }
+}
+
+function hoverDevStart(ctx, data, S) {
+  drawBase(ctx, data, S);
+  // Green success highlight on monitor
+  ctx.fillStyle = GN;
+  ctx.globalAlpha = 0.6;
+  ctx.fillRect(8 * S, 14 * S, 6 * S, 3 * S);
+  ctx.globalAlpha = 1.0;
+}
+
+// Character animation states
+const animators = [
+  { idle: animateBiomedIdle, hoverStart: hoverBiomedStart, type: 'biomed' },
+  { idle: animateUXDIdle, hoverStart: hoverUXDStart, type: 'uxd' },
+  { idle: animateAIIdle, hoverStart: hoverAIStart, type: 'ai' },
+  { idle: animateHFEIdle, hoverStart: hoverHFEStart, type: 'hfe' },
+  { idle: animateDevIdle, hoverStart: hoverDevStart, type: 'dev' },
+];
+
+let animationFrameId;
+let startTime = Date.now();
+const canvases = [];
+
+function animate() {
+  const elapsed = Date.now() - startTime;
+
+  chars.forEach((c, i) => {
+    const animator = animators[i];
+    const data = canvases[i];
+    const ctx = data.ctx;
+    const wrap = data.wrap;
+
+    // Clear canvas
+    ctx.clearRect(0, 0, data.canvas.width, data.canvas.height);
+
+    // Draw appropriate animation state
+    if (wrap.classList.contains('hovering')) {
+      animator.hoverStart(ctx, c.data, S);
+    } else {
+      animator.idle(ctx, c.data, S, elapsed);
+    }
+  });
+
+  animationFrameId = requestAnimationFrame(animate);
+}
+
+chars.forEach((c, i) => {
+  const wrap = document.createElement('div');
+  wrap.className = 'char-wrap';
+  wrap.style.left = c.x + 'px';
+  wrap.setAttribute('data-char-idx', i);
+
+  const rows = c.data.length;
+  const cols = Math.max(...c.data.map(r => r.length));
+
+  const canvas = document.createElement('canvas');
+  canvas.width = cols * S;
+  canvas.height = rows * S;
+  canvas.style.width = (cols * S) + 'px';
+  canvas.style.height = (rows * S) + 'px';
+  canvas.className = 'bob';
+  canvas.style.animationDelay = c.delay + 's';
+
+  const ctx = canvas.getContext('2d');
+  canvases[i] = { canvas, ctx, wrap, data: c.data };
+
+  wrap.appendChild(canvas);
+
+  // Role tag
+  const tag = document.createElement('div');
+  tag.className = 'role-tag';
+  tag.textContent = c.role;
+  wrap.appendChild(tag);
+
+  // Activity tag
+  const act = document.createElement('div');
+  act.className = 'activity-tag';
+  act.textContent = c.activity;
+  wrap.appendChild(act);
+
+  // Hover handlers
+  wrap.addEventListener('mouseenter', () => {
+    wrap.classList.add('hovering');
+  });
+  wrap.addEventListener('mouseleave', () => {
+    wrap.classList.remove('hovering');
+  });
+
+  scene.appendChild(wrap);
+
+  // Sparkle particles per character
+  const colors = [GN, T, PR, BL, OR];
+  for (let j = 0; j < 4; j++) {
+    const sp = document.createElement('div');
+    sp.className = 'sparkle';
+    sp.style.background = colors[i];
+    sp.style.left = (c.x + 15 + Math.random() * 40) + 'px';
+    sp.style.bottom = (160 + Math.random() * 30) + 'px';
+    sp.style.animationDelay = (Math.random() * 4) + 's';
+    scene.appendChild(sp);
+  }
+});
+
+// Start animation loop after all DOM is ready
+animate();
+</script>
+</body>
+</html>
