@@ -539,8 +539,7 @@ a{color:var(--teal);text-decoration:none}
       </div>
       <div class="cta-form r">
         <h3>Send a message</h3>
-        <!-- TODO: Replace xpwdqgvk with your real Formspree form ID from formspree.io -->
-        <form action="https://formspree.io/f/xpwdqgvk" method="POST" onsubmit="event.preventDefault();let b=this.querySelector('button'),f=this;fetch(f.action,{method:'POST',body:new FormData(f),headers:{'Accept':'application/json'}}).then(r=>{if(r.ok){b.textContent='On it \u2714';b.style.background='var(--teal)';setTimeout(()=>{b.textContent='(You won\u2019t regret this)';f.reset();},1500)}else{b.textContent='Hmm, try again';b.style.background='#ef4444'}}).catch(()=>{window.location='mailto:joneilcaoile@gmail.com?subject=Portfolio Contact&body='+encodeURIComponent(f.querySelector('textarea').value)})">
+        <form action="https://formspree.io/f/mjgaznkg" method="POST" onsubmit="event.preventDefault();let b=this.querySelector('button'),f=this;fetch(f.action,{method:'POST',body:new FormData(f),headers:{'Accept':'application/json'}}).then(r=>{if(r.ok){b.textContent='On it \u2714';b.style.background='var(--teal)';setTimeout(()=>{b.textContent='(You won\u2019t regret this)';f.reset();},1500)}else{b.textContent='Hmm, try again';b.style.background='#ef4444'}}).catch(()=>{window.location='mailto:joneilcaoile@gmail.com?subject=Portfolio Contact&body='+encodeURIComponent(f.querySelector('textarea').value)})">
           <div class="fg"><label>Name</label><input type="text" placeholder="Your name" required></div>
           <div class="fg"><label>Email</label><input type="email" placeholder="you@company.com" required></div>
           <div class="fg"><label>Message</label><textarea placeholder="Tell me about the role, or just say hi. I respond fast." required></textarea></div>
