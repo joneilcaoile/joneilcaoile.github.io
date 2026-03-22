@@ -154,16 +154,40 @@ a{color:var(--teal);text-decoration:none}
 .orb-1{width:600px;height:600px;background:radial-gradient(circle,rgba(20,184,166,.15),transparent 70%);top:-10%;right:-5%}
 .orb-2{width:500px;height:500px;background:radial-gradient(circle,rgba(59,130,246,.1),transparent 70%);bottom:-15%;left:-8%}
 .orb-3{width:350px;height:350px;background:radial-gradient(circle,rgba(139,92,246,.08),transparent 70%);top:40%;left:30%}
-.hero-content{position:relative;z-index:1;padding:160px 0 120px;width:100%}
-.hero-tag{font-family:var(--fm);font-size:.75rem;color:var(--teal);letter-spacing:.08em;margin-bottom:40px;overflow:hidden}
+.hero-content{position:relative;z-index:1;padding:140px 0 100px;width:100%}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.hero-left{}
+.hero-right{display:flex;align-items:center;justify-content:center}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr}.hero-right{display:none}}
+.hero-tag{font-family:var(--fm);font-size:.75rem;color:var(--teal);letter-spacing:.08em;margin-bottom:28px;overflow:hidden}
 .hero-tag span{display:inline-block}
-.hero h1{font-family:var(--fh);font-weight:700;font-size:clamp(3.5rem,8vw,7rem);letter-spacing:-.05em;line-height:.95;color:var(--w);margin-bottom:32px}
+.hero h1{font-family:var(--fh);font-weight:700;font-size:clamp(3.5rem,8vw,7rem);letter-spacing:-.05em;line-height:.95;color:var(--w);margin-bottom:24px}
 .hero h1 .line{display:block;overflow:hidden}
 .hero h1 .line span{display:inline-block;will-change:transform}
 .hero h1 .thin{font-weight:300;color:var(--w40)}
 .hero h1 .grad{background:linear-gradient(135deg,var(--teal),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-sub{font-size:1.0625rem;color:var(--w40);max-width:480px;margin-bottom:44px;line-height:1.8}
+.hero-sub{font-size:1rem;color:var(--w40);max-width:520px;margin-bottom:36px;line-height:1.8}
 .hero-btns{display:flex;gap:12px;flex-wrap:wrap;will-change:transform}
+
+/* ── Hero terminal card ────────────────────────── */
+.hero-terminal{opacity:0;transform:translateY(30px);width:100%;max-width:380px;background:var(--bg2);border:1px solid var(--w06);border-radius:12px;overflow:hidden;font-family:var(--fm);font-size:.75rem;line-height:1.7;box-shadow:0 20px 60px rgba(0,0,0,.4);transform:perspective(800px) rotateY(-4deg) rotateX(2deg);transition:transform .6s var(--ease);will-change:transform}
+.hero-terminal:hover{transform:perspective(800px) rotateY(0deg) rotateX(0deg)}
+.term-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;background:var(--bg3);border-bottom:1px solid var(--w06)}
+.term-dot{width:8px;height:8px;border-radius:50%}
+.term-dot:nth-child(1){background:#ef4444}
+.term-dot:nth-child(2){background:#f59e0b}
+.term-dot:nth-child(3){background:#22c55e}
+.term-title{margin-left:auto;font-size:.625rem;color:var(--w15);letter-spacing:.05em}
+.term-body{padding:16px;color:var(--w40);max-height:260px;overflow:hidden}
+.term-line{margin-bottom:2px;white-space:nowrap;overflow:hidden}
+.term-prompt{color:var(--teal)}
+.term-cmd{color:var(--w)}
+.term-output{color:var(--w40)}
+.term-comment{color:var(--w15);font-style:italic}
+.term-highlight{color:var(--teal)}
+.term-warn{color:#f59e0b}
+.term-bar-progress{display:inline-block;color:var(--teal)}
+.term-cursor-blink{display:inline-block;animation:blink-cursor .6s step-end infinite;color:var(--teal)}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:8px;font-family:var(--fh);font-size:.8125rem;font-weight:600;border:1.5px solid transparent;transition:all .25s var(--ease);cursor:none;position:relative;overflow:hidden;will-change:transform}
 .btn-glow{background:var(--teal);color:var(--bg);border-color:var(--teal);position:relative;overflow:hidden}
 .btn-glow::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent,rgba(255,255,255,.15),transparent);transform:translateX(-100%);transition:transform .5s}
@@ -436,17 +460,27 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offse
     <div class="orb orb-3" id="orb3"></div>
   </div>
   <div class="w hero-content">
-    <div class="status-badge"><span class="status-dot"></span>Currently: Building UseTrace HFE &mdash; AI for medical device safety</div>
-    <div class="hero-tag"><span id="htag"></span><span class="type-cursor" id="typeCur">|</span></div>
-    <h1>
-      <span class="line" id="line1"></span>
-      <span class="line" id="line2"></span>
-    </h1>
-    <p class="hero-sub" id="hsub">Biomedical engineer and UX designer finishing my M.S. at Stevens. Currently building an AI tool that does in hours what used to take safety engineers weeks. Someone had to, so might as well be someone who's seen the problem firsthand.</p>
-    <div class="hero-btns" id="hbtns">
-      <a href="#project" class="btn btn-glow">See the work</a>
-      <a href="#contact" class="btn btn-line">Get in touch</a>
-      <a href="Joneil_Caoile_Resume.pdf" class="btn btn-line" download>Resume &darr;</a>
+    <div class="hero-grid">
+      <div class="hero-left">
+        <div class="status-badge"><span class="status-dot"></span>Currently: Building UseTrace HFE &mdash; AI for medical device safety</div>
+        <div class="hero-tag"><span id="htag"></span><span class="type-cursor" id="typeCur">|</span></div>
+        <h1>
+          <span class="line" id="line1"></span>
+          <span class="line" id="line2"></span>
+        </h1>
+        <p class="hero-sub" id="hsub">Biomedical engineer and UX designer finishing my M.S. at Stevens. Currently building an AI tool that does in hours what used to take safety engineers weeks. Someone had to, so might as well be someone who's seen the problem firsthand.</p>
+        <div class="hero-btns" id="hbtns">
+          <a href="#project" class="btn btn-glow">See the work</a>
+          <a href="#contact" class="btn btn-line">Get in touch</a>
+          <a href="Joneil_Caoile_Resume.pdf" class="btn btn-line" download>Resume &darr;</a>
+        </div>
+      </div>
+      <div class="hero-right" id="heroRight">
+        <div class="hero-terminal" id="heroTerminal">
+          <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><span class="term-title">usetrace_hfe</span></div>
+          <div class="term-body" id="termBody"></div>
+        </div>
+      </div>
     </div>
   </div>
   <div class="scroll-ind" id="scrollInd"><span>Scroll</span><i></i></div>
@@ -808,7 +842,8 @@ function heroCharAnimation() {
     .to('.hero-tag', { opacity: 1, y: 0, duration: 0.5 }, 0.35)
     .to('#hsub', { opacity: 1, y: 0, duration: 0.5 }, 0.45)
     .to('#hbtns', { opacity: 1, y: 0, duration: 0.5 }, 0.5)
-    .to('#scrollInd', { opacity: 1, y: 0, duration: 0.4 }, 0.55);
+    .to('#scrollInd', { opacity: 1, y: 0, duration: 0.4 }, 0.55)
+    .to('#heroTerminal', { opacity: 1, y: 0, duration: 0.7, ease: 'back.out(1.2)' }, 0.3);
 
   // Start typing effect
   setTimeout(() => typeLoop(), 800);
@@ -1207,6 +1242,54 @@ gsap.utils.toArray('.r').forEach(el => {
 gsap.to('#orb1', { x: 40, y: 30, duration: 8, ease: 'sine.inOut', repeat: -1, yoyo: true });
 gsap.to('#orb2', { x: -30, y: -40, duration: 10, ease: 'sine.inOut', repeat: -1, yoyo: true });
 gsap.to('#orb3', { x: 25, y: -20, duration: 7, ease: 'sine.inOut', repeat: -1, yoyo: true });
+
+/* ── Hero terminal typewriter ────────────────────── */
+function initTerminal() {
+  const body = document.getElementById('termBody');
+  if (!body) return;
+  const lines = [
+    { type: 'prompt', text: '$ python usetrace.py --classify' },
+    { type: 'output', text: 'Loading IEC 62366-1 taxonomy...' },
+    { type: 'output', text: 'Parsing 75 observer notes...' },
+    { type: 'output', text: '' },
+    { type: 'highlight', text: '  ✓ use error (critical)    — 12 found' },
+    { type: 'highlight', text: '  ✓ close call              — 8 found' },
+    { type: 'highlight', text: '  ✓ use difficulty           — 31 found' },
+    { type: 'highlight', text: '  ✓ normal use               — 24 found' },
+    { type: 'output', text: '' },
+    { type: 'warn', text: '  ⚠ 3 observations need human review' },
+    { type: 'output', text: '' },
+    { type: 'output', text: 'Inter-rater reliability: κ = 0.82' },
+    { type: 'output', text: 'Time elapsed: 4.2s (vs ~3 weeks manual)' },
+    { type: 'output', text: '' },
+    { type: 'prompt', text: '$ █' },
+  ];
+  let lineIdx = 0;
+  function addLine() {
+    if (lineIdx >= lines.length) { setTimeout(() => { body.innerHTML = ''; lineIdx = 0; addLine(); }, 3000); return; }
+    const l = lines[lineIdx];
+    const div = document.createElement('div');
+    div.className = 'term-line';
+    if (l.type === 'prompt') { div.innerHTML = '<span class="term-prompt">$ </span><span class="term-cmd"></span>'; }
+    else if (l.type === 'highlight') { div.innerHTML = '<span class="term-highlight"></span>'; }
+    else if (l.type === 'warn') { div.innerHTML = '<span class="term-warn"></span>'; }
+    else { div.innerHTML = '<span class="term-output"></span>'; }
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+    const target = div.querySelector('span:last-child');
+    const txt = l.type === 'prompt' ? l.text.replace('$ ', '') : l.text;
+    if (txt === '') { lineIdx++; setTimeout(addLine, 100); return; }
+    let ci = 0;
+    function typeChar() {
+      if (ci < txt.length) { target.textContent = txt.slice(0, ++ci); setTimeout(typeChar, l.type === 'prompt' ? 25 : 12); }
+      else { lineIdx++; setTimeout(addLine, l.type === 'prompt' ? 400 : 80); }
+    }
+    typeChar();
+  }
+  // Delay start until after loader finishes
+  setTimeout(addLine, 4500);
+}
+initTerminal();
 
 /* ── Parallax orbs on mouse (desktop) ─────────────– */
 if (window.matchMedia('(pointer:fine)').matches) {
