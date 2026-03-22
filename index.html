@@ -35,8 +35,8 @@
 }
 html{scroll-behavior:smooth}
 body{font-family:var(--fb);color:var(--w70);background:var(--bg);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased;cursor:none}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-@media(pointer:coarse){body{cursor:auto}.cur,.cur-dot{display:none!important}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}.particle-canvas,.cursor-spotlight,.loader-counter,.char-split,.ripple-click,.section-reveal,.text-scramble,.btn-ripple-glow,.skill-bounce,.scroll-text-split,.divider-line-draw{display:none!important}}
+@media(pointer:coarse){body{cursor:auto}.cur,.cur-dot,.cursor-spotlight,.particle-canvas{display:none!important}}
 ::selection{background:var(--teal-glow);color:var(--w)}
 a{color:var(--teal);text-decoration:none}
 
@@ -44,6 +44,12 @@ a{color:var(--teal);text-decoration:none}
 .cur{position:fixed;width:36px;height:36px;border:1.5px solid var(--teal);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .3s var(--ease),height .3s var(--ease),border-color .3s,background .3s;mix-blend-mode:difference}
 .cur.hover{width:60px;height:60px;background:var(--teal-glow);border-color:transparent}
 .cur-dot{position:fixed;width:5px;height:5px;background:var(--teal);border-radius:50%;pointer-events:none;z-index:10000;transform:translate(-50%,-50%)}
+
+/* ── Cursor spotlight ───────────────────────────── */
+.cursor-spotlight{position:fixed;width:300px;height:300px;border-radius:50%;pointer-events:none;z-index:5;background:radial-gradient(circle,rgba(20,184,166,0.15),transparent 70%);transform:translate(-50%,-50%);filter:blur(40px);will-change:transform}
+
+/* ── Particle canvas ────────────────────────────── */
+.particle-canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
 
 /* ── Grain overlay ──────────────────────────────── */
 .grain{position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:.035}
@@ -53,6 +59,7 @@ a{color:var(--teal);text-decoration:none}
 /* ── Loader ─────────────────────────────────────── */
 .loader{position:fixed;inset:0;z-index:8000;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .6s,visibility .6s}
 .loader.done{opacity:0;visibility:hidden;pointer-events:none}
+.loader-counter{font-family:var(--fm);font-size:clamp(2rem,6vw,4rem);font-weight:700;letter-spacing:.1em;color:var(--teal);opacity:0}
 .loader-text{font-family:var(--fh);font-size:clamp(3rem,8vw,6rem);font-weight:700;letter-spacing:-.04em;color:var(--w);opacity:0}
 
 /* ── Layout ─────────────────────────────────────── */
@@ -65,7 +72,7 @@ a{color:var(--teal);text-decoration:none}
 .nav-in{display:flex;justify-content:space-between;align-items:center}
 .nav-name{font-family:var(--fh);font-weight:600;font-size:1rem;color:var(--w);letter-spacing:-.01em}
 .nav-links{display:flex;gap:28px;list-style:none}
-.nav-links a{font-size:.8125rem;font-weight:400;color:var(--w40);letter-spacing:.02em;transition:color .25s;position:relative}
+.nav-links a{font-size:.8125rem;font-weight:400;color:var(--w40);letter-spacing:.02em;transition:color .25s;position:relative;will-change:color}
 .nav-links a:hover,.nav-links a.on{color:var(--w)}
 .nav-links a.on::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--teal)}
 .ham{display:none;background:none;border:none;cursor:none;padding:8px}
@@ -84,18 +91,19 @@ a{color:var(--teal);text-decoration:none}
 .hero-tag span{display:inline-block}
 .hero h1{font-family:var(--fh);font-weight:700;font-size:clamp(3.5rem,8vw,7rem);letter-spacing:-.05em;line-height:.95;color:var(--w);margin-bottom:32px}
 .hero h1 .line{display:block;overflow:hidden}
-.hero h1 .line span{display:inline-block}
+.hero h1 .line span{display:inline-block;will-change:transform}
 .hero h1 .thin{font-weight:300;color:var(--w40)}
 .hero h1 .grad{background:linear-gradient(135deg,var(--teal),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hero-sub{font-size:1.0625rem;color:var(--w40);max-width:480px;margin-bottom:44px;line-height:1.8}
-.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:8px;font-family:var(--fh);font-size:.8125rem;font-weight:600;border:1.5px solid transparent;transition:all .25s var(--ease);cursor:none}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;will-change:transform}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:8px;font-family:var(--fh);font-size:.8125rem;font-weight:600;border:1.5px solid transparent;transition:all .25s var(--ease);cursor:none;position:relative;overflow:hidden;will-change:transform}
 .btn-glow{background:var(--teal);color:var(--bg);border-color:var(--teal);position:relative;overflow:hidden}
 .btn-glow::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent,rgba(255,255,255,.15),transparent);transform:translateX(-100%);transition:transform .5s}
 .btn-glow:hover::before{transform:translateX(100%)}
 .btn-glow:hover{box-shadow:0 0 30px var(--teal-glow);transform:translateY(-2px)}
 .btn-line{background:transparent;color:var(--w);border-color:var(--w15)}
 .btn-line:hover{border-color:var(--w);transform:translateY(-2px)}
+.btn-ripple-glow{position:absolute;border-radius:50%;background:radial-gradient(circle,var(--teal),transparent);pointer-events:none}
 .scroll-ind{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px}
 .scroll-ind span{font-size:.625rem;letter-spacing:.2em;text-transform:uppercase;color:var(--w15)}
 .scroll-ind i{display:block;width:1px;height:40px;background:linear-gradient(to bottom,var(--teal),transparent);animation:sc 2s ease-in-out infinite}
@@ -105,11 +113,12 @@ a{color:var(--teal);text-decoration:none}
 .r{opacity:0;transform:translateY(32px)}
 
 /* ── Divider line ───────────────────────────────── */
-.div-line{height:1px;background:linear-gradient(90deg,transparent,var(--w06),transparent);margin:0 auto;max-width:600px}
+.div-line{height:1px;background:linear-gradient(90deg,transparent,var(--w06),transparent);margin:0 auto;max-width:600px;position:relative}
+.divider-line-draw{position:absolute;height:1px;background:linear-gradient(90deg,transparent,var(--teal),transparent);left:0;top:0;width:100%;opacity:0}
 
 /* ── Statement section (big quote) ──────────────── */
 .stmt{padding:120px 0;text-align:center}
-.stmt-text{font-family:var(--fh);font-size:clamp(1.75rem,3.5vw,2.75rem);font-weight:600;letter-spacing:-.02em;color:var(--w);line-height:1.35;max-width:720px;margin:0 auto}
+.stmt-text{font-family:var(--fh);font-size:clamp(1.75rem,3.5vw,2.75rem);font-weight:600;letter-spacing:-.02em;color:var(--w);line-height:1.35;max-width:720px;margin:0 auto;will-change:transform}
 .stmt-text em{font-style:normal;color:var(--teal)}
 .stmt-sub{font-size:.9375rem;color:var(--w40);margin-top:20px}
 
@@ -122,18 +131,18 @@ a{color:var(--teal);text-decoration:none}
 .story-vis-label{font-family:var(--fm);font-size:.6875rem;color:rgba(255,255,255,.35);position:relative;z-index:1;text-shadow:0 1px 4px rgba(0,0,0,.6)}
 .story-vis::after{content:'';position:absolute;top:10px;left:10px;right:-10px;bottom:-10px;border:1px solid var(--teal-glow);border-radius:12px;z-index:-1}
 .tag-sm{font-family:var(--fm);font-size:.6875rem;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:20px;display:block}
-.story-text h2{font-family:var(--fh);font-size:clamp(1.75rem,3vw,2.25rem);font-weight:700;letter-spacing:-.03em;color:var(--w);margin-bottom:24px;line-height:1.2}
+.story-text h2{font-family:var(--fh);font-size:clamp(1.75rem,3vw,2.25rem);font-weight:700;letter-spacing:-.03em;color:var(--w);margin-bottom:24px;line-height:1.2;will-change:transform}
 .story-text p{font-size:1rem;line-height:1.8;margin-bottom:16px}
 .story-text strong{color:var(--w);font-weight:500}
 .pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:32px}
-.pill{padding:6px 14px;border-radius:6px;font-size:.75rem;font-weight:500;background:var(--w06);color:var(--w70);border:1px solid var(--w06);transition:all .2s}
-.pill:hover{border-color:var(--teal);color:var(--teal)}
+.pill{padding:6px 14px;border-radius:6px;font-size:.75rem;font-weight:500;background:var(--w06);color:var(--w70);border:1px solid var(--w06);transition:all .2s;will-change:transform}
+.pill:hover{border-color:var(--teal);color:var(--teal);transform:scale(1.05)}
 @media(max-width:768px){.story-grid{grid-template-columns:1fr}.story-vis{max-height:320px}}
 @media(max-width:768px){.cta-grid{grid-template-columns:1fr;gap:40px}.cta-form{padding:24px}}
 
 /* ── Featured project ───────────────────────────── */
 .feat{padding:140px 0;background:var(--bg2)}
-.feat-card{background:var(--bg);border-radius:16px;border:1px solid var(--w06);overflow:hidden;transition:border-color .4s}
+.feat-card{background:var(--bg);border-radius:16px;border:1px solid var(--w06);overflow:hidden;transition:border-color .4s;will-change:transform}
 .feat-card:hover{border-color:var(--teal-glow)}
 .feat-head{padding:40px 44px;border-bottom:1px solid var(--w06);position:relative}
 .feat-live{position:absolute;top:24px;right:28px;display:flex;align-items:center;gap:6px;font-size:.6875rem;color:var(--teal);font-weight:500}
@@ -149,15 +158,15 @@ a{color:var(--teal);text-decoration:none}
 .met-v{font-family:var(--fh);font-size:1.625rem;font-weight:700;color:var(--w);letter-spacing:-.02em}
 .met-l{font-size:.6875rem;color:var(--w40);margin-top:2px;letter-spacing:.01em}
 .tags{display:flex;flex-wrap:wrap;gap:6px}
-.t{padding:4px 11px;border-radius:5px;font-family:var(--fm);font-size:.6875rem;background:var(--teal-dim);color:var(--teal);border:1px solid rgba(20,184,166,.1)}
+.t{padding:4px 11px;border-radius:5px;font-family:var(--fm);font-size:.6875rem;background:var(--teal-dim);color:var(--teal);border:1px solid rgba(20,184,166,.1);will-change:transform}
 @media(max-width:768px){.feat-2col{grid-template-columns:1fr}.feat-body,.feat-head{padding:24px}}
 
 /* ── Work grid ──────────────────────────────────── */
 .wg{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
-.wc{border-radius:12px;border:1px solid var(--w06);background:var(--bg2);overflow:hidden;transition:all .4s var(--ease);transform-style:preserve-3d;perspective:800px}
+.wc{border-radius:12px;border:1px solid var(--w06);background:var(--bg2);overflow:hidden;transition:all .4s var(--ease);transform-style:preserve-3d;perspective:800px;will-change:transform,border-color;opacity:0;transform:translateY(32px)}
 .wc:hover{border-color:var(--teal-glow)}
 .wc-thumb{height:180px;overflow:hidden;position:relative}
-.wc-thumb-bg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;transition:transform .6s var(--ease);position:relative}
+.wc-thumb-bg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;transition:transform .6s var(--ease);position:relative;will-change:transform}
 .wc:hover .wc-thumb-bg{transform:scale(1.05)}
 .wc-thumb-label{font-family:var(--fh);font-size:2.5rem;font-weight:700;color:rgba(255,255,255,.06)}
 .wc-thumb-bg svg{position:absolute;inset:0;width:100%;height:100%}
@@ -172,7 +181,7 @@ a{color:var(--teal);text-decoration:none}
 /* ── Toolkit ────────────────────────────────────── */
 .tk{padding:140px 0;background:var(--bg2)}
 .tk-pills{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:48px}
-.tkp{padding:9px 18px;border-radius:7px;font-size:.8125rem;font-weight:500;background:var(--bg);border:1px solid var(--w06);color:var(--w70);transition:all .2s var(--ease)}
+.tkp{padding:9px 18px;border-radius:7px;font-size:.8125rem;font-weight:500;background:var(--bg);border:1px solid var(--w06);color:var(--w70);transition:all .2s var(--ease);will-change:transform}
 .tkp:hover{border-color:var(--teal);color:var(--teal);transform:translateY(-2px);box-shadow:0 4px 16px rgba(20,184,166,.08)}
 .tkp.hi{background:linear-gradient(135deg,rgba(20,184,166,.1),rgba(59,130,246,.05));border-color:rgba(20,184,166,.2);color:var(--teal)}
 .tk-3{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
@@ -183,7 +192,7 @@ a{color:var(--teal);text-decoration:none}
 /* ── Timeline ───────────────────────────────────── */
 .tl-items{position:relative;padding-left:40px;max-width:640px}
 .tl-items::before{content:'';position:absolute;left:12px;top:4px;bottom:4px;width:1px;background:var(--w06)}
-.tl-i{margin-bottom:40px;position:relative}
+.tl-i{margin-bottom:40px;position:relative;will-change:transform}
 .tl-i::before{content:'';position:absolute;left:-34px;top:8px;width:9px;height:9px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px var(--teal-glow)}
 .tl-d{font-family:var(--fm);font-size:.6875rem;color:var(--teal);margin-bottom:4px;letter-spacing:.02em}
 .tl-i h3{font-family:var(--fh);font-size:1rem;color:var(--w);margin-bottom:2px;letter-spacing:-.01em}
@@ -194,10 +203,10 @@ a{color:var(--teal);text-decoration:none}
 .cta-sec{padding:140px 0;position:relative;overflow:hidden}
 .cta-sec .orb{position:absolute}
 .cta-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;position:relative;z-index:1}
-.cta-left h2{font-family:var(--fh);font-size:clamp(2rem,4vw,2.75rem);font-weight:700;letter-spacing:-.03em;color:var(--w);margin-bottom:16px;line-height:1.15}
+.cta-left h2{font-family:var(--fh);font-size:clamp(2rem,4vw,2.75rem);font-weight:700;letter-spacing:-.03em;color:var(--w);margin-bottom:16px;line-height:1.15;will-change:transform}
 .cta-left p{font-size:1rem;line-height:1.8;margin-bottom:32px;max-width:420px}
 .clinks{display:flex;flex-direction:column;gap:12px}
-.cl{display:inline-flex;align-items:center;gap:10px;color:var(--w);font-size:.9375rem;font-weight:500;transition:all .2s}
+.cl{display:inline-flex;align-items:center;gap:10px;color:var(--w);font-size:.9375rem;font-weight:500;transition:all .2s;will-change:transform}
 .cl:hover{color:var(--teal);transform:translateX(3px)}
 .cl svg{width:16px;height:16px;stroke:var(--teal);fill:none;stroke-width:2}
 .cta-form{background:var(--w06);border:1px solid var(--w06);border-radius:14px;padding:32px;backdrop-filter:blur(8px)}
@@ -214,10 +223,10 @@ a{color:var(--teal);text-decoration:none}
 .foot p{font-size:.75rem;color:var(--w15)}
 
 /* ── Progress bar ───────────────────────────────── */
-.prog{position:fixed;top:0;left:0;height:2px;z-index:200;background:linear-gradient(90deg,var(--teal),var(--blue));transform-origin:left;transform:scaleX(0)}
+.prog{position:fixed;top:0;left:0;height:2px;z-index:200;background:linear-gradient(90deg,var(--teal),var(--blue));transform-origin:left;transform:scaleX(0);box-shadow:0 0 20px rgba(20,184,166,0.3)}
 
 /* ── Back to top ────────────────────────────────── */
-.btt{position:fixed;bottom:28px;right:28px;z-index:50;width:40px;height:40px;border-radius:50%;background:var(--bg3);border:1px solid var(--w06);color:var(--w);cursor:none;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(12px);transition:all .3s var(--ease)}
+.btt{position:fixed;bottom:28px;right:28px;z-index:50;width:40px;height:40px;border-radius:50%;background:var(--bg3);border:1px solid var(--w06);color:var(--w);cursor:none;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(12px);transition:all .3s var(--ease);will-change:transform}
 .btt.show{opacity:1;transform:translateY(0)}
 .btt:hover{background:var(--teal);border-color:var(--teal);color:var(--bg)}
 
@@ -253,7 +262,7 @@ a{color:var(--teal);text-decoration:none}
 .tl-i:hover{transform:translateX(6px)}
 .tl-i:hover::before{box-shadow:0 0 16px var(--teal-glow),0 0 0 4px rgba(20,184,166,.15);transition:all .3s var(--ease)}
 
-/* Pill lift */
+/* Skill pill lift */
 .pill{transition:all .2s var(--ease)}
 .pill:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(20,184,166,.08);border-color:rgba(20,184,166,.3)}
 
@@ -281,20 +290,7 @@ a{color:var(--teal);text-decoration:none}
 .cred{transition:all .25s var(--ease)}
 .cred:hover{border-color:rgba(20,184,166,.3);box-shadow:0 0 12px rgba(20,184,166,.06);transform:translateY(-2px)}
 
-/* ── Skip nav (accessibility) ──────────────────── */
-.skip-nav{position:absolute;top:-100%;left:16px;padding:12px 24px;background:var(--teal);color:var(--bg);font-family:var(--fh);font-weight:600;font-size:.875rem;border-radius:0 0 8px 8px;z-index:10001;transition:top .2s}
-.skip-nav:focus{top:0}
-
-/* ── Focus visible (keyboard users) ────────────── */
-*:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px}
-a:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
-
-/* ── Currently status badge ────────────────────── */
-.status-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:20px;background:rgba(20,184,166,.08);border:1px solid rgba(20,184,166,.15);font-family:var(--fm);font-size:.6875rem;color:var(--teal);margin-bottom:24px;letter-spacing:.02em}
-.status-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse-dot 2s ease-in-out infinite}
-@keyframes pulse-dot{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(20,184,166,.4)}50%{opacity:.7;box-shadow:0 0 0 6px rgba(20,184,166,0)}}
-
-/* ── Case study link on cards ──────────────────── */
+/* Work card case study link */
 .wc-link{display:block;text-decoration:none;color:inherit}
 .wc-link:hover .wc-info h3{color:var(--teal);transition:color .3s}
 .wc-cta{display:inline-flex;align-items:center;gap:6px;font-family:var(--fh);font-size:.75rem;font-weight:500;color:var(--teal);margin-top:12px;opacity:0;transform:translateY(4px);transition:all .3s var(--ease)}
@@ -304,12 +300,18 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offse
 .type-cursor{color:var(--teal);animation:blink-cursor .6s step-end infinite;font-weight:300}
 @keyframes blink-cursor{50%{opacity:0}}
 
-/* ── Staggered work cards ──────────────────────── */
-.wc{opacity:0;transform:translateY(32px)}
+/* ── Currently status badge ────────────────────── */
+.status-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:20px;background:rgba(20,184,166,.08);border:1px solid rgba(20,184,166,.15);font-family:var(--fm);font-size:.6875rem;color:var(--teal);margin-bottom:24px;letter-spacing:.02em}
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse-dot 2s ease-in-out infinite}
+@keyframes pulse-dot{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(20,184,166,.4)}50%{opacity:.7;box-shadow:0 0 0 6px rgba(20,184,166,0)}}
 
-/* ── Metric counter glow ─────────────────────────── */
-.metric{display:inline-block}
-.met-v{transition:color .3s}
+/* ── Skip nav (accessibility) ──────────────────── */
+.skip-nav{position:absolute;top:-100%;left:16px;padding:12px 24px;background:var(--teal);color:var(--bg);font-family:var(--fh);font-weight:600;font-size:.875rem;border-radius:0 0 8px 8px;z-index:10001;transition:top .2s}
+.skip-nav:focus{top:0}
+
+/* ── Focus visible (keyboard users) ────────────── */
+*:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
 </style>
 </head>
 <body>
@@ -320,13 +322,16 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offse
 <!-- Grain -->
 <div class="grain"></div>
 
+<!-- Cursor spotlight -->
+<div class="cursor-spotlight" id="cursorSpotlight"></div>
+
 <!-- Custom cursor -->
 <div class="cur" id="cur"></div>
 <div class="cur-dot" id="curDot"></div>
 
 <!-- Loader -->
 <div class="loader" id="loader">
-  <div class="loader-text" id="loaderText">JC</div>
+  <div class="loader-counter" id="loaderCounter">0%</div>
 </div>
 
 <!-- Progress -->
@@ -354,6 +359,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offse
 
 <!-- Hero -->
 <section class="hero" id="top">
+  <canvas class="particle-canvas" id="particleCanvas"></canvas>
   <div class="hero-mesh">
     <div class="orb orb-1" id="orb1"></div>
     <div class="orb orb-2" id="orb2"></div>
@@ -363,8 +369,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offse
     <div class="status-badge"><span class="status-dot"></span>Currently: Building UseTrace HFE &mdash; AI for medical device safety</div>
     <div class="hero-tag"><span id="htag"></span><span class="type-cursor" id="typeCur">|</span></div>
     <h1>
-      <span class="line"><span id="l1">Joneil</span></span>
-      <span class="line"><span id="l2" class="thin">Caoile</span></span>
+      <span class="line" id="line1"></span>
+      <span class="line" id="line2"></span>
     </h1>
     <p class="hero-sub" id="hsub">Biomedical engineer and UX designer finishing my M.S. at Stevens. Currently building an AI tool that does in hours what used to take safety engineers weeks. Someone had to, so might as well be someone who's seen the problem firsthand.</p>
     <div class="hero-btns" id="hbtns">
@@ -384,7 +390,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offse
   </div>
 </section>
 
-<div class="div-line"></div>
+<div class="div-line"><div class="divider-line-draw"></div></div>
 
 <!-- Story -->
 <section class="s" id="story">
@@ -666,6 +672,170 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offse
 <script>
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
+/* ── CINEMATIC LOADER (WOW #1) ──────────────────── */
+function initCinematicLoader() {
+  const loader = document.getElementById('loader');
+  const counter = document.getElementById('loaderCounter');
+  const line1 = document.getElementById('line1');
+  const line2 = document.getElementById('line2');
+
+  // Wrap letters in spans
+  const splitText = (text) => text.split('').map(char => `<span>${char}</span>`).join('');
+  line1.innerHTML = splitText('Joneil');
+  line2.innerHTML = splitText('Caoile');
+
+  const tl = gsap.timeline();
+
+  // Percentage counter animation
+  tl.fromTo(counter, { textContent: 0, opacity: 0 }, {
+    textContent: 100,
+    opacity: 1,
+    duration: 2,
+    ease: 'power2.inOut',
+    snap: { textContent: 1 }
+  })
+  .to(counter, { opacity: 0, duration: 0.3 }, '-=0.2')
+  .call(() => {
+    // Clip-path wipe
+    const loaderEl = loader;
+    gsap.to(loaderEl, {
+      clipPath: 'circle(150% at 50% 50%)',
+      duration: 1.2,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        loader.classList.add('done');
+        heroCharAnimation();
+      }
+    });
+  }, null, '-=0.5');
+}
+
+function heroCharAnimation() {
+  const line1Chars = document.querySelectorAll('#line1 span');
+  const line2Chars = document.querySelectorAll('#line2 span');
+
+  const tl = gsap.timeline({ defaults: { ease: 'back.out(1.5)', duration: 0.6 } });
+
+  // Stagger line 1
+  tl.fromTo(line1Chars,
+    { opacity: 0, y: 40, rotateX: -90 },
+    { opacity: 1, y: 0, rotateX: 0, stagger: 0.05 },
+    0
+  );
+
+  // Stagger line 2
+  tl.fromTo(line2Chars,
+    { opacity: 0, y: 40, rotateX: -90 },
+    { opacity: 1, y: 0, rotateX: 0, stagger: 0.05 },
+    0.1
+  );
+
+  // Cascade other hero elements
+  tl.to('.status-badge', { opacity: 1, y: 0, duration: 0.5 }, 0.4)
+    .to('.hero-tag', { opacity: 1, y: 0, duration: 0.5 }, 0.35)
+    .to('#hsub', { opacity: 1, y: 0, duration: 0.5 }, 0.45)
+    .to('#hbtns', { opacity: 1, y: 0, duration: 0.5 }, 0.5)
+    .to('#scrollInd', { opacity: 1, y: 0, duration: 0.4 }, 0.55);
+
+  // Start typing effect
+  setTimeout(() => typeLoop(), 800);
+}
+
+/* ── PARTICLE CANVAS (WOW #2) ──────────────────── */
+function initParticleCanvas() {
+  const canvas = document.getElementById('particleCanvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  const hero = document.querySelector('.hero');
+
+  canvas.width = hero.offsetWidth;
+  canvas.height = hero.offsetHeight;
+
+  const particles = [];
+  const particleRadius = 1.5;
+  const gridSpacing = 25;
+  const interactionRadius = 120;
+
+  // Create particle grid
+  for (let x = 0; x < canvas.width; x += gridSpacing) {
+    for (let y = 0; y < canvas.height; y += gridSpacing) {
+      particles.push({
+        x, y,
+        vx: 0, vy: 0,
+        originX: x, originY: y
+      });
+    }
+  }
+
+  let mouseX = canvas.width / 2;
+  let mouseY = canvas.height / 2;
+
+  document.addEventListener('mousemove', e => {
+    if (window.matchMedia('(pointer:fine)').matches) {
+      const rect = canvas.getBoundingClientRect();
+      mouseX = e.clientX - rect.left;
+      mouseY = e.clientY - rect.top;
+    }
+  });
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'rgba(20, 184, 166, 0.15)';
+
+    particles.forEach(p => {
+      const dx = mouseX - p.x;
+      const dy = mouseY - p.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < interactionRadius) {
+        const angle = Math.atan2(dy, dx);
+        const force = (interactionRadius - distance) / interactionRadius;
+        p.vx = -Math.cos(angle) * force * 3;
+        p.vy = -Math.sin(angle) * force * 3;
+      }
+
+      // Spring back to origin
+      p.vx += (p.originX - p.x) * 0.02;
+      p.vy += (p.originY - p.y) * 0.02;
+
+      p.vx *= 0.95;
+      p.vy *= 0.95;
+
+      p.x += p.vx;
+      p.y += p.vy;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, particleRadius, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+
+  // Handle window resize
+  window.addEventListener('resize', () => {
+    canvas.width = hero.offsetWidth;
+    canvas.height = hero.offsetHeight;
+  });
+}
+
+/* ── CURSOR SPOTLIGHT (WOW #2 PART 2) ───────────── */
+function initCursorSpotlight() {
+  const spotlight = document.getElementById('cursorSpotlight');
+  if (!spotlight || !window.matchMedia('(pointer:fine)').matches) return;
+
+  let mx = 0, my = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+    gsap.to(spotlight, { x: mx, y: my, duration: 0.5, ease: 'power2.out' });
+  });
+}
+
 /* ── Custom cursor ──────────────────────────────── */
 const cur = document.getElementById('cur');
 const dot = document.getElementById('curDot');
@@ -682,64 +852,164 @@ if (window.matchMedia('(pointer:fine)').matches) {
   });
 }
 
-/* ── Loader ──────────────────────────────────────── */
-const loader = document.getElementById('loader');
-const lt = document.getElementById('loaderText');
-const ltl = gsap.timeline();
-ltl.to(lt, { opacity: 1, duration: 0.4, delay: 0.1 })
-   .to(lt, { opacity: 0, y: -30, duration: 0.4, delay: 0.4 })
-   .call(() => loader.classList.add('done'))
-   .call(() => heroIn());
+/* ── TEXT SCRAMBLE ON NAV HOVER (WOW #3) ─────── */
+function textScramble(el) {
+  const chars = '!@#$%^&*';
+  const text = el.textContent;
+  let iterations = 0;
+  const maxIterations = 6;
+  const originalText = text;
 
-/* ── Hero entrance ───────────────────────────────── */
-function heroIn() {
-  gsap.set(['#l1', '#l2', '#hsub', '#hbtns', '#scrollInd'], { opacity: 0, y: 24 });
-  gsap.set('.hero-tag', { opacity: 0, y: 24 });
-  const h = gsap.timeline({ defaults: { ease: 'power3.out' } });
-  h.to('.hero-tag', { opacity: 1, y: 0, duration: 0.5 })
-   .call(() => typeLoop())
-   .to('#l1', { opacity: 1, y: 0, duration: 0.7 }, '-=0.3')
-   .to('#l2', { opacity: 1, y: 0, duration: 0.7 }, '-=0.5')
-   .to('#hsub', { opacity: 1, y: 0, duration: 0.5 }, '-=0.4')
-   .to('#hbtns', { opacity: 1, y: 0, duration: 0.5 }, '-=0.3')
-   .to('#scrollInd', { opacity: 1, y: 0, duration: 0.3 }, '-=0.2');
+  const interval = setInterval(() => {
+    let scrambled = '';
+    for (let i = 0; i < text.length; i++) {
+      if (iterations > i * 0.15) {
+        scrambled += text[i];
+      } else {
+        scrambled += chars[Math.floor(Math.random() * chars.length)];
+      }
+    }
+    el.textContent = scrambled;
+    iterations++;
+
+    if (iterations >= maxIterations + text.length) {
+      el.textContent = originalText;
+      clearInterval(interval);
+    }
+  }, 30);
 }
 
-/* ── Floating orbs ───────────────────────────────── */
-gsap.to('#orb1', { x: 40, y: 30, duration: 8, ease: 'sine.inOut', repeat: -1, yoyo: true });
-gsap.to('#orb2', { x: -30, y: -40, duration: 10, ease: 'sine.inOut', repeat: -1, yoyo: true });
-gsap.to('#orb3', { x: 25, y: -20, duration: 7, ease: 'sine.inOut', repeat: -1, yoyo: true });
-
-/* ── Scroll reveals ──────────────────────────────── */
-gsap.utils.toArray('.r').forEach(el => {
-  gsap.to(el, {
-    opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
-    scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-  });
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('mouseenter', () => textScramble(a));
 });
 
-/* ── Pill staggers ───────────────────────────────── */
-['.pills', '.tk-pills'].forEach(sel => {
-  const c = document.querySelector(sel);
-  if (!c) return;
-  const kids = c.children;
-  gsap.set(kids, { opacity: 0, y: 14 });
-  gsap.to(kids, {
-    opacity: 1, y: 0, duration: 0.3, stagger: 0.04, ease: 'power3.out',
-    scrollTrigger: { trigger: c, start: 'top 87%', once: true },
-  });
-});
-
-/* ── 3D tilt on project cards ────────────────────── */
+/* ── ENHANCED 3D TILT + LIQUID DISTORTION (WOW #3) */
 document.querySelectorAll('[data-tilt]').forEach(card => {
   card.addEventListener('mousemove', e => {
     const r = card.getBoundingClientRect();
     const x = (e.clientX - r.left) / r.width - 0.5;
     const y = (e.clientY - r.top) / r.height - 0.5;
-    gsap.to(card, { rotateY: x * 8, rotateX: -y * 8, duration: 0.4, ease: 'power2.out', transformPerspective: 800 });
+    gsap.to(card, {
+      rotateY: x * 12,
+      rotateX: -y * 12,
+      scale: 1.03,
+      duration: 0.4,
+      ease: 'power2.out',
+      transformPerspective: 800
+    });
   });
   card.addEventListener('mouseleave', () => {
-    gsap.to(card, { rotateY: 0, rotateX: 0, duration: 0.6, ease: 'power3.out' });
+    gsap.to(card, { rotateY: 0, rotateX: 0, scale: 1, duration: 0.6, ease: 'power3.out' });
+  });
+});
+
+/* ── BUTTON RIPPLE GLOW (WOW #4) ──────────────── */
+document.querySelectorAll('.btn').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    const rect = this.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const ripple = document.createElement('div');
+    ripple.className = 'btn-ripple-glow';
+    ripple.style.position = 'absolute';
+    ripple.style.left = x + 'px';
+    ripple.style.top = y + 'px';
+    ripple.style.width = '10px';
+    ripple.style.height = '10px';
+    ripple.style.background = 'radial-gradient(circle, var(--teal), transparent)';
+    ripple.style.borderRadius = '50%';
+    ripple.style.pointerEvents = 'none';
+    ripple.style.transform = 'translate(-50%, -50%)';
+
+    this.appendChild(ripple);
+
+    gsap.to(ripple, {
+      width: 400,
+      height: 400,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power2.out',
+      onComplete: () => ripple.remove()
+    });
+  });
+});
+
+/* ── SKILL PILL BOUNCE (WOW #3) ──────────────── */
+document.querySelectorAll('.pill').forEach(pill => {
+  pill.addEventListener('mouseenter', function() {
+    gsap.to(this, { scale: 1.05, duration: 0.3, ease: 'elastic.out(1.2, 0.75)' });
+  });
+  pill.addEventListener('mouseleave', function() {
+    gsap.to(this, { scale: 1, duration: 0.3, ease: 'elastic.out(1.2, 0.75)' });
+  });
+});
+
+/* ── SECTION ARRIVAL CHOREOGRAPHY (WOW #4) ────── */
+const sectionLinks = document.querySelectorAll('a[href^="#"]');
+sectionLinks.forEach(link => {
+  link.addEventListener('click', function(e) {
+    const href = this.getAttribute('href');
+    if (href === '#' || href === '#top') return;
+
+    e.preventDefault();
+    const target = document.querySelector(href);
+    if (!target) return;
+
+    gsap.to(window, {
+      scrollTo: { y: target, offsetY: 72 },
+      duration: 0.9,
+      ease: 'power3.inOut',
+      onComplete: () => {
+        // Trigger arrival animation
+        const elements = target.querySelectorAll('h2, p, .wc, .pill');
+        gsap.fromTo(elements,
+          { clipPath: 'inset(5% 5% 5% 5%)' },
+          { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.6, stagger: 0.08, ease: 'power2.out' }
+        );
+      }
+    });
+  });
+});
+
+/* ── SCROLL-TRIGGERED TEXT SPLITTING (WOW #4) ── */
+document.querySelectorAll('section h2').forEach(h2 => {
+  if (h2.closest('.story-text') || h2.closest('.cta-left')) {
+    const text = h2.textContent;
+    h2.innerHTML = text.split('').map(char =>
+      `<span style="display:inline-block;will-change:transform">${char === ' ' ? '&nbsp;' : char}</span>`
+    ).join('');
+
+    const chars = h2.querySelectorAll('span');
+    gsap.set(chars, { opacity: 0, y: 20 });
+
+    ScrollTrigger.create({
+      trigger: h2,
+      onEnter: () => {
+        gsap.to(chars, {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          stagger: 0.03,
+          ease: 'power2.out'
+        });
+      },
+      once: true,
+      start: 'top 80%'
+    });
+  }
+});
+
+/* ── Smooth scroll to sections ───────────────── */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(e) {
+    if (this.getAttribute('href') === '#') {
+      e.preventDefault();
+      return;
+    }
+    e.preventDefault();
+    const t = document.querySelector(this.getAttribute('href'));
+    if (t) gsap.to(window, { scrollTo: { y: t, offsetY: 72 }, duration: 0.9, ease: 'power3.inOut' });
   });
 });
 
@@ -760,7 +1030,7 @@ document.querySelectorAll('section[id]').forEach(sec => {
 });
 function setA(id) { anch.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + id)); }
 
-/* ── Progress bar ────────────────────────────────── */
+/* ── Progress bar glow ────────────────────────── */
 ScrollTrigger.create({
   trigger: document.documentElement, start: 'top top', end: 'bottom bottom',
   onUpdate: s => gsap.set('#prog', { scaleX: s.progress }),
@@ -775,16 +1045,7 @@ ScrollTrigger.create({
 });
 btt.addEventListener('click', () => gsap.to(window, { scrollTo: 0, duration: 0.9, ease: 'power3.inOut' }));
 
-/* ── Smooth scroll ───────────────────────────────── */
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', function(e) {
-    e.preventDefault();
-    const t = document.querySelector(this.getAttribute('href'));
-    if (t) gsap.to(window, { scrollTo: { y: t, offsetY: 72 }, duration: 0.9, ease: 'power3.inOut' });
-  });
-});
-
-/* ── Typing effect ──────────────────────────────── */
+/* ── Typing effect ──────────────────────────────– */
 const roles = ['biomedical engineer', 'ux designer', 'ai builder', 'human factors nerd', 'coffee enthusiast'];
 let ri = 0, ci = 0, deleting = false;
 const htag = document.getElementById('htag');
@@ -801,7 +1062,7 @@ function typeLoop() {
   }
 }
 
-/* ── Metric counter animation ───────────────────── */
+/* ── Metric counter animation ───────────────────– */
 function animateCounters() {
   document.querySelectorAll('.met-v[data-count]').forEach(el => {
     const end = parseInt(el.dataset.count);
@@ -813,7 +1074,7 @@ function animateCounters() {
 }
 animateCounters();
 
-/* ── Staggered work card entrance ───────────────── */
+/* ── Staggered work card entrance ───────────────– */
 const wCards = gsap.utils.toArray('.wc');
 wCards.forEach((card, i) => {
   gsap.to(card, {
@@ -822,20 +1083,42 @@ wCards.forEach((card, i) => {
   });
 });
 
-/* ── Console easter egg ──────────────────────────── */
-console.log(
-  '%c Hey, you opened DevTools. \n%c I like you already. \n\n If you\'re hiring, let\'s skip the formalities: joneilcaoile@gmail.com \n If you\'re just curious how this was built, respect. \n\n Built with HTML, CSS, GSAP, and an unreasonable amount of attention to detail.',
-  'color: #14b8a6; font-size: 16px; font-weight: bold; font-family: monospace;',
-  'color: #94a3b8; font-size: 13px; font-family: monospace;'
-);
-
-/* ── Tab title change when unfocused ─────────────── */
-const ogTitle = document.title;
-document.addEventListener('visibilitychange', () => {
-  document.title = document.hidden ? 'Come back, I have more to show you' : ogTitle;
+/* ── Scroll reveals ──────────────────────────────– */
+gsap.utils.toArray('.r').forEach(el => {
+  gsap.to(el, {
+    opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
+    scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+  });
 });
 
-/* ── Card glow tracking (mouse position) ─────────── */
+/* ── Pill staggers ───────────────────────────────– */
+['.pills', '.tk-pills'].forEach(sel => {
+  const c = document.querySelector(sel);
+  if (!c) return;
+  const kids = c.children;
+  gsap.set(kids, { opacity: 0, y: 14 });
+  gsap.to(kids, {
+    opacity: 1, y: 0, duration: 0.3, stagger: 0.04, ease: 'power3.out',
+    scrollTrigger: { trigger: c, start: 'top 87%', once: true },
+  });
+});
+
+/* ── Floating orbs ───────────────────────────────– */
+gsap.to('#orb1', { x: 40, y: 30, duration: 8, ease: 'sine.inOut', repeat: -1, yoyo: true });
+gsap.to('#orb2', { x: -30, y: -40, duration: 10, ease: 'sine.inOut', repeat: -1, yoyo: true });
+gsap.to('#orb3', { x: 25, y: -20, duration: 7, ease: 'sine.inOut', repeat: -1, yoyo: true });
+
+/* ── Parallax orbs on mouse (desktop) ─────────────– */
+if (window.matchMedia('(pointer:fine)').matches) {
+  document.addEventListener('mousemove', e => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 2;
+    const y = (e.clientY / window.innerHeight - 0.5) * 2;
+    gsap.to('#orb1', { x: 40 + x * 15, y: 30 + y * 10, duration: 1.5, ease: 'power2.out' });
+    gsap.to('#orb3', { x: 25 - x * 10, y: -20 - y * 8, duration: 1.5, ease: 'power2.out' });
+  });
+}
+
+/* ── Card glow tracking (mouse position) ─────────– */
 document.querySelectorAll('.wc').forEach(card => {
   card.addEventListener('mousemove', e => {
     const r = card.getBoundingClientRect();
@@ -844,7 +1127,7 @@ document.querySelectorAll('.wc').forEach(card => {
   });
 });
 
-/* ── Magnetic buttons (pull toward cursor) ────────── */
+/* ── Magnetic buttons (pull toward cursor) ────────– */
 document.querySelectorAll('.btn').forEach(btn => {
   btn.addEventListener('mousemove', e => {
     const r = btn.getBoundingClientRect();
@@ -857,17 +1140,20 @@ document.querySelectorAll('.btn').forEach(btn => {
   });
 });
 
-/* ── Parallax orbs on mouse (desktop) ─────────────── */
-if (window.matchMedia('(pointer:fine)').matches) {
-  document.addEventListener('mousemove', e => {
-    const x = (e.clientX / window.innerWidth - 0.5) * 2;
-    const y = (e.clientY / window.innerHeight - 0.5) * 2;
-    gsap.to('#orb1', { x: 40 + x * 15, y: 30 + y * 10, duration: 1.5, ease: 'power2.out' });
-    gsap.to('#orb3', { x: 25 - x * 10, y: -20 - y * 8, duration: 1.5, ease: 'power2.out' });
-  });
-}
+/* ── Console easter egg ──────────────────────────– */
+console.log(
+  '%c Hey, you opened DevTools. \n%c I like you already. \n\n If you\'re hiring, let\'s skip the formalities: joneilcaoile@gmail.com \n If you\'re just curious how this was built, respect. \n\n Built with HTML, CSS, GSAP, and an unreasonable amount of attention to detail.',
+  'color: #14b8a6; font-size: 16px; font-weight: bold; font-family: monospace;',
+  'color: #94a3b8; font-size: 13px; font-family: monospace;'
+);
 
-/* ── Name click easter egg ────────────────────────── */
+/* ── Tab title change when unfocused ─────────────– */
+const ogTitle = document.title;
+document.addEventListener('visibilitychange', () => {
+  document.title = document.hidden ? 'Come back, I have more to show you' : ogTitle;
+});
+
+/* ── Name click easter egg ────────────────────────– */
 const titles = ['Joneil Caoile', 'FDA Whisperer', 'Excel Eliminator', 'UX Engineer', 'Coffee Enthusiast', 'Ctrl+Z Abuser', 'Warning Letter Sommelier', 'Joneil Caoile'];
 let ti = 0;
 document.querySelector('.nav-name').addEventListener('click', e => {
@@ -880,7 +1166,7 @@ document.querySelector('.nav-name').addEventListener('click', e => {
   }});
 });
 
-/* ── Konami code → pixel team easter egg ─────────── */
+/* ── Konami code → pixel team easter egg ─────────– */
 const konami = [38,38,40,40,37,39,37,39,66,65];
 let ki = 0;
 document.addEventListener('keydown', e => {
@@ -889,7 +1175,7 @@ document.addEventListener('keydown', e => {
   } else { ki = 0; }
 });
 
-/* ── Mobile nav ──────────────────────────────────── */
+/* ── Mobile nav ──────────────────────────────────– */
 const ham = document.getElementById('ham');
 const nl = document.getElementById('navLinks');
 ham.addEventListener('click', () => {
@@ -904,6 +1190,26 @@ nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
   nl.classList.remove('open');
   ham.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
 }));
+
+/* ── Initialize all wow effects ─────────────────– */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    initParticleCanvas();
+    initCursorSpotlight();
+  }, 100);
+});
+
+/* ── Start cinematic loader on page load ────────– */
+window.addEventListener('load', () => {
+  initCinematicLoader();
+});
+
+// Ensure loader starts immediately if document is already loaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initCinematicLoader);
+} else {
+  initCinematicLoader();
+}
 </script>
 </body>
 </html>
