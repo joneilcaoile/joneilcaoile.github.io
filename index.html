@@ -27,6 +27,7 @@
   --bg:#0a0a0f;--bg2:#111118;--bg3:#1a1a24;
   --teal:#14b8a6;--teal-dim:rgba(20,184,166,0.08);--teal-glow:rgba(20,184,166,0.25);
   --blue:#3b82f6;--purple:#8b5cf6;
+  --sun:#fcd116;
   --w:#f0f0f0;--w70:rgba(240,240,240,0.7);--w40:rgba(240,240,240,0.4);--w15:rgba(240,240,240,0.15);--w06:rgba(240,240,240,0.06);
   --fh:'Space Grotesk',system-ui,sans-serif;
   --fb:'Inter',system-ui,sans-serif;
@@ -35,9 +36,9 @@
 }
 html{scroll-behavior:smooth}
 body{font-family:var(--fb);color:var(--w70);background:var(--bg);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased;cursor:none}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}.particle-canvas,.cursor-spotlight,.loader-counter,.char-split,.ripple-click,.section-reveal,.text-scramble,.btn-ripple-glow,.skill-bounce,.scroll-text-split,.divider-line-draw{display:none!important}}
-@media(pointer:coarse){body{cursor:auto}.cur,.cur-dot,.cursor-spotlight,.particle-canvas{display:none!important}}
-::selection{background:var(--teal-glow);color:var(--w)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}.particle-canvas,.cursor-spotlight,.loader-counter,.loader-text,.char-split,.ripple-click,.section-reveal,.text-scramble,.btn-ripple-glow,.skill-bounce,.scroll-text-split,.divider-line-draw,.tekken-overlay,.hit-spark,.combo-counter{display:none!important}}
+@media(pointer:coarse){body{cursor:auto}.cur,.cur-dot,.cursor-spotlight,.particle-canvas,.hit-spark,.combo-counter{display:none!important}}
+::selection{background:rgba(252,209,22,0.25);color:var(--w)}
 a{color:var(--teal);text-decoration:none}
 
 /* ── Cursor ─────────────────────────────────────── */
@@ -54,13 +55,48 @@ a{color:var(--teal);text-decoration:none}
 /* ── Grain overlay ──────────────────────────────── */
 .grain{position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:.035}
 .grain::after{content:'';position:absolute;inset:-200%;width:400%;height:400%;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 0.5s steps(1) infinite}
+/* Fuji Classic Chrome vibes */
 @keyframes grain{0%,100%{transform:translate(0,0)}10%{transform:translate(-5%,-10%)}20%{transform:translate(-15%,5%)}30%{transform:translate(7%,-25%)}40%{transform:translate(-5%,25%)}50%{transform:translate(-15%,10%)}60%{transform:translate(15%,0%)}70%{transform:translate(0%,15%)}80%{transform:translate(3%,35%)}90%{transform:translate(-10%,10%)}}
 
 /* ── Loader ─────────────────────────────────────── */
 .loader{position:fixed;inset:0;z-index:8000;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .6s,visibility .6s}
 .loader.done{opacity:0;visibility:hidden;pointer-events:none}
-.loader-counter{font-family:var(--fm);font-size:clamp(2rem,6vw,4rem);font-weight:700;letter-spacing:.1em;color:var(--teal);opacity:0}
+.loader-counter{font-family:var(--fh);font-size:clamp(2rem,6vw,4rem);font-weight:700;letter-spacing:.1em;color:var(--teal);opacity:0}
 .loader-text{font-family:var(--fh);font-size:clamp(3rem,8vw,6rem);font-weight:700;letter-spacing:-.04em;color:var(--w);opacity:0}
+
+/* ── Tekken overlay ─────────────────────────────── */
+.tekken-overlay{position:fixed;inset:0;z-index:9500;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;animation:fadeInOut 2.5s ease-in-out forwards}
+.tekken-overlay-text{text-align:center}
+.tekken-overlay-title{font-family:var(--fh);font-size:clamp(2rem,5vw,3.5rem);font-weight:700;color:var(--teal);margin-bottom:16px;text-shadow:0 0 20px var(--teal-glow);animation:glowPulse 0.8s ease-in-out infinite}
+.tekken-overlay-input{font-family:var(--fm);font-size:1.25rem;color:var(--w);letter-spacing:.1em;text-shadow:0 0 10px var(--teal-glow)}
+@keyframes fadeInOut{0%{opacity:0;transform:scale(0.9)}10%{opacity:1;transform:scale(1)}90%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(0.9)}}
+@keyframes glowPulse{0%,100%{text-shadow:0 0 20px var(--teal-glow),0 0 40px rgba(20,184,166,0.3)}50%{text-shadow:0 0 30px var(--teal-glow),0 0 60px rgba(20,184,166,0.5)}}
+
+/* ── RPG Stats Card ─────────────────────────────── */
+.rpg-stats-card{position:fixed;inset:0;z-index:9400;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);transition:opacity 0.4s ease}
+.rpg-stats-card.show{opacity:1;pointer-events:auto}
+.stats-container{font-family:var(--fm);background:var(--bg2);border:2px solid var(--teal);border-radius:8px;padding:24px;min-width:280px;color:var(--w);font-size:0.875rem;line-height:1.8;animation:slideIn 0.4s ease-out}
+@keyframes slideIn{from{transform:scale(0.9);opacity:0}to{transform:scale(1);opacity:1}}
+.stats-title{font-weight:700;font-size:1.125rem;margin-bottom:4px;color:var(--teal)}
+.stats-subtitle{color:var(--w40);margin-bottom:12px;border-bottom:1px solid var(--w06);padding-bottom:8px}
+.stats-divider{border-top:1px solid var(--teal);margin:8px 0;opacity:0.5}
+.stat-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.stat-label{flex:1}
+.stat-bar{flex:0 0 120px;height:8px;background:var(--w06);border-radius:2px;overflow:hidden;margin:0 8px}
+.stat-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--sun));border-radius:2px;animation:barFill 0.6s ease-out forwards}
+.stat-value{width:40px;text-align:right;color:var(--sun)}
+@keyframes barFill{from{width:0}to{width:100%}}
+.stats-special{font-size:0.8rem;color:var(--teal);margin-top:8px;font-weight:500}
+
+/* ── Hit spark particles ────────────────────────── */
+.hit-spark{position:absolute;pointer-events:none;width:3px;height:3px;background:var(--teal);border-radius:50%;opacity:1;animation:sparkFly 0.4s ease-out forwards}
+@keyframes sparkFly{to{opacity:0;transform:translate(var(--tx),var(--ty)))}}
+
+/* ── Combo counter ─────────────────────────────── */
+.combo-counter{position:fixed;bottom:28px;left:28px;z-index:50;font-family:var(--fm);font-size:0.875rem;color:var(--teal);letter-spacing:.1em;opacity:0;transform:translateY(12px);transition:all 0.3s ease;will-change:transform}
+.combo-counter.show{opacity:1;transform:translateY(0)}
+.combo-counter.pulse{animation:comboPulse 0.3s ease-out}
+@keyframes comboPulse{0%{transform:scale(1)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
 
 /* ── Layout ─────────────────────────────────────── */
 .w{max-width:1100px;margin:0 auto;padding:0 24px}
@@ -70,7 +106,7 @@ a{color:var(--teal);text-decoration:none}
 .nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 0;transition:all .4s var(--ease)}
 .nav.solid{background:rgba(10,10,15,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--w06);padding:14px 0}
 .nav-in{display:flex;justify-content:space-between;align-items:center}
-.nav-name{font-family:var(--fh);font-weight:600;font-size:1rem;color:var(--w);letter-spacing:-.01em}
+.nav-name{font-family:var(--fh);font-weight:600;font-size:1rem;color:var(--w);letter-spacing:-.01em;cursor:pointer;transition:all 0.25s}
 .nav-links{display:flex;gap:28px;list-style:none}
 .nav-links a{font-size:.8125rem;font-weight:400;color:var(--w40);letter-spacing:.02em;transition:color .25s;position:relative;will-change:color}
 .nav-links a:hover,.nav-links a.on{color:var(--w)}
@@ -124,7 +160,7 @@ a{color:var(--teal);text-decoration:none}
 
 /* ── Story ──────────────────────────────────────── */
 .story-grid{display:grid;grid-template-columns:.85fr 1fr;gap:72px;align-items:start}
-.story-vis{aspect-ratio:3/4;border-radius:12px;position:relative;overflow:hidden}
+.story-vis{aspect-ratio:3/4;border-radius:12px;position:relative;overflow:hidden;cursor:pointer}
 .story-vis-inner{width:100%;height:100%;background:linear-gradient(160deg,var(--bg2) 0%,#14252a 60%,#0c2620 100%);display:flex;align-items:flex-end;padding:28px;position:relative}
 .story-vis img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(30%) brightness(.9);transition:filter .6s var(--ease),transform .6s var(--ease)}
 .story-vis:hover img{filter:grayscale(0%) brightness(1);transform:scale(1.03)}
@@ -331,7 +367,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offse
 
 <!-- Loader -->
 <div class="loader" id="loader">
+  <div class="loader-text" id="loaderReady">READY?</div>
   <div class="loader-counter" id="loaderCounter">0%</div>
+  <div class="loader-text" id="loaderGo">LET'S GO</div>
 </div>
 
 <!-- Progress -->
@@ -596,8 +634,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offse
         <p>FDA 510(k)/PMA, 21 CFR 820 QMSR, EU MDR, computer software assurance. I read warning letters like other people read Reddit. It's more interesting than it sounds, I promise.</p>
       </div>
     </div>
-  </div>
-</section>
+  </div></section>
 
 <!-- Timeline -->
 <section class="s" id="path">
@@ -651,7 +688,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offse
       </div>
       <div class="cta-form r">
         <h3>Send a message</h3>
-        <form action="https://formspree.io/f/mjgaznkg" method="POST" onsubmit="event.preventDefault();let b=this.querySelector('button'),f=this;fetch(f.action,{method:'POST',body:new FormData(f),headers:{'Accept':'application/json'}}).then(r=>{if(r.ok){b.textContent='On it \u2714';b.style.background='var(--teal)';setTimeout(()=>{b.textContent='(You won\u2019t regret this)';f.reset();},1500)}else{b.textContent='Hmm, try again';b.style.background='#ef4444'}}).catch(()=>{window.location='mailto:joneilcaoile@gmail.com?subject=Portfolio Contact&body='+encodeURIComponent(f.querySelector('textarea').value)})">
+        <form action="https://formspree.io/f/mjgaznkg" method="POST" onsubmit="event.preventDefault();let b=this.querySelector('button'),f=this;fetch(f.action,{method:'POST',body:new FormData(f),headers:{'Accept':'application/json'}}).then(r=>{if(r.ok){b.textContent='On it \u2714';b.style.background='var(--teal)';createHitSparks(b);setTimeout(()=>{b.textContent='GG';f.reset();setTimeout(()=>{b.textContent='Send';b.style.background='';},3000)},1500)}else{b.textContent='Hmm, try again';b.style.background='#ef4444'}}).catch(()=>{window.location='mailto:joneilcaoile@gmail.com?subject=Portfolio Contact&body='+encodeURIComponent(f.querySelector('textarea').value)})">
           <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
           <div class="fg"><label for="name">Name</label><input id="name" name="name" type="text" placeholder="Your name" required></div>
           <div class="fg"><label for="email">Email</label><input id="email" name="email" type="email" placeholder="you@company.com" required></div>
@@ -663,7 +700,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offse
   </div>
 </section>
 
-<footer class="foot"><div class="w"><p>Designed & built by Joneil Caoile with too much coffee and not enough sleep. <script>document.write(new Date().getFullYear())</script>.</p></div></footer>
+<footer class="foot"><div class="w"><p>Built by Joneil Caoile between Tekken rounds with way too much coffee. Fueled by Charlene's patience and a Lectric XP 4.0. <script>document.write(new Date().getFullYear())</script>.</p></div></footer>
 
 <!-- GSAP -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -672,10 +709,12 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offse
 <script>
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-/* ── CINEMATIC LOADER (WOW #1) ──────────────────── */
+/* ── CINEMATIC LOADER WITH PERSONALITY (WOW #1) ──────────────────── */
 function initCinematicLoader() {
   const loader = document.getElementById('loader');
+  const ready = document.getElementById('loaderReady');
   const counter = document.getElementById('loaderCounter');
+  const go = document.getElementById('loaderGo');
   const line1 = document.getElementById('line1');
   const line2 = document.getElementById('line2');
 
@@ -686,28 +725,34 @@ function initCinematicLoader() {
 
   const tl = gsap.timeline();
 
-  // Percentage counter animation
-  tl.fromTo(counter, { textContent: 0, opacity: 0 }, {
-    textContent: 100,
-    opacity: 1,
-    duration: 2,
-    ease: 'power2.inOut',
-    snap: { textContent: 1 }
-  })
-  .to(counter, { opacity: 0, duration: 0.3 }, '-=0.2')
-  .call(() => {
-    // Clip-path wipe
-    const loaderEl = loader;
-    gsap.to(loaderEl, {
-      clipPath: 'circle(150% at 50% 50%)',
-      duration: 1.2,
+  // Flash READY?
+  tl.fromTo(ready, { opacity: 0 }, { opacity: 1, duration: 0.3 })
+    .to(ready, { opacity: 0, duration: 0.3 }, '+=0.3')
+    // Percentage counter animation
+    .fromTo(counter, { textContent: 0, opacity: 0 }, {
+      textContent: 100,
+      opacity: 1,
+      duration: 2,
       ease: 'power2.inOut',
-      onComplete: () => {
-        loader.classList.add('done');
-        heroCharAnimation();
-      }
-    });
-  }, null, '-=0.5');
+      snap: { textContent: 1 }
+    }, '-=0.15')
+    .to(counter, { opacity: 0, duration: 0.3 }, '-=0.2')
+    // Flash LET'S GO
+    .fromTo(go, { opacity: 0 }, { opacity: 1, duration: 0.3 }, '-=0.2')
+    .to(go, { opacity: 0, duration: 0.3 }, '+=0.3')
+    .call(() => {
+      // Clip-path wipe
+      const loaderEl = loader;
+      gsap.to(loaderEl, {
+        clipPath: 'circle(150% at 50% 50%)',
+        duration: 1.2,
+        ease: 'power2.inOut',
+        onComplete: () => {
+          loader.classList.add('done');
+          heroCharAnimation();
+        }
+      });
+    }, null, '-=0.2');
 }
 
 function heroCharAnimation() {
@@ -903,9 +948,36 @@ document.querySelectorAll('[data-tilt]').forEach(card => {
   });
 });
 
-/* ── BUTTON RIPPLE GLOW (WOW #4) ──────────────── */
+/* ── HIT SPARK EFFECTS ON BUTTON CLICK ──────────── */
+function createHitSparks(btn) {
+  if (window.matchMedia('(pointer:coarse)').matches) return;
+
+  const rect = btn.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+
+  for (let i = 0; i < 7; i++) {
+    const angle = (Math.PI * 2 / 7) * i;
+    const velocity = 3 + Math.random() * 3;
+    const tx = Math.cos(angle) * velocity * 15;
+    const ty = Math.sin(angle) * velocity * 15;
+
+    const spark = document.createElement('div');
+    spark.className = 'hit-spark';
+    spark.style.left = cx + 'px';
+    spark.style.top = cy + 'px';
+    spark.style.setProperty('--tx', tx + 'px');
+    spark.style.setProperty('--ty', ty + 'px');
+    document.body.appendChild(spark);
+
+    setTimeout(() => spark.remove(), 400);
+  }
+}
+
 document.querySelectorAll('.btn').forEach(btn => {
   btn.addEventListener('click', function(e) {
+    createHitSparks(this);
+
     const rect = this.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -1045,8 +1117,8 @@ ScrollTrigger.create({
 });
 btt.addEventListener('click', () => gsap.to(window, { scrollTo: 0, duration: 0.9, ease: 'power3.inOut' }));
 
-/* ── Typing effect ──────────────────────────────– */
-const roles = ['biomedical engineer', 'ux designer', 'ai builder', 'human factors nerd', 'coffee enthusiast'];
+/* ── TYPING EFFECT WITH PERSONALITY ─────────────– */
+const roles = ['biomedical engineer', 'king main since \'01', 'ux designer', 'fujifilm shooter', 'ai builder', 'human factors nerd', 'e-bike commuter', 'warning letter sommelier', 'coffee-powered'];
 let ri = 0, ci = 0, deleting = false;
 const htag = document.getElementById('htag');
 function typeLoop() {
@@ -1140,21 +1212,48 @@ document.querySelectorAll('.btn').forEach(btn => {
   });
 });
 
-/* ── Console easter egg ──────────────────────────– */
+/* ── EXPANDED CONSOLE EASTER EGG ──────────────────– */
 console.log(
-  '%c Hey, you opened DevTools. \n%c I like you already. \n\n If you\'re hiring, let\'s skip the formalities: joneilcaoile@gmail.com \n If you\'re just curious how this was built, respect. \n\n Built with HTML, CSS, GSAP, and an unreasonable amount of attention to detail.',
-  'color: #14b8a6; font-size: 16px; font-weight: bold; font-family: monospace;',
-  'color: #94a3b8; font-size: 13px; font-family: monospace;'
+  '%c ╔═══════════════════════════════════════╗\n' +
+  ' ║  JONEIL CAOILE — CHARACTER SELECT     ║\n' +
+  ' ╠═══════════════════════════════════════╣\n' +
+  ' ║  Class: Biomedical Engineer           ║\n' +
+  ' ║  Subclass: Human Factors + AI         ║\n' +
+  ' ║  Main: King (Tekken)                  ║\n' +
+  ' ║  Camera: Fujifilm X-T5               ║\n' +
+  ' ║  Fuel: Coffee (critical dependency)   ║\n' +
+  ' ║  Mount: Lectric XP 4.0 e-bike        ║\n' +
+  ' ╠═══════════════════════════════════════╣\n' +
+  ' ║  🎮 Try: d → f → k (Tekken fans)    ║\n' +
+  ' ║  📸 Click the headshot               ║\n' +
+  ' ║  ⬆⬆⬇⬇⬅➡⬅➡ B A (classic)           ║\n' +
+  ' ╠═══════════════════════════════════════╣\n' +
+  ' ║  If you\'re hiring:                   ║\n' +
+  ' ║  joneilcaoile@gmail.com              ║\n' +
+  ' ║  I respond faster than King\'s f+2+3  ║\n' +
+  ' ╚═══════════════════════════════════════╝',
+  'color: #14b8a6; font-family: monospace; font-size: 12px;'
 );
 
-/* ── Tab title change when unfocused ─────────────– */
+/* ── TAB TITLE MESSAGES ──────────────────────────– */
+const tabMessages = [
+  'Come back, I have easter eggs...',
+  'King wins by timeout if you leave',
+  'My e-bike is faster than your scroll',
+  'Joneil misses you already'
+];
 const ogTitle = document.title;
 document.addEventListener('visibilitychange', () => {
-  document.title = document.hidden ? 'Come back, I have more to show you' : ogTitle;
+  if (document.hidden) {
+    const randomMsg = tabMessages[Math.floor(Math.random() * tabMessages.length)];
+    document.title = randomMsg;
+  } else {
+    document.title = ogTitle;
+  }
 });
 
-/* ── Name click easter egg ────────────────────────– */
-const titles = ['Joneil Caoile', 'FDA Whisperer', 'Excel Eliminator', 'UX Engineer', 'Coffee Enthusiast', 'Ctrl+Z Abuser', 'Warning Letter Sommelier', 'Joneil Caoile'];
+/* ── NAME CLICK TITLES — WAY MORE FUN ─────────────– */
+const titles = ['Joneil Caoile', 'FDA Whisperer', 'Excel Eliminator', 'King Main 👑', 'UX Engineer', 'Coffee-Powered', 'Ctrl+Z Abuser', 'Warning Letter Sommelier', 'Fuji X-T5 Shooter', 'SoCal Bound', '🇵🇭 Pinoy Pride', 'E-Bike Gang', 'Joneil Caoile'];
 let ti = 0;
 document.querySelector('.nav-name').addEventListener('click', e => {
   e.preventDefault();
@@ -1165,6 +1264,138 @@ document.querySelector('.nav-name').addEventListener('click', e => {
     gsap.to(el, { opacity: 1, y: 0, duration: 0.25 });
   }});
 });
+
+/* ── TEKKEN COMBO EASTER EGG ─────────────────────── */
+/* Tekken King fans know. ← ↙ ↓ ↘ → */
+let keySequence = [];
+const tekkenCombo = ['d', 'f', 'k'];
+document.addEventListener('keydown', e => {
+  const key = e.key.toLowerCase();
+  if (tekkenCombo.includes(key)) {
+    keySequence.push(key);
+
+    if (keySequence.length > tekkenCombo.length) {
+      keySequence.shift();
+    }
+
+    if (keySequence.join('') === tekkenCombo.join('')) {
+      triggerTekkenOverlay();
+      keySequence = [];
+    }
+  } else {
+    keySequence = [];
+  }
+});
+
+function triggerTekkenOverlay() {
+  const overlay = document.createElement('div');
+  overlay.className = 'tekken-overlay';
+  overlay.innerHTML = `
+    <div class="tekken-overlay-text">
+      <div class="tekken-overlay-title">KING'S MUSCLE BUSTER</div>
+      <div class="tekken-overlay-input">← ↙ ↓ ↘ → + 1+2</div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  setTimeout(() => overlay.remove(), 2500);
+}
+
+/* ── RPG STATS CARD ON HEADSHOT CLICK ────────────– */
+document.querySelector('.story-vis').addEventListener('click', function() {
+  const existing = document.querySelector('.rpg-stats-card');
+  if (existing && existing.classList.contains('show')) {
+    existing.classList.remove('show');
+    setTimeout(() => existing.remove(), 400);
+    return;
+  }
+
+  const card = document.createElement('div');
+  card.className = 'rpg-stats-card show';
+
+  const stats = [
+    { label: 'STR', value: 8 },
+    { label: 'DEX', value: 6 },
+    { label: 'INT', value: 9 },
+    { label: 'WIS', value: 8 },
+    { label: 'CHA', value: 7 },
+    { label: 'LCK', value: 6 }
+  ];
+
+  let statsHtml = `
+    <div class="stats-container">
+      <div class="stats-title">JONEIL CAOILE</div>
+      <div class="stats-subtitle">Class: Biomedical Eng</div>
+      <div>LVL 26</div>
+      <div class="stats-divider"></div>
+  `;
+
+  stats.forEach(stat => {
+    statsHtml += `
+      <div class="stat-row">
+        <div class="stat-label">${stat.label}</div>
+        <div class="stat-bar"><div class="stat-fill" style="width:${(stat.value/10)*100}%"></div></div>
+        <div class="stat-value">${stat.value}/10</div>
+      </div>
+    `;
+  });
+
+  statsHtml += `
+      <div class="stats-divider"></div>
+      <div class="stats-special">Special: +3 FDA Lore</div>
+      <div class="stats-special">Weakness: Excel</div>
+      <div class="stats-special">Mount: Lectric XP 4.0</div>
+      <div class="stats-special">Weapon: Fuji X-T5</div>
+    </div>
+  `;
+
+  card.innerHTML = statsHtml;
+  document.body.appendChild(card);
+
+  setTimeout(() => card.classList.add('show'), 10);
+
+  card.addEventListener('click', (e) => {
+    if (e.target === card) {
+      card.classList.remove('show');
+      setTimeout(() => card.remove(), 400);
+    }
+  });
+});
+
+/* ── COMBO COUNTER ───────────────────────────────── */
+let lastScrollSection = -1;
+let comboTimeout;
+const comboCounter = document.createElement('div');
+comboCounter.className = 'combo-counter';
+document.body.appendChild(comboCounter);
+
+function updateComboCounter() {
+  const sections = document.querySelectorAll('section[id]');
+  let currentSection = -1;
+
+  sections.forEach((sec, idx) => {
+    const rect = sec.getBoundingClientRect();
+    if (rect.top < window.innerHeight / 2) {
+      currentSection = idx;
+    }
+  });
+
+  if (currentSection > lastScrollSection && currentSection > 1) {
+    lastScrollSection = currentSection;
+    const comboCount = currentSection;
+    comboCounter.textContent = comboCount + 'x COMBO';
+    comboCounter.classList.add('show', 'pulse');
+
+    setTimeout(() => comboCounter.classList.remove('pulse'), 300);
+
+    clearTimeout(comboTimeout);
+    comboTimeout = setTimeout(() => {
+      comboCounter.classList.remove('show');
+    }, 3000);
+  }
+}
+
+window.addEventListener('scroll', updateComboCounter);
 
 /* ── Konami code → pixel team easter egg ─────────– */
 const konami = [38,38,40,40,37,39,37,39,66,65];
