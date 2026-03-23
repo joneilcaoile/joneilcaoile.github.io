@@ -729,10 +729,10 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--amber);outline-offs
       </div>
       <div class="story-text">
         <span class="tag-sm r"><span class="sec-num">01</span> My story</span>
-        <h2 class="r">Two years in rehab clinics before I wrote a single line of code.</h2>
+        <h2 class="r">Two years in clinics before a single line of code.</h2>
         <p class="r">400+ hours of clinical observation watching patients interact with medical devices. I saw the disconnect. Engineers designing in isolation, safety reports that missed real-world use patterns, and a review process that hadn't changed in decades.</p>
         <p class="r">So I went to Stevens for my M.S. in Biomedical Engineering. Design verification, usability evaluation, regulatory strategy, the whole device lifecycle. Got my <strong>Google UX Design Certificate</strong> because the gap between what engineers build and what patients actually experience is where most risk lives. Then I started building <strong>UseTrace HFE</strong>, an AI tool that classifies safety observations under IEC 62366-1 so engineers spend less time on paperwork and more time on the test plan.</p>
-        <p class="r">I'm not here because AI is trending. I'm here because I spent two years watching the problem and couldn't stop thinking about it. (My friends can confirm. I'm not great at dinner parties anymore.)</p>
+        <p class="r">I'm not here because AI is trending. I'm here because I spent two years watching the problem and couldn't stop thinking about it.</p>
         <div class="pills r">
           <span class="pill">M.S. Biomedical Engineering, Stevens</span>
           <span class="pill">B.S. Kinesiology, CSULB</span>
@@ -1488,8 +1488,10 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
 document.querySelectorAll('section h2').forEach(h2 => {
   if (h2.closest('.story-text') || h2.closest('.cta-left')) {
     const text = h2.textContent;
-    h2.innerHTML = text.split('').map(char =>
-      `<span style="display:inline-block;will-change:transform">${char === ' ' ? '&nbsp;' : char}</span>`
+    h2.innerHTML = text.split(' ').map(word =>
+      `<span style="display:inline;white-space:nowrap">${word.split('').map(char =>
+        `<span style="display:inline-block;will-change:transform">${char}</span>`
+      ).join('')}</span> `
     ).join('');
     const chars = h2.querySelectorAll('span');
     gsap.set(chars, { opacity: 0, y: 20 });
