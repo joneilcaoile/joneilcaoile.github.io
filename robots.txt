@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /Joneil_Caoile_Resume.pdf
+Disallow: /index-backup.html
