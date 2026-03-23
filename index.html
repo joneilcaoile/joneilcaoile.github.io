@@ -409,6 +409,24 @@ a:hover{color:var(--coral)}
 .feat .btn-line:hover{border-color:var(--cream)}
 
 /* ══════════════════════════════════════════════════
+   PIPELINE — Scroll-animated system architecture
+   ══════════════════════════════════════════════════ */
+.pipe-section{padding:80px 0 60px;background:linear-gradient(180deg,var(--bg) 0%,var(--bg-warm) 50%,var(--bg) 100%);position:relative;overflow:hidden}
+.pipe-flow{display:flex;align-items:center;justify-content:center;gap:0;margin-top:48px;padding:20px 0}
+.pipe-step{display:flex;flex-direction:column;align-items:center;text-align:center;max-width:150px;opacity:0;transform:translateY(24px)}
+.pipe-icon{width:56px;height:56px;border-radius:14px;background:var(--dark);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:12px;transition:border-color .4s,box-shadow .4s}
+.pipe-icon svg{width:24px;height:24px;stroke:var(--amber);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.pipe-step h4{font-family:var(--fh);font-size:.8125rem;color:var(--text);letter-spacing:-.01em;margin-bottom:4px;font-weight:600}
+.pipe-step p{font-size:.6875rem;color:var(--text-muted);line-height:1.5}
+.pipe-step.pipe-active .pipe-icon{border-color:var(--amber);box-shadow:0 0 24px rgba(198,123,46,.12)}
+.pipe-arrow{width:52px;display:flex;align-items:center;justify-content:center;flex-shrink:0;opacity:0}
+.pipe-arrow svg{width:52px;height:16px;overflow:visible}
+.pipe-arrow line{stroke:var(--amber);stroke-width:1.5}
+.pipe-arrow polygon{fill:var(--amber)}
+.pipe-label{display:inline-block;font-family:var(--fm);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);padding:4px 10px;border-radius:6px;background:var(--amber-dim);margin-top:16px;opacity:0;transform:translateY(8px)}
+@media(max-width:768px){.pipe-flow{flex-direction:column;gap:8px}.pipe-arrow{width:auto;height:32px;transform:rotate(90deg)}.pipe-step{max-width:220px}}
+
+/* ══════════════════════════════════════════════════
    WORK GRID — Karolis Kosas editorial cards
    Clean white cards, subtle shadows, large thumbs
    ══════════════════════════════════════════════════ */
@@ -696,6 +714,51 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--amber);outline-offs
           <span class="pill">400+ hrs Clinical Observation</span>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pipeline — Pneumothorax Air Leak Monitor -->
+<section class="pipe-section">
+  <div class="w">
+    <span class="tag-sm r">System Architecture</span>
+    <h2 class="r" style="font-family:var(--fh);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;letter-spacing:-.03em;color:var(--text);margin-bottom:8px">Pneumothorax Air Leak Monitor</h2>
+    <p class="r" style="font-size:.9375rem;max-width:540px;color:var(--text-secondary)">Real-time severity indexing for post-surgical recovery &mdash; BME 565 capstone.</p>
+    <div class="pipe-flow" id="pipeFlow">
+      <div class="pipe-step" data-pipe="0">
+        <div class="pipe-icon">
+          <svg viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg>
+        </div>
+        <h4>Sense</h4>
+        <p>Chest tube flow sensor captures air leak rate</p>
+      </div>
+      <div class="pipe-arrow"><svg viewBox="0 0 52 16"><line x1="2" y1="8" x2="38" y2="8" stroke-dasharray="36" stroke-dashoffset="36"/><polygon points="36,3 46,8 36,13" opacity="0"/></svg></div>
+      <div class="pipe-step" data-pipe="1">
+        <div class="pipe-icon">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h4>Measure</h4>
+        <p>Ventilator records tidal volume continuously</p>
+      </div>
+      <div class="pipe-arrow"><svg viewBox="0 0 52 16"><line x1="2" y1="8" x2="38" y2="8" stroke-dasharray="36" stroke-dashoffset="36"/><polygon points="36,3 46,8 36,13" opacity="0"/></svg></div>
+      <div class="pipe-step" data-pipe="2">
+        <div class="pipe-icon" style="border-color:rgba(198,123,46,.3);box-shadow:0 0 20px rgba(198,123,46,.08)">
+          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+        </div>
+        <h4>Compute</h4>
+        <p>MCU calculates Air-Leak Severity Index</p>
+      </div>
+      <div class="pipe-arrow"><svg viewBox="0 0 52 16"><line x1="2" y1="8" x2="38" y2="8" stroke-dasharray="36" stroke-dashoffset="36"/><polygon points="36,3 46,8 36,13" opacity="0"/></svg></div>
+      <div class="pipe-step" data-pipe="3">
+        <div class="pipe-icon" style="border-color:rgba(212,162,51,.2)">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><polyline points="6 13 9 9 12 12 15 8 18 11"/></svg>
+        </div>
+        <h4>Display</h4>
+        <p>Recovery trend shown to clinicians in real time</p>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <span class="pipe-label">Leak Output &divide; Tidal Volume = Severity Index</span>
     </div>
   </div>
 </section>
@@ -1851,6 +1914,33 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 }
 
 /* scroll-velocity removed — scroll listener on every pixel caused jank */
+
+/* ── Pipeline scroll animation ─────────────────── */
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const pipeFlow = document.getElementById('pipeFlow');
+  if (pipeFlow) {
+    const steps = pipeFlow.querySelectorAll('.pipe-step');
+    const arrows = pipeFlow.querySelectorAll('.pipe-arrow');
+    const pipeLabel = document.querySelector('.pipe-label');
+    const pipeTl = gsap.timeline({
+      scrollTrigger: { trigger: pipeFlow, start: 'top 75%', once: true }
+    });
+    steps.forEach((step, i) => {
+      const offset = i * 0.35;
+      pipeTl.to(step, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out',
+        onComplete: () => step.classList.add('pipe-active')
+      }, offset);
+      if (arrows[i]) {
+        const ln = arrows[i].querySelector('line');
+        const pg = arrows[i].querySelector('polygon');
+        pipeTl.to(arrows[i], { opacity: 1, duration: 0.1 }, offset + 0.2);
+        if (ln) pipeTl.to(ln, { attr: { 'stroke-dashoffset': 0 }, duration: 0.4, ease: 'power2.inOut' }, offset + 0.25);
+        if (pg) pipeTl.to(pg, { opacity: 1, duration: 0.2 }, offset + 0.55);
+      }
+    });
+    if (pipeLabel) pipeTl.to(pipeLabel, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, '-=0.2');
+  }
+}
 
 /* ── Magnetic nav links ──────────────────────────– */
 if (window.matchMedia('(pointer:fine)').matches) {
