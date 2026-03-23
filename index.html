@@ -1824,12 +1824,11 @@ themeToggle.innerHTML = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/
 const navLinksEl = document.getElementById('navLinks');
 const hamEl = document.getElementById('ham');
 if (navLinksEl && hamEl) { navLinksEl.parentElement.insertBefore(themeToggle, hamEl); }
-const currentTheme = localStorage.getItem('theme') || 'light';
-if (currentTheme === 'dark') { document.documentElement.setAttribute('data-theme', 'dark'); themeToggle.classList.add('active'); }
+/* Default to light — dark mode is opt-in per session */
+document.documentElement.removeAttribute('data-theme');
 themeToggle.addEventListener('click', () => {
   const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', newTheme);
-  localStorage.setItem('theme', newTheme);
+  if (newTheme === 'dark') { document.documentElement.setAttribute('data-theme', 'dark'); } else { document.documentElement.removeAttribute('data-theme'); }
   themeToggle.classList.toggle('active');
 });
 
@@ -1979,16 +1978,17 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 }
 
 /* ── Initialize ─────────────────– */
-window.addEventListener('load', () => {
-  setTimeout(() => { initGradientMesh(); initParticleCanvas(); initCursorSpotlight(); }, 100);
-});
-
-window.addEventListener('load', () => { initCinematicLoader(); });
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initCinematicLoader);
-} else {
+let loaderStarted = false;
+function startLoader() {
+  if (loaderStarted) return;
+  loaderStarted = true;
   initCinematicLoader();
 }
+
+window.addEventListener('load', () => {
+  setTimeout(() => { initGradientMesh(); initParticleCanvas(); initCursorSpotlight(); }, 100);
+  startLoader();
+});
 </script>
 </body>
 </html>
