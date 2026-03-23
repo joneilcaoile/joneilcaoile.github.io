@@ -1653,12 +1653,8 @@ console.log(
   'color: #C67B2E; font-family: monospace; font-size: 12px; background: #1C1915; padding: 4px;'
 );
 
-/* ── TAB TITLE MESSAGES ──────────────────────────– */
-const tabMessages = ['Come back, I have easter eggs...', 'King wins by timeout if you leave', 'My e-bike is faster than your scroll', 'Joneil misses you already'];
+/* ── TAB TITLE ────────────────────────────────────– */
 const ogTitle = document.title;
-document.addEventListener('visibilitychange', () => {
-  document.title = document.hidden ? tabMessages[Math.floor(Math.random() * tabMessages.length)] : ogTitle;
-});
 
 /* ── NAME CLICK TITLES ─────────────– */
 const titles = ['Joneil Caoile', 'FDA Whisperer', 'Excel Eliminator', 'UX Engineer', 'Coffee-Powered', 'Ctrl+Z Abuser', 'Warning Letter Sommelier', 'Fuji X-T5 Shooter', 'SoCal Bound', 'Joneil Caoile'];
