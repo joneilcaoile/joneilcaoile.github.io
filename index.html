@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Joneil Caoile — Biomedical Engineer & Human Factors</title>
+<title>Joneil Caoile — Biomedical Engineer</title>
 <meta name="description" content="Biomedical engineer building AI tools for medical device safety. M.S. Stevens Institute, Google UX Certificate. Looking for SoCal medtech roles.">
-<meta property="og:title" content="Joneil Caoile — Biomedical Engineer & Human Factors">
+<meta property="og:title" content="Joneil Caoile — Biomedical Engineer">
 <meta property="og:description" content="Building AI tools for medical device safety. Portfolio, projects, and contact.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://joneilcaoile.github.io">
@@ -13,7 +13,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Joneil Caoile — Biomedical Engineer & Human Factors">
+<meta name="twitter:title" content="Joneil Caoile — Biomedical Engineer">
 <meta name="twitter:description" content="Building AI tools for medical device safety. Portfolio, projects, and contact.">
 <meta name="twitter:image" content="https://joneilcaoile.github.io/og-preview.png">
 <meta name="theme-color" content="#FAFAF8">
@@ -513,14 +513,11 @@ a:hover{color:var(--coral)}
 .tk-3 p{font-size:.8125rem;line-height:1.75;color:var(--text-secondary)}
 @media(max-width:768px){.tk-3{grid-template-columns:1fr}}
 
-/* Skill bars */
-.skill-bars{display:grid;grid-template-columns:1fr 1fr;gap:14px 40px;margin-top:40px;padding-top:40px;border-top:1px solid var(--border-light)}
-.skill-row{display:flex;align-items:center;gap:12px}
-.skill-name{font-family:var(--fm);font-size:.6875rem;color:var(--text-secondary);min-width:130px;text-align:right;letter-spacing:.01em}
-.skill-track{flex:1;height:5px;background:var(--border-light);border-radius:3px;overflow:hidden}
-.skill-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--amber),var(--coral));width:0;transition:width 1.4s var(--ease)}
-.skill-pct{font-family:var(--fm);font-size:.6rem;color:var(--text-faint);min-width:28px}
-@media(max-width:768px){.skill-bars{grid-template-columns:1fr}}
+/* Skill groups */
+.skill-groups{display:grid;grid-template-columns:1fr 1fr;gap:24px 40px;margin-top:40px;padding-top:40px;border-top:1px solid var(--border-light)}
+.skill-group h4{font-family:var(--fh);font-size:.8125rem;color:var(--text);margin-bottom:6px;letter-spacing:-.01em;font-weight:600}
+.skill-group p{font-size:.75rem;color:var(--text-muted);line-height:1.7}
+@media(max-width:768px){.skill-groups{grid-template-columns:1fr}}
 
 /* ══════════════════════════════════════════════════
    TIMELINE — Clean, editorial
@@ -947,18 +944,17 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--amber);outline-offs
     <p class="r" style="font-size:.9375rem;margin-bottom:48px;max-width:480px;color:var(--text-secondary)">Not a LinkedIn skills section. These are tools I've used to build things that work.</p>
 
     <div class="tk-pills r">
-      <span class="tkp hi">Human Factors Engineering</span>
-      <span class="tkp hi">UX Research & Design</span>
-      <span class="tkp hi">Machine Learning</span>
+      <span class="tkp hi">V&amp;V / Testing</span>
+      <span class="tkp hi">Medical Device Design</span>
+      <span class="tkp hi">FDA Regulatory</span>
       <span class="tkp">Python</span>
       <span class="tkp">FastAPI</span>
       <span class="tkp">React</span>
+      <span class="tkp">Machine Learning</span>
+      <span class="tkp">Human Factors</span>
+      <span class="tkp">UX Research</span>
       <span class="tkp">JavaScript</span>
-      <span class="tkp">HTML / CSS</span>
-      <span class="tkp">Pydantic</span>
-      <span class="tkp">Streamlit</span>
       <span class="tkp">Git</span>
-      <span class="tkp">REST APIs</span>
       <span class="tkp">MATLAB</span>
       <span class="tkp">TensorFlow</span>
       <span class="tkp">SQL</span>
@@ -968,27 +964,35 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--amber);outline-offs
 
     <div class="tk-3 r">
       <div>
-        <h3>Medical device safety</h3>
-        <p>IEC 62366-1 classification, usability study design, observer note analysis, use-related risk analysis. I've read the standards cover to cover. Twice. (I know, I know.)</p>
+        <h3>Testing & validation</h3>
+        <p>V&V protocol development, test method design, IQ/OQ/PQ, risk-based test strategies, IEC 62366-1 usability evaluation. I build the test plan, then build the tool to run it faster.</p>
       </div>
       <div>
-        <h3>Design for patients</h3>
-        <p>User research, usability testing, wireframing, prototyping. Got the Google UX cert because the gap between engineering specs and patient experience is where devices fail.</p>
+        <h3>Regulatory & quality</h3>
+        <p>FDA 510(k)/PMA, 21 CFR 820 QMSR, EU MDR, design controls, CAPA, computer software assurance. I read warning letters like other people read Reddit. More interesting than it sounds.</p>
       </div>
       <div>
-        <h3>Regulatory fluency</h3>
-        <p>FDA 510(k)/PMA, 21 CFR 820 QMSR, EU MDR, computer software assurance. I read warning letters like other people read Reddit. It's more interesting than it sounds, I promise.</p>
+        <h3>Design & human factors</h3>
+        <p>User research, usability testing, observer analysis, risk-of-use assessment. Got the Google UX cert because the gap between engineering specs and patient experience is where devices fail.</p>
       </div>
     </div>
-    <div class="skill-bars r" id="skillBars">
-      <div class="skill-row"><span class="skill-name">Human Factors</span><div class="skill-track"><div class="skill-fill" data-w="95"></div></div><span class="skill-pct">95%</span></div>
-      <div class="skill-row"><span class="skill-name">Python</span><div class="skill-track"><div class="skill-fill" data-w="88"></div></div><span class="skill-pct">88%</span></div>
-      <div class="skill-row"><span class="skill-name">UX Research</span><div class="skill-track"><div class="skill-fill" data-w="90"></div></div><span class="skill-pct">90%</span></div>
-      <div class="skill-row"><span class="skill-name">React / JS</span><div class="skill-track"><div class="skill-fill" data-w="82"></div></div><span class="skill-pct">82%</span></div>
-      <div class="skill-row"><span class="skill-name">FDA Regulatory</span><div class="skill-track"><div class="skill-fill" data-w="85"></div></div><span class="skill-pct">85%</span></div>
-      <div class="skill-row"><span class="skill-name">Machine Learning</span><div class="skill-track"><div class="skill-fill" data-w="78"></div></div><span class="skill-pct">78%</span></div>
-      <div class="skill-row"><span class="skill-name">Figma / Design</span><div class="skill-track"><div class="skill-fill" data-w="80"></div></div><span class="skill-pct">80%</span></div>
-      <div class="skill-row"><span class="skill-name">SolidWorks / CAD</span><div class="skill-track"><div class="skill-fill" data-w="70"></div></div><span class="skill-pct">70%</span></div>
+    <div class="skill-groups r" id="skillGroups">
+      <div class="skill-group">
+        <h4>Testing & Validation</h4>
+        <p>V&V protocols, test method development, IQ/OQ/PQ, risk-based testing, statistical analysis, IEC 62366-1 usability evaluation</p>
+      </div>
+      <div class="skill-group">
+        <h4>Regulatory & Quality</h4>
+        <p>FDA 510(k)/PMA submissions, 21 CFR 820 QMSR, EU MDR, design controls, CAPA, computer software assurance</p>
+      </div>
+      <div class="skill-group">
+        <h4>Software & AI</h4>
+        <p>Python, FastAPI, React, TensorFlow, ML pipelines, REST APIs, Git, SQL, MATLAB</p>
+      </div>
+      <div class="skill-group">
+        <h4>Design & Research</h4>
+        <p>Human factors engineering, UX research, usability testing, Figma, SolidWorks, user-centered design</p>
+      </div>
     </div>
   </div></section>
 
@@ -1634,19 +1638,6 @@ function initTerminal() {
   setTimeout(addLine, 4500);
 }
 initTerminal();
-
-/* ── Skill bar scroll animation ─────────────────── */
-const skillBars = document.getElementById('skillBars');
-if (skillBars) {
-  ScrollTrigger.create({
-    trigger: skillBars, start: 'top 85%', once: true,
-    onEnter: () => {
-      document.querySelectorAll('.skill-fill').forEach((bar, i) => {
-        setTimeout(() => { bar.style.width = bar.dataset.w + '%'; }, i * 100);
-      });
-    }
-  });
-}
 
 /* ── Statement counter animation ───────────────── */
 document.querySelectorAll('[data-count-to]').forEach(el => {
