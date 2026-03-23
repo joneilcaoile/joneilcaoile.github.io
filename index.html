@@ -21,6 +21,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 
@@ -73,6 +74,19 @@
   --ease:cubic-bezier(.16,1,.3,1);
 }
 
+[data-theme="dark"]{
+  --bg:#141210;
+  --bg2:#1C1915;
+  --bg3:#252019;
+  --bg-warm:#1A1714;
+  --text:#E8E4DE;
+  --text-secondary:#B5ADA4;
+  --text-muted:#8A8078;
+  --text-faint:#5C554C;
+  --border:#2E2820;
+  --border-light:#252019;
+}
+
 html{scroll-behavior:smooth}
 body{font-family:var(--fb);color:var(--text-secondary);background:var(--bg);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased;cursor:none}
 ::selection{background:rgba(198,123,46,0.2);color:var(--text)}
@@ -106,8 +120,12 @@ a:hover{color:var(--coral)}
 /* ── Loader ─────────────────────────────────────── */
 .loader{position:fixed;inset:0;z-index:8000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s,visibility .6s}
 .loader.done{opacity:0;visibility:hidden;pointer-events:none}
-.loader-counter{font-family:var(--fh);font-size:clamp(2rem,6vw,4rem);font-weight:700;letter-spacing:.1em;color:var(--amber);opacity:0;position:absolute}
+.loader-counter{font-family:var(--fh);font-size:clamp(2rem,6vw,4rem);font-weight:700;letter-spacing:.1em;color:var(--amber);opacity:0;position:absolute;text-shadow:0 0 30px var(--amber-glow)}
 .loader-text{font-family:var(--fh);font-size:clamp(3rem,8vw,6rem);font-weight:700;letter-spacing:-.04em;color:var(--text);opacity:0;position:absolute}
+.loader-bg-pulse{position:absolute;inset:0;background:radial-gradient(circle,rgba(198,123,46,.05),transparent 70%);animation:loaderPulse 1.5s ease-in-out infinite;z-index:-1}
+@keyframes loaderPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.1);opacity:0.6}}
+.loader-sweep{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--amber),transparent);animation:sweepLine 1.2s ease-in-out infinite}
+@keyframes sweepLine{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
 
 /* ── Tekken overlay ─────────────────────────────── */
 .tekken-overlay{position:fixed;inset:0;z-index:9500;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;animation:fadeInOut 2.5s ease-in-out forwards}
@@ -183,16 +201,20 @@ a:hover{color:var(--coral)}
 /* ── Nav — clean, light, minimal ────────────────── */
 .nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 0;transition:all .4s var(--ease)}
 .nav.solid{background:rgba(250,250,248,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border-light);padding:14px 0}
-.nav-in{display:flex;justify-content:space-between;align-items:center}
+[data-theme="dark"] .nav.solid{background:rgba(20,18,16,.92);border-bottom-color:var(--border)}
+.nav-in{display:flex;justify-content:space-between;align-items:center;gap:24px}
 .nav-name{font-family:var(--fh);font-weight:600;font-size:1rem;color:var(--text);letter-spacing:-.01em;cursor:pointer;transition:all 0.25s}
-.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links{display:flex;gap:32px;list-style:none;align-items:center}
 .nav-links a{font-size:.8125rem;font-weight:400;color:var(--text-muted);letter-spacing:.02em;transition:color .25s;position:relative;will-change:color}
 .nav-links a:hover,.nav-links a.on{color:var(--text)}
 .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1.5px;background:var(--amber);transition:width .3s var(--ease)}
 .nav-links a:hover::after,.nav-links a.on::after{width:100%}
+.theme-toggle{background:none;border:none;cursor:none;padding:8px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);transition:color .25s;will-change:color}
+.theme-toggle:hover{color:var(--text)}
+.theme-toggle svg{width:20px;height:20px;stroke:currentColor;stroke-width:1.5;fill:none}
 .ham{display:none;background:none;border:none;cursor:none;padding:8px}
 .ham span{display:block;width:20px;height:1.5px;background:var(--text);margin:4px 0;transition:.3s}
-@media(max-width:768px){.nav-links{display:none}.ham{display:block}.nav-links.open{display:flex;flex-direction:column;gap:16px;position:absolute;top:100%;left:0;right:0;background:var(--bg2);padding:24px;border-bottom:1px solid var(--border)}}
+@media(max-width:768px){.nav-links{display:none}.ham{display:block}.nav-links.open{display:flex;flex-direction:column;gap:16px;position:absolute;top:100%;left:0;right:0;background:var(--bg2);padding:24px;border-bottom:1px solid var(--border)}.theme-toggle{order:1}}
 
 /* ══════════════════════════════════════════════════
    HERO — Editorial / story-first
@@ -221,7 +243,8 @@ a:hover{color:var(--coral)}
 .hero h1 .line{display:block;overflow:hidden}
 .hero h1 .line span{display:inline-block;will-change:transform}
 .hero h1 .thin{font-weight:300;color:var(--text-muted)}
-.hero h1 .grad{background:linear-gradient(135deg,var(--amber),var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero h1 .grad{background:linear-gradient(90deg,var(--amber),var(--coral),var(--gold),var(--amber));background-size:300% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gradientShift 6s ease infinite}
+@keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 .hero-sub{font-size:1.0625rem;color:var(--text-secondary);max-width:520px;margin-bottom:40px;line-height:1.8}
 .hero-btns{display:flex;gap:12px;flex-wrap:wrap;will-change:transform}
 
@@ -260,12 +283,18 @@ a:hover{color:var(--coral)}
 .scroll-ind i{display:block;width:1px;height:40px;background:linear-gradient(to bottom,var(--amber),transparent);animation:sc 2s ease-in-out infinite}
 @keyframes sc{0%,100%{opacity:.2;transform:scaleY(.4)}50%{opacity:1;transform:scaleY(1)}}
 
+/* Scroll parallax layers */
+.hero h1{will-change:transform}
+.hero-terminal{will-change:transform}
+.orb{will-change:transform}
+
 /* ── Reveal base ────────────────────────────────── */
 .r{opacity:0;transform:translateY(32px)}
 
 /* ── Divider line ───────────────────────────────── */
 .div-line{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0 auto;max-width:600px;position:relative}
-.divider-line-draw{position:absolute;height:1px;background:linear-gradient(90deg,transparent,var(--amber),transparent);left:0;top:0;width:100%;opacity:0}
+.divider-line-draw{position:absolute;height:1px;background:linear-gradient(90deg,transparent,var(--amber),transparent);left:0;top:0;width:100%;opacity:0;animation:lineDrawAnim 1.2s ease-in-out forwards}
+@keyframes lineDrawAnim{0%{width:0;opacity:1}100%{width:100%;opacity:1}}
 
 /* ══════════════════════════════════════════════════
    STATEMENT — Punchy, editorial quote
@@ -297,7 +326,7 @@ a:hover{color:var(--coral)}
 .s#story{background:var(--bg);position:relative;overflow:hidden}
 .s#story::before{content:'';position:absolute;top:0;right:0;width:50%;height:100%;background:linear-gradient(135deg,transparent 40%,rgba(198,123,46,.03) 60%,rgba(253,237,215,.06) 80%,transparent 100%);pointer-events:none}
 .story-grid{display:grid;grid-template-columns:.85fr 1fr;gap:72px;align-items:start}
-.story-vis{aspect-ratio:3/4;border-radius:16px;position:relative;overflow:hidden;cursor:pointer}
+.story-vis{aspect-ratio:3/4;border-radius:16px;position:relative;overflow:hidden;cursor:pointer;clip-path:circle(0% at 50% 50%)}
 .story-vis-inner{width:100%;height:100%;background:linear-gradient(160deg,var(--bg3) 0%,var(--bg-warm) 100%);display:flex;align-items:flex-end;padding:28px;position:relative}
 .story-vis img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(15%) brightness(.95) contrast(1.02);transition:filter .6s var(--ease),transform .6s var(--ease)}
 .story-vis:hover img{filter:grayscale(0%) brightness(1);transform:scale(1.03)}
@@ -384,8 +413,11 @@ a:hover{color:var(--coral)}
    WORK GRID — Karolis Kosas editorial cards
    Clean white cards, subtle shadows, large thumbs
    ══════════════════════════════════════════════════ */
-.s:has(.wg){background:linear-gradient(180deg,var(--bg) 0%,var(--bg3) 40%,var(--bg3) 60%,var(--bg) 100%);position:relative}
+.s:has(.wg){background:linear-gradient(180deg,var(--bg) 0%,var(--bg3) 40%,var(--bg3) 60%,var(--bg) 100%);position:relative;padding-bottom:200px}
 .wg{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+/* Horizontal scroll wrapper */
+.wg-scroll-wrapper{overflow:visible;width:100%}
+.wg.h-scroll{display:flex;gap:24px;width:max-content;will-change:transform}
 .wc{border-radius:16px;border:1px solid var(--border);background:var(--bg2);overflow:hidden;transition:all .4s var(--ease);transform-style:preserve-3d;perspective:800px;will-change:transform,border-color;opacity:0;transform:translateY(32px);position:relative;box-shadow:0 2px 8px rgba(0,0,0,.03)}
 .wc:hover{border-color:var(--amber-glow);box-shadow:0 12px 40px rgba(0,0,0,.06)}
 .wc::before{content:'';position:absolute;inset:0;border-radius:16px;opacity:0;transition:opacity .4s;pointer-events:none;z-index:1;background:radial-gradient(350px circle at var(--mx,50%) var(--my,50%),var(--amber-glow),transparent 60%)}
@@ -990,21 +1022,145 @@ function heroCharAnimation() {
   setTimeout(() => typeLoop(), 800);
 }
 
-/* ── ANIMATED GRADIENT MESH (video-like wow) ───── */
+/* ── WebGL NOISE SHADER (organic living background) ───── */
 function initGradientMesh() {
   const canvas = document.getElementById('meshCanvas');
   if (!canvas) return;
-  const ctx = canvas.getContext('2d');
   const hero = document.querySelector('.hero');
+
+  // Try WebGL first, fall back to 2D
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) { initGradientMesh2D(canvas, hero); return; }
 
   function resize() {
     canvas.width = hero.offsetWidth;
     canvas.height = hero.offsetHeight;
+    gl.viewport(0, 0, canvas.width, canvas.height);
   }
   resize();
   window.addEventListener('resize', resize);
 
-  // Flowing color blobs
+  const vsSource = `attribute vec2 a_position;void main(){gl_Position=vec4(a_position,0.0,1.0);}`;
+  const fsSource = `
+    precision mediump float;
+    uniform float u_time;
+    uniform vec2 u_resolution;
+    uniform vec2 u_mouse;
+
+    // Simplex-like noise
+    vec3 mod289(vec3 x){return x-floor(x*(1.0/289.0))*289.0;}
+    vec2 mod289(vec2 x){return x-floor(x*(1.0/289.0))*289.0;}
+    vec3 permute(vec3 x){return mod289(((x*34.0)+1.0)*x);}
+    float snoise(vec2 v){
+      const vec4 C=vec4(0.211324865405187,0.366025403784439,-0.577350269189626,0.024390243902439);
+      vec2 i=floor(v+dot(v,C.yy));vec2 x0=v-i+dot(i,C.xx);
+      vec2 i1;i1=(x0.x>x0.y)?vec2(1.0,0.0):vec2(0.0,1.0);
+      vec4 x12=x0.xyxy+C.xxzz;x12.xy-=i1;
+      i=mod289(i);
+      vec3 p=permute(permute(i.y+vec3(0.0,i1.y,1.0))+i.x+vec3(0.0,i1.x,1.0));
+      vec3 m=max(0.5-vec3(dot(x0,x0),dot(x12.xy,x12.xy),dot(x12.zw,x12.zw)),0.0);
+      m=m*m;m=m*m;
+      vec3 x=2.0*fract(p*C.www)-1.0;vec3 h=abs(x)-0.5;
+      vec3 ox=floor(x+0.5);vec3 a0=x-ox;
+      m*=1.79284291400159-0.85373472095314*(a0*a0+h*h);
+      vec3 g;g.x=a0.x*x0.x+h.x*x0.y;g.yz=a0.yz*x12.xz+h.yz*x12.yw;
+      return 130.0*dot(m,g);
+    }
+
+    void main(){
+      vec2 uv=gl_FragCoord.xy/u_resolution.xy;
+      float t=u_time*0.15;
+
+      // Layer 1: Large slow-moving warm blobs
+      float n1=snoise(uv*1.5+vec2(t*0.3,t*0.2))*0.5+0.5;
+      // Layer 2: Medium detail
+      float n2=snoise(uv*3.0+vec2(-t*0.2,t*0.4))*0.5+0.5;
+      // Layer 3: Fine shimmer
+      float n3=snoise(uv*6.0+vec2(t*0.5,-t*0.3))*0.5+0.5;
+
+      // Mouse influence (subtle light pull)
+      vec2 mouseUV=u_mouse/u_resolution;
+      float mouseDist=length(uv-mouseUV);
+      float mouseGlow=smoothstep(0.4,0.0,mouseDist)*0.08;
+
+      // Combine noise layers with warm colors
+      float combined=n1*0.6+n2*0.3+n3*0.1;
+
+      // Warm amber palette
+      vec3 amber=vec3(0.776,0.482,0.18);   // #C67B2E
+      vec3 coral=vec3(0.722,0.29,0.235);    // #B84A3C
+      vec3 gold=vec3(0.831,0.635,0.2);      // #D4A233
+      vec3 warmWhite=vec3(0.98,0.976,0.97); // #FAFAF8
+
+      // Color mixing based on noise
+      vec3 color=mix(warmWhite,amber,combined*0.14+mouseGlow);
+      color=mix(color,gold,n2*0.06);
+      color=mix(color,coral,n3*0.04);
+
+      // Vignette for depth
+      float vignette=1.0-smoothstep(0.3,1.2,length(uv-0.5)*1.4);
+      color=mix(warmWhite,color,vignette);
+
+      gl_FragColor=vec4(color,1.0);
+    }
+  `;
+
+  function createShader(type, source) {
+    const shader = gl.createShader(type);
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) { gl.deleteShader(shader); return null; }
+    return shader;
+  }
+
+  const vs = createShader(gl.VERTEX_SHADER, vsSource);
+  const fs = createShader(gl.FRAGMENT_SHADER, fsSource);
+  if (!vs || !fs) { initGradientMesh2D(canvas, hero); return; }
+
+  const program = gl.createProgram();
+  gl.attachShader(program, vs);
+  gl.attachShader(program, fs);
+  gl.linkProgram(program);
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) { initGradientMesh2D(canvas, hero); return; }
+
+  gl.useProgram(program);
+
+  // Full-screen quad
+  const buffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]), gl.STATIC_DRAW);
+  const posLoc = gl.getAttribLocation(program, 'a_position');
+  gl.enableVertexAttribArray(posLoc);
+  gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+  const uTime = gl.getUniformLocation(program, 'u_time');
+  const uRes = gl.getUniformLocation(program, 'u_resolution');
+  const uMouse = gl.getUniformLocation(program, 'u_mouse');
+
+  let mouseX = canvas.width / 2, mouseY = canvas.height / 2;
+  document.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    mouseX = e.clientX - rect.left;
+    mouseY = canvas.height - (e.clientY - rect.top);
+  });
+
+  let startTime = performance.now();
+  function render() {
+    const elapsed = (performance.now() - startTime) / 1000;
+    gl.uniform1f(uTime, elapsed);
+    gl.uniform2f(uRes, canvas.width, canvas.height);
+    gl.uniform2f(uMouse, mouseX, mouseY);
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+    requestAnimationFrame(render);
+  }
+  render();
+}
+
+// 2D fallback if WebGL not available
+function initGradientMesh2D(canvas, hero) {
+  const ctx = canvas.getContext('2d');
+  function resize() { canvas.width = hero.offsetWidth; canvas.height = hero.offsetHeight; }
+  resize(); window.addEventListener('resize', resize);
   const blobs = [
     { x: 0.2, y: 0.3, vx: 0.0003, vy: 0.0002, r: 350, color: [198, 123, 46, 0.12] },
     { x: 0.7, y: 0.2, vx: -0.0002, vy: 0.0003, r: 300, color: [212, 162, 51, 0.1] },
@@ -1012,33 +1168,22 @@ function initGradientMesh() {
     { x: 0.8, y: 0.6, vx: -0.0003, vy: -0.0001, r: 280, color: [253, 200, 120, 0.06] },
     { x: 0.3, y: 0.8, vx: 0.0002, vy: 0.0003, r: 320, color: [198, 123, 46, 0.07] },
   ];
-
   let t = 0;
   function draw() {
-    t++;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+    t++; ctx.clearRect(0, 0, canvas.width, canvas.height);
     blobs.forEach(b => {
-      // Organic movement with sine waves
       const cx = (b.x + Math.sin(t * b.vx * 10 + b.y * 5) * 0.08) * canvas.width;
       const cy = (b.y + Math.cos(t * b.vy * 10 + b.x * 5) * 0.08) * canvas.height;
       const r = b.r + Math.sin(t * 0.005) * 40;
-
       const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
       grad.addColorStop(0, `rgba(${b.color[0]},${b.color[1]},${b.color[2]},${b.color[3]})`);
       grad.addColorStop(0.5, `rgba(${b.color[0]},${b.color[1]},${b.color[2]},${b.color[3] * 0.5})`);
       grad.addColorStop(1, `rgba(${b.color[0]},${b.color[1]},${b.color[2]},0)`);
-
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      // Drift
-      b.x += b.vx;
-      b.y += b.vy;
+      ctx.fillStyle = grad; ctx.fillRect(0, 0, canvas.width, canvas.height);
+      b.x += b.vx; b.y += b.vy;
       if (b.x > 1.1 || b.x < -0.1) b.vx *= -1;
       if (b.y > 1.1 || b.y < -0.1) b.vy *= -1;
     });
-
     requestAnimationFrame(draw);
   }
   draw();
@@ -1662,6 +1807,176 @@ nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
   nl.classList.remove('open');
   ham.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
 }));
+
+/* ── Initialize Lenis smooth scroll ──────────────– */
+if (typeof Lenis !== 'undefined') {
+  const lenis = new Lenis({duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), direction: 'vertical', gestureDirection: 'vertical', smooth: true, smoothTouch: false, touchMultiplier: 2});
+  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+  gsap.ticker.add(time => { lenis.raf(time * 1000); });
+}
+
+/* ── Dark mode toggle ────────────────────────────── */
+const themeToggle = document.createElement('button');
+themeToggle.className = 'theme-toggle';
+themeToggle.setAttribute('aria-label', 'Toggle dark mode');
+themeToggle.innerHTML = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+const navLinks = document.getElementById('navLinks');
+const ham = document.getElementById('ham');
+if (navLinks && ham) { navLinks.parentElement.insertBefore(themeToggle, ham); }
+const currentTheme = localStorage.getItem('theme') || 'light';
+if (currentTheme === 'dark') { document.documentElement.setAttribute('data-theme', 'dark'); themeToggle.classList.add('active'); }
+themeToggle.addEventListener('click', () => {
+  const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  themeToggle.classList.toggle('active');
+});
+
+/* ── Scroll parallax on hero ─────────────────────– */
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const h1 = document.querySelector('.hero h1');
+  const terminal = document.getElementById('heroTerminal');
+  const statusBadge = document.querySelector('.status-badge');
+  const orbs = [document.getElementById('orb1'), document.getElementById('orb2'), document.getElementById('orb3')];
+  const scrollInd = document.getElementById('scrollInd');
+  if (h1) gsap.from(h1, { y: 50, scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom center', scrub: 0.5, markers: false }, ease: 'none' });
+  if (terminal) gsap.from(terminal, { y: 100, opacity: 0, scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom center', scrub: 0.5 }, ease: 'none' });
+  orbs.forEach((orb, i) => { if (orb) gsap.from(orb, { y: 80 + i * 20, scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom center', scrub: 0.5 }, ease: 'none' }); });
+  if (statusBadge) gsap.to(statusBadge, { opacity: 0, scrollTrigger: { trigger: '.hero', start: 'top top', end: 'center center', scrub: 0.5 }, ease: 'none' });
+  if (scrollInd) gsap.to(scrollInd, { opacity: 0, scrollTrigger: { trigger: '.hero', start: 'top top', end: '+=200', scrub: 0.5 }, ease: 'none' });
+}
+
+/* ── Story image reveal on scroll ────────────────– */
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const storyVis = document.querySelector('.story-vis');
+  if (storyVis) {
+    gsap.fromTo(storyVis, { clipPath: 'circle(0% at 50% 50%)' }, {
+      clipPath: 'circle(75% at 50% 50%)', duration: 1.2, ease: 'power3.inOut',
+      scrollTrigger: { trigger: storyVis, start: 'top 80%', once: true }
+    });
+  }
+}
+
+/* ── Scroll-velocity reactive animations ─────────– */
+let scrollVelocity = 0, lastScrollY = 0;
+const marqueeTrack = document.getElementById('marqueeTrack');
+const grain = document.querySelector('.grain');
+window.addEventListener('scroll', () => {
+  const now = window.scrollY;
+  scrollVelocity = Math.abs(now - lastScrollY);
+  lastScrollY = now;
+  if (marqueeTrack) gsap.to(marqueeTrack, { duration: 0.3, css: { animationPlayState: scrollVelocity > 20 ? 'running' : 'running' } });
+  if (grain && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) gsap.to(grain, { opacity: Math.min(0.015 + scrollVelocity * 0.001, 0.05), duration: 0.3 });
+}, { passive: true });
+
+/* ── Magnetic nav links ──────────────────────────– */
+if (window.matchMedia('(pointer:fine)').matches) {
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('mousemove', e => {
+      const rect = link.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      gsap.to(link, { x: x * 0.2, y: y * 0.2, duration: 0.3, ease: 'power2.out' });
+    });
+    link.addEventListener('mouseleave', () => {
+      gsap.to(link, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.4)' });
+    });
+  });
+}
+
+/* ── SVG line-draw on dividers ───────────────────– */
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  document.querySelectorAll('.div-line').forEach(divider => {
+    const lineDraw = divider.querySelector('.divider-line-draw');
+    if (lineDraw) {
+      ScrollTrigger.create({
+        trigger: divider,
+        start: 'top 85%',
+        once: true,
+        onEnter: () => { lineDraw.style.animation = 'lineDrawAnim 1.2s ease-in-out forwards'; }
+      });
+    }
+  });
+}
+
+/* ── Horizontal scroll for project cards ─────────– */
+if (window.matchMedia('(min-width:1024px)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const workSection = document.querySelector('.s:has(.wg)');
+  if (workSection) {
+    const wg = workSection.querySelector('.wg');
+    if (wg) {
+      // Switch to horizontal flex layout
+      wg.style.display = 'flex';
+      wg.style.flexWrap = 'nowrap';
+      wg.style.gap = '32px';
+      wg.style.width = 'max-content';
+      workSection.style.overflow = 'hidden';
+
+      // Make cards fixed width for horizontal scroll
+      wg.querySelectorAll('.wc-link, .wc-link > .wc').forEach(el => {
+        if (el.classList.contains('wc-link')) el.style.flex = '0 0 380px';
+      });
+
+      // Wait for layout to settle
+      requestAnimationFrame(() => {
+        const scrollDistance = wg.scrollWidth - workSection.offsetWidth + 64;
+        if (scrollDistance > 0) {
+          gsap.to(wg, {
+            x: -scrollDistance,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: workSection,
+              start: 'top 15%',
+              end: `+=${scrollDistance * 1.5}`,
+              scrub: 1,
+              pin: true,
+              anticipatePin: 1
+            }
+          });
+        }
+      });
+    }
+  }
+}
+
+/* ── Enhanced cinematic loader ───────────────────– */
+function enhanceLoader() {
+  const loader = document.getElementById('loader');
+  if (loader) {
+    const pulse = document.createElement('div');
+    pulse.className = 'loader-bg-pulse';
+    loader.appendChild(pulse);
+    const sweeps = [];
+    for (let i = 0; i < 2; i++) {
+      const sweep = document.createElement('div');
+      sweep.className = 'loader-sweep';
+      sweep.style.animationDelay = (i * 0.6) + 's';
+      loader.appendChild(sweep);
+      sweeps.push(sweep);
+    }
+  }
+}
+enhanceLoader();
+
+/* ── Section color morphing nav ──────────────────– */
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const nav = document.getElementById('nav');
+  const sections = document.querySelectorAll('section[id]');
+  window.addEventListener('scroll', () => {
+    let currentSection = null;
+    sections.forEach(sec => {
+      const rect = sec.getBoundingClientRect();
+      if (rect.top <= window.innerHeight / 2 && rect.bottom > window.innerHeight / 2) {
+        currentSection = sec;
+      }
+    });
+    if (currentSection) {
+      const isDark = currentSection.classList.contains('feat') || currentSection.classList.contains('cta-sec') || currentSection.id === 'project';
+      if (isDark) { nav.setAttribute('data-theme', 'dark'); } else { nav.removeAttribute('data-theme'); }
+    }
+  }, { passive: true });
+}
 
 /* ── Initialize ─────────────────– */
 window.addEventListener('load', () => {
