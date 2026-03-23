@@ -287,6 +287,16 @@ a:hover{color:var(--coral)}
 .hero-terminal{will-change:transform}
 .orb{will-change:transform}
 
+/* ── Section numbers ────────────────────────────── */
+.sec-num{font-family:var(--fm);font-weight:400;opacity:.35;margin-right:8px;font-size:.65em;letter-spacing:.06em}
+.feat .sec-num,.cta-sec .sec-num{opacity:.25}
+
+/* ── Section transition gradients ────────────────── */
+.sec-bridge{height:80px;position:relative;pointer-events:none}
+.sec-bridge-dark{background:linear-gradient(180deg,var(--bg) 0%,var(--dark) 100%)}
+.sec-bridge-dark-light{background:linear-gradient(180deg,var(--dark) 0%,var(--bg3) 20%,var(--bg) 100%)}
+.sec-bridge-light-dark{background:linear-gradient(180deg,var(--bg) 0%,var(--dark) 100%)}
+
 /* ── Reveal base ────────────────────────────────── */
 .r{opacity:0;transform:translateY(32px)}
 
@@ -312,7 +322,7 @@ a:hover{color:var(--coral)}
 @media(max-width:600px){.stmt-stats{gap:24px;flex-wrap:wrap}}
 
 /* ── Credentials marquee ─────────────────────────── */
-.marquee-wrap{overflow:hidden;padding:20px 0;border-top:1px solid var(--border-light);border-bottom:1px solid var(--border-light);background:linear-gradient(90deg,var(--bg-warm),var(--bg),var(--bg-warm))}
+.marquee-wrap{overflow:hidden;padding:28px 0;border-top:1px solid var(--border-light);border-bottom:1px solid var(--border-light);background:linear-gradient(180deg,var(--bg-warm),var(--bg3))}
 .marquee-track{display:flex;gap:40px;animation:marqueeScroll 35s linear infinite;width:max-content;will-change:transform}
 .marquee-item{font-family:var(--fm);font-size:.6875rem;color:var(--text-muted);white-space:nowrap;display:flex;align-items:center;gap:10px;letter-spacing:.03em;text-transform:uppercase}
 .marquee-dot{width:4px;height:4px;border-radius:50%;background:var(--amber);flex-shrink:0;opacity:.5}
@@ -425,6 +435,17 @@ a:hover{color:var(--coral)}
 .pipe-arrow polygon{fill:var(--amber)}
 .pipe-label{display:inline-block;font-family:var(--fm);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);padding:4px 10px;border-radius:6px;background:var(--amber-dim);margin-top:16px;opacity:0;transform:translateY(8px)}
 @media(max-width:768px){.pipe-flow{flex-direction:column;gap:8px}.pipe-arrow{width:auto;height:32px;transform:rotate(90deg)}.pipe-step{max-width:220px}}
+/* Pipeline compute node pulse */
+.pipe-step[data-pipe="2"] .pipe-icon{animation:computePulse 3s ease-in-out infinite}
+@keyframes computePulse{0%,100%{box-shadow:0 0 20px rgba(198,123,46,.08)}50%{box-shadow:0 0 28px rgba(198,123,46,.2)}}
+
+/* PhotoCull hero card — full width */
+.wc-hero{grid-column:1 / -1}
+.wc-hero .wc-thumb{height:220px}
+.wc-hero .wc-info{padding:28px 32px}
+.wc-hero .wc-info h3{font-size:1.25rem}
+.wc-hero .wc-info p{font-size:.875rem;max-width:640px}
+@media(max-width:768px){.wc-hero .wc-thumb{height:160px}.wc-hero .wc-info{padding:24px}}
 
 /* ══════════════════════════════════════════════════
    WORK GRID — Karolis Kosas editorial cards
@@ -545,8 +566,13 @@ a:hover{color:var(--coral)}
 @media(max-width:768px){.cta-grid{grid-template-columns:1fr;gap:40px}.cta-form{padding:24px}}
 
 /* ── Footer ─────────────────────────────────────── */
-.foot{padding:24px 0;border-top:1px solid var(--border-light);text-align:center;background:var(--bg)}
-.foot p{font-size:.75rem;color:var(--text-faint)}
+.foot{padding:40px 0 32px;border-top:1px solid rgba(242,237,229,0.06);text-align:center;background:var(--dark)}
+.foot-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.foot p{font-size:.6875rem;color:rgba(242,237,229,0.3);font-family:var(--fb)}
+.foot-links{display:flex;gap:20px}
+.foot-links a{font-size:.6875rem;color:rgba(242,237,229,0.3);transition:color .2s}
+.foot-links a:hover{color:var(--amber-light)}
+@media(max-width:600px){.foot-inner{justify-content:center;text-align:center}}
 
 /* ── Progress bar ───────────────────────────────── */
 .prog{position:fixed;top:0;left:0;height:2px;z-index:200;background:linear-gradient(90deg,var(--amber),var(--coral));transform-origin:left;transform:scaleX(0);box-shadow:0 0 16px rgba(198,123,46,0.2)}
@@ -702,7 +728,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--amber);outline-offs
         </div>
       </div>
       <div class="story-text">
-        <span class="tag-sm r">My story</span>
+        <span class="tag-sm r"><span class="sec-num">01</span> My story</span>
         <h2 class="r">Two years in rehab clinics before I wrote a single line of code.</h2>
         <p class="r">400+ hours of clinical observation watching patients interact with medical devices. I saw the disconnect. Engineers designing in isolation, safety reports that missed real-world use patterns, and a review process that hadn't changed in decades.</p>
         <p class="r">So I went to Stevens for my M.S. in Biomedical Engineering. Got my <strong>Google UX Design Certificate</strong> because the gap between what gets built and what patients experience is a design problem. Then I started building <strong>UseTrace HFE</strong>, an AI system that handles the tedious classification work so the expert can focus on making the device safer.</p>
@@ -721,7 +747,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--amber);outline-offs
 <!-- Pipeline — Pneumothorax Air Leak Monitor -->
 <section class="pipe-section">
   <div class="w">
-    <span class="tag-sm r">System Architecture</span>
+    <span class="tag-sm r"><span class="sec-num">02</span> System Architecture</span>
     <h2 class="r" style="font-family:var(--fh);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;letter-spacing:-.03em;color:var(--text);margin-bottom:8px">Pneumothorax Air Leak Monitor</h2>
     <p class="r" style="font-size:.9375rem;max-width:540px;color:var(--text-secondary)">Real-time severity indexing for post-surgical recovery &mdash; BME 565 capstone.</p>
     <div class="pipe-flow" id="pipeFlow">
@@ -763,10 +789,12 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--amber);outline-offs
   </div>
 </section>
 
+<div class="sec-bridge sec-bridge-dark"></div>
+
 <!-- Featured -->
 <section class="feat" id="project">
   <div class="w">
-    <span class="tag-sm r">Featured</span>
+    <span class="tag-sm r"><span class="sec-num">03</span> Featured</span>
     <h2 class="r" style="font-family:var(--fh);font-size:clamp(2rem,4vw,2.75rem);font-weight:700;letter-spacing:-.03em;margin-bottom:12px">UseTrace HFE</h2>
     <p class="r" style="font-size:1rem;max-width:560px;margin-bottom:48px">AI classification for medical device usability observations. The expert reviews. The AI drafts. Nobody cuts corners on patient safety.</p>
 
@@ -822,13 +850,15 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--amber);outline-offs
   </div>
 </section>
 
+<div class="sec-bridge sec-bridge-dark-light"></div>
+
 <!-- Other work -->
 <section class="s">
   <div class="w">
-    <span class="tag-sm r">Other work</span>
+    <span class="tag-sm r"><span class="sec-num">04</span> Other work</span>
     <h2 class="r" style="font-family:var(--fh);font-size:clamp(1.75rem,3vw,2.25rem);font-weight:700;letter-spacing:-.03em;color:var(--text);margin-bottom:40px">Other things keeping me up at night</h2>
     <div class="wg">
-      <a href="case-photocull.html" class="wc-link"><div class="wc r" data-tilt data-rarity="legendary">        <div class="wc-thumb"><div class="wc-thumb-bg" style="background:linear-gradient(160deg,#1A150E,#2A2018)">
+      <a href="case-photocull.html" class="wc-link"><div class="wc wc-hero r" data-tilt data-rarity="legendary">        <div class="wc-thumb"><div class="wc-thumb-bg" style="background:linear-gradient(160deg,#1A150E,#2A2018)">
           <svg viewBox="0 0 400 180" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <defs><linearGradient id="pc-g" x1="0" y1="90" x2="400" y2="90" gradientUnits="userSpaceOnUse"><stop stop-color="#C47A3A" stop-opacity="0"/><stop offset=".3" stop-color="#C47A3A" stop-opacity=".3"/><stop offset=".7" stop-color="#E09145" stop-opacity=".4"/><stop offset="1" stop-color="#E09145" stop-opacity="0"/></linearGradient></defs>
             <g class="grid-blink"><rect x="30" y="25" width="70" height="50" rx="4" stroke="#C47A3A" stroke-width=".8" opacity=".15"/><rect x="115" y="25" width="70" height="50" rx="4" stroke="#E09145" stroke-width=".8" opacity=".15"/><rect x="200" y="25" width="70" height="50" rx="4" stroke="#E09145" stroke-width=".8" opacity=".15"/><rect x="285" y="25" width="70" height="50" rx="4" stroke="#C47A3A" stroke-width=".8" opacity=".15"/></g>
@@ -912,7 +942,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--amber);outline-offs
 <!-- Toolkit -->
 <section class="tk" id="toolkit">
   <div class="w">
-    <span class="tag-sm r">Toolkit</span>
+    <span class="tag-sm r"><span class="sec-num">05</span> Toolkit</span>
     <h2 class="r" style="font-family:var(--fh);font-size:clamp(1.75rem,3vw,2.25rem);font-weight:700;letter-spacing:-.03em;color:var(--text);margin-bottom:12px">What I actually ship with</h2>
     <p class="r" style="font-size:.9375rem;margin-bottom:48px;max-width:480px;color:var(--text-secondary)">Not a LinkedIn skills section. These are tools I've used to build things that work.</p>
 
@@ -965,7 +995,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--amber);outline-offs
 <!-- Timeline -->
 <section class="s" id="path">
   <div class="w">
-    <span class="tag-sm r">Path</span>
+    <span class="tag-sm r"><span class="sec-num">06</span> Path</span>
     <h2 class="r" style="font-family:var(--fh);font-size:clamp(1.75rem,3vw,2.25rem);font-weight:700;letter-spacing:-.03em;color:var(--text);margin-bottom:48px">How I got here</h2>
     <div class="tl-items">
       <div class="tl-i r">
@@ -996,13 +1026,15 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--amber);outline-offs
   </div>
 </section>
 
+<div class="sec-bridge sec-bridge-light-dark"></div>
+
 <!-- Contact -->
 <section class="cta-sec" id="contact">
   <div class="orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(198,123,46,.1),transparent 70%);top:-20%;right:-10%;filter:blur(60px)"></div>
   <div class="w">
     <div class="cta-grid">
       <div class="cta-left r">
-        <span class="tag-sm">Contact</span>
+        <span class="tag-sm"><span class="sec-num">07</span> Contact</span>
         <h2>Looking for my first full-time role. Hire me before someone else does.</h2>
         <p>Human factors engineering, UX research, medical device validation, AI tools for regulatory. If your team touches any of these, I want to talk. SoCal preferred, remote works. I come with strong opinions about usability testing and decent taste in coffee.</p>
         <div class="clinks">
@@ -1026,7 +1058,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--amber);outline-offs
   </div>
 </section>
 
-<footer class="foot"><div class="w"><p>Built by Joneil Caoile between Tekken rounds with way too much coffee. Fueled by Charlene's patience and a Lectric XP 4.0. <script>document.write(new Date().getFullYear())</script>.</p></div></footer>
+<footer class="foot"><div class="w"><div class="foot-inner"><p>&copy; <script>document.write(new Date().getFullYear())</script> Joneil Caoile. Built between Tekken rounds with too much coffee.</p><div class="foot-links"><a href="https://github.com/joneilcaoile" target="_blank">GitHub</a><a href="https://linkedin.com/in/joneilcaoile" target="_blank">LinkedIn</a><a href="mailto:joneilcaoile@gmail.com">Email</a></div></div></div></footer>
 
 <!-- GSAP -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
