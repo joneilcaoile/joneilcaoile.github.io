@@ -21,7 +21,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 
@@ -1808,13 +1807,6 @@ nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
   ham.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
 }));
 
-/* ── Initialize Lenis smooth scroll ──────────────– */
-if (typeof Lenis !== 'undefined') {
-  const lenis = new Lenis({duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), direction: 'vertical', gestureDirection: 'vertical', smooth: true, smoothTouch: false, touchMultiplier: 2});
-  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-  requestAnimationFrame(raf);
-  gsap.ticker.add(time => { lenis.raf(time * 1000); });
-}
 
 /* ── Dark mode toggle ────────────────────────────── */
 const themeToggle = document.createElement('button');
@@ -1899,45 +1891,7 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   });
 }
 
-/* ── Horizontal scroll for project cards ─────────– */
-if (window.matchMedia('(min-width:1024px)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  const workSection = document.querySelector('.s:has(.wg)');
-  if (workSection) {
-    const wg = workSection.querySelector('.wg');
-    if (wg) {
-      // Switch to horizontal flex layout
-      wg.style.display = 'flex';
-      wg.style.flexWrap = 'nowrap';
-      wg.style.gap = '32px';
-      wg.style.width = 'max-content';
-      workSection.style.overflow = 'hidden';
-
-      // Make cards fixed width for horizontal scroll
-      wg.querySelectorAll('.wc-link, .wc-link > .wc').forEach(el => {
-        if (el.classList.contains('wc-link')) el.style.flex = '0 0 380px';
-      });
-
-      // Wait for layout to settle
-      requestAnimationFrame(() => {
-        const scrollDistance = wg.scrollWidth - workSection.offsetWidth + 64;
-        if (scrollDistance > 0) {
-          gsap.to(wg, {
-            x: -scrollDistance,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: workSection,
-              start: 'top 15%',
-              end: `+=${scrollDistance * 1.5}`,
-              scrub: 1,
-              pin: true,
-              anticipatePin: 1
-            }
-          });
-        }
-      });
-    }
-  }
-}
+/* horizontal scroll removed — pin conflicts with parallax scrub */
 
 /* ── Enhanced cinematic loader ───────────────────– */
 function enhanceLoader() {
