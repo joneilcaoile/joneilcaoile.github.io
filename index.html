@@ -94,16 +94,20 @@ a:hover{color:var(--coral)}
 /* ── Particle canvas ────────────────────────────── */
 .particle-canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
 
+/* ── Animated gradient mesh (hero bg) ─────────── */
+.gradient-mesh{position:absolute;inset:0;z-index:0;overflow:hidden}
+.gradient-mesh canvas{width:100%;height:100%}
+
 /* ── Grain overlay ──────────────────────────────── */
 .grain{position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:.015}
 .grain::after{content:'';position:absolute;inset:-200%;width:400%;height:400%;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 0.5s steps(1) infinite}
 @keyframes grain{0%,100%{transform:translate(0,0)}10%{transform:translate(-5%,-10%)}20%{transform:translate(-15%,5%)}30%{transform:translate(7%,-25%)}40%{transform:translate(-5%,25%)}50%{transform:translate(-15%,10%)}60%{transform:translate(15%,0%)}70%{transform:translate(0%,15%)}80%{transform:translate(3%,35%)}90%{transform:translate(-10%,10%)}}
 
 /* ── Loader ─────────────────────────────────────── */
-.loader{position:fixed;inset:0;z-index:8000;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .6s,visibility .6s}
+.loader{position:fixed;inset:0;z-index:8000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s,visibility .6s}
 .loader.done{opacity:0;visibility:hidden;pointer-events:none}
-.loader-counter{font-family:var(--fh);font-size:clamp(2rem,6vw,4rem);font-weight:700;letter-spacing:.1em;color:var(--amber);opacity:0}
-.loader-text{font-family:var(--fh);font-size:clamp(3rem,8vw,6rem);font-weight:700;letter-spacing:-.04em;color:var(--text);opacity:0}
+.loader-counter{font-family:var(--fh);font-size:clamp(2rem,6vw,4rem);font-weight:700;letter-spacing:.1em;color:var(--amber);opacity:0;position:absolute}
+.loader-text{font-family:var(--fh);font-size:clamp(3rem,8vw,6rem);font-weight:700;letter-spacing:-.04em;color:var(--text);opacity:0;position:absolute}
 
 /* ── Tekken overlay ─────────────────────────────── */
 .tekken-overlay{position:fixed;inset:0;z-index:9500;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;animation:fadeInOut 2.5s ease-in-out forwards}
@@ -196,10 +200,10 @@ a:hover{color:var(--coral)}
    ══════════════════════════════════════════════════ */
 .hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;background:var(--bg-warm)}
 .hero-mesh{position:absolute;inset:0;overflow:hidden}
-.orb{position:absolute;border-radius:50%;filter:blur(100px);will-change:transform;opacity:.6}
-.orb-1{width:600px;height:600px;background:radial-gradient(circle,rgba(198,123,46,.1),rgba(212,162,51,.05),transparent 70%);top:-10%;right:-5%}
-.orb-2{width:500px;height:500px;background:radial-gradient(circle,rgba(184,74,60,.06),rgba(212,162,51,.04),transparent 70%);bottom:-15%;left:-8%}
-.orb-3{width:350px;height:350px;background:radial-gradient(circle,rgba(212,162,51,.06),rgba(198,123,46,.03),transparent 70%);top:40%;left:30%}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);will-change:transform}
+.orb-1{width:700px;height:700px;background:radial-gradient(circle,rgba(198,123,46,.18),rgba(212,162,51,.08),transparent 70%);top:-10%;right:-5%}
+.orb-2{width:600px;height:600px;background:radial-gradient(circle,rgba(184,74,60,.12),rgba(212,162,51,.06),transparent 70%);bottom:-15%;left:-8%}
+.orb-3{width:400px;height:400px;background:radial-gradient(circle,rgba(212,162,51,.1),rgba(198,123,46,.06),transparent 70%);top:40%;left:30%}
 .hero-content{position:relative;z-index:1;padding:140px 0 100px;width:100%}
 .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
 .hero-right{display:flex;align-items:center;justify-content:center}
@@ -266,7 +270,8 @@ a:hover{color:var(--coral)}
 /* ══════════════════════════════════════════════════
    STATEMENT — Punchy, editorial quote
    ══════════════════════════════════════════════════ */
-.stmt{padding:100px 0;text-align:center}
+.stmt{padding:100px 0;text-align:center;background:linear-gradient(180deg,var(--bg) 0%,var(--bg-warm) 30%,rgba(253,237,215,.15) 70%,var(--bg) 100%);position:relative}
+.stmt::before{content:'';position:absolute;top:50%;left:50%;width:800px;height:400px;background:radial-gradient(ellipse,rgba(198,123,46,.06),transparent 70%);transform:translate(-50%,-50%);pointer-events:none}
 .stmt-text{font-family:var(--fh);font-size:clamp(1.75rem,3.5vw,2.75rem);font-weight:600;letter-spacing:-.02em;color:var(--text);line-height:1.35;max-width:720px;margin:0 auto;will-change:transform}
 .stmt-text em{font-style:normal;color:var(--amber)}
 .stmt-sub{font-size:.9375rem;color:var(--text-muted);margin-top:20px}
@@ -279,7 +284,7 @@ a:hover{color:var(--coral)}
 @media(max-width:600px){.stmt-stats{gap:24px;flex-wrap:wrap}}
 
 /* ── Credentials marquee ─────────────────────────── */
-.marquee-wrap{overflow:hidden;padding:20px 0;border-top:1px solid var(--border-light);border-bottom:1px solid var(--border-light);background:var(--bg)}
+.marquee-wrap{overflow:hidden;padding:20px 0;border-top:1px solid var(--border-light);border-bottom:1px solid var(--border-light);background:linear-gradient(90deg,var(--bg-warm),var(--bg),var(--bg-warm))}
 .marquee-track{display:flex;gap:40px;animation:marqueeScroll 35s linear infinite;width:max-content;will-change:transform}
 .marquee-item{font-family:var(--fm);font-size:.6875rem;color:var(--text-muted);white-space:nowrap;display:flex;align-items:center;gap:10px;letter-spacing:.03em;text-transform:uppercase}
 .marquee-dot{width:4px;height:4px;border-radius:50%;background:var(--amber);flex-shrink:0;opacity:.5}
@@ -289,6 +294,8 @@ a:hover{color:var(--coral)}
    STORY — Crystal Faron style: personal, warm,
    photo + narrative, empathy-led
    ══════════════════════════════════════════════════ */
+.s#story{background:var(--bg);position:relative;overflow:hidden}
+.s#story::before{content:'';position:absolute;top:0;right:0;width:50%;height:100%;background:linear-gradient(135deg,transparent 40%,rgba(198,123,46,.03) 60%,rgba(253,237,215,.06) 80%,transparent 100%);pointer-events:none}
 .story-grid{display:grid;grid-template-columns:.85fr 1fr;gap:72px;align-items:start}
 .story-vis{aspect-ratio:3/4;border-radius:16px;position:relative;overflow:hidden;cursor:pointer}
 .story-vis-inner{width:100%;height:100%;background:linear-gradient(160deg,var(--bg3) 0%,var(--bg-warm) 100%);display:flex;align-items:flex-end;padding:28px;position:relative}
@@ -311,7 +318,9 @@ a:hover{color:var(--coral)}
 /* ══════════════════════════════════════════════════
    FEATURED PROJECT — Dark section for drama/contrast
    ══════════════════════════════════════════════════ */
-.feat{padding:120px 0;background:var(--dark);color:var(--cream)}
+.feat{padding:120px 0;background:var(--dark);color:var(--cream);position:relative;overflow:hidden}
+.feat::before{content:'';position:absolute;top:-2px;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,var(--amber),var(--gold),var(--coral),transparent);opacity:.6}
+.feat::after{content:'';position:absolute;top:0;right:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(198,123,46,.06),transparent 60%);pointer-events:none}
 .feat .tag-sm{color:var(--amber-light)}
 .feat h2{color:var(--cream)}
 .feat p{color:rgba(242,237,229,0.7)}
@@ -375,6 +384,7 @@ a:hover{color:var(--coral)}
    WORK GRID — Karolis Kosas editorial cards
    Clean white cards, subtle shadows, large thumbs
    ══════════════════════════════════════════════════ */
+.s:has(.wg){background:linear-gradient(180deg,var(--bg) 0%,var(--bg3) 40%,var(--bg3) 60%,var(--bg) 100%);position:relative}
 .wg{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
 .wc{border-radius:16px;border:1px solid var(--border);background:var(--bg2);overflow:hidden;transition:all .4s var(--ease);transform-style:preserve-3d;perspective:800px;will-change:transform,border-color;opacity:0;transform:translateY(32px);position:relative;box-shadow:0 2px 8px rgba(0,0,0,.03)}
 .wc:hover{border-color:var(--amber-glow);box-shadow:0 12px 40px rgba(0,0,0,.06)}
@@ -418,7 +428,9 @@ a:hover{color:var(--coral)}
 /* ══════════════════════════════════════════════════
    TOOLKIT — Clean, open, light
    ══════════════════════════════════════════════════ */
-.tk{padding:120px 0;background:var(--bg2)}
+.tk{padding:120px 0;background:var(--bg2);position:relative;overflow:hidden}
+.tk::before{content:'';position:absolute;top:-200px;left:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(198,123,46,.05),transparent 60%);pointer-events:none}
+.tk::after{content:'';position:absolute;bottom:-200px;right:-200px;width:500px;height:500px;background:radial-gradient(circle,rgba(184,74,60,.04),transparent 60%);pointer-events:none}
 .tk-pills{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:48px}
 .tkp{padding:10px 20px;border-radius:8px;font-size:.8125rem;font-weight:500;background:var(--bg);border:1px solid var(--border);color:var(--text-secondary);transition:all .2s var(--ease);will-change:transform;position:relative;overflow:hidden}
 .tkp:hover{border-color:var(--amber);color:var(--amber);transform:translateY(-2px);box-shadow:0 4px 16px rgba(198,123,46,.08)}
@@ -443,6 +455,7 @@ a:hover{color:var(--coral)}
 /* ══════════════════════════════════════════════════
    TIMELINE — Clean, editorial
    ══════════════════════════════════════════════════ */
+.s#path{background:linear-gradient(135deg,var(--bg) 60%,var(--bg-warm) 100%);position:relative}
 .tl-items{position:relative;padding-left:40px;max-width:640px}
 .tl-items::before{content:'';position:absolute;left:12px;top:4px;bottom:4px;width:1px;background:var(--border)}
 .tl-i{margin-bottom:40px;position:relative;will-change:transform;transition:transform .3s var(--ease)}
@@ -458,6 +471,7 @@ a:hover{color:var(--coral)}
    CONTACT — Dark section for urgency & CTA drama
    ══════════════════════════════════════════════════ */
 .cta-sec{padding:120px 0;position:relative;overflow:hidden;background:var(--dark);color:var(--cream)}
+.cta-sec::before{content:'';position:absolute;top:-2px;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,var(--amber),var(--gold),var(--coral),transparent);opacity:.6}
 .cta-sec .orb{position:absolute}
 .cta-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;position:relative;z-index:1}
 .cta-left .tag-sm{color:var(--amber-light)}
@@ -553,6 +567,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--amber);outline-offs
 
 <!-- Hero -->
 <section class="hero" id="top">
+  <div class="gradient-mesh"><canvas id="meshCanvas"></canvas></div>
   <canvas class="particle-canvas" id="particleCanvas"></canvas>
   <div class="hero-mesh">
     <div class="orb orb-1" id="orb1"></div>
@@ -975,6 +990,60 @@ function heroCharAnimation() {
   setTimeout(() => typeLoop(), 800);
 }
 
+/* ── ANIMATED GRADIENT MESH (video-like wow) ───── */
+function initGradientMesh() {
+  const canvas = document.getElementById('meshCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const hero = document.querySelector('.hero');
+
+  function resize() {
+    canvas.width = hero.offsetWidth;
+    canvas.height = hero.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Flowing color blobs
+  const blobs = [
+    { x: 0.2, y: 0.3, vx: 0.0003, vy: 0.0002, r: 350, color: [198, 123, 46, 0.12] },
+    { x: 0.7, y: 0.2, vx: -0.0002, vy: 0.0003, r: 300, color: [212, 162, 51, 0.1] },
+    { x: 0.5, y: 0.7, vx: 0.0004, vy: -0.0002, r: 400, color: [184, 74, 60, 0.08] },
+    { x: 0.8, y: 0.6, vx: -0.0003, vy: -0.0001, r: 280, color: [253, 200, 120, 0.06] },
+    { x: 0.3, y: 0.8, vx: 0.0002, vy: 0.0003, r: 320, color: [198, 123, 46, 0.07] },
+  ];
+
+  let t = 0;
+  function draw() {
+    t++;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    blobs.forEach(b => {
+      // Organic movement with sine waves
+      const cx = (b.x + Math.sin(t * b.vx * 10 + b.y * 5) * 0.08) * canvas.width;
+      const cy = (b.y + Math.cos(t * b.vy * 10 + b.x * 5) * 0.08) * canvas.height;
+      const r = b.r + Math.sin(t * 0.005) * 40;
+
+      const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+      grad.addColorStop(0, `rgba(${b.color[0]},${b.color[1]},${b.color[2]},${b.color[3]})`);
+      grad.addColorStop(0.5, `rgba(${b.color[0]},${b.color[1]},${b.color[2]},${b.color[3] * 0.5})`);
+      grad.addColorStop(1, `rgba(${b.color[0]},${b.color[1]},${b.color[2]},0)`);
+
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Drift
+      b.x += b.vx;
+      b.y += b.vy;
+      if (b.x > 1.1 || b.x < -0.1) b.vx *= -1;
+      if (b.y > 1.1 || b.y < -0.1) b.vy *= -1;
+    });
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
 /* ── PARTICLE CANVAS ──────────────────── */
 function initParticleCanvas() {
   const canvas = document.getElementById('particleCanvas');
@@ -1006,7 +1075,7 @@ function initParticleCanvas() {
 
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'rgba(198, 123, 46, 0.1)';
+    ctx.fillStyle = 'rgba(198, 123, 46, 0.18)';
 
     particles.forEach(p => {
       const dx = mouseX - p.x, dy = mouseY - p.y;
@@ -1596,7 +1665,7 @@ nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
 
 /* ── Initialize ─────────────────– */
 window.addEventListener('load', () => {
-  setTimeout(() => { initParticleCanvas(); initCursorSpotlight(); }, 100);
+  setTimeout(() => { initGradientMesh(); initParticleCanvas(); initCursorSpotlight(); }, 100);
 });
 
 window.addEventListener('load', () => { initCinematicLoader(); });
