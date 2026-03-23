@@ -1144,7 +1144,16 @@ function initGradientMesh() {
   });
 
   let startTime = performance.now();
+  let shaderVisible = true;
+
+  /* Pause shader when hero scrolls offscreen */
+  const shaderObs = new IntersectionObserver(entries => {
+    shaderVisible = entries[0].isIntersecting;
+  }, { threshold: 0 });
+  shaderObs.observe(hero);
+
   function render() {
+    if (!shaderVisible) { requestAnimationFrame(render); return; }
     const elapsed = (performance.now() - startTime) / 1000;
     gl.uniform1f(uTime, elapsed);
     gl.uniform2f(uRes, canvas.width, canvas.height);
@@ -1198,7 +1207,7 @@ function initParticleCanvas() {
   canvas.height = hero.offsetHeight;
 
   const particles = [];
-  const gridSpacing = 25;
+  const gridSpacing = 50; /* was 25 — halved particle count for perf */
   const interactionRadius = 120;
 
   for (let x = 0; x < canvas.width; x += gridSpacing) {
@@ -1208,6 +1217,7 @@ function initParticleCanvas() {
   }
 
   let mouseX = canvas.width / 2, mouseY = canvas.height / 2;
+  let isVisible = true;
 
   document.addEventListener('mousemove', e => {
     if (window.matchMedia('(pointer:fine)').matches) {
@@ -1217,7 +1227,14 @@ function initParticleCanvas() {
     }
   });
 
+  /* Pause when hero is offscreen */
+  const observer = new IntersectionObserver(entries => {
+    isVisible = entries[0].isIntersecting;
+  }, { threshold: 0 });
+  observer.observe(hero);
+
   function animate() {
+    if (!isVisible) { requestAnimationFrame(animate); return; }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = 'rgba(198, 123, 46, 0.18)';
 
@@ -1824,19 +1841,7 @@ themeToggle.addEventListener('click', () => {
   themeToggle.classList.toggle('active');
 });
 
-/* ── Scroll parallax on hero ─────────────────────– */
-if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  const h1 = document.querySelector('.hero h1');
-  const terminal = document.getElementById('heroTerminal');
-  const statusBadge = document.querySelector('.status-badge');
-  const orbs = [document.getElementById('orb1'), document.getElementById('orb2'), document.getElementById('orb3')];
-  const scrollInd = document.getElementById('scrollInd');
-  if (h1) gsap.from(h1, { y: 50, scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom center', scrub: 0.5, markers: false }, ease: 'none' });
-  if (terminal) gsap.from(terminal, { y: 100, opacity: 0, scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom center', scrub: 0.5 }, ease: 'none' });
-  orbs.forEach((orb, i) => { if (orb) gsap.from(orb, { y: 80 + i * 20, scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom center', scrub: 0.5 }, ease: 'none' }); });
-  if (statusBadge) gsap.to(statusBadge, { opacity: 0, scrollTrigger: { trigger: '.hero', start: 'top top', end: 'center center', scrub: 0.5 }, ease: 'none' });
-  if (scrollInd) gsap.to(scrollInd, { opacity: 0, scrollTrigger: { trigger: '.hero', start: 'top top', end: '+=200', scrub: 0.5 }, ease: 'none' });
-}
+/* parallax scrub removed — 6 scrub triggers caused scroll jank */
 
 /* ── Story image reveal on scroll ────────────────– */
 if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -1849,17 +1854,7 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   }
 }
 
-/* ── Scroll-velocity reactive animations ─────────– */
-let scrollVelocity = 0, lastScrollY = 0;
-const marqueeTrack = document.getElementById('marqueeTrack');
-const grain = document.querySelector('.grain');
-window.addEventListener('scroll', () => {
-  const now = window.scrollY;
-  scrollVelocity = Math.abs(now - lastScrollY);
-  lastScrollY = now;
-  if (marqueeTrack) gsap.to(marqueeTrack, { duration: 0.3, css: { animationPlayState: scrollVelocity > 20 ? 'running' : 'running' } });
-  if (grain && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) gsap.to(grain, { opacity: Math.min(0.015 + scrollVelocity * 0.001, 0.05), duration: 0.3 });
-}, { passive: true });
+/* scroll-velocity removed — scroll listener on every pixel caused jank */
 
 /* ── Magnetic nav links ──────────────────────────– */
 if (window.matchMedia('(pointer:fine)').matches) {
@@ -1912,24 +1907,7 @@ function enhanceLoader() {
 }
 enhanceLoader();
 
-/* ── Section color morphing nav ──────────────────– */
-if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  const nav = document.getElementById('nav');
-  const sections = document.querySelectorAll('section[id]');
-  window.addEventListener('scroll', () => {
-    let currentSection = null;
-    sections.forEach(sec => {
-      const rect = sec.getBoundingClientRect();
-      if (rect.top <= window.innerHeight / 2 && rect.bottom > window.innerHeight / 2) {
-        currentSection = sec;
-      }
-    });
-    if (currentSection) {
-      const isDark = currentSection.classList.contains('feat') || currentSection.classList.contains('cta-sec') || currentSection.id === 'project';
-      if (isDark) { nav.setAttribute('data-theme', 'dark'); } else { nav.removeAttribute('data-theme'); }
-    }
-  }, { passive: true });
-}
+/* section color morphing removed — scroll listener caused jank */
 
 /* ── Initialize ─────────────────– */
 let loaderStarted = false;
