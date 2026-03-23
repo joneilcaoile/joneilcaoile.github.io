@@ -298,7 +298,7 @@ a:hover{color:var(--coral)}
 /* ══════════════════════════════════════════════════
    STATEMENT — Punchy, editorial quote
    ══════════════════════════════════════════════════ */
-.stmt{padding:100px 0;text-align:center;background:linear-gradient(180deg,var(--bg) 0%,var(--bg-warm) 30%,rgba(253,237,215,.15) 70%,var(--bg) 100%);position:relative}
+.stmt{padding:100px 0;text-align:center;background:linear-gradient(180deg,var(--bg) 0%,var(--bg-warm) 30%,rgba(253,237,215,.15) 70%,var(--bg) 100%);position:relative;min-height:90vh;display:flex;flex-direction:column;justify-content:center}
 .stmt::before{content:'';position:absolute;top:50%;left:50%;width:800px;height:400px;background:radial-gradient(ellipse,rgba(198,123,46,.06),transparent 70%);transform:translate(-50%,-50%);pointer-events:none}
 .stmt-text{font-family:var(--fh);font-size:clamp(1.75rem,3.5vw,2.75rem);font-weight:600;letter-spacing:-.02em;color:var(--text);line-height:1.35;max-width:720px;margin:0 auto;will-change:transform}
 .stmt-text em{font-style:normal;color:var(--amber)}
@@ -411,7 +411,7 @@ a:hover{color:var(--coral)}
 /* ══════════════════════════════════════════════════
    PIPELINE — Scroll-animated system architecture
    ══════════════════════════════════════════════════ */
-.pipe-section{padding:80px 0 60px;background:linear-gradient(180deg,var(--bg) 0%,var(--bg-warm) 50%,var(--bg) 100%);position:relative;overflow:hidden}
+.pipe-section{padding:80px 0 60px;background:linear-gradient(180deg,var(--bg) 0%,var(--bg-warm) 50%,var(--bg) 100%);position:relative;overflow:hidden;min-height:80vh;display:flex;flex-direction:column;justify-content:center}
 .pipe-flow{display:flex;align-items:center;justify-content:center;gap:0;margin-top:48px;padding:20px 0}
 .pipe-step{display:flex;flex-direction:column;align-items:center;text-align:center;max-width:150px;opacity:0;transform:translateY(24px)}
 .pipe-icon{width:56px;height:56px;border-radius:14px;background:var(--dark);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:12px;transition:border-color .4s,box-shadow .4s}
@@ -519,7 +519,7 @@ a:hover{color:var(--coral)}
 /* ══════════════════════════════════════════════════
    CONTACT — Dark section for urgency & CTA drama
    ══════════════════════════════════════════════════ */
-.cta-sec{padding:120px 0;position:relative;overflow:hidden;background:var(--dark);color:var(--cream)}
+.cta-sec{padding:120px 0;position:relative;overflow:hidden;background:var(--dark);color:var(--cream);min-height:100vh;display:flex;flex-direction:column;justify-content:center}
 .cta-sec::before{content:'';position:absolute;top:-2px;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,var(--amber),var(--gold),var(--coral),transparent);opacity:.6}
 .cta-sec .orb{position:absolute}
 .cta-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;position:relative;z-index:1}
