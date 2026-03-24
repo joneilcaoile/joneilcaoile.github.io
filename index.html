@@ -942,6 +942,7 @@
 
     .work-tech span {
       color: var(--amber);
+      font-weight: 500;
     }
 
     .work-links {
@@ -1102,6 +1103,11 @@
       background: var(--bg2);
       border-left: 3px solid var(--amber);
       border-radius: 0 6px 6px 0;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+    .bring-card:hover {
+      border-color: var(--coral);
+      transform: translateY(-2px);
     }
 
     .bring-card h3 {
@@ -1134,10 +1140,13 @@
     /* WORK EVIDENCE */
     .work-evidence {
       font-family: var(--fm);
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--text);
+      opacity: 0.6;
+      margin-top: 0.75rem;
       letter-spacing: 0.02em;
+      padding: 0.5rem 0;
+      border-top: 1px solid var(--border);
     }
 
     /* FOOTER LINKS */
@@ -1766,6 +1775,7 @@
 <section id="hero" class="container">
   <div class="hero-left">
     <div class="status-badge">Currently building UseTrace HFE</div>
+    <div class="status-badge" style="margin-top: 0.5rem; background: var(--dark3); color: var(--gold);">Available May 2026 · SoCal</div>
     <p class="hero-tag">Biomedical Engineer</p>
     <h1 class="hero-name">Joneil Caoile</h1>
     <p class="hero-sub">Biomedical engineer finishing my M.S. at Stevens. Two years in clinics watching devices fail patients, then grad school to fix the process. Now I test devices, run usability studies, and build tools that help engineering teams move faster without cutting corners.</p>
@@ -2015,12 +2025,26 @@
       <!-- 4.4 Fall Risk in Elderly Study -->
       <div class="work-item">
         <div class="work-card">
-          <h3>Fall Risk in Elderly: Machine Learning Study</h3>
+          <h3>Fall Risk in Older Adults: ML Study</h3>
           <p>Clinical research project analyzing gait biomechanics to predict fall risk in older adults. Used scikit-learn classification models. Data from motion capture lab at Stevens. Published methodology.</p>
           <div class="work-evidence">77-patient dataset · Krippendorff's Alpha reliability analysis · scikit-learn classification · Motion capture (OptiTrack)</div>
           <div class="work-tech"><span>Python</span> · <span>scikit-learn</span> · <span>Statistical analysis</span> · <span>Jupyter</span></div>
           <div class="work-links">
             <a href="case-fall.html" class="work-link">Case Study →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4.5 PhysioRep -->
+      <div class="work-item">
+        <div class="work-card" data-rarity="epic">
+          <h3>PhysioRep</h3>
+          <p>Free progressive web app that uses pose estimation to coach exercise form in real time. Gamified PT exercises because I saw patients skip rehab when it got boring. Full circle from those clinics.</p>
+          <div class="work-evidence">Single-file PWA · MoveNet pose estimation · 82/82 tests passing · v1.0 deployed · Real user feedback collected</div>
+          <div class="work-tech"><span>JavaScript</span> · <span>TensorFlow.js</span> · <span>MoveNet</span> · <span>PWA</span> · <span>Service Workers</span></div>
+          <div class="work-links">
+            <a href="https://joneilcaoile.github.io/physiorep/" class="work-link">Live Demo →</a>
+            <a href="https://github.com/joneilcaoile/physiorep" class="work-link">GitHub →</a>
           </div>
         </div>
       </div>
@@ -2031,7 +2055,7 @@
 <!-- TOOLKIT -->
 <section id="toolkit" class="container">
   <p class="section-label">06 / Skills</p>
-  <h2>What I actually ship with</h2>
+  <h2>What I work with</h2>
   <p>Not a LinkedIn skills section. These are tools I've used to build things that work.</p>
   <table class="spec-table">
     <thead>
@@ -2668,6 +2692,20 @@
     ease: 'power2.out'
   });
 
+  // Bring cards staggered
+  gsap.from('.bring-card', {
+    scrollTrigger: {
+      trigger: '#bring',
+      start: 'top 70%',
+      once: true
+    },
+    duration: 0.6,
+    autoAlpha: 0,
+    y: 20,
+    stagger: 0.15,
+    ease: 'power2.out'
+  });
+
   // Work items staggered
   gsap.from('.work-item', {
     scrollTrigger: {
@@ -2680,6 +2718,21 @@
     y: 20,
     stagger: 0.2,
     ease: 'power2.out'
+  });
+
+  // Evidence rows fade-in
+  gsap.from('.work-evidence', {
+    scrollTrigger: {
+      trigger: '#work',
+      start: 'top 60%',
+      once: true
+    },
+    duration: 0.5,
+    autoAlpha: 0,
+    y: 10,
+    stagger: 0.1,
+    ease: 'power2.out',
+    delay: 0.4
   });
 
   // Timeline markers
