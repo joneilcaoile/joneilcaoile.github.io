@@ -750,17 +750,17 @@
     .story-headshot {
       width: 250px;
       height: 250px;
-      background: var(--bg3);
       border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      color: var(--text-muted);
-      font-family: var(--fm);
-      border: 1px solid var(--border);
-      text-align: center;
-      padding: 1rem;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .story-headshot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 8px;
     }
 
     /* FEATURED */
@@ -1700,7 +1700,12 @@
       <p>So I went to Stevens for my M.S. in Biomedical Engineering. Design verification, usability evaluation, regulatory strategy, the whole device lifecycle. Got my <strong>Google UX Design Certificate</strong> because the gap between what engineers build and what patients actually experience is where most risk lives. Then I started building <strong>UseTrace HFE</strong>, an AI tool that classifies safety observations under IEC 62366-1 so engineers spend less time on paperwork and more time on the test plan.</p>
       <p>I'm not here because AI is trending. I'm here because I spent two years watching the problem and couldn't stop thinking about it.</p>
     </div>
-    <div class="story-headshot">Headshot placeholder<br>(to be added)</div>
+    <div class="story-headshot">
+      <picture>
+        <source srcset="headshot.webp" type="image/webp">
+        <img src="headshot-600.png" alt="Joneil Caoile, biomedical engineer" width="600" height="899" loading="lazy">
+      </picture>
+    </div>
   </div>
 </section>
 
@@ -1767,6 +1772,7 @@
           <p>Open-source image classification tool for sorting medical device photos. Built to help researchers organize large image datasets from device testing. Computer vision using TensorFlow.js on-client, zero backend. 300+ GitHub stars.</p>
           <div class="work-tech"><span>Python</span> · <span>TensorFlow</span> · <span>FastAPI</span> · <span>React</span> · <span>Open source</span></div>
           <div class="work-links">
+            <a href="case-photocull.html" class="work-link">Case Study →</a>
             <a href="https://github.com/joneilcaoile/photocull" class="work-link">GitHub →</a>
             <a href="https://joneilcaoile.github.io/photocull" class="work-link">Live Demo →</a>
           </div>
@@ -1780,7 +1786,7 @@
           <p>M.S. capstone project. Wearable device that detects subcutaneous air leaks post-thoracic surgery using acoustic sensing. Low-cost, wireless monitoring. Currently in design control phase for clinical validation.</p>
           <div class="work-tech"><span>Arduino</span> · <span>Sensor fusion</span> · <span>Signal processing</span> · <span>FDA Design Controls</span></div>
           <div class="work-links">
-            <a href="javascript:void(0)" class="work-link">Capstone Poster →</a>
+            <a href="case-pneumothorax.html" class="work-link">Case Study →</a>
           </div>
         </div>
       </div>
@@ -1792,7 +1798,7 @@
           <p>Wearable electromyography device that detects voluntary hand movement and suppresses tremor via pneumatic actuation. Designed for Parkinson's patients. Published poster at BMES 2024.</p>
           <div class="work-tech"><span>Biomedical instrumentation</span> · <span>EMG signal processing</span> · <span>Control systems</span></div>
           <div class="work-links">
-            <a href="javascript:void(0)" class="work-link">Poster →</a>
+            <a href="case-emg.html" class="work-link">Case Study →</a>
           </div>
         </div>
       </div>
@@ -1804,7 +1810,7 @@
           <p>Clinical research project analyzing gait biomechanics to predict fall risk in older adults. Used scikit-learn classification models. Data from motion capture lab at Stevens. Published methodology.</p>
           <div class="work-tech"><span>Python</span> · <span>scikit-learn</span> · <span>Statistical analysis</span> · <span>Jupyter</span></div>
           <div class="work-links">
-            <a href="javascript:void(0)" class="work-link">Research Note →</a>
+            <a href="case-fall.html" class="work-link">Case Study →</a>
           </div>
         </div>
       </div>
