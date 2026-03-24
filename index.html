@@ -1049,10 +1049,10 @@
     /* PIXEL SPRITES */
     .timeline-sprite {
       position: absolute;
-      left: -56px;
-      top: -2px;
-      width: 48px;
-      height: 60px;
+      left: -62px;
+      top: -4px;
+      width: 60px;
+      height: 78px;
       image-rendering: pixelated;
       image-rendering: crisp-edges;
       -ms-interpolation-mode: nearest-neighbor;
@@ -1060,9 +1060,9 @@
 
     .timeline-sprite-label {
       position: absolute;
-      left: -64px;
-      top: 60px;
-      width: 64px;
+      left: -68px;
+      top: 76px;
+      width: 72px;
       text-align: center;
       font-family: var(--fm);
       font-size: 9px;
@@ -1491,9 +1491,9 @@
       }
 
       .timeline-sprite {
-        width: 36px;
-        height: 45px;
-        left: -42px;
+        width: 45px;
+        height: 58px;
+        left: -48px;
       }
 
       .timeline-sprite-label {
@@ -1886,7 +1886,7 @@
       <div class="timeline-title">Stevens M.S. + First Devices</div>
       <div class="timeline-desc">M.S. Biomedical Engineering at Stevens Institute. Google UX Certificate. Built UseTrace, a human factors observation tool shipped to four medtech companies. 400+ hours of clinical observation. Five device projects.</div>
     </div>
-    <div class="timeline-item" data-sprite="knight">
+    <div class="timeline-item" data-sprite="creator">
       <div class="timeline-marker"></div>
       <div class="timeline-year">2026</div>
       <div class="timeline-title">Graduation + What's Next</div>
@@ -2161,9 +2161,9 @@
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
   // Statement table fade-in
-  gsap.from('.spec-table', {
+  gsap.from('#statement .spec-table', {
     scrollTrigger: {
-      trigger: '.spec-table',
+      trigger: '#statement .spec-table',
       start: 'top 80%',
       once: true
     },
@@ -2252,96 +2252,126 @@
   /* SCROLL ANIMATIONS READY */
   ScrollTrigger.refresh();
 
-  /* === PIXEL SPRITES (Ragnarok Online style) === */
+  /* === PIXEL SPRITES (Ragnarok Online style, 20x26 canvas) === */
   (function() {
-    var W = 16, H = 20;
+    var W = 20, H = 26;
 
-    /* Palette */
-    var SK = '#FFD5B8';
-    var OL = '#2C2620';
-    var HR = '#4A3728';
-    var WH = '#F0EAE0';
-    var WD = '#D8D0C4';
-    var BL = '#4A7FBF';
-    var BD = '#365C8A';
-    var BR = '#8B6D4F';
-    var B2 = '#6B4D2F';
-    var RD = '#B84A3C';
-    var GO = '#D4A233';
-    var MT = '#8A8A9A';
-    var ML = '#B0B0C0';
-    var MD = '#5A5A6A';
-    var TN = '#C8B090';
+    /* Palette — RO inspired with shading pairs */
+    var SK = '#FFD5B8', SK2 = '#E8BC9A';       /* skin + shadow */
+    var OL = '#2C2620';                          /* outline / eyes */
+    var HR = '#4A3728', HR2 = '#3A2718';         /* hair + darker */
+    var WH = '#F0EAE0', WH2 = '#D8D0C4';        /* white + shadow */
+    var BL = '#4A7FBF', BL2 = '#365C8A';         /* blue + dark */
+    var BR = '#8B6D4F', BR2 = '#6B4D2F';         /* brown + dark */
+    var RD = '#B84A3C', RD2 = '#8A3530';         /* red + dark */
+    var GO = '#D4A233', GO2 = '#B08020';         /* gold + dark */
+    var MT = '#8A8A9A', MT2 = '#6A6A7A';         /* metal + dark */
+    var GR = '#4A8A5A', GR2 = '#3A6A4A';         /* green + dark */
+    var TN = '#C8B090', TN2 = '#A89070';         /* tunic + dark */
+    var PU = '#7B5EA7', PU2 = '#5A4080';         /* purple + dark */
 
-    function px(c,x,y,w,h,cl){c.fillStyle=cl;c.fillRect(x,y,w||1,h||1)}
+    function px(c,x,y,w,h,cl){c.fillStyle=cl;c.fillRect(x,y,w||1,h||1);}
 
     function shadow(c){
-      px(c,5,18,6,1,'rgba(44,38,32,0.15)');
-      px(c,4,19,8,1,'rgba(44,38,32,0.08)');
+      px(c,6,23,8,1,'rgba(44,38,32,0.18)');
+      px(c,5,24,10,1,'rgba(44,38,32,0.08)');
     }
 
-    function face(c,y){
-      px(c,5,3+y,6,3,SK);
-      px(c,6,4+y,1,1,OL);
-      px(c,9,4+y,1,1,OL);
+    /* Big chibi head: ~8 rows (~40% of sprite height) */
+    function head(c,y,hairCol,hairCol2){
+      /* hair top */
+      px(c,7,0+y,6,1,hairCol);
+      px(c,6,1+y,8,1,hairCol);
+      px(c,5,2+y,10,1,hairCol);
+      px(c,5,3+y,10,1,hairCol2);
+      /* face */
+      px(c,6,4+y,8,3,SK);
+      px(c,6,7+y,8,1,SK2);
+      /* eyes — white + pupil */
+      px(c,7,5+y,2,2,WH);   /* left eye white */
+      px(c,11,5+y,2,2,WH);  /* right eye white */
+      px(c,8,5+y,1,2,OL);   /* left pupil */
+      px(c,12,5+y,1,2,OL);  /* right pupil */
+      /* mouth hint */
+      px(c,9,7+y,2,1,SK2);
+      /* hair sides framing face */
+      px(c,5,4+y,1,4,hairCol2);
+      px(c,14,4+y,1,4,hairCol2);
+      /* ear hint */
+      px(c,5,5+y,1,1,SK2);
+      px(c,14,5+y,1,1,SK2);
     }
 
-    function hair(c,y){
-      px(c,5,0+y,6,1,HR);
-      px(c,4,1+y,8,2,HR);
+    function legs(c,y,col,col2,shoe){
+      px(c,7,17+y,2,3,col);
+      px(c,11,17+y,2,3,col);
+      px(c,7,18+y,1,2,col2);
+      px(c,11,18+y,1,2,col2);
+      px(c,6,20+y,3,1,shoe||BR2);
+      px(c,11,20+y,3,1,shoe||BR2);
     }
 
-    function legs(c,y,col,shoe){
-      px(c,5,12+y,2,3,col);
-      px(c,9,12+y,2,3,col);
-      px(c,4,15,3,1,shoe||B2);
-      px(c,9,15,3,1,shoe||B2);
+    function arms(c,y,col,col2){
+      px(c,4,10+y,2,4,col);
+      px(c,14,10+y,2,4,col);
+      px(c,4,13+y,2,1,col2);
+      px(c,14,13+y,2,1,col2);
+      /* hands */
+      px(c,4,14+y,2,1,SK);
+      px(c,14,14+y,2,1,SK);
     }
 
-    /* --- NOVICE --- */
+    /* --- NOVICE: simple tunic, small knife, young adventurer --- */
     function drawNovice(c,y,hov,f){
       shadow(c);
-      hair(c,y);
-      face(c,y);
-      px(c,4,6+y,8,6,WH);
-      px(c,5,6+y,6,1,BR);
-      px(c,5,7+y,1,4,BR);
-      px(c,10,7+y,1,4,BR);
-      px(c,3,7+y,1,4,SK);
-      px(c,12,7+y,1,4,SK);
-      px(c,13,5+y,1,7,TN);
-      legs(c,y,WD,B2);
+      head(c,y,HR,HR2);
+      /* tunic body */
+      px(c,6,8+y,8,4,TN);
+      px(c,6,8+y,8,1,TN2); /* collar */
+      px(c,6,12+y,8,5,TN);
+      px(c,7,12+y,6,5,TN2); /* shading */
+      /* belt */
+      px(c,6,14+y,8,1,BR);
+      px(c,9,14+y,2,1,GO);  /* belt buckle */
+      arms(c,y,TN,TN2);
+      legs(c,y,TN,TN2,BR2);
+      /* knife in right hand */
+      var kY=hov?Math.round(Math.sin(f*0.35)*1.5):0;
+      px(c,16,12+y+kY,1,3,MT);
+      px(c,16,11+y+kY,1,1,BR);  /* handle */
       if(hov){
-        var wb=Math.sin(f*0.3)*2;
-        px(c,Math.round(13+wb),3+y,1,2,TN);
-        if(f%20<6){
-          px(c,2,0+y,1,1,GO);
-          px(c,14,1+y,1,1,GO);
-        }
+        /* wobbly practice swings */
+        var sw=Math.sin(f*0.4)*2;
+        px(c,Math.round(16+sw),10+y+kY,1,2,MT);
       }
     }
 
-    /* --- ACOLYTE --- */
+    /* --- ACOLYTE: white robe, blue cross, healing book --- */
     function drawAcolyte(c,y,hov,f){
       shadow(c);
-      hair(c,y);
-      px(c,4,2+y,8,1,WH);
-      face(c,y);
-      px(c,4,6+y,8,6,WH);
-      px(c,7,7+y,2,4,BL);
-      px(c,6,8+y,4,2,BL);
-      px(c,3,7+y,1,4,SK);
-      px(c,12,7+y,1,4,SK);
-      px(c,13,7+y,2,3,TN);
-      px(c,13,7+y,2,1,BR);
-      px(c,13,9+y,1,1,B2);
-      legs(c,y,WD,B2);
+      head(c,y,HR,HR2);
+      /* white robe */
+      px(c,6,8+y,8,4,WH);
+      px(c,6,12+y,8,6,WH);
+      px(c,7,12+y,6,6,WH2); /* robe shadow */
+      /* cross pendant */
+      px(c,9,9+y,2,1,BL);
+      px(c,10,10+y,1,2,BL);
+      /* robe trim */
+      px(c,6,17+y,8,1,GO2);
+      arms(c,y,WH,WH2);
+      /* book in left hand */
+      px(c,2,13+y,2,2,BL);
+      px(c,2,13+y,2,1,BL2);
+      legs(c,y,WH,WH2,BR2);
       if(hov){
+        /* healing sparkles rising up */
         for(var i=0;i<6;i++){
-          var sx=3+((f*2+i*41)%10);
-          var sy=17-((f*0.4+i*3.7)%17);
-          if(sy>0&&sy<17){
-            var a=Math.sin(sy/17*Math.PI)*0.7;
+          var sp=(f*0.25+i*12)%26;
+          var sx=5+Math.sin(f*0.08+i*1.5)*5+5;
+          var sy=22-sp;
+          if(sy>0&&sy<22){
+            var a=(1-sp/26)*0.7;
             c.fillStyle='rgba(100,220,130,'+a+')';
             c.fillRect(Math.round(sx),Math.round(sy),1,1);
           }
@@ -2349,63 +2379,109 @@
       }
     }
 
-    /* --- SAGE --- */
+    /* --- SAGE: pointed hat, glasses, staff, magic runes --- */
     function drawSage(c,y,hov,f){
       shadow(c);
-      px(c,7,0+y,2,1,BL);
-      px(c,5,1+y,6,1,BL);
-      px(c,4,2+y,8,1,BD);
-      face(c,y);
-      px(c,5,4+y,2,1,GO);
-      px(c,7,4+y,2,1,GO);
-      px(c,9,4+y,2,1,GO);
-      px(c,4,6+y,8,6,BL);
-      px(c,4,11+y,8,1,GO);
-      px(c,3,7+y,1,4,BL);
-      px(c,12,7+y,1,4,BL);
-      px(c,13,8+y,2,2,BR);
-      px(c,13,8+y,2,1,WH);
-      legs(c,y,BD,'#3A2A1A');
+      /* pointed hat */
+      px(c,9,0+y,2,1,BL);
+      px(c,8,1+y,4,1,BL);
+      px(c,7,2+y,6,1,BL);
+      px(c,6,3+y,8,1,BL2);
+      /* hat brim */
+      px(c,4,4+y,12,1,BL2);
+      /* face under hat */
+      px(c,6,5+y,8,3,SK);
+      px(c,6,7+y,8,1,SK2);
+      /* glasses */
+      px(c,7,5+y,2,2,'#B0D0F0');  /* left lens */
+      px(c,11,5+y,2,2,'#B0D0F0'); /* right lens */
+      px(c,8,6+y,1,1,OL);          /* left pupil through glass */
+      px(c,12,6+y,1,1,OL);         /* right pupil through glass */
+      px(c,9,6+y,2,1,MT);          /* glasses bridge */
+      /* hair poking out */
+      px(c,5,5+y,1,3,HR2);
+      px(c,14,5+y,1,3,HR2);
+      /* blue robe */
+      px(c,6,8+y,8,4,BL);
+      px(c,6,12+y,8,6,BL);
+      px(c,7,12+y,6,6,BL2);
+      /* gold robe trim */
+      px(c,6,8+y,8,1,GO);
+      px(c,6,17+y,8,1,GO);
+      arms(c,y,BL,BL2);
+      /* staff in right hand */
+      px(c,16,4+y,1,12,BR);
+      px(c,15,3+y,3,1,GO); /* staff orb */
+      px(c,16,2+y,1,1,GO2);
+      legs(c,y,BL2,'#2A4A6A',BR2);
       if(hov){
-        if(f%40<20){
-          px(c,8,Math.max(0,y-2),1,2,GO);
-          px(c,8,Math.max(0,y+1),1,1,GO);
-        }
-        for(var i=0;i<3;i++){
-          var angle=f*0.1+i*2.09;
-          var rx=8+Math.cos(angle)*6;
-          var ry=9+Math.sin(angle)*4;
-          if(rx>0&&rx<15&&ry>1&&ry<17){
+        /* orbiting magic runes */
+        for(var i=0;i<4;i++){
+          var angle=f*0.08+i*1.57;
+          var rx=10+Math.cos(angle)*7;
+          var ry=12+Math.sin(angle)*5;
+          if(rx>0&&rx<19&&ry>2&&ry<23){
             c.fillStyle='rgba(212,162,51,'+(0.5+Math.sin(f*0.12+i)*0.3)+')';
             c.fillRect(Math.round(rx),Math.round(ry),1,1);
           }
         }
+        /* staff glow */
+        c.fillStyle='rgba(255,230,100,'+(.4+Math.sin(f*.15)*.3)+')';
+        c.fillRect(15,2+y,3,2);
       }
     }
 
-    /* --- BLACKSMITH --- */
+    /* --- BLACKSMITH: bandana, leather apron, hammer, goggles on forehead --- */
     function drawBlacksmith(c,y,hov,f){
       shadow(c);
-      px(c,4,0+y,8,1,RD);
-      px(c,12,0+y,2,1,RD);
-      px(c,4,1+y,8,2,HR);
-      face(c,y);
-      px(c,4,6+y,8,6,WH);
-      px(c,5,7+y,6,5,BR);
-      px(c,6,6+y,4,1,B2);
-      px(c,3,7+y,1,4,SK);
-      px(c,12,7+y,1,4,SK);
+      /* hair + red bandana */
+      px(c,6,1+y,8,1,HR);
+      px(c,5,2+y,10,1,HR2);
+      px(c,5,0+y,10,1,RD);    /* bandana */
+      px(c,15,0+y,2,1,RD);    /* bandana tail */
+      px(c,15,1+y,1,1,RD2);
+      /* goggles on forehead */
+      px(c,7,1+y,2,1,'#80C8E0');
+      px(c,11,1+y,2,1,'#80C8E0');
+      px(c,9,1+y,2,1,MT);     /* goggles bridge */
+      /* face */
+      px(c,6,3+y,8,3,SK);
+      px(c,6,5+y,8,1,SK2);
+      /* eyes */
+      px(c,7,3+y,2,2,WH);
+      px(c,11,3+y,2,2,WH);
+      px(c,8,4+y,1,1,OL);
+      px(c,12,4+y,1,1,OL);
+      /* mouth - grin */
+      px(c,9,5+y,2,1,OL);
+      /* sides */
+      px(c,5,4+y,1,2,SK2);
+      px(c,14,4+y,1,2,SK2);
+      /* white shirt under apron */
+      px(c,6,6+y,8,2,WH);
+      /* leather apron */
+      px(c,6,8+y,8,4,BR);
+      px(c,7,8+y,6,4,BR2);
+      px(c,6,12+y,8,5,BR);
+      px(c,7,12+y,6,5,BR2);
+      /* apron strings */
+      px(c,6,8+y,1,1,TN);
+      px(c,13,8+y,1,1,TN);
+      arms(c,y,WH,WH2);
+      /* hammer in right hand */
       var hY=hov?Math.round(Math.sin(f*0.35)*2):0;
-      px(c,14,5+y+hY,1,5,B2);
-      px(c,13,4+y+hY,3,2,MT);
-      legs(c,y,BR,B2);
+      px(c,16,8+y+hY,1,6,BR);  /* handle */
+      px(c,15,6+y+hY,3,2,MT);  /* hammer head */
+      px(c,15,6+y+hY,3,1,MT2); /* hammer shadow */
+      legs(c,y,BR,BR2,BR2);
       if(hov){
-        for(var i=0;i<4;i++){
-          var sp=(f*0.7+i*5)%10;
-          var sx=13+(i%3)-1;
-          var sy=4+hY+sp*0.5;
-          var a=1-sp/10;
-          if(a>0&&sy+y<16){
+        /* hammer sparks */
+        for(var i=0;i<5;i++){
+          var sp=(f*0.6+i*4)%12;
+          var sx=15+(i%3)-1;
+          var sy=6+hY+sp*0.6;
+          var a=1-sp/12;
+          if(a>0&&sy+y<22){
             c.fillStyle='rgba(255,160,40,'+a+')';
             c.fillRect(Math.round(sx),Math.round(sy+y),1,1);
           }
@@ -2413,49 +2489,90 @@
       }
     }
 
-    /* --- LORD KNIGHT --- */
-    function drawKnight(c,y,hov,f){
+    /* --- CREATOR: lab coat, goggles, flask+wrench, builds devices --- */
+    function drawCreator(c,y,hov,f){
       shadow(c);
-      var cw=hov?Math.sin(f*0.15)*1.5:Math.sin(f*0.04)*0.7;
-      px(c,2,5+y,2,9,RD);
-      px(c,12,5+y,2,9,RD);
-      px(c,Math.round(1+cw),8+y,1,5,RD);
-      px(c,Math.round(14-cw),8+y,1,5,RD);
-      px(c,6,0+y,4,1,GO);
-      px(c,4,1+y,8,2,MT);
-      px(c,5,3+y,6,1,MD);
-      px(c,6,3+y,1,1,SK);
-      px(c,9,3+y,1,1,SK);
-      px(c,5,4+y,6,2,SK);
-      px(c,6,5+y,1,1,OL);
-      px(c,9,5+y,1,1,OL);
-      px(c,4,6+y,8,6,MT);
-      px(c,4,6+y,8,1,GO);
-      px(c,7,8+y,2,2,GO);
-      px(c,4,11+y,8,1,GO);
-      px(c,3,7+y,1,4,MT);
-      px(c,12,7+y,1,4,MT);
-      px(c,14,2+y,1,10,ML);
-      px(c,14,2+y,1,1,WH);
-      px(c,13,6+y,1,2,GO);
-      px(c,14,6+y,1,2,GO);
-      legs(c,y,MT,MD);
+      /* hair */
+      px(c,7,0+y,6,1,HR);
+      px(c,6,1+y,8,1,HR);
+      px(c,5,2+y,10,1,HR2);
+      /* goggles pushed up on head */
+      px(c,7,2+y,2,1,'#80C8E0');
+      px(c,11,2+y,2,1,'#80C8E0');
+      px(c,9,2+y,2,1,MT);
+      /* face */
+      px(c,6,3+y,8,4,SK);
+      px(c,6,6+y,8,1,SK2);
+      /* eyes */
+      px(c,7,4+y,2,2,WH);
+      px(c,11,4+y,2,2,WH);
+      px(c,8,5+y,1,1,OL);
+      px(c,12,5+y,1,1,OL);
+      /* confident mouth */
+      px(c,9,6+y,2,1,SK2);
+      /* side hair */
+      px(c,5,3+y,1,4,HR2);
+      px(c,14,3+y,1,4,HR2);
+      /* lab coat */
+      px(c,6,7+y,8,3,WH);
+      px(c,6,10+y,8,7,WH);
+      px(c,7,10+y,6,7,WH2);   /* coat shadow */
+      /* coat collar */
+      px(c,6,7+y,2,1,WH2);
+      px(c,12,7+y,2,1,WH2);
+      /* green shirt underneath */
+      px(c,8,7+y,4,1,GR);
+      /* coat pockets */
+      px(c,7,13+y,2,2,WH2);
+      px(c,11,13+y,2,2,WH2);
+      /* pen in pocket */
+      px(c,8,13+y,1,1,BL);
+      /* coat buttons */
+      px(c,10,9+y,1,1,MT);
+      px(c,10,11+y,1,1,MT);
+      /* arms - lab coat sleeves */
+      px(c,4,9+y,2,4,WH);
+      px(c,14,9+y,2,4,WH);
+      px(c,4,12+y,2,1,WH2);
+      px(c,14,12+y,2,1,WH2);
+      /* hands */
+      px(c,4,13+y,2,1,SK);
+      px(c,14,13+y,2,1,SK);
+      /* flask in left hand */
+      px(c,2,11+y,2,3,GR);    /* flask liquid */
+      px(c,2,11+y,2,1,'#A0E0B0'); /* flask highlight */
+      px(c,1,10+y,4,1,WH);    /* flask rim */
+      px(c,2,10+y,2,1,MT);    /* flask neck */
+      /* wrench in right hand */
+      px(c,16,10+y,1,4,MT);
+      px(c,15,9+y,3,1,MT);    /* wrench jaw */
+      px(c,15,9+y,1,1,MT2);
+      legs(c,y,WH,WH2,BR2);
       if(hov){
-        var sf=f%25;
-        if(sf<12){
-          var a=1-sf/12;
-          c.fillStyle='rgba(255,255,255,'+a*0.6+')';
-          for(var i=0;i<=sf;i++){
-            var sx=14-i*0.8;
-            var sy=2+i*0.5+y;
-            if(sx>0&&sy>0) c.fillRect(Math.round(sx),Math.round(sy),1,1);
+        /* bubbling flask particles */
+        for(var i=0;i<4;i++){
+          var bp=(f*0.3+i*8)%16;
+          var bx=2+Math.sin(f*0.1+i)*1;
+          var by=10-bp*0.5;
+          if(by>0&&by<10){
+            var a=(1-bp/16)*0.8;
+            c.fillStyle='rgba(100,220,140,'+a+')';
+            c.fillRect(Math.round(bx),Math.round(by+y),1,1);
           }
+        }
+        /* gear spinning near wrench */
+        var ga=f*0.15;
+        for(var j=0;j<4;j++){
+          var gx=16+Math.cos(ga+j*1.57)*1.5;
+          var gy=8+Math.sin(ga+j*1.57)*1.5+y;
+          c.fillStyle='rgba(180,160,100,0.6)';
+          c.fillRect(Math.round(gx),Math.round(gy),1,1);
         }
       }
     }
 
-    var CHARS={novice:drawNovice,acolyte:drawAcolyte,sage:drawSage,blacksmith:drawBlacksmith,knight:drawKnight};
-    var NAMES={novice:'Novice',acolyte:'Acolyte',sage:'Sage',blacksmith:'Blacksmith',knight:'Lord Knight'};
+    var CHARS={novice:drawNovice,acolyte:drawAcolyte,sage:drawSage,blacksmith:drawBlacksmith,creator:drawCreator};
+    var NAMES={novice:'Novice',acolyte:'Acolyte',sage:'Sage',blacksmith:'Blacksmith',creator:'Creator'};
 
     document.querySelectorAll('.timeline-item[data-sprite]').forEach(function(item){
       var type=item.dataset.sprite;
