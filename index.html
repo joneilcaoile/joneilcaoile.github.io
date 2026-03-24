@@ -1707,11 +1707,11 @@
 
 <!-- XP HUD -->
 <div class="xp-hud" id="xpHud">
-  <div class="xp-hud-title">LVL 12 · Medtech Engineer</div>
+  <div class="xp-hud-title" id="xpTitle">LVL 27 · Medtech Engineer</div>
   <div class="xp-bar">
     <div class="xp-fill" id="xpFill"></div>
   </div>
-  <div class="xp-text" id="xpText">0 / 62,366 XP</div>
+  <div class="xp-text" id="xpText">0 / 2,026 XP</div>
 </div>
 
 <!-- RPG OVERLAY -->
@@ -2314,28 +2314,41 @@
     spawnParticle(e.clientX, e.clientY);
   });
 
-  /* XP + CRITTER SYSTEM — Max XP: 62,366 (IEC 62366-1) */
-  const MAX_XP = 62366;
+  /* XP + CRITTER SYSTEM — Max XP: 2,026 (graduation year) */
+  /* Level = Joneil's current age, calculated from June 11, 1998 */
+  const MAX_XP = 2026;
+  const BIRTHDAY = new Date(1998, 5, 11); // June 11, 1998
   let xp = 0;
   let currentStage = -1;
   const xpHud = document.getElementById('xpHud');
   const xpFill = document.getElementById('xpFill');
   const xpText = document.getElementById('xpText');
+  const xpTitle = document.getElementById('xpTitle');
   const critterCanvas = document.getElementById('critterCanvas');
   const critterCtx = critterCanvas.getContext('2d');
   const critterLabel = document.getElementById('critterLabel');
   const critterContainer = document.getElementById('critterContainer');
   let xpTimeout;
 
-  // Try to load saved XP
-  try { const saved = localStorage.getItem('jc-xp'); if (saved) xp = Math.min(parseInt(saved, 10) || 0, MAX_XP); } catch(e) {}
+  // Calculate current age
+  function getAge() {
+    const now = new Date();
+    let age = now.getFullYear() - BIRTHDAY.getFullYear();
+    const m = now.getMonth() - BIRTHDAY.getMonth();
+    if (m < 0 || (m === 0 && now.getDate() < BIRTHDAY.getDate())) age--;
+    return age;
+  }
 
+  // Try to load saved XP
+  try { const saved = localStorage.getItem('jc-xp2'); if (saved) xp = Math.min(parseInt(saved, 10) || 0, MAX_XP); } catch(e) {}
+
+  // Evolution stages tied to life milestones
   const STAGES = [
-    { name: 'Egg',       minXP: 0,     draw: drawEgg },
-    { name: 'Blob',      minXP: 10000, draw: drawBlob },
-    { name: 'Pup',       minXP: 25000, draw: drawPup },
-    { name: 'Tech',      minXP: 42000, draw: drawTech },
-    { name: 'Apex',      minXP: 55000, draw: drawApex }
+    { name: 'Egg',       minXP: 0,    draw: drawEgg },    // birth
+    { name: 'Blob',      minXP: 200,  draw: drawBlob },   // childhood
+    { name: 'Pup',       minXP: 611,  draw: drawPup },    // 6/11 birthday
+    { name: 'Tech',      minXP: 1200, draw: drawTech },   // grad school
+    { name: 'Apex',      minXP: 1800, draw: drawApex }    // near graduation
   ];
 
   const C = {
@@ -2519,12 +2532,13 @@
   }
 
   function updateXP(amount) {
-    const gain = amount || Math.floor(Math.random() * 80) + 20;
+    const gain = amount || Math.floor(Math.random() * 3) + 1;
     xp = Math.min(xp + gain, MAX_XP);
     const percent = (xp / MAX_XP) * 100;
     xpFill.style.width = percent + '%';
-    xpText.textContent = xp.toLocaleString() + ' / 62,366 XP';
-    try { localStorage.setItem('jc-xp', xp); } catch(e) {}
+    xpText.textContent = xp.toLocaleString() + ' / 2,026 XP';
+    xpTitle.textContent = 'LVL ' + getAge() + ' · Medtech Engineer';
+    try { localStorage.setItem('jc-xp2', xp); } catch(e) {}
     updateCritter();
 
     // React animation on critter
@@ -2550,7 +2564,7 @@
   // Click critter = bonus XP
   critterContainer.addEventListener('click', (e) => {
     e.stopPropagation();
-    updateXP(Math.floor(Math.random() * 200) + 100);
+    updateXP(Math.floor(Math.random() * 15) + 10);
     showXPHud();
   });
 
@@ -2561,16 +2575,17 @@
     const milestone = Math.floor(scrollPercent / 25);
     if (milestone > lastScrollMilestone) {
       lastScrollMilestone = milestone;
-      updateXP(500);
+      updateXP(50);
       showXPHud();
     }
   });
 
-  // Initialize critter
+  // Initialize critter + dynamic level
   updateCritter();
   const initPercent = (xp / MAX_XP) * 100;
   xpFill.style.width = initPercent + '%';
-  xpText.textContent = xp.toLocaleString() + ' / 62,366 XP';
+  xpText.textContent = xp.toLocaleString() + ' / 2,026 XP';
+  xpTitle.textContent = 'LVL ' + getAge() + ' · Medtech Engineer';
 
   /* ROLE TYPING */
   const roleTyping = document.getElementById('roleTyping');
@@ -2610,7 +2625,7 @@
       konamiIndex++;
       if (konamiIndex === konamiCode.length) {
         activateRPGOverlay();
-        updateXP(5000); // Big Konami bonus
+        updateXP(200); // Konami bonus
         konamiIndex = 0;
       }
     } else {
