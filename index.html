@@ -1778,7 +1778,7 @@
     <div class="status-badge" style="margin-top: 0.5rem; background: var(--dark3); color: var(--gold);">Available May 2026 · SoCal</div>
     <p class="hero-tag">Biomedical Engineer</p>
     <h1 class="hero-name">Joneil Caoile</h1>
-    <p class="hero-sub">Biomedical engineer finishing my M.S. at Stevens. Two years in clinics watching devices fail patients, then grad school to fix the process. Now I test devices, run usability studies, and build tools that help engineering teams move faster without cutting corners.</p>
+    <p class="hero-sub">Biomedical engineer, M.S. Stevens. Two years in clinics watching devices fail users, then grad school in human factors and regulatory strategy. Now I design usability studies, classify use errors under IEC 62366-1, and build AI tools to speed up HFE workflows.</p>
     <p class="hero-targets">Targeting validation, applications, R&amp;D, and human factors roles in SoCal medtech.</p>
     <p class="hero-roles">
       <span class="role-typing" id="roleTyping">biomedical engineer</span>
@@ -1885,18 +1885,18 @@
   <div class="bring-grid">
     <div class="bring-card">
       <h3>Validation &amp; Quality</h3>
-      <p>Write and execute IQ/OQ/PQ protocols. Design risk-based test strategies. Run design verification against FDA 21 CFR 820 and IEC 62366-1. Document deviations and CAPAs.</p>
-      <div class="bring-proof">See: <a href="case-pneumothorax.html">Pneumothorax Monitor</a> (design controls), <a href="case-usetrace.html">UseTrace</a> (regulatory alignment)</div>
+      <p>Write IQ/OQ/PQ protocols and design risk-based test strategies (IEC 14971, FDA 21 CFR 820). Lead design verification, document deviations, and drive CAPA workflows. Build test traceability matrices tied to user needs and design inputs.</p>
+      <div class="bring-proof">See: <a href="case-pneumothorax.html">Pneumothorax Monitor</a> (IQ/OQ/PQ protocols, 14 test cases), <a href="case-usetrace.html">UseTrace</a> (validation against 12 CFR requirements)</div>
     </div>
     <div class="bring-card">
       <h3>Applications &amp; Field Support</h3>
-      <p>Train clinical users on device software. Translate engineering specs into user-facing documentation. Troubleshoot field issues and feed customer insights back to R&amp;D.</p>
-      <div class="bring-proof">See: <a href="case-usetrace.html">UseTrace</a> (50+ users trained across 4 companies)</div>
+      <p>Own end-user training and support: live onboarding sessions, user guides, and troubleshooting docs. Translate regulatory requirements and engineering constraints into clear workflows. Collect field feedback and write feature requests for R&amp;D.</p>
+      <div class="bring-proof">See: <a href="case-usetrace.html">UseTrace</a> (trained 50+ engineers across 4 medtech companies, built training guides, tracked 30+ feature requests)</div>
     </div>
     <div class="bring-card">
       <h3>R&amp;D &amp; Prototyping</h3>
-      <p>Design and build sensor systems from scratch. Run bench testing and signal processing. Iterate fast from concept to working prototype. Motion capture, EMG, acoustic sensing.</p>
-      <div class="bring-proof">See: <a href="case-pneumothorax.html">Pneumothorax Monitor</a>, <a href="case-emg.html">EMG Cuff</a>, <a href="case-fall.html">Biofeedback Study</a></div>
+      <p>Lead sensor system design end-to-end: requirements, schematic, firmware, validation. Signal processing pipelines (filtering, feature extraction, classification). Rapid iteration with MATLAB/Python simulation before hardware. Motion capture, EMG, acoustic, and pressure sensing.</p>
+      <div class="bring-proof">See: <a href="case-pneumothorax.html">Pneumothorax Monitor</a> (sensor selection, signal chain), <a href="case-emg.html">EMG Cuff</a> (analog filtering, real-time processing), <a href="case-fall.html">Fall Study</a> (OptiTrack + ML pipeline)</div>
     </div>
     <div class="bring-card">
       <h3>Human Factors &amp; Usability</h3>
@@ -1933,11 +1933,11 @@
       <h3>UseTrace HFE</h3>
       <div class="featured-problem">
         <h3>Problem</h3>
-        <p>Safety engineers manually classify hundreds of usability observations per study in Excel. It takes 2-4 weeks. Consistency across reviewers is low. There's no validated AI tool for it.</p>
+        <p>Formative usability studies generate 200+ free-text observations per session. Classifying them under IEC 62366-1 use error categories takes 2-4 weeks with low inter-reviewer consistency. Missed classifications can hide safety signals in HFE reports.</p>
       </div>
       <div class="featured-solution">
         <h3>Solution</h3>
-        <p>Takes study evidence and classifies each observation with confidence scores and reasoning traces. The engineer validates a draft instead of starting from scratch.</p>
+        <p>Multi-label classification (severity, type, device subsystem) with confidence scores and audit trails. Engineers validate AI-generated drafts instead of coding raw text. Cuts classification time to 3-5 days and maps directly to HFE report deliverables.</p>
       </div>
       <table class="spec-table" style="margin-top: 2rem;">
         <thead>
