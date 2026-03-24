@@ -60,7 +60,7 @@
 
       --text: #2C2620;
       --text-secondary: #5C554C;
-      --text-muted: #8A8078;
+      --text-muted: #7A7068;
       --text-faint: #B5ADA4;
 
       --border: #E8E4DE;
@@ -624,14 +624,14 @@
       margin: 120px 0;
     }
 
-    /* BRIDGE GRADIENTS */
+    /* BRIDGE GRADIENTS — transitions confined to padding zones for text readability */
     .bridge-light-to-dark {
-      background: linear-gradient(180deg, var(--bg) 0%, var(--bg) 50%, var(--dark2) 100%);
+      background: linear-gradient(to bottom, var(--bg) 0%, var(--bg) calc(100% - 80px), var(--dark2) 100%);
       position: relative;
     }
 
     .bridge-dark-to-light {
-      background: linear-gradient(180deg, var(--dark2) 0%, var(--dark2) 50%, var(--bg) 100%);
+      background: linear-gradient(to bottom, var(--dark2) 0%, var(--bg) 80px, var(--bg) 100%);
       position: relative;
     }
 
@@ -750,7 +750,7 @@
     .story-headshot {
       width: 250px;
       height: 250px;
-      background: linear-gradient(135deg, var(--amber-dim), var(--coral));
+      background: var(--bg3);
       border-radius: 8px;
       display: flex;
       align-items: center;
@@ -765,16 +765,28 @@
 
     /* FEATURED */
     #featured {
-      background: var(--dark2);
+      background: linear-gradient(to bottom, var(--bg) 0%, var(--dark2) 80px, var(--dark2) 100%);
       color: var(--cream);
       position: relative;
     }
 
     #featured .section-label {
-      color: var(--text-muted);
+      color: #ADA59C; /* Lighter for WCAG AA on dark bg */
     }
 
     #featured h2 {
+      color: var(--cream);
+    }
+
+    #featured .spec-table thead {
+      background: rgba(45, 90, 61, 0.15);
+    }
+
+    #featured .spec-table th {
+      color: var(--amber-light);
+    }
+
+    #featured .spec-table td {
       color: var(--cream);
     }
 
@@ -1036,13 +1048,13 @@
 
     /* CONTACT */
     #contact {
-      background: var(--dark2);
+      background: linear-gradient(to bottom, var(--bg) 0%, var(--dark2) 80px, var(--dark2) 100%);
       color: var(--cream);
       position: relative;
     }
 
     #contact .section-label {
-      color: var(--text-muted);
+      color: #ADA59C; /* Lighter for WCAG AA on dark bg */
     }
 
     .contact-wrapper {
@@ -1659,8 +1671,8 @@
       <table class="spec-table" style="margin-top: 2rem;">
         <thead>
           <tr>
-            <th style="color: var(--amber);">Specification</th>
-            <th style="color: var(--amber);">Performance</th>
+            <th>Specification</th>
+            <th>Performance</th>
           </tr>
         </thead>
         <tbody>
