@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Joneil Caoile — Biomedical engineer. Device tester. Usability nerd. Building AI tools for medical device safety.">
+    <meta name="theme-color" content="#FAFAF8">
+    <title>Joneil Caoile — Biomedical Engineer & Device Tester</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Sans:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
+
+    <style>
+        /* ROOT & THEME */
+        :root {
+            --bg: #FAFAF8;
+            --bg-alt: #F5F3EF;
+            --text: #2C2620;
+            --text-secondary: #5C554C;
+            --text-muted: #8A8078;
+            --border: #E8E4DE;
+            --accent: #C67B2E;
+            --coral: #B84A3C;
+            --white: #FFFFFF;
+            --dark-bg: #1A1814;
+            --dark-text: #F5F3EF;
+            --dark-text-secondary: #D4CECC;
+            --dark-border: #3A3430;
+
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Instrument Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            --easing: cubic-bezier(.16,1,.3,1);
+        }
+
+        [data-theme="dark"] {
+            --bg: var(--dark-bg);
+            --bg-alt: #2A2420;
+            --text: var(--dark-text);
+            --text-secondary: var(--dark-text-secondary);
+            --text-muted: #9E9490;
+            --border: var(--dark-border);
+        }
+
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            font-size: clamp(1rem, 2vw, 1.125rem);
+            transition: background-color 0.4s var(--easing), color 0.4s var(--easing);
+        }
+
+        /* TYPOGRAPHY */
+        h1 {
+            font-family: var(--font-display);
+            font-size: clamp(3.5rem, 8vw, 6.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.04em;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -0.04em;
+            margin-bottom: 1.5rem;
+        }
+
+        h3 {
+            font-family: var(--font-display);
+            font-size: clamp(1.25rem, 3vw, 1.75rem);
+            font-weight: 600;
+            line-height: 1.3;
+            letter-spacing: -0.02em;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s var(--easing);
+        }
+
+        a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .mono {
+            font-family: var(--font-mono);
+            font-size: 0.95em;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+
+        /* LAYOUT */
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+        }
+
+        /* NAVIGATION */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(8px);
+            background-color: rgba(250, 250, 248, 0.75);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s var(--easing);
+        }
+
+        [data-theme="dark"] nav {
+            background-color: rgba(26, 24, 20, 0.75);
+            border-bottom-color: var(--border);
+        }
+
+        nav .logo {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.02em;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        nav a {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            border: none;
+            transition: color 0.3s var(--easing);
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1.5rem;
+                font-size: 0.85rem;
+            }
+            nav {
+                padding: 1rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav ul {
+                gap: 1rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* HERO SECTION */
+        .hero {
+            padding-top: 8rem;
+            padding-bottom: 6rem;
+            margin-bottom: 6rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            font-size: 0.85rem;
+            background-color: var(--bg-alt);
+            border: 1px solid var(--border);
+            padding: 0.5rem 1rem;
+            border-radius: 2px;
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.05em;
+        }
+
+        .hero-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-left h1 {
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-typing {
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+            height: 2rem;
+            margin-bottom: 2rem;
+            color: var(--accent);
+            min-height: 2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-left > p {
+            font-size: clamp(1rem, 2vw, 1.125rem);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            max-width: 550px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.875rem 2rem;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            border: 1px solid var(--border);
+            background-color: transparent;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.3s var(--easing);
+            letter-spacing: 0.03em;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 0;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: var(--white);
+            border-color: var(--accent);
+        }
+
+        .btn-primary:hover {
+            opacity: 0.85;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .hero-terminal {
+            background-color: var(--dark-bg);
+            border: 1px solid var(--dark-border);
+            padding: 2rem;
+            border-radius: 0;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #7FB57F;
+            overflow-x: auto;
+            min-height: 400px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        .terminal-content {
+            width: 100%;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        @media (max-width: 768px) {
+            .hero-wrapper {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .hero-terminal {
+                display: none;
+            }
+        }
+
+        /* SECTION DIVIDER */
+        .section-divider {
+            height: 1px;
+            background-color: var(--border);
+            margin: 6rem 0;
+        }
+
+        /* SECTION LABEL */
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        /* STATEMENT SECTION */
+        .statement-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 4rem;
+            align-items: flex-start;
+        }
+
+        .statement-number {
+            font-family: var(--font-mono);
+            font-size: clamp(2rem, 8vw, 4rem);
+            font-weight: 700;
+            color: var(--text-muted);
+            line-height: 1;
+        }
+
+        .statement-quote {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .statement-quote::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background-color: var(--accent);
+        }
+
+        .statement-quote h2 {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            color: var(--text);
+            margin-bottom: 2rem;
+            line-height: 1.3;
+        }
+
+        .statement-stats {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+            letter-spacing: 0.05em;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .statement-wrapper {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .statement-number {
+                display: none;
+            }
+        }
+
+        /* STORY SECTION */
+        .story-heading {
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            max-width: 700px;
+            margin-bottom: 3rem;
+            line-height: 1.3;
+        }
+
+        .story-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 2rem;
+        }
+
+        .story-columns p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .story-reflection {
+            font-style: italic;
+            color: var(--text-secondary);
+            border-left: 3px solid var(--accent);
+            padding-left: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .story-columns {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        /* FEATURED SECTION */
+        .featured-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .featured-left {
+            position: sticky;
+            top: 8rem;
+        }
+
+        .featured-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            margin-bottom: 0.5rem;
+        }
+
+        .featured-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .featured-problem, .featured-solution {
+            margin-bottom: 2.5rem;
+        }
+
+        .featured-problem h4, .featured-solution h4 {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        .featured-problem p, .featured-solution p {
+            font-size: 1rem;
+        }
+
+        .featured-stats {
+            background-color: var(--bg-alt);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+        }
+
+        .featured-tech {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            letter-spacing: 0.05em;
+        }
+
+        .featured-tech .mono-sep::before {
+            content: ' · ';
+            margin: 0 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .featured-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .featured-left {
+                position: static;
+            }
+        }
+
+        /* WORK SECTION */
+        .work-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+            align-items: center;
+        }
+
+        .work-item.staggered-right {
+            grid-template-columns: 1.5fr 1fr;
+        }
+
+        .work-item.staggered-small {
+            grid-template-columns: 1fr;
+            max-width: 700px;
+        }
+
+        .work-item.full-width {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .work-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.25rem, 3vw, 1.75rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.75rem;
+        }
+
+        .work-description {
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .work-tech {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 768px) {
+            .work-item, .work-item.staggered-right {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        /* SKILLS SECTION */
+        .skills-heading {
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            margin-bottom: 0.5rem;
+        }
+
+        .skills-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .skills-tags {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            letter-spacing: 0.05em;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .skills-tags span::before {
+            content: ' · ';
+            margin-right: 1rem;
+        }
+
+        .skills-tags span:first-child::before {
+            content: '';
+            margin: 0;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .skill-group h4 {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        .skill-group p {
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 768px) {
+            .skills-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        /* TIMELINE SECTION */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background-color: var(--border);
+        }
+
+        .timeline-item {
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.5rem;
+            top: 0.5rem;
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            border: 2px solid var(--bg);
+            box-shadow: 0 0 0 2px var(--accent);
+        }
+
+        [data-theme="dark"] .timeline-item::before {
+            box-shadow: 0 0 0 2px var(--accent), 0 0 0 4px var(--dark-bg);
+        }
+
+        .timeline-year {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-event {
+            font-size: 1rem;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .timeline-detail {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        /* CONTACT SECTION */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .contact-left h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-left > p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 0;
+        }
+
+        .contact-form {
+            background-color: var(--white);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 0;
+        }
+
+        [data-theme="dark"] .contact-form {
+            background-color: var(--dark-bg);
+            border-color: var(--dark-border);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            border-radius: 0;
+            transition: border-color 0.3s var(--easing);
+        }
+
+        [data-theme="dark"] .form-group input, [data-theme="dark"] .form-group textarea {
+            background-color: var(--dark-bg);
+            border-color: var(--dark-border);
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-submit {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .contact-form {
+                padding: 1.5rem;
+            }
+        }
+
+        /* FOOTER */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 3rem 0;
+            margin-top: 6rem;
+            text-align: left;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* THEME TOGGLE */
+        .theme-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 999;
+            width: 44px;
+            height: 44px;
+            background-color: var(--accent);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            transition: all 0.3s var(--easing);
+            color: var(--white);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 480px) {
+            .theme-toggle {
+                width: 44px;
+                height: 44px;
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+
+        /* SCROLL ANIMATIONS */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(2rem);
+        }
+
+        .fade-up.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* UTILITY */
+        .flex-middle {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: clamp(2.5rem, 7vw, 4rem);
+            }
+            h2 {
+                font-size: clamp(1.5rem, 4vw, 2.5rem);
+            }
+            .hero {
+                padding-top: 6rem;
+            }
+            nav ul {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="logo">Joneil Caoile</div>
+        <ul>
+            <li><a href="#story">Story</a></li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#path">Path</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <div class="container">
+            <!-- HERO -->
+            <section class="hero">
+                <div class="hero-badge">Currently building UseTrace HFE, an AI tool for medical device safety. device tester.</div>
+                <div class="hero-wrapper">
+                    <div class="hero-left">
+                        <h1>Joneil Caoile</h1>
+                        <div class="hero-typing" id="typing"></div>
+                        <p>Biomedical engineer finishing my M.S. at Stevens. I spent two years in clinics watching devices fail patients, then went to grad school to fix the process. Now I test devices, run usability studies, and build AI tools that cut weeks of manual work down to hours.</p>
+                        <div class="hero-buttons">
+                            <a href="#work" class="btn btn-primary">See the work</a>
+                            <a href="#contact" class="btn btn-secondary">Get in touch</a>
+                        </div>
+                    </div>
+                    <div class="hero-terminal">
+                        <div class="terminal-content">$ python usetrace-api.py --taxonomies...
+Loading IEC 62366-1 taxonomies...
+Parsing 75 observations...
+→ use error (critical) → 13 Found
+✓ close call → 8 Found
+→ use difficulty → 31 Found
+→ normal use → 23 Found
+✓ 5 observations need human review
+Inter-rater reliability: κ = 0.83
+Results: ./out/v5.2 [+8 vs previous manual]</div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- STATEMENT -->
+            <section id="statement" class="statement-wrapper">
+                <div class="statement-number">01</div>
+                <div class="statement-quote">
+                    <h2>Every medical device has to prove it works, and prove it's usable, before it touches a patient. The testing. The validation. The clinical insight that connects engineering to real use. That's where I live.</h2>
+                    <div class="statement-stats">
+                        400+ clinical hours · 5 devices shipped · 3 regulatory frameworks · M.S. Biomedical Engineering
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- STORY -->
+            <section id="story">
+                <div class="section-label">02 / Story</div>
+                <h2 class="story-heading">Two years in clinics before a single line of code.</h2>
+                <div class="story-columns">
+                    <div>
+                        <p>400+ hours of clinical observation watching patients interact with medical devices. I saw the disconnect. Engineers designing in isolation, safety reports that missed real-world use patterns, and a review process that hadn't changed in decades.</p>
+                    </div>
+                    <div>
+                        <p>So I went to Stevens for my M.S. in Biomedical Engineering. Design verification, usability evaluation, regulatory strategy, the whole device lifecycle. Got my Google UX Design Certificate because the gap between what engineers build and what patients actually experience is where most risk lives. Then I started building UseTrace HFE, an AI tool that classifies safety observations under IEC 62366-1 so engineers spend less time on paperwork and more time on the test plan.</p>
+                    </div>
+                </div>
+                <p class="story-reflection">I'm not here because AI is trending. I'm here because I spent two years watching the problem and couldn't stop thinking about it.</p>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- FEATURED -->
+            <section id="featured">
+                <div class="section-label">03 / Featured</div>
+                <div class="featured-wrapper">
+                    <div class="featured-left">
+                        <h3 class="featured-title">UseTrace HFE</h3>
+                        <p class="featured-subtitle">AI-powered classification for medical device safety data.</p>
+                    </div>
+                    <div>
+                        <div class="featured-problem">
+                            <h4>The Problem</h4>
+                            <p>Safety engineers manually classify hundreds of usability observations per study in Excel. It takes 2–4 weeks. Consistency across reviewers is low. There's no validated AI tool for it.</p>
+                        </div>
+                        <div class="featured-solution">
+                            <h4>What I'm Building</h4>
+                            <p>Takes study evidence (task lists, observer notes, device context) and classifies each observation with confidence scores and reasoning traces. The engineer validates a draft instead of starting from scratch.</p>
+                        </div>
+                        <div class="featured-stats">
+                            2 IEC 62366-1 modules · 75+ observations in dataset · 0.80+ kappa IRR · Hours, not weeks
+                        </div>
+                        <div class="featured-tech">
+                            <span class="mono">Python</span>
+                            <span class="mono-sep">FastAPI</span>
+                            <span class="mono-sep">React</span>
+                            <span class="mono-sep">Claude API</span>
+                            <span class="mono-sep">PubMedPy</span>
+                            <span class="mono-sep">IEC 62366-1</span>
+                            <span class="mono-sep">FDA MFE</span>
+                        </div>
+                        <div class="hero-buttons">
+                            <a href="#" class="btn btn-secondary">Read case study →</a>
+                            <a href="https://github.com/joneilcaoile/usetrace" class="btn btn-secondary">View on GitHub →</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- WORK -->
+            <section id="work">
+                <div class="section-label">04 / Work</div>
+
+                <!-- PhotoCull -->
+                <div class="work-item full-width">
+                    <div>
+                        <h3 class="work-title">PhotoCull AI</h3>
+                        <p class="work-description">Free, local-only AI photo culling tool. Analyzes sharpness, eye focus, face/body, EXIF, composition, blinks, and duplicates. All in the browser, zero cloud. Open source.</p>
+                        <div class="work-tech">
+                            <span>TypeScript</span>
+                            <span class="mono-sep">TensorFlow.js</span>
+                            <span class="mono-sep">IndexedDB</span>
+                            <span class="mono-sep">React</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-divider" style="margin: 3rem 0;"></div>
+
+                <!-- Pneumothorax & EMG -->
+                <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 3rem; margin-bottom: 4rem;">
+                    <div class="work-item" style="margin: 0;">
+                        <div>
+                            <h3 class="work-title">Pneumothorax Air Leak Monitor</h3>
+                            <p class="work-description">Ventilator-integrated device that estimates air leak severity by comparing delivered tidal volume with chest tube outflow.</p>
+                            <div class="work-tech">
+                                <span>Biomedical Design</span>
+                                <span class="mono-sep">Signal Processing</span>
+                                <span class="mono-sep">Regulatory</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="work-item" style="margin: 0;">
+                        <div>
+                            <h3 class="work-title">EMG Tremor-Suppression Cuff</h3>
+                            <p class="work-description">Wearable cuff that uses EMG signals to identify Parkinson's tremor timing.</p>
+                            <div class="work-tech">
+                                <span>EMG</span>
+                                <span class="mono-sep">Signal Processing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fall Study -->
+                <div class="work-item staggered-small">
+                    <div>
+                        <h3 class="work-title">Fall Risk in Elderly Study</h3>
+                        <p class="work-description">Clinical research examining balance, gait, and fall risk patterns in patients 65+. Designed protocol, recruited subjects, managed data collection.</p>
+                        <div class="work-tech">
+                            <span>Clinical Research</span>
+                            <span class="mono-sep">Protocol Design</span>
+                            <span class="mono-sep">IRB Approval</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- SKILLS -->
+            <section id="skills">
+                <div class="section-label">05 / Skills</div>
+                <h2 class="skills-heading">What I actually ship with</h2>
+                <p class="skills-subtitle">Not a LinkedIn skills section. These are tools I've used to build things that work.</p>
+                <div class="skills-tags">
+                    <span class="mono">V&V / Testing</span>
+                    <span class="mono">Medical Device Design</span>
+                    <span class="mono">FDA Regulatory</span>
+                    <span class="mono">Python</span>
+                    <span class="mono">FastAPI</span>
+                    <span class="mono">React</span>
+                    <span class="mono">Machine Learning</span>
+                    <span class="mono">Human Factors</span>
+                </div>
+                <div class="skills-grid">
+                    <div class="skill-group">
+                        <h4>Testing & Validation</h4>
+                        <p>Design verification. Usability evaluation. Inter-rater reliability. Clinical study design. I've watched how devices actually fail in patient hands. Built protocols and led studies.</p>
+                    </div>
+                    <div class="skill-group">
+                        <h4>Regulatory & Quality</h4>
+                        <p>IEC 62366-1 (usability). Design Controls. 510(k) strategy. Quality documentation. FDA frameworks. The paperwork that keeps bad devices off the market.</p>
+                    </div>
+                    <div class="skill-group">
+                        <h4>Design & Human Factors</h4>
+                        <p>Human factors risk analysis. Usability testing. Interaction design. I'm not a designer first, but I know when design misses the clinical reality.</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- TIMELINE -->
+            <section id="path">
+                <div class="section-label">06 / Path</div>
+                <h2>How I got here</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-year">2024–2026</div>
+                        <div class="timeline-event">M.S. Biomedical Engineering</div>
+                        <div class="timeline-detail">Stevens Institute of Technology. Design controls, regulatory strategy, usability evaluation. Capstone: Pneumothorax air leak monitor.</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2023</div>
+                        <div class="timeline-event">Google UX Design Certificate</div>
+                        <div class="timeline-detail">Closed the gap between clinical reality and engineering intuition.</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2022–2024</div>
+                        <div class="timeline-event">400+ hours clinical observation</div>
+                        <div class="timeline-detail">Watching devices interact with real patients. Seeing the gaps. Planning the fix.</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2019–2022</div>
+                        <div class="timeline-event">B.S. Kinesiology & Exercise Science</div>
+                        <div class="timeline-detail">Cal State Long Beach. Built the clinical intuition. Started the clinical work.</div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- CONTACT -->
+            <section id="contact">
+                <div class="section-label">07 / Contact</div>
+                <div class="contact-wrapper">
+                    <div class="contact-left">
+                        <h2>Looking for my next team.</h2>
+                        <p>Device testing, usability studies, regulatory submissions, AI tools that cut weeks off the review cycle. If your team builds anything that touches a patient, I want in. SoCal preferred, remote works. I come with strong opinions about test protocols and decent taste in coffee.</p>
+                    </div>
+                    <div class="contact-form">
+                        <form action="https://formspree.io/f/xyzybzqg" method="POST">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" name="message" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary form-submit">Send</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="container">
+        <p>© 2026 Joneil Caoile · Built from scratch, not a template</p>
+    </footer>
+
+    <!-- THEME TOGGLE -->
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">🌙</button>
+
+    <script>
+        // TYPING ANIMATION
+        const roles = [
+            'biomedical engineer',
+            'device tester',
+            'usability nerd',
+            'ai builder',
+            'clinical observer'
+        ];
+
+        let currentRoleIndex = 0;
+        let isDeleting = false;
+        let text = '';
+        let charIndex = 0;
+
+        function typeRole() {
+            const currentRole = roles[currentRoleIndex];
+            const speed = isDeleting ? 50 : 100;
+
+            if (isDeleting) {
+                text = currentRole.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                text = currentRole.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            document.getElementById('typing').textContent = text;
+
+            if (!isDeleting && charIndex === currentRole.length) {
+                isDeleting = true;
+                setTimeout(typeRole, 2000);
+            } else if (isDeleting && charIndex === 0) {
+                currentRoleIndex = (currentRoleIndex + 1) % roles.length;
+                isDeleting = false;
+                setTimeout(typeRole, 500);
+            } else {
+                setTimeout(typeRole, speed);
+            }
+        }
+
+        typeRole();
+
+        // THEME TOGGLE
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+        function initTheme() {
+            const saved = localStorage.getItem('theme') || (prefersDark.matches ? 'dark' : 'light');
+            html.setAttribute('data-theme', saved);
+            themeToggle.textContent = saved === 'dark' ? '☀️' : '🌙';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const current = html.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            themeToggle.textContent = next === 'dark' ? '☀️' : '🌙';
+        });
+
+        initTheme();
+
+        // SCROLL ANIMATIONS
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.utils.toArray('.fade-up').forEach((element) => {
+            gsap.to(element, {
+                scrollTrigger: {
+                    trigger: element,
+                    start: 'top 80%',
+                    once: true
+                },
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: 'cubic-bezier(.16,1,.3,1)'
+            });
+        });
+
+        // ADD FADE-UP CLASS TO ANIMATABLE ELEMENTS
+        document.querySelectorAll('section, .work-item, .timeline-item').forEach((el) => {
+            el.classList.add('fade-up');
+        });
+
+        // SMOOTH SCROLL LINKS
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

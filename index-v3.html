@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Joneil Caoile — Biomedical engineer. Device testing, usability studies, AI tools for safety data. SoCal medtech.">
+	<meta name="theme-color" content="#F7F5F0">
+	<title>Joneil Caoile — Biomedical Engineer | Design History File</title>
+
+	<!-- Google Fonts: Sora, Source Serif 4, JetBrains Mono -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+	<style>
+		/* === ROOT & TYPOGRAPHY === */
+		:root {
+			--bg: #F7F5F0;
+			--bg-alt: #EFEEE8;
+			--text: #1F2023;
+			--text-secondary: #4A4B50;
+			--text-muted: #7C7D82;
+			--accent: #2D5A3D;
+			--accent-light: #3B7A52;
+			--accent-soft: rgba(45, 90, 61, 0.08);
+			--warm: #8B5E3C;
+			--border: #D8D5CE;
+			--border-light: #E8E5DE;
+			--rule: #C4C0B8;
+
+			--font-display: 'Sora', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+			--font-body: 'Source Serif 4', Georgia, serif;
+			--font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+			--easing: cubic-bezier(0.16, 1, 0.3, 1);
+		}
+
+		/* Dark mode */
+		@media (prefers-color-scheme: dark) {
+			:root {
+				--bg: #1A1B1E;
+				--bg-alt: #242529;
+				--text: #E8E5DE;
+				--text-secondary: #B5B2AB;
+				--text-muted: #9A9894;
+				--accent: #4A9B68;
+				--accent-light: #5BB07C;
+				--accent-soft: rgba(74, 155, 104, 0.12);
+				--warm: #C4956B;
+				--border: #3A3B3E;
+				--border-light: #2F3032;
+				--rule: #4A4B4E;
+			}
+		}
+
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		html {
+			scroll-behavior: smooth;
+		}
+
+		body {
+			font-family: var(--font-body);
+			background: var(--bg);
+			color: var(--text);
+			line-height: 1.85;
+			font-size: 18px;
+			-webkit-font-smoothing: antialiased;
+			transition: background 0.3s ease, color 0.3s ease;
+		}
+
+		h1, h2, h3, h4, h5, h6 {
+			font-family: var(--font-display);
+			font-weight: 700;
+			letter-spacing: -0.03em;
+			line-height: 1.2;
+			margin-top: 1.5rem;
+			margin-bottom: 1rem;
+		}
+
+		h1 { font-size: 3.5rem; }
+		h2 { font-size: 2.25rem; }
+		h3 { font-size: 1.5rem; }
+		h4 { font-size: 1.25rem; }
+
+		p {
+			margin-bottom: 1.25rem;
+			color: var(--text-secondary);
+		}
+
+		a {
+			color: var(--warm);
+			text-decoration: none;
+			border-bottom: 1px solid currentColor;
+			transition: color 0.2s ease;
+		}
+
+		a:hover {
+			color: var(--accent);
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			html { scroll-behavior: auto; }
+			body, * { animation: none !important; transition: none !important; }
+		}
+
+		/* === LAYOUT === */
+		.container {
+			max-width: 960px;
+			margin: 0 auto;
+			padding: 0 2rem;
+			position: relative;
+		}
+
+		.section {
+			display: grid;
+			grid-template-columns: 200px 1fr;
+			gap: 3rem;
+			padding: 5rem 0;
+			border-bottom: 1px solid var(--rule);
+		}
+
+		.section:last-of-type {
+			border-bottom: none;
+		}
+
+		.section-label {
+			font-family: var(--font-mono);
+			font-size: 0.875rem;
+			color: var(--text-muted);
+			font-weight: 600;
+			letter-spacing: 0.05em;
+			text-transform: uppercase;
+			text-align: right;
+			padding-top: 0.5rem;
+		}
+
+		.section-content {
+			padding-right: 2rem;
+		}
+
+		/* === HEADER === */
+		.header {
+			display: grid;
+			grid-template-columns: 200px 1fr 1fr;
+			gap: 3rem;
+			padding: 5rem 0 3rem;
+			border-bottom: 1px solid var(--rule);
+		}
+
+		.header-label {
+			font-family: var(--font-mono);
+			font-size: 0.75rem;
+			color: var(--text-muted);
+			font-weight: 600;
+			letter-spacing: 0.05em;
+			text-transform: uppercase;
+			line-height: 1.6;
+		}
+
+		.header-label-line {
+			display: block;
+			margin-bottom: 0.5rem;
+		}
+
+		.header-title {
+			grid-column: 2;
+		}
+
+		.header-title h1 {
+			margin: 0 0 0.5rem 0;
+		}
+
+		.header-title .subtitle {
+			font-family: var(--font-display);
+			font-size: 1.125rem;
+			color: var(--text-muted);
+			font-weight: 500;
+			margin-bottom: 2rem;
+		}
+
+		.header-title p {
+			color: var(--text-secondary);
+			margin-bottom: 2rem;
+			max-width: 42rem;
+		}
+
+		.header-actions {
+			display: flex;
+			gap: 1rem;
+			margin-bottom: 2rem;
+		}
+
+		.header-terminal {
+			grid-column: 3;
+			grid-row: 1 / 4;
+			background: #1a1a1a;
+			color: #e8e8e8;
+			padding: 1.5rem;
+			font-family: var(--font-mono);
+			font-size: 0.85rem;
+			line-height: 1.6;
+			border: 1px solid #333;
+			overflow-x: auto;
+		}
+
+		@media (prefers-color-scheme: dark) {
+			.header-terminal {
+				background: #0d0d0d;
+				border-color: #404040;
+			}
+		}
+
+		.header-terminal-line {
+			display: block;
+			white-space: pre-wrap;
+			word-break: break-word;
+		}
+
+		.header-terminal-prompt {
+			color: #4a9b68;
+		}
+
+		.header-terminal-output {
+			color: #e8e8e8;
+		}
+
+		.header-terminal-success {
+			color: #4a9b68;
+		}
+
+		.header-terminal-notice {
+			color: #e8a040;
+		}
+
+		/* === BUTTONS === */
+		.btn {
+			display: inline-block;
+			padding: 0.75rem 1.5rem;
+			font-family: var(--font-display);
+			font-size: 1rem;
+			font-weight: 600;
+			border: 1px solid transparent;
+			border-radius: 2px;
+			cursor: pointer;
+			transition: all 0.2s ease;
+			text-decoration: none;
+			border-bottom: none;
+		}
+
+		.btn-primary {
+			background: var(--accent);
+			color: white;
+		}
+
+		.btn-primary:hover {
+			background: var(--accent-light);
+		}
+
+		.btn-outline {
+			background: transparent;
+			color: var(--text);
+			border: 1px solid var(--border);
+		}
+
+		.btn-outline:hover {
+			background: var(--bg-alt);
+			color: var(--accent);
+		}
+
+		/* === TABLES === */
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin: 2rem 0;
+			font-size: 0.95rem;
+		}
+
+		thead {
+			background: var(--accent-soft);
+			font-family: var(--font-display);
+			font-weight: 600;
+		}
+
+		th {
+			text-align: left;
+			padding: 1rem;
+			border-bottom: 2px solid var(--border);
+			font-weight: 600;
+			color: var(--text);
+		}
+
+		td {
+			padding: 1rem;
+			border-bottom: 1px solid var(--border-light);
+			color: var(--text-secondary);
+		}
+
+		tbody tr:hover {
+			background: var(--accent-soft);
+		}
+
+		/* === FEATURED PROJECT === */
+		.featured-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 3rem;
+			margin: 2rem 0;
+		}
+
+		.featured-box {
+			padding: 1.5rem;
+			background: var(--bg-alt);
+			border: 1px solid var(--border-light);
+		}
+
+		.featured-box h3 {
+			font-size: 1.125rem;
+			margin-top: 0;
+		}
+
+		.featured-links {
+			display: flex;
+			gap: 1.5rem;
+			margin-top: 1.5rem;
+		}
+
+		.featured-links a {
+			color: var(--warm);
+		}
+
+		/* === PROJECT LIST === */
+		.project-subsection {
+			margin-top: 3rem;
+			padding-top: 2rem;
+			border-top: 1px solid var(--border-light);
+		}
+
+		.project-subsection:first-of-type {
+			margin-top: 0;
+			padding-top: 0;
+			border-top: none;
+		}
+
+		.project-subsection h4 {
+			margin-top: 0;
+		}
+
+		.project-tech {
+			font-family: var(--font-mono);
+			font-size: 0.875rem;
+			color: var(--text-muted);
+			margin: 1rem 0;
+			letter-spacing: 0.01em;
+		}
+
+		.project-links {
+			display: flex;
+			gap: 1.5rem;
+			margin-top: 1rem;
+		}
+
+		.project-links a {
+			color: var(--warm);
+			font-size: 0.95rem;
+		}
+
+		/* === TIMELINE === */
+		.timeline {
+			position: relative;
+			padding-left: 2rem;
+		}
+
+		.timeline::before {
+			content: '';
+			position: absolute;
+			left: 0.5px;
+			top: 0;
+			bottom: 0;
+			width: 1px;
+			background: var(--border);
+		}
+
+		.timeline-item {
+			position: relative;
+			margin-bottom: 2.5rem;
+			padding-bottom: 1rem;
+		}
+
+		.timeline-item::before {
+			content: '';
+			position: absolute;
+			left: -0.95rem;
+			top: 0.35rem;
+			width: 8px;
+			height: 8px;
+			background: var(--accent);
+			border-radius: 0;
+		}
+
+		.timeline-item h4 {
+			margin-top: 0;
+			font-size: 1.1rem;
+		}
+
+		.timeline-item p {
+			margin-bottom: 0.5rem;
+		}
+
+		/* === CONTACT FORM === */
+		.contact-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 3rem;
+			margin-top: 2rem;
+		}
+
+		.contact-left p {
+			color: var(--text-secondary);
+		}
+
+		.contact-form {
+			display: flex;
+			flex-direction: column;
+			gap: 1.25rem;
+		}
+
+		.form-group {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.form-group label {
+			font-family: var(--font-display);
+			font-weight: 600;
+			margin-bottom: 0.5rem;
+			color: var(--text);
+			font-size: 0.95rem;
+		}
+
+		.form-group input,
+		.form-group textarea {
+			padding: 0.875rem;
+			border: 1px solid var(--border);
+			background: var(--bg-alt);
+			color: var(--text);
+			font-family: var(--font-body);
+			font-size: 1rem;
+			border-radius: 2px;
+			transition: border-color 0.2s ease;
+		}
+
+		.form-group input:focus,
+		.form-group textarea:focus {
+			outline: none;
+			border-color: var(--accent);
+		}
+
+		.form-group textarea {
+			resize: vertical;
+			min-height: 120px;
+		}
+
+		.form-submit {
+			align-self: flex-start;
+		}
+
+		/* === FOOTER === */
+		.footer {
+			padding: 3rem 0;
+			border-top: 1px solid var(--rule);
+			text-align: center;
+			color: var(--text-muted);
+			font-size: 0.875rem;
+			font-family: var(--font-mono);
+		}
+
+		/* === DARK MODE TOGGLE === */
+		.dark-mode-toggle {
+			position: fixed;
+			bottom: 2rem;
+			right: 2rem;
+			width: 48px;
+			height: 48px;
+			border-radius: 2px;
+			background: var(--accent);
+			border: none;
+			color: white;
+			font-size: 1.25rem;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: all 0.2s ease;
+			z-index: 1000;
+		}
+
+		.dark-mode-toggle:hover {
+			background: var(--accent-light);
+		}
+
+		/* === RESPONSIVE === */
+		@media (max-width: 768px) {
+			h1 { font-size: 2.25rem; }
+			h2 { font-size: 1.75rem; }
+			h3 { font-size: 1.25rem; }
+
+			.container {
+				padding: 0 1.5rem;
+			}
+
+			.section {
+				grid-template-columns: 1fr;
+				gap: 1.5rem;
+				padding: 3rem 0;
+			}
+
+			.section-label {
+				text-align: left;
+				margin-bottom: 0;
+			}
+
+			.header {
+				grid-template-columns: 1fr;
+				gap: 2rem;
+				padding: 3rem 0 2rem;
+			}
+
+			.header-terminal {
+				grid-column: 1;
+				grid-row: auto;
+				font-size: 0.75rem;
+				padding: 1rem;
+			}
+
+			.featured-grid {
+				grid-template-columns: 1fr;
+				gap: 2rem;
+			}
+
+			.contact-grid {
+				grid-template-columns: 1fr;
+				gap: 2rem;
+			}
+
+			.dark-mode-toggle {
+				width: 44px;
+				height: 44px;
+				bottom: 1.5rem;
+				right: 1.5rem;
+			}
+		}
+
+		@media (max-width: 480px) {
+			h1 { font-size: 1.75rem; }
+			h2 { font-size: 1.35rem; }
+
+			body {
+				font-size: 16px;
+			}
+
+			.container {
+				padding: 0 1rem;
+			}
+
+			.section {
+				padding: 2rem 0;
+			}
+
+			.section-content {
+				padding-right: 0;
+			}
+
+			table {
+				font-size: 0.85rem;
+			}
+
+			th, td {
+				padding: 0.75rem;
+			}
+
+			.header-actions {
+				flex-direction: column;
+			}
+
+			.btn {
+				width: 100%;
+				text-align: center;
+			}
+
+			.featured-links {
+				flex-direction: column;
+			}
+
+			.project-links {
+				flex-direction: column;
+			}
+
+			.project-links a {
+				display: inline-block;
+			}
+		}
+	</style>
+</head>
+<body>
+
+	<div class="container">
+
+		<!-- HEADER: Document Header -->
+		<div class="header">
+			<div class="header-label">
+				<span class="header-label-line">DOCUMENT: JC-PORT-001</span>
+				<span class="header-label-line">REV: C</span>
+				<span class="header-label-line">EFFECTIVE:</span>
+				<span class="header-label-line">March 2026</span>
+				<span class="header-label-line">STATUS: ● Active</span>
+			</div>
+
+			<div class="header-title">
+				<h1>Joneil Caoile</h1>
+				<div class="subtitle">M.S. Biomedical Engineering · Stevens Institute of Technology</div>
+				<p>Biomedical engineer finishing my M.S. at Stevens. I spent two years in clinics watching devices fail patients, then went to grad school to fix the process. Now I test devices, run usability studies, and build AI tools that cut weeks of manual work down to hours.</p>
+				<div class="header-actions">
+					<a href="#work" class="btn btn-primary">View work</a>
+					<a href="#contact" class="btn btn-outline">Contact</a>
+				</div>
+			</div>
+
+			<div class="header-terminal">
+				<span class="header-terminal-line"><span class="header-terminal-prompt">$</span> python usetrace-api.py --taxonomies</span>
+				<span class="header-terminal-line">Loading IEC 62366-1 taxonomies...</span>
+				<span class="header-terminal-line">Parsing 75 observations...</span>
+				<span class="header-terminal-line"><span class="header-terminal-notice">→</span> use error (critical) <span class="header-terminal-success">→</span> 13 Found</span>
+				<span class="header-terminal-line"><span class="header-terminal-success">✓</span> close call <span class="header-terminal-success">→</span> 8 Found</span>
+				<span class="header-terminal-line"><span class="header-terminal-notice">→</span> use difficulty <span class="header-terminal-success">→</span> 31 Found</span>
+				<span class="header-terminal-line"><span class="header-terminal-notice">→</span> normal use <span class="header-terminal-success">→</span> 23 Found</span>
+				<span class="header-terminal-line"><span class="header-terminal-success">✓</span> 5 observations need human review</span>
+				<span class="header-terminal-line">Inter-rater reliability: κ = 0.83</span>
+			</div>
+		</div>
+
+		<!-- SECTION 1.0: Purpose & Scope -->
+		<div class="section" id="purpose">
+			<div class="section-label">1.0</div>
+			<div class="section-content">
+				<h2>Purpose & Scope</h2>
+				<p>Every medical device has to prove it works, and prove it's usable, before it touches a patient. The testing. The validation. The clinical insight that connects engineering to real use. That's where I live. And I build tools that make the process faster without cutting corners.</p>
+
+				<table>
+					<thead>
+						<tr>
+							<th>Parameter</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Clinical observation hours</td>
+							<td>400+</td>
+						</tr>
+						<tr>
+							<td>Device projects</td>
+							<td>5</td>
+						</tr>
+						<tr>
+							<td>Regulatory frameworks</td>
+							<td>IEC 62366-1, FDA 21 CFR 820, EU MDR</td>
+						</tr>
+						<tr>
+							<td>Degree</td>
+							<td>M.S. Biomedical Engineering, Stevens Institute</td>
+						</tr>
+						<tr>
+							<td>Status</td>
+							<td>Graduating May 2026</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<!-- SECTION 2.0: Background -->
+		<div class="section" id="story">
+			<div class="section-label">2.0</div>
+			<div class="section-content">
+				<h2>Two years in clinics before a single line of code</h2>
+				<p>400+ hours of clinical observation watching patients interact with medical devices. I saw the disconnect. Engineers designing in isolation, safety reports that missed real-world use patterns, and a review process that hadn't changed in decades.</p>
+				<p>So I went to Stevens for my M.S. in Biomedical Engineering. Design verification, usability evaluation, regulatory strategy, the whole device lifecycle. Got my Google UX Design Certificate because the gap between what engineers build and what patients actually experience is where most risk lives. Then I started building UseTrace HFE, an AI tool that classifies safety observations under IEC 62366-1 so engineers spend less time on paperwork and more time on the test plan.</p>
+				<p>I'm not here because AI is trending. I'm here because I spent two years watching the problem and couldn't stop thinking about it.</p>
+			</div>
+		</div>
+
+		<!-- SECTION 3.0: Featured Project (UseTrace HFE) -->
+		<div class="section" id="work">
+			<div class="section-label">3.0</div>
+			<div class="section-content">
+				<h2>UseTrace HFE</h2>
+				<p style="color: var(--text-muted); font-size: 1.1rem;">AI-powered classification for medical device safety data</p>
+
+				<div class="featured-grid">
+					<div class="featured-box">
+						<h3>Problem Statement</h3>
+						<p>Safety engineers manually classify hundreds of usability observations per study in Excel. It takes 2–4 weeks. Consistency across reviewers is low. There's no validated AI tool for it.</p>
+					</div>
+					<div class="featured-box">
+						<h3>Design Solution</h3>
+						<p>Takes study evidence (task lists, observer notes, device context) and classifies each observation with confidence scores and reasoning traces. The engineer validates a draft instead of starting from scratch.</p>
+					</div>
+				</div>
+
+				<table>
+					<thead>
+						<tr>
+							<th>Metric</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>IEC 62366-1 modules</td>
+							<td>2</td>
+						</tr>
+						<tr>
+							<td>Observations in dataset</td>
+							<td>75+</td>
+						</tr>
+						<tr>
+							<td>Inter-rater reliability (κ)</td>
+							<td>0.80+</td>
+						</tr>
+						<tr>
+							<td>Processing time</td>
+							<td>Hours, not weeks</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<div class="project-tech">Python · FastAPI · React · Claude API · PubMedPy · IEC 62366-1</div>
+				<div class="featured-links">
+					<a href="#">Read case study →</a>
+					<a href="https://github.com/joneilcaoile/usetrace-hfe" target="_blank">View on GitHub →</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- SECTION 4.0: Other Work -->
+		<div class="section">
+			<div class="section-label">4.0</div>
+			<div class="section-content">
+				<h2>Other Work</h2>
+
+				<div class="project-subsection">
+					<h4>4.1 — PhotoCull AI</h4>
+					<p>Free, local-only AI photo culling tool. Analyzes sharpness, eye focus, face/body, EXIF, composition, blinks, and duplicates. All in the browser, zero cloud. Open source.</p>
+					<div class="project-tech">TensorFlow.js · BlazeFace · Canvas API · Service Worker</div>
+					<div class="project-links">
+						<a href="https://joneilcaoile.github.io/photocull/" target="_blank">Live demo →</a>
+						<a href="https://github.com/joneilcaoile/photocull" target="_blank">GitHub →</a>
+					</div>
+				</div>
+
+				<div class="project-subsection">
+					<h4>4.2 — Pneumothorax Air Leak Monitor</h4>
+					<p>Ventilator-integrated device that estimates air leak severity by comparing delivered tidal volume with chest tube outflow. Capstone project, Stevens BME 565.</p>
+					<div class="project-tech">Sensors · Signal processing · Embedded systems</div>
+				</div>
+
+				<div class="project-subsection">
+					<h4>4.3 — EMG Tremor-Suppression Cuff</h4>
+					<p>Wearable cuff that uses EMG signals to identify Parkinson's tremor timing and activate counter-vibration motors.</p>
+					<div class="project-tech">EMG signal processing · Arduino · MATLAB</div>
+				</div>
+
+				<div class="project-subsection">
+					<h4>4.4 — Fall Risk in Elderly Study</h4>
+					<p>Clinical research examining balance, gait, and fall risk patterns in patients 65+. Designed protocol, recruited subjects, managed data collection.</p>
+					<div class="project-tech">Clinical protocol · Research design · IRB approval</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- SECTION 5.0: Applicable Standards (Skills) -->
+		<div class="section">
+			<div class="section-label">5.0</div>
+			<div class="section-content">
+				<h2>What I actually ship with</h2>
+				<p style="color: var(--text-muted);">Not a LinkedIn skills section. These are tools I've used to build things that work.</p>
+
+				<table>
+					<thead>
+						<tr>
+							<th>Domain</th>
+							<th>Capabilities</th>
+							<th>Standards/Tools</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Testing & Validation</td>
+							<td>V&V protocol development, test method design, IQ/OQ/PQ, risk-based test strategies</td>
+							<td>IEC 62366-1, FDA 21 CFR 820, EU MDR</td>
+						</tr>
+						<tr>
+							<td>Regulatory & Quality</td>
+							<td>Design controls, CAPA, computer software assurance</td>
+							<td>FDA 510(k), EU MDR, ISO 14971</td>
+						</tr>
+						<tr>
+							<td>Design & Human Factors</td>
+							<td>User research, usability testing, observer analysis, risk-of-use assessments</td>
+							<td>IEC 62366-1, Google UX Certificate</td>
+						</tr>
+						<tr>
+							<td>Software</td>
+							<td>Python, FastAPI, React, TensorFlow.js, MATLAB</td>
+							<td>GitHub, VS Code, Jupyter</td>
+						</tr>
+						<tr>
+							<td>Machine Learning</td>
+							<td>Classification, NLP, statistical analysis</td>
+							<td>scikit-learn, TensorFlow, PyTorch</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<!-- SECTION 6.0: Design History (Timeline) -->
+		<div class="section">
+			<div class="section-label">6.0</div>
+			<div class="section-content">
+				<h2>How I got here</h2>
+
+				<div class="timeline">
+					<div class="timeline-item">
+						<h4>2024–2026</h4>
+						<p><strong>M.S. Biomedical Engineering</strong> — Stevens Institute of Technology</p>
+						<p>Design controls, regulatory strategy, usability evaluation. Building UseTrace HFE as thesis.</p>
+					</div>
+
+					<div class="timeline-item">
+						<h4>2023</h4>
+						<p><strong>Google UX Design Certificate</strong></p>
+						<p>Closed the gap between clinical reality and engineering intuition.</p>
+					</div>
+
+					<div class="timeline-item">
+						<h4>2022–2024</h4>
+						<p><strong>400+ hours clinical observation</strong></p>
+						<p>Watching devices interact with real patients. Seeing the gaps. Planning the fix.</p>
+					</div>
+
+					<div class="timeline-item">
+						<h4>2019–2022</h4>
+						<p><strong>B.S. Kinesiology & Exercise Science</strong> — Cal State Long Beach</p>
+						<p>Where I first learned about how the body moves, breaks down, and recovers.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- SECTION 7.0: Contact -->
+		<div class="section" id="contact">
+			<div class="section-label">7.0</div>
+			<div class="section-content">
+				<h2>Looking for my next team</h2>
+
+				<div class="contact-grid">
+					<div class="contact-left">
+						<p>Device testing, usability studies, regulatory submissions, AI tools that cut weeks off the review cycle. If your team builds anything that touches a patient, I want in. SoCal preferred, remote works. I come with strong opinions about test protocols and decent taste in coffee.</p>
+					</div>
+
+					<div class="contact-right">
+						<form class="contact-form" action="https://formspree.io/f/xyzybzqg" method="POST">
+							<div class="form-group">
+								<label for="name">Name</label>
+								<input type="text" id="name" name="name" required>
+							</div>
+							<div class="form-group">
+								<label for="email">Email</label>
+								<input type="email" id="email" name="email" required>
+							</div>
+							<div class="form-group">
+								<label for="message">Message</label>
+								<textarea id="message" name="message" required></textarea>
+							</div>
+							<button type="submit" class="btn btn-primary form-submit">Send</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- FOOTER -->
+		<div class="footer">
+			© 2026 Joneil Caoile · JC-PORT-001 Rev C · Built from scratch, not a template
+		</div>
+
+	</div>
+
+	<!-- Dark Mode Toggle Button -->
+	<button class="dark-mode-toggle" id="darkModeBtn" aria-label="Toggle dark mode" title="Toggle dark mode">
+		<span id="darkModeIcon">🌙</span>
+	</button>
+
+	<!-- GSAP + ScrollTrigger -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
+
+	<script>
+		// === DARK MODE TOGGLE ===
+		const darkModeBtn = document.getElementById('darkModeBtn');
+		const darkModeIcon = document.getElementById('darkModeIcon');
+		const html = document.documentElement;
+
+		// Check for saved preference or default to light mode
+		const prefersDark = localStorage.getItem('prefersDark');
+		if (prefersDark === 'true') {
+			html.style.colorScheme = 'dark';
+		} else if (prefersDark === null && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+			html.style.colorScheme = 'dark';
+		}
+
+		darkModeBtn.addEventListener('click', () => {
+			const isDark = html.style.colorScheme === 'dark';
+			html.style.colorScheme = isDark ? 'light' : 'dark';
+			localStorage.setItem('prefersDark', !isDark);
+			updateDarkModeIcon();
+		});
+
+		function updateDarkModeIcon() {
+			const isDark = html.style.colorScheme === 'dark';
+			darkModeIcon.textContent = isDark ? '☀️' : '🌙';
+		}
+
+		updateDarkModeIcon();
+
+		// === SCROLL ANIMATIONS ===
+		// Register ScrollTrigger
+		gsap.registerPlugin(ScrollTrigger);
+
+		// Animate sections on scroll
+		gsap.utils.toArray('.section').forEach((section) => {
+			gsap.from(section, {
+				scrollTrigger: {
+					trigger: section,
+					start: 'top 80%',
+					toggleActions: 'play none none none',
+					once: true
+				},
+				opacity: 0,
+				y: 30,
+				duration: 0.8,
+				ease: 'cubic-bezier(0.16, 1, 0.3, 1)'
+			});
+		});
+
+		// Animate featured boxes
+		gsap.utils.toArray('.featured-box').forEach((box) => {
+			gsap.from(box, {
+				scrollTrigger: {
+					trigger: box,
+					start: 'top 85%',
+					toggleActions: 'play none none none',
+					once: true
+				},
+				opacity: 0,
+				y: 20,
+				duration: 0.7,
+				ease: 'cubic-bezier(0.16, 1, 0.3, 1)'
+			});
+		});
+
+		// Animate table rows
+		gsap.utils.toArray('tbody tr').forEach((row, index) => {
+			gsap.from(row, {
+				scrollTrigger: {
+					trigger: row,
+					start: 'top 85%',
+					toggleActions: 'play none none none',
+					once: true
+				},
+				opacity: 0,
+				y: 10,
+				duration: 0.5,
+				delay: index * 0.05,
+				ease: 'cubic-bezier(0.16, 1, 0.3, 1)'
+			});
+		});
+
+		// Animate timeline items
+		gsap.utils.toArray('.timeline-item').forEach((item, index) => {
+			gsap.from(item, {
+				scrollTrigger: {
+					trigger: item,
+					start: 'top 85%',
+					toggleActions: 'play none none none',
+					once: true
+				},
+				opacity: 0,
+				x: -20,
+				duration: 0.6,
+				delay: index * 0.08,
+				ease: 'cubic-bezier(0.16, 1, 0.3, 1)'
+			});
+		});
+
+		// Header animations
+		gsap.from('h1', {
+			opacity: 0,
+			y: 20,
+			duration: 0.8,
+			ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
+			delay: 0.1
+		});
+
+		gsap.from('.subtitle', {
+			opacity: 0,
+			y: 15,
+			duration: 0.7,
+			ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
+			delay: 0.2
+		});
+
+		gsap.from('.header-terminal', {
+			opacity: 0,
+			x: 20,
+			duration: 0.8,
+			ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
+			delay: 0.3
+		});
+
+		// Smooth scroll for anchor links
+		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+			anchor.addEventListener('click', function(e) {
+				const href = this.getAttribute('href');
+				if (href !== '#') {
+					e.preventDefault();
+					const target = document.querySelector(href);
+					if (target) {
+						gsap.to(window, {
+							scrollTo: target,
+							duration: 0.8,
+							ease: 'cubic-bezier(0.16, 1, 0.3, 1)'
+						});
+					}
+				}
+			});
+		});
+
+		// Initialize animations on page load
+		window.addEventListener('load', () => {
+			ScrollTrigger.refresh();
+		});
+	</script>
+
+</body>
+</html>
