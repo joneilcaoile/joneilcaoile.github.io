@@ -2218,6 +2218,15 @@
             delay: 0.6,
             ease: 'power2.inOut'
           });
+
+        // Safety fallback: force-hide loader if GSAP stalls (background tab throttling)
+        setTimeout(() => {
+          if (loader.style.visibility !== 'hidden') {
+            loader.style.opacity = '0';
+            loader.style.visibility = 'hidden';
+            loader.style.pointerEvents = 'none';
+          }
+        }, 4000);
       }
     }, 100);
   }
