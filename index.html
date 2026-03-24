@@ -988,13 +988,13 @@
 
     .timeline {
       position: relative;
-      padding-left: 3rem;
+      padding-left: 5rem;
     }
 
     .timeline::before {
       content: '';
       position: absolute;
-      left: 0;
+      left: 24px;
       top: 0;
       bottom: 0;
       width: 1px;
@@ -1044,6 +1044,38 @@
       color: var(--text-secondary);
       font-size: 0.95rem;
       line-height: 1.7;
+    }
+
+    /* PIXEL SPRITES */
+    .timeline-sprite {
+      position: absolute;
+      left: -56px;
+      top: -2px;
+      width: 48px;
+      height: 60px;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      -ms-interpolation-mode: nearest-neighbor;
+    }
+
+    .timeline-sprite-label {
+      position: absolute;
+      left: -64px;
+      top: 60px;
+      width: 64px;
+      text-align: center;
+      font-family: var(--fm);
+      font-size: 9px;
+      color: var(--text-faint);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .timeline-item:hover .timeline-sprite-label {
+      opacity: 1;
     }
 
     /* CONTACT */
@@ -1449,6 +1481,24 @@
       .hero-desc {
         font-size: 1rem;
       }
+
+      .timeline {
+        padding-left: 3.5rem;
+      }
+
+      .timeline::before {
+        left: 12px;
+      }
+
+      .timeline-sprite {
+        width: 36px;
+        height: 45px;
+        left: -42px;
+      }
+
+      .timeline-sprite-label {
+        display: none;
+      }
     }
   </style>
 </head>
@@ -1472,7 +1522,7 @@
 
 <!-- XP HUD -->
 <div class="xp-hud" id="xpHud">
-  <div class="xp-hud-title">LVL 12 — Validation Engineer</div>
+  <div class="xp-hud-title">LVL 12 — Medtech Engineer</div>
   <div class="xp-bar">
     <div class="xp-fill" id="xpFill"></div>
   </div>
@@ -1485,8 +1535,8 @@
     <button class="rpg-close" id="rpgClose">&times;</button>
     <h3>PROFILE STATS</h3>
     <div class="rpg-stat">
-      <span class="rpg-stat-label">ROLE</span>
-      <span class="rpg-stat-value">Validation Engineer</span>
+      <span class="rpg-stat-label">CLASS</span>
+      <span class="rpg-stat-value">Medtech Engineer</span>
     </div>
     <div class="rpg-stat">
       <span class="rpg-stat-label">LEVEL</span>
@@ -1553,7 +1603,7 @@
   </div>
   <div class="hero-right">
     <div class="terminal">
-      <div class="terminal-line"><span class="terminal-prompt">$</span> <span class="terminal-output">joneil --role validation-engineer</span></div>
+      <div class="terminal-line"><span class="terminal-prompt">$</span> <span class="terminal-output">joneil --role medtech-engineer</span></div>
       <div class="terminal-line"></div>
       <div class="terminal-line"><span class="terminal-output">┌─────────────────────────────┐</span></div>
       <div class="terminal-line"><span class="terminal-output">│ QUALIFICATION SUMMARY       │</span></div>
@@ -1812,35 +1862,35 @@
   <p class="section-label">06 / Path</p>
   <h2>How I got here</h2>
   <div class="timeline">
-    <div class="timeline-item">
+    <div class="timeline-item" data-sprite="novice">
+      <div class="timeline-marker"></div>
+      <div class="timeline-year">2017</div>
+      <div class="timeline-title">PT Shadowing + Kinesiology</div>
+      <div class="timeline-desc">Shadowed physical therapists through high school and into college. B.S. in Kinesiology. Worked as a server and barista on the side. Knew I wanted to help people move better, just didn't know how yet.</div>
+    </div>
+    <div class="timeline-item" data-sprite="acolyte">
+      <div class="timeline-marker"></div>
+      <div class="timeline-year">2020</div>
+      <div class="timeline-title">The Clinics That Changed Everything</div>
+      <div class="timeline-desc">Private outpatient ortho clinic with a NeuBie device that electronically stimulated patients for rehab. Pediatric clinic where play-based therapy got kids moving when nothing else worked. Saw firsthand that older patients skip therapy when it's boring.</div>
+    </div>
+    <div class="timeline-item" data-sprite="sage">
       <div class="timeline-marker"></div>
       <div class="timeline-year">2022</div>
-      <div class="timeline-title">Clinical Observation</div>
-      <div class="timeline-desc">400+ hours in operating rooms and procedure suites observing device usage, identifying design gaps, documenting human factors issues that wouldn't appear in standard usability studies.</div>
+      <div class="timeline-title">PT School &rarr; The Pivot</div>
+      <div class="timeline-desc">Excelled in PT school. Then the realization: the biggest impact isn't treating one patient at a time. It's building the tools and devices that make rehabilitation better for everyone. Gamification. Medical devices. Engineering. Pivoted to BME.</div>
     </div>
-    <div class="timeline-item">
-      <div class="timeline-marker"></div>
-      <div class="timeline-year">2023</div>
-      <div class="timeline-title">Stevens M.S. + Google UX Certificate</div>
-      <div class="timeline-desc">Started M.S. Biomedical Engineering at Stevens Institute of Technology. Completed Google UX Design Certificate (6-month program). First medical device project shipped.</div>
-    </div>
-    <div class="timeline-item">
+    <div class="timeline-item" data-sprite="blacksmith">
       <div class="timeline-marker"></div>
       <div class="timeline-year">2024</div>
-      <div class="timeline-title">UseTrace HFE + Four Companies</div>
-      <div class="timeline-desc">Built UseTrace as a focused human factors observation tool. Shipped to four medical device companies. Completed second and third device projects. EMG cuff and fall risk research.</div>
+      <div class="timeline-title">Stevens M.S. + First Devices</div>
+      <div class="timeline-desc">M.S. Biomedical Engineering at Stevens Institute. Google UX Certificate. Built UseTrace, a human factors observation tool shipped to four medtech companies. 400+ hours of clinical observation. Five device projects.</div>
     </div>
-    <div class="timeline-item">
-      <div class="timeline-marker"></div>
-      <div class="timeline-year">2025</div>
-      <div class="timeline-title">Portfolio Site + PhotoCull Open Source</div>
-      <div class="timeline-desc">Released PhotoCull AI as open-source (300+ stars). Rebuilt portfolio to reflect full stack of skills. BME 571 Machine Learning. Capstone: Pneumothorax Air Leak Monitor in design control phase.</div>
-    </div>
-    <div class="timeline-item">
+    <div class="timeline-item" data-sprite="knight">
       <div class="timeline-marker"></div>
       <div class="timeline-year">2026</div>
-      <div class="timeline-title">M.S. Graduation + SoCal Medtech</div>
-      <div class="timeline-desc">Graduating May 2026 (Stevens). Relocating to Southern California. Target: Validation Engineer or Applications Engineer roles at mid-size medtech (Carson, Torrance, Irvine). Six devices shipped. Ready to lead validation strategies.</div>
+      <div class="timeline-title">Graduation + What's Next</div>
+      <div class="timeline-desc">Six devices shipped. PhysioRep (gamified PT exercise coaching, full circle from those clinics). PhotoCull AI (open source, 300+ stars). Graduating May 2026. Moving to SoCal to build what's next.</div>
     </div>
   </div>
 </section>
@@ -2201,6 +2251,249 @@
 
   /* SCROLL ANIMATIONS READY */
   ScrollTrigger.refresh();
+
+  /* === PIXEL SPRITES (Ragnarok Online style) === */
+  (function() {
+    var W = 16, H = 20;
+
+    /* Palette */
+    var SK = '#FFD5B8';
+    var OL = '#2C2620';
+    var HR = '#4A3728';
+    var WH = '#F0EAE0';
+    var WD = '#D8D0C4';
+    var BL = '#4A7FBF';
+    var BD = '#365C8A';
+    var BR = '#8B6D4F';
+    var B2 = '#6B4D2F';
+    var RD = '#B84A3C';
+    var GO = '#D4A233';
+    var MT = '#8A8A9A';
+    var ML = '#B0B0C0';
+    var MD = '#5A5A6A';
+    var TN = '#C8B090';
+
+    function px(c,x,y,w,h,cl){c.fillStyle=cl;c.fillRect(x,y,w||1,h||1)}
+
+    function shadow(c){
+      px(c,5,18,6,1,'rgba(44,38,32,0.15)');
+      px(c,4,19,8,1,'rgba(44,38,32,0.08)');
+    }
+
+    function face(c,y){
+      px(c,5,3+y,6,3,SK);
+      px(c,6,4+y,1,1,OL);
+      px(c,9,4+y,1,1,OL);
+    }
+
+    function hair(c,y){
+      px(c,5,0+y,6,1,HR);
+      px(c,4,1+y,8,2,HR);
+    }
+
+    function legs(c,y,col,shoe){
+      px(c,5,12+y,2,3,col);
+      px(c,9,12+y,2,3,col);
+      px(c,4,15,3,1,shoe||B2);
+      px(c,9,15,3,1,shoe||B2);
+    }
+
+    /* --- NOVICE --- */
+    function drawNovice(c,y,hov,f){
+      shadow(c);
+      hair(c,y);
+      face(c,y);
+      px(c,4,6+y,8,6,WH);
+      px(c,5,6+y,6,1,BR);
+      px(c,5,7+y,1,4,BR);
+      px(c,10,7+y,1,4,BR);
+      px(c,3,7+y,1,4,SK);
+      px(c,12,7+y,1,4,SK);
+      px(c,13,5+y,1,7,TN);
+      legs(c,y,WD,B2);
+      if(hov){
+        var wb=Math.sin(f*0.3)*2;
+        px(c,Math.round(13+wb),3+y,1,2,TN);
+        if(f%20<6){
+          px(c,2,0+y,1,1,GO);
+          px(c,14,1+y,1,1,GO);
+        }
+      }
+    }
+
+    /* --- ACOLYTE --- */
+    function drawAcolyte(c,y,hov,f){
+      shadow(c);
+      hair(c,y);
+      px(c,4,2+y,8,1,WH);
+      face(c,y);
+      px(c,4,6+y,8,6,WH);
+      px(c,7,7+y,2,4,BL);
+      px(c,6,8+y,4,2,BL);
+      px(c,3,7+y,1,4,SK);
+      px(c,12,7+y,1,4,SK);
+      px(c,13,7+y,2,3,TN);
+      px(c,13,7+y,2,1,BR);
+      px(c,13,9+y,1,1,B2);
+      legs(c,y,WD,B2);
+      if(hov){
+        for(var i=0;i<6;i++){
+          var sx=3+((f*2+i*41)%10);
+          var sy=17-((f*0.4+i*3.7)%17);
+          if(sy>0&&sy<17){
+            var a=Math.sin(sy/17*Math.PI)*0.7;
+            c.fillStyle='rgba(100,220,130,'+a+')';
+            c.fillRect(Math.round(sx),Math.round(sy),1,1);
+          }
+        }
+      }
+    }
+
+    /* --- SAGE --- */
+    function drawSage(c,y,hov,f){
+      shadow(c);
+      px(c,7,0+y,2,1,BL);
+      px(c,5,1+y,6,1,BL);
+      px(c,4,2+y,8,1,BD);
+      face(c,y);
+      px(c,5,4+y,2,1,GO);
+      px(c,7,4+y,2,1,GO);
+      px(c,9,4+y,2,1,GO);
+      px(c,4,6+y,8,6,BL);
+      px(c,4,11+y,8,1,GO);
+      px(c,3,7+y,1,4,BL);
+      px(c,12,7+y,1,4,BL);
+      px(c,13,8+y,2,2,BR);
+      px(c,13,8+y,2,1,WH);
+      legs(c,y,BD,'#3A2A1A');
+      if(hov){
+        if(f%40<20){
+          px(c,8,Math.max(0,y-2),1,2,GO);
+          px(c,8,Math.max(0,y+1),1,1,GO);
+        }
+        for(var i=0;i<3;i++){
+          var angle=f*0.1+i*2.09;
+          var rx=8+Math.cos(angle)*6;
+          var ry=9+Math.sin(angle)*4;
+          if(rx>0&&rx<15&&ry>1&&ry<17){
+            c.fillStyle='rgba(212,162,51,'+(0.5+Math.sin(f*0.12+i)*0.3)+')';
+            c.fillRect(Math.round(rx),Math.round(ry),1,1);
+          }
+        }
+      }
+    }
+
+    /* --- BLACKSMITH --- */
+    function drawBlacksmith(c,y,hov,f){
+      shadow(c);
+      px(c,4,0+y,8,1,RD);
+      px(c,12,0+y,2,1,RD);
+      px(c,4,1+y,8,2,HR);
+      face(c,y);
+      px(c,4,6+y,8,6,WH);
+      px(c,5,7+y,6,5,BR);
+      px(c,6,6+y,4,1,B2);
+      px(c,3,7+y,1,4,SK);
+      px(c,12,7+y,1,4,SK);
+      var hY=hov?Math.round(Math.sin(f*0.35)*2):0;
+      px(c,14,5+y+hY,1,5,B2);
+      px(c,13,4+y+hY,3,2,MT);
+      legs(c,y,BR,B2);
+      if(hov){
+        for(var i=0;i<4;i++){
+          var sp=(f*0.7+i*5)%10;
+          var sx=13+(i%3)-1;
+          var sy=4+hY+sp*0.5;
+          var a=1-sp/10;
+          if(a>0&&sy+y<16){
+            c.fillStyle='rgba(255,160,40,'+a+')';
+            c.fillRect(Math.round(sx),Math.round(sy+y),1,1);
+          }
+        }
+      }
+    }
+
+    /* --- LORD KNIGHT --- */
+    function drawKnight(c,y,hov,f){
+      shadow(c);
+      var cw=hov?Math.sin(f*0.15)*1.5:Math.sin(f*0.04)*0.7;
+      px(c,2,5+y,2,9,RD);
+      px(c,12,5+y,2,9,RD);
+      px(c,Math.round(1+cw),8+y,1,5,RD);
+      px(c,Math.round(14-cw),8+y,1,5,RD);
+      px(c,6,0+y,4,1,GO);
+      px(c,4,1+y,8,2,MT);
+      px(c,5,3+y,6,1,MD);
+      px(c,6,3+y,1,1,SK);
+      px(c,9,3+y,1,1,SK);
+      px(c,5,4+y,6,2,SK);
+      px(c,6,5+y,1,1,OL);
+      px(c,9,5+y,1,1,OL);
+      px(c,4,6+y,8,6,MT);
+      px(c,4,6+y,8,1,GO);
+      px(c,7,8+y,2,2,GO);
+      px(c,4,11+y,8,1,GO);
+      px(c,3,7+y,1,4,MT);
+      px(c,12,7+y,1,4,MT);
+      px(c,14,2+y,1,10,ML);
+      px(c,14,2+y,1,1,WH);
+      px(c,13,6+y,1,2,GO);
+      px(c,14,6+y,1,2,GO);
+      legs(c,y,MT,MD);
+      if(hov){
+        var sf=f%25;
+        if(sf<12){
+          var a=1-sf/12;
+          c.fillStyle='rgba(255,255,255,'+a*0.6+')';
+          for(var i=0;i<=sf;i++){
+            var sx=14-i*0.8;
+            var sy=2+i*0.5+y;
+            if(sx>0&&sy>0) c.fillRect(Math.round(sx),Math.round(sy),1,1);
+          }
+        }
+      }
+    }
+
+    var CHARS={novice:drawNovice,acolyte:drawAcolyte,sage:drawSage,blacksmith:drawBlacksmith,knight:drawKnight};
+    var NAMES={novice:'Novice',acolyte:'Acolyte',sage:'Sage',blacksmith:'Blacksmith',knight:'Lord Knight'};
+
+    document.querySelectorAll('.timeline-item[data-sprite]').forEach(function(item){
+      var type=item.dataset.sprite;
+      var drawFn=CHARS[type];
+      if(!drawFn) return;
+
+      var marker=item.querySelector('.timeline-marker');
+      if(marker) marker.style.display='none';
+
+      var canvas=document.createElement('canvas');
+      canvas.width=W;
+      canvas.height=H;
+      canvas.className='timeline-sprite';
+      canvas.setAttribute('aria-hidden','true');
+      item.insertBefore(canvas,item.firstChild);
+
+      var label=document.createElement('div');
+      label.className='timeline-sprite-label';
+      label.textContent=NAMES[type]||'';
+      item.appendChild(label);
+
+      var ctx=canvas.getContext('2d');
+      ctx.imageSmoothingEnabled=false;
+
+      var hovering=false;
+      var frame=Math.floor(Math.random()*100);
+
+      item.addEventListener('mouseenter',function(){hovering=true;});
+      item.addEventListener('mouseleave',function(){hovering=false;});
+
+      setInterval(function(){
+        ctx.clearRect(0,0,W,H);
+        var bob=hovering?0:(Math.sin(frame*0.12)>0.3?0:-1);
+        drawFn(ctx,bob,hovering,frame);
+        frame++;
+      },83);
+    });
+  })();
 </script>
 
 </body>
