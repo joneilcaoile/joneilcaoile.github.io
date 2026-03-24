@@ -1319,7 +1319,7 @@
     }
 
     .xp-bar {
-      width: 150px;
+      width: 180px;
       height: 4px;
       background: var(--dark2);
       border-radius: 2px;
@@ -1337,6 +1337,62 @@
     .xp-text {
       margin-top: 0.5rem;
       color: var(--text-faint);
+    }
+
+
+    /* CRITTER PET */
+    .critter-container {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 499;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .critter-container:hover {
+      transform: scale(1.2);
+    }
+    .critter-container canvas {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      -ms-interpolation-mode: nearest-neighbor;
+    }
+    .critter-label {
+      font-family: var(--fm);
+      font-size: 9px;
+      color: var(--text-faint);
+      text-align: center;
+      margin-top: 2px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .critter-container:hover .critter-label {
+      opacity: 1;
+    }
+    .critter-evolve {
+      animation: critter-flash 0.6s ease-out;
+    }
+    @keyframes critter-flash {
+      0% { filter: brightness(3) saturate(0); transform: scale(1.5); }
+      50% { filter: brightness(2) saturate(0.5); transform: scale(1.3); }
+      100% { filter: brightness(1) saturate(1); transform: scale(1); }
+    }
+    @keyframes critter-idle {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+    .critter-container canvas {
+      animation: critter-idle 2s ease-in-out infinite;
+    }
+    .critter-react {
+      animation: critter-jump 0.4s ease-out;
+    }
+    @keyframes critter-jump {
+      0% { transform: translateY(0); }
+      40% { transform: translateY(-8px); }
+      100% { transform: translateY(0); }
     }
 
     /* RPG OVERLAY */
@@ -1634,13 +1690,19 @@
 <div class="cursor" id="cursor"></div>
 <div class="cursor-spotlight" id="spotlight"></div>
 
+<!-- CRITTER PET -->
+<div class="critter-container" id="critterContainer" title="Your medtech companion">
+  <canvas id="critterCanvas" width="16" height="16" style="width:64px;height:64px;"></canvas>
+  <div class="critter-label" id="critterLabel">Egg</div>
+</div>
+
 <!-- XP HUD -->
 <div class="xp-hud" id="xpHud">
-  <div class="xp-hud-title">LVL 12 — Medtech Engineer</div>
+  <div class="xp-hud-title">LVL 12 · Medtech Engineer</div>
   <div class="xp-bar">
     <div class="xp-fill" id="xpFill"></div>
   </div>
-  <div class="xp-text" id="xpText">12500 / 15000 XP</div>
+  <div class="xp-text" id="xpText">0 / 62,366 XP</div>
 </div>
 
 <!-- RPG OVERLAY -->
@@ -2219,19 +2281,225 @@
     spawnParticle(e.clientX, e.clientY);
   });
 
-  /* XP HUD */
-  let xp = 12500;
+  /* XP + CRITTER SYSTEM — Max XP: 62,366 (IEC 62366-1) */
+  const MAX_XP = 62366;
+  let xp = 0;
+  let currentStage = -1;
   const xpHud = document.getElementById('xpHud');
   const xpFill = document.getElementById('xpFill');
   const xpText = document.getElementById('xpText');
+  const critterCanvas = document.getElementById('critterCanvas');
+  const critterCtx = critterCanvas.getContext('2d');
+  const critterLabel = document.getElementById('critterLabel');
+  const critterContainer = document.getElementById('critterContainer');
   let xpTimeout;
 
-  function updateXP() {
-    xp += Math.floor(Math.random() * 50) + 10;
-    if (xp > 15000) xp = 15000;
-    const percent = (xp / 15000) * 100;
+  // Try to load saved XP
+  try { const saved = localStorage.getItem('jc-xp'); if (saved) xp = Math.min(parseInt(saved, 10) || 0, MAX_XP); } catch(e) {}
+
+  const STAGES = [
+    { name: 'Egg',       minXP: 0,     draw: drawEgg },
+    { name: 'Blob',      minXP: 10000, draw: drawBlob },
+    { name: 'Pup',       minXP: 25000, draw: drawPup },
+    { name: 'Tech',      minXP: 42000, draw: drawTech },
+    { name: 'Apex',      minXP: 55000, draw: drawApex }
+  ];
+
+  const C = {
+    BG: null, // transparent
+    WH: '#FFFFFF', BK: '#2A2A2A', GY: '#8A8A8A', LG: '#C8C8C8',
+    AM: '#C67B2E', AM2: '#A66320', CR: '#E8815C', CR2: '#C56A48',
+    GN: '#6EBF5E', GN2: '#4E9F3E', BL: '#5B9BD5', BL2: '#3D7DB7',
+    SK: '#FFD5B8', SK2: '#E8B898', PU: '#9B7ED8', PU2: '#7B5EB8',
+    YL: '#FFD700', RD: '#E84040', WT: '#F0F0F0', WT2: '#D0D0D0',
+    GL: '#FFE87C' // glow
+  };
+
+  function px(x, y, color) {
+    if (!color) return;
+    critterCtx.fillStyle = color;
+    critterCtx.fillRect(x, y, 1, 1);
+  }
+
+  function drawEgg() {
+    critterCtx.clearRect(0, 0, 16, 16);
+    // Egg shell
+    const egg = [
+      [5,3],[6,3],[7,3],[8,3],[9,3],[10,3],
+      [4,4],[5,4],[6,4],[7,4],[8,4],[9,4],[10,4],[11,4],
+      [3,5],[4,5],[5,5],[6,5],[7,5],[8,5],[9,5],[10,5],[11,5],[12,5],
+      [3,6],[12,6],[3,7],[12,7],[3,8],[12,8],[3,9],[12,9],
+      [3,10],[12,10],[3,11],[12,11],
+      [4,12],[5,12],[6,12],[7,12],[8,12],[9,12],[10,12],[11,12],
+      [5,13],[6,13],[7,13],[8,13],[9,13],[10,13]
+    ];
+    egg.forEach(([x,y]) => px(x, y, C.WT));
+    // Fill
+    for (let y = 6; y <= 11; y++) for (let x = 4; x <= 11; x++) px(x, y, C.WT2);
+    for (let x = 5; x <= 10; x++) px(x, 5, C.WT2);
+    for (let x = 6; x <= 9; x++) { px(x, 12, C.WT2); }
+    // Cross symbol
+    px(7, 7, C.CR); px(8, 7, C.CR);
+    px(7, 8, C.CR); px(8, 8, C.CR);
+    px(6, 8, C.CR); px(9, 8, C.CR);
+    px(7, 9, C.CR); px(8, 9, C.CR);
+    // Shine
+    px(5, 5, C.WH); px(6, 4, C.WH);
+  }
+
+  function drawBlob() {
+    critterCtx.clearRect(0, 0, 16, 16);
+    // Body - round blob
+    for (let y = 6; y <= 13; y++) for (let x = 3; x <= 12; x++) {
+      if ((y === 6 || y === 13) && (x < 5 || x > 10)) continue;
+      if ((y === 7 || y === 12) && (x < 4 || x > 11)) continue;
+      px(x, y, y > 10 ? C.GN2 : C.GN);
+    }
+    // Eyes
+    px(6, 8, C.WH); px(7, 8, C.WH); px(9, 8, C.WH); px(10, 8, C.WH);
+    px(7, 9, C.BK); px(10, 9, C.BK);
+    // Mouth
+    px(7, 11, C.BK); px(8, 11, C.BK); px(9, 11, C.BK);
+    // Cheeks
+    px(5, 10, C.CR); px(11, 10, C.CR);
+    // Antenna
+    px(8, 5, C.GN); px(8, 4, C.GN); px(7, 3, C.YL);
+  }
+
+  function drawPup() {
+    critterCtx.clearRect(0, 0, 16, 16);
+    // Head
+    for (let y = 2; y <= 7; y++) for (let x = 4; x <= 11; x++) {
+      if ((y === 2 || y === 7) && (x < 5 || x > 10)) continue;
+      px(x, y, C.GN);
+    }
+    // Body
+    for (let y = 8; y <= 11; y++) for (let x = 5; x <= 10; x++) px(x, y, C.GN2);
+    // Eyes
+    px(6, 4, C.WH); px(7, 4, C.WH); px(9, 4, C.WH); px(10, 4, C.WH);
+    px(6, 5, C.BK); px(9, 5, C.BK);
+    // Mouth
+    px(7, 6, C.BK); px(8, 6, C.BK);
+    // Arms
+    px(4, 9, C.GN); px(3, 9, C.GN); px(11, 9, C.GN); px(12, 9, C.GN);
+    // Legs
+    px(6, 12, C.GN2); px(6, 13, C.GN2); px(9, 12, C.GN2); px(9, 13, C.GN2);
+    // Feet
+    px(5, 13, C.GN); px(10, 13, C.GN);
+    // Headband
+    for (let x = 4; x <= 11; x++) px(x, 3, C.AM);
+    px(12, 2, C.AM); px(12, 3, C.AM); // band tail
+    // Cheeks
+    px(5, 5, C.CR); px(10, 5, C.CR);
+  }
+
+  function drawTech() {
+    critterCtx.clearRect(0, 0, 16, 16);
+    // Head
+    for (let y = 1; y <= 6; y++) for (let x = 4; x <= 11; x++) {
+      if ((y === 1 || y === 6) && (x < 5 || x > 10)) continue;
+      px(x, y, C.GN);
+    }
+    // Goggles
+    px(5, 3, C.BL); px(6, 3, C.BL); px(7, 3, C.GY); px(8, 3, C.GY); px(9, 3, C.BL); px(10, 3, C.BL);
+    px(6, 4, C.WH); px(9, 4, C.WH); // lens highlights
+    px(6, 3, C.BL2); px(9, 3, C.BL2); // pupils
+    // Mouth
+    px(7, 5, C.BK); px(8, 5, C.BK);
+    // Lab coat body
+    for (let y = 7; y <= 11; y++) for (let x = 4; x <= 11; x++) {
+      if (x === 7 || x === 8) px(x, y, C.WT); // coat center
+      else px(x, y, C.WT2);
+    }
+    // Coat lapels
+    px(6, 7, C.WT); px(9, 7, C.WT);
+    // Pocket
+    px(5, 9, C.GY); px(5, 10, C.GY); px(6, 9, C.GY); px(6, 10, C.GY);
+    // Arms (green skin poking out of coat)
+    px(3, 8, C.GN); px(3, 9, C.GN); px(12, 8, C.GN); px(12, 9, C.GN);
+    // Tool in right hand (wrench)
+    px(13, 8, C.GY); px(13, 7, C.GY); px(13, 6, C.AM);
+    // Legs
+    px(6, 12, C.GN2); px(6, 13, C.GN2); px(9, 12, C.GN2); px(9, 13, C.GN2);
+    px(5, 13, C.BK); px(10, 13, C.BK); // shoes
+    // Cheeks
+    px(5, 5, C.CR); px(10, 5, C.CR);
+  }
+
+  function drawApex() {
+    critterCtx.clearRect(0, 0, 16, 16);
+    // Glow aura (subtle corners)
+    px(3, 0, C.GL); px(12, 0, C.GL); px(0, 7, C.GL); px(15, 7, C.GL); px(3, 15, C.GL); px(12, 15, C.GL);
+    // Crown / halo
+    px(6, 0, C.YL); px(7, 0, C.YL); px(8, 0, C.YL); px(9, 0, C.YL);
+    px(5, 0, C.AM); px(10, 0, C.AM);
+    // Head
+    for (let y = 1; y <= 6; y++) for (let x = 4; x <= 11; x++) {
+      if ((y === 1 || y === 6) && (x < 5 || x > 10)) continue;
+      px(x, y, C.GN);
+    }
+    // Goggles (glowing)
+    px(5, 3, C.PU); px(6, 3, C.PU); px(7, 3, C.GY); px(8, 3, C.GY); px(9, 3, C.PU); px(10, 3, C.PU);
+    px(6, 4, C.GL); px(9, 4, C.GL); // glowing lenses
+    // Confident mouth
+    px(7, 5, C.BK); px(8, 5, C.BK); px(9, 5, C.BK);
+    // Lab coat body (gold trim)
+    for (let y = 7; y <= 11; y++) for (let x = 4; x <= 11; x++) {
+      if (x === 4 || x === 11) px(x, y, C.AM); // gold trim
+      else if (x === 7 || x === 8) px(x, y, C.WT);
+      else px(x, y, C.WT2);
+    }
+    // Badge
+    px(9, 8, C.RD); px(10, 8, C.RD); px(9, 9, C.RD);
+    // Arms with tools
+    px(3, 8, C.GN); px(3, 9, C.GN); px(12, 8, C.GN); px(12, 9, C.GN);
+    px(2, 8, C.AM); px(2, 7, C.AM); px(2, 6, C.YL); // golden wrench left
+    px(13, 8, C.BL); px(13, 7, C.BL); px(13, 6, C.BL2); // stethoscope right
+    // Legs
+    px(6, 12, C.GN2); px(6, 13, C.GN2); px(9, 12, C.GN2); px(9, 13, C.GN2);
+    px(5, 13, C.BK); px(10, 13, C.BK); // shoes
+    // Cheeks (glow)
+    px(5, 5, C.GL); px(10, 5, C.GL);
+    // Sparkle particles
+    px(1, 2, C.YL); px(14, 4, C.YL); px(2, 12, C.YL); px(13, 13, C.YL);
+  }
+
+  function getStage() {
+    for (let i = STAGES.length - 1; i >= 0; i--) {
+      if (xp >= STAGES[i].minXP) return i;
+    }
+    return 0;
+  }
+
+  function updateCritter() {
+    const stage = getStage();
+    STAGES[stage].draw();
+    critterLabel.textContent = STAGES[stage].name;
+
+    if (stage !== currentStage && currentStage !== -1) {
+      // Evolution flash
+      critterContainer.classList.add('critter-evolve');
+      showToast('EVOLVED: ' + STAGES[stage].name.toUpperCase() + ' (Stage ' + (stage + 1) + '/5)', 3000);
+      setTimeout(() => critterContainer.classList.remove('critter-evolve'), 600);
+    }
+    currentStage = stage;
+  }
+
+  function updateXP(amount) {
+    const gain = amount || Math.floor(Math.random() * 80) + 20;
+    xp = Math.min(xp + gain, MAX_XP);
+    const percent = (xp / MAX_XP) * 100;
     xpFill.style.width = percent + '%';
-    xpText.textContent = xp.toLocaleString() + ' / 15,000 XP';
+    xpText.textContent = xp.toLocaleString() + ' / 62,366 XP';
+    try { localStorage.setItem('jc-xp', xp); } catch(e) {}
+    updateCritter();
+
+    // React animation on critter
+    const cvs = critterCanvas;
+    cvs.classList.remove('critter-react');
+    void cvs.offsetWidth;
+    cvs.classList.add('critter-react');
+    setTimeout(() => cvs.classList.remove('critter-react'), 400);
   }
 
   function showXPHud() {
@@ -2240,10 +2508,36 @@
     xpTimeout = setTimeout(() => xpHud.classList.remove('active'), 3000);
   }
 
+  // Click anywhere = XP
   document.addEventListener('click', () => {
     updateXP();
     showXPHud();
   });
+
+  // Click critter = bonus XP
+  critterContainer.addEventListener('click', (e) => {
+    e.stopPropagation();
+    updateXP(Math.floor(Math.random() * 200) + 100);
+    showXPHud();
+  });
+
+  // Scroll milestones = XP
+  let lastScrollMilestone = 0;
+  window.addEventListener('scroll', () => {
+    const scrollPercent = Math.floor((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+    const milestone = Math.floor(scrollPercent / 25);
+    if (milestone > lastScrollMilestone) {
+      lastScrollMilestone = milestone;
+      updateXP(500);
+      showXPHud();
+    }
+  });
+
+  // Initialize critter
+  updateCritter();
+  const initPercent = (xp / MAX_XP) * 100;
+  xpFill.style.width = initPercent + '%';
+  xpText.textContent = xp.toLocaleString() + ' / 62,366 XP';
 
   /* ROLE TYPING */
   const roleTyping = document.getElementById('roleTyping');
@@ -2283,6 +2577,7 @@
       konamiIndex++;
       if (konamiIndex === konamiCode.length) {
         activateRPGOverlay();
+        updateXP(5000); // Big Konami bonus
         konamiIndex = 0;
       }
     } else {
