@@ -1900,6 +1900,7 @@
 <!-- CURSOR -->
 <div class="cursor" id="cursor"></div>
 <div class="cursor-spotlight" id="spotlight"></div>
+<canvas id="cursorTrail" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9997;"></canvas>
 
 <!-- CRITTER PET -->
 <div class="critter-container" id="critterContainer" title="Your medtech companion">
@@ -2548,6 +2549,81 @@
       cursor.classList.remove('hover');
     }
   });
+
+  /* CURSOR TRAIL — canvas-based for performance */
+  const trailCanvas = document.getElementById('cursorTrail');
+  const trailCtx = trailCanvas.getContext('2d');
+  const trail = [];
+  const TRAIL_LENGTH = 20;
+  let prevMX = 0, prevMY = 0;
+
+  function resizeTrailCanvas() {
+    trailCanvas.width = window.innerWidth * devicePixelRatio;
+    trailCanvas.height = window.innerHeight * devicePixelRatio;
+    trailCtx.scale(devicePixelRatio, devicePixelRatio);
+  }
+  resizeTrailCanvas();
+  window.addEventListener('resize', resizeTrailCanvas);
+
+  // Only enable trail on fine pointer devices
+  const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
+
+  function drawTrail() {
+    if (!hasFinePointer) { requestAnimationFrame(drawTrail); return; }
+    trailCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+
+    // Calculate velocity for dynamic sizing
+    const vx = mouseX - prevMX;
+    const vy = mouseY - prevMY;
+    const speed = Math.sqrt(vx * vx + vy * vy);
+    prevMX = mouseX; prevMY = mouseY;
+
+    // Push new point
+    if (speed > 0.5) {
+      trail.push({ x: mouseX, y: mouseY, life: 1, speed: Math.min(speed, 60) });
+    }
+
+    // Trim
+    while (trail.length > TRAIL_LENGTH) trail.shift();
+
+    // Check dark mode for color
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const baseR = isDark ? 163 : 198;
+    const baseG = isDark ? 237 : 123;
+    const baseB = isDark ? 234 : 46;
+
+    // Draw connecting lines
+    if (trail.length > 1) {
+      trailCtx.beginPath();
+      trailCtx.moveTo(trail[0].x, trail[0].y);
+      for (let i = 1; i < trail.length; i++) {
+        const t = i / trail.length;
+        trailCtx.lineTo(trail[i].x, trail[i].y);
+      }
+      trailCtx.strokeStyle = `rgba(${baseR},${baseG},${baseB},0.08)`;
+      trailCtx.lineWidth = 1;
+      trailCtx.stroke();
+    }
+
+    // Draw dots with decay
+    for (let i = trail.length - 1; i >= 0; i--) {
+      const p = trail[i];
+      p.life -= 0.04;
+      if (p.life <= 0) { trail.splice(i, 1); continue; }
+
+      const t = p.life;
+      const radius = 1.5 + (p.speed / 60) * 3 * t;
+      const alpha = t * 0.5;
+
+      trailCtx.beginPath();
+      trailCtx.arc(p.x, p.y, radius, 0, Math.PI * 2);
+      trailCtx.fillStyle = `rgba(${baseR},${baseG},${baseB},${alpha})`;
+      trailCtx.fill();
+    }
+
+    requestAnimationFrame(drawTrail);
+  }
+  requestAnimationFrame(drawTrail);
 
   /* PARTICLES ON CLICK */
   function spawnParticle(x, y) {
