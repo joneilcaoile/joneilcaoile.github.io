@@ -152,8 +152,8 @@
       margin: 0 auto;
     }
 
-    /* Reveal class for GSAP */
-    .r { opacity: 0; transform: translateY(28px); }
+    /* Reveal class for GSAP — initial state set by JS, not CSS */
+    .r { }
 
     /* ===== HERO ===== */
     .hero {
@@ -996,29 +996,39 @@
 
     // GSAP scroll reveals
     window.addEventListener('load', () => {
-      if (typeof gsap === 'undefined') return;
+      if (typeof gsap === 'undefined') {
+        // Fallback: make everything visible if GSAP fails
+        document.querySelectorAll('.r').forEach(el => {
+          el.style.opacity = 1;
+          el.style.transform = 'none';
+        });
+        return;
+      }
       gsap.registerPlugin(ScrollTrigger);
 
-      // Hero elements entrance
-      gsap.from('.hero .r', {
-        opacity: 0,
-        y: 30,
+      // Set initial hidden state via GSAP (not CSS)
+      gsap.set('.r', { opacity: 0, y: 28 });
+
+      // Hero elements entrance — animate to natural position
+      gsap.to('.hero .r', {
+        opacity: 1,
+        y: 0,
         duration: 0.7,
         stagger: 0.12,
         ease: 'power2.out',
-        delay: 0.1
+        delay: 0.15
       });
 
-      // All other .r elements on scroll
+      // All other .r elements — reveal on scroll
       gsap.utils.toArray('.r:not(.hero .r)').forEach(el => {
-        gsap.from(el, {
+        gsap.to(el, {
           scrollTrigger: {
             trigger: el,
             start: 'top 88%',
             toggleActions: 'play none none none'
           },
-          opacity: 0,
-          y: 24,
+          opacity: 1,
+          y: 0,
           duration: 0.55,
           ease: 'power2.out'
         });
