@@ -138,6 +138,138 @@
       scroll-margin-top: 80px;
     }
 
+    /* SCROLL PROGRESS BAR */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--amber), var(--coral), var(--gold), var(--teal));
+      background-size: 300% 100%;
+      animation: progress-gradient 4s ease infinite;
+      width: 0%;
+      z-index: 1001;
+      transition: width 0.1s linear;
+      box-shadow: 0 0 8px var(--amber);
+    }
+
+    @keyframes progress-gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* FLOATING MEDTECH PARTICLES */
+    .bg-particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .bg-particle {
+      position: absolute;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    .bg-particle.visible {
+      opacity: 1;
+    }
+
+    /* SVG ICON CONTAINERS */
+    .work-visual-svg {
+      position: relative;
+      z-index: 2;
+      width: 120px;
+      height: 120px;
+      opacity: 0.85;
+      filter: drop-shadow(0 0 20px currentColor);
+      transition: opacity 0.4s ease, filter 0.4s ease, transform 0.6s ease;
+    }
+
+    .work-item:hover .work-visual-svg {
+      opacity: 1;
+      filter: drop-shadow(0 0 30px currentColor);
+      transform: scale(1.08);
+    }
+
+    .work-visual-svg svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* SVG line-draw animation */
+    .work-visual-svg .draw-path {
+      stroke-dasharray: 300;
+      stroke-dashoffset: 300;
+      transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .work-visual-svg.drawn .draw-path {
+      stroke-dashoffset: 0;
+    }
+
+    /* ANIMATED COUNTER */
+    .counter-value {
+      font-family: var(--fm);
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--amber);
+      display: inline-block;
+      min-width: 2ch;
+      text-align: center;
+    }
+
+    .counter-label {
+      font-family: var(--fm);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .stat-counter {
+      text-align: center;
+      padding: 1.5rem;
+    }
+
+    /* SCROLL MILESTONE BADGE */
+    .milestone-badge {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.5);
+      background: var(--dark3);
+      border: 2px solid var(--gold);
+      border-radius: 12px;
+      padding: 1.5rem 2.5rem;
+      font-family: var(--fm);
+      font-size: 14px;
+      color: var(--gold);
+      z-index: 2001;
+      pointer-events: none;
+      opacity: 0;
+      text-align: center;
+      box-shadow: 0 0 40px rgba(212, 162, 51, 0.3), 0 0 80px rgba(212, 162, 51, 0.1);
+    }
+
+    .milestone-badge .milestone-title {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.5rem;
+    }
+
+    .milestone-badge .milestone-text {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
     /* FOCUS STYLES — keyboard-only visible ring */
     :focus-visible {
       outline: 2px solid var(--amber);
@@ -964,7 +1096,7 @@
 
     .work-item {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       gap: 0;
       align-items: stretch;
       min-height: 380px;
@@ -1112,6 +1244,8 @@
       justify-content: center;
       transition: background 0.4s ease, box-shadow 0.4s ease;
       background: var(--bg2);
+      min-width: 0;
+      overflow: hidden;
     }
 
     .work-item:nth-child(odd) .work-card {
@@ -1544,6 +1678,388 @@
       transform: translateY(-2px);
     }
 
+    /* OFF THE CLOCK — personal section */
+    #personal {
+      padding: 60px 0 40px;
+    }
+
+    .personal-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      width: 100%;
+      text-align: left;
+      transition: all 0.3s ease;
+      margin-top: 1rem;
+    }
+
+    .personal-toggle:hover {
+      border-color: var(--amber);
+      background: var(--amber-dim);
+    }
+
+    .personal-toggle-text {
+      font-family: var(--fh);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .personal-toggle-hint {
+      font-family: var(--fm);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-left: auto;
+    }
+
+    .personal-toggle-arrow {
+      font-size: 1.2rem;
+      color: var(--amber);
+      transition: transform 0.3s ease;
+    }
+
+    .personal-toggle.open .personal-toggle-arrow {
+      transform: rotate(180deg);
+    }
+
+    .personal-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+      opacity: 0;
+    }
+
+    .personal-content.open {
+      max-height: 800px;
+      opacity: 1;
+      margin-top: 1.5rem;
+    }
+
+    .personal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .personal-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem;
+      border-radius: 8px;
+      background: var(--bg2);
+      border: 1px solid var(--border-light);
+      transition: all 0.3s ease;
+    }
+
+    .personal-item:hover {
+      border-color: var(--amber-soft);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+
+    .personal-icon {
+      font-size: 1.5rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .personal-item-title {
+      font-family: var(--fh);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .personal-item-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* RO JOB TREE */
+    .ro-tree {
+      margin-top: 2.5rem;
+      padding: 2rem 1.5rem;
+      background: linear-gradient(180deg, rgba(28,26,24,0.95), rgba(20,18,16,0.98));
+      border: 2px solid rgba(198,123,46,0.3);
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ro-tree::before {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      border: 1px solid rgba(198,123,46,0.12);
+      border-radius: 10px;
+      pointer-events: none;
+    }
+    .ro-tree-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .ro-tree-header h3 {
+      font-family: var(--fh);
+      font-size: 1rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.25rem;
+    }
+    .ro-tree-header p {
+      font-family: var(--fm);
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.04em;
+    }
+    /* Tree layout with SVG connectors */
+    .ro-tiers {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      position: relative;
+    }
+    .ro-tier {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      position: relative;
+      z-index: 2;
+    }
+    .ro-connector {
+      width: 2px;
+      height: 24px;
+      background: rgba(198,123,46,0.35);
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    /* Branch connectors: horizontal bar + vertical drops */
+    .ro-branch-bar {
+      position: relative;
+      height: 24px;
+      margin: 0 auto;
+      z-index: 1;
+    }
+    .ro-branch-bar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 12px;
+      background: rgba(198,123,46,0.35);
+      transform: translateX(-50%);
+    }
+    .ro-branch-bar::after {
+      content: '';
+      position: absolute;
+      top: 12px;
+      height: 2px;
+      background: rgba(198,123,46,0.25);
+    }
+    /* Node */
+    .ro-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      position: relative;
+    }
+    .ro-node:hover {
+      transform: translateY(-4px);
+    }
+    .ro-node canvas {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      border-radius: 4px;
+      transition: filter 0.2s ease, box-shadow 0.2s ease;
+    }
+    .ro-node:hover canvas {
+      filter: brightness(1.3);
+      box-shadow: 0 0 16px rgba(198,123,46,0.4);
+    }
+    .ro-node-name {
+      font-family: var(--fm);
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      text-align: center;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+    .ro-node-role {
+      font-family: var(--fm);
+      font-size: 0.6rem;
+      color: rgba(255,255,255,0.45);
+      text-align: center;
+      max-width: 100px;
+    }
+    .ro-node-rank {
+      font-family: var(--fm);
+      font-size: 0.55rem;
+      font-weight: 700;
+      color: var(--amber);
+      background: rgba(198,123,46,0.15);
+      border: 1px solid rgba(198,123,46,0.3);
+      border-radius: 3px;
+      padding: 1px 5px;
+      margin-top: 2px;
+    }
+    .ro-node.locked {
+      opacity: 0.3;
+      cursor: default;
+    }
+    .ro-node.locked:hover {
+      transform: none;
+    }
+    .ro-node.locked canvas {
+      filter: grayscale(1) brightness(0.5);
+    }
+    .ro-node.locked:hover canvas {
+      filter: grayscale(1) brightness(0.5);
+      box-shadow: none;
+    }
+    .ro-node.locked .ro-node-name {
+      color: rgba(255,255,255,0.25);
+    }
+    /* Vertical drop lines from branch bar to each 2nd-tier node */
+    .ro-tier-2 .ro-node::before {
+      content: '';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      width: 2px;
+      height: 12px;
+      background: rgba(198,123,46,0.25);
+      transform: translateX(-50%);
+    }
+    /* Detail panel */
+    .ro-detail {
+      margin-top: 1.25rem;
+      background: rgba(40,36,32,0.95);
+      border: 1.5px solid rgba(198,123,46,0.3);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      display: none;
+      position: relative;
+    }
+    .ro-detail.open { display: block; }
+    .ro-detail-close {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.75rem;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.4);
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+    .ro-detail h4 {
+      font-family: var(--fh);
+      font-size: 0.95rem;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .ro-detail-body {
+      font-size: 0.82rem;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.6);
+    }
+    .ro-detail-body strong { color: rgba(255,255,255,0.85); }
+    .ro-ladder {
+      margin-top: 0.6rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid rgba(198,123,46,0.15);
+      font-family: var(--fm);
+      font-size: 0.73rem;
+      color: rgba(255,255,255,0.35);
+    }
+    .ro-ladder span { color: var(--amber); font-weight: 600; }
+
+    /* ── JOURNEY TREE ─────────────────────────────────────────────── */
+    #journey h2 { margin-bottom: 2rem; }
+    .journey-tree { display: flex; flex-direction: column; gap: 0; align-items: stretch; }
+    .journey-row {
+      display: flex; flex-direction: row; align-items: center;
+      justify-content: center; gap: 0; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .journey-future-row { margin-top: 0; }
+    .journey-node {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 0.25rem; padding: 0.8rem 0.85rem 0.7rem;
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+      border-radius: 10px; cursor: default; transition: all 0.2s;
+      min-width: 90px; flex: 0 0 auto; position: relative;
+    }
+    .journey-node:hover { background: rgba(198,123,46,0.07); border-color: var(--amber-soft); transform: translateY(-2px); }
+    .journey-node canvas { width: 48px; height: 62px; image-rendering: pixelated; image-rendering: crisp-edges; }
+    .journey-node-name { font-family: var(--fm); font-size: 0.72rem; font-weight: 700; color: var(--text-main); text-align: center; }
+    .journey-node-sub { font-family: var(--fm); font-size: 0.6rem; color: var(--text-muted); text-align: center; }
+    .journey-node-year { font-family: var(--fm); font-size: 0.58rem; color: var(--amber); font-weight: 600; }
+    .journey-node-rank { font-family: var(--fm); font-size: 0.6rem; color: var(--coral); font-weight: 700; }
+    /* Solid connector (past) */
+    .journey-conn {
+      flex: 1 1 20px; max-width: 48px; height: 2px;
+      background: var(--amber-soft); border-radius: 2px;
+      align-self: center; min-width: 12px;
+    }
+    /* Dashed connector (future) */
+    .journey-conn-dashed {
+      background: none;
+      border-top: 2px dashed rgba(198,123,46,0.35);
+    }
+    /* Future nodes — slightly muted, dashed border */
+    .journey-future {
+      opacity: 0.72; border-style: dashed;
+      border-color: rgba(198,123,46,0.3);
+    }
+    .journey-future:hover { opacity: 1; }
+    /* Present node — glowing border */
+    .journey-node-now { border-color: var(--amber); box-shadow: 0 0 10px rgba(198,123,46,0.2); }
+    /* NOW divider */
+    .journey-now {
+      display: flex; align-items: center; justify-content: center;
+      gap: 1rem; padding: 0.9rem 0; position: relative;
+    }
+    .journey-now::before, .journey-now::after {
+      content: ''; flex: 1; max-width: 160px; height: 1px;
+      background: linear-gradient(to right, transparent, var(--amber-soft));
+    }
+    .journey-now::after { background: linear-gradient(to left, transparent, var(--amber-soft)); }
+    .journey-now-badge {
+      font-family: var(--fm); font-size: 0.68rem; font-weight: 700;
+      color: var(--amber); letter-spacing: 0.12em; text-transform: uppercase;
+      background: rgba(198,123,46,0.1); border: 1px solid var(--amber-soft);
+      padding: 4px 12px; border-radius: 20px; white-space: nowrap;
+      animation: nowPulse 2.5s ease-in-out infinite;
+    }
+    @keyframes nowPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(198,123,46,0); }
+      50% { box-shadow: 0 0 0 6px rgba(198,123,46,0.12); }
+    }
+    @media (max-width: 640px) {
+      .journey-row { flex-direction: column; align-items: center; }
+      .journey-conn { width: 2px; height: 20px; flex: none; background: var(--amber-soft); border-top: none; border-left: 2px dashed rgba(198,123,46,0.35); }
+      .journey-conn-dashed { width: 2px; height: 20px; flex: none; border-top: none; border-left: 2px dashed rgba(198,123,46,0.35); background: none; }
+    }
+    @media (max-width: 640px) {
+      .ro-tier { gap: 0.5rem; }
+      .ro-node canvas { width: 48px !important; height: 48px !important; }
+      .ro-tree { padding: 1.5rem 0.75rem; }
+    }
+
     /* FOOTER */
     footer {
       background: var(--bg);
@@ -1614,9 +2130,12 @@
       z-index: 499;
       cursor: pointer;
       transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     .critter-container:hover {
-      transform: scale(1.2);
+      transform: scale(1.1);
     }
     .critter-container canvas {
       image-rendering: pixelated;
@@ -1651,6 +2170,100 @@
     .critter-container:hover .critter-label {
       opacity: 1;
     }
+    /* Mini evolution history row */
+    .critter-history {
+      display: flex;
+      gap: 2px;
+      margin-top: 4px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .critter-container:hover .critter-history {
+      opacity: 0.8;
+    }
+    .critter-history canvas {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      border-radius: 2px;
+      transition: transform 0.2s ease;
+    }
+    .critter-history canvas:hover {
+      transform: scale(1.4);
+    }
+    /* XP progress ring around pet */
+    .critter-xp-ring {
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .critter-container:hover .critter-xp-ring {
+      opacity: 1;
+    }
+    /* Pokemon-style evolution overlay */
+    .evo-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .evo-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .evo-canvas-wrap {
+      position: relative;
+      width: 128px;
+      height: 128px;
+    }
+    .evo-canvas-wrap canvas {
+      position: absolute;
+      inset: 0;
+      width: 128px;
+      height: 128px;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+    .evo-text {
+      font-family: var(--fm);
+      font-size: 14px;
+      color: var(--amber);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-weight: 700;
+    }
+    .evo-particles {
+      position: absolute;
+      inset: -40px;
+      pointer-events: none;
+    }
+    .evo-spark {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--amber);
+    }
+    @keyframes evo-pulse {
+      0%, 100% { filter: brightness(1); transform: scale(1); }
+      50% { filter: brightness(2.5) saturate(0); transform: scale(1.15); }
+    }
+    @keyframes evo-glow {
+      0% { box-shadow: 0 0 0 0 rgba(198,123,46,0); }
+      50% { box-shadow: 0 0 60px 30px rgba(198,123,46,0.5); }
+      100% { box-shadow: 0 0 0 0 rgba(198,123,46,0); }
+    }
     .critter-evolve {
       animation: critter-flash 0.6s ease-out;
     }
@@ -1663,17 +2276,102 @@
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-3px); }
     }
-    .critter-container canvas {
+    .critter-container > canvas {
       animation: critter-idle 2s ease-in-out infinite;
     }
     .critter-react {
-      animation: critter-jump 0.4s ease-out;
+      animation: critter-jump 0.4s ease-out !important;
     }
     @keyframes critter-jump {
       0% { transform: translateY(0); }
       40% { transform: translateY(-8px); }
       100% { transform: translateY(0); }
     }
+    /* Hover wiggle for the whole pet */
+    .critter-container:hover > canvas#critterCanvas {
+      animation: critter-wiggle 0.5s ease-in-out infinite alternate;
+    }
+    @keyframes critter-wiggle {
+      0% { transform: translateY(-2px) rotate(-3deg); }
+      100% { transform: translateY(1px) rotate(3deg); }
+    }
+    /* Pet settings gear */
+    .critter-gear {
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 10;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .critter-container:hover .critter-gear {
+      opacity: 0.7;
+    }
+    .critter-gear:hover {
+      opacity: 1 !important;
+      transform: rotate(90deg);
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+    /* Pet switcher dropdown */
+    .critter-settings {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      right: 0;
+      background: var(--dark3);
+      border: 1px solid var(--amber-soft);
+      border-radius: 10px;
+      padding: 0.6rem 0.75rem;
+      display: none;
+      flex-direction: column;
+      gap: 0.4rem;
+      z-index: 600;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+      min-width: 140px;
+    }
+    .critter-settings.open { display: flex; }
+    .csetting-label {
+      font-family: var(--fm);
+      font-size: 0.58rem;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      letter-spacing: 0.06em;
+      margin-top: 0.2rem;
+    }
+    .csetting-row { display: flex; gap: 4px; flex-wrap: wrap; }
+    .csetting-btn {
+      font-family: var(--fm);
+      font-size: 0.68rem;
+      padding: 3px 7px;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      background: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .csetting-btn:hover, .csetting-btn.active {
+      background: rgba(198,123,46,0.12);
+      color: var(--amber);
+      border-color: var(--amber-soft);
+    }
+    /* Corner position classes for critter */
+    .critter-container.corner-tl { bottom: auto !important; right: auto !important; top: 1rem; left: 1rem; }
+    .critter-container.corner-tr { bottom: auto !important; left: auto !important; top: 1rem; right: 1rem; }
+    .critter-container.corner-bl { top: auto !important; right: auto !important; bottom: 1rem; left: 1rem; }
+    .critter-container.corner-tl .critter-settings,
+    .critter-container.corner-bl .critter-settings { right: auto; left: 0; }
 
     /* RPG OVERLAY */
     .rpg-overlay {
@@ -2034,6 +2732,18 @@
   <div class="loader-sweep" id="loaderSweep"></div>
 </div>
 
+<!-- SCROLL PROGRESS -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- FLOATING MEDTECH PARTICLES -->
+<div class="bg-particles" id="bgParticles"></div>
+
+<!-- MILESTONE BADGE -->
+<div class="milestone-badge" id="milestoneBadge">
+  <div class="milestone-title">Achievement Unlocked</div>
+  <div class="milestone-text" id="milestoneText"></div>
+</div>
+
 <!-- CURSOR -->
 <div class="cursor" id="cursor"></div>
 <div class="cursor-spotlight" id="spotlight"></div>
@@ -2041,9 +2751,43 @@
 
 <!-- CRITTER PET -->
 <div class="critter-container" id="critterContainer" title="Portfolio Pet — click to earn XP!">
+  <button class="critter-gear" id="critterGear" aria-label="Pet settings">&#9881;</button>
+  <div class="critter-settings" id="critterSettings">
+    <div class="csetting-label">Move</div>
+    <div class="csetting-row">
+      <button class="csetting-btn" data-corner="0" title="Top left">↖</button>
+      <button class="csetting-btn" data-corner="1" title="Top right">↗</button>
+      <button class="csetting-btn" data-corner="2" title="Bottom left">↙</button>
+      <button class="csetting-btn active" data-corner="3" title="Bottom right">↘</button>
+    </div>
+    <div class="csetting-label">Idle</div>
+    <div class="csetting-row">
+      <button class="csetting-btn active" data-anim="0">Bob</button>
+      <button class="csetting-btn" data-anim="1">Bounce</button>
+      <button class="csetting-btn" data-anim="2">Sleep</button>
+      <button class="csetting-btn" data-anim="3">Wave</button>
+    </div>
+  </div>
   <div class="critter-title">Portfolio Pet</div>
+  <svg class="critter-xp-ring" id="critterRing" width="76" height="76" viewBox="0 0 76 76">
+    <circle cx="38" cy="38" r="35" fill="none" stroke="var(--border)" stroke-width="2" opacity="0.3"/>
+    <circle id="critterRingFill" cx="38" cy="38" r="35" fill="none" stroke="var(--amber)" stroke-width="2.5" stroke-linecap="round"
+      stroke-dasharray="220" stroke-dashoffset="220" transform="rotate(-90 38 38)" style="transition: stroke-dashoffset 0.5s ease"/>
+  </svg>
   <canvas id="critterCanvas" width="16" height="16" style="width:64px;height:64px;"></canvas>
   <div class="critter-label" id="critterLabel">Egg</div>
+  <div class="critter-history" id="critterHistory"></div>
+</div>
+
+<!-- EVOLUTION OVERLAY -->
+<div class="evo-overlay" id="evoOverlay">
+  <div class="evo-text" id="evoText">Evolving...</div>
+  <div class="evo-canvas-wrap" id="evoWrap">
+    <canvas id="evoOld" width="16" height="16"></canvas>
+    <canvas id="evoNew" width="16" height="16"></canvas>
+    <div class="evo-particles" id="evoParticles"></div>
+  </div>
+  <div class="evo-text" id="evoName"></div>
 </div>
 
 <!-- XP HUD -->
@@ -2101,7 +2845,7 @@
     <li><a href="#featured">Featured</a></li>
     <li><a href="#work">Work</a></li>
     <li><a href="#toolkit">Skills</a></li>
-    <li><a href="#timeline">Path</a></li>
+    <li><a href="#journey">Journey</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">🌙</button>
@@ -2267,6 +3011,7 @@
       </picture>
     </div>
   </div>
+
   </div>
 </section>
 
@@ -2331,9 +3076,31 @@
       <div class="work-item">
         <div class="work-visual vis-photocull">
           <div class="work-visual-bg"></div>
-          <div>
-            <div class="work-visual-icon">10</div>
-            <div class="work-visual-sub">CV features analyzed</div>
+          <div style="text-align:center;">
+            <div class="work-visual-svg" data-draw>
+              <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Camera lens -->
+                <circle cx="60" cy="55" r="35" stroke="currentColor" stroke-width="2.5" class="draw-path" opacity="0.9"/>
+                <circle cx="60" cy="55" r="22" stroke="currentColor" stroke-width="1.5" class="draw-path" opacity="0.6"/>
+                <circle cx="60" cy="55" r="10" stroke="currentColor" stroke-width="1.5" class="draw-path" opacity="0.4"/>
+                <!-- Aperture blades -->
+                <line x1="60" y1="20" x2="60" y2="33" stroke="currentColor" stroke-width="1.5" class="draw-path" opacity="0.5"/>
+                <line x1="90" y1="38" x2="80" y2="44" stroke="currentColor" stroke-width="1.5" class="draw-path" opacity="0.5"/>
+                <line x1="90" y1="72" x2="80" y2="66" stroke="currentColor" stroke-width="1.5" class="draw-path" opacity="0.5"/>
+                <line x1="60" y1="90" x2="60" y2="77" stroke="currentColor" stroke-width="1.5" class="draw-path" opacity="0.5"/>
+                <line x1="30" y1="72" x2="40" y2="66" stroke="currentColor" stroke-width="1.5" class="draw-path" opacity="0.5"/>
+                <line x1="30" y1="38" x2="40" y2="44" stroke="currentColor" stroke-width="1.5" class="draw-path" opacity="0.5"/>
+                <!-- Analysis grid dots -->
+                <circle cx="48" cy="43" r="2.5" fill="currentColor" opacity="0.7"/>
+                <circle cx="72" cy="43" r="2.5" fill="currentColor" opacity="0.7"/>
+                <circle cx="48" cy="67" r="2.5" fill="currentColor" opacity="0.7"/>
+                <circle cx="72" cy="67" r="2.5" fill="currentColor" opacity="0.7"/>
+                <circle cx="60" cy="55" r="3" fill="currentColor" opacity="0.9"/>
+                <!-- Quality check -->
+                <polyline points="95,95 102,102 115,88" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="draw-path"/>
+              </svg>
+            </div>
+            <div class="work-visual-sub">10 CV features analyzed</div>
           </div>
         </div>
         <div class="work-card" data-rarity="epic">
@@ -2354,9 +3121,30 @@
       <div class="work-item">
         <div class="work-visual vis-pneumo">
           <div class="work-visual-bg"></div>
-          <div>
-            <div class="work-visual-icon">0</div>
-            <div class="work-visual-sub">Commercial equivalents exist</div>
+          <div style="text-align:center;">
+            <div class="work-visual-svg" data-draw>
+              <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Lungs outline -->
+                <path d="M60 25 C60 25 45 30 38 45 C31 60 28 80 35 90 C42 100 50 95 55 85 L60 75" stroke="currentColor" stroke-width="2" class="draw-path" opacity="0.7"/>
+                <path d="M60 25 C60 25 75 30 82 45 C89 60 92 80 85 90 C78 100 70 95 65 85 L60 75" stroke="currentColor" stroke-width="2" class="draw-path" opacity="0.7"/>
+                <!-- Trachea -->
+                <line x1="60" y1="12" x2="60" y2="25" stroke="currentColor" stroke-width="2.5" class="draw-path" opacity="0.8"/>
+                <!-- Chest tube -->
+                <path d="M90 60 L78 55 L72 60" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="draw-path" opacity="0.9"/>
+                <!-- Pressure waves -->
+                <path d="M42 55 Q46 48 50 55 Q54 62 58 55" stroke="currentColor" stroke-width="1.5" class="draw-path" opacity="0.5"/>
+                <!-- Air bubbles -->
+                <circle cx="88" cy="50" r="3" stroke="currentColor" stroke-width="1.5" class="draw-path" opacity="0.4"/>
+                <circle cx="95" cy="44" r="2" stroke="currentColor" stroke-width="1" class="draw-path" opacity="0.3"/>
+                <circle cx="100" cy="52" r="1.5" stroke="currentColor" stroke-width="1" class="draw-path" opacity="0.3"/>
+                <!-- Sensor node -->
+                <circle cx="90" cy="60" r="5" stroke="currentColor" stroke-width="2" class="draw-path"/>
+                <circle cx="90" cy="60" r="2" fill="currentColor" opacity="0.8"/>
+                <!-- Zero badge -->
+                <text x="60" y="110" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="11" font-weight="700" opacity="0.9">FIRST OF ITS KIND</text>
+              </svg>
+            </div>
+            <div class="work-visual-sub">0 commercial equivalents</div>
           </div>
         </div>
         <div class="work-card" data-rarity="rare">
@@ -2375,9 +3163,33 @@
       <div class="work-item">
         <div class="work-visual vis-emg">
           <div class="work-visual-bg"></div>
-          <div>
-            <div class="work-visual-icon">4-8</div>
-            <div class="work-visual-sub">Hz tremor band targeted</div>
+          <div style="text-align:center;">
+            <div class="work-visual-svg" data-draw>
+              <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Arm silhouette (filled, clearly arm-shaped) -->
+                <path d="M40 48 C38 50 36 56 36 66 C36 76 38 84 42 90 L78 90 C82 84 84 76 84 66 C84 56 82 50 80 48 Z" fill="currentColor" opacity="0.12" class="draw-path"/>
+                <path d="M40 48 C38 50 36 56 36 66 C36 76 38 84 42 90 L78 90 C82 84 84 76 84 66 C84 56 82 50 80 48 Z" stroke="currentColor" stroke-width="1.5" opacity="0.45" class="draw-path"/>
+                <!-- Cuff band (solid, prominent) -->
+                <rect x="32" y="60" width="56" height="16" rx="8" fill="currentColor" opacity="0.18" class="draw-path"/>
+                <rect x="32" y="60" width="56" height="16" rx="8" stroke="currentColor" stroke-width="2.5" opacity="0.9" class="draw-path"/>
+                <!-- Electrode pads on cuff -->
+                <circle cx="46" cy="68" r="4" fill="currentColor" opacity="0.85"/>
+                <circle cx="60" cy="68" r="4" fill="currentColor" opacity="0.85"/>
+                <circle cx="74" cy="68" r="4" fill="currentColor" opacity="0.85"/>
+                <!-- Electrode leads (wires going up to waveform) -->
+                <line x1="46" y1="64" x2="35" y2="35" stroke="currentColor" stroke-width="1" opacity="0.3" stroke-dasharray="2 2"/>
+                <line x1="60" y1="64" x2="60" y2="35" stroke="currentColor" stroke-width="1" opacity="0.3" stroke-dasharray="2 2"/>
+                <line x1="74" y1="64" x2="85" y2="35" stroke="currentColor" stroke-width="1" opacity="0.3" stroke-dasharray="2 2"/>
+                <!-- EMG signal trace (clear tremor pattern) -->
+                <polyline points="8,28 22,28 26,18 30,38 34,20 38,32 42,28 50,28 57,12 61,44 65,20 69,32 73,28 82,28 98,28 103,20 107,36 112,28" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.95" class="draw-path"/>
+                <!-- Suppression zone indicator -->
+                <rect x="50" y="14" width="24" height="20" rx="2" fill="currentColor" opacity="0.08"/>
+                <text x="62" y="10" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="7" opacity="0.6">4–8 Hz</text>
+                <!-- Label -->
+                <text x="60" y="108" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="9" font-weight="700" opacity="0.7">TREMOR SUPPRESSION</text>
+              </svg>
+            </div>
+            <div class="work-visual-sub">Tremor band targeted</div>
           </div>
         </div>
         <div class="work-card" data-rarity="rare">
@@ -2396,8 +3208,42 @@
       <div class="work-item">
         <div class="work-visual vis-fall">
           <div class="work-visual-bg"></div>
-          <div>
-            <div class="work-visual-icon">77</div>
+          <div style="text-align:center;">
+            <div class="work-visual-svg" data-draw>
+              <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Stick figure in walking gait -->
+                <circle cx="50" cy="18" r="8" stroke="currentColor" stroke-width="2" class="draw-path"/>
+                <!-- Spine -->
+                <line x1="50" y1="26" x2="48" y2="55" stroke="currentColor" stroke-width="2.5" class="draw-path"/>
+                <!-- Arms swinging -->
+                <line x1="50" y1="34" x2="35" y2="48" stroke="currentColor" stroke-width="2" class="draw-path"/>
+                <line x1="50" y1="34" x2="65" y2="42" stroke="currentColor" stroke-width="2" class="draw-path"/>
+                <!-- Legs in stride -->
+                <line x1="48" y1="55" x2="32" y2="80" stroke="currentColor" stroke-width="2.5" class="draw-path"/>
+                <line x1="48" y1="55" x2="62" y2="78" stroke="currentColor" stroke-width="2.5" class="draw-path"/>
+                <!-- Feet -->
+                <line x1="32" y1="80" x2="25" y2="82" stroke="currentColor" stroke-width="2" class="draw-path"/>
+                <line x1="62" y1="78" x2="70" y2="80" stroke="currentColor" stroke-width="2" class="draw-path"/>
+                <!-- Motion capture markers -->
+                <circle cx="50" cy="18" r="3" fill="currentColor" opacity="0.6"/>
+                <circle cx="50" cy="34" r="2.5" fill="currentColor" opacity="0.6"/>
+                <circle cx="35" cy="48" r="2.5" fill="currentColor" opacity="0.6"/>
+                <circle cx="48" cy="55" r="2.5" fill="currentColor" opacity="0.6"/>
+                <circle cx="32" cy="80" r="2.5" fill="currentColor" opacity="0.6"/>
+                <circle cx="62" cy="78" r="2.5" fill="currentColor" opacity="0.6"/>
+                <!-- Tracking lines (motion vectors) -->
+                <path d="M70 18 L80 18 L80 22" stroke="currentColor" stroke-width="1" stroke-dasharray="3,2" class="draw-path" opacity="0.4"/>
+                <path d="M72 55 L85 55 L85 59" stroke="currentColor" stroke-width="1" stroke-dasharray="3,2" class="draw-path" opacity="0.4"/>
+                <!-- Data readout -->
+                <rect x="80" y="30" width="32" height="40" rx="3" stroke="currentColor" stroke-width="1.5" class="draw-path" opacity="0.5"/>
+                <line x1="84" y1="40" x2="108" y2="40" stroke="currentColor" stroke-width="1" class="draw-path" opacity="0.3"/>
+                <line x1="84" y1="48" x2="100" y2="48" stroke="currentColor" stroke-width="1" class="draw-path" opacity="0.3"/>
+                <line x1="84" y1="56" x2="104" y2="56" stroke="currentColor" stroke-width="1" class="draw-path" opacity="0.3"/>
+                <!-- Counter -->
+                <text x="60" y="105" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="22" font-weight="700" class="counter-num" data-target="77" opacity="0.9">0</text>
+                <text x="60" y="116" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="8" opacity="0.6">PATIENTS</text>
+              </svg>
+            </div>
             <div class="work-visual-sub">Patients in dataset</div>
           </div>
         </div>
@@ -2417,8 +3263,39 @@
       <div class="work-item">
         <div class="work-visual vis-physiorep">
           <div class="work-visual-bg"></div>
-          <div>
-            <div class="work-visual-icon">82/82</div>
+          <div style="text-align:center;">
+            <div class="work-visual-svg" data-draw>
+              <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Person in squat pose -->
+                <circle cx="60" cy="15" r="8" stroke="currentColor" stroke-width="2" class="draw-path"/>
+                <!-- Spine -->
+                <line x1="60" y1="23" x2="60" y2="50" stroke="currentColor" stroke-width="2.5" class="draw-path"/>
+                <!-- Arms out for balance -->
+                <line x1="60" y1="32" x2="38" y2="38" stroke="currentColor" stroke-width="2" class="draw-path"/>
+                <line x1="60" y1="32" x2="82" y2="38" stroke="currentColor" stroke-width="2" class="draw-path"/>
+                <!-- Bent legs (squat) -->
+                <line x1="60" y1="50" x2="42" y2="65" stroke="currentColor" stroke-width="2.5" class="draw-path"/>
+                <line x1="42" y1="65" x2="40" y2="85" stroke="currentColor" stroke-width="2.5" class="draw-path"/>
+                <line x1="60" y1="50" x2="78" y2="65" stroke="currentColor" stroke-width="2.5" class="draw-path"/>
+                <line x1="78" y1="65" x2="80" y2="85" stroke="currentColor" stroke-width="2.5" class="draw-path"/>
+                <!-- Pose estimation skeleton joints -->
+                <circle cx="60" cy="15" r="3" fill="currentColor" opacity="0.5"/>
+                <circle cx="60" cy="32" r="2.5" fill="currentColor" opacity="0.5"/>
+                <circle cx="38" cy="38" r="2.5" fill="currentColor" opacity="0.5"/>
+                <circle cx="82" cy="38" r="2.5" fill="currentColor" opacity="0.5"/>
+                <circle cx="60" cy="50" r="2.5" fill="currentColor" opacity="0.5"/>
+                <circle cx="42" cy="65" r="2.5" fill="currentColor" opacity="0.5"/>
+                <circle cx="78" cy="65" r="2.5" fill="currentColor" opacity="0.5"/>
+                <!-- Angle arc (knee angle feedback) -->
+                <path d="M48 58 A 12 12 0 0 1 42 70" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3,2" class="draw-path" opacity="0.6"/>
+                <!-- Checkmark badge -->
+                <circle cx="100" cy="20" r="12" stroke="currentColor" stroke-width="2" class="draw-path" opacity="0.7"/>
+                <polyline points="94,20 98,24 106,16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="draw-path"/>
+                <!-- Score -->
+                <text x="60" y="105" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="18" font-weight="700" opacity="0.9">82/82</text>
+                <text x="60" y="116" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="8" opacity="0.6">TESTS PASS</text>
+              </svg>
+            </div>
             <div class="work-visual-sub">Tests passing</div>
           </div>
         </div>
@@ -2491,39 +3368,145 @@
 <div class="section-rule"></div>
 
 <!-- TIMELINE -->
-<section id="timeline" class="container">
-  <p class="section-label">07 / Path</p>
-  <h2>How I got here</h2>
-  <div class="timeline">
-    <div class="timeline-item" data-sprite="novice">
-      <div class="timeline-marker"></div>
-      <div class="timeline-year">2017</div>
-      <div class="timeline-title">PT Shadowing + Kinesiology</div>
-      <div class="timeline-desc">Shadowed physical therapists through high school and into college. B.S. in Kinesiology. Worked as a server and barista on the side. Knew I wanted to help people move better, just didn't know how yet.</div>
+<!-- JOURNEY TREE -->
+<section id="journey" class="container">
+  <p class="section-label">07 / Journey</p>
+  <h2>How I got here — where I'm going</h2>
+
+  <div class="journey-tree">
+    <!-- Past chain: solid connectors -->
+    <div class="journey-row">
+      <div class="journey-node" data-jclass="kid">
+        <canvas class="journey-sprite" data-jclass="kid" width="20" height="26"></canvas>
+        <div class="journey-node-name">SoCal Kid</div>
+        <div class="journey-node-sub">PT shadowing</div>
+        <div class="journey-node-year">2017</div>
+      </div>
+      <div class="journey-conn"></div>
+      <div class="journey-node" data-jclass="kinesio">
+        <canvas class="journey-sprite" data-jclass="kinesio" width="20" height="26"></canvas>
+        <div class="journey-node-name">Kinesiology</div>
+        <div class="journey-node-sub">B.S. + clinics</div>
+        <div class="journey-node-year">2020</div>
+      </div>
+      <div class="journey-conn"></div>
+      <div class="journey-node" data-jclass="clinical">
+        <canvas class="journey-sprite" data-jclass="clinical" width="20" height="26"></canvas>
+        <div class="journey-node-name">Clinical Obs.</div>
+        <div class="journey-node-sub">400+ hours</div>
+        <div class="journey-node-year">2022</div>
+      </div>
+      <div class="journey-conn"></div>
+      <div class="journey-node journey-node-now" data-jclass="lifegrad">
+        <canvas class="journey-sprite" data-jclass="lifegrad" width="20" height="26"></canvas>
+        <div class="journey-node-name">M.S. BME</div>
+        <div class="journey-node-sub">Stevens + UseTrace</div>
+        <div class="journey-node-year">2024–26</div>
+      </div>
     </div>
-    <div class="timeline-item" data-sprite="acolyte">
-      <div class="timeline-marker"></div>
-      <div class="timeline-year">2020</div>
-      <div class="timeline-title">The Clinics That Changed Everything</div>
-      <div class="timeline-desc">Private outpatient ortho clinic with a NeuBie device that electronically stimulated patients for rehab. Pediatric clinic where play-based therapy got kids moving when nothing else worked. Saw firsthand that older patients skip therapy when it's boring.</div>
+
+    <!-- NOW divider -->
+    <div class="journey-now">
+      <span class="journey-now-badge">★ NOW · May 2026 ★</span>
     </div>
-    <div class="timeline-item" data-sprite="sage">
-      <div class="timeline-marker"></div>
-      <div class="timeline-year">2022</div>
-      <div class="timeline-title">PT School &rarr; The Pivot</div>
-      <div class="timeline-desc">Excelled in PT school. Then the realization: the biggest impact isn't treating one patient at a time. It's building the tools and devices that make rehabilitation better for everyone. Gamification. Medical devices. Engineering. Pivoted to BME.</div>
+
+    <!-- Future branches: dashed nodes (parallel paths, not sequential) -->
+    <div class="journey-row journey-future-row">
+      <div class="journey-node journey-future" data-jclass="acolyte">
+        <canvas class="journey-sprite" data-jclass="acolyte" width="20" height="26"></canvas>
+        <div class="journey-node-name">Acolyte</div>
+        <div class="journey-node-sub">Validation Eng.</div>
+        <div class="journey-node-rank">#1 Fit</div>
+      </div>
+      <div class="journey-conn journey-conn-dashed"></div>
+      <div class="journey-node journey-future" data-jclass="sage">
+        <canvas class="journey-sprite" data-jclass="sage" width="20" height="26"></canvas>
+        <div class="journey-node-name">Sage</div>
+        <div class="journey-node-sub">Applications Eng.</div>
+        <div class="journey-node-rank">#2 Fit</div>
+      </div>
+      <div class="journey-conn journey-conn-dashed"></div>
+      <div class="journey-node journey-future" data-jclass="blacksmith">
+        <canvas class="journey-sprite" data-jclass="blacksmith" width="20" height="26"></canvas>
+        <div class="journey-node-name">Blacksmith</div>
+        <div class="journey-node-sub">R&D Engineer</div>
+        <div class="journey-node-rank">#3 Fit</div>
+      </div>
+      <div class="journey-conn journey-conn-dashed"></div>
+      <div class="journey-node journey-future" data-jclass="creator">
+        <canvas class="journey-sprite" data-jclass="creator" width="20" height="26"></canvas>
+        <div class="journey-node-name">Creator</div>
+        <div class="journey-node-sub">Human Factors</div>
+        <div class="journey-node-rank">#4 Fit</div>
+      </div>
     </div>
-    <div class="timeline-item" data-sprite="blacksmith">
-      <div class="timeline-marker"></div>
-      <div class="timeline-year">2024</div>
-      <div class="timeline-title">Stevens M.S. + First Devices</div>
-      <div class="timeline-desc">M.S. Biomedical Engineering at Stevens Institute. Google UX Certificate. Built UseTrace, a human factors observation tool deployed to four medtech companies. 400+ hours of clinical observation. Five device projects.</div>
-    </div>
-    <div class="timeline-item" data-sprite="creator">
-      <div class="timeline-marker"></div>
-      <div class="timeline-year">2026</div>
-      <div class="timeline-title">Graduation + What's Next</div>
-      <div class="timeline-desc">Six device projects built and tested. PhysioRep (gamified PT exercise coaching, full circle from those clinics). PhotoCull AI (open source, 300+ stars). Graduating May 2026. Moving to SoCal to build what's next.</div>
+  </div>
+</section>
+
+<!-- OFF THE CLOCK -->
+<section id="personal" class="container">
+  <p class="section-label">07.5 / Off the Clock</p>
+  <button class="personal-toggle" id="personalToggle" aria-expanded="false" aria-controls="personalContent">
+    <span class="personal-toggle-arrow">&#9660;</span>
+    <span class="personal-toggle-text">The person behind the portfolio</span>
+    <span class="personal-toggle-hint">click to expand</span>
+  </button>
+  <div class="personal-content" id="personalContent" role="region">
+    <div class="personal-grid">
+      <div class="personal-item">
+        <div class="personal-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="4" y="6" width="20" height="14" rx="2" stroke="var(--amber)" stroke-width="1.5"/><circle cx="14" cy="13" r="4" stroke="var(--amber)" stroke-width="1.5"/><circle cx="14" cy="13" r="1.5" fill="var(--amber)" opacity="0.6"/><rect x="19" y="8" width="2" height="2" rx="1" fill="var(--amber)" opacity="0.5"/></svg>
+        </div>
+        <div>
+          <div class="personal-item-title">Fujifilm X-T5</div>
+          <div class="personal-item-desc">Mood-driven photography. XF 33mm f/1.4, soft highlights, analog character. Built PhotoCull because I got tired of paying to cull my own shots.</div>
+        </div>
+      </div>
+      <div class="personal-item">
+        <div class="personal-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="6" y="3" width="16" height="22" rx="2" stroke="var(--coral)" stroke-width="1.5"/><rect x="9" y="6" width="10" height="6" rx="1" stroke="var(--coral)" stroke-width="1" opacity="0.6"/><circle cx="11" cy="16" r="1.5" fill="var(--coral)" opacity="0.5"/><circle cx="14" cy="16" r="1.5" fill="var(--coral)" opacity="0.5"/><circle cx="17" cy="16" r="1.5" fill="var(--coral)" opacity="0.5"/><line x1="11" y1="20" x2="17" y2="20" stroke="var(--coral)" stroke-width="1" opacity="0.4"/></svg>
+        </div>
+        <div>
+          <div class="personal-item-title">Gamer</div>
+          <div class="personal-item-desc">Mostly Valorant right now. Also Clash Royale, Tekken, and whatever else looks fun.</div>
+        </div>
+      </div>
+      <div class="personal-item">
+        <div class="personal-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="10" cy="20" r="4" stroke="var(--teal)" stroke-width="1.5"/><circle cx="22" cy="20" r="3" stroke="var(--teal)" stroke-width="1.5"/><line x1="14" y1="20" x2="19" y2="20" stroke="var(--teal)" stroke-width="1.5"/><line x1="14" y1="20" x2="16" y2="10" stroke="var(--teal)" stroke-width="1.5"/><line x1="16" y1="10" x2="20" y2="8" stroke="var(--teal)" stroke-width="1.5"/><line x1="16" y1="14" x2="12" y2="12" stroke="var(--teal)" stroke-width="1"/></svg>
+        </div>
+        <div>
+          <div class="personal-item-title">E-Bike Commuter</div>
+          <div class="personal-item-desc">Lectric XP 4.0. Jersey City to Hoboken daily. Minimalist gear philosophy, maximum efficiency.</div>
+        </div>
+      </div>
+      <div class="personal-item">
+        <div class="personal-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 4 C14 4 6 8 6 14 C6 18 8 22 14 26 C20 22 22 18 22 14 C22 8 14 4 14 4Z" stroke="var(--gold)" stroke-width="1.5"/><path d="M10 14 Q12 10 14 14 Q16 18 18 14" stroke="var(--gold)" stroke-width="1.2" opacity="0.6"/></svg>
+        </div>
+        <div>
+          <div class="personal-item-title">Filipino</div>
+          <div class="personal-item-desc">Heritage matters. Subtle Filipino-inspired elements in everything from personal style to design sensibility.</div>
+        </div>
+      </div>
+      <div class="personal-item">
+        <div class="personal-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M9 22 C9 22 9 12 14 8 C19 12 19 22 19 22" stroke="var(--earth)" stroke-width="1.5" stroke-linecap="round"/><path d="M11 22 C11 16 14 14 14 14 C14 14 17 16 17 22" stroke="var(--earth)" stroke-width="1" opacity="0.5"/><ellipse cx="14" cy="22" rx="7" ry="2" stroke="var(--earth)" stroke-width="1" opacity="0.4"/><path d="M12 6 Q14 3 16 6" stroke="var(--earth)" stroke-width="1" opacity="0.6"/></svg>
+        </div>
+        <div>
+          <div class="personal-item-title">Coffee-Powered</div>
+          <div class="personal-item-desc">Strong opinions about test protocols. Even stronger opinions about pour-over ratios. The portfolio was built on caffeine.</div>
+        </div>
+      </div>
+      <div class="personal-item">
+        <div class="personal-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="8" r="4" stroke="var(--green)" stroke-width="1.5"/><path d="M8 24 C8 18 10 16 14 16 C18 16 20 18 20 24" stroke="var(--green)" stroke-width="1.5" stroke-linecap="round"/><path d="M20 10 L24 10" stroke="var(--green)" stroke-width="1" opacity="0.5"/><path d="M20 12 L22 12" stroke="var(--green)" stroke-width="1" opacity="0.3"/></svg>
+        </div>
+        <div>
+          <div class="personal-item-title">SoCal Native</div>
+          <div class="personal-item-desc">Grew up in Carson/Torrance. Came to Jersey City for my masters at Stevens. Heading home after graduation. If your office is between Long Beach and Irvine, even better.</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -2537,7 +3520,7 @@
     <div class="contact-wrapper">
       <div class="contact-left">
         <h2>Available May 2026. Let's talk about what I can build for your team.</h2>
-        <p>Device testing, usability studies, regulatory submissions, tools that help your team move faster. If you build anything that touches a patient, I want in. SoCal preferred, remote works. Strong opinions about test protocols, decent taste in coffee.</p>
+        <p>Device testing, usability studies, regulatory submissions, tools that help your team move faster. If your team builds devices that reach patients, that's where I want to be. SoCal preferred, remote works. Strong opinions about test protocols, decent taste in coffee.</p>
       </div>
       <form class="contact-form" id="contactForm" action="https://formspree.io/f/mjgaznkg" method="POST">
         <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
@@ -2563,7 +3546,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="container">
-    &copy; <script>document.write(new Date().getFullYear())</script> Joneil Caoile. Built between Tekken rounds with too much coffee.
+    &copy; <script>document.write(new Date().getFullYear())</script> Joneil Caoile. Built with too much coffee.
     <span class="footer-links">
       <a href="https://linkedin.com/in/joneilcaoile" target="_blank" rel="noopener">LinkedIn</a>
       <a href="https://github.com/joneilcaoile" target="_blank" rel="noopener">GitHub</a>
@@ -2849,172 +3832,166 @@
   // Try to load saved XP
   try { const saved = localStorage.getItem('jc-xp2'); if (saved) xp = Math.min(parseInt(saved, 10) || 0, MAX_XP); } catch(e) {}
 
-  // Evolution stages tied to life milestones
+  // Evolution stages — slime crew
   const STAGES = [
-    { name: 'Egg',       minXP: 0,    draw: drawEgg },    // birth
-    { name: 'Blob',      minXP: 200,  draw: drawBlob },   // childhood
-    { name: 'Pup',       minXP: 611,  draw: drawPup },    // 6/11 birthday
-    { name: 'Tech',      minXP: 1200, draw: drawTech },   // grad school
-    { name: 'Apex',      minXP: 1800, draw: drawApex }    // near graduation
+    { name: 'Egg',        minXP: 0,    draw: drawEgg },
+    { name: 'Slimeling',  minXP: 100,  draw: drawSlimeling },
+    { name: 'Slime',      minXP: 350,  draw: drawSlime },
+    { name: 'Grad Slime', minXP: 700,  draw: drawGradSlime },
+    { name: 'King Slime', minXP: 1200, draw: drawKingSlime }
   ];
 
-  const C = {
-    BG: null, // transparent
-    WH: '#FFFFFF', BK: '#2A2A2A', GY: '#8A8A8A', LG: '#C8C8C8',
-    AM: '#C67B2E', AM2: '#A66320', CR: '#E8815C', CR2: '#C56A48',
-    GN: '#6EBF5E', GN2: '#4E9F3E', BL: '#5B9BD5', BL2: '#3D7DB7',
-    SK: '#FFD5B8', SK2: '#E8B898', PU: '#9B7ED8', PU2: '#7B5EB8',
-    YL: '#FFD700', RD: '#E84040', WT: '#F0F0F0', WT2: '#D0D0D0',
-    GL: '#FFE87C' // glow
-  };
+  // Slime palette
+  const SL='#5BAAEE',SD='#3D88CC',SL2='#8ECFFF'; // blue slime
+  const WH='#FFFFFF',BK='#1A1A2E',PK='#FFB3BA';  // base
+  const YL='#FFE040',GO='#FFB820',GL='#C8F0FF';  // king
+  const PU='#9B7ED8',KSD='#7B5EB8';              // purple
 
+  let activeCtx = critterCtx;
   function px(x, y, color) {
     if (!color) return;
-    critterCtx.fillStyle = color;
-    critterCtx.fillRect(x, y, 1, 1);
+    activeCtx.fillStyle = color;
+    activeCtx.fillRect(x, y, 1, 1);
   }
 
-  function drawEgg() {
-    critterCtx.clearRect(0, 0, 16, 16);
-    // Egg shell
-    const egg = [
-      [5,3],[6,3],[7,3],[8,3],[9,3],[10,3],
-      [4,4],[5,4],[6,4],[7,4],[8,4],[9,4],[10,4],[11,4],
-      [3,5],[4,5],[5,5],[6,5],[7,5],[8,5],[9,5],[10,5],[11,5],[12,5],
-      [3,6],[12,6],[3,7],[12,7],[3,8],[12,8],[3,9],[12,9],
-      [3,10],[12,10],[3,11],[12,11],
-      [4,12],[5,12],[6,12],[7,12],[8,12],[9,12],[10,12],[11,12],
-      [5,13],[6,13],[7,13],[8,13],[9,13],[10,13]
-    ];
-    egg.forEach(([x,y]) => px(x, y, C.WT));
-    // Fill
-    for (let y = 6; y <= 11; y++) for (let x = 4; x <= 11; x++) px(x, y, C.WT2);
-    for (let x = 5; x <= 10; x++) px(x, 5, C.WT2);
-    for (let x = 6; x <= 9; x++) { px(x, 12, C.WT2); }
-    // Cross symbol
-    px(7, 7, C.CR); px(8, 7, C.CR);
-    px(7, 8, C.CR); px(8, 8, C.CR);
-    px(6, 8, C.CR); px(9, 8, C.CR);
-    px(7, 9, C.CR); px(8, 9, C.CR);
-    // Shine
-    px(5, 5, C.WH); px(6, 4, C.WH);
+  // helper to draw a slime body (shared shape)
+  function slimeBody(cols, rows, oy) {
+    rows.forEach(([y, x0, x1, c]) => { for(let x=x0;x<=x1;x++) px(x,y+oy,c); });
   }
 
-  function drawBlob() {
-    critterCtx.clearRect(0, 0, 16, 16);
-    // Body - round blob
-    for (let y = 6; y <= 13; y++) for (let x = 3; x <= 12; x++) {
-      if ((y === 6 || y === 13) && (x < 5 || x > 10)) continue;
-      if ((y === 7 || y === 12) && (x < 4 || x > 11)) continue;
-      px(x, y, y > 10 ? C.GN2 : C.GN);
-    }
-    // Eyes
-    px(6, 8, C.WH); px(7, 8, C.WH); px(9, 8, C.WH); px(10, 8, C.WH);
-    px(7, 9, C.BK); px(10, 9, C.BK);
-    // Mouth
-    px(7, 11, C.BK); px(8, 11, C.BK); px(9, 11, C.BK);
-    // Cheeks
-    px(5, 10, C.CR); px(11, 10, C.CR);
-    // Antenna
-    px(8, 5, C.GN); px(8, 4, C.GN); px(7, 3, C.YL);
+  function drawEgg(hov, fr) {
+    activeCtx.clearRect(0, 0, 16, 16);
+    const f = fr||0;
+    const oy = Math.round(Math.sin(f*0.1)*(hov?0:1));
+    const WT='#F0EAE0',WT2='#D8D0C4',CR2='#E8815C';
+    [[5,3],[6,3],[7,3],[8,3],[9,3],[10,3],[4,4],[11,4],[4,5],[11,5],[4,6],[11,6],[4,7],[11,7],[4,8],[11,8],[5,9],[6,9],[7,9],[8,9],[9,9],[10,9]].forEach(([x,y]) => px(x,y+oy,WT));
+    for(let y=4;y<=8;y++) for(let x=5;x<=10;x++) px(x,y+oy,WT2);
+    px(7,5+oy,CR2); px(8,6+oy,CR2); px(7,7+oy,CR2); px(8,5+oy,CR2);
+    px(5,4+oy,WH); px(6,3+oy,WH);
+    if(hov) { px(6,8+oy,CR2); px(9,8+oy,CR2); }
   }
 
-  function drawPup() {
-    critterCtx.clearRect(0, 0, 16, 16);
-    // Head
-    for (let y = 2; y <= 7; y++) for (let x = 4; x <= 11; x++) {
-      if ((y === 2 || y === 7) && (x < 5 || x > 10)) continue;
-      px(x, y, C.GN);
+  function drawSlimeling(hov, fr, mode) {
+    activeCtx.clearRect(0, 0, 16, 16);
+    const f=fr||0, m=mode||0;
+    const oy = m===2 ? 0 : (hov ? -2 : Math.round(Math.sin(f*0.13)*1));
+    [[7,3],[8,3],[6,4],[7,4],[8,4],[9,4]].forEach(([x,y]) => px(x,y+oy,SL));
+    for(let x=5;x<=10;x++) { px(x,5+oy,SL); px(x,6+oy,SL); px(x,7+oy,SL); }
+    for(let x=5;x<=10;x++) px(x,8+oy,SD);
+    [6,7,8,9].forEach(x => px(x,9+oy,SD));
+    px(7,10+oy,SD); px(8,10+oy,SD);
+    if(m===2) {
+      px(6,6+oy,BK); px(7,6+oy,BK); px(9,6+oy,BK); px(10,6+oy,BK);
+      if(f%50<25) px(12,2+oy,BK); else { px(12,1+oy,BK); px(13,1+oy,BK); }
+    } else if(hov) {
+      px(6,5+oy,WH); px(8,6+oy,WH); px(10,5+oy,WH); px(8,5+oy,WH); px(7,5+oy,BK); px(9,5+oy,BK);
+    } else {
+      px(5,6+oy,WH); px(6,6+oy,WH); px(5,7+oy,WH); px(6,7+oy,WH);
+      px(9,6+oy,WH); px(10,6+oy,WH); px(9,7+oy,WH); px(10,7+oy,WH);
+      px(6,7+oy,BK); px(10,7+oy,BK);
     }
-    // Body
-    for (let y = 8; y <= 11; y++) for (let x = 5; x <= 10; x++) px(x, y, C.GN2);
-    // Eyes
-    px(6, 4, C.WH); px(7, 4, C.WH); px(9, 4, C.WH); px(10, 4, C.WH);
-    px(6, 5, C.BK); px(9, 5, C.BK);
-    // Mouth
-    px(7, 6, C.BK); px(8, 6, C.BK);
-    // Arms
-    px(4, 9, C.GN); px(3, 9, C.GN); px(11, 9, C.GN); px(12, 9, C.GN);
-    // Legs
-    px(6, 12, C.GN2); px(6, 13, C.GN2); px(9, 12, C.GN2); px(9, 13, C.GN2);
-    // Feet
-    px(5, 13, C.GN); px(10, 13, C.GN);
-    // Headband
-    for (let x = 4; x <= 11; x++) px(x, 3, C.AM);
-    px(12, 2, C.AM); px(12, 3, C.AM); // band tail
-    // Cheeks
-    px(5, 5, C.CR); px(10, 5, C.CR);
+    if(m!==2) { px(6,8+oy,BK); px(7,8+oy,BK); px(8,8+oy,BK); px(9,8+oy,BK); }
+    px(5,7+oy,PK); px(11,7+oy,PK);
+    if(m===3) { const s=Math.round(Math.sin(f*0.2)*2); px(4+s,6+oy,SL2); px(11-s,6+oy,SL2); }
+    for(let x=6;x<=9;x++) px(x,12,'rgba(91,170,238,0.15)');
   }
 
-  function drawTech() {
-    critterCtx.clearRect(0, 0, 16, 16);
-    // Head
-    for (let y = 1; y <= 6; y++) for (let x = 4; x <= 11; x++) {
-      if ((y === 1 || y === 6) && (x < 5 || x > 10)) continue;
-      px(x, y, C.GN);
+  function drawSlime(hov, fr, mode) {
+    activeCtx.clearRect(0, 0, 16, 16);
+    const f=fr||0, m=mode||0;
+    const bmp = m===1 ? Math.round(Math.abs(Math.sin(f*0.18))*-3) : 0;
+    const oy = m===2 ? 0 : (hov ? -3 : bmp + Math.round(Math.sin(f*0.11)*1));
+    [[6,2],[7,2],[8,2],[9,2]].forEach(([x,y])=>px(x,y+oy,SL));
+    [5,6,7,8,9,10].forEach(x=>px(x,3+oy,SL));
+    for(let x=4;x<=11;x++) { px(x,4+oy,SL); px(x,5+oy,SL); px(x,6+oy,SL); px(x,7+oy,SL); }
+    for(let x=4;x<=11;x++) px(x,8+oy,SD);
+    for(let x=5;x<=10;x++) px(x,9+oy,SD);
+    [6,7,8,9].forEach(x=>px(x,10+oy,SD));
+    px(7,11+oy,SD); px(8,11+oy,SD);
+    if(m===2) {
+      for(let x=5;x<=7;x++) px(x,5+oy,BK); for(let x=9;x<=11;x++) px(x,5+oy,BK);
+      if(f%60<30) px(13,1+oy,BK); else { px(12,0+oy,BK); px(13,0+oy,BK); px(14,0+oy,BK); }
+    } else if(hov) {
+      [5,7].forEach(x=>px(x,5+oy,WH)); px(6,4+oy,WH); px(6,5+oy,BK);
+      [9,11].forEach(x=>px(x,5+oy,WH)); px(10,4+oy,WH); px(10,5+oy,BK);
+    } else {
+      [[5,5],[6,5],[5,6],[6,6],[10,5],[11,5],[10,6],[11,6]].forEach(([x,y])=>px(x,y+oy,WH));
+      px(6,6+oy,BK); px(11,6+oy,BK);
     }
-    // Goggles
-    px(5, 3, C.BL); px(6, 3, C.BL); px(7, 3, C.GY); px(8, 3, C.GY); px(9, 3, C.BL); px(10, 3, C.BL);
-    px(6, 4, C.WH); px(9, 4, C.WH); // lens highlights
-    px(6, 3, C.BL2); px(9, 3, C.BL2); // pupils
-    // Mouth
-    px(7, 5, C.BK); px(8, 5, C.BK);
-    // Lab coat body
-    for (let y = 7; y <= 11; y++) for (let x = 4; x <= 11; x++) {
-      if (x === 7 || x === 8) px(x, y, C.WT); // coat center
-      else px(x, y, C.WT2);
-    }
-    // Coat lapels
-    px(6, 7, C.WT); px(9, 7, C.WT);
-    // Pocket
-    px(5, 9, C.GY); px(5, 10, C.GY); px(6, 9, C.GY); px(6, 10, C.GY);
-    // Arms (green skin poking out of coat)
-    px(3, 8, C.GN); px(3, 9, C.GN); px(12, 8, C.GN); px(12, 9, C.GN);
-    // Tool in right hand (wrench)
-    px(13, 8, C.GY); px(13, 7, C.GY); px(13, 6, C.AM);
-    // Legs
-    px(6, 12, C.GN2); px(6, 13, C.GN2); px(9, 12, C.GN2); px(9, 13, C.GN2);
-    px(5, 13, C.BK); px(10, 13, C.BK); // shoes
-    // Cheeks
-    px(5, 5, C.CR); px(10, 5, C.CR);
+    if(m!==2) { px(5,8+oy,BK); px(6,9+oy,BK); px(7,9+oy,BK); px(8,9+oy,BK); px(9,9+oy,BK); px(10,8+oy,BK); }
+    px(4,7+oy,PK); px(12,7+oy,PK);
+    if(m===3) { const s=Math.round(Math.sin(f*0.18)*2); px(3+s,5+oy,SL2); px(12-s,5+oy,SL2); px(3+s,6+oy,SL2); px(12-s,6+oy,SL2); }
+    for(let x=5;x<=10;x++) px(x,13,'rgba(91,170,238,0.15)');
   }
 
-  function drawApex() {
-    critterCtx.clearRect(0, 0, 16, 16);
-    // Glow aura (subtle corners)
-    px(3, 0, C.GL); px(12, 0, C.GL); px(0, 7, C.GL); px(15, 7, C.GL); px(3, 15, C.GL); px(12, 15, C.GL);
-    // Crown / halo
-    px(6, 0, C.YL); px(7, 0, C.YL); px(8, 0, C.YL); px(9, 0, C.YL);
-    px(5, 0, C.AM); px(10, 0, C.AM);
-    // Head
-    for (let y = 1; y <= 6; y++) for (let x = 4; x <= 11; x++) {
-      if ((y === 1 || y === 6) && (x < 5 || x > 10)) continue;
-      px(x, y, C.GN);
+  function drawGradSlime(hov, fr, mode) {
+    activeCtx.clearRect(0, 0, 16, 16);
+    const f=fr||0, m=mode||0;
+    const bmp = m===1 ? Math.round(Math.abs(Math.sin(f*0.18))*-3) : 0;
+    const oy = m===2 ? 0 : (hov ? -3 : bmp + Math.round(Math.sin(f*0.1)*1));
+    const SG='#4AB8AA', SGD='#2E9080';
+    [6,7,8,9].forEach(x=>px(x,3+oy,SG));
+    [5,6,7,8,9,10].forEach(x=>px(x,4+oy,SG));
+    for(let x=4;x<=11;x++) { px(x,5+oy,SG); px(x,6+oy,SG); px(x,7+oy,SG); px(x,8+oy,SG); }
+    for(let x=4;x<=11;x++) px(x,9+oy,SGD);
+    for(let x=5;x<=10;x++) px(x,10+oy,SGD);
+    [6,7,8,9].forEach(x=>px(x,11+oy,SGD));
+    px(7,12+oy,SGD); px(8,12+oy,SGD);
+    // Grad cap
+    for(let x=4;x<=11;x++) px(x,2+oy,BK);
+    for(let x=5;x<=10;x++) px(x,1+oy,BK);
+    px(10,2+oy,GO); px(11,2+oy,GO); px(10,3+oy,GO); // tassel
+    if(m===2) {
+      for(let x=5;x<=7;x++) px(x,6+oy,BK); for(let x=9;x<=11;x++) px(x,6+oy,BK);
+      if(f%60<30) px(13,3+oy,BK); else { px(12,2+oy,BK); px(13,2+oy,BK); }
+    } else if(hov) {
+      px(5,6+oy,WH); px(7,5+oy,WH); px(6,5+oy,WH); px(6,6+oy,BK);
+      px(9,6+oy,WH); px(11,6+oy,WH); px(10,5+oy,WH); px(10,6+oy,BK);
+    } else {
+      [[5,6],[6,6],[5,7],[6,7],[10,6],[11,6],[10,7],[11,7]].forEach(([x,y])=>px(x,y+oy,WH));
+      px(6,7+oy,BK); px(11,7+oy,BK);
     }
-    // Goggles (glowing)
-    px(5, 3, C.PU); px(6, 3, C.PU); px(7, 3, C.GY); px(8, 3, C.GY); px(9, 3, C.PU); px(10, 3, C.PU);
-    px(6, 4, C.GL); px(9, 4, C.GL); // glowing lenses
-    // Confident mouth
-    px(7, 5, C.BK); px(8, 5, C.BK); px(9, 5, C.BK);
-    // Lab coat body (gold trim)
-    for (let y = 7; y <= 11; y++) for (let x = 4; x <= 11; x++) {
-      if (x === 4 || x === 11) px(x, y, C.AM); // gold trim
-      else if (x === 7 || x === 8) px(x, y, C.WT);
-      else px(x, y, C.WT2);
+    if(m!==2) { px(5,9+oy,BK); px(6,10+oy,BK); px(7,10+oy,BK); px(8,10+oy,BK); px(9,10+oy,BK); px(10,9+oy,BK); }
+    px(4,8+oy,PK); px(12,8+oy,PK);
+    for(let x=5;x<=10;x++) px(x,14,'rgba(74,184,170,0.15)');
+  }
+
+  function drawKingSlime(hov, fr, mode) {
+    activeCtx.clearRect(0, 0, 16, 16);
+    const f=fr||0, m=mode||0;
+    const bmp = m===1 ? Math.round(Math.abs(Math.sin(f*0.16))*-4) : 0;
+    const oy = m===2 ? 0 : (hov ? -4 : bmp + Math.round(Math.sin(f*0.09)*1));
+    // Glow aura
+    const pulse = Math.sin(f*0.08)*0.12+0.08;
+    activeCtx.fillStyle = `rgba(155,126,216,${pulse})`;
+    activeCtx.fillRect(1,1+oy,14,13);
+    [5,6,7,8,9,10].forEach(x=>px(x,2+oy,PU));
+    [4,5,6,7,8,9,10,11].forEach(x=>px(x,3+oy,PU));
+    for(let x=3;x<=12;x++) { px(x,4+oy,PU); px(x,5+oy,PU); px(x,6+oy,PU); px(x,7+oy,PU); }
+    for(let x=3;x<=12;x++) px(x,8+oy,KSD);
+    for(let x=4;x<=11;x++) px(x,9+oy,KSD);
+    for(let x=5;x<=10;x++) px(x,10+oy,KSD);
+    [6,7,8,9].forEach(x=>px(x,11+oy,KSD));
+    px(7,12+oy,KSD); px(8,12+oy,KSD);
+    // Crown
+    px(5,1+oy,YL); px(8,0+oy,YL); px(11,1+oy,YL);
+    for(let x=4;x<=11;x++) px(x,1+oy,GO);
+    px(7,0+oy,'#FF6B6B'); px(8,1+oy,YL);
+    if(m===2) {
+      for(let x=5;x<=7;x++) px(x,5+oy,BK); for(let x=9;x<=11;x++) px(x,5+oy,BK);
+      if(f%60<30) px(14,2+oy,BK); else { px(13,1+oy,BK); px(14,1+oy,BK); px(15,1+oy,BK); }
+    } else if(hov) {
+      [5,7].forEach(x=>{ px(x,5+oy,YL); px(6,4+oy,YL); px(6,6+oy,YL); px(6,5+oy,WH); });
+      [9,11].forEach(x=>{ px(x,5+oy,YL); px(10,4+oy,YL); px(10,6+oy,YL); px(10,5+oy,WH); });
+    } else {
+      [[5,5],[6,5],[5,6],[6,6],[10,5],[11,5],[10,6],[11,6]].forEach(([x,y])=>px(x,y+oy,WH));
+      px(6,6+oy,BK); px(11,6+oy,BK);
+      if(f%30<15) { px(6,5+oy,GL); px(11,5+oy,GL); }
     }
-    // Badge
-    px(9, 8, C.RD); px(10, 8, C.RD); px(9, 9, C.RD);
-    // Arms with tools
-    px(3, 8, C.GN); px(3, 9, C.GN); px(12, 8, C.GN); px(12, 9, C.GN);
-    px(2, 8, C.AM); px(2, 7, C.AM); px(2, 6, C.YL); // golden wrench left
-    px(13, 8, C.BL); px(13, 7, C.BL); px(13, 6, C.BL2); // stethoscope right
-    // Legs
-    px(6, 12, C.GN2); px(6, 13, C.GN2); px(9, 12, C.GN2); px(9, 13, C.GN2);
-    px(5, 13, C.BK); px(10, 13, C.BK); // shoes
-    // Cheeks (glow)
-    px(5, 5, C.GL); px(10, 5, C.GL);
-    // Sparkle particles
-    px(1, 2, C.YL); px(14, 4, C.YL); px(2, 12, C.YL); px(13, 13, C.YL);
+    if(m!==2) { px(4,8+oy,BK); px(5,9+oy,BK); px(7,10+oy,BK); px(8,10+oy,BK); px(10,9+oy,BK); px(11,8+oy,BK); }
+    px(3,7+oy,YL); px(13,7+oy,YL);
+    if(f%40<20) { px(1,4+oy,GL); px(14,6+oy,GL); } else { px(1,9+oy,GL); px(14,3+oy,GL); }
+    for(let x=4;x<=11;x++) px(x,14,'rgba(155,126,216,0.18)');
   }
 
   function getStage() {
@@ -3024,18 +4001,164 @@
     return 0;
   }
 
-  function updateCritter() {
-    const stage = getStage();
-    STAGES[stage].draw();
-    critterLabel.textContent = STAGES[stage].name;
+  const critterHistory = document.getElementById('critterHistory');
+  const critterRingFill = document.getElementById('critterRingFill');
 
-    if (stage !== currentStage && currentStage !== -1) {
-      // Evolution flash
-      critterContainer.classList.add('critter-evolve');
-      showToast('EVOLVED: ' + STAGES[stage].name.toUpperCase() + ' (Stage ' + (stage + 1) + '/5)', 3000);
-      setTimeout(() => critterContainer.classList.remove('critter-evolve'), 600);
+  function updateCritterRing() {
+    // Show progress within current stage toward next stage
+    const stage = getStage();
+    const currentMin = STAGES[stage].minXP;
+    const nextMin = stage < STAGES.length - 1 ? STAGES[stage + 1].minXP : MAX_XP;
+    const stageProgress = (xp - currentMin) / (nextMin - currentMin);
+    const circumference = 220; // matches stroke-dasharray
+    critterRingFill.style.strokeDashoffset = circumference - (stageProgress * circumference);
+    // Color shifts as you get closer to evolving
+    if (stageProgress > 0.8) critterRingFill.setAttribute('stroke', 'var(--coral)');
+    else if (stageProgress > 0.5) critterRingFill.setAttribute('stroke', 'var(--gold)');
+    else critterRingFill.setAttribute('stroke', 'var(--amber)');
+  }
+
+  function refreshMiniHistory(currentStageIndex) {
+    critterHistory.innerHTML = '';
+    // Show all unlocked stages (including current) as clickable minis
+    for (let i = 0; i <= currentStageIndex; i++) {
+      const mini = document.createElement('canvas');
+      mini.width = 16;
+      mini.height = 16;
+      mini.style.width = '20px';
+      mini.style.height = '20px';
+      mini.style.cursor = 'pointer';
+      mini.style.borderRadius = '3px';
+      mini.style.transition = 'outline 0.1s';
+      mini.title = STAGES[i].name;
+      const mCtx = mini.getContext('2d');
+      // Render static snapshot
+      const prevCtx = activeCtx;
+      activeCtx = mCtx;
+      STAGES[i].draw(false, 42, 0);
+      activeCtx = prevCtx;
+      // Highlight active
+      const isActive = (displayOverride === -1 && i === currentStageIndex) || displayOverride === i;
+      mini.style.outline = isActive ? '1.5px solid var(--amber)' : '1.5px solid transparent';
+      mini.addEventListener('click', (e) => {
+        e.stopPropagation();
+        displayOverride = (displayOverride === i && i === currentStageIndex) ? -1 : i;
+        critterLabel.textContent = STAGES[displayOverride === -1 ? currentStageIndex : displayOverride].name;
+        refreshMiniHistory(getStage());
+        showToast('Switched to ' + STAGES[displayOverride === -1 ? currentStageIndex : displayOverride].name, 1400);
+      });
+      critterHistory.appendChild(mini);
     }
-    currentStage = stage;
+  }
+
+  // Pokemon-style evolution sequence
+  const evoOverlay = document.getElementById('evoOverlay');
+  const evoOld = document.getElementById('evoOld');
+  const evoNew = document.getElementById('evoNew');
+  const evoText = document.getElementById('evoText');
+  const evoName = document.getElementById('evoName');
+  const evoParticles = document.getElementById('evoParticles');
+
+  function playEvolution(oldStage, newStage) {
+    // Draw old form on evoOld
+    const oldCtx = evoOld.getContext('2d');
+    const newCtx = evoNew.getContext('2d');
+    const prevActive = activeCtx;
+
+    activeCtx = oldCtx;
+    STAGES[oldStage].draw(false, 42, 0);
+    activeCtx = newCtx;
+    STAGES[newStage].draw(false, 42, 0);
+    activeCtx = prevActive;
+
+    // Setup
+    evoText.textContent = 'What? ' + STAGES[oldStage].name + ' is evolving!';
+    evoName.textContent = '';
+    evoNew.style.opacity = '0';
+    evoOld.style.opacity = '1';
+
+    // Spawn sparkle particles
+    evoParticles.innerHTML = '';
+    for (let i = 0; i < 16; i++) {
+      const spark = document.createElement('div');
+      spark.className = 'evo-spark';
+      spark.style.left = '50%';
+      spark.style.top = '50%';
+      const colors = ['var(--amber)', 'var(--gold)', '#fff', 'var(--coral)'];
+      spark.style.background = colors[i % colors.length];
+      evoParticles.appendChild(spark);
+    }
+
+    // Show overlay
+    evoOverlay.classList.add('active');
+
+    // Animation timeline
+    const tl = gsap.timeline();
+
+    // 1. Pulsing flash between old and new (3 cycles)
+    for (let i = 0; i < 3; i++) {
+      tl.to(evoOld, { opacity: 0, duration: 0.15, ease: 'power2.in' }, 0.8 + i * 0.5)
+        .to(evoNew, { opacity: 1, duration: 0.15, ease: 'power2.in' }, 0.8 + i * 0.5)
+        .to(evoNew, { opacity: 0, duration: 0.15, ease: 'power2.in' }, 1.05 + i * 0.5)
+        .to(evoOld, { opacity: 1, duration: 0.15, ease: 'power2.in' }, 1.05 + i * 0.5);
+    }
+
+    // 2. Big white flash
+    tl.to(evoOld, { opacity: 0, filter: 'brightness(5)', duration: 0.2 }, 2.5)
+      .to(evoNew, { opacity: 1, filter: 'brightness(5)', scale: 1.3, duration: 0.1 }, 2.5);
+
+    // 3. Sparkle explosion
+    tl.add(() => {
+      evoParticles.querySelectorAll('.evo-spark').forEach((spark, i) => {
+        const angle = (i / 16) * Math.PI * 2;
+        const dist = 50 + Math.random() * 40;
+        gsap.fromTo(spark, {
+          x: 0, y: 0, scale: 1, opacity: 1
+        }, {
+          x: Math.cos(angle) * dist,
+          y: Math.sin(angle) * dist,
+          scale: 0,
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power2.out'
+        });
+      });
+    }, 2.6);
+
+    // 4. Reveal new form
+    tl.to(evoNew, { filter: 'brightness(1)', scale: 1, duration: 0.5, ease: 'power2.out' }, 2.8)
+      .add(() => {
+        evoText.textContent = 'Congratulations!';
+        evoName.textContent = STAGES[oldStage].name + ' evolved into ' + STAGES[newStage].name + '!';
+      }, 3.0);
+
+    // 5. Close overlay
+    tl.to(evoOverlay, { opacity: 0, duration: 0.5, ease: 'power2.in', delay: 1.5 })
+      .add(() => {
+        evoOverlay.classList.remove('active');
+        evoOverlay.style.opacity = '';
+      });
+  }
+
+  function updateCritter() {
+    const naturalStage = getStage();
+    updateCritterRing();
+
+    if (naturalStage !== currentStage && currentStage !== -1) {
+      // Pokemon-style evolution!
+      playEvolution(currentStage, naturalStage);
+      critterContainer.classList.add('critter-evolve');
+      setTimeout(() => critterContainer.classList.remove('critter-evolve'), 600);
+      // Reset display override on evolution
+      displayOverride = -1;
+      refreshMiniHistory(naturalStage);
+    }
+    if (currentStage === -1) refreshMiniHistory(naturalStage);
+    currentStage = naturalStage;
+
+    // Update label — animation loop handles actual canvas rendering
+    const show = (displayOverride >= 0 && displayOverride <= naturalStage) ? displayOverride : naturalStage;
+    critterLabel.textContent = STAGES[show].name;
   }
 
   function updateXP(amount) {
@@ -3087,6 +4210,14 @@
     }
   });
 
+  /* PET SYSTEM — animation loop + settings panel */
+  const critterGear = document.getElementById('critterGear');
+  const critterSettings = document.getElementById('critterSettings');
+  let displayOverride = -1;   // -1 = natural stage, 0-4 = user-selected
+  let critterFrame = 0;
+  let critterHover = false;
+  let critterAnimMode = 0;    // 0=bob, 1=bounce, 2=sleep, 3=wave
+
   // Initialize critter + dynamic level
   updateCritter();
   const initPercent = (xp / MAX_XP) * 100;
@@ -3094,9 +4225,60 @@
   xpText.textContent = xp.toLocaleString() + ' / 2,026 XP';
   xpTitle.textContent = 'LVL ' + getAge() + ' · Medtech Engineer';
 
+  // Main animation loop — runs forever at ~12fps
+  setInterval(() => {
+    const naturalStage = getStage();
+    const show = (displayOverride >= 0 && displayOverride <= naturalStage) ? displayOverride : naturalStage;
+    activeCtx = critterCtx;
+    critterCtx.imageSmoothingEnabled = false;
+    STAGES[show].draw(critterHover, critterFrame, critterAnimMode);
+    critterFrame++;
+  }, 83);
+
+  // Hover state for critter
+  critterContainer.addEventListener('mouseenter', () => { critterHover = true; });
+  critterContainer.addEventListener('mouseleave', () => { critterHover = false; });
+
+  /* --- SETTINGS PANEL --- */
+  critterGear.addEventListener('click', (e) => {
+    e.stopPropagation();
+    critterSettings.classList.toggle('open');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!critterSettings.contains(e.target) && e.target !== critterGear) {
+      critterSettings.classList.remove('open');
+    }
+  });
+
+  // Corner position buttons
+  const cornerClasses = ['corner-tl', 'corner-tr', 'corner-bl', ''];
+  critterSettings.querySelectorAll('[data-corner]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const idx = parseInt(btn.dataset.corner);
+      // Remove all corner classes
+      cornerClasses.forEach(c => c && critterContainer.classList.remove(c));
+      if (cornerClasses[idx]) critterContainer.classList.add(cornerClasses[idx]);
+      // Update active state
+      critterSettings.querySelectorAll('[data-corner]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // Animation mode buttons
+  critterSettings.querySelectorAll('[data-anim]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      critterAnimMode = parseInt(btn.dataset.anim);
+      critterSettings.querySelectorAll('[data-anim]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
   /* ROLE TYPING */
   const roleTyping = document.getElementById('roleTyping');
-  const roles = ['biomedical engineer', 'device tester', 'usability nerd', 'ai builder', 'clinical observer', 'fujifilm shooter', 'tekken enthusiast', 'warning letter sommelier', 'coffee-powered'];
+  const roles = ['biomedical engineer', 'device tester', 'usability nerd', 'ai builder', 'clinical observer', 'fujifilm shooter', 'gamer', 'warning letter sommelier', 'coffee-powered'];
   let currentRole = 0;
 
   setInterval(() => {
@@ -3266,25 +4448,25 @@
       once: true
     }
   });
-  featuredTL.from('.featured-card', { duration: 0.8, autoAlpha: 0, y: 30, ease: 'power2.out' })
-    .from('.featured-card h3:first-child', { duration: 0.4, autoAlpha: 0, y: 10, ease: 'power2.out' }, '-=0.3')
-    .from('.featured-problem', { duration: 0.5, autoAlpha: 0, x: -15, ease: 'power2.out' }, '-=0.15')
-    .from('.featured-solution', { duration: 0.5, autoAlpha: 0, x: -15, ease: 'power2.out' }, '-=0.25')
-    .from('#featured .spec-table', { duration: 0.5, autoAlpha: 0, y: 15, ease: 'power2.out' }, '-=0.2')
-    .from('.featured-tech', { duration: 0.4, autoAlpha: 0, ease: 'power2.out' }, '-=0.15')
-    .from('.featured-link', { duration: 0.4, autoAlpha: 0, y: 8, ease: 'power2.out' }, '-=0.1');
+  featuredTL.from('.featured-card', { duration: 0.45, autoAlpha: 0, y: 20, ease: 'power2.out' })
+    .from('.featured-card h3:first-child', { duration: 0.3, autoAlpha: 0, y: 8, ease: 'power2.out' }, '-=0.3')
+    .from('.featured-problem', { duration: 0.3, autoAlpha: 0, x: -12, ease: 'power2.out' }, '-=0.2')
+    .from('.featured-solution', { duration: 0.3, autoAlpha: 0, x: -12, ease: 'power2.out' }, '-=0.25')
+    .from('#featured .spec-table', { duration: 0.3, autoAlpha: 0, y: 10, ease: 'power2.out' }, '-=0.2')
+    .from('.featured-tech', { duration: 0.25, autoAlpha: 0, ease: 'power2.out' }, '-=0.2')
+    .from('.featured-link', { duration: 0.25, autoAlpha: 0, y: 6, ease: 'power2.out' }, '-=0.15');
 
   // Bring cards staggered
   gsap.from('.bring-card', {
     scrollTrigger: {
       trigger: '#bring',
-      start: 'top 70%',
+      start: 'top bottom',
       once: true
     },
-    duration: 0.6,
+    duration: 0.5,
     autoAlpha: 0,
-    y: 20,
-    stagger: 0.15,
+    y: 18,
+    stagger: 0.1,
     ease: 'power2.out'
   });
 
@@ -3346,32 +4528,14 @@
     });
   });
 
-  // Timeline items — staggered entrance
-  gsap.from('.timeline-item', {
-    scrollTrigger: {
-      trigger: '#timeline',
-      start: 'top 75%',
-      once: true
-    },
-    duration: 0.6,
-    autoAlpha: 0,
-    x: -20,
-    stagger: 0.12,
-    ease: 'power2.out'
+  // Journey nodes — staggered entrance
+  gsap.from('.journey-node', {
+    scrollTrigger: { trigger: '#journey', start: 'top 80%', once: true },
+    duration: 0.5, autoAlpha: 0, y: 16, stagger: 0.09, ease: 'power2.out'
   });
-
-  // Timeline markers
-  gsap.from('.timeline-marker', {
-    scrollTrigger: {
-      trigger: '#timeline',
-      start: 'top 70%',
-      once: true
-    },
-    duration: 0.6,
-    autoAlpha: 0,
-    scale: 0,
-    stagger: 0.1,
-    ease: 'back.out'
+  gsap.from('.journey-now-badge', {
+    scrollTrigger: { trigger: '#journey', start: 'top 70%', once: true },
+    duration: 0.6, autoAlpha: 0, scale: 0.8, ease: 'back.out(1.4)'
   });
 
   // Toolkit intro paragraph
@@ -3509,13 +4673,267 @@
     formSubmit.textContent = 'Send';
   });
 
+  /* RO JOB TREE — detail data + sprite rendering + branch bar */
+  const roInfo = {
+    novice: { title: 'Novice', body: 'B.S. Kinesiology from CSUDH, Carson CA. Studied human movement, biomechanics, and exercise science. Started doing clinical observation hours and saw a completely different problem: <strong>engineers designing devices in isolation</strong> from the people who actually use them.' },
+    change: { title: '1st Job Change: M.S. Biomedical Engineering', body: 'Stevens Institute of Technology, Jersey City NJ. The full device lifecycle: design verification, usability evaluation, regulatory strategy, signal processing, machine learning. Plus a <strong>Google UX Design Certificate</strong> and 400+ hours of clinical observation watching real users interact with real devices. Graduating May 2026.' },
+    acolyte: { title: 'Acolyte: Validation Engineer (#1 Fit)', body: 'Physically running V&V tests on medical devices. Bench testing, environmental testing, design validation, simulated-use studies. <strong>In a lab with a device, proving it works.</strong><br><br>Stable hours. Office/lab-based. Massive SoCal market. Physical testing and pass/fail judgment stays human.<br><br><strong>AI risk: Low.</strong> Protocol writing gets AI-assisted, but the core value (running tests, exercising engineering judgment) is safe.<div class="ro-ladder">Career ladder: <span>VE &rarr; Senior VE &rarr; V&V Manager &rarr; Director of Quality</span></div>' },
+    sage: { title: 'Sage: Applications Engineer (#2 Fit)', body: 'Training clinicians on devices, troubleshooting in the field, bridging engineering and end-users. You are physically in a hospital explaining a device to a surgeon.<br><br><strong>AI risk: Very Low. Most AI-proof path.</strong> AI cannot be present in a chaotic clinical environment, cannot read the room, cannot adapt a training session in real time. The relationship IS the product.<div class="ro-ladder">Career ladder: <span>Apps Eng &rarr; Senior Apps &rarr; Product Management</span></div>' },
+    blacksmith: { title: 'Blacksmith: R&D Engineer (#3 Fit)', body: 'Designing, prototyping, and testing medical devices. CAD, bench testing, design controls. Physical product work is hard to automate.<br><br><strong>AI risk: Low</strong> for hardware/testing. Target postings with "bench testing" and "prototyping."<div class="ro-ladder">Career ladder: <span>R&D Eng &rarr; Senior &rarr; Staff &rarr; Principal / R&D Manager</span></div>' },
+    creator: { title: 'Creator: Human Factors Engineer (#4 Fit)', body: 'Designing and testing how clinicians interact with devices. Usability studies, simulated-use testing, IEC 62366. <strong>Near-perfect background fit</strong> with Google UX cert + clinical observation hours.<br><br><strong>AI risk: Very Low.</strong> Running studies with real users in real environments. Regulatory requires human-led testing. Smaller market but unique niche.<div class="ro-ladder">Career ladder: <span>Niche role with expanding regulatory demand</span></div>' }
+  };
+
+  const roDetail = document.getElementById('roDetail');
+  const roDetailTitle = document.getElementById('roDetailTitle');
+  const roDetailBody = document.getElementById('roDetailBody');
+  const roDetailClose = document.getElementById('roDetailClose');
+
+  document.querySelectorAll('[data-ro]').forEach(node => {
+    node.addEventListener('click', () => {
+      const info = roInfo[node.dataset.ro];
+      if (!info) return;
+      roDetailTitle.textContent = info.title;
+      roDetailBody.innerHTML = info.body;
+      roDetail.classList.add('open');
+      gsap.fromTo(roDetail, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: 'power2.out' });
+      roDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      // Highlight
+      document.querySelectorAll('[data-ro]').forEach(n => n.style.outline = '');
+      node.style.outline = '2px solid var(--amber)';
+      node.style.outlineOffset = '3px';
+      node.style.borderRadius = '6px';
+      updateXP(10);
+      showXPHud();
+    });
+  });
+
+  roDetailClose.addEventListener('click', () => {
+    gsap.to(roDetail, { autoAlpha: 0, y: 8, duration: 0.2, onComplete: () => {
+      roDetail.classList.remove('open');
+      roDetail.style.opacity = '';
+      roDetail.style.visibility = '';
+    }});
+    document.querySelectorAll('[data-ro]').forEach(n => n.style.outline = '');
+  });
+
+  /* RO TREE — dynamic branch bar width + scroll animation */
+  function sizeBranchBar() {
+    const tier2 = document.querySelector('.ro-tier-2');
+    const bar = document.getElementById('roBranchBar');
+    if (!tier2 || !bar) return;
+    const nodes = tier2.querySelectorAll('.ro-node');
+    if (nodes.length < 2) return;
+    const first = nodes[0].getBoundingClientRect();
+    const last = nodes[nodes.length - 1].getBoundingClientRect();
+    const parentRect = bar.parentElement.getBoundingClientRect();
+    const left = first.left + first.width / 2 - parentRect.left;
+    const right = last.left + last.width / 2 - parentRect.left;
+    bar.style.width = (right - left) + 'px';
+    bar.style.marginLeft = left + 'px';
+    bar.style.marginRight = 'auto';
+    if (bar.style.cssText.indexOf('::after') === -1) {
+      bar.style.setProperty('--bar-width', (right - left) + 'px');
+    }
+    // Set the ::after dynamically via inline style on a child
+    let afterEl = bar.querySelector('.ro-bar-line');
+    if (!afterEl) {
+      afterEl = document.createElement('div');
+      afterEl.className = 'ro-bar-line';
+      afterEl.style.cssText = 'position:absolute;top:12px;height:2px;background:rgba(198,123,46,0.25);';
+      bar.appendChild(afterEl);
+    }
+    afterEl.style.left = '0';
+    afterEl.style.width = (right - left) + 'px';
+  }
+  setTimeout(sizeBranchBar, 200);
+  window.addEventListener('resize', sizeBranchBar);
+
+  /* RO TREE scroll animation */
+  gsap.from('.ro-tree', {
+    scrollTrigger: { trigger: '.ro-tree', start: 'top 80%', once: true },
+    duration: 0.6, autoAlpha: 0, y: 30, ease: 'power2.out'
+  });
+  gsap.from('.ro-tier-2 .ro-node', {
+    scrollTrigger: { trigger: '.ro-tier-2', start: 'top 85%', once: true },
+    duration: 0.5, autoAlpha: 0, y: 20, stagger: 0.12, ease: 'back.out(1.4)', delay: 0.3
+  });
+
+  /* PERSONAL SECTION TOGGLE */
+  const personalToggle = document.getElementById('personalToggle');
+  const personalContent = document.getElementById('personalContent');
+  let personalOpen = false;
+
+  personalToggle.addEventListener('click', () => {
+    personalOpen = !personalOpen;
+    personalToggle.classList.toggle('open', personalOpen);
+    personalContent.classList.toggle('open', personalOpen);
+    personalToggle.setAttribute('aria-expanded', personalOpen);
+
+    if (personalOpen) {
+      // Stagger-animate the items in
+      gsap.from('#personalContent .personal-item', {
+        duration: 0.4,
+        autoAlpha: 0,
+        y: 20,
+        stagger: 0.08,
+        ease: 'power2.out',
+        delay: 0.1,
+        clearProps: 'all'
+      });
+      updateXP(15);
+      showXPHud();
+    }
+  });
+
   /* CONSOLE EASTER EGG */
-  console.log('%c\n╔═══════════════════════════════════════════════════╗\n║                 CHARACTER SELECT                    ║\n╚═══════════════════════════════════════════════════╝\n\nClass: Biomedical Engineer\nSubclass: V&V / AI / Human Factors\nMain: King (Tekken)\nCamera: Fujifilm X-T5\nFuel: Coffee\nMount: Lectric XP 4.0\n\n[secrets unlocked at /projects/konami]\n\nHiring? joneilcaoile@gmail.com\n\n', 'font-family: monospace; font-size: 11px; color: #C67B2E; line-height: 1.4;');
+  console.log('%c\n╔═══════════════════════════════════════════════════╗\n║                 CHARACTER SELECT                    ║\n╚═══════════════════════════════════════════════════╝\n\nClass: Biomedical Engineer\nSubclass: V&V / AI / Human Factors\nMain: Valorant\nCamera: Fujifilm X-T5\nFuel: Coffee\nMount: Lectric XP 4.0\n\n[secrets unlocked at /projects/konami]\n\nHiring? joneilcaoile@gmail.com\n\n', 'font-family: monospace; font-size: 11px; color: #C67B2E; line-height: 1.4;');
 
   /* MARQUEE SCROLL */
   const marquee = document.getElementById('marquee');
   const marqueeItems = marquee.innerHTML;
   marquee.innerHTML += marqueeItems;
+
+  /* SCROLL PROGRESS BAR */
+  const scrollProgress = document.getElementById('scrollProgress');
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.body.scrollHeight - window.innerHeight;
+    const scrollPercent = (scrollTop / docHeight) * 100;
+    scrollProgress.style.width = scrollPercent + '%';
+  }, { passive: true });
+
+  /* TAB TITLE CHANGE — hooks them back */
+  const originalTitle = document.title;
+  const awayTitles = ['Come back...', 'Still building devices over here', 'Miss you already', 'The portfolio misses you'];
+  let awayInterval;
+  let awayIndex = 0;
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      awayIndex = 0;
+      document.title = awayTitles[0];
+      awayInterval = setInterval(() => {
+        awayIndex = (awayIndex + 1) % awayTitles.length;
+        document.title = awayTitles[awayIndex];
+      }, 3000);
+    } else {
+      clearInterval(awayInterval);
+      document.title = originalTitle;
+    }
+  });
+
+  /* SCROLL MILESTONE ACHIEVEMENTS */
+  const milestoneBadge = document.getElementById('milestoneBadge');
+  const milestoneText = document.getElementById('milestoneText');
+  const milestones = {
+    10: 'Getting Started',
+    25: 'Quarter Deep',
+    50: 'Halfway Explorer',
+    75: 'Deep Diver',
+    90: 'Almost There...',
+    99: 'Completionist'
+  };
+  const triggeredMilestones = new Set();
+
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.body.scrollHeight - window.innerHeight;
+    const percent = Math.floor((scrollTop / docHeight) * 100);
+
+    Object.entries(milestones).forEach(([threshold, text]) => {
+      if (percent >= parseInt(threshold) && !triggeredMilestones.has(threshold)) {
+        triggeredMilestones.add(threshold);
+        milestoneText.textContent = text;
+        gsap.timeline()
+          .set(milestoneBadge, { display: 'block' })
+          .to(milestoneBadge, { duration: 0.5, opacity: 1, scale: 1, ease: 'back.out(1.7)' })
+          .to(milestoneBadge, { duration: 0.4, opacity: 0, scale: 0.8, ease: 'power2.in', delay: 1.5 })
+          .set(milestoneBadge, { display: 'none' });
+        updateXP(25);
+        showXPHud();
+      }
+    });
+  }, { passive: true });
+
+  /* FLOATING MEDTECH PARTICLES — ambient background depth */
+  (function() {
+    const container = document.getElementById('bgParticles');
+    const particleCount = 15;
+    const symbols = [
+      // ECG trace
+      '<svg width="60" height="20" viewBox="0 0 60 20"><polyline points="0,10 10,10 15,2 20,18 25,6 30,14 35,10 60,10" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.12"/></svg>',
+      // Molecule
+      '<svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="10" r="4" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.1"/><circle cx="10" cy="30" r="4" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.1"/><circle cx="30" cy="30" r="4" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.1"/><line x1="20" y1="14" x2="12" y2="26" stroke="currentColor" stroke-width="1" opacity="0.08"/><line x1="20" y1="14" x2="28" y2="26" stroke="currentColor" stroke-width="1" opacity="0.08"/><line x1="14" y1="30" x2="26" y2="30" stroke="currentColor" stroke-width="1" opacity="0.08"/></svg>',
+      // Cross/plus
+      '<svg width="24" height="24" viewBox="0 0 24 24"><line x1="12" y1="4" x2="12" y2="20" stroke="currentColor" stroke-width="2" opacity="0.08"/><line x1="4" y1="12" x2="20" y2="12" stroke="currentColor" stroke-width="2" opacity="0.08"/></svg>',
+      // Hex/cell
+      '<svg width="30" height="30" viewBox="0 0 30 30"><polygon points="15,2 27,9 27,21 15,28 3,21 3,9" fill="none" stroke="currentColor" stroke-width="1" opacity="0.07"/></svg>',
+      // Dot cluster (sensor node)
+      '<svg width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="3" fill="currentColor" opacity="0.06"/><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.05"/><circle cx="10" cy="10" r="10" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.03"/></svg>'
+    ];
+
+    for (let i = 0; i < particleCount; i++) {
+      const el = document.createElement('div');
+      el.className = 'bg-particle';
+      el.innerHTML = symbols[i % symbols.length];
+      el.style.left = (Math.random() * 100) + '%';
+      el.style.top = (Math.random() * 100) + '%';
+      el.style.color = 'var(--text-muted)';
+      container.appendChild(el);
+
+      // Gentle floating animation
+      gsap.to(el, {
+        y: () => (Math.random() - 0.5) * 80,
+        x: () => (Math.random() - 0.5) * 40,
+        rotation: () => (Math.random() - 0.5) * 30,
+        duration: 8 + Math.random() * 12,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        delay: Math.random() * 5
+      });
+
+      // Fade in when in viewport
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 95%',
+        end: 'bottom 5%',
+        onEnter: () => el.classList.add('visible'),
+        onLeave: () => el.classList.remove('visible'),
+        onEnterBack: () => el.classList.add('visible'),
+        onLeaveBack: () => el.classList.remove('visible')
+      });
+    }
+  })();
+
+  /* SVG LINE-DRAW ANIMATION on scroll */
+  document.querySelectorAll('[data-draw]').forEach(svg => {
+    ScrollTrigger.create({
+      trigger: svg,
+      start: 'top 85%',
+      once: true,
+      onEnter: () => svg.classList.add('drawn')
+    });
+  });
+
+  /* ANIMATED COUNTER — numbers in SVGs count up on scroll */
+  document.querySelectorAll('.counter-num').forEach(el => {
+    const target = parseInt(el.dataset.target) || 0;
+    ScrollTrigger.create({
+      trigger: el.closest('.work-visual'),
+      start: 'top 80%',
+      once: true,
+      onEnter: () => {
+        gsap.to({ val: 0 }, {
+          val: target,
+          duration: 1.5,
+          ease: 'power2.out',
+          onUpdate: function() {
+            el.textContent = Math.round(this.targets()[0].val);
+          }
+        });
+      }
+    });
+  });
 
   /* SCROLL ANIMATIONS READY */
   ScrollTrigger.refresh();
@@ -3592,25 +5010,41 @@
     /* --- NOVICE: simple tunic, small knife, young adventurer --- */
     function drawNovice(c,y,hov,f){
       shadow(c);
-      head(c,y,HR,HR2);
+      var jumpY = hov ? Math.round(Math.abs(Math.sin(f * 0.2)) * -3) : 0;
+      head(c, y + jumpY, HR, HR2);
       /* tunic body */
-      px(c,6,8+y,8,4,TN);
-      px(c,6,8+y,8,1,TN2); /* collar */
-      px(c,6,12+y,8,5,TN);
-      px(c,7,12+y,6,5,TN2); /* shading */
+      px(c,6,8+y+jumpY,8,4,TN);
+      px(c,6,8+y+jumpY,8,1,TN2); /* collar */
+      px(c,6,12+y+jumpY,8,5,TN);
+      px(c,7,12+y+jumpY,6,5,TN2); /* shading */
       /* belt */
-      px(c,6,14+y,8,1,BR);
-      px(c,9,14+y,2,1,GO);  /* belt buckle */
-      arms(c,y,TN,TN2);
-      legs(c,y,TN,TN2,BR2);
+      px(c,6,14+y+jumpY,8,1,BR);
+      px(c,9,14+y+jumpY,2,1,GO);  /* belt buckle */
+      arms(c,y+jumpY,TN,TN2);
+      legs(c,y+jumpY,TN,TN2,BR2);
       /* knife in right hand */
-      var kY=hov?Math.round(Math.sin(f*0.35)*1.5):0;
-      px(c,16,12+y+kY,1,3,MT);
-      px(c,16,11+y+kY,1,1,BR);  /* handle */
+      px(c,16,12+y+jumpY,1,3,MT);
+      px(c,16,11+y+jumpY,1,1,BR);  /* handle */
       if(hov){
-        /* wobbly practice swings */
-        var sw=Math.sin(f*0.4)*2;
-        px(c,Math.round(16+sw),10+y+kY,1,2,MT);
+        /* excited sword raise — arm goes up, knife swings overhead */
+        var swingAngle = Math.sin(f * 0.3) * 3;
+        var kx = Math.round(15 + swingAngle);
+        var ky = Math.round(6 + jumpY + y + Math.abs(swingAngle));
+        px(c,kx,ky,1,3,MT);
+        px(c,kx,ky-1,1,1,BR);
+        /* sparkle at knife tip */
+        if(f % 8 < 4) {
+          c.fillStyle = 'rgba(255,215,0,0.7)';
+          c.fillRect(kx, ky - 2, 1, 1);
+          c.fillRect(kx - 1, ky - 1, 1, 1);
+          c.fillRect(kx + 1, ky - 1, 1, 1);
+        }
+        /* excited ! above head */
+        if(Math.sin(f * 0.15) > 0) {
+          c.fillStyle = GO;
+          c.fillRect(10, jumpY + y - 2, 1, 2);
+          c.fillRect(10, jumpY + y + 1, 1, 1);
+        }
       }
     }
 
@@ -3839,38 +5273,152 @@
       }
     }
 
-    var CHARS={novice:drawNovice,acolyte:drawAcolyte,sage:drawSage,blacksmith:drawBlacksmith,creator:drawCreator};
-    var NAMES={novice:'Novice',acolyte:'Acolyte',sage:'Sage',blacksmith:'Blacksmith',creator:'Creator'};
+    /* ── LIFE STAGE SPRITES (Journey Tree — past history) ───── */
 
-    document.querySelectorAll('.timeline-item[data-sprite]').forEach(function(item){
-      var type=item.dataset.sprite;
+    /* --- KID: SoCal youth, t-shirt + shorts, basketball --- */
+    function drawKid(c,y,hov,f){
+      shadow(c);
+      var j=hov?Math.round(Math.abs(Math.sin(f*0.25))*-4):0;
+      head(c,y+j,HR,HR2);
+      /* white tee */
+      px(c,6,8+y+j,8,5,WH); px(c,7,8+y+j,6,1,WH2);
+      /* blue shorts */
+      px(c,6,13+y+j,8,4,BL); px(c,7,13+y+j,6,1,BL2);
+      arms(c,y+j,WH,WH2);
+      legs(c,y+j,BL,BL2,'#E8E8E8');
+      /* basketball in right hand */
+      var bx=14,by=13+y+j;
+      if(hov){bx=Math.round(14+Math.sin(f*0.25)*2);by=Math.round(13+y+j+Math.sin(f*0.25)*1.5);}
+      px(c,bx,by,3,3,'#E8731A'); px(c,bx+1,by,1,3,'#C85A10');
+      px(c,bx,by+1,3,1,'#C85A10');
+      /* excited jump — arms up */
+      if(hov){
+        px(c,4,8+y+j,2,2,WH); px(c,14,8+y+j,2,2,WH);
+        c.fillStyle=GO; c.fillRect(10,y+j-2,1,2); c.fillRect(10,y+j+1,1,1);
+      }
+    }
+
+    /* --- KINESIO: student in athletic gear + clipboard --- */
+    function drawKinesio(c,y,hov,f){
+      shadow(c);
+      var j=hov?-1:0;
+      head(c,y+j,'#5A3A20','#3A2010');
+      /* green athletic shirt */
+      px(c,6,8+y+j,8,6,GR); px(c,7,8+y+j,6,2,GR2);
+      /* dark shorts */
+      px(c,6,14+y+j,8,3,BR2); px(c,7,14+y+j,6,1,BR);
+      arms(c,y+j,GR,GR2);
+      legs(c,y+j,BR2,BR,'#333');
+      /* clipboard in left arm */
+      px(c,2,9+y+j,3,4,WH); px(c,2,9+y+j,3,1,MT);
+      px(c,3,10+y+j,1,2,'#888'); /* lines on clipboard */
+      /* hover: writing on clipboard */
+      if(hov){
+        c.fillStyle=GO; c.fillRect(3,10+y+j,1,1);
+        c.fillStyle=BL; c.fillRect(3,11+y+j,1,1);
+        c.fillStyle=GO; c.fillRect(9,y+j-2,1,2); c.fillRect(9,y+j+1,1,1);
+      }
+    }
+
+    /* --- CLINICAL: scrubs + stethoscope --- */
+    function drawClinical(c,y,hov,f){
+      shadow(c);
+      var j=hov?-1:0;
+      /* teal scrubs */
+      var SC='#2A8A7A', SC2='#1A6A5A';
+      head(c,y+j,'#2A1A10','#1A0A00');
+      px(c,6,8+y+j,8,7,SC); px(c,7,8+y+j,6,2,SC2);
+      /* V-neck collar */
+      px(c,9,8+y+j,2,2,SK);
+      /* scrub pants */
+      px(c,6,15+y+j,8,5,SC2);
+      arms(c,y+j,SC,SC2);
+      legs(c,y+j,SC2,SC,'#222');
+      /* stethoscope U shape */
+      px(c,4,11+y+j,1,3,MT); px(c,4,14+y+j,3,1,MT); px(c,6,14+y+j,1,2,MT);
+      /* stethoscope earpieces */
+      px(c,4,11+y+j,1,1,MT2); px(c,6,11+y+j,1,1,MT2);
+      /* listening disc */
+      var dx=5,dy=16+y+j;
+      if(hov){dy=Math.round(16+y+j+Math.sin(f*0.2)*0.5);}
+      px(c,dx,dy,2,2,MT); px(c,dx,dy,2,1,MT2);
+      if(hov){
+        c.fillStyle='rgba(42,138,122,0.4)';
+        c.fillRect(4,10+y+j,3,3);
+        c.fillStyle=GO; c.fillRect(9,y+j-2,1,2); c.fillRect(9,y+j+1,1,1);
+      }
+    }
+
+    /* --- LIFEGRAD: M.S. grad in lab coat + mortarboard --- */
+    function drawLifeGrad(c,y,hov,f){
+      shadow(c);
+      var j=hov?Math.round(Math.sin(f*0.18)*-1.5):0;
+      /* mortarboard */
+      px(c,5,0+y+j,10,2,OL);  /* board top */
+      px(c,7,2+y+j,6,1,OL);   /* base */
+      px(c,9,2+y+j,2,2,OL);   /* cap stem */
+      /* tassel */
+      var tx=Math.round(hov?14+Math.sin(f*0.2)*1.5:14);
+      px(c,tx,1+y+j,1,3,GO);
+      px(c,tx,4+y+j,1,1,GO2);
+      head(c,y+2+j,HR,HR2);
+      /* lab coat */
+      px(c,5,10+y+j,10,7,WH); px(c,7,10+y+j,6,2,WH2);
+      /* coat lapels */
+      px(c,8,10+y+j,1,3,WH2); px(c,11,10+y+j,1,3,WH2);
+      /* blue shirt underneath */
+      px(c,9,10+y+j,2,3,BL2);
+      arms(c,y+2+j,WH,WH2);
+      legs(c,y+2+j,BR,BR2,'#222');
+      /* laptop in hand */
+      px(c,3,14+y+j,4,3,'#333'); px(c,3,14+y+j,4,1,'#555');
+      if(hov){
+        /* screen glows */
+        c.fillStyle='rgba(74,127,191,0.6)';
+        c.fillRect(3,15+y+j,4,2);
+        c.fillStyle=GO; c.fillRect(9,y+j-2,1,2); c.fillRect(9,y+j+1,1,1);
+      }
+    }
+
+    var CHARS={novice:drawNovice,acolyte:drawAcolyte,sage:drawSage,blacksmith:drawBlacksmith,creator:drawCreator,kid:drawKid,kinesio:drawKinesio,clinical:drawClinical,lifegrad:drawLifeGrad};
+    var NAMES={novice:'Novice',acolyte:'Acolyte',sage:'Sage',blacksmith:'Blacksmith',creator:'Creator',kid:'SoCal Kid',kinesio:'Kinesiology',clinical:'Clinical Obs.',lifegrad:'M.S. BME'};
+
+    /* --- RO JOB TREE SPRITES --- */
+    document.querySelectorAll('.ro-sprite[data-class]').forEach(function(canvas){
+      var type=canvas.dataset.class;
       var drawFn=CHARS[type];
       if(!drawFn) return;
-
-      var marker=item.querySelector('.timeline-marker');
-      if(marker) marker.style.display='none';
-
-      var canvas=document.createElement('canvas');
-      canvas.width=W;
-      canvas.height=H;
-      canvas.className='timeline-sprite';
-      canvas.setAttribute('aria-hidden','true');
-      item.insertBefore(canvas,item.firstChild);
-
-      var label=document.createElement('div');
-      label.className='timeline-sprite-label';
-      label.textContent=NAMES[type]||'';
-      item.appendChild(label);
-
       var ctx=canvas.getContext('2d');
       ctx.imageSmoothingEnabled=false;
-
       var hovering=false;
       var frame=Math.floor(Math.random()*100);
+      var node=canvas.closest('.ro-node');
+      if(node){
+        node.addEventListener('mouseenter',function(){hovering=true;});
+        node.addEventListener('mouseleave',function(){hovering=false;});
+      }
+      setInterval(function(){
+        ctx.clearRect(0,0,W,H);
+        var bob=hovering?0:(Math.sin(frame*0.12)>0.3?0:-1);
+        drawFn(ctx,bob,hovering,frame);
+        frame++;
+      },83);
+    });
 
-      item.addEventListener('mouseenter',function(){hovering=true;});
-      item.addEventListener('mouseleave',function(){hovering=false;});
-
+    /* --- JOURNEY SPRITES --- */
+    document.querySelectorAll('.journey-sprite[data-jclass]').forEach(function(canvas){
+      var type=canvas.dataset.jclass;
+      var drawFn=CHARS[type];
+      if(!drawFn) return;
+      var ctx=canvas.getContext('2d');
+      ctx.imageSmoothingEnabled=false;
+      var hovering=false;
+      var frame=Math.floor(Math.random()*100);
+      var node=canvas.closest('.journey-node');
+      if(node){
+        node.addEventListener('mouseenter',function(){hovering=true;});
+        node.addEventListener('mouseleave',function(){hovering=false;});
+      }
       setInterval(function(){
         ctx.clearRect(0,0,W,H);
         var bob=hovering?0:(Math.sin(frame*0.12)>0.3?0:-1);
