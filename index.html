@@ -1137,8 +1137,8 @@
 
     .timeline-item {
       position: relative;
-      margin-bottom: 2.5rem;
-      padding-bottom: 2.5rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
     }
 
     .timeline-item:last-child {
@@ -1334,6 +1334,7 @@
       background: linear-gradient(to bottom, var(--bg) 0%, var(--dark2) 80px, var(--dark2) 100%);
       color: var(--cream);
       position: relative;
+      padding: 80px 0 60px;
     }
 
     #contact .section-label {
@@ -1425,10 +1426,10 @@
     footer {
       background: var(--bg);
       border-top: 1px solid var(--border);
-      padding: 3rem 0;
+      padding: 1.5rem 0;
       text-align: center;
       color: var(--text-muted);
-      font-size: 13px;
+      font-size: 12px;
       font-family: var(--fm);
     }
 
@@ -1499,6 +1500,20 @@
       image-rendering: pixelated;
       image-rendering: crisp-edges;
       -ms-interpolation-mode: nearest-neighbor;
+    }
+    .critter-title {
+      font-family: var(--fm);
+      font-size: 8px;
+      color: var(--text-muted);
+      text-align: center;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      margin-bottom: 2px;
+    }
+    .critter-container:hover .critter-title {
+      opacity: 0.7;
     }
     .critter-label {
       font-family: var(--fm);
@@ -1903,7 +1918,8 @@
 <canvas id="cursorTrail" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9997;"></canvas>
 
 <!-- CRITTER PET -->
-<div class="critter-container" id="critterContainer" title="Your medtech companion">
+<div class="critter-container" id="critterContainer" title="Portfolio Pet — click to earn XP!">
+  <div class="critter-title">Portfolio Pet</div>
   <canvas id="critterCanvas" width="16" height="16" style="width:64px;height:64px;"></canvas>
   <div class="critter-label" id="critterLabel">Egg</div>
 </div>
