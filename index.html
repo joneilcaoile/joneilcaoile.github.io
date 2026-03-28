@@ -1989,71 +1989,355 @@
     .ro-ladder span { color: var(--amber); font-weight: 600; }
 
     /* ── JOURNEY TREE ─────────────────────────────────────────────── */
-    #journey h2 { margin-bottom: 2rem; }
-    .journey-tree { display: flex; flex-direction: column; gap: 0; align-items: stretch; }
-    .journey-row {
-      display: flex; flex-direction: row; align-items: center;
-      justify-content: center; gap: 0; flex-wrap: wrap; gap: 0.5rem;
+    #journey h2 { margin-bottom: 3rem; }
+    .journey-tree { position: relative; padding: 2rem 0; }
+
+    /* Vertical trunk line (center-aligned) */
+    .journey-tree::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, transparent 0%, var(--amber-soft) 10%, var(--amber-soft) 90%, transparent 100%);
+      transform: translateX(-50%);
+      border-radius: 2px;
     }
-    .journey-future-row { margin-top: 0; }
+
+    /* Trunk decorative dots at node junctions */
+    .journey-node::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 10px;
+      height: 10px;
+      background: var(--amber);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      box-shadow: 0 0 8px rgba(198,123,46,0.4);
+    }
+
+    /* Past school nodes (alternate left/right on desktop) */
     .journey-node {
-      display: flex; flex-direction: column; align-items: center;
-      gap: 0.25rem; padding: 0.8rem 0.85rem 0.7rem;
-      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
-      border-radius: 10px; cursor: default; transition: all 0.2s;
-      min-width: 90px; flex: 0 0 auto; position: relative;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1.2rem;
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      max-width: 140px;
+      margin: 1.5rem auto;
+      z-index: 5;
     }
-    .journey-node:hover { background: rgba(198,123,46,0.07); border-color: var(--amber-soft); transform: translateY(-2px); }
-    .journey-node canvas { width: 48px; height: 62px; image-rendering: pixelated; image-rendering: crisp-edges; }
-    .journey-node-name { font-family: var(--fm); font-size: 0.72rem; font-weight: 700; color: var(--text-main); text-align: center; }
-    .journey-node-sub { font-family: var(--fm); font-size: 0.6rem; color: var(--text-muted); text-align: center; }
-    .journey-node-year { font-family: var(--fm); font-size: 0.58rem; color: var(--amber); font-weight: 600; }
-    .journey-node-rank { font-family: var(--fm); font-size: 0.6rem; color: var(--coral); font-weight: 700; }
-    /* Solid connector (past) */
-    .journey-conn {
-      flex: 1 1 20px; max-width: 48px; height: 2px;
-      background: var(--amber-soft); border-radius: 2px;
-      align-self: center; min-width: 12px;
+
+    /* Alternate left/right via data-side */
+    .journey-node[data-side="left"] { margin-left: 0; margin-right: auto; }
+    .journey-node[data-side="right"] { margin-left: auto; margin-right: 0; }
+    .journey-node[data-side="center"] { margin-left: auto; margin-right: auto; }
+
+    .journey-node:hover {
+      background: rgba(198,123,46,0.1);
+      border-color: var(--amber);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(198,123,46,0.15);
     }
-    /* Dashed connector (future) */
-    .journey-conn-dashed {
-      background: none;
-      border-top: 2px dashed rgba(198,123,46,0.35);
+
+    /* Connector lines from nodes to trunk */
+    .journey-node::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 40px;
+      height: 2px;
+      background: rgba(198,123,46,0.4);
+      z-index: 4;
     }
-    /* Future nodes — slightly muted, dashed border */
-    .journey-future {
-      opacity: 0.72; border-style: dashed;
-      border-color: rgba(198,123,46,0.3);
+
+    .journey-node[data-side="left"]::after {
+      right: -40px;
     }
-    .journey-future:hover { opacity: 1; }
-    /* Present node — glowing border */
-    .journey-node-now { border-color: var(--amber); box-shadow: 0 0 10px rgba(198,123,46,0.2); }
+
+    .journey-node[data-side="right"]::after {
+      left: -40px;
+    }
+
+    .journey-node[data-side="center"]::after {
+      display: none;
+    }
+
+    .journey-node canvas {
+      width: 60px;
+      height: 78px;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    .journey-node-school {
+      font-family: var(--fh);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-main);
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+
+    .journey-node-mascot {
+      font-family: var(--fm);
+      font-size: 0.65rem;
+      color: var(--amber);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .journey-node-year {
+      font-family: var(--fm);
+      font-size: 0.62rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .journey-node-desc {
+      font-family: var(--fb);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.3;
+      max-width: 120px;
+    }
+
+    /* Major nodes (CSULB, Stevens) — bigger with description */
+    .journey-node-major {
+      max-width: 180px;
+      padding: 1.4rem 1.2rem;
+      border-width: 2px;
+    }
+
+    .journey-node-current {
+      border-color: var(--amber);
+      box-shadow: 0 0 16px rgba(198,123,46,0.2);
+      background: rgba(198,123,46,0.06);
+    }
+
+    /* Waypoint marker (clinical observation) — the turning point */
+    .journey-waypoint {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 1.5rem 2rem;
+      margin: 1.5rem auto;
+      max-width: 340px;
+      background: rgba(212,101,74,0.06);
+      border: 1.5px dashed rgba(212,101,74,0.35);
+      border-radius: 12px;
+      z-index: 6;
+    }
+
+    .journey-waypoint-dot {
+      flex-shrink: 0;
+      width: 12px;
+      height: 12px;
+      background: var(--coral);
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(212,101,74,0.5);
+      animation: waypointPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes waypointPulse {
+      0%, 100% { box-shadow: 0 0 8px rgba(212,101,74,0.3); }
+      50% { box-shadow: 0 0 16px rgba(212,101,74,0.6); }
+    }
+
+    .journey-waypoint-content { text-align: left; }
+
+    .journey-waypoint-hours {
+      font-family: var(--fh);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--coral);
+      line-height: 1;
+    }
+
+    .journey-waypoint-label {
+      font-family: var(--fm);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 0.15rem;
+    }
+
+    .journey-waypoint-sub {
+      font-family: var(--fb);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.4rem;
+      line-height: 1.35;
+      font-style: italic;
+    }
+
     /* NOW divider */
     .journey-now {
-      display: flex; align-items: center; justify-content: center;
-      gap: 1rem; padding: 0.9rem 0; position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 2rem 0;
+      position: relative;
+      margin: 1.5rem 0;
+      z-index: 8;
     }
-    .journey-now::before, .journey-now::after {
-      content: ''; flex: 1; max-width: 160px; height: 1px;
+
+    .journey-now::before,
+    .journey-now::after {
+      content: '';
+      flex: 1;
+      max-width: 180px;
+      height: 2px;
       background: linear-gradient(to right, transparent, var(--amber-soft));
     }
-    .journey-now::after { background: linear-gradient(to left, transparent, var(--amber-soft)); }
+
+    .journey-now::after {
+      background: linear-gradient(to left, transparent, var(--amber-soft));
+    }
+
     .journey-now-badge {
-      font-family: var(--fm); font-size: 0.68rem; font-weight: 700;
-      color: var(--amber); letter-spacing: 0.12em; text-transform: uppercase;
-      background: rgba(198,123,46,0.1); border: 1px solid var(--amber-soft);
-      padding: 4px 12px; border-radius: 20px; white-space: nowrap;
+      font-family: var(--fm);
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--bg);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, var(--amber), var(--amber-light));
+      border: 1px solid var(--amber);
+      padding: 6px 16px;
+      border-radius: 24px;
+      white-space: nowrap;
       animation: nowPulse 2.5s ease-in-out infinite;
+      box-shadow: 0 4px 12px rgba(198,123,46,0.25);
     }
+
     @keyframes nowPulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(198,123,46,0); }
-      50% { box-shadow: 0 0 0 6px rgba(198,123,46,0.12); }
+      0%, 100% { box-shadow: 0 4px 12px rgba(198,123,46,0.25); }
+      50% { box-shadow: 0 4px 20px rgba(198,123,46,0.4); }
     }
-    @media (max-width: 640px) {
-      .journey-row { flex-direction: column; align-items: center; }
-      .journey-conn { width: 2px; height: 20px; flex: none; background: var(--amber-soft); border-top: none; border-left: 2px dashed rgba(198,123,46,0.35); }
-      .journey-conn-dashed { width: 2px; height: 20px; flex: none; border-top: none; border-left: 2px dashed rgba(198,123,46,0.35); background: none; }
+
+    /* Future branches (dashed lines fanning out) */
+    .journey-branches {
+      position: relative;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 3rem 2rem 0;
+      z-index: 5;
     }
+
+    .journey-branch-connector {
+      position: absolute;
+      top: -2rem;
+      height: 2rem;
+      width: 2px;
+      border-left: 2px dashed rgba(198,123,46,0.4);
+    }
+
+    .journey-branch {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    /* Future career nodes */
+    .journey-future {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 1rem 1.1rem;
+      background: rgba(198,123,46,0.05);
+      border: 1.5px dashed rgba(198,123,46,0.4);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      opacity: 0.75;
+      min-width: 110px;
+    }
+
+    .journey-future:hover {
+      opacity: 1;
+      background: rgba(198,123,46,0.12);
+      border-color: var(--amber-soft);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(198,123,46,0.12);
+    }
+
+    .journey-future canvas {
+      width: 52px;
+      height: 68px;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    .journey-future-role {
+      font-family: var(--fh);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-main);
+      text-align: center;
+    }
+
+    .journey-future-title {
+      font-family: var(--fm);
+      font-size: 0.62rem;
+      color: var(--text-muted);
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .journey-future-rank {
+      font-family: var(--fm);
+      font-size: 0.68rem;
+      color: var(--coral);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* Mobile/tablet responsive */
+    @media (max-width: 768px) {
+      .journey-tree::before { left: 1.5rem; }
+
+      .journey-node {
+        margin-left: 4rem !important;
+        margin-right: auto !important;
+        max-width: 160px;
+      }
+
+      .journey-node-major { max-width: 200px; }
+
+      .journey-node::before { left: -20px; }
+      .journey-node::after { right: auto !important; left: -20px !important; width: 20px; display: block; }
+
+      .journey-waypoint { margin-left: 4rem; max-width: 260px; }
+
+      .journey-branches { flex-wrap: wrap; gap: 0.5rem; padding: 2rem 0 0; }
+      .journey-branch { min-width: 120px; flex: 0 1 45%; align-items: center; }
+      .journey-branch-connector { display: none; }
+    }
+
     @media (max-width: 640px) {
       .ro-tier { gap: 0.5rem; }
       .ro-node canvas { width: 48px !important; height: 48px !important; }
@@ -3379,35 +3663,56 @@
   <h2>How I got here — where I'm going</h2>
 
   <div class="journey-tree">
-    <!-- Past chain: solid connectors -->
-    <div class="journey-row">
-      <div class="journey-node" data-jclass="kid">
-        <canvas class="journey-sprite" data-jclass="kid" width="20" height="26"></canvas>
-        <div class="journey-node-name">SoCal Kid</div>
-        <div class="journey-node-sub">PT shadowing</div>
-        <div class="journey-node-year">2017</div>
+    <!-- Elementary School -->
+    <div class="journey-node" data-jclass="leopard" data-side="left">
+      <canvas class="journey-sprite" data-jclass="leopard" width="20" height="26"></canvas>
+      <div class="journey-node-school">Lomita Elementary</div>
+      <div class="journey-node-mascot">Leopards</div>
+      <div class="journey-node-year">2004–2010</div>
+    </div>
+
+    <!-- Middle School -->
+    <div class="journey-node" data-jclass="knight" data-side="right">
+      <canvas class="journey-sprite" data-jclass="knight" width="20" height="26"></canvas>
+      <div class="journey-node-school">Stephen White</div>
+      <div class="journey-node-mascot">Knights</div>
+      <div class="journey-node-year">2010–2013</div>
+    </div>
+
+    <!-- High School -->
+    <div class="journey-node" data-jclass="gaucho" data-side="left">
+      <canvas class="journey-sprite" data-jclass="gaucho" width="20" height="26"></canvas>
+      <div class="journey-node-school">Narbonne High</div>
+      <div class="journey-node-mascot">Gauchos</div>
+      <div class="journey-node-year">2013–2017</div>
+    </div>
+
+    <!-- Undergrad — bigger node, turning point -->
+    <div class="journey-node journey-node-major" data-jclass="prospector" data-side="right">
+      <canvas class="journey-sprite" data-jclass="prospector" width="20" height="26"></canvas>
+      <div class="journey-node-school">Cal State Long Beach</div>
+      <div class="journey-node-mascot">49ers</div>
+      <div class="journey-node-year">2017–2020</div>
+      <div class="journey-node-desc">B.S. Kinesiology. Discovered the gap between engineers and users.</div>
+    </div>
+
+    <!-- Clinical Observation Waypoint — the pivotal moment -->
+    <div class="journey-waypoint">
+      <div class="journey-waypoint-dot"></div>
+      <div class="journey-waypoint-content">
+        <div class="journey-waypoint-hours">400+</div>
+        <div class="journey-waypoint-label">hours in PT clinics</div>
+        <div class="journey-waypoint-sub">Watched devices fail patients. Decided to fix the problem.</div>
       </div>
-      <div class="journey-conn"></div>
-      <div class="journey-node" data-jclass="kinesio">
-        <canvas class="journey-sprite" data-jclass="kinesio" width="20" height="26"></canvas>
-        <div class="journey-node-name">Kinesiology</div>
-        <div class="journey-node-sub">B.S. + clinics</div>
-        <div class="journey-node-year">2020</div>
-      </div>
-      <div class="journey-conn"></div>
-      <div class="journey-node" data-jclass="clinical">
-        <canvas class="journey-sprite" data-jclass="clinical" width="20" height="26"></canvas>
-        <div class="journey-node-name">Clinical Obs.</div>
-        <div class="journey-node-sub">400+ hours</div>
-        <div class="journey-node-year">2022</div>
-      </div>
-      <div class="journey-conn"></div>
-      <div class="journey-node journey-node-now" data-jclass="lifegrad">
-        <canvas class="journey-sprite" data-jclass="lifegrad" width="20" height="26"></canvas>
-        <div class="journey-node-name">M.S. BME</div>
-        <div class="journey-node-sub">Stevens + UseTrace</div>
-        <div class="journey-node-year">2024–26</div>
-      </div>
+    </div>
+
+    <!-- Graduate School — biggest node, current -->
+    <div class="journey-node journey-node-major journey-node-current" data-jclass="duck" data-side="left">
+      <canvas class="journey-sprite" data-jclass="duck" width="20" height="26"></canvas>
+      <div class="journey-node-school">Stevens Institute</div>
+      <div class="journey-node-mascot">Ducks</div>
+      <div class="journey-node-year">2024–2026</div>
+      <div class="journey-node-desc">M.S. BME. Built UseTrace, PhotoCull, Pneumothorax Monitor.</div>
     </div>
 
     <!-- NOW divider -->
@@ -3415,34 +3720,46 @@
       <span class="journey-now-badge">★ NOW · May 2026 ★</span>
     </div>
 
-    <!-- Future branches: dashed nodes (parallel paths, not sequential) -->
-    <div class="journey-row journey-future-row">
-      <div class="journey-node journey-future" data-jclass="acolyte">
-        <canvas class="journey-sprite" data-jclass="acolyte" width="20" height="26"></canvas>
-        <div class="journey-node-name">Acolyte</div>
-        <div class="journey-node-sub">Validation Eng.</div>
-        <div class="journey-node-rank">#1 Fit</div>
+    <!-- Future branches (career paths) -->
+    <div class="journey-branches">
+      <div class="journey-branch-connector" style="left: 25%;"></div>
+      <div class="journey-branch-connector" style="left: 50%;"></div>
+      <div class="journey-branch-connector" style="left: 75%;"></div>
+
+      <div class="journey-branch">
+        <div class="journey-future" data-jclass="acolyte">
+          <canvas class="journey-sprite" data-jclass="acolyte" width="20" height="26"></canvas>
+          <div class="journey-future-role">Acolyte</div>
+          <div class="journey-future-title">Validation Eng.</div>
+          <div class="journey-future-rank">#1 Fit</div>
+        </div>
       </div>
-      <div class="journey-conn journey-conn-dashed"></div>
-      <div class="journey-node journey-future" data-jclass="sage">
-        <canvas class="journey-sprite" data-jclass="sage" width="20" height="26"></canvas>
-        <div class="journey-node-name">Sage</div>
-        <div class="journey-node-sub">Applications Eng.</div>
-        <div class="journey-node-rank">#2 Fit</div>
+
+      <div class="journey-branch">
+        <div class="journey-future" data-jclass="sage">
+          <canvas class="journey-sprite" data-jclass="sage" width="20" height="26"></canvas>
+          <div class="journey-future-role">Sage</div>
+          <div class="journey-future-title">Applications Eng.</div>
+          <div class="journey-future-rank">#2 Fit</div>
+        </div>
       </div>
-      <div class="journey-conn journey-conn-dashed"></div>
-      <div class="journey-node journey-future" data-jclass="blacksmith">
-        <canvas class="journey-sprite" data-jclass="blacksmith" width="20" height="26"></canvas>
-        <div class="journey-node-name">Blacksmith</div>
-        <div class="journey-node-sub">R&D Engineer</div>
-        <div class="journey-node-rank">#3 Fit</div>
+
+      <div class="journey-branch">
+        <div class="journey-future" data-jclass="blacksmith">
+          <canvas class="journey-sprite" data-jclass="blacksmith" width="20" height="26"></canvas>
+          <div class="journey-future-role">Blacksmith</div>
+          <div class="journey-future-title">R&D Engineer</div>
+          <div class="journey-future-rank">#3 Fit</div>
+        </div>
       </div>
-      <div class="journey-conn journey-conn-dashed"></div>
-      <div class="journey-node journey-future" data-jclass="creator">
-        <canvas class="journey-sprite" data-jclass="creator" width="20" height="26"></canvas>
-        <div class="journey-node-name">Creator</div>
-        <div class="journey-node-sub">Human Factors</div>
-        <div class="journey-node-rank">#4 Fit</div>
+
+      <div class="journey-branch">
+        <div class="journey-future" data-jclass="creator">
+          <canvas class="journey-sprite" data-jclass="creator" width="20" height="26"></canvas>
+          <div class="journey-future-role">Creator</div>
+          <div class="journey-future-title">Human Factors</div>
+          <div class="journey-future-rank">#4 Fit</div>
+        </div>
       </div>
     </div>
   </div>
@@ -4469,7 +4786,7 @@
 
   // Safety net: if any autoAlpha elements are still hidden after 6s, reveal them
   setTimeout(() => {
-    document.querySelectorAll('.bring-card, .work-visual, .work-card, .work-card-label, .work-evidence, .work-tech, .work-links, .journey-node, .journey-now-badge, .featured-card, .story-text p, .story-headshot, .statement-quote, .contact-left h2, .contact-left p, #contact .form-group, #contact .form-submit, #toolkit .spec-table thead, #toolkit .spec-table tbody tr, #credentials, .hero-name, .hero-desc, .hero-targets, .hero-roles, .hero-ctas .cta-btn, .terminal, .scroll-indicator, .status-badge, .hero-tag, #statement .spec-table thead, #statement .spec-table tbody tr, #toolkit > .container > p, .featured-problem, .featured-solution, #featured .spec-table, .featured-tech, .featured-link, .featured-card h3:first-child').forEach(el => {
+    document.querySelectorAll('.bring-card, .work-visual, .work-card, .work-card-label, .work-evidence, .work-tech, .work-links, .journey-node, .journey-future, .journey-waypoint, .journey-now-badge, .journey-branches, .featured-card, .story-text p, .story-headshot, .statement-quote, .contact-left h2, .contact-left p, #contact .form-group, #contact .form-submit, #toolkit .spec-table thead, #toolkit .spec-table tbody tr, #credentials, .hero-name, .hero-desc, .hero-targets, .hero-roles, .hero-ctas .cta-btn, .terminal, .scroll-indicator, .status-badge, .hero-tag, #statement .spec-table thead, #statement .spec-table tbody tr, #toolkit > .container > p, .featured-problem, .featured-solution, #featured .spec-table, .featured-tech, .featured-link, .featured-card h3:first-child').forEach(el => {
       const cs = getComputedStyle(el);
       if (cs.visibility === 'hidden' || parseFloat(cs.opacity) < 0.1) {
         el.style.visibility = 'visible';
@@ -4650,14 +4967,29 @@
     });
   });
 
-  // Journey nodes — staggered entrance
-  gsap.from('.journey-node', {
+  // Journey tree — past nodes stagger in alternating from their sides
+  gsap.from('.journey-node[data-side="left"]', {
     scrollTrigger: { trigger: '#journey', start: 'top 80%', once: true },
-    duration: 0.5, autoAlpha: 0, y: 16, stagger: 0.09, ease: 'power2.out'
+    duration: 0.7, autoAlpha: 0, x: -30, stagger: 0.2, ease: 'power2.out'
   });
+  gsap.from('.journey-node[data-side="right"]', {
+    scrollTrigger: { trigger: '#journey', start: 'top 78%', once: true },
+    duration: 0.7, autoAlpha: 0, x: 30, stagger: 0.2, ease: 'power2.out', delay: 0.1
+  });
+  // Waypoint pulses in
+  gsap.from('.journey-waypoint', {
+    scrollTrigger: { trigger: '.journey-waypoint', start: 'top 85%', once: true },
+    duration: 0.8, autoAlpha: 0, scale: 0.9, ease: 'back.out(1.4)'
+  });
+  // NOW badge
   gsap.from('.journey-now-badge', {
-    scrollTrigger: { trigger: '#journey', start: 'top 70%', once: true },
-    duration: 0.6, autoAlpha: 0, scale: 0.8, ease: 'back.out(1.4)'
+    scrollTrigger: { trigger: '.journey-now', start: 'top 80%', once: true },
+    duration: 0.7, autoAlpha: 0, scale: 0.85, ease: 'back.out(1.5)'
+  });
+  // Future branches fan out
+  gsap.from('.journey-future', {
+    scrollTrigger: { trigger: '.journey-branches', start: 'top 85%', once: true },
+    duration: 0.6, autoAlpha: 0, y: 24, stagger: 0.1, ease: 'power2.out'
   });
 
   // Toolkit intro paragraph
@@ -5408,8 +5740,139 @@
       }
     }
 
-    var CHARS={novice:drawNovice,acolyte:drawAcolyte,sage:drawSage,blacksmith:drawBlacksmith,creator:drawCreator,kid:drawKid,kinesio:drawKinesio,clinical:drawClinical,lifegrad:drawLifeGrad};
-    var NAMES={novice:'Novice',acolyte:'Acolyte',sage:'Sage',blacksmith:'Blacksmith',creator:'Creator',kid:'SoCal Kid',kinesio:'Kinesiology',clinical:'Clinical Obs.',lifegrad:'M.S. BME'};
+    /* ── MASCOT SPRITES (School chain) ───── */
+
+    /* --- LEOPARD: Lomita Elementary — golden leopard with spots --- */
+    function drawLeopard(c,y,hov,f){
+      shadow(c);
+      var bob=hov?Math.round(Math.sin(f*0.18)*-2):0;
+      var LEO='#E8B830', LEO2='#C89820', SPOT='#9A7A20';
+      /* head */
+      px(c,7,1+y+bob,6,2,LEO); px(c,6,3+y+bob,8,4,LEO);
+      /* ears */
+      px(c,5,2+y+bob,2,2,LEO2); px(c,13,2+y+bob,2,2,LEO2);
+      px(c,5,2+y+bob,1,1,'#2C2620'); px(c,14,2+y+bob,1,1,'#2C2620');
+      /* spots on head */
+      px(c,7,3+y+bob,1,1,SPOT); px(c,11,3+y+bob,1,1,SPOT);
+      /* body */
+      px(c,5,7+y+bob,10,8,LEO); px(c,6,7+y+bob,8,2,LEO2);
+      /* spots on body */
+      px(c,6,8+y+bob,2,2,SPOT); px(c,10,9+y+bob,2,2,SPOT); px(c,7,12+y+bob,2,2,SPOT);
+      /* tail */
+      var tx=hov?12+Math.round(Math.sin(f*0.2)*1.5):11;
+      px(c,tx,11+y+bob,2,5,LEO2);
+      px(c,tx,11+y+bob,1,1,SPOT);
+      /* legs */
+      px(c,6,15+y+bob,2,4,LEO); px(c,10,15+y+bob,2,4,LEO);
+      px(c,6,19+y+bob,2,2,'#5A4020'); px(c,10,19+y+bob,2,2,'#5A4020');
+    }
+
+    /* --- KNIGHT: Stephen White Middle — chibi knight with helmet --- */
+    function drawKnight(c,y,hov,f){
+      shadow(c);
+      var j=hov?-1:0;
+      /* helmet (silver) */
+      px(c,7,0+y+j,6,2,MT); px(c,6,2+y+j,8,2,MT);
+      /* helmet visor (down) */
+      px(c,7,3+y+j,6,1,MT2); px(c,8,4+y+j,4,1,'#2C2620');
+      /* tabard (blue) */
+      px(c,5,5+y+j,10,7,BL); px(c,6,5+y+j,8,2,BL2);
+      /* shield shape left side */
+      px(c,3,7+y+j,2,4,MT2);
+      px(c,4,6+y+j,1,6,'#C8C8C8');
+      /* legs under tabard */
+      px(c,7,12+y+j,6,5,MT);
+      /* feet */
+      px(c,6,17+y+j,2,2,'#2C2620'); px(c,10,17+y+j,2,2,'#2C2620');
+      if(hov){
+        c.fillStyle=GO; c.fillRect(9,y+j-2,1,2); c.fillRect(9,y+j+1,1,1);
+      }
+    }
+
+    /* --- GAUCHO: Narbonne High — gaucho with hat and maroon vest --- */
+    function drawGaucho(c,y,hov,f){
+      shadow(c);
+      var bob=hov?Math.round(Math.sin(f*0.15)*-1.5):0;
+      var HAT='#4A2020', VEST=RD, SHIRT=WH;
+      /* wide-brimmed hat */
+      px(c,3,0+y+bob,14,1,HAT); px(c,2,1+y+bob,16,1,HAT);
+      /* hat peak */
+      px(c,7,1+y+bob,6,1,'#3A1010');
+      /* head */
+      px(c,8,2+y+bob,4,3,'#C4A080');
+      /* shirt (white) */
+      px(c,6,5+y+bob,8,3,SHIRT); px(c,7,5+y+bob,6,1,WH2);
+      /* vest (maroon/red) */
+      px(c,5,8+y+bob,10,6,VEST); px(c,6,8+y+bob,8,2,RD2);
+      /* vest buttons */
+      px(c,10,9+y+bob,1,1,GO); px(c,10,11+y+bob,1,1,GO);
+      /* legs in brown/red pants */
+      px(c,7,14+y+bob,6,5,BR); px(c,7,14+y+bob,6,2,BR2);
+      /* boots */
+      px(c,6,19+y+bob,2,2,'#2C2620'); px(c,10,19+y+bob,2,2,'#2C2620');
+      if(hov && Math.sin(f*0.12)>0){
+        /* hat tip */
+        px(c,2,0+y+bob,2,1,'#3A1010');
+      }
+    }
+
+    /* --- PROSPECTOR: Cal State Long Beach — 49er with pickaxe --- */
+    function drawProspector(c,y,hov,f){
+      shadow(c);
+      var bob=hov?Math.round(Math.sin(f*0.16)*-1.5):0;
+      var HAT=GO, COAT=BR, BEARD='#5A4020';
+      /* wide prospector hat */
+      px(c,4,0+y+bob,12,1,HAT); px(c,3,1+y+bob,14,1,HAT);
+      px(c,7,1+y+bob,6,1,GO2);
+      /* head with beard */
+      px(c,8,2+y+bob,4,2,'#C4A080');
+      px(c,7,4+y+bob,6,1,BEARD); px(c,7,5+y+bob,6,1,BEARD);
+      /* torso/coat */
+      px(c,6,3+y+bob,8,8,COAT); px(c,7,4+y+bob,6,2,BR2);
+      /* arms */
+      px(c,4,6+y+bob,1,3,'#C4A080'); px(c,15,6+y+bob,1,3,'#C4A080');
+      /* pickaxe on shoulder */
+      px(c,14,5+y+bob,2,2,MT); px(c,15,4+y+bob,1,1,GO);
+      /* legs */
+      px(c,7,11+y+bob,6,5,BR); px(c,7,11+y+bob,6,2,BR2);
+      /* boots */
+      px(c,6,16+y+bob,2,2,'#2C2620'); px(c,10,16+y+bob,2,2,'#2C2620');
+    }
+
+    /* --- DUCK: Stevens Institute — cute duck with scarf --- */
+    function drawDuck(c,y,hov,f){
+      shadow(c);
+      var bob=hov?Math.round(Math.sin(f*0.18)*-2):0;
+      /* body (white, round) */
+      px(c,6,5+y+bob,8,10,WH); px(c,5,6+y+bob,10,8,WH);
+      px(c,7,5+y+bob,6,1,WH2); px(c,6,14+y+bob,8,1,WH2);
+      /* head (sitting on body) */
+      px(c,7,3+y+bob,6,3,WH);
+      /* eyes */
+      px(c,8,3+y+bob,1,1,OL); px(c,12,3+y+bob,1,1,OL);
+      /* bill (orange) */
+      px(c,9,5+y+bob,2,2,'#FF9933');
+      px(c,11,5+y+bob,2,1,'#FF8811');
+      /* red scarf (Stevens colors) */
+      px(c,5,7+y+bob,1,2,'#D94A4A'); px(c,6,6+y+bob,1,1,'#D94A4A');
+      px(c,13,7+y+bob,1,2,'#D94A4A'); px(c,14,6+y+bob,1,1,'#D94A4A');
+      /* feet (orange) */
+      px(c,8,15+y+bob,1,2,'#FF9933'); px(c,11,15+y+bob,1,2,'#FF9933');
+      /* wing flap animation on hover */
+      if(hov){
+        var wingPhase=Math.round(Math.sin(f*0.25));
+        if(wingPhase>0){
+          /* right wing up */
+          px(c,14,8+y+bob,2,4,WH2);
+        }else{
+          /* left wing up */
+          px(c,2,8+y+bob,2,4,WH2);
+        }
+      }
+    }
+
+    var CHARS={novice:drawNovice,acolyte:drawAcolyte,sage:drawSage,blacksmith:drawBlacksmith,creator:drawCreator,kid:drawKid,kinesio:drawKinesio,clinical:drawClinical,lifegrad:drawLifeGrad,leopard:drawLeopard,knight:drawKnight,gaucho:drawGaucho,prospector:drawProspector,duck:drawDuck};
+    var NAMES={novice:'Novice',acolyte:'Acolyte',sage:'Sage',blacksmith:'Blacksmith',creator:'Creator',kid:'SoCal Kid',kinesio:'Kinesiology',clinical:'Clinical Obs.',lifegrad:'M.S. BME',leopard:'Leopard',knight:'Knight',gaucho:'Gaucho',prospector:'49er',duck:'Duck'};
 
     /* --- JOURNEY SPRITES --- */
     document.querySelectorAll('.journey-sprite[data-jclass]').forEach(function(canvas){
