@@ -138,6 +138,17 @@
       scroll-margin-top: 80px;
     }
 
+    /* FOCUS STYLES — keyboard-only visible ring */
+    :focus-visible {
+      outline: 2px solid var(--amber);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    :focus:not(:focus-visible) {
+      outline: none;
+    }
+
     /* CUSTOM CURSOR */
     @media (pointer: fine) {
       html {
@@ -374,10 +385,42 @@
     @media (max-width: 768px) {
       .nav-links {
         display: none;
+        position: fixed;
+        inset: 0;
+        top: 80px;
+        background: var(--bg);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        z-index: 999;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+
+      .nav-links.open {
+        display: flex;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .nav-links a {
+        font-size: 1.25rem;
       }
 
       .hamburger {
         display: flex;
+      }
+
+      .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
       }
 
       nav {
@@ -2062,11 +2105,11 @@
     <li><a href="#contact">Contact</a></li>
   </ul>
   <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">🌙</button>
-  <div class="hamburger" id="hamburger">
+  <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
     <span></span>
     <span></span>
     <span></span>
-  </div>
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -2076,7 +2119,7 @@
     <div class="status-badge" style="margin-top: 0.5rem; background: var(--dark3); color: var(--gold);">Available May 2026 · SoCal</div>
     <p class="hero-tag">Biomedical Engineer</p>
     <h1 class="hero-name">Joneil Caoile</h1>
-    <p class="hero-sub">Biomedical engineer, M.S. Stevens. Two years in clinics watching devices fail users, then grad school in human factors and regulatory strategy. Now I design usability studies, classify use errors under IEC 62366-1, and build AI tools to speed up HFE workflows.</p>
+    <p class="hero-desc">Biomedical engineer, M.S. Stevens. Two years in clinics watching devices fail users, then grad school in human factors and regulatory strategy. Now I design usability studies, classify use errors under IEC 62366-1, and build AI tools to speed up HFE workflows.</p>
     <p class="hero-targets">Targeting validation, applications, R&amp;D, and human factors roles in SoCal medtech.</p>
     <p class="hero-roles">
       <span class="role-typing" id="roleTyping">biomedical engineer</span>
@@ -2177,7 +2220,8 @@
 </section>
 
 <!-- WHAT I BRING -->
-<section id="bring" class="container bridge-dark-to-light">
+<section id="bring" class="bridge-dark-to-light">
+  <div class="container">
   <p class="section-label">02 / What I Bring</p>
   <h2>What I can do for your team on day one</h2>
   <div class="bring-grid">
@@ -2202,10 +2246,12 @@
       <div class="bring-proof">See: <a href="case-usetrace.html">UseTrace</a> (AI-assisted observation classification), Google UX Certificate</div>
     </div>
   </div>
+  </div>
 </section>
 
 <!-- STORY -->
-<section id="story" class="container bridge-dark-to-light">
+<section id="story" class="bridge-dark-to-light">
+  <div class="container">
   <p class="section-label">03 / Story</p>
   <h2>Two years in clinics before a single line of code.</h2>
   <div class="story-content">
@@ -2220,6 +2266,7 @@
         <img src="headshot-600.png" alt="Joneil Caoile, biomedical engineer" width="600" height="899" loading="lazy">
       </picture>
     </div>
+  </div>
   </div>
 </section>
 
@@ -2506,7 +2553,8 @@
           <label for="message">Message</label>
           <textarea id="message" name="message" placeholder="Tell me about the role, or just say hi. I respond fast." required></textarea>
         </div>
-        <button type="submit" class="form-submit">Send</button>
+        <button type="submit" class="form-submit" id="formSubmit">Send</button>
+        <div id="formStatus" role="status" aria-live="polite" style="font-family:var(--fm);font-size:14px;margin-top:0.5rem;min-height:1.5em;"></div>
       </form>
     </div>
   </div>
@@ -2544,6 +2592,34 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js" integrity="sha384-RVPQwTb0fPz9kI8s5GwAq1Qioto9fnEQt1aKGSQSm8xV6+DIdBSgcCShoHqfKnhv" crossorigin="anonymous"></script>
 
 <script>
+  /* HAMBURGER MENU */
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.querySelector('.nav-links');
+  hamburger.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    hamburger.classList.toggle('active');
+    hamburger.setAttribute('aria-expanded', isOpen);
+  });
+  // Close mobile menu when a link is clicked
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      hamburger.classList.remove('active');
+      hamburger.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  /* SMOOTH SCROLL FOR NAV LINKS */
+  document.querySelectorAll('.nav-links a[href^="#"], .mobile-nav a[href^="#"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
   /* DARK MODE */
   const darkModeToggle = document.getElementById('darkModeToggle');
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -3098,6 +3174,35 @@
   /* GSAP ANIMATIONS */
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
+  // Hero entrance — staggered reveal after loader finishes
+  gsap.from('.status-badge', { duration: 0.6, autoAlpha: 0, y: 15, stagger: 0.15, ease: 'power2.out', delay: 2.2 });
+  gsap.from('.hero-tag', { duration: 0.5, autoAlpha: 0, x: -15, ease: 'power2.out', delay: 2.4 });
+  gsap.from('.hero-name', { duration: 0.8, autoAlpha: 0, y: 20, ease: 'power3.out', delay: 2.5 });
+  gsap.from('.hero-desc', { duration: 0.7, autoAlpha: 0, y: 15, ease: 'power2.out', delay: 2.8 });
+  gsap.from('.hero-targets', { duration: 0.5, autoAlpha: 0, y: 10, ease: 'power2.out', delay: 3.0 });
+  gsap.from('.hero-roles', { duration: 0.5, autoAlpha: 0, ease: 'power2.out', delay: 3.1 });
+  gsap.from('.hero-ctas .cta-btn', { duration: 0.5, autoAlpha: 0, y: 15, stagger: 0.12, ease: 'power2.out', delay: 3.2 });
+  gsap.from('.terminal', { duration: 1, autoAlpha: 0, x: 40, scale: 0.97, ease: 'power2.out', delay: 2.6 });
+  gsap.from('.scroll-indicator', { duration: 0.5, autoAlpha: 0, y: -10, ease: 'power2.out', delay: 3.5 });
+
+  // Credentials marquee entrance
+  gsap.from('#credentials', {
+    scrollTrigger: { trigger: '#credentials', start: 'top 90%', once: true },
+    duration: 0.8,
+    autoAlpha: 0,
+    y: 15,
+    ease: 'power2.out'
+  });
+
+  // Statement quote entrance
+  gsap.from('.statement-quote', {
+    scrollTrigger: { trigger: '#statement', start: 'top 80%', once: true },
+    duration: 0.8,
+    autoAlpha: 0,
+    x: -20,
+    ease: 'power2.out'
+  });
+
   // Statement table — header then rows stagger
   gsap.from('#statement .spec-table thead', {
     scrollTrigger: {
@@ -3153,18 +3258,21 @@
     delay: 0.2
   });
 
-  // Featured card entrance
-  gsap.from('.featured-card', {
+  // Featured card entrance + internals stagger
+  const featuredTL = gsap.timeline({
     scrollTrigger: {
       trigger: '.featured-card',
       start: 'top 80%',
       once: true
-    },
-    duration: 1,
-    autoAlpha: 0,
-    y: 30,
-    ease: 'power2.out'
+    }
   });
+  featuredTL.from('.featured-card', { duration: 0.8, autoAlpha: 0, y: 30, ease: 'power2.out' })
+    .from('.featured-card h3:first-child', { duration: 0.4, autoAlpha: 0, y: 10, ease: 'power2.out' }, '-=0.3')
+    .from('.featured-problem', { duration: 0.5, autoAlpha: 0, x: -15, ease: 'power2.out' }, '-=0.15')
+    .from('.featured-solution', { duration: 0.5, autoAlpha: 0, x: -15, ease: 'power2.out' }, '-=0.25')
+    .from('#featured .spec-table', { duration: 0.5, autoAlpha: 0, y: 15, ease: 'power2.out' }, '-=0.2')
+    .from('.featured-tech', { duration: 0.4, autoAlpha: 0, ease: 'power2.out' }, '-=0.15')
+    .from('.featured-link', { duration: 0.4, autoAlpha: 0, y: 8, ease: 'power2.out' }, '-=0.1');
 
   // Bring cards staggered
   gsap.from('.bring-card', {
@@ -3238,6 +3346,20 @@
     });
   });
 
+  // Timeline items — staggered entrance
+  gsap.from('.timeline-item', {
+    scrollTrigger: {
+      trigger: '#timeline',
+      start: 'top 75%',
+      once: true
+    },
+    duration: 0.6,
+    autoAlpha: 0,
+    x: -20,
+    stagger: 0.12,
+    ease: 'power2.out'
+  });
+
   // Timeline markers
   gsap.from('.timeline-marker', {
     scrollTrigger: {
@@ -3250,6 +3372,16 @@
     scale: 0,
     stagger: 0.1,
     ease: 'back.out'
+  });
+
+  // Toolkit intro paragraph
+  gsap.from('#toolkit > .container > p', {
+    scrollTrigger: { trigger: '#toolkit', start: 'top 80%', once: true },
+    duration: 0.5,
+    autoAlpha: 0,
+    y: 12,
+    ease: 'power2.out',
+    delay: 0.15
   });
 
   // Toolkit table — header then rows stagger
@@ -3303,6 +3435,23 @@
     }
   });
 
+  // Contact left text entrance
+  gsap.from('.contact-left h2', {
+    scrollTrigger: { trigger: '#contact', start: 'top 75%', once: true },
+    duration: 0.6,
+    autoAlpha: 0,
+    y: 20,
+    ease: 'power2.out'
+  });
+  gsap.from('.contact-left p', {
+    scrollTrigger: { trigger: '#contact', start: 'top 72%', once: true },
+    duration: 0.5,
+    autoAlpha: 0,
+    y: 15,
+    ease: 'power2.out',
+    delay: 0.2
+  });
+
   // Contact form fields stagger
   gsap.from('#contact .form-group', {
     scrollTrigger: { trigger: '#contact', start: 'top 70%', once: true },
@@ -3321,6 +3470,43 @@
     y: 15,
     ease: 'power2.out',
     delay: 0.7
+  });
+
+  /* CONTACT FORM — async submit with feedback */
+  const contactForm = document.getElementById('contactForm');
+  const formSubmit = document.getElementById('formSubmit');
+  const formStatus = document.getElementById('formStatus');
+
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    formSubmit.disabled = true;
+    formSubmit.textContent = 'Sending...';
+    formStatus.textContent = '';
+    formStatus.style.color = '';
+
+    try {
+      const res = await fetch(contactForm.action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        formStatus.textContent = 'Message sent. I will get back to you soon.';
+        formStatus.style.color = '#6EBF5E';
+        contactForm.reset();
+        updateXP(100);
+        showXPHud();
+        showToast('MESSAGE SENT +100 XP', 3000);
+      } else {
+        formStatus.textContent = 'Something went wrong. Try emailing me directly.';
+        formStatus.style.color = '#E84040';
+      }
+    } catch (err) {
+      formStatus.textContent = 'Network error. Try emailing me directly.';
+      formStatus.style.color = '#E84040';
+    }
+    formSubmit.disabled = false;
+    formSubmit.textContent = 'Send';
   });
 
   /* CONSOLE EASTER EGG */
