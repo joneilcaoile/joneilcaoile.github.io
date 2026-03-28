@@ -685,6 +685,11 @@
       padding: 0.875rem 1rem;
       border-bottom: 1px solid var(--border);
       color: var(--text-secondary);
+      transition: background 0.2s ease;
+    }
+
+    .spec-table tbody tr:hover td {
+      background: var(--amber-soft);
     }
 
     .spec-table tr:last-child td {
@@ -919,23 +924,55 @@
       align-items: center;
       justify-content: center;
       min-height: 380px;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.06),
+        inset 0 -2px 8px rgba(0,0,0,0.3),
+        0 8px 32px rgba(0,0,0,0.15),
+        0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.4s ease;
+    }
+
+    .work-item:hover .work-visual {
+      transform: scale(1.015);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.08),
+        inset 0 -2px 8px rgba(0,0,0,0.3),
+        0 16px 48px rgba(0,0,0,0.2),
+        0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .work-visual::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, transparent 40%, rgba(0,0,0,0.15) 100%);
+      pointer-events: none;
+      z-index: 1;
     }
 
     .work-visual-bg {
       position: absolute;
       inset: 0;
-      opacity: 0.12;
+      opacity: 0.18;
     }
 
     .work-visual-icon {
       position: relative;
       z-index: 2;
-      font-size: 4.5rem;
+      font-size: 5rem;
       font-family: var(--fh);
       font-weight: 800;
       letter-spacing: -0.04em;
       line-height: 1;
       text-align: center;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.3), 0 0 40px currentColor;
+      filter: drop-shadow(0 0 20px currentColor);
+      opacity: 0.85;
+    }
+
+    .work-item:hover .work-visual-icon {
+      opacity: 1;
+      filter: drop-shadow(0 0 30px currentColor);
     }
 
     .work-visual-sub {
@@ -943,62 +980,76 @@
       z-index: 2;
       font-family: var(--fm);
       font-size: 0.7rem;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       margin-top: 0.75rem;
       text-align: center;
-      opacity: 0.6;
+      opacity: 0.5;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.4);
     }
 
-    /* Visual panel themes */
+    /* Visual panel themes — 3D depth with vignette + glow */
     .work-visual.vis-photocull {
-      background: linear-gradient(135deg, #1a1520 0%, #2d1f3d 100%);
+      background: linear-gradient(160deg, #251a35 0%, #1a1228 40%, #2d1f3d 100%);
       color: #c4b5fd;
+      border: 1px solid rgba(196,181,253,0.1);
     }
     .work-visual.vis-photocull .work-visual-bg {
-      background: repeating-conic-gradient(rgba(196,181,253,0.06) 0% 25%, transparent 0% 50%) 0 0 / 40px 40px;
+      background:
+        radial-gradient(ellipse at 50% 30%, rgba(196,181,253,0.12), transparent 60%),
+        repeating-conic-gradient(rgba(196,181,253,0.04) 0% 25%, transparent 0% 50%) 0 0 / 40px 40px;
     }
 
     .work-visual.vis-pneumo {
-      background: linear-gradient(135deg, #0f1d2e 0%, #1a2d3d 100%);
+      background: linear-gradient(160deg, #142638 0%, #0c1a2a 40%, #1a3048 100%);
       color: #93c5fd;
+      border: 1px solid rgba(147,197,253,0.1);
     }
     .work-visual.vis-pneumo .work-visual-bg {
-      background: radial-gradient(circle at 30% 50%, rgba(147,197,253,0.08), transparent 60%),
-                  radial-gradient(circle at 70% 40%, rgba(147,197,253,0.05), transparent 50%);
+      background:
+        radial-gradient(ellipse at 40% 35%, rgba(147,197,253,0.14), transparent 55%),
+        radial-gradient(circle at 70% 60%, rgba(147,197,253,0.06), transparent 50%);
     }
 
     .work-visual.vis-emg {
-      background: linear-gradient(135deg, #1d0f0f 0%, #3d1a1a 100%);
+      background: linear-gradient(160deg, #2a1212 0%, #1a0c0c 40%, #3d1a1a 100%);
       color: #fca5a5;
+      border: 1px solid rgba(252,165,165,0.1);
     }
     .work-visual.vis-emg .work-visual-bg {
-      background: repeating-linear-gradient(90deg, rgba(252,165,165,0.04) 0px, rgba(252,165,165,0.04) 1px, transparent 1px, transparent 20px);
+      background:
+        radial-gradient(ellipse at 50% 40%, rgba(252,165,165,0.1), transparent 55%),
+        repeating-linear-gradient(90deg, rgba(252,165,165,0.03) 0px, rgba(252,165,165,0.03) 1px, transparent 1px, transparent 20px);
     }
 
     .work-visual.vis-fall {
-      background: linear-gradient(135deg, #0f1d15 0%, #1a3d25 100%);
+      background: linear-gradient(160deg, #122a1a 0%, #0c1a12 40%, #1a3d28 100%);
       color: #86efac;
+      border: 1px solid rgba(134,239,172,0.1);
     }
     .work-visual.vis-fall .work-visual-bg {
-      background: repeating-conic-gradient(rgba(134,239,172,0.04) 0% 25%, transparent 0% 50%) 0 0 / 32px 32px;
+      background:
+        radial-gradient(ellipse at 45% 35%, rgba(134,239,172,0.1), transparent 55%),
+        repeating-conic-gradient(rgba(134,239,172,0.03) 0% 25%, transparent 0% 50%) 0 0 / 32px 32px;
     }
 
     .work-visual.vis-physiorep {
-      background: linear-gradient(135deg, #1d1a0f 0%, #3d2d1a 100%);
+      background: linear-gradient(160deg, #2a2210 0%, #1a180c 40%, #3d2d1a 100%);
       color: #fcd34d;
+      border: 1px solid rgba(252,211,77,0.1);
     }
     .work-visual.vis-physiorep .work-visual-bg {
-      background: radial-gradient(circle at 50% 50%, rgba(252,211,77,0.06), transparent 60%);
+      background:
+        radial-gradient(ellipse at 50% 40%, rgba(252,211,77,0.1), transparent 55%),
+        radial-gradient(circle at 50% 80%, rgba(252,211,77,0.04), transparent 40%);
     }
 
     .work-card {
-      padding: 2.5rem;
+      padding: 2.5rem 3rem;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      transition: all 0.3s ease;
-      transform-style: preserve-3d;
+      transition: background 0.4s ease, box-shadow 0.4s ease;
       background: var(--bg2);
     }
 
@@ -1010,8 +1061,9 @@
       border-right: 3px solid var(--border-light);
     }
 
-    .work-card:hover {
+    .work-item:hover .work-card {
       background: var(--bg-warm);
+      box-shadow: inset 0 0 40px rgba(198,123,46,0.03);
     }
 
     .work-card[data-rarity="epic"] {
@@ -1026,11 +1078,16 @@
 
     .work-card-label {
       font-family: var(--fm);
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--amber);
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.75rem;
+      display: inline-block;
+      padding: 0.25rem 0.65rem;
+      background: rgba(198,123,46,0.08);
+      border: 1px solid rgba(198,123,46,0.15);
+      border-radius: 100px;
     }
 
     .work-card h3 {
@@ -1068,11 +1125,12 @@
       font-size: 14px;
       font-weight: 600;
       color: var(--amber);
-      transition: color 0.3s ease;
+      transition: color 0.2s ease, letter-spacing 0.2s ease;
     }
 
     .work-link:hover {
-      color: var(--amber-light);
+      color: var(--coral);
+      letter-spacing: 0.02em;
     }
 
     @media (max-width: 768px) {
@@ -3073,34 +3131,62 @@
     ease: 'power2.out'
   });
 
-  // Work items staggered — each item has its own trigger for zigzag
+  // Work items — staggered visual + card entrance for editorial feel
   document.querySelectorAll('.work-item').forEach((item, i) => {
-    gsap.from(item, {
+    const visual = item.querySelector('.work-visual');
+    const card = item.querySelector('.work-card');
+    const isEven = i % 2 === 1;
+
+    // Timeline: visual slides in from its side, card fades up
+    const tl = gsap.timeline({
       scrollTrigger: {
         trigger: item,
-        start: 'top 80%',
+        start: 'top 82%',
         once: true
-      },
-      duration: 0.9,
-      autoAlpha: 0,
-      y: 40,
-      ease: 'power2.out'
+      }
     });
-  });
 
-  // Evidence rows fade-in
-  gsap.from('.work-evidence', {
-    scrollTrigger: {
-      trigger: '#work',
-      start: 'top 60%',
-      once: true
-    },
-    duration: 0.5,
-    autoAlpha: 0,
-    y: 10,
-    stagger: 0.1,
-    ease: 'power2.out',
-    delay: 0.4
+    if (visual) {
+      tl.from(visual, {
+        duration: 0.8,
+        autoAlpha: 0,
+        x: isEven ? 60 : -60,
+        ease: 'power3.out'
+      });
+    }
+
+    if (card) {
+      tl.from(card, {
+        duration: 0.7,
+        autoAlpha: 0,
+        y: 30,
+        ease: 'power2.out'
+      }, visual ? '-=0.5' : 0);
+    }
+
+    // Card label pops in
+    const label = item.querySelector('.work-card-label');
+    if (label) {
+      tl.from(label, {
+        duration: 0.4,
+        autoAlpha: 0,
+        y: -8,
+        ease: 'power2.out'
+      }, '-=0.3');
+    }
+
+    // Evidence and tech stack fade in
+    const evidence = item.querySelector('.work-evidence');
+    const tech = item.querySelector('.work-tech');
+    const links = item.querySelector('.work-links');
+    [evidence, tech, links].filter(Boolean).forEach((el, j) => {
+      tl.from(el, {
+        duration: 0.4,
+        autoAlpha: 0,
+        y: 12,
+        ease: 'power2.out'
+      }, `-=${0.25 - j * 0.05}`);
+    });
   });
 
   // Timeline markers
@@ -3117,17 +3203,75 @@
     ease: 'back.out'
   });
 
-  // Toolkit table
-  gsap.from('#toolkit .spec-table', {
+  // Toolkit table — header then rows stagger
+  gsap.from('#toolkit .spec-table thead', {
     scrollTrigger: {
       trigger: '#toolkit .spec-table',
-      start: 'top 80%',
+      start: 'top 82%',
       once: true
     },
-    duration: 0.8,
+    duration: 0.5,
+    autoAlpha: 0,
+    y: 12,
+    ease: 'power2.out'
+  });
+  gsap.from('#toolkit .spec-table tbody tr', {
+    scrollTrigger: {
+      trigger: '#toolkit .spec-table',
+      start: 'top 78%',
+      once: true
+    },
+    duration: 0.5,
+    autoAlpha: 0,
+    x: -20,
+    stagger: 0.1,
+    ease: 'power2.out',
+    delay: 0.2
+  });
+
+  // Section headings — consistent entrance across all sections
+  document.querySelectorAll('section').forEach(section => {
+    const label = section.querySelector('.section-label');
+    const h2 = section.querySelector('h2');
+    if (label) {
+      gsap.from(label, {
+        scrollTrigger: { trigger: section, start: 'top 85%', once: true },
+        duration: 0.5,
+        autoAlpha: 0,
+        x: -15,
+        ease: 'power2.out'
+      });
+    }
+    if (h2 && !section.id.match(/hero|featured/)) {
+      gsap.from(h2, {
+        scrollTrigger: { trigger: section, start: 'top 82%', once: true },
+        duration: 0.6,
+        autoAlpha: 0,
+        y: 20,
+        ease: 'power2.out',
+        delay: 0.1
+      });
+    }
+  });
+
+  // Contact form fields stagger
+  gsap.from('#contact .form-group', {
+    scrollTrigger: { trigger: '#contact', start: 'top 70%', once: true },
+    duration: 0.5,
     autoAlpha: 0,
     y: 20,
-    ease: 'power2.out'
+    stagger: 0.12,
+    ease: 'power2.out',
+    delay: 0.3
+  });
+
+  gsap.from('#contact .form-submit', {
+    scrollTrigger: { trigger: '#contact', start: 'top 60%', once: true },
+    duration: 0.5,
+    autoAlpha: 0,
+    y: 15,
+    ease: 'power2.out',
+    delay: 0.7
   });
 
   /* CONSOLE EASTER EGG */
