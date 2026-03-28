@@ -32,7 +32,7 @@
   <style>
     /* RESET */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: auto; /* smooth removed — conflicts with GSAP ScrollTrigger */ }
     body { font-variant-numeric: tabular-nums; }
     img { display: block; max-width: 100%; height: auto; }
     a { color: inherit; text-decoration: none; }
@@ -2874,8 +2874,8 @@
       <span class="role-typing" id="roleTyping">biomedical engineer</span>
     </p>
     <div class="hero-ctas">
-      <button class="cta-btn primary" onclick="document.getElementById('featured').scrollIntoView({ behavior: 'smooth' })">See the work</button>
-      <button class="cta-btn secondary" onclick="document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })">Get in touch</button>
+      <button class="cta-btn primary" onclick="gsap.to(window,{duration:0.8,scrollTo:'#featured',ease:'power2.inOut'})">See the work</button>
+      <button class="cta-btn secondary" onclick="gsap.to(window,{duration:0.8,scrollTo:'#contact',ease:'power2.inOut'})">Get in touch</button>
       <a href="Joneil_Caoile_Resume.pdf" download class="cta-btn secondary">Resume ↓</a>
     </div>
   </div>
@@ -2901,7 +2901,7 @@
       <div class="terminal-line"><span class="terminal-output">↳ PhotoCull AI (image classification)</span></div>
     </div>
   </div>
-  <div class="scroll-indicator" onclick="document.getElementById('statement').scrollIntoView({ behavior: 'smooth' })">
+  <div class="scroll-indicator" onclick="gsap.to(window,{duration:0.8,scrollTo:'#statement',ease:'power2.inOut'})">
     <span>Scroll to explore</span>
     <div class="scroll-dot"></div>
   </div>
@@ -3597,13 +3597,13 @@
     });
   });
 
-  /* SMOOTH SCROLL FOR NAV LINKS */
+  /* SMOOTH SCROLL FOR NAV LINKS — uses GSAP ScrollToPlugin for consistency */
   document.querySelectorAll('.nav-links a[href^="#"], .mobile-nav a[href^="#"]').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       const target = document.querySelector(link.getAttribute('href'));
       if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        gsap.to(window, { duration: 0.8, scrollTo: { y: target, offsetY: 0 }, ease: 'power2.inOut' });
       }
     });
   });
@@ -3660,7 +3660,11 @@
             autoAlpha: 0,
             pointerEvents: 'none',
             delay: 0.6,
-            ease: 'power2.inOut'
+            ease: 'power2.inOut',
+            onComplete: () => {
+              // Recalculate all ScrollTrigger positions after loader clears
+              ScrollTrigger.refresh(true);
+            }
           });
 
         // Safety fallback: force-hide loader if GSAP stalls (background tab throttling)
@@ -3670,6 +3674,8 @@
             loader.style.visibility = 'hidden';
             loader.style.pointerEvents = 'none';
           }
+          // Also refresh triggers in case GSAP stalled
+          ScrollTrigger.refresh(true);
         }, 4000);
       }
     }, 100);
@@ -4455,6 +4461,22 @@
 
   /* GSAP ANIMATIONS */
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+  // Refresh ScrollTrigger after fonts load (layout shifts change trigger positions)
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => ScrollTrigger.refresh(true));
+  }
+
+  // Safety net: if any autoAlpha elements are still hidden after 6s, reveal them
+  setTimeout(() => {
+    document.querySelectorAll('.bring-card, .work-visual, .work-card, .work-card-label, .work-evidence, .work-tech, .work-links, .journey-node, .journey-now-badge, .featured-card, .story-text p, .story-headshot, .statement-quote, .contact-left h2, .contact-left p, #contact .form-group, #contact .form-submit, #toolkit .spec-table thead, #toolkit .spec-table tbody tr, #credentials, .hero-name, .hero-desc, .hero-targets, .hero-roles, .hero-ctas .cta-btn, .terminal, .scroll-indicator, .status-badge, .hero-tag, #statement .spec-table thead, #statement .spec-table tbody tr, #toolkit > .container > p, .featured-problem, .featured-solution, #featured .spec-table, .featured-tech, .featured-link, .featured-card h3:first-child').forEach(el => {
+      const cs = getComputedStyle(el);
+      if (cs.visibility === 'hidden' || parseFloat(cs.opacity) < 0.1) {
+        el.style.visibility = 'visible';
+        el.style.opacity = '1';
+      }
+    });
+  }, 6000);
 
   // Hero entrance — staggered reveal after loader finishes
   gsap.from('.status-badge', { duration: 0.6, autoAlpha: 0, y: 15, stagger: 0.15, ease: 'power2.out', delay: 2.2 });
@@ -5415,4 +5437,3 @@
 
 </body>
 </html>
-      legs(
