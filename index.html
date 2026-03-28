@@ -2128,14 +2128,22 @@
       bottom: 1rem;
       right: 1rem;
       z-index: 499;
-      cursor: pointer;
-      transition: transform 0.3s ease;
+      cursor: grab;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
       display: flex;
       flex-direction: column;
       align-items: center;
+      user-select: none;
+      touch-action: none;
     }
     .critter-container:hover {
-      transform: scale(1.1);
+      transform: scale(1.08);
+    }
+    .critter-container.dragging {
+      cursor: grabbing;
+      transform: scale(1.15);
+      transition: none;
+      z-index: 9999;
     }
     .critter-container canvas {
       image-rendering: pixelated;
@@ -2753,12 +2761,9 @@
 <div class="critter-container" id="critterContainer" title="Portfolio Pet — click to earn XP!">
   <button class="critter-gear" id="critterGear" aria-label="Pet settings">&#9881;</button>
   <div class="critter-settings" id="critterSettings">
-    <div class="csetting-label">Move</div>
+    <div class="csetting-label">Drag me anywhere!</div>
     <div class="csetting-row">
-      <button class="csetting-btn" data-corner="0" title="Top left">↖</button>
-      <button class="csetting-btn" data-corner="1" title="Top right">↗</button>
-      <button class="csetting-btn" data-corner="2" title="Bottom left">↙</button>
-      <button class="csetting-btn active" data-corner="3" title="Bottom right">↘</button>
+      <button class="csetting-btn" id="critterReset" title="Reset to bottom-right corner">Reset Position</button>
     </div>
     <div class="csetting-label">Idle</div>
     <div class="csetting-row">
@@ -3841,11 +3846,11 @@
     { name: 'King Slime', minXP: 1200, draw: drawKingSlime }
   ];
 
-  // Slime palette
-  const SL='#5BAAEE',SD='#3D88CC',SL2='#8ECFFF'; // blue slime
-  const WH='#FFFFFF',BK='#1A1A2E',PK='#FFB3BA';  // base
-  const YL='#FFE040',GO='#FFB820',GL='#C8F0FF';  // king
-  const PU='#9B7ED8',KSD='#7B5EB8';              // purple
+  // Slime palette — brighter, cuter colors
+  const SL='#7BBFFF',SD='#5A9FE8',SL2='#B8DFFF'; // baby blue
+  const WH='#FFFFFF',BK='#2A2040',PK='#FFB0C0';   // base
+  const YL='#FFE558',GO='#FFC830',GL='#D0F0FF';   // gold/sparkle
+  const PU='#B898F0',KSD='#9070D0';                // purple
 
   let activeCtx = critterCtx;
   function px(x, y, color) {
@@ -3853,145 +3858,196 @@
     activeCtx.fillStyle = color;
     activeCtx.fillRect(x, y, 1, 1);
   }
-
-  // helper to draw a slime body (shared shape)
-  function slimeBody(cols, rows, oy) {
-    rows.forEach(([y, x0, x1, c]) => { for(let x=x0;x<=x1;x++) px(x,y+oy,c); });
+  // 2x2 eye helper (white block with pupil at bottom-right)
+  function eye(ex, ey, o) {
+    px(ex,ey+o,WH); px(ex+1,ey+o,WH); px(ex,ey+1+o,WH); px(ex+1,ey+1+o,BK);
   }
+  // sparkle highlight in eye
+  function eyeSpk(ex, ey, o) { px(ex,ey+o,'#FFFFFF'); }
 
   function drawEgg(hov, fr) {
     activeCtx.clearRect(0, 0, 16, 16);
-    const f = fr||0;
-    const oy = Math.round(Math.sin(f*0.1)*(hov?0:1));
-    const WT='#F0EAE0',WT2='#D8D0C4',CR2='#E8815C';
-    [[5,3],[6,3],[7,3],[8,3],[9,3],[10,3],[4,4],[11,4],[4,5],[11,5],[4,6],[11,6],[4,7],[11,7],[4,8],[11,8],[5,9],[6,9],[7,9],[8,9],[9,9],[10,9]].forEach(([x,y]) => px(x,y+oy,WT));
-    for(let y=4;y<=8;y++) for(let x=5;x<=10;x++) px(x,y+oy,WT2);
-    px(7,5+oy,CR2); px(8,6+oy,CR2); px(7,7+oy,CR2); px(8,5+oy,CR2);
-    px(5,4+oy,WH); px(6,3+oy,WH);
-    if(hov) { px(6,8+oy,CR2); px(9,8+oy,CR2); }
+    const f=fr||0;
+    // Gentle wobble
+    const oy=Math.round(Math.sin(f*0.08)*1.2);
+    const E1='#FFF5E8',E2='#EDE0CC',CR='#D09060';
+    // Egg body (round oval)
+    for(let x=6;x<=9;x++) px(x,3+oy,E1);
+    for(let x=5;x<=10;x++) { px(x,4+oy,E1); px(x,5+oy,E1); px(x,6+oy,E2); px(x,7+oy,E2); }
+    for(let x=5;x<=10;x++) { px(x,8+oy,E2); px(x,9+oy,E2); }
+    for(let x=6;x<=9;x++) px(x,10+oy,E2);
+    // Highlight
+    px(6,4+oy,WH); px(7,4+oy,WH); px(6,5+oy,WH);
+    // Crack line
+    px(7,6+oy,CR); px(8,7+oy,CR); px(7,8+oy,CR); px(9,6+oy,CR);
+    // Shadow
+    for(let x=6;x<=9;x++) px(x,12,'rgba(200,180,150,0.15)');
+    if(hov) {
+      // Eye peeks through crack!
+      px(7,7+oy,BK); px(8,7+oy,WH); px(9,7+oy,BK);
+      px(8,8+oy,PK);
+      // Wobble faster
+    }
   }
 
   function drawSlimeling(hov, fr, mode) {
     activeCtx.clearRect(0, 0, 16, 16);
     const f=fr||0, m=mode||0;
-    const oy = m===2 ? 0 : (hov ? -2 : Math.round(Math.sin(f*0.13)*1));
-    [[7,3],[8,3],[6,4],[7,4],[8,4],[9,4]].forEach(([x,y]) => px(x,y+oy,SL));
+    const oy = m===2 ? 1 : (hov ? -1 : Math.round(Math.sin(f*0.12)*1.5));
+    // Round baby body
+    for(let x=6;x<=9;x++) px(x,4+oy,SL);
     for(let x=5;x<=10;x++) { px(x,5+oy,SL); px(x,6+oy,SL); px(x,7+oy,SL); }
     for(let x=5;x<=10;x++) px(x,8+oy,SD);
-    [6,7,8,9].forEach(x => px(x,9+oy,SD));
-    px(7,10+oy,SD); px(8,10+oy,SD);
+    for(let x=6;x<=9;x++) px(x,9+oy,SD);
+    for(let x=7;x<=8;x++) px(x,10+oy,SD);
+    // Highlight on top
+    px(6,5+oy,SL2); px(7,4+oy,SL2);
+    // Eyes
     if(m===2) {
+      // Sleeping: horizontal lines
       px(6,6+oy,BK); px(7,6+oy,BK); px(9,6+oy,BK); px(10,6+oy,BK);
-      if(f%50<25) px(12,2+oy,BK); else { px(12,1+oy,BK); px(13,1+oy,BK); }
-    } else if(hov) {
-      px(6,5+oy,WH); px(8,6+oy,WH); px(10,5+oy,WH); px(8,5+oy,WH); px(7,5+oy,BK); px(9,5+oy,BK);
+      // Zzz
+      if(f%50<25) px(12,3+oy,BK); else { px(12,2+oy,BK); px(13,3+oy,BK); }
     } else {
-      px(5,6+oy,WH); px(6,6+oy,WH); px(5,7+oy,WH); px(6,7+oy,WH);
-      px(9,6+oy,WH); px(10,6+oy,WH); px(9,7+oy,WH); px(10,7+oy,WH);
-      px(6,7+oy,BK); px(10,7+oy,BK);
+      // Big cute eyes with sparkles
+      eye(5,5,oy); eye(9,5,oy);
+      eyeSpk(5,5,oy); eyeSpk(9,5,oy);
+      if(hov) { px(6,6+oy,WH); px(10,6+oy,WH); } // wider eyes
     }
-    if(m!==2) { px(6,8+oy,BK); px(7,8+oy,BK); px(8,8+oy,BK); px(9,8+oy,BK); }
-    px(5,7+oy,PK); px(11,7+oy,PK);
-    if(m===3) { const s=Math.round(Math.sin(f*0.2)*2); px(4+s,6+oy,SL2); px(11-s,6+oy,SL2); }
-    for(let x=6;x<=9;x++) px(x,12,'rgba(91,170,238,0.15)');
+    // Blush
+    px(4,7+oy,PK); px(11,7+oy,PK);
+    // Mouth
+    if(m!==2) { px(7,8+oy,BK); px(8,8+oy,BK); }
+    // Wave
+    if(m===3) { const s=Math.round(Math.sin(f*0.2)*1.5); px(3+s,5+oy,SL2); px(12-s,5+oy,SL2); }
+    // Shadow
+    for(let x=6;x<=9;x++) px(x,12,'rgba(123,191,255,0.12)');
   }
 
   function drawSlime(hov, fr, mode) {
     activeCtx.clearRect(0, 0, 16, 16);
     const f=fr||0, m=mode||0;
-    const bmp = m===1 ? Math.round(Math.abs(Math.sin(f*0.18))*-3) : 0;
-    const oy = m===2 ? 0 : (hov ? -3 : bmp + Math.round(Math.sin(f*0.11)*1));
-    [[6,2],[7,2],[8,2],[9,2]].forEach(([x,y])=>px(x,y+oy,SL));
-    [5,6,7,8,9,10].forEach(x=>px(x,3+oy,SL));
+    const bmp = m===1 ? Math.round(Math.abs(Math.sin(f*0.16))*-2) : 0;
+    const oy = m===2 ? 1 : (hov ? -2 : bmp + Math.round(Math.sin(f*0.1)*1));
+    // Bigger round body
+    for(let x=6;x<=9;x++) px(x,2+oy,SL);
+    for(let x=5;x<=10;x++) px(x,3+oy,SL);
     for(let x=4;x<=11;x++) { px(x,4+oy,SL); px(x,5+oy,SL); px(x,6+oy,SL); px(x,7+oy,SL); }
     for(let x=4;x<=11;x++) px(x,8+oy,SD);
     for(let x=5;x<=10;x++) px(x,9+oy,SD);
-    [6,7,8,9].forEach(x=>px(x,10+oy,SD));
+    for(let x=6;x<=9;x++) px(x,10+oy,SD);
     px(7,11+oy,SD); px(8,11+oy,SD);
+    // Highlight
+    px(5,3+oy,SL2); px(6,3+oy,SL2); px(5,4+oy,SL2);
+    // Eyes
     if(m===2) {
-      for(let x=5;x<=7;x++) px(x,5+oy,BK); for(let x=9;x<=11;x++) px(x,5+oy,BK);
-      if(f%60<30) px(13,1+oy,BK); else { px(12,0+oy,BK); px(13,0+oy,BK); px(14,0+oy,BK); }
-    } else if(hov) {
-      [5,7].forEach(x=>px(x,5+oy,WH)); px(6,4+oy,WH); px(6,5+oy,BK);
-      [9,11].forEach(x=>px(x,5+oy,WH)); px(10,4+oy,WH); px(10,5+oy,BK);
+      px(5,6+oy,BK); px(6,6+oy,BK); px(7,6+oy,BK);
+      px(9,6+oy,BK); px(10,6+oy,BK); px(11,6+oy,BK);
+      if(f%60<30) { px(13,1+oy,BK); } else { px(12,0+oy,BK); px(13,0+oy,BK); px(14,1+oy,BK); }
     } else {
-      [[5,5],[6,5],[5,6],[6,6],[10,5],[11,5],[10,6],[11,6]].forEach(([x,y])=>px(x,y+oy,WH));
-      px(6,6+oy,BK); px(11,6+oy,BK);
+      // 2x2 eyes with white sparkle
+      eye(5,5,oy); eye(9,5,oy);
+      eyeSpk(5,5,oy); eyeSpk(9,5,oy);
+      if(hov) {
+        // Big sparkly eyes
+        px(5,5+oy,WH); px(6,4+oy,WH);
+        px(9,5+oy,WH); px(10,4+oy,WH);
+      }
     }
-    if(m!==2) { px(5,8+oy,BK); px(6,9+oy,BK); px(7,9+oy,BK); px(8,9+oy,BK); px(9,9+oy,BK); px(10,8+oy,BK); }
-    px(4,7+oy,PK); px(12,7+oy,PK);
-    if(m===3) { const s=Math.round(Math.sin(f*0.18)*2); px(3+s,5+oy,SL2); px(12-s,5+oy,SL2); px(3+s,6+oy,SL2); px(12-s,6+oy,SL2); }
-    for(let x=5;x<=10;x++) px(x,13,'rgba(91,170,238,0.15)');
+    // Blush
+    px(3,7+oy,PK); px(4,7+oy,PK); px(11,7+oy,PK); px(12,7+oy,PK);
+    // Happy U mouth
+    if(m!==2) { px(6,8+oy,BK); px(9,8+oy,BK); px(7,9+oy,BK); px(8,9+oy,BK); }
+    // Wave arms
+    if(m===3) { const s=Math.round(Math.sin(f*0.18)*2); px(2+s,5+oy,SL2); px(13-s,5+oy,SL2); }
+    // Shadow
+    for(let x=5;x<=10;x++) px(x,13,'rgba(123,191,255,0.12)');
   }
 
   function drawGradSlime(hov, fr, mode) {
     activeCtx.clearRect(0, 0, 16, 16);
     const f=fr||0, m=mode||0;
-    const bmp = m===1 ? Math.round(Math.abs(Math.sin(f*0.18))*-3) : 0;
-    const oy = m===2 ? 0 : (hov ? -3 : bmp + Math.round(Math.sin(f*0.1)*1));
-    const SG='#4AB8AA', SGD='#2E9080';
-    [6,7,8,9].forEach(x=>px(x,3+oy,SG));
-    [5,6,7,8,9,10].forEach(x=>px(x,4+oy,SG));
-    for(let x=4;x<=11;x++) { px(x,5+oy,SG); px(x,6+oy,SG); px(x,7+oy,SG); px(x,8+oy,SG); }
-    for(let x=4;x<=11;x++) px(x,9+oy,SGD);
-    for(let x=5;x<=10;x++) px(x,10+oy,SGD);
-    [6,7,8,9].forEach(x=>px(x,11+oy,SGD));
-    px(7,12+oy,SGD); px(8,12+oy,SGD);
+    const bmp = m===1 ? Math.round(Math.abs(Math.sin(f*0.16))*-2) : 0;
+    const oy = m===2 ? 1 : (hov ? -2 : bmp + Math.round(Math.sin(f*0.1)*1));
+    const SG='#60D0B8', SGD='#40B098';
+    // Body
+    for(let x=6;x<=9;x++) px(x,4+oy,SG);
+    for(let x=5;x<=10;x++) px(x,5+oy,SG);
+    for(let x=4;x<=11;x++) { px(x,6+oy,SG); px(x,7+oy,SG); px(x,8+oy,SG); px(x,9+oy,SG); }
+    for(let x=4;x<=11;x++) px(x,10+oy,SGD);
+    for(let x=5;x<=10;x++) px(x,11+oy,SGD);
+    for(let x=6;x<=9;x++) px(x,12+oy,SGD);
+    // Highlight
+    px(5,5+oy,'#88E8D0'); px(6,4+oy,'#88E8D0');
     // Grad cap
-    for(let x=4;x<=11;x++) px(x,2+oy,BK);
-    for(let x=5;x<=10;x++) px(x,1+oy,BK);
-    px(10,2+oy,GO); px(11,2+oy,GO); px(10,3+oy,GO); // tassel
+    for(let x=4;x<=11;x++) px(x,3+oy,BK);
+    for(let x=5;x<=10;x++) px(x,2+oy,BK);
+    // Tassel
+    const tx = Math.round(hov ? 12 + Math.sin(f*0.2)*1 : 12);
+    px(tx,3+oy,GO); px(tx,4+oy,GO); px(tx+1,4+oy,YL);
+    // Eyes
     if(m===2) {
-      for(let x=5;x<=7;x++) px(x,6+oy,BK); for(let x=9;x<=11;x++) px(x,6+oy,BK);
-      if(f%60<30) px(13,3+oy,BK); else { px(12,2+oy,BK); px(13,2+oy,BK); }
-    } else if(hov) {
-      px(5,6+oy,WH); px(7,5+oy,WH); px(6,5+oy,WH); px(6,6+oy,BK);
-      px(9,6+oy,WH); px(11,6+oy,WH); px(10,5+oy,WH); px(10,6+oy,BK);
+      px(5,7+oy,BK); px(6,7+oy,BK); px(7,7+oy,BK);
+      px(9,7+oy,BK); px(10,7+oy,BK); px(11,7+oy,BK);
     } else {
-      [[5,6],[6,6],[5,7],[6,7],[10,6],[11,6],[10,7],[11,7]].forEach(([x,y])=>px(x,y+oy,WH));
-      px(6,7+oy,BK); px(11,7+oy,BK);
+      eye(5,6,oy); eye(9,6,oy);
+      eyeSpk(5,6,oy); eyeSpk(9,6,oy);
+      if(hov) { px(5,6+oy,WH); px(6,5+oy,WH); px(9,6+oy,WH); px(10,5+oy,WH); }
     }
-    if(m!==2) { px(5,9+oy,BK); px(6,10+oy,BK); px(7,10+oy,BK); px(8,10+oy,BK); px(9,10+oy,BK); px(10,9+oy,BK); }
-    px(4,8+oy,PK); px(12,8+oy,PK);
-    for(let x=5;x<=10;x++) px(x,14,'rgba(74,184,170,0.15)');
+    // Blush
+    px(3,8+oy,PK); px(4,8+oy,PK); px(11,8+oy,PK); px(12,8+oy,PK);
+    // Happy mouth
+    if(m!==2) { px(6,9+oy,BK); px(9,9+oy,BK); px(7,10+oy,BK); px(8,10+oy,BK); }
+    // Shadow
+    for(let x=5;x<=10;x++) px(x,14,'rgba(96,208,184,0.12)');
   }
 
   function drawKingSlime(hov, fr, mode) {
     activeCtx.clearRect(0, 0, 16, 16);
     const f=fr||0, m=mode||0;
-    const bmp = m===1 ? Math.round(Math.abs(Math.sin(f*0.16))*-4) : 0;
-    const oy = m===2 ? 0 : (hov ? -4 : bmp + Math.round(Math.sin(f*0.09)*1));
-    // Glow aura
-    const pulse = Math.sin(f*0.08)*0.12+0.08;
-    activeCtx.fillStyle = `rgba(155,126,216,${pulse})`;
-    activeCtx.fillRect(1,1+oy,14,13);
-    [5,6,7,8,9,10].forEach(x=>px(x,2+oy,PU));
-    [4,5,6,7,8,9,10,11].forEach(x=>px(x,3+oy,PU));
-    for(let x=3;x<=12;x++) { px(x,4+oy,PU); px(x,5+oy,PU); px(x,6+oy,PU); px(x,7+oy,PU); }
-    for(let x=3;x<=12;x++) px(x,8+oy,KSD);
-    for(let x=4;x<=11;x++) px(x,9+oy,KSD);
-    for(let x=5;x<=10;x++) px(x,10+oy,KSD);
-    [6,7,8,9].forEach(x=>px(x,11+oy,KSD));
-    px(7,12+oy,KSD); px(8,12+oy,KSD);
-    // Crown
-    px(5,1+oy,YL); px(8,0+oy,YL); px(11,1+oy,YL);
-    for(let x=4;x<=11;x++) px(x,1+oy,GO);
-    px(7,0+oy,'#FF6B6B'); px(8,1+oy,YL);
+    const bmp = m===1 ? Math.round(Math.abs(Math.sin(f*0.14))*-3) : 0;
+    const oy = m===2 ? 1 : (hov ? -2 : bmp + Math.round(Math.sin(f*0.08)*1));
+    // Soft glow
+    const pulse = Math.sin(f*0.07)*0.08+0.06;
+    activeCtx.fillStyle = `rgba(184,152,240,${pulse})`;
+    activeCtx.fillRect(2,2+oy,12,12);
+    // Big royal body
+    for(let x=5;x<=10;x++) px(x,3+oy,PU);
+    for(let x=4;x<=11;x++) px(x,4+oy,PU);
+    for(let x=3;x<=12;x++) { px(x,5+oy,PU); px(x,6+oy,PU); px(x,7+oy,PU); px(x,8+oy,PU); }
+    for(let x=3;x<=12;x++) px(x,9+oy,KSD);
+    for(let x=4;x<=11;x++) px(x,10+oy,KSD);
+    for(let x=5;x<=10;x++) px(x,11+oy,KSD);
+    for(let x=6;x<=9;x++) px(x,12+oy,KSD);
+    // Highlight
+    px(5,4+oy,'#D0B8FF'); px(6,3+oy,'#D0B8FF');
+    // Crown with 3 golden points
+    px(5,2+oy,YL); px(8,1+oy,YL); px(11,2+oy,YL);
+    for(let x=5;x<=11;x++) px(x,2+oy,GO);
+    px(8,1+oy,'#FF6680'); // gem
+    // Eyes
     if(m===2) {
-      for(let x=5;x<=7;x++) px(x,5+oy,BK); for(let x=9;x<=11;x++) px(x,5+oy,BK);
-      if(f%60<30) px(14,2+oy,BK); else { px(13,1+oy,BK); px(14,1+oy,BK); px(15,1+oy,BK); }
+      px(5,6+oy,BK); px(6,6+oy,BK); px(7,6+oy,BK);
+      px(9,6+oy,BK); px(10,6+oy,BK); px(11,6+oy,BK);
+      if(f%55<28) { px(14,2+oy,BK); } else { px(13,1+oy,BK); px(14,2+oy,BK); }
     } else if(hov) {
-      [5,7].forEach(x=>{ px(x,5+oy,YL); px(6,4+oy,YL); px(6,6+oy,YL); px(6,5+oy,WH); });
-      [9,11].forEach(x=>{ px(x,5+oy,YL); px(10,4+oy,YL); px(10,6+oy,YL); px(10,5+oy,WH); });
+      // Star eyes!
+      px(5,5+oy,YL); px(7,5+oy,YL); px(6,4+oy,YL); px(6,6+oy,YL); px(6,5+oy,WH);
+      px(9,5+oy,YL); px(11,5+oy,YL); px(10,4+oy,YL); px(10,6+oy,YL); px(10,5+oy,WH);
     } else {
-      [[5,5],[6,5],[5,6],[6,6],[10,5],[11,5],[10,6],[11,6]].forEach(([x,y])=>px(x,y+oy,WH));
-      px(6,6+oy,BK); px(11,6+oy,BK);
-      if(f%30<15) { px(6,5+oy,GL); px(11,5+oy,GL); }
+      eye(5,5,oy); eye(9,5,oy);
+      eyeSpk(5,5,oy); eyeSpk(9,5,oy);
+      // Twinkling highlight
+      if(f%25<12) { px(5,5+oy,GL); px(9,5+oy,GL); }
     }
-    if(m!==2) { px(4,8+oy,BK); px(5,9+oy,BK); px(7,10+oy,BK); px(8,10+oy,BK); px(10,9+oy,BK); px(11,8+oy,BK); }
-    px(3,7+oy,YL); px(13,7+oy,YL);
-    if(f%40<20) { px(1,4+oy,GL); px(14,6+oy,GL); } else { px(1,9+oy,GL); px(14,3+oy,GL); }
-    for(let x=4;x<=11;x++) px(x,14,'rgba(155,126,216,0.18)');
+    // Blush
+    px(2,7+oy,PK); px(3,7+oy,PK); px(12,7+oy,PK); px(13,7+oy,PK);
+    // Big happy W mouth
+    if(m!==2) { px(5,9+oy,BK); px(8,8+oy,BK); px(11,9+oy,BK); px(6,10+oy,BK); px(7,10+oy,BK); px(9,10+oy,BK); px(10,10+oy,BK); }
+    // Floating sparkles
+    if(f%35<18) { px(1,4+oy,GL); px(14,7+oy,GL); } else { px(2,9+oy,GL); px(14,3+oy,GL); }
+    // Shadow
+    for(let x=4;x<=11;x++) px(x,14,'rgba(184,152,240,0.15)');
   }
 
   function getStage() {
@@ -4191,9 +4247,10 @@
     showXPHud();
   });
 
-  // Click critter = bonus XP
+  // Click critter = bonus XP (but not when dragging)
   critterContainer.addEventListener('click', (e) => {
     e.stopPropagation();
+    if (typeof hasMoved !== 'undefined' && hasMoved) return;
     updateXP(Math.floor(Math.random() * 15) + 10);
     showXPHud();
   });
@@ -4251,19 +4308,62 @@
     }
   });
 
-  // Corner position buttons
-  const cornerClasses = ['corner-tl', 'corner-tr', 'corner-bl', ''];
-  critterSettings.querySelectorAll('[data-corner]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const idx = parseInt(btn.dataset.corner);
-      // Remove all corner classes
-      cornerClasses.forEach(c => c && critterContainer.classList.remove(c));
-      if (cornerClasses[idx]) critterContainer.classList.add(cornerClasses[idx]);
-      // Update active state
-      critterSettings.querySelectorAll('[data-corner]').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    });
+  // Drag to move pet anywhere
+  let isDragging = false, dragStartX = 0, dragStartY = 0, petStartX = 0, petStartY = 0;
+  let hasMoved = false; // track if pet was dragged (vs clicked for XP)
+
+  function onDragStart(e) {
+    if (e.target === document.getElementById('critterGear') || critterSettings.contains(e.target)) return;
+    isDragging = true;
+    hasMoved = false;
+    critterContainer.classList.add('dragging');
+    const touch = e.touches ? e.touches[0] : e;
+    dragStartX = touch.clientX;
+    dragStartY = touch.clientY;
+    const rect = critterContainer.getBoundingClientRect();
+    petStartX = rect.left;
+    petStartY = rect.top;
+    e.preventDefault();
+  }
+
+  function onDragMove(e) {
+    if (!isDragging) return;
+    const touch = e.touches ? e.touches[0] : e;
+    const dx = touch.clientX - dragStartX;
+    const dy = touch.clientY - dragStartY;
+    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) hasMoved = true;
+    // Clamp to viewport
+    const w = critterContainer.offsetWidth, h = critterContainer.offsetHeight;
+    const nx = Math.max(0, Math.min(window.innerWidth - w, petStartX + dx));
+    const ny = Math.max(0, Math.min(window.innerHeight - h, petStartY + dy));
+    critterContainer.style.left = nx + 'px';
+    critterContainer.style.top = ny + 'px';
+    critterContainer.style.right = 'auto';
+    critterContainer.style.bottom = 'auto';
+    e.preventDefault();
+  }
+
+  function onDragEnd() {
+    if (!isDragging) return;
+    isDragging = false;
+    critterContainer.classList.remove('dragging');
+  }
+
+  critterContainer.addEventListener('mousedown', onDragStart);
+  window.addEventListener('mousemove', onDragMove);
+  window.addEventListener('mouseup', onDragEnd);
+  critterContainer.addEventListener('touchstart', onDragStart, { passive: false });
+  window.addEventListener('touchmove', onDragMove, { passive: false });
+  window.addEventListener('touchend', onDragEnd);
+
+  // Reset position button
+  document.getElementById('critterReset').addEventListener('click', (e) => {
+    e.stopPropagation();
+    critterContainer.style.left = '';
+    critterContainer.style.top = '';
+    critterContainer.style.right = '1rem';
+    critterContainer.style.bottom = '1rem';
+    critterSettings.classList.remove('open');
   });
 
   // Animation mode buttons
@@ -4683,80 +4783,7 @@
     creator: { title: 'Creator: Human Factors Engineer (#4 Fit)', body: 'Designing and testing how clinicians interact with devices. Usability studies, simulated-use testing, IEC 62366. <strong>Near-perfect background fit</strong> with Google UX cert + clinical observation hours.<br><br><strong>AI risk: Very Low.</strong> Running studies with real users in real environments. Regulatory requires human-led testing. Smaller market but unique niche.<div class="ro-ladder">Career ladder: <span>Niche role with expanding regulatory demand</span></div>' }
   };
 
-  const roDetail = document.getElementById('roDetail');
-  const roDetailTitle = document.getElementById('roDetailTitle');
-  const roDetailBody = document.getElementById('roDetailBody');
-  const roDetailClose = document.getElementById('roDetailClose');
-
-  document.querySelectorAll('[data-ro]').forEach(node => {
-    node.addEventListener('click', () => {
-      const info = roInfo[node.dataset.ro];
-      if (!info) return;
-      roDetailTitle.textContent = info.title;
-      roDetailBody.innerHTML = info.body;
-      roDetail.classList.add('open');
-      gsap.fromTo(roDetail, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: 'power2.out' });
-      roDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      // Highlight
-      document.querySelectorAll('[data-ro]').forEach(n => n.style.outline = '');
-      node.style.outline = '2px solid var(--amber)';
-      node.style.outlineOffset = '3px';
-      node.style.borderRadius = '6px';
-      updateXP(10);
-      showXPHud();
-    });
-  });
-
-  roDetailClose.addEventListener('click', () => {
-    gsap.to(roDetail, { autoAlpha: 0, y: 8, duration: 0.2, onComplete: () => {
-      roDetail.classList.remove('open');
-      roDetail.style.opacity = '';
-      roDetail.style.visibility = '';
-    }});
-    document.querySelectorAll('[data-ro]').forEach(n => n.style.outline = '');
-  });
-
-  /* RO TREE — dynamic branch bar width + scroll animation */
-  function sizeBranchBar() {
-    const tier2 = document.querySelector('.ro-tier-2');
-    const bar = document.getElementById('roBranchBar');
-    if (!tier2 || !bar) return;
-    const nodes = tier2.querySelectorAll('.ro-node');
-    if (nodes.length < 2) return;
-    const first = nodes[0].getBoundingClientRect();
-    const last = nodes[nodes.length - 1].getBoundingClientRect();
-    const parentRect = bar.parentElement.getBoundingClientRect();
-    const left = first.left + first.width / 2 - parentRect.left;
-    const right = last.left + last.width / 2 - parentRect.left;
-    bar.style.width = (right - left) + 'px';
-    bar.style.marginLeft = left + 'px';
-    bar.style.marginRight = 'auto';
-    if (bar.style.cssText.indexOf('::after') === -1) {
-      bar.style.setProperty('--bar-width', (right - left) + 'px');
-    }
-    // Set the ::after dynamically via inline style on a child
-    let afterEl = bar.querySelector('.ro-bar-line');
-    if (!afterEl) {
-      afterEl = document.createElement('div');
-      afterEl.className = 'ro-bar-line';
-      afterEl.style.cssText = 'position:absolute;top:12px;height:2px;background:rgba(198,123,46,0.25);';
-      bar.appendChild(afterEl);
-    }
-    afterEl.style.left = '0';
-    afterEl.style.width = (right - left) + 'px';
-  }
-  setTimeout(sizeBranchBar, 200);
-  window.addEventListener('resize', sizeBranchBar);
-
-  /* RO TREE scroll animation */
-  gsap.from('.ro-tree', {
-    scrollTrigger: { trigger: '.ro-tree', start: 'top 80%', once: true },
-    duration: 0.6, autoAlpha: 0, y: 30, ease: 'power2.out'
-  });
-  gsap.from('.ro-tier-2 .ro-node', {
-    scrollTrigger: { trigger: '.ro-tier-2', start: 'top 85%', once: true },
-    duration: 0.5, autoAlpha: 0, y: 20, stagger: 0.12, ease: 'back.out(1.4)', delay: 0.3
-  });
+  /* RO tree removed — roInfo kept for journey node tooltips */
 
   /* PERSONAL SECTION TOGGLE */
   const personalToggle = document.getElementById('personalToggle');
@@ -5291,7 +5318,6 @@
       if(hov){bx=Math.round(14+Math.sin(f*0.25)*2);by=Math.round(13+y+j+Math.sin(f*0.25)*1.5);}
       px(c,bx,by,3,3,'#E8731A'); px(c,bx+1,by,1,3,'#C85A10');
       px(c,bx,by+1,3,1,'#C85A10');
-      /* excited jump — arms up */
       if(hov){
         px(c,4,8+y+j,2,2,WH); px(c,14,8+y+j,2,2,WH);
         c.fillStyle=GO; c.fillRect(10,y+j-2,1,2); c.fillRect(10,y+j+1,1,1);
@@ -5303,16 +5329,12 @@
       shadow(c);
       var j=hov?-1:0;
       head(c,y+j,'#5A3A20','#3A2010');
-      /* green athletic shirt */
       px(c,6,8+y+j,8,6,GR); px(c,7,8+y+j,6,2,GR2);
-      /* dark shorts */
       px(c,6,14+y+j,8,3,BR2); px(c,7,14+y+j,6,1,BR);
       arms(c,y+j,GR,GR2);
       legs(c,y+j,BR2,BR,'#333');
-      /* clipboard in left arm */
       px(c,2,9+y+j,3,4,WH); px(c,2,9+y+j,3,1,MT);
-      px(c,3,10+y+j,1,2,'#888'); /* lines on clipboard */
-      /* hover: writing on clipboard */
+      px(c,3,10+y+j,1,2,'#888');
       if(hov){
         c.fillStyle=GO; c.fillRect(3,10+y+j,1,1);
         c.fillStyle=BL; c.fillRect(3,11+y+j,1,1);
@@ -5324,27 +5346,19 @@
     function drawClinical(c,y,hov,f){
       shadow(c);
       var j=hov?-1:0;
-      /* teal scrubs */
       var SC='#2A8A7A', SC2='#1A6A5A';
       head(c,y+j,'#2A1A10','#1A0A00');
       px(c,6,8+y+j,8,7,SC); px(c,7,8+y+j,6,2,SC2);
-      /* V-neck collar */
       px(c,9,8+y+j,2,2,SK);
-      /* scrub pants */
       px(c,6,15+y+j,8,5,SC2);
       arms(c,y+j,SC,SC2);
       legs(c,y+j,SC2,SC,'#222');
-      /* stethoscope U shape */
       px(c,4,11+y+j,1,3,MT); px(c,4,14+y+j,3,1,MT); px(c,6,14+y+j,1,2,MT);
-      /* stethoscope earpieces */
       px(c,4,11+y+j,1,1,MT2); px(c,6,11+y+j,1,1,MT2);
-      /* listening disc */
       var dx=5,dy=16+y+j;
-      if(hov){dy=Math.round(16+y+j+Math.sin(f*0.2)*0.5);}
       px(c,dx,dy,2,2,MT); px(c,dx,dy,2,1,MT2);
       if(hov){
-        c.fillStyle='rgba(42,138,122,0.4)';
-        c.fillRect(4,10+y+j,3,3);
+        c.fillStyle='rgba(42,138,122,0.4)'; c.fillRect(4,10+y+j,3,3);
         c.fillStyle=GO; c.fillRect(9,y+j-2,1,2); c.fillRect(9,y+j+1,1,1);
       }
     }
@@ -5353,57 +5367,27 @@
     function drawLifeGrad(c,y,hov,f){
       shadow(c);
       var j=hov?Math.round(Math.sin(f*0.18)*-1.5):0;
-      /* mortarboard */
-      px(c,5,0+y+j,10,2,OL);  /* board top */
-      px(c,7,2+y+j,6,1,OL);   /* base */
-      px(c,9,2+y+j,2,2,OL);   /* cap stem */
-      /* tassel */
+      px(c,5,0+y+j,10,2,OL);
+      px(c,7,2+y+j,6,1,OL);
+      px(c,9,2+y+j,2,2,OL);
       var tx=Math.round(hov?14+Math.sin(f*0.2)*1.5:14);
       px(c,tx,1+y+j,1,3,GO);
       px(c,tx,4+y+j,1,1,GO2);
       head(c,y+2+j,HR,HR2);
-      /* lab coat */
       px(c,5,10+y+j,10,7,WH); px(c,7,10+y+j,6,2,WH2);
-      /* coat lapels */
       px(c,8,10+y+j,1,3,WH2); px(c,11,10+y+j,1,3,WH2);
-      /* blue shirt underneath */
       px(c,9,10+y+j,2,3,BL2);
       arms(c,y+2+j,WH,WH2);
       legs(c,y+2+j,BR,BR2,'#222');
-      /* laptop in hand */
       px(c,3,14+y+j,4,3,'#333'); px(c,3,14+y+j,4,1,'#555');
       if(hov){
-        /* screen glows */
-        c.fillStyle='rgba(74,127,191,0.6)';
-        c.fillRect(3,15+y+j,4,2);
+        c.fillStyle='rgba(74,127,191,0.6)'; c.fillRect(3,15+y+j,4,2);
         c.fillStyle=GO; c.fillRect(9,y+j-2,1,2); c.fillRect(9,y+j+1,1,1);
       }
     }
 
     var CHARS={novice:drawNovice,acolyte:drawAcolyte,sage:drawSage,blacksmith:drawBlacksmith,creator:drawCreator,kid:drawKid,kinesio:drawKinesio,clinical:drawClinical,lifegrad:drawLifeGrad};
     var NAMES={novice:'Novice',acolyte:'Acolyte',sage:'Sage',blacksmith:'Blacksmith',creator:'Creator',kid:'SoCal Kid',kinesio:'Kinesiology',clinical:'Clinical Obs.',lifegrad:'M.S. BME'};
-
-    /* --- RO JOB TREE SPRITES --- */
-    document.querySelectorAll('.ro-sprite[data-class]').forEach(function(canvas){
-      var type=canvas.dataset.class;
-      var drawFn=CHARS[type];
-      if(!drawFn) return;
-      var ctx=canvas.getContext('2d');
-      ctx.imageSmoothingEnabled=false;
-      var hovering=false;
-      var frame=Math.floor(Math.random()*100);
-      var node=canvas.closest('.ro-node');
-      if(node){
-        node.addEventListener('mouseenter',function(){hovering=true;});
-        node.addEventListener('mouseleave',function(){hovering=false;});
-      }
-      setInterval(function(){
-        ctx.clearRect(0,0,W,H);
-        var bob=hovering?0:(Math.sin(frame*0.12)>0.3?0:-1);
-        drawFn(ctx,bob,hovering,frame);
-        frame++;
-      },83);
-    });
 
     /* --- JOURNEY SPRITES --- */
     document.querySelectorAll('.journey-sprite[data-jclass]').forEach(function(canvas){
@@ -5431,3 +5415,4 @@
 
 </body>
 </html>
+      legs(
