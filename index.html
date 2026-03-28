@@ -58,6 +58,11 @@
       --green: #2D5A3D;
       --green-soft: rgba(45,90,61,0.08);
 
+      --teal: #156967;
+      --teal-light: #A3EDEA;
+      --teal-soft: rgba(21,105,103,0.08);
+      --teal-container: rgba(163,237,234,0.15);
+
       --text: #2C2620;
       --text-secondary: #5C554C;
       --text-muted: #7A7068;
@@ -488,13 +493,15 @@
     }
 
     .cta-btn.primary {
-      background: var(--amber);
+      background: linear-gradient(135deg, var(--amber), var(--coral));
       color: white;
+      box-shadow: 0 4px 16px rgba(198,123,46,0.2);
     }
 
     .cta-btn.primary:hover {
-      background: var(--amber-light);
+      background: linear-gradient(135deg, var(--amber-light), var(--coral));
       transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(198,123,46,0.3);
     }
 
     .cta-btn.secondary {
@@ -619,9 +626,8 @@
     }
 
     .section-rule {
-      height: 1px;
-      background: var(--rule);
-      margin: 120px 0;
+      height: 0;
+      margin: 0;
     }
 
     /* BRIDGE GRADIENTS — transitions confined to padding zones for text readability */
@@ -709,9 +715,18 @@
       color: var(--text-secondary);
       padding: 0.75rem 1.5rem;
       background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 4px;
+      border: none;
+      border-radius: 100px;
       white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: all 0.25s ease;
+    }
+
+    .marquee-item:hover {
+      background: var(--teal-container);
+      color: var(--teal);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(21,105,103,0.12);
     }
 
     @keyframes scroll-left {
@@ -866,78 +881,175 @@
       gap: 0.75rem;
     }
 
-    /* OTHER WORK */
+    /* OTHER WORK — ZIGZAG EDITORIAL */
     #work {
       position: relative;
     }
 
     #work h2 {
-      margin-bottom: 3rem;
+      margin-bottom: 4rem;
     }
 
     .work-grid {
       display: flex;
       flex-direction: column;
-      gap: 2.5rem;
+      gap: 0;
     }
 
     .work-item {
-      position: relative;
-      padding-bottom: 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      align-items: stretch;
+      min-height: 380px;
     }
 
-    .work-item:not(:last-child)::after {
-      content: '';
+    .work-item:nth-child(even) {
+      direction: rtl;
+    }
+
+    .work-item:nth-child(even) > * {
+      direction: ltr;
+    }
+
+    .work-visual {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 380px;
+    }
+
+    .work-visual-bg {
       position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: var(--rule);
+      inset: 0;
+      opacity: 0.12;
+    }
+
+    .work-visual-icon {
+      position: relative;
+      z-index: 2;
+      font-size: 4.5rem;
+      font-family: var(--fh);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      text-align: center;
+    }
+
+    .work-visual-sub {
+      position: relative;
+      z-index: 2;
+      font-family: var(--fm);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 0.75rem;
+      text-align: center;
+      opacity: 0.6;
+    }
+
+    /* Visual panel themes */
+    .work-visual.vis-photocull {
+      background: linear-gradient(135deg, #1a1520 0%, #2d1f3d 100%);
+      color: #c4b5fd;
+    }
+    .work-visual.vis-photocull .work-visual-bg {
+      background: repeating-conic-gradient(rgba(196,181,253,0.06) 0% 25%, transparent 0% 50%) 0 0 / 40px 40px;
+    }
+
+    .work-visual.vis-pneumo {
+      background: linear-gradient(135deg, #0f1d2e 0%, #1a2d3d 100%);
+      color: #93c5fd;
+    }
+    .work-visual.vis-pneumo .work-visual-bg {
+      background: radial-gradient(circle at 30% 50%, rgba(147,197,253,0.08), transparent 60%),
+                  radial-gradient(circle at 70% 40%, rgba(147,197,253,0.05), transparent 50%);
+    }
+
+    .work-visual.vis-emg {
+      background: linear-gradient(135deg, #1d0f0f 0%, #3d1a1a 100%);
+      color: #fca5a5;
+    }
+    .work-visual.vis-emg .work-visual-bg {
+      background: repeating-linear-gradient(90deg, rgba(252,165,165,0.04) 0px, rgba(252,165,165,0.04) 1px, transparent 1px, transparent 20px);
+    }
+
+    .work-visual.vis-fall {
+      background: linear-gradient(135deg, #0f1d15 0%, #1a3d25 100%);
+      color: #86efac;
+    }
+    .work-visual.vis-fall .work-visual-bg {
+      background: repeating-conic-gradient(rgba(134,239,172,0.04) 0% 25%, transparent 0% 50%) 0 0 / 32px 32px;
+    }
+
+    .work-visual.vis-physiorep {
+      background: linear-gradient(135deg, #1d1a0f 0%, #3d2d1a 100%);
+      color: #fcd34d;
+    }
+    .work-visual.vis-physiorep .work-visual-bg {
+      background: radial-gradient(circle at 50% 50%, rgba(252,211,77,0.06), transparent 60%);
     }
 
     .work-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 2rem;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       transition: all 0.3s ease;
       transform-style: preserve-3d;
+      background: var(--bg2);
+    }
+
+    .work-item:nth-child(odd) .work-card {
+      border-left: 3px solid var(--border-light);
+    }
+
+    .work-item:nth-child(even) .work-card {
+      border-right: 3px solid var(--border-light);
     }
 
     .work-card:hover {
-      border-color: var(--amber);
-      box-shadow: 0 10px 30px rgba(198, 123, 46, 0.1);
+      background: var(--bg-warm);
     }
 
     .work-card[data-rarity="epic"] {
-      border: 2px solid transparent;
-      border-image: linear-gradient(135deg, var(--earth), var(--amber-light)) 1;
-      box-shadow: inset 0 0 15px rgba(139, 109, 79, 0.08);
+      border-left-color: var(--amber) !important;
+      border-right-color: var(--amber) !important;
     }
 
     .work-card[data-rarity="rare"] {
-      border: 2px solid transparent;
-      border-image: linear-gradient(135deg, var(--coral), var(--gold)) 1;
-      box-shadow: inset 0 0 15px rgba(184, 74, 60, 0.08);
+      border-left-color: var(--coral) !important;
+      border-right-color: var(--coral) !important;
+    }
+
+    .work-card-label {
+      font-family: var(--fm);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.6rem;
     }
 
     .work-card h3 {
       margin-bottom: 1rem;
       color: var(--text);
+      font-size: clamp(1.4rem, 3vw, 1.75rem);
     }
 
     .work-card p {
       color: var(--text-secondary);
       line-height: 1.7;
-      margin: 1rem 0;
+      margin: 0.75rem 0;
     }
 
     .work-tech {
       font-family: var(--fm);
       font-size: 13px;
       color: var(--text-muted);
-      margin: 1.5rem 0;
+      margin: 1.25rem 0;
     }
 
     .work-tech span {
@@ -948,7 +1060,7 @@
     .work-links {
       display: flex;
       gap: 1.5rem;
-      margin-top: 1.5rem;
+      margin-top: 1.25rem;
       flex-wrap: wrap;
     }
 
@@ -961,6 +1073,27 @@
 
     .work-link:hover {
       color: var(--amber-light);
+    }
+
+    @media (max-width: 768px) {
+      .work-item {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      .work-item:nth-child(even) {
+        direction: ltr;
+      }
+
+      .work-visual {
+        min-height: 200px;
+      }
+
+      .work-card {
+        padding: 1.5rem;
+        border-left: 3px solid var(--border-light) !important;
+        border-right: none !important;
+      }
     }
 
     /* TOOLKIT */
@@ -1140,13 +1273,14 @@
     /* WORK EVIDENCE */
     .work-evidence {
       font-family: var(--fm);
-      font-size: 0.8rem;
-      color: var(--text);
-      opacity: 0.6;
+      font-size: 0.78rem;
+      color: var(--teal);
       margin-top: 0.75rem;
       letter-spacing: 0.02em;
-      padding: 0.5rem 0;
-      border-top: 1px solid var(--border);
+      padding: 0.6rem 0.85rem;
+      background: var(--teal-soft);
+      border-radius: 6px;
+      border: none;
     }
 
     /* FOOTER LINKS */
@@ -1523,6 +1657,78 @@
       }
     }
 
+    /* MOBILE BOTTOM NAV */
+    .mobile-nav {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 999;
+        justify-content: space-around;
+        align-items: center;
+        padding: 0.5rem 1rem calc(0.5rem + env(safe-area-inset-bottom));
+        background: rgba(250,250,248,0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 -4px 32px rgba(0,0,0,0.06);
+        border-top: 1px solid rgba(0,0,0,0.04);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .mobile-nav {
+          background: rgba(15,13,10,0.9);
+          box-shadow: 0 -4px 32px rgba(0,0,0,0.3);
+          border-top: 1px solid rgba(255,255,255,0.04);
+        }
+      }
+
+      .mobile-nav a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.2rem;
+        padding: 0.5rem 1rem;
+        border-radius: 12px;
+        transition: all 0.2s;
+        text-decoration: none;
+      }
+
+      .mobile-nav a:hover,
+      .mobile-nav a:active {
+        background: var(--amber-dim);
+      }
+
+      .mobile-nav-icon {
+        font-size: 1.25rem;
+        line-height: 1;
+      }
+
+      .mobile-nav-label {
+        font-family: var(--fm);
+        font-size: 0.6rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+      }
+
+      .mobile-nav a:hover .mobile-nav-label,
+      .mobile-nav a:active .mobile-nav-label {
+        color: var(--amber);
+      }
+
+      /* Add bottom padding for content to not be hidden behind mobile nav */
+      footer {
+        padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+      }
+    }
+
     /* RESPONSIVE */
     @media (max-width: 1024px) {
       .story-content {
@@ -1570,10 +1776,6 @@
       .marquee-item {
         font-size: 12px;
         padding: 0.5rem 1rem;
-      }
-
-      .work-card {
-        padding: 1.5rem;
       }
 
       .xp-hud {
@@ -1975,34 +2177,51 @@
   </div>
 </section>
 
-<!-- OTHER WORK -->
+<!-- OTHER WORK — ZIGZAG EDITORIAL -->
 <section id="work" class="bridge-dark-to-light">
   <div class="container">
     <p class="section-label">05 / Work</p>
     <h2>Other Work</h2>
     <div class="work-grid">
+
       <!-- 4.1 PhotoCull AI -->
       <div class="work-item">
+        <div class="work-visual vis-photocull">
+          <div class="work-visual-bg"></div>
+          <div>
+            <div class="work-visual-icon">10</div>
+            <div class="work-visual-sub">CV features analyzed</div>
+          </div>
+        </div>
         <div class="work-card" data-rarity="epic">
+          <div class="work-card-label">CV / ML</div>
           <h3>PhotoCull AI</h3>
-          <p>Free, local-only photo quality scorer. Analyzes sharpness, faces, duplicates, and composition across 10 dimensions. Built it because I got tired of paying $10/month for Aftershoot. 300+ GitHub stars.</p>
-          <div class="work-evidence">2,754 lines · 10 analysis dimensions · ML model trained with differential evolution + 5-fold cross-validation</div>
+          <p>Free, local-only photo quality scorer. Analyzes sharpness, faces, duplicates, and composition across 10 dimensions. Built it because I got tired of paying $10/month for Aftershoot.</p>
+          <div class="work-evidence">2,754 lines · ML model trained with differential evolution + 5-fold cross-validation</div>
           <div class="work-tech"><span>JavaScript</span> · <span>TensorFlow.js</span> · <span>Client-side ML</span> · <span>Single-file app</span> · <span>Open source</span></div>
           <div class="work-links">
             <a href="case-photocull.html" class="work-link">Case Study →</a>
-            <a href="https://github.com/joneilcaoile/photocull" class="work-link">GitHub →</a>
-            <a href="https://joneilcaoile.github.io/photocull" class="work-link">Live Demo →</a>
+            <a href="https://github.com/joneilcaoile/photocull-ai" class="work-link">GitHub →</a>
+            <a href="https://joneilcaoile.github.io/photocull-ai/photo-culler.html" class="work-link">Live Demo →</a>
           </div>
         </div>
       </div>
 
       <!-- 4.2 Pneumothorax Air Leak Monitor -->
       <div class="work-item">
+        <div class="work-visual vis-pneumo">
+          <div class="work-visual-bg"></div>
+          <div>
+            <div class="work-visual-icon">0</div>
+            <div class="work-visual-sub">Commercial equivalents exist</div>
+          </div>
+        </div>
         <div class="work-card" data-rarity="rare">
+          <div class="work-card-label">Device / Capstone</div>
           <h3>Pneumothorax Air Leak Monitor</h3>
-          <p>M.S. capstone project. Wearable device that detects subcutaneous air leaks post-thoracic surgery using acoustic sensing. Low-cost, wireless monitoring. Currently in design control phase for clinical validation.</p>
-          <div class="work-evidence">3-person team · Acoustic + gas/pressure sensors · Microcontroller-based · Currently in design control phase</div>
-          <div class="work-tech"><span>Arduino</span> · <span>Sensor fusion</span> · <span>Signal processing</span> · <span>FDA Design Controls</span></div>
+          <p>M.S. capstone. A device concept that estimates air leak severity by comparing ventilator-delivered tidal volume with chest tube outflow. No existing commercial solution. Currently in design control phase.</p>
+          <div class="work-evidence">3-person team · Gas/pressure sensors · Microcontroller-based · Currently in bench prototype phase</div>
+          <div class="work-tech"><span>Sensor fusion</span> · <span>Signal processing</span> · <span>ISO 14971</span> · <span>FDA Design Controls</span></div>
           <div class="work-links">
             <a href="case-pneumothorax.html" class="work-link">Case Study →</a>
           </div>
@@ -2011,11 +2230,19 @@
 
       <!-- 4.3 EMG Tremor-Suppression Cuff -->
       <div class="work-item">
+        <div class="work-visual vis-emg">
+          <div class="work-visual-bg"></div>
+          <div>
+            <div class="work-visual-icon">4-8</div>
+            <div class="work-visual-sub">Hz tremor band targeted</div>
+          </div>
+        </div>
         <div class="work-card" data-rarity="rare">
+          <div class="work-card-label">Wearable / Simulation</div>
           <h3>EMG Tremor-Suppression Cuff</h3>
-          <p>Wearable electromyography device that detects voluntary hand movement and suppresses tremor via pneumatic actuation. Designed for Parkinson's patients. Published poster at BMES 2024.</p>
-          <div class="work-evidence">4-8 Hz tremor band filtering · Full Python simulation (NumPy/SciPy) · Pneumatic actuation concept · BMES 2024 poster</div>
-          <div class="work-tech"><span>Biomedical instrumentation</span> · <span>EMG signal processing</span> · <span>Control systems</span></div>
+          <p>Wearable electromyography concept that detects voluntary hand movement and suppresses Parkinsonian tremor via pneumatic actuation. Full Python simulation built from scratch.</p>
+          <div class="work-evidence">4-8 Hz tremor band filtering · Full Python simulation (NumPy/SciPy) · Pneumatic actuation concept</div>
+          <div class="work-tech"><span>Biomedical instrumentation</span> · <span>EMG signal processing</span> · <span>Control systems</span> · <span>Python</span></div>
           <div class="work-links">
             <a href="case-emg.html" class="work-link">Case Study →</a>
           </div>
@@ -2024,9 +2251,17 @@
 
       <!-- 4.4 Fall Risk in Elderly Study -->
       <div class="work-item">
+        <div class="work-visual vis-fall">
+          <div class="work-visual-bg"></div>
+          <div>
+            <div class="work-visual-icon">77</div>
+            <div class="work-visual-sub">Patients in dataset</div>
+          </div>
+        </div>
         <div class="work-card">
+          <div class="work-card-label">Clinical / ML</div>
           <h3>Fall Risk in Older Adults: ML Study</h3>
-          <p>Clinical research project analyzing gait biomechanics to predict fall risk in older adults. Used scikit-learn classification models. Data from motion capture lab at Stevens. Published methodology.</p>
+          <p>Clinical research analyzing gait biomechanics to predict fall risk. Built a Python pipeline from scratch to clean Qualtrics data, compute reliability metrics, and run classification models.</p>
           <div class="work-evidence">77-patient dataset · Krippendorff's Alpha reliability analysis · scikit-learn classification · Motion capture (OptiTrack)</div>
           <div class="work-tech"><span>Python</span> · <span>scikit-learn</span> · <span>Statistical analysis</span> · <span>Jupyter</span></div>
           <div class="work-links">
@@ -2037,10 +2272,18 @@
 
       <!-- 4.5 PhysioRep -->
       <div class="work-item">
+        <div class="work-visual vis-physiorep">
+          <div class="work-visual-bg"></div>
+          <div>
+            <div class="work-visual-icon">82/82</div>
+            <div class="work-visual-sub">Tests passing</div>
+          </div>
+        </div>
         <div class="work-card" data-rarity="epic">
+          <div class="work-card-label">PWA / Pose Estimation</div>
           <h3>PhysioRep</h3>
           <p>Free progressive web app that uses pose estimation to coach exercise form in real time. Gamified PT exercises because I saw patients skip rehab when it got boring. Full circle from those clinics.</p>
-          <div class="work-evidence">Single-file PWA · MoveNet pose estimation · 82/82 tests passing · v1.0 deployed · Real user feedback collected</div>
+          <div class="work-evidence">Single-file PWA · MoveNet pose estimation · v1.0 deployed · Real user feedback collected</div>
           <div class="work-tech"><span>JavaScript</span> · <span>TensorFlow.js</span> · <span>MoveNet</span> · <span>PWA</span> · <span>Service Workers</span></div>
           <div class="work-links">
             <a href="https://joneilcaoile.github.io/physiorep/" class="work-link">Live Demo →</a>
@@ -2048,6 +2291,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -2182,6 +2426,22 @@
     </span>
   </div>
 </footer>
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mobile-nav" aria-label="Mobile navigation">
+  <a href="#work">
+    <span class="mobile-nav-icon" aria-hidden="true">⚗️</span>
+    <span class="mobile-nav-label">Projects</span>
+  </a>
+  <a href="#story">
+    <span class="mobile-nav-icon" aria-hidden="true">👤</span>
+    <span class="mobile-nav-label">About</span>
+  </a>
+  <a href="#contact">
+    <span class="mobile-nav-icon" aria-hidden="true">✉️</span>
+    <span class="mobile-nav-label">Contact</span>
+  </a>
+</nav>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
@@ -2721,18 +2981,19 @@
     ease: 'power2.out'
   });
 
-  // Work items staggered
-  gsap.from('.work-item', {
-    scrollTrigger: {
-      trigger: '#work',
-      start: 'top 70%',
-      once: true
-    },
-    duration: 0.8,
-    autoAlpha: 0,
-    y: 20,
-    stagger: 0.2,
-    ease: 'power2.out'
+  // Work items staggered — each item has its own trigger for zigzag
+  document.querySelectorAll('.work-item').forEach((item, i) => {
+    gsap.from(item, {
+      scrollTrigger: {
+        trigger: item,
+        start: 'top 80%',
+        once: true
+      },
+      duration: 0.9,
+      autoAlpha: 0,
+      y: 40,
+      ease: 'power2.out'
+    });
   });
 
   // Evidence rows fade-in
