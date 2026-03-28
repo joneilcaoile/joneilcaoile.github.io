@@ -506,13 +506,17 @@
 
     .cta-btn.secondary {
       background: var(--bg2);
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       color: var(--text);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     }
 
     .cta-btn.secondary:hover {
       background: var(--bg3);
       border-color: var(--amber);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      color: var(--amber);
     }
 
     .hero-right {
@@ -770,9 +774,17 @@
     .story-headshot {
       width: 250px;
       height: 250px;
-      border-radius: 8px;
+      border-radius: 12px;
       overflow: hidden;
       flex-shrink: 0;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08);
+      border: 2px solid var(--border-light);
+      transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.4s ease;
+    }
+
+    .story-headshot:hover {
+      transform: scale(1.03) rotate(-1deg);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.1);
     }
 
     .story-headshot img {
@@ -780,7 +792,12 @@
       height: 100%;
       object-fit: cover;
       object-position: center top;
-      border-radius: 8px;
+      border-radius: 10px;
+      transition: transform 0.4s ease;
+    }
+
+    .story-headshot:hover img {
+      transform: scale(1.05);
     }
 
     /* FEATURED */
@@ -889,10 +906,11 @@
     /* OTHER WORK — ZIGZAG EDITORIAL */
     #work {
       position: relative;
+      padding-top: 80px;
     }
 
     #work h2 {
-      margin-bottom: 4rem;
+      margin-bottom: 3rem;
     }
 
     .work-grid {
@@ -1290,15 +1308,18 @@
     }
 
     .bring-card {
-      padding: 1.5rem;
+      padding: 1.75rem;
       background: var(--bg2);
       border-left: 3px solid var(--amber);
-      border-radius: 0 6px 6px 0;
-      transition: border-color 0.3s ease, transform 0.3s ease;
+      border-radius: 0 8px 8px 0;
+      transition: all 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     }
     .bring-card:hover {
       border-color: var(--coral);
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      background: var(--bg-warm);
     }
 
     .bring-card h3 {
@@ -3077,17 +3098,30 @@
   /* GSAP ANIMATIONS */
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-  // Statement table fade-in
-  gsap.from('#statement .spec-table', {
+  // Statement table — header then rows stagger
+  gsap.from('#statement .spec-table thead', {
     scrollTrigger: {
       trigger: '#statement .spec-table',
-      start: 'top 80%',
+      start: 'top 82%',
       once: true
     },
-    duration: 0.8,
+    duration: 0.5,
     autoAlpha: 0,
-    y: 20,
+    y: 12,
     ease: 'power2.out'
+  });
+  gsap.from('#statement .spec-table tbody tr', {
+    scrollTrigger: {
+      trigger: '#statement .spec-table',
+      start: 'top 78%',
+      once: true
+    },
+    duration: 0.4,
+    autoAlpha: 0,
+    x: -15,
+    stagger: 0.08,
+    ease: 'power2.out',
+    delay: 0.15
   });
 
   // Story text fade-in
@@ -3102,6 +3136,21 @@
     y: 20,
     stagger: 0.15,
     ease: 'power2.out'
+  });
+
+  // Headshot reveal
+  gsap.from('.story-headshot', {
+    scrollTrigger: {
+      trigger: '.story-headshot',
+      start: 'top 85%',
+      once: true
+    },
+    duration: 0.8,
+    autoAlpha: 0,
+    x: 30,
+    scale: 0.95,
+    ease: 'power2.out',
+    delay: 0.2
   });
 
   // Featured card entrance
