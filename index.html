@@ -2007,89 +2007,52 @@
       position: relative;
       z-index: 6;
     }
-    .journey-tree { position: relative; padding: 2rem 0; }
+    .journey-tree { position: relative; padding: 1rem 0; display: flex; flex-direction: column; align-items: center; }
 
-    /* Vertical trunk line (center-aligned) */
-    .journey-tree::before {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: 0;
-      bottom: 0;
-      width: 3px;
-      background: linear-gradient(to bottom, transparent 0%, var(--amber-soft) 10%, var(--amber-soft) 90%, transparent 100%);
-      transform: translateX(-50%);
-      border-radius: 2px;
+    /* No trunk line anymore */
+    .journey-tree::before { display: none; }
+
+    /* Short vertical connector between nodes */
+    .journey-connector {
+      width: 2px;
+      height: 28px;
+      background: var(--amber-soft);
+      position: relative;
+      z-index: 4;
     }
 
-    /* Trunk decorative dots at node junctions (positioned on the trunk line, not on the card) */
-    .journey-node::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      width: 10px;
-      height: 10px;
-      background: var(--amber);
-      border-radius: 50%;
-      transform: translateY(-50%);
-      z-index: 10;
-      box-shadow: 0 0 8px rgba(198,123,46,0.4);
-    }
-    .journey-node[data-side="left"]::before { right: -45px; }
-    .journey-node[data-side="right"]::before { left: -45px; }
-    .journey-node[data-side="center"]::before { left: 50%; transform: translate(-50%, -50%); }
-
-    /* Past school nodes (alternate left/right on desktop) */
+    /* Past school nodes (now all centered) */
     .journey-node {
       position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.5rem;
-      padding: 1.2rem;
+      gap: 0.4rem;
+      padding: 0.9rem;
       background: rgba(255,255,255,0.04);
       border: 1.5px solid var(--border);
       border-radius: 12px;
       cursor: pointer;
       transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       max-width: 140px;
-      margin: 1.5rem auto;
+      margin: 0 auto;
       z-index: 5;
     }
 
-    /* Alternate left/right via data-side */
-    .journey-node[data-side="left"] { margin-left: 0; margin-right: auto; }
-    .journey-node[data-side="right"] { margin-left: auto; margin-right: 0; }
+    /* No more data-side positioning */
+    .journey-node[data-side="left"] { margin-left: auto; margin-right: auto; }
+    .journey-node[data-side="right"] { margin-left: auto; margin-right: auto; }
     .journey-node[data-side="center"] { margin-left: auto; margin-right: auto; }
+
+    /* Remove dots and connectors */
+    .journey-node::before { display: none; }
+    .journey-node::after { display: none; }
 
     .journey-node:hover {
       background: rgba(198,123,46,0.1);
       border-color: var(--amber);
       transform: translateY(-4px);
       box-shadow: 0 8px 20px rgba(198,123,46,0.15);
-    }
-
-    /* Connector lines from nodes to trunk */
-    .journey-node::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      width: 40px;
-      height: 2px;
-      background: rgba(198,123,46,0.4);
-      z-index: 4;
-    }
-
-    .journey-node[data-side="left"]::after {
-      right: -40px;
-    }
-
-    .journey-node[data-side="right"]::after {
-      left: -40px;
-    }
-
-    .journey-node[data-side="center"]::after {
-      display: none;
     }
 
     .journey-node canvas {
@@ -2152,9 +2115,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 1rem;
-      padding: 1.5rem 2rem;
-      margin: 1.5rem auto;
+      gap: 0.8rem;
+      padding: 0.8rem 1.2rem;
+      margin: 0 auto;
       max-width: 340px;
       background: rgba(212,101,74,0.06);
       border: 1.5px dashed rgba(212,101,74,0.35);
@@ -2211,25 +2174,16 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 1.5rem;
-      padding: 2rem 0;
+      gap: 0;
+      padding: 0.6rem 0;
       position: relative;
-      margin: 1.5rem 0;
+      margin: 0 auto;
       z-index: 8;
     }
 
-    .journey-now::before,
-    .journey-now::after {
-      content: '';
-      flex: 1;
-      max-width: 180px;
-      height: 2px;
-      background: linear-gradient(to right, transparent, var(--amber-soft));
-    }
-
-    .journey-now::after {
-      background: linear-gradient(to left, transparent, var(--amber-soft));
-    }
+    /* Remove decorative lines */
+    .journey-now::before { display: none; }
+    .journey-now::after { display: none; }
 
     .journey-now-badge {
       font-family: var(--fm);
@@ -2252,24 +2206,31 @@
       50% { box-shadow: 0 4px 20px rgba(198,123,46,0.4); }
     }
 
-    /* Future branches (dashed lines fanning out) */
+    /* Future branches (curved SVG paths fanning out) */
     .journey-branches {
       position: relative;
       display: flex;
-      justify-content: space-around;
+      justify-content: center;
       align-items: flex-start;
-      gap: 1rem;
-      padding: 3rem 2rem 0;
+      gap: 2rem;
+      padding: 1.2rem 2rem 0;
       z-index: 5;
+      width: 100%;
     }
 
-    .journey-branch-connector {
+    .journey-branch-svg {
       position: absolute;
-      top: -2rem;
-      height: 2rem;
-      width: 2px;
-      border-left: 2px dashed rgba(198,123,46,0.4);
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 600px;
+      height: 60px;
+      pointer-events: none;
+      z-index: 4;
     }
+
+    .journey-branch-connector { display: none; }
 
     .journey-branch {
       flex: 1;
@@ -2330,24 +2291,24 @@
 
     /* Mobile/tablet responsive */
     @media (max-width: 768px) {
-      .journey-tree::before { left: 1.5rem; }
+      .journey-tree { padding: 0.5rem 0; }
 
       .journey-node {
-        margin-left: 4rem !important;
+        margin-left: auto !important;
         margin-right: auto !important;
-        max-width: 160px;
+        max-width: 140px;
+        padding: 0.8rem;
       }
 
-      .journey-node-major { max-width: 200px; }
+      .journey-node-major { max-width: 160px; }
 
-      .journey-node::before { left: -20px; }
-      .journey-node::after { right: auto !important; left: -20px !important; width: 20px; display: block; }
+      .journey-waypoint { margin-left: auto; margin-right: auto; max-width: 280px; padding: 0.7rem 1rem; }
 
-      .journey-waypoint { margin-left: 4rem; max-width: 260px; }
+      .journey-connector { height: 24px; }
 
-      .journey-branches { flex-wrap: wrap; gap: 0.5rem; padding: 2rem 0 0; }
-      .journey-branch { min-width: 120px; flex: 0 1 45%; align-items: center; }
-      .journey-branch-connector { display: none; }
+      .journey-branches { flex-wrap: wrap; gap: 1rem; padding: 0.8rem 0 0; }
+      .journey-branch-svg { top: -50px; height: 50px; }
+      .journey-branch { min-width: 110px; flex: 0 1 45%; align-items: center; }
     }
 
     @media (max-width: 640px) {
@@ -3708,6 +3669,8 @@
       <div class="journey-node-desc">B.S. Kinesiology. Learned how the body moves, how patients recover, and where devices fall short.</div>
     </div>
 
+    <div class="journey-connector"></div>
+
     <!-- Clinical Observation Waypoint -->
     <div class="journey-waypoint">
       <div class="journey-waypoint-dot"></div>
@@ -3718,6 +3681,8 @@
       </div>
     </div>
 
+    <div class="journey-connector"></div>
+
     <!-- Graduate School -->
     <div class="journey-node journey-node-major journey-node-current" data-jclass="duck" data-side="right">
       <canvas class="journey-sprite" data-jclass="duck" width="20" height="26"></canvas>
@@ -3727,6 +3692,8 @@
       <div class="journey-node-desc">M.S. Biomedical Engineering. Design verification, usability evaluation, regulatory strategy. Built 3 device projects.</div>
     </div>
 
+    <div class="journey-connector"></div>
+
     <!-- NOW divider -->
     <div class="journey-now">
       <span class="journey-now-badge">★ NOW · May 2026 ★</span>
@@ -3734,11 +3701,25 @@
 
     <p class="journey-branches-intro">Targeting roles where clinical insight and engineering overlap.</p>
 
-    <!-- Future branches (career paths) -->
+    <!-- Future branches (career paths) with curved SVG -->
     <div class="journey-branches">
-      <div class="journey-branch-connector" style="left: 25%;"></div>
-      <div class="journey-branch-connector" style="left: 50%;"></div>
-      <div class="journey-branch-connector" style="left: 75%;"></div>
+      <svg class="journey-branch-svg" viewBox="0 0 600 60" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <style>
+            .journey-branch-path {
+              fill: none;
+              stroke: rgba(198,123,46,0.3);
+              stroke-width: 2;
+              stroke-dasharray: 4, 4;
+            }
+          </style>
+        </defs>
+        <!-- Four curved paths from center to branch positions -->
+        <path class="journey-branch-path" d="M 300,0 Q 200,30 100,60" />
+        <path class="journey-branch-path" d="M 300,0 Q 233,30 166,60" />
+        <path class="journey-branch-path" d="M 300,0 Q 367,30 434,60" />
+        <path class="journey-branch-path" d="M 300,0 Q 400,30 500,60" />
+      </svg>
 
       <div class="journey-branch">
         <div class="journey-future" data-jclass="acolyte">
