@@ -1190,7 +1190,8 @@
     .work-visual.vis-photocull .work-visual-bg {
       background:
         radial-gradient(ellipse at 50% 30%, rgba(196,181,253,0.12), transparent 60%),
-        repeating-conic-gradient(rgba(196,181,253,0.04) 0% 25%, transparent 0% 50%) 0 0 / 40px 40px;
+        url('img/photocull-preview.jpg') center/cover no-repeat;
+      opacity: 0.35;
     }
 
     .work-visual.vis-pneumo {
@@ -1201,7 +1202,8 @@
     .work-visual.vis-pneumo .work-visual-bg {
       background:
         radial-gradient(ellipse at 40% 35%, rgba(147,197,253,0.14), transparent 55%),
-        radial-gradient(circle at 70% 60%, rgba(147,197,253,0.06), transparent 50%);
+        url('img/pneumothorax-preview.jpg') center/cover no-repeat;
+      opacity: 0.35;
     }
 
     .work-visual.vis-emg {
@@ -1212,7 +1214,8 @@
     .work-visual.vis-emg .work-visual-bg {
       background:
         radial-gradient(ellipse at 50% 40%, rgba(252,165,165,0.1), transparent 55%),
-        repeating-linear-gradient(90deg, rgba(252,165,165,0.03) 0px, rgba(252,165,165,0.03) 1px, transparent 1px, transparent 20px);
+        url('img/emg-cuff-preview.jpg') center/cover no-repeat;
+      opacity: 0.35;
     }
 
     .work-visual.vis-fall {
@@ -1223,7 +1226,8 @@
     .work-visual.vis-fall .work-visual-bg {
       background:
         radial-gradient(ellipse at 45% 35%, rgba(134,239,172,0.1), transparent 55%),
-        repeating-conic-gradient(rgba(134,239,172,0.03) 0% 25%, transparent 0% 50%) 0 0 / 32px 32px;
+        url('img/fall-study-preview.jpg') center/cover no-repeat;
+      opacity: 0.35;
     }
 
     .work-visual.vis-physiorep {
@@ -1234,7 +1238,8 @@
     .work-visual.vis-physiorep .work-visual-bg {
       background:
         radial-gradient(ellipse at 50% 40%, rgba(252,211,77,0.1), transparent 55%),
-        radial-gradient(circle at 50% 80%, rgba(252,211,77,0.04), transparent 40%);
+        url('img/physiorep-preview.jpg') center/cover no-repeat;
+      opacity: 0.35;
     }
 
     .work-card {
@@ -4824,10 +4829,34 @@
   // Neither DOM manipulation, inline styles, nor gsap.set() can reliably override this.
   // Nuclear fix: inject a <style> tag with !important overrides for stuck selectors.
   // This beats GSAP's render pipeline because CSS !important in <style> has final authority.
-  const revealSelectors = '.bring-card, .work-visual, .work-card, .work-card-label, .work-evidence, .work-tech, .work-links, .journey-node, .journey-future, .journey-waypoint, .journey-now-badge, .journey-branches, .featured-card, .story-text p, .story-headshot, .statement-quote, .contact-left h2, .contact-left p, #contact .form-group, #contact .form-submit, #toolkit .spec-table thead, #toolkit .spec-table tbody tr, #credentials, .hero-name, .hero-desc, .hero-targets, .hero-roles, .hero-ctas .cta-btn, .terminal, .scroll-indicator, .status-badge, .hero-tag, #statement .spec-table thead, #statement .spec-table tbody tr, #toolkit > .container > p, .featured-problem, .featured-solution, #featured .spec-table, .featured-tech, .featured-link, .featured-card h3:first-child';
+  const revealSelectors = '.bring-card, .work-visual, .work-card, .work-card-label, .work-evidence, .work-tech, .work-links, .journey-node, .journey-future, .journey-waypoint, .journey-now-badge, .journey-branches, .journey-waypoint-desc, .featured-card, .story-text p, .story-headshot, .statement-quote, .contact-left h2, .contact-left p, #contact .form-group, #contact .form-submit, #toolkit .spec-table thead, #toolkit .spec-table tbody tr, #credentials, .hero-name, .hero-desc, .hero-targets, .hero-roles, .hero-ctas .cta-btn, .terminal, .scroll-indicator, .status-badge, .hero-tag, #statement .spec-table thead, #statement .spec-table tbody tr, #toolkit > .container > p, .featured-problem, .featured-solution, #featured .spec-table, .featured-tech, .featured-link, .featured-card h3:first-child';
   const revealStyleTag = document.createElement('style');
   revealStyleTag.id = 'safety-net-overrides';
   document.head.appendChild(revealStyleTag);
+
+  // Build a unique CSS selector for any element, even those without classes
+  function buildSelector(el) {
+    // 1. If element has a class, use the first class
+    if (el.className && typeof el.className === 'string') {
+      const cls = el.className.split(' ')[0];
+      if (cls) return '.' + cls;
+    }
+    // 2. If element has an id, use it
+    if (el.id) return '#' + el.id;
+    // 3. Build a selector from closest parent with id + tag name
+    const tag = el.tagName.toLowerCase();
+    let parent = el.parentElement;
+    while (parent) {
+      if (parent.id) return '#' + parent.id + ' ' + tag;
+      if (parent.className && typeof parent.className === 'string') {
+        const pcls = parent.className.split(' ')[0];
+        if (pcls) return '.' + pcls + ' ' + tag;
+      }
+      parent = parent.parentElement;
+    }
+    return tag;
+  }
+
   setTimeout(() => {
     let revealList = Array.from(document.querySelectorAll(revealSelectors));
     const revealedSelectors = new Set();
@@ -4840,11 +4869,11 @@
         const cs = getComputedStyle(el);
         const hidden = cs.visibility === 'hidden' || parseFloat(cs.opacity) < 0.1;
         if (hidden) {
-          // Build a CSS selector for this element's class and inject !important override
-          const cls = el.className.split(' ')[0];
-          if (cls && !revealedSelectors.has(cls)) {
-            revealedSelectors.add(cls);
-            revealStyleTag.textContent += '.' + cls + ' { visibility: visible !important; opacity: 1 !important; transform: none !important; }\n';
+          // Build a CSS selector and inject !important override
+          const sel = buildSelector(el);
+          if (sel && !revealedSelectors.has(sel)) {
+            revealedSelectors.add(sel);
+            revealStyleTag.textContent += sel + ' { visibility: visible !important; opacity: 1 !important; transform: none !important; }\n';
           }
           return true; // keep checking until confirmed visible
         }
