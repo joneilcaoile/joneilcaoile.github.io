@@ -5319,7 +5319,7 @@
     gsap.timeline()
       .set(milestoneBadge, { display: 'block', opacity: 0, scale: 0.5 })
       .to(milestoneBadge, { duration: 0.5, opacity: 1, scale: 1, ease: 'back.out(1.7)' })
-      .to(milestoneBadge, { duration: 0.4, opacity: 0, scale: 0.8, ease: 'power2.in', delay: 1.5,
+      .to(milestoneBadge, { duration: 0.3, opacity: 0, scale: 0.8, ease: 'power2.in', delay: 0.8,
         onComplete: () => {
           gsap.set(milestoneBadge, { display: 'none' });
           showNextMilestone();
