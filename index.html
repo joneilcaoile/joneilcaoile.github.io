@@ -615,6 +615,12 @@
       color: var(--amber);
     }
 
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
     .nav-resume-btn {
       display: inline-flex;
       align-items: center;
@@ -628,7 +634,6 @@
       border: 1.5px solid var(--amber);
       border-radius: 6px;
       transition: background 0.2s, color 0.2s;
-      margin-left: 0.5rem;
       white-space: nowrap;
     }
     .nav-resume-btn:hover {
@@ -1070,6 +1075,15 @@
 
     .terminal-output {
       color: #4AEE7D;
+    }
+
+    .terminal-box {
+      border: 1px solid rgba(74, 238, 125, 0.4);
+      border-radius: 2px;
+      padding: 0.4rem 0.8rem;
+      margin: 0.6rem 0;
+      display: inline-block;
+      letter-spacing: 0.08em;
     }
 
     /* ORB GRADIENTS */
@@ -3605,13 +3619,15 @@
     <li><a href="#journey">Journey</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <a href="Joneil_Caoile_Resume.pdf" download class="nav-resume-btn" aria-label="Download resume">Resume ↓</a>
-  <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">🌙</button>
-  <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
+  <div class="nav-actions">
+    <a href="Joneil_Caoile_Resume.pdf" download class="nav-resume-btn" aria-label="Download resume">Resume ↓</a>
+    <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">🌙</button>
+    <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
 </nav>
 </header>
 
@@ -3649,9 +3665,9 @@
       <div class="terminal-scanline"></div>
       <div class="terminal-line"><span class="terminal-prompt">$</span> <span class="terminal-output">joneil --role medtech-engineer</span></div>
       <div class="terminal-line"></div>
-      <div class="terminal-line"><span class="terminal-output">┌──────────────────────────────┐</span></div>
-      <div class="terminal-line"><span class="terminal-output">│  QUALIFICATION SUMMARY       │</span></div>
-      <div class="terminal-line"><span class="terminal-output">└──────────────────────────────┘</span></div>
+      <div class="terminal-box">
+        <span class="terminal-output">QUALIFICATION SUMMARY</span>
+      </div>
       <div class="terminal-line"></div>
       <div class="terminal-line"><span class="terminal-output">EDUCATION</span></div>
       <div class="terminal-line"><span class="terminal-output">↳ M.S. Biomedical Engineering</span></div>
