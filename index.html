@@ -115,9 +115,9 @@
       --ease: cubic-bezier(.16,1,.3,1);
     }
 
-    /* DARK MODE */
+    /* DARK MODE — responds to OS preference OR manual toggle */
     @media (prefers-color-scheme: dark) {
-      :root {
+      :root:not([data-theme="light"]) {
         --bg: #0F0D0A;
         --bg2: #1C1915;
         --bg3: #252019;
@@ -132,6 +132,22 @@
         --border-light: #2E2820;
         --rule: #4A4439;
       }
+    }
+    /* Manual dark mode override */
+    :root[data-theme="dark"] {
+      --bg: #0F0D0A;
+      --bg2: #1C1915;
+      --bg3: #252019;
+      --bg-warm: #1F1A15;
+
+      --text: #F2EDE5;
+      --text-secondary: #C9BFBB;
+      --text-muted: #9A9186;
+      --text-faint: #6F695F;
+
+      --border: #3A3530;
+      --border-light: #2E2820;
+      --rule: #4A4439;
     }
 
     body {
@@ -462,9 +478,12 @@
     }
 
     @media (prefers-color-scheme: dark) {
-      nav {
+      :root:not([data-theme="light"]) nav {
         background-color: rgba(15, 13, 10, 0.8);
       }
+    }
+    [data-theme="dark"] nav {
+      background-color: rgba(15, 13, 10, 0.8);
     }
 
     .nav-brand {
@@ -2878,11 +2897,16 @@
       }
 
       @media (prefers-color-scheme: dark) {
-        .mobile-nav {
+        :root:not([data-theme="light"]) .mobile-nav {
           background: rgba(15,13,10,0.9);
           box-shadow: 0 -4px 32px rgba(0,0,0,0.3);
           border-top: 1px solid rgba(255,255,255,0.04);
         }
+      }
+      [data-theme="dark"] .mobile-nav {
+        background: rgba(15,13,10,0.9);
+        box-shadow: 0 -4px 32px rgba(0,0,0,0.3);
+        border-top: 1px solid rgba(255,255,255,0.04);
       }
 
       .mobile-nav a {
@@ -4040,26 +4064,28 @@
   const darkModeToggle = document.getElementById('darkModeToggle');
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
+  function isDarkActive() {
+    const theme = document.documentElement.getAttribute('data-theme');
+    if (theme === 'dark') return true;
+    if (theme === 'light') return false;
+    return prefersDark;
+  }
+
   function updateDarkModeToggle() {
-    const isDark = document.documentElement.style.colorScheme === 'dark' ||
-                   ((!document.documentElement.style.colorScheme) && prefersDark);
-    darkModeToggle.textContent = isDark ? '☀️' : '🌙';
+    darkModeToggle.textContent = isDarkActive() ? '☀️' : '🌙';
   }
 
   darkModeToggle.addEventListener('click', () => {
-    if (document.documentElement.style.colorScheme === 'dark') {
-      document.documentElement.style.colorScheme = 'light';
-      localStorage.setItem('theme', 'light');
-    } else {
-      document.documentElement.style.colorScheme = 'dark';
-      localStorage.setItem('theme', 'dark');
-    }
+    const nowDark = isDarkActive();
+    const newTheme = nowDark ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
     updateDarkModeToggle();
   });
 
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme) {
-    document.documentElement.style.colorScheme = savedTheme;
+    document.documentElement.setAttribute('data-theme', savedTheme);
   }
   updateDarkModeToggle();
 
@@ -4963,25 +4989,47 @@
   // Hero entrance — staggered reveal after loader finishes
   gsap.from('.status-badge', { duration: 0.6, autoAlpha: 0, y: 15, stagger: 0.15, ease: 'power2.out', delay: 2.2 });
   gsap.from('.hero-tag', { duration: 0.5, autoAlpha: 0, x: -15, ease: 'power2.out', delay: 2.4 });
-  // Hero name — character-by-character reveal
+  // Hero name — decode/scramble reveal (terminal hacker aesthetic)
   (function() {
     const nameEl = document.querySelector('.hero-name');
-    if (nameEl) {
-      const text = nameEl.textContent;
-      nameEl.innerHTML = text.split('').map(ch =>
-        ch === ' ' ? ' ' : '<span class="char" style="display:inline-block;opacity:0">' + ch + '</span>'
-      ).join('');
-      gsap.to(nameEl.querySelectorAll('.char'), {
-        opacity: 1, y: 0, duration: 0.4, stagger: 0.04,
-        ease: 'power3.out', delay: 2.5
-      });
-      gsap.from(nameEl.querySelectorAll('.char'), {
-        y: 30, duration: 0.5, stagger: 0.04,
-        ease: 'power3.out', delay: 2.5
-      });
-      // Ensure parent visible
-      gsap.set(nameEl, { visibility: 'visible', opacity: 1 });
+    if (!nameEl) return;
+    const finalText = nameEl.textContent;
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*!?<>/';
+    const len = finalText.length;
+    let resolved = new Array(len).fill(false);
+    nameEl.style.visibility = 'visible';
+    nameEl.style.opacity = '1';
+    // Start with all scrambled
+    nameEl.textContent = finalText.split('').map(ch => ch === ' ' ? ' ' : chars[Math.floor(Math.random() * chars.length)]).join('');
+
+    function scrambleFrame() {
+      let display = '';
+      for (let i = 0; i < len; i++) {
+        if (finalText[i] === ' ') { display += ' '; continue; }
+        if (resolved[i]) { display += finalText[i]; continue; }
+        display += chars[Math.floor(Math.random() * chars.length)];
+      }
+      nameEl.textContent = display;
     }
+
+    // After loader delay, start resolving letters left-to-right with stagger
+    setTimeout(() => {
+      const scrambleInterval = setInterval(scrambleFrame, 50);
+      let idx = 0;
+      const resolveInterval = setInterval(() => {
+        // Skip spaces
+        while (idx < len && finalText[idx] === ' ') { resolved[idx] = true; idx++; }
+        if (idx >= len) {
+          clearInterval(resolveInterval);
+          clearInterval(scrambleInterval);
+          nameEl.textContent = finalText;
+          return;
+        }
+        resolved[idx] = true;
+        idx++;
+        scrambleFrame();
+      }, 80);
+    }, 2500);
   })();
   gsap.from('.hero-desc', { duration: 0.7, autoAlpha: 0, y: 15, ease: 'power2.out', delay: 2.8 });
   gsap.from('.hero-targets', { duration: 0.5, autoAlpha: 0, y: 10, ease: 'power2.out', delay: 3.0 });
