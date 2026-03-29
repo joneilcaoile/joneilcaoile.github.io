@@ -615,6 +615,55 @@
       color: var(--amber);
     }
 
+    .nav-resume-btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 14px;
+      font-family: var(--fm);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--amber);
+      border: 1.5px solid var(--amber);
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+      margin-left: 0.5rem;
+      white-space: nowrap;
+    }
+    .nav-resume-btn:hover {
+      background: var(--amber);
+      color: #fff;
+    }
+
+    /* SKIP INTRO */
+    .skip-intro {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 10000;
+      font-family: var(--fm);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(198,123,46,0.5);
+      background: none;
+      border: 1px solid rgba(198,123,46,0.25);
+      border-radius: 4px;
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s, opacity 0.3s;
+      opacity: 0;
+      animation: skip-intro-fade 0.4s 0.8s ease forwards;
+    }
+    .skip-intro:hover {
+      color: rgba(198,123,46,0.9);
+      border-color: rgba(198,123,46,0.5);
+    }
+    @keyframes skip-intro-fade {
+      to { opacity: 1; }
+    }
+
     .dark-mode-toggle {
       width: 44px;
       height: 44px;
@@ -679,6 +728,10 @@
 
       .hamburger {
         display: flex;
+      }
+
+      .nav-resume-btn {
+        display: none;
       }
 
       .hamburger.active span:nth-child(1) {
@@ -1342,6 +1395,20 @@
     @keyframes shimmer {
       0%, 100% { opacity: 0.5; }
       50% { opacity: 1; }
+    }
+
+    .featured-diagram {
+      margin: 1.5rem 0 2rem;
+      padding: 1.5rem 1rem;
+      background: rgba(0,0,0,0.15);
+      border-radius: 8px;
+      border: 1px solid rgba(198,123,46,0.1);
+      overflow-x: auto;
+    }
+    .featured-diagram svg {
+      width: 100%;
+      min-width: 480px;
+      height: auto;
     }
 
     .featured-problem,
@@ -3417,6 +3484,7 @@
       <div class="loader-boot-line">[loc] SoCal medtech — validation / R&amp;D / HF <span class="ok">READY</span></div>
     </div>
   </div>
+  <button class="skip-intro" id="skipIntro" aria-label="Skip intro animation">Skip intro ▸</button>
 </div>
 
 <!-- CURSOR GLOW -->
@@ -3530,15 +3598,14 @@
 <nav aria-label="Main navigation">
   <div class="nav-brand" id="navBrand">Joneil Caoile</div>
   <ul class="nav-links">
-    <li><a href="#statement">Statement</a></li>
-    <li><a href="#bring">Roles</a></li>
+    <li><a href="#statement">About</a></li>
+    <li><a href="#bring">Skills</a></li>
     <li><a href="#story">Story</a></li>
-    <li><a href="#featured">Featured</a></li>
-    <li><a href="#work">Work</a></li>
-    <li><a href="#toolkit">Skills</a></li>
+    <li><a href="#featured">Projects</a></li>
     <li><a href="#journey">Journey</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <a href="Joneil_Caoile_Resume.pdf" download class="nav-resume-btn" aria-label="Download resume">Resume ↓</a>
   <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">🌙</button>
   <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
     <span></span>
@@ -3559,7 +3626,7 @@
     <div class="status-badge" style="margin-top: 0.5rem; background: var(--dark3); color: var(--gold);">Available May 2026 · SoCal</div>
     <p class="hero-tag">Biomedical Engineer</p>
     <h1 class="hero-name">Joneil Caoile</h1>
-    <p class="hero-desc">Biomedical engineer, M.S. Stevens. Two years in clinics watching devices fail users, then grad school in human factors and regulatory strategy. Now I design usability studies, classify use errors under IEC 62366-1, and build AI tools to speed up HFE workflows.</p>
+    <p class="hero-desc">Two years watching devices fail patients. Now I test them, validate them, and build tools so they don't.</p>
     <p class="hero-targets">Targeting validation, applications, R&amp;D, and human factors roles in SoCal medtech.</p>
     <p class="hero-roles">
       <span class="role-typing" id="roleTyping">biomedical engineer</span>
@@ -3630,7 +3697,7 @@
 <!-- STATEMENT -->
 <section id="statement" class="bridge-light-to-dark">
   <div class="container">
-    <p class="section-label">01 / Statement</p>
+    <p class="section-label">01 / About</p>
     <div class="statement-quote">
       <p>Every medical device has to prove it works and prove it's usable before it touches a patient. The testing. The validation. The clinical insight that connects engineering to real use. Whether I'm writing a test protocol, running a usability study, prototyping a sensor system, or training a team on a new tool, the through-line is the same: <em>I understand what happens when the device meets the user, because I spent two years watching it happen.</em></p>
     </div>
@@ -3670,7 +3737,7 @@
 <!-- WHAT I BRING -->
 <section id="bring" class="bridge-dark-to-light">
   <div class="container">
-  <p class="section-label">02 / What I Bring</p>
+  <p class="section-label">02 / Skills</p>
   <h2>What I can do for your team on day one</h2>
   <div class="bring-grid">
     <div class="bring-card">
@@ -3726,10 +3793,40 @@
 <!-- FEATURED PROJECT -->
 <section id="featured" class="bridge-light-to-dark">
   <div class="container">
-    <p class="section-label">04 / Featured</p>
+    <p class="section-label">04 / Projects</p>
     <div class="featured-card" data-rarity="legendary">
       <div class="card-shine"></div>
       <h3>UseTrace HFE</h3>
+      <!-- Architecture diagram -->
+      <div class="featured-diagram" aria-label="UseTrace system architecture showing observation capture flowing through AI classification to HFE reports">
+        <svg viewBox="0 0 600 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
+          <!-- Step 1: Capture -->
+          <rect x="10" y="20" width="120" height="80" rx="8" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
+          <text x="70" y="48" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="10" opacity="0.5">CAPTURE</text>
+          <text x="70" y="65" text-anchor="middle" fill="currentColor" font-family="var(--fh)" font-size="13" font-weight="600" opacity="0.85">Observations</text>
+          <text x="70" y="82" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="9" opacity="0.4">Free-text · 200+/session</text>
+          <!-- Arrow 1 -->
+          <path d="M140 60 L190 60" stroke="currentColor" stroke-width="1.5" opacity="0.3" stroke-dasharray="5 3"/>
+          <polyline points="185,55 192,60 185,65" stroke="currentColor" stroke-width="1.5" opacity="0.4" stroke-linecap="round"/>
+          <!-- Step 2: AI Classification -->
+          <rect x="200" y="20" width="140" height="80" rx="8" stroke="var(--amber)" stroke-width="2" opacity="0.7"/>
+          <rect x="200" y="20" width="140" height="80" rx="8" fill="var(--amber)" opacity="0.06"/>
+          <text x="270" y="48" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="10" opacity="0.5">AI CLASSIFY</text>
+          <text x="270" y="65" text-anchor="middle" fill="currentColor" font-family="var(--fh)" font-size="13" font-weight="600" opacity="0.85">Multi-label ML</text>
+          <text x="270" y="82" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="9" opacity="0.4">Severity · Type · Subsystem</text>
+          <!-- Arrow 2 -->
+          <path d="M350 60 L400 60" stroke="currentColor" stroke-width="1.5" opacity="0.3" stroke-dasharray="5 3"/>
+          <polyline points="395,55 402,60 395,65" stroke="currentColor" stroke-width="1.5" opacity="0.4" stroke-linecap="round"/>
+          <!-- Step 3: Report -->
+          <rect x="410" y="20" width="130" height="80" rx="8" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
+          <text x="475" y="48" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="10" opacity="0.5">OUTPUT</text>
+          <text x="475" y="65" text-anchor="middle" fill="currentColor" font-family="var(--fh)" font-size="13" font-weight="600" opacity="0.85">HFE Report</text>
+          <text x="475" y="82" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="9" opacity="0.4">IEC 62366-1 formatted</text>
+          <!-- Time savings badge -->
+          <rect x="505" y="2" width="88" height="22" rx="11" fill="var(--amber)" opacity="0.15"/>
+          <text x="549" y="17" text-anchor="middle" fill="var(--amber)" font-family="var(--fm)" font-size="10" font-weight="600" opacity="0.9">75% faster</text>
+        </svg>
+      </div>
       <div class="featured-problem">
         <h3>Problem</h3>
         <p>Formative usability studies generate 200+ free-text observations per session. Classifying them under IEC 62366-1 use error categories takes 2-4 weeks with low inter-reviewer consistency. Missed classifications can hide safety signals in HFE reports.</p>
@@ -3781,7 +3878,7 @@
 <!-- OTHER WORK — ZIGZAG EDITORIAL -->
 <section id="work" class="bridge-dark-to-light">
   <div class="container">
-    <p class="section-label">05 / Work</p>
+    <p class="section-label">05 / More Work</p>
     <h2>Other Work</h2>
     <div class="work-grid">
 
@@ -4054,7 +4151,7 @@
 
 <!-- TOOLKIT -->
 <section id="toolkit" class="container">
-  <p class="section-label">06 / Skills</p>
+  <p class="section-label">06 / Toolkit</p>
   <h2>What I work with</h2>
   <p>Not a LinkedIn skills section. These are tools I've used to build things that work.</p>
   <table class="spec-table">
@@ -4505,6 +4602,23 @@
         ScrollTrigger.refresh(true);
       }
     }, 5000);
+
+    // Skip intro button
+    const skipBtn = document.getElementById('skipIntro');
+    if (skipBtn) {
+      skipBtn.addEventListener('click', () => {
+        tl.progress(1);
+        loader.style.opacity = '0';
+        loader.style.visibility = 'hidden';
+        loader.style.pointerEvents = 'none';
+        skipBtn.remove();
+        ScrollTrigger.refresh(true);
+      });
+      // Auto-remove skip button when animation finishes naturally
+      tl.eventCallback('onComplete', () => {
+        if (skipBtn.parentNode) skipBtn.remove();
+      });
+    }
   }
 
   animateLoader();
@@ -5714,15 +5828,19 @@
   (function() {
     const navLinksAll = document.querySelectorAll('.nav-links a[href^="#"]');
     const sectionIds = Array.from(navLinksAll).map(a => a.getAttribute('href'));
+    // Map child sections to their parent nav item (e.g. #work and #toolkit scroll → highlight "Projects"/"Skills")
+    const sectionAlias = { '#work': '#featured', '#toolkit': '#bring' };
 
     function updateActiveNav() {
       let current = '';
-      sectionIds.forEach(id => {
+      // Check all visible sections, including aliased ones
+      const allSections = [...sectionIds, ...Object.keys(sectionAlias)];
+      allSections.forEach(id => {
         const section = document.querySelector(id);
         if (section) {
           const rect = section.getBoundingClientRect();
           if (rect.top <= 150 && rect.bottom > 150) {
-            current = id;
+            current = sectionAlias[id] || id;
           }
         }
       });
@@ -5849,6 +5967,8 @@
   });
   featuredTL.from('.featured-card', { duration: 0.45, autoAlpha: 0, y: 20, ease: 'power2.out' })
     .from('.featured-card h3:first-child', { duration: 0.3, autoAlpha: 0, y: 8, ease: 'power2.out' }, '-=0.3')
+    .from('.featured-diagram', { duration: 0.5, autoAlpha: 0, y: 10, ease: 'power2.out' }, '-=0.2')
+    .from('.featured-diagram rect, .featured-diagram text', { duration: 0.3, autoAlpha: 0, stagger: 0.04, ease: 'power2.out' }, '-=0.3')
     .from('.featured-problem', { duration: 0.3, autoAlpha: 0, x: -12, ease: 'power2.out' }, '-=0.2')
     .from('.featured-solution', { duration: 0.3, autoAlpha: 0, x: -12, ease: 'power2.out' }, '-=0.25')
     .from('#featured .spec-table', { duration: 0.3, autoAlpha: 0, y: 10, ease: 'power2.out' }, '-=0.2')
