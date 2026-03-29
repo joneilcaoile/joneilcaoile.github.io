@@ -94,9 +94,9 @@
       --teal-container: rgba(163,237,234,0.15);
 
       --text: #2C2620;
-      --text-secondary: #5C554C;
-      --text-muted: #7A7068;
-      --text-faint: #B5ADA4;
+      --text-secondary: #4A443C;
+      --text-muted: #635B52;
+      --text-faint: #9A928A;
 
       --border: #E8E4DE;
       --border-light: #F0ECE6;
@@ -893,6 +893,95 @@
     .hero-right {
       position: relative;
       z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* === HEADSHOT === */
+    .headshot-frame {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      margin: 0 auto;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    .headshot-frame::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, var(--amber), var(--gold), var(--coral), var(--teal), var(--amber));
+      z-index: -1;
+      animation: headshot-ring-spin 8s linear infinite;
+    }
+
+    .headshot-frame::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      box-shadow: inset 0 0 30px rgba(0,0,0,0.15);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    @keyframes headshot-ring-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .headshot-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid var(--bg);
+      position: relative;
+    }
+
+    .headshot-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 15%;
+      display: block;
+      filter: saturate(0.9) contrast(1.05);
+      transition: filter 0.6s ease;
+    }
+
+    .headshot-frame:hover .headshot-img {
+      filter: saturate(1.1) contrast(1.08);
+    }
+
+    /* Headshot ambient glow */
+    .headshot-glow {
+      position: absolute;
+      inset: -40px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(198,123,46,0.12) 0%, transparent 70%);
+      z-index: -2;
+      pointer-events: none;
+      animation: headshot-pulse 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes headshot-pulse {
+      from { opacity: 0.5; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1.05); }
+    }
+
+    [data-theme="dark"] .headshot-glow {
+      background: radial-gradient(circle, rgba(198,123,46,0.18) 0%, transparent 70%);
+    }
+
+    /* === CINEMATIC PAGE ENTRANCE — desaturated to full color === */
+    .page-cinema {
+      filter: saturate(0) brightness(0.7);
+      transition: filter 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .page-cinema.cinema-live {
+      filter: saturate(1) brightness(1);
     }
 
     .terminal {
@@ -3129,7 +3218,16 @@
       }
 
       .hero-right {
+        order: -1;
+        justify-content: center;
+        align-items: center;
+      }
+      .hero-right .terminal {
         display: none;
+      }
+      .headshot-frame {
+        width: 160px;
+        height: 160px;
       }
 
       .scroll-indicator {
@@ -3360,7 +3458,7 @@
 <div class="rpg-overlay" id="rpgOverlay">
   <div class="rpg-card">
     <button class="rpg-close" id="rpgClose">&times;</button>
-    <h3>PROFILE STATS</h3>
+    <div class="rpg-card-title" role="heading" aria-level="2">PROFILE STATS</div>
     <div class="rpg-stat">
       <span class="rpg-stat-label">CLASS</span>
       <span class="rpg-stat-value">Medtech Engineer</span>
@@ -3393,8 +3491,7 @@
 </div>
 
 <!-- SKIP NAV (accessibility) -->
-<a href="#hero" class="skip-nav" style="position:absolute;top:-40px;left:0;background:var(--gold);color:var(--dark1);padding:8px 16px;z-index:9999;font-family:var(--fm);font-size:14px;transition:top 0.2s;">Skip to content</a>
-<style>.skip-nav:focus{top:0;}</style>
+<!-- Skip link handled by .skip-link above -->
 
 <!-- NAV -->
 <header>
@@ -3442,6 +3539,12 @@
     </div>
   </div>
   <div class="hero-right">
+    <div class="headshot-frame" id="headshotFrame">
+      <div class="headshot-glow"></div>
+      <div class="headshot-inner">
+        <img class="headshot-img" src="headshot.webp" alt="Joneil Caoile, biomedical engineer" width="220" height="220" loading="eager">
+      </div>
+    </div>
     <div class="terminal">
       <div class="terminal-scanline"></div>
       <div class="terminal-line"><span class="terminal-prompt">$</span> <span class="terminal-output">joneil --role medtech-engineer</span></div>
@@ -5161,7 +5264,7 @@
   // Neither DOM manipulation, inline styles, nor gsap.set() can reliably override this.
   // Nuclear fix: inject a <style> tag with !important overrides for stuck selectors.
   // This beats GSAP's render pipeline because CSS !important in <style> has final authority.
-  const revealSelectors = '.bring-card, .work-visual, .work-card, .work-card-label, .work-evidence, .work-tech, .work-links, .journey-node, .journey-future, .journey-waypoint, .journey-now-badge, .journey-branches, .journey-waypoint-desc, .featured-card, .story-text p, .story-headshot, .statement-quote, .contact-left h2, .contact-left p, #contact .form-group, #contact .form-submit, #toolkit .spec-table thead, #toolkit .spec-table tbody tr, #credentials, .hero-name, .hero-desc, .hero-targets, .hero-roles, .hero-ctas .cta-btn, .terminal, .scroll-indicator, .status-badge, .hero-tag, #statement .spec-table thead, #statement .spec-table tbody tr, #toolkit > .container > p, .featured-problem, .featured-solution, #featured .spec-table, .featured-tech, .featured-link, .featured-card h3:first-child, .section-label, #journey h2, #journey p, #contact h2, #contact p, #work h2, #work p, #toolkit h2, #story h2, #story p, .journey-connector, .journey-tree';
+  const revealSelectors = '.bring-card, .work-visual, .work-card, .work-card-label, .work-evidence, .work-tech, .work-links, .journey-node, .journey-future, .journey-waypoint, .journey-now-badge, .journey-branches, .journey-waypoint-desc, .featured-card, .story-text p, .story-headshot, .statement-quote, .contact-left h2, .contact-left p, #contact .form-group, #contact .form-submit, #toolkit .spec-table thead, #toolkit .spec-table tbody tr, #credentials, .hero-name, .hero-desc, .hero-targets, .hero-roles, .hero-ctas .cta-btn, .terminal, .scroll-indicator, .status-badge, .hero-tag, #headshotFrame, #statement .spec-table thead, #statement .spec-table tbody tr, #toolkit > .container > p, .featured-problem, .featured-solution, #featured .spec-table, .featured-tech, .featured-link, .featured-card h3:first-child, .section-label, #journey h2, #journey p, #contact h2, #contact p, #work h2, #work p, #toolkit h2, #story h2, #story p, .journey-connector, .journey-tree';
   const revealStyleTag = document.createElement('style');
   revealStyleTag.id = 'safety-net-overrides';
   document.head.appendChild(revealStyleTag);
@@ -5229,9 +5332,33 @@
     }, 600);
   }, 5500);
 
+  // === CINEMATIC PAGE ENTRANCE ===
+  // Page starts desaturated + dark, shifts to full color as boot sequence ends
+  document.body.classList.add('page-cinema');
+  setTimeout(() => {
+    document.body.classList.add('cinema-live');
+  }, 2800);
+
   // Hero entrance — staggered reveal after loader finishes (~3.4s)
   gsap.from('.status-badge', { duration: 0.6, autoAlpha: 0, y: 15, stagger: 0.15, ease: 'power2.out', delay: 3.4 });
   gsap.from('.hero-tag', { duration: 0.5, autoAlpha: 0, x: -15, ease: 'power2.out', delay: 3.6 });
+
+  // === HEADSHOT CINEMATIC REVEAL ===
+  // Starts scaled up + clipped, reveals with a dramatic zoom-out + circle-wipe
+  gsap.fromTo('#headshotFrame',
+    { autoAlpha: 0, scale: 1.4, filter: 'blur(8px) saturate(0)' },
+    { autoAlpha: 1, scale: 1, filter: 'blur(0px) saturate(1)', duration: 1.4, ease: 'power3.out', delay: 3.2 }
+  );
+  // Slow Ken Burns drift on the photo after reveal
+  gsap.to('.headshot-img', {
+    scale: 1.08,
+    duration: 20,
+    ease: 'none',
+    repeat: -1,
+    yoyo: true,
+    delay: 4.6
+  });
+
   // Hero name — decode/scramble reveal (terminal hacker aesthetic)
   (function() {
     const nameEl = document.querySelector('.hero-name');
@@ -5242,7 +5369,6 @@
     let resolved = new Array(len).fill(false);
     nameEl.style.visibility = 'visible';
     nameEl.style.opacity = '1';
-    // Start with all scrambled
     nameEl.textContent = finalText.split('').map(ch => ch === ' ' ? ' ' : chars[Math.floor(Math.random() * chars.length)]).join('');
 
     function scrambleFrame() {
@@ -5255,12 +5381,10 @@
       nameEl.textContent = display;
     }
 
-    // After loader delay, start resolving letters left-to-right with stagger
     setTimeout(() => {
       const scrambleInterval = setInterval(scrambleFrame, 50);
       let idx = 0;
       const resolveInterval = setInterval(() => {
-        // Skip spaces
         while (idx < len && finalText[idx] === ' ') { resolved[idx] = true; idx++; }
         if (idx >= len) {
           clearInterval(resolveInterval);
@@ -5467,6 +5591,7 @@
       { el: document.querySelector('.hero-desc'), factor: 0.015 },
       { el: document.querySelector('.hero-tag'), factor: 0.02 },
       { el: document.querySelector('.terminal'), factor: -0.02 },
+      { el: document.querySelector('#headshotFrame'), factor: -0.025 },
     ].filter(l => l.el);
 
     hero.addEventListener('mousemove', (e) => {
