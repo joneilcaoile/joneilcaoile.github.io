@@ -2836,6 +2836,24 @@
       }
     }
 
+    /* PRINT STYLES — recruiter-friendly printing */
+    @media print {
+      * { animation: none !important; transition: none !important; }
+      nav, .mobile-nav, .hamburger, .dark-mode-toggle, .cursor, .cursor-spotlight,
+      .scroll-indicator, .critter-gear, .critter-sprite, .xp-hud, .rpg-overlay,
+      .milestone-badge, .particle, .skip-nav, .evo-overlay, footer .footer-links,
+      #personalContent { display: none !important; }
+      body { background: white !important; color: #222 !important; font-size: 11pt; }
+      section { break-inside: avoid; page-break-inside: avoid; }
+      .work-visual { display: none; }
+      a { color: #222 !important; text-decoration: underline; }
+      a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; color: #666; }
+      .contact-left a[href^="mailto"]::after,
+      .contact-left a[href^="tel"]::after { content: none; }
+      h2 { color: #222 !important; }
+      .status-badge { border: 1px solid #888; background: transparent !important; color: #222 !important; }
+    }
+
     /* MOBILE BOTTOM NAV */
     .mobile-nav {
       display: none;
