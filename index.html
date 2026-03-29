@@ -621,8 +621,90 @@
       overflow: hidden;
     }
 
+    /* Floating particle canvas behind hero content */
+    .hero-particles {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Ambient gradient orbs */
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: 0;
+      will-change: transform;
+    }
+    .hero-orb-1 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, var(--amber) 0%, transparent 70%);
+      top: -80px; left: -100px;
+      animation: orbFloat1 12s ease-in-out infinite;
+    }
+    .hero-orb-2 {
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, var(--coral) 0%, transparent 70%);
+      bottom: -60px; right: 10%;
+      animation: orbFloat2 15s ease-in-out infinite;
+    }
+    .hero-orb-3 {
+      width: 250px; height: 250px;
+      background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
+      top: 30%; right: -50px;
+      animation: orbFloat3 10s ease-in-out infinite;
+    }
+
+    @keyframes orbFloat1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(40px, 30px) scale(1.1); }
+      66% { transform: translate(-20px, 50px) scale(0.95); }
+    }
+    @keyframes orbFloat2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      40% { transform: translate(-30px, -40px) scale(1.08); }
+      70% { transform: translate(20px, -20px) scale(0.92); }
+    }
+    @keyframes orbFloat3 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-35px, 25px) scale(1.12); }
+    }
+
+    /* Terminal scanline */
+    .terminal::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(74, 238, 125, 0.03) 2px,
+        rgba(74, 238, 125, 0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+    .terminal-scanline {
+      position: absolute;
+      left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, rgba(74, 238, 125, 0.12), transparent);
+      z-index: 2;
+      pointer-events: none;
+      animation: scanline 4s linear infinite;
+    }
+    @keyframes scanline {
+      0% { top: -3px; }
+      100% { top: 100%; }
+    }
+
     .hero-left {
       z-index: 2;
+      position: relative;
     }
 
     .status-badge {
@@ -745,6 +827,7 @@
 
     .hero-right {
       position: relative;
+      z-index: 2;
     }
 
     .terminal {
@@ -755,7 +838,8 @@
       font-family: var(--fm);
       font-size: 13px;
       color: #4AEE7D;
-      overflow: auto;
+      overflow: hidden;
+      position: relative;
       min-height: 350px;
       line-height: 1.6;
       box-shadow: 0 20px 60px rgba(0,0,0,0.3);
@@ -2860,7 +2944,8 @@
       * { animation: none !important; transition: none !important; }
       nav, .mobile-nav, .hamburger, .dark-mode-toggle, .cursor, .cursor-spotlight,
       .scroll-indicator, .critter-gear, .critter-sprite, .xp-hud, .rpg-overlay,
-      .milestone-badge, .particle, .skip-nav, .evo-overlay, footer .footer-links,
+      .milestone-badge, .particle, .skip-nav, .evo-overlay, .hero-particles,
+      .hero-orb, .terminal-scanline, footer .footer-links,
       #personalContent { display: none !important; }
       body { background: white !important; color: #222 !important; font-size: 11pt; }
       section { break-inside: avoid; page-break-inside: avoid; }
@@ -3248,6 +3333,11 @@
 <main>
 <!-- HERO -->
 <section id="hero" class="container">
+  <!-- Ambient background effects -->
+  <canvas class="hero-particles" id="heroParticles"></canvas>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
   <div class="hero-left">
     <div class="status-badge">Currently building UseTrace HFE</div>
     <div class="status-badge" style="margin-top: 0.5rem; background: var(--dark3); color: var(--gold);">Available May 2026 · SoCal</div>
@@ -3266,6 +3356,7 @@
   </div>
   <div class="hero-right">
     <div class="terminal">
+      <div class="terminal-scanline"></div>
       <div class="terminal-line"><span class="terminal-prompt">$</span> <span class="terminal-output">joneil --role medtech-engineer</span></div>
       <div class="terminal-line"></div>
       <div class="terminal-line"><span class="terminal-output">┌─────────────────────────────┐</span></div>
@@ -5037,6 +5128,92 @@
   gsap.from('.hero-ctas .cta-btn', { duration: 0.5, autoAlpha: 0, y: 15, stagger: 0.12, ease: 'power2.out', delay: 3.2 });
   gsap.from('.terminal', { duration: 1, autoAlpha: 0, x: 40, scale: 0.97, ease: 'power2.out', delay: 2.6 });
   gsap.from('.scroll-indicator', { duration: 0.5, autoAlpha: 0, y: -10, ease: 'power2.out', delay: 3.5 });
+
+  // Hero floating particles (ember/dust motes)
+  (function() {
+    const canvas = document.getElementById('heroParticles');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const hero = document.getElementById('hero');
+    let particles = [];
+    const PARTICLE_COUNT = 40;
+    const colors = ['rgba(198,123,46,', 'rgba(212,162,51,', 'rgba(184,74,60,'];
+
+    function resize() {
+      canvas.width = hero.offsetWidth * (window.devicePixelRatio || 1);
+      canvas.height = hero.offsetHeight * (window.devicePixelRatio || 1);
+      canvas.style.width = hero.offsetWidth + 'px';
+      canvas.style.height = hero.offsetHeight + 'px';
+      ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function createParticle() {
+      return {
+        x: Math.random() * hero.offsetWidth,
+        y: hero.offsetHeight + Math.random() * 20,
+        size: Math.random() * 2.5 + 0.5,
+        speedY: -(Math.random() * 0.4 + 0.15),
+        speedX: (Math.random() - 0.5) * 0.3,
+        opacity: Math.random() * 0.5 + 0.1,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        wobbleSpeed: Math.random() * 0.02 + 0.005,
+        wobbleAmp: Math.random() * 30 + 10,
+        phase: Math.random() * Math.PI * 2,
+        life: 0,
+        maxLife: Math.random() * 400 + 200
+      };
+    }
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const p = createParticle();
+      p.y = Math.random() * hero.offsetHeight;
+      p.life = Math.random() * p.maxLife;
+      particles.push(p);
+    }
+
+    let animId;
+    function animate() {
+      ctx.clearRect(0, 0, hero.offsetWidth, hero.offsetHeight);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.life++;
+        p.y += p.speedY;
+        p.x += p.speedX + Math.sin(p.phase + p.life * p.wobbleSpeed) * 0.3;
+
+        // Fade in at start, fade out near end
+        let alpha = p.opacity;
+        if (p.life < 30) alpha *= p.life / 30;
+        if (p.life > p.maxLife - 40) alpha *= (p.maxLife - p.life) / 40;
+
+        if (p.life >= p.maxLife || p.y < -10) {
+          particles[i] = createParticle();
+          continue;
+        }
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.color + alpha + ')';
+        ctx.fill();
+      }
+      animId = requestAnimationFrame(animate);
+    }
+
+    // Start particles after loader finishes
+    setTimeout(() => animate(), 2200);
+
+    // Pause when hero not visible (perf)
+    const heroObs = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        if (!animId) animate();
+      } else {
+        cancelAnimationFrame(animId);
+        animId = null;
+      }
+    }, { threshold: 0 });
+    heroObs.observe(hero);
+  })();
 
   // Credentials marquee entrance
   gsap.from('#credentials', {
