@@ -2,3 +2,9 @@ User-agent: *
 Allow: /
 Disallow: /Joneil_Caoile_Resume.pdf
 Disallow: /index-backup.html
+Disallow: /index-v1-backup.html
+Disallow: /index-v2.html
+Disallow: /index-v3.html
+Disallow: /index-v4.html
+
+Sitemap: https://joneilcaoile.github.io/sitemap.xml

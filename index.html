@@ -8,13 +8,13 @@
   <meta property="og:description" content="Building AI tools for medical device safety. Portfolio, projects, and contact.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://joneilcaoile.github.io">
-  <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.png">
+  <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Joneil Caoile | Biomedical Engineer">
   <meta name="twitter:description" content="Building AI tools for medical device safety. Portfolio, projects, and contact.">
-  <meta name="twitter:image" content="https://joneilcaoile.github.io/og-preview.png">
+  <meta name="twitter:image" content="https://joneilcaoile.github.io/og-preview.jpg">
   <meta name="theme-color" content="#FAFAF8">
   <meta name="color-scheme" content="light dark">
   <link rel="canonical" href="https://joneilcaoile.github.io">
@@ -3176,8 +3176,13 @@
   </div>
 </div>
 
+<!-- SKIP NAV (accessibility) -->
+<a href="#hero" class="skip-nav" style="position:absolute;top:-40px;left:0;background:var(--gold);color:var(--dark1);padding:8px 16px;z-index:9999;font-family:var(--fm);font-size:14px;transition:top 0.2s;">Skip to content</a>
+<style>.skip-nav:focus{top:0;}</style>
+
 <!-- NAV -->
-<nav>
+<header>
+<nav aria-label="Main navigation">
   <div class="nav-brand" id="navBrand">Joneil Caoile</div>
   <ul class="nav-links">
     <li><a href="#statement">Statement</a></li>
@@ -3196,7 +3201,9 @@
     <span></span>
   </button>
 </nav>
+</header>
 
+<main>
 <!-- HERO -->
 <section id="hero" class="container">
   <div class="hero-left">
@@ -3348,7 +3355,11 @@
     <div class="story-headshot">
       <picture>
         <source srcset="headshot.webp" type="image/webp">
-        <img src="headshot-600.png" alt="Joneil Caoile, biomedical engineer" width="600" height="899" loading="lazy">
+        <picture>
+          <source srcset="headshot.webp" type="image/webp">
+          <source srcset="headshot-600.jpg" type="image/jpeg">
+          <img src="headshot-600.jpg" alt="Joneil Caoile, biomedical engineer" width="600" height="899" loading="lazy">
+        </picture>
       </picture>
     </div>
   </div>
@@ -3379,11 +3390,15 @@
         </thead>
         <tbody>
           <tr>
-            <td>Data capture speed</td>
+            <td>Classification time</td>
+            <td>2-4 weeks manual → 3-5 days with UseTrace</td>
+          </tr>
+          <tr>
+            <td>Data capture</td>
             <td>Structured observation capture during live sessions</td>
           </tr>
           <tr>
-            <td>Report generation</td>
+            <td>Report output</td>
             <td>IEC 62366-1 formatted reports in minutes, not weeks</td>
           </tr>
           <tr>
@@ -3391,8 +3406,8 @@
             <td>Maps observations to IEC 62366-1 use error categories</td>
           </tr>
           <tr>
-            <td>Users trained</td>
-            <td>50+ engineers across 4 medtech companies</td>
+            <td>Adoption</td>
+            <td>50+ engineers trained across 4 medtech companies</td>
           </tr>
         </tbody>
       </table>
@@ -3705,7 +3720,7 @@
         <td><strong>Regulatory &amp; Quality</strong></td>
         <td>Design controls, CAPA, computer software assurance</td>
         <td>FDA 510(k), ISO 14971, 21 CFR 11</td>
-        <td>Academic projects, not industry</td>
+        <td>Capstone + coursework, applying to real device workflows</td>
       </tr>
       <tr>
         <td><strong>Design &amp; Human Factors</strong></td>
@@ -3941,6 +3956,7 @@
     </div>
   </div>
 </section>
+</main>
 
 <!-- FOOTER -->
 <footer>
