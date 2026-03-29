@@ -4795,31 +4795,33 @@
   }
 
   // Safety net: interval-based reveal for any GSAP autoAlpha elements stuck hidden.
-  // Runs every 500ms checking if hidden elements have entered the viewport.
-  // Elements already visible (revealed by GSAP normally) get removed from the list.
-  // Elements still off-screen stay in the list and keep getting checked on future ticks.
-  // Only clears when every element has been revealed or is already visible. No hard stop.
+  // Waits 4s for all GSAP from-states to be applied (hero delays go up to 3.5s),
+  // then checks every 600ms. Uses overwrite to kill any GSAP tween fighting the reveal.
+  // Never removes elements from the list until they are confirmed visible AND in viewport.
   const revealSelectors = '.bring-card, .work-visual, .work-card, .work-card-label, .work-evidence, .work-tech, .work-links, .journey-node, .journey-future, .journey-waypoint, .journey-now-badge, .journey-branches, .featured-card, .story-text p, .story-headshot, .statement-quote, .contact-left h2, .contact-left p, #contact .form-group, #contact .form-submit, #toolkit .spec-table thead, #toolkit .spec-table tbody tr, #credentials, .hero-name, .hero-desc, .hero-targets, .hero-roles, .hero-ctas .cta-btn, .terminal, .scroll-indicator, .status-badge, .hero-tag, #statement .spec-table thead, #statement .spec-table tbody tr, #toolkit > .container > p, .featured-problem, .featured-solution, #featured .spec-table, .featured-tech, .featured-link, .featured-card h3:first-child';
   setTimeout(() => {
     let revealList = Array.from(document.querySelectorAll(revealSelectors));
     const revealInterval = setInterval(() => {
       const vh = window.innerHeight;
       revealList = revealList.filter(el => {
-        const cs = getComputedStyle(el);
-        // Already visible (GSAP revealed it normally) — remove from list
-        if (cs.visibility !== 'hidden' && parseFloat(cs.opacity) >= 0.5) return false;
-        // In or near viewport but still hidden — force reveal
         const rect = el.getBoundingClientRect();
-        if (rect.top < vh + 100 && rect.bottom > -100) {
-          gsap.to(el, { duration: 0.5, autoAlpha: 1, y: 0, x: 0, scale: 1, ease: 'power2.out' });
-          return false;
+        const inView = rect.top < vh + 100 && rect.bottom > -100;
+        if (!inView) return true; // off-screen, keep checking
+        const cs = getComputedStyle(el);
+        const hidden = cs.visibility === 'hidden' || parseFloat(cs.opacity) < 0.1;
+        if (hidden) {
+          // Kill any existing GSAP tween on this element, then force reveal
+          gsap.killTweensOf(el);
+          gsap.set(el, { clearProps: 'transform' });
+          gsap.to(el, { duration: 0.5, autoAlpha: 1, y: 0, x: 0, scale: 1, ease: 'power2.out', overwrite: true });
+          return true; // keep in list until confirmed visible on next tick
         }
-        // Still off-screen — keep checking
-        return true;
+        // In viewport and visible — confirmed good, remove from list
+        return false;
       });
       if (revealList.length === 0) clearInterval(revealInterval);
-    }, 500);
-  }, 2000);
+    }, 600);
+  }, 4000);
 
   // Hero entrance — staggered reveal after loader finishes
   gsap.from('.status-badge', { duration: 0.6, autoAlpha: 0, y: 15, stagger: 0.15, ease: 'power2.out', delay: 2.2 });
