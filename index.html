@@ -4794,14 +4794,18 @@
     document.fonts.ready.then(() => ScrollTrigger.refresh(true));
   }
 
-  // Safety net: interval-based reveal for any GSAP autoAlpha elements stuck hidden.
-  // GSAP's from() tweens with ScrollTrigger control visibility through GSAP's internal
-  // render cache. DOM manipulation and even !important CSS cannot override this.
-  // The ONLY way to override: use gsap.set() with autoAlpha, which updates GSAP's cache.
-  // Must also kill the parent ScrollTrigger first so it stops re-applying from-values.
+  // Safety net: ensures ALL animated elements become visible even if ScrollTrigger fails.
+  // GSAP's from() + ScrollTrigger controls visibility through GSAP's internal render cache.
+  // Neither DOM manipulation, inline styles, nor gsap.set() can reliably override this.
+  // Nuclear fix: inject a <style> tag with !important overrides for stuck selectors.
+  // This beats GSAP's render pipeline because CSS !important in <style> has final authority.
   const revealSelectors = '.bring-card, .work-visual, .work-card, .work-card-label, .work-evidence, .work-tech, .work-links, .journey-node, .journey-future, .journey-waypoint, .journey-now-badge, .journey-branches, .featured-card, .story-text p, .story-headshot, .statement-quote, .contact-left h2, .contact-left p, #contact .form-group, #contact .form-submit, #toolkit .spec-table thead, #toolkit .spec-table tbody tr, #credentials, .hero-name, .hero-desc, .hero-targets, .hero-roles, .hero-ctas .cta-btn, .terminal, .scroll-indicator, .status-badge, .hero-tag, #statement .spec-table thead, #statement .spec-table tbody tr, #toolkit > .container > p, .featured-problem, .featured-solution, #featured .spec-table, .featured-tech, .featured-link, .featured-card h3:first-child';
+  const revealStyleTag = document.createElement('style');
+  revealStyleTag.id = 'safety-net-overrides';
+  document.head.appendChild(revealStyleTag);
   setTimeout(() => {
     let revealList = Array.from(document.querySelectorAll(revealSelectors));
+    const revealedSelectors = new Set();
     const revealInterval = setInterval(() => {
       const vh = window.innerHeight;
       revealList = revealList.filter(el => {
@@ -4811,18 +4815,15 @@
         const cs = getComputedStyle(el);
         const hidden = cs.visibility === 'hidden' || parseFloat(cs.opacity) < 0.1;
         if (hidden) {
-          // 1. Kill any ScrollTrigger controlling this element
-          ScrollTrigger.getAll().forEach(st => {
-            if (st.animation && st.animation.targets && st.animation.targets().indexOf(el) !== -1) st.kill();
-          });
-          // 2. Kill any active GSAP tweens
-          gsap.killTweensOf(el);
-          // 3. Use gsap.set with autoAlpha to properly update GSAP's internal render cache
-          gsap.set(el, { autoAlpha: 1, x: 0, y: 0, scale: 1 });
-          return true; // keep in list until confirmed visible on next tick
+          // Build a CSS selector for this element's class and inject !important override
+          const cls = el.className.split(' ')[0];
+          if (cls && !revealedSelectors.has(cls)) {
+            revealedSelectors.add(cls);
+            revealStyleTag.textContent += '.' + cls + ' { visibility: visible !important; opacity: 1 !important; transform: none !important; }\n';
+          }
+          return true; // keep checking until confirmed visible
         }
-        // In viewport and visible — confirmed good, remove from list
-        return false;
+        return false; // visible, remove from list
       });
       if (revealList.length === 0) clearInterval(revealInterval);
     }, 600);
