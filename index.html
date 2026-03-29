@@ -2109,29 +2109,28 @@
       background: rgba(198,123,46,0.06);
     }
 
-    /* Waypoint marker (clinical observation) — DIAMOND SHAPE (decision node) */
+    /* Waypoint marker (clinical observation) — DIAMOND DECISION NODE */
     /* Uses clip-path instead of transform:rotate because GSAP controls transforms */
     .journey-waypoint {
       position: relative;
-      width: 170px;
-      height: 170px;
-      margin: -8px auto;
+      width: 130px;
+      height: 130px;
+      margin: -4px auto;
       z-index: 6;
       clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-      background: linear-gradient(135deg, rgba(212,101,74,0.12) 0%, rgba(198,123,46,0.08) 100%);
+      background: linear-gradient(135deg, rgba(212,101,74,0.15) 0%, rgba(198,123,46,0.10) 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      /* Outline effect via box-shadow won't work with clip-path, use outline trick below */
     }
 
-    /* Diamond outline via a pseudo-element slightly larger */
+    /* Diamond border effect */
     .journey-waypoint::before {
       content: '';
       position: absolute;
       inset: -2px;
       clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-      background: rgba(212,101,74,0.35);
+      background: rgba(212,101,74,0.4);
       z-index: -1;
       animation: waypointPulse 2s ease-in-out infinite;
     }
@@ -2141,23 +2140,36 @@
       position: absolute;
       inset: 0;
       clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-      background: linear-gradient(135deg, rgba(212,101,74,0.12) 0%, rgba(198,123,46,0.08) 100%);
+      background: linear-gradient(135deg, rgba(212,101,74,0.15) 0%, rgba(198,123,46,0.10) 100%);
       z-index: -1;
     }
 
+    /* Only show the number + short label inside the diamond */
     .journey-waypoint-content {
       text-align: center;
-      width: 100%;
-      padding: 0.4rem;
+      width: 70px;
+      padding: 0;
     }
 
-    .journey-waypoint-dot {
-      display: none;
-    }
+    .journey-waypoint-dot { display: none; }
+
+    /* Hide the long description inside diamond — show it below via CSS */
+    .journey-waypoint-sub { display: none; }
 
     @keyframes waypointPulse {
-      0%, 100% { background: rgba(212,101,74,0.3); }
-      50% { background: rgba(212,101,74,0.5); }
+      0%, 100% { background: rgba(212,101,74,0.35); }
+      50% { background: rgba(212,101,74,0.55); }
+    }
+
+    .journey-waypoint-desc {
+      font-family: var(--fb);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: center;
+      font-style: italic;
+      line-height: 1.35;
+      max-width: 280px;
+      margin: 0.2rem auto 0;
     }
 
     .journey-waypoint-hours {
@@ -3703,15 +3715,15 @@
 
     <div class="journey-connector"></div>
 
-    <!-- Clinical Observation Waypoint -->
+    <!-- Clinical Observation Waypoint — Diamond decision node -->
     <div class="journey-waypoint">
       <div class="journey-waypoint-dot"></div>
       <div class="journey-waypoint-content">
         <div class="journey-waypoint-hours">400+</div>
         <div class="journey-waypoint-label">hours in PT clinics</div>
-        <div class="journey-waypoint-sub">Watched devices fail patients. Decided to fix the problem from the engineering side.</div>
       </div>
     </div>
+    <p class="journey-waypoint-desc">Watched devices fail patients. Decided to fix the problem from the engineering side.</p>
 
     <div class="journey-connector"></div>
 
