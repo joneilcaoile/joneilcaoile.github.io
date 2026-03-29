@@ -965,13 +965,20 @@
       background: radial-gradient(circle, rgba(198,123,46,0.18) 0%, transparent 70%);
     }
 
-    /* === CINEMATIC PAGE ENTRANCE — desaturated to full color === */
-    .page-cinema {
-      filter: saturate(0) brightness(0.7);
-      transition: filter 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    /* === CINEMATIC PAGE ENTRANCE — desaturated overlay that fades out === */
+    /* Uses an overlay instead of body filter to avoid breaking position:fixed elements */
+    .cinema-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      background: rgba(15, 13, 10, 0.4);
+      backdrop-filter: saturate(0) brightness(0.7);
+      -webkit-backdrop-filter: saturate(0) brightness(0.7);
+      pointer-events: none;
+      transition: opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
-    .page-cinema.cinema-live {
-      filter: saturate(1) brightness(1);
+    .cinema-overlay.cinema-fade {
+      opacity: 0;
     }
 
     .terminal {
@@ -5324,10 +5331,14 @@
   }, 5500);
 
   // === CINEMATIC PAGE ENTRANCE ===
-  // Page starts desaturated + dark, shifts to full color as boot sequence ends
-  document.body.classList.add('page-cinema');
+  // Overlay starts desaturated + dark, fades out as boot sequence ends
+  const cinemaOverlay = document.createElement('div');
+  cinemaOverlay.className = 'cinema-overlay';
+  document.body.appendChild(cinemaOverlay);
   setTimeout(() => {
-    document.body.classList.add('cinema-live');
+    cinemaOverlay.classList.add('cinema-fade');
+    // Remove from DOM after transition completes
+    setTimeout(() => cinemaOverlay.remove(), 1400);
   }, 2800);
 
   // Hero entrance — staggered reveal after loader finishes (~3.4s)
@@ -5335,11 +5346,29 @@
   gsap.from('.hero-tag', { duration: 0.5, autoAlpha: 0, x: -15, ease: 'power2.out', delay: 3.6 });
 
   // === HEADSHOT CINEMATIC REVEAL ===
-  // Starts scaled up + clipped, reveals with a dramatic zoom-out + circle-wipe
-  gsap.fromTo('#headshotFrame',
-    { autoAlpha: 0, scale: 1.4, filter: 'blur(8px) saturate(0)' },
-    { autoAlpha: 1, scale: 1, filter: 'blur(0px) saturate(1)', duration: 1.4, ease: 'power3.out', delay: 3.2 }
+  // Phase 1: Ring appears first, spinning fast + monochrome
+  const hsRing = document.querySelector('.headshot-ring');
+  if (hsRing) {
+    hsRing.style.animationDuration = '1.5s'; // fast spin during intro
+    hsRing.style.filter = 'saturate(0) brightness(0.6)';
+    hsRing.style.transition = 'filter 1s ease, animation-duration 2s ease';
+  }
+  gsap.fromTo('.headshot-ring',
+    { autoAlpha: 0, scale: 0.5, rotation: -90 },
+    { autoAlpha: 1, scale: 1, rotation: 0, duration: 1.0, ease: 'back.out(1.4)', delay: 2.8 }
   );
+  // Phase 2: Photo fades in with zoom-out + blur clear (after ring lands)
+  gsap.fromTo('#headshotFrame .headshot-inner',
+    { autoAlpha: 0, scale: 1.3, filter: 'blur(6px) saturate(0)' },
+    { autoAlpha: 1, scale: 1, filter: 'blur(0px) saturate(1)', duration: 1.2, ease: 'power3.out', delay: 3.2 }
+  );
+  // Phase 3: Ring shifts from monochrome to full color gradient
+  setTimeout(() => {
+    if (hsRing) {
+      hsRing.style.filter = 'saturate(1) brightness(1)';
+      hsRing.style.animationDuration = '8s'; // slow down to normal
+    }
+  }, 3800);
   // Slow Ken Burns drift on the photo after reveal
   gsap.to('.headshot-img', {
     scale: 1.08,
@@ -5348,6 +5377,20 @@
     repeat: -1,
     yoyo: true,
     delay: 4.6
+  });
+  // === HEADSHOT SCROLL TRANSFORM ===
+  // As user scrolls past hero, portrait shrinks + fades
+  gsap.to('#headshotFrame', {
+    scale: 0.7,
+    opacity: 0,
+    y: -40,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '#hero',
+      start: 'top top',
+      end: 'bottom 50%',
+      scrub: 0.5
+    }
   });
 
   // Hero name — decode/scramble reveal (terminal hacker aesthetic)
