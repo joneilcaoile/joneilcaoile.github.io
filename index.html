@@ -3663,32 +3663,8 @@
   <h2>How I got here — where I'm going</h2>
 
   <div class="journey-tree">
-    <!-- Elementary School -->
-    <div class="journey-node" data-jclass="leopard" data-side="left">
-      <canvas class="journey-sprite" data-jclass="leopard" width="20" height="26"></canvas>
-      <div class="journey-node-school">Lomita Elementary</div>
-      <div class="journey-node-mascot">Leopards</div>
-      <div class="journey-node-year">2004–2010</div>
-    </div>
-
-    <!-- Middle School -->
-    <div class="journey-node" data-jclass="knight" data-side="right">
-      <canvas class="journey-sprite" data-jclass="knight" width="20" height="26"></canvas>
-      <div class="journey-node-school">Stephen White</div>
-      <div class="journey-node-mascot">Knights</div>
-      <div class="journey-node-year">2010–2013</div>
-    </div>
-
-    <!-- High School -->
-    <div class="journey-node" data-jclass="gaucho" data-side="left">
-      <canvas class="journey-sprite" data-jclass="gaucho" width="20" height="26"></canvas>
-      <div class="journey-node-school">Narbonne High</div>
-      <div class="journey-node-mascot">Gauchos</div>
-      <div class="journey-node-year">2013–2017</div>
-    </div>
-
     <!-- Undergrad — bigger node, turning point -->
-    <div class="journey-node journey-node-major" data-jclass="prospector" data-side="right">
+    <div class="journey-node journey-node-major" data-jclass="prospector" data-side="left">
       <canvas class="journey-sprite" data-jclass="prospector" width="20" height="26"></canvas>
       <div class="journey-node-school">Cal State Long Beach</div>
       <div class="journey-node-mascot">49ers</div>
@@ -3707,7 +3683,7 @@
     </div>
 
     <!-- Graduate School — biggest node, current -->
-    <div class="journey-node journey-node-major journey-node-current" data-jclass="duck" data-side="left">
+    <div class="journey-node journey-node-major journey-node-current" data-jclass="duck" data-side="right">
       <canvas class="journey-sprite" data-jclass="duck" width="20" height="26"></canvas>
       <div class="journey-node-school">Stevens Institute</div>
       <div class="journey-node-mascot">Ducks</div>
@@ -5740,82 +5716,6 @@
       }
     }
 
-    /* ── MASCOT SPRITES (School chain) ───── */
-
-    /* --- LEOPARD: Lomita Elementary — golden leopard with spots --- */
-    function drawLeopard(c,y,hov,f){
-      shadow(c);
-      var bob=hov?Math.round(Math.sin(f*0.18)*-2):0;
-      var LEO='#E8B830', LEO2='#C89820', SPOT='#9A7A20';
-      /* head */
-      px(c,7,1+y+bob,6,2,LEO); px(c,6,3+y+bob,8,4,LEO);
-      /* ears */
-      px(c,5,2+y+bob,2,2,LEO2); px(c,13,2+y+bob,2,2,LEO2);
-      px(c,5,2+y+bob,1,1,'#2C2620'); px(c,14,2+y+bob,1,1,'#2C2620');
-      /* spots on head */
-      px(c,7,3+y+bob,1,1,SPOT); px(c,11,3+y+bob,1,1,SPOT);
-      /* body */
-      px(c,5,7+y+bob,10,8,LEO); px(c,6,7+y+bob,8,2,LEO2);
-      /* spots on body */
-      px(c,6,8+y+bob,2,2,SPOT); px(c,10,9+y+bob,2,2,SPOT); px(c,7,12+y+bob,2,2,SPOT);
-      /* tail */
-      var tx=hov?12+Math.round(Math.sin(f*0.2)*1.5):11;
-      px(c,tx,11+y+bob,2,5,LEO2);
-      px(c,tx,11+y+bob,1,1,SPOT);
-      /* legs */
-      px(c,6,15+y+bob,2,4,LEO); px(c,10,15+y+bob,2,4,LEO);
-      px(c,6,19+y+bob,2,2,'#5A4020'); px(c,10,19+y+bob,2,2,'#5A4020');
-    }
-
-    /* --- KNIGHT: Stephen White Middle — chibi knight with helmet --- */
-    function drawKnight(c,y,hov,f){
-      shadow(c);
-      var j=hov?-1:0;
-      /* helmet (silver) */
-      px(c,7,0+y+j,6,2,MT); px(c,6,2+y+j,8,2,MT);
-      /* helmet visor (down) */
-      px(c,7,3+y+j,6,1,MT2); px(c,8,4+y+j,4,1,'#2C2620');
-      /* tabard (blue) */
-      px(c,5,5+y+j,10,7,BL); px(c,6,5+y+j,8,2,BL2);
-      /* shield shape left side */
-      px(c,3,7+y+j,2,4,MT2);
-      px(c,4,6+y+j,1,6,'#C8C8C8');
-      /* legs under tabard */
-      px(c,7,12+y+j,6,5,MT);
-      /* feet */
-      px(c,6,17+y+j,2,2,'#2C2620'); px(c,10,17+y+j,2,2,'#2C2620');
-      if(hov){
-        c.fillStyle=GO; c.fillRect(9,y+j-2,1,2); c.fillRect(9,y+j+1,1,1);
-      }
-    }
-
-    /* --- GAUCHO: Narbonne High — gaucho with hat and maroon vest --- */
-    function drawGaucho(c,y,hov,f){
-      shadow(c);
-      var bob=hov?Math.round(Math.sin(f*0.15)*-1.5):0;
-      var HAT='#4A2020', VEST=RD, SHIRT=WH;
-      /* wide-brimmed hat */
-      px(c,3,0+y+bob,14,1,HAT); px(c,2,1+y+bob,16,1,HAT);
-      /* hat peak */
-      px(c,7,1+y+bob,6,1,'#3A1010');
-      /* head */
-      px(c,8,2+y+bob,4,3,'#C4A080');
-      /* shirt (white) */
-      px(c,6,5+y+bob,8,3,SHIRT); px(c,7,5+y+bob,6,1,WH2);
-      /* vest (maroon/red) */
-      px(c,5,8+y+bob,10,6,VEST); px(c,6,8+y+bob,8,2,RD2);
-      /* vest buttons */
-      px(c,10,9+y+bob,1,1,GO); px(c,10,11+y+bob,1,1,GO);
-      /* legs in brown/red pants */
-      px(c,7,14+y+bob,6,5,BR); px(c,7,14+y+bob,6,2,BR2);
-      /* boots */
-      px(c,6,19+y+bob,2,2,'#2C2620'); px(c,10,19+y+bob,2,2,'#2C2620');
-      if(hov && Math.sin(f*0.12)>0){
-        /* hat tip */
-        px(c,2,0+y+bob,2,1,'#3A1010');
-      }
-    }
-
     /* --- PROSPECTOR: Cal State Long Beach — 49er with pickaxe --- */
     function drawProspector(c,y,hov,f){
       shadow(c);
@@ -5871,8 +5771,8 @@
       }
     }
 
-    var CHARS={novice:drawNovice,acolyte:drawAcolyte,sage:drawSage,blacksmith:drawBlacksmith,creator:drawCreator,kid:drawKid,kinesio:drawKinesio,clinical:drawClinical,lifegrad:drawLifeGrad,leopard:drawLeopard,knight:drawKnight,gaucho:drawGaucho,prospector:drawProspector,duck:drawDuck};
-    var NAMES={novice:'Novice',acolyte:'Acolyte',sage:'Sage',blacksmith:'Blacksmith',creator:'Creator',kid:'SoCal Kid',kinesio:'Kinesiology',clinical:'Clinical Obs.',lifegrad:'M.S. BME',leopard:'Leopard',knight:'Knight',gaucho:'Gaucho',prospector:'49er',duck:'Duck'};
+    var CHARS={novice:drawNovice,acolyte:drawAcolyte,sage:drawSage,blacksmith:drawBlacksmith,creator:drawCreator,kid:drawKid,kinesio:drawKinesio,clinical:drawClinical,lifegrad:drawLifeGrad,prospector:drawProspector,duck:drawDuck};
+    var NAMES={novice:'Novice',acolyte:'Acolyte',sage:'Sage',blacksmith:'Blacksmith',creator:'Creator',kid:'SoCal Kid',kinesio:'Kinesiology',clinical:'Clinical Obs.',lifegrad:'M.S. BME',prospector:'49er',duck:'Duck'};
 
     /* --- JOURNEY SPRITES --- */
     document.querySelectorAll('.journey-sprite[data-jclass]').forEach(function(canvas){
