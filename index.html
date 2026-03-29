@@ -4963,7 +4963,26 @@
   // Hero entrance — staggered reveal after loader finishes
   gsap.from('.status-badge', { duration: 0.6, autoAlpha: 0, y: 15, stagger: 0.15, ease: 'power2.out', delay: 2.2 });
   gsap.from('.hero-tag', { duration: 0.5, autoAlpha: 0, x: -15, ease: 'power2.out', delay: 2.4 });
-  gsap.from('.hero-name', { duration: 0.8, autoAlpha: 0, y: 20, ease: 'power3.out', delay: 2.5 });
+  // Hero name — character-by-character reveal
+  (function() {
+    const nameEl = document.querySelector('.hero-name');
+    if (nameEl) {
+      const text = nameEl.textContent;
+      nameEl.innerHTML = text.split('').map(ch =>
+        ch === ' ' ? ' ' : '<span class="char" style="display:inline-block;opacity:0">' + ch + '</span>'
+      ).join('');
+      gsap.to(nameEl.querySelectorAll('.char'), {
+        opacity: 1, y: 0, duration: 0.4, stagger: 0.04,
+        ease: 'power3.out', delay: 2.5
+      });
+      gsap.from(nameEl.querySelectorAll('.char'), {
+        y: 30, duration: 0.5, stagger: 0.04,
+        ease: 'power3.out', delay: 2.5
+      });
+      // Ensure parent visible
+      gsap.set(nameEl, { visibility: 'visible', opacity: 1 });
+    }
+  })();
   gsap.from('.hero-desc', { duration: 0.7, autoAlpha: 0, y: 15, ease: 'power2.out', delay: 2.8 });
   gsap.from('.hero-targets', { duration: 0.5, autoAlpha: 0, y: 10, ease: 'power2.out', delay: 3.0 });
   gsap.from('.hero-roles', { duration: 0.5, autoAlpha: 0, ease: 'power2.out', delay: 3.1 });
@@ -5253,6 +5272,104 @@
     y: 15,
     ease: 'power2.out',
     delay: 0.7
+  });
+
+  // ═══ ENHANCED ANIMATIONS ═══
+
+  // Work card hover — subtle scale + shadow lift (desktop only)
+  if (window.matchMedia('(pointer: fine)').matches) {
+    document.querySelectorAll('.work-item').forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        gsap.to(item, { scale: 1.015, boxShadow: '0 12px 40px rgba(0,0,0,0.1)', duration: 0.35, ease: 'power2.out', overwrite: 'auto' });
+      });
+      item.addEventListener('mouseleave', () => {
+        gsap.to(item, { scale: 1, boxShadow: '0 0 0 rgba(0,0,0,0)', duration: 0.35, ease: 'power2.out', overwrite: 'auto' });
+      });
+    });
+  }
+
+  // Journey SVG branch paths — line-draw animation on scroll
+  document.querySelectorAll('.journey-branch-svg path').forEach(path => {
+    const length = path.getTotalLength ? path.getTotalLength() : 200;
+    gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+    gsap.to(path, {
+      strokeDashoffset: 0,
+      duration: 1.2,
+      ease: 'power2.inOut',
+      scrollTrigger: { trigger: path.closest('svg') || path, start: 'top 85%', once: true }
+    });
+  });
+
+  // Journey connector lines — grow downward on scroll
+  document.querySelectorAll('.journey-connector').forEach(conn => {
+    gsap.from(conn, {
+      scaleY: 0,
+      transformOrigin: 'top center',
+      duration: 0.5,
+      ease: 'power2.out',
+      scrollTrigger: { trigger: conn, start: 'top 90%', once: true }
+    });
+  });
+
+  // Section labels — letter stagger (subtle typewriter feel)
+  document.querySelectorAll('.section-label').forEach(label => {
+    const text = label.textContent;
+    label.innerHTML = text.split('').map(ch =>
+      ch === ' ' ? ' ' : '<span style="display:inline-block;opacity:0">' + ch + '</span>'
+    ).join('');
+    gsap.to(label.querySelectorAll('span'), {
+      opacity: 1, duration: 0.05, stagger: 0.03,
+      ease: 'none',
+      scrollTrigger: { trigger: label, start: 'top 88%', once: true }
+    });
+    // Safety: ensure label visible after animation
+    gsap.set(label, { visibility: 'visible', opacity: 1 });
+  });
+
+  // Bring cards — 3D tilt on hover (desktop only)
+  if (window.matchMedia('(pointer: fine)').matches) {
+    document.querySelectorAll('.bring-card').forEach(card => {
+      card.style.transformStyle = 'preserve-3d';
+      card.style.transition = 'transform 0.2s ease';
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        gsap.to(card, {
+          rotateY: x * 8, rotateX: -y * 8,
+          transformPerspective: 800,
+          duration: 0.3, ease: 'power2.out', overwrite: 'auto'
+        });
+      });
+      card.addEventListener('mouseleave', () => {
+        gsap.to(card, { rotateY: 0, rotateX: 0, duration: 0.4, ease: 'elastic.out(1, 0.5)', overwrite: 'auto' });
+      });
+    });
+  }
+
+  // Featured card spec table rows — count-up reveal for numbers
+  document.querySelectorAll('#featured .spec-table td').forEach(td => {
+    const text = td.textContent.trim();
+    const match = text.match(/^(\d+)/);
+    if (match) {
+      const target = parseInt(match[1]);
+      const suffix = text.replace(/^\d+/, '');
+      td.setAttribute('data-count-target', target);
+      td.setAttribute('data-count-suffix', suffix);
+    }
+  });
+
+  document.querySelectorAll('#featured .spec-table td[data-count-target]').forEach(td => {
+    const target = parseInt(td.getAttribute('data-count-target'));
+    const suffix = td.getAttribute('data-count-suffix');
+    const obj = { val: 0 };
+    gsap.to(obj, {
+      val: target,
+      duration: 1.5,
+      ease: 'power1.out',
+      scrollTrigger: { trigger: td, start: 'top 85%', once: true },
+      onUpdate: () => { td.textContent = Math.round(obj.val) + suffix; }
+    });
   });
 
   /* CONTACT FORM — async submit with feedback */
