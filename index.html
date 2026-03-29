@@ -4794,49 +4794,30 @@
     document.fonts.ready.then(() => ScrollTrigger.refresh(true));
   }
 
-  // Safety net: scroll-based reveal for any GSAP autoAlpha elements that get stuck hidden.
-  // Runs on every scroll (rAF-throttled) and checks if hidden elements are in the viewport.
-  // Also runs once at 3s for above-the-fold elements that don't require scrolling.
+  // Safety net: interval-based reveal for any GSAP autoAlpha elements stuck hidden.
+  // Checks every 500ms if hidden elements have entered the viewport, reveals them smoothly.
+  // Clears itself once all elements are visible. Starts after 2s to let GSAP set from-states.
   const revealSelectors = '.bring-card, .work-visual, .work-card, .work-card-label, .work-evidence, .work-tech, .work-links, .journey-node, .journey-future, .journey-waypoint, .journey-now-badge, .journey-branches, .featured-card, .story-text p, .story-headshot, .statement-quote, .contact-left h2, .contact-left p, #contact .form-group, #contact .form-submit, #toolkit .spec-table thead, #toolkit .spec-table tbody tr, #credentials, .hero-name, .hero-desc, .hero-targets, .hero-roles, .hero-ctas .cta-btn, .terminal, .scroll-indicator, .status-badge, .hero-tag, #statement .spec-table thead, #statement .spec-table tbody tr, #toolkit > .container > p, .featured-problem, .featured-solution, #featured .spec-table, .featured-tech, .featured-link, .featured-card h3:first-child';
-  let revealList = Array.from(document.querySelectorAll(revealSelectors));
-  let revealRAF = false;
-
-  function checkRevealElements() {
-    revealRAF = false;
-    const vh = window.innerHeight;
-    revealList = revealList.filter(el => {
-      const rect = el.getBoundingClientRect();
-      if (rect.top < vh + 80 && rect.bottom > -80) {
-        const cs = getComputedStyle(el);
-        if (cs.visibility === 'hidden' || parseFloat(cs.opacity) < 0.1) {
-          gsap.to(el, { duration: 0.5, autoAlpha: 1, y: 0, x: 0, scale: 1, ease: 'power2.out' });
-          return false; // revealed — remove from list
-        }
-      }
-      return true; // keep watching
-    });
-    if (revealList.length === 0) {
-      window.removeEventListener('scroll', onRevealScroll);
-    }
-  }
-
-  function onRevealScroll() {
-    if (!revealRAF) { revealRAF = true; requestAnimationFrame(checkRevealElements); }
-  }
-
-  window.addEventListener('scroll', onRevealScroll, { passive: true });
-  // Delayed initial check for above-fold elements (after GSAP from() states are set)
-  setTimeout(checkRevealElements, 3000);
-  // Hard fallback: force-reveal anything still hidden at 8s
   setTimeout(() => {
-    document.querySelectorAll(revealSelectors).forEach(el => {
-      const cs = getComputedStyle(el);
-      if (cs.visibility === 'hidden' || parseFloat(cs.opacity) < 0.1) {
-        el.style.visibility = 'visible';
-        el.style.opacity = '1';
-      }
-    });
-  }, 8000);
+    let revealList = Array.from(document.querySelectorAll(revealSelectors));
+    const revealInterval = setInterval(() => {
+      const vh = window.innerHeight;
+      revealList = revealList.filter(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < vh + 80 && rect.bottom > -80) {
+          const cs = getComputedStyle(el);
+          if (cs.visibility === 'hidden' || parseFloat(cs.opacity) < 0.1) {
+            gsap.to(el, { duration: 0.5, autoAlpha: 1, y: 0, x: 0, scale: 1, ease: 'power2.out' });
+            return false;
+          }
+        }
+        return true;
+      });
+      if (revealList.length === 0) clearInterval(revealInterval);
+    }, 500);
+    // Hard stop after 30s regardless
+    setTimeout(() => clearInterval(revealInterval), 30000);
+  }, 2000);
 
   // Hero entrance — staggered reveal after loader finishes
   gsap.from('.status-badge', { duration: 0.6, autoAlpha: 0, y: 15, stagger: 0.15, ease: 'power2.out', delay: 2.2 });
