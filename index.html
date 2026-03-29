@@ -4860,16 +4860,22 @@
   setTimeout(() => {
     let revealList = Array.from(document.querySelectorAll(revealSelectors));
     const revealedSelectors = new Set();
+    let passCount = 0;
     const revealInterval = setInterval(() => {
+      passCount++;
+      // First 5 passes (3s): only fix elements in/near viewport
+      // After that: fix ALL remaining hidden elements regardless of position
+      const aggressive = passCount > 5;
       const vh = window.innerHeight;
       revealList = revealList.filter(el => {
-        const rect = el.getBoundingClientRect();
-        const inView = rect.top < vh + 100 && rect.bottom > -100;
-        if (!inView) return true; // off-screen, keep checking
+        if (!aggressive) {
+          const rect = el.getBoundingClientRect();
+          const inView = rect.top < vh + 200 && rect.bottom > -200;
+          if (!inView) return true; // off-screen, keep for later
+        }
         const cs = getComputedStyle(el);
         const hidden = cs.visibility === 'hidden' || parseFloat(cs.opacity) < 0.1;
         if (hidden) {
-          // Build a CSS selector and inject !important override
           const sel = buildSelector(el);
           if (sel && !revealedSelectors.has(sel)) {
             revealedSelectors.add(sel);
