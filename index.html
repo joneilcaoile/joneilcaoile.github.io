@@ -4760,16 +4760,33 @@
     document.fonts.ready.then(() => ScrollTrigger.refresh(true));
   }
 
-  // Safety net: if any autoAlpha elements are still hidden after 6s, reveal them
+  // Safety net #1: IntersectionObserver reveals any still-hidden animated elements on scroll
+  // This replaces the old 6s timeout which was unreliable
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const cs = getComputedStyle(el);
+        if (cs.visibility === 'hidden' || parseFloat(cs.opacity) < 0.1) {
+          gsap.to(el, { duration: 0.5, autoAlpha: 1, y: 0, x: 0, scale: 1, ease: 'power2.out' });
+        }
+        revealObserver.unobserve(el);
+      }
+    });
+  }, { rootMargin: '0px 0px 50px 0px', threshold: 0.05 });
+
+  document.querySelectorAll('.bring-card, .work-visual, .work-card, .work-card-label, .work-evidence, .work-tech, .work-links, .journey-node, .journey-future, .journey-waypoint, .journey-now-badge, .journey-branches, .featured-card, .story-text p, .story-headshot, .statement-quote, .contact-left h2, .contact-left p, #contact .form-group, #contact .form-submit, #toolkit .spec-table thead, #toolkit .spec-table tbody tr, #credentials, .hero-name, .hero-desc, .hero-targets, .hero-roles, .hero-ctas .cta-btn, .terminal, .scroll-indicator, .status-badge, .hero-tag, #statement .spec-table thead, #statement .spec-table tbody tr, #toolkit > .container > p, .featured-problem, .featured-solution, #featured .spec-table, .featured-tech, .featured-link, .featured-card h3:first-child').forEach(el => revealObserver.observe(el));
+
+  // Safety net #2: hard fallback at 8s for hero elements (above the fold, no scroll needed)
   setTimeout(() => {
-    document.querySelectorAll('.bring-card, .work-visual, .work-card, .work-card-label, .work-evidence, .work-tech, .work-links, .journey-node, .journey-future, .journey-waypoint, .journey-now-badge, .journey-branches, .featured-card, .story-text p, .story-headshot, .statement-quote, .contact-left h2, .contact-left p, #contact .form-group, #contact .form-submit, #toolkit .spec-table thead, #toolkit .spec-table tbody tr, #credentials, .hero-name, .hero-desc, .hero-targets, .hero-roles, .hero-ctas .cta-btn, .terminal, .scroll-indicator, .status-badge, .hero-tag, #statement .spec-table thead, #statement .spec-table tbody tr, #toolkit > .container > p, .featured-problem, .featured-solution, #featured .spec-table, .featured-tech, .featured-link, .featured-card h3:first-child').forEach(el => {
+    document.querySelectorAll('.hero-name, .hero-desc, .hero-targets, .hero-roles, .hero-ctas .cta-btn, .terminal, .scroll-indicator, .status-badge, .hero-tag').forEach(el => {
       const cs = getComputedStyle(el);
       if (cs.visibility === 'hidden' || parseFloat(cs.opacity) < 0.1) {
         el.style.visibility = 'visible';
         el.style.opacity = '1';
       }
     });
-  }, 6000);
+  }, 8000);
 
   // Hero entrance — staggered reveal after loader finishes
   gsap.from('.status-badge', { duration: 0.6, autoAlpha: 0, y: 15, stagger: 0.15, ease: 'power2.out', delay: 2.2 });
@@ -5190,6 +5207,24 @@
     99: 'Completionist'
   };
   const triggeredMilestones = new Set();
+  let milestoneQueue = [];
+  let milestoneAnimating = false;
+
+  function showNextMilestone() {
+    if (milestoneQueue.length === 0) { milestoneAnimating = false; return; }
+    milestoneAnimating = true;
+    const text = milestoneQueue.shift();
+    milestoneText.textContent = text;
+    gsap.timeline()
+      .set(milestoneBadge, { display: 'block', opacity: 0, scale: 0.5 })
+      .to(milestoneBadge, { duration: 0.5, opacity: 1, scale: 1, ease: 'back.out(1.7)' })
+      .to(milestoneBadge, { duration: 0.4, opacity: 0, scale: 0.8, ease: 'power2.in', delay: 1.5,
+        onComplete: () => {
+          gsap.set(milestoneBadge, { display: 'none' });
+          showNextMilestone();
+        }
+      });
+  }
 
   window.addEventListener('scroll', () => {
     const scrollTop = window.scrollY;
@@ -5199,12 +5234,8 @@
     Object.entries(milestones).forEach(([threshold, text]) => {
       if (percent >= parseInt(threshold) && !triggeredMilestones.has(threshold)) {
         triggeredMilestones.add(threshold);
-        milestoneText.textContent = text;
-        gsap.timeline()
-          .set(milestoneBadge, { display: 'block' })
-          .to(milestoneBadge, { duration: 0.5, opacity: 1, scale: 1, ease: 'back.out(1.7)' })
-          .to(milestoneBadge, { duration: 0.4, opacity: 0, scale: 0.8, ease: 'power2.in', delay: 1.5 })
-          .set(milestoneBadge, { display: 'none' });
+        milestoneQueue.push(text);
+        if (!milestoneAnimating) showNextMilestone();
         updateXP(25);
         showXPHud();
       }
