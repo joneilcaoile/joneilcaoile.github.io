@@ -2110,29 +2110,45 @@
     }
 
     /* Waypoint marker (clinical observation) — DIAMOND SHAPE (decision node) */
+    /* Uses clip-path instead of transform:rotate because GSAP controls transforms */
     .journey-waypoint {
       position: relative;
-      width: 140px;
-      height: 140px;
-      margin: 0 auto;
+      width: 170px;
+      height: 170px;
+      margin: -8px auto;
       z-index: 6;
-      /* Rotate entire container to make a diamond */
-      transform: rotate(45deg);
-      background: rgba(212,101,74,0.08);
-      border: 2px solid rgba(212,101,74,0.35);
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+      background: linear-gradient(135deg, rgba(212,101,74,0.12) 0%, rgba(198,123,46,0.08) 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      /* Subtle drop shadow for the diamond */
-      box-shadow: 0 4px 12px rgba(212,101,74,0.1);
+      /* Outline effect via box-shadow won't work with clip-path, use outline trick below */
     }
 
-    /* Counter-rotate the inner content */
+    /* Diamond outline via a pseudo-element slightly larger */
+    .journey-waypoint::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+      background: rgba(212,101,74,0.35);
+      z-index: -1;
+      animation: waypointPulse 2s ease-in-out infinite;
+    }
+
+    .journey-waypoint::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+      background: linear-gradient(135deg, rgba(212,101,74,0.12) 0%, rgba(198,123,46,0.08) 100%);
+      z-index: -1;
+    }
+
     .journey-waypoint-content {
-      transform: rotate(-45deg);
       text-align: center;
       width: 100%;
-      padding: 0.6rem;
+      padding: 0.4rem;
     }
 
     .journey-waypoint-dot {
@@ -2140,12 +2156,8 @@
     }
 
     @keyframes waypointPulse {
-      0%, 100% { box-shadow: 0 4px 12px rgba(212,101,74,0.1), 0 0 8px rgba(212,101,74,0.2); }
-      50% { box-shadow: 0 4px 16px rgba(212,101,74,0.2), 0 0 16px rgba(212,101,74,0.35); }
-    }
-
-    .journey-waypoint {
-      animation: waypointPulse 2s ease-in-out infinite;
+      0%, 100% { background: rgba(212,101,74,0.3); }
+      50% { background: rgba(212,101,74,0.5); }
     }
 
     .journey-waypoint-hours {
