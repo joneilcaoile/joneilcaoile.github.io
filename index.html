@@ -394,68 +394,150 @@
       font-size: 20px;
     }
 
-    /* LOADER */
+    /* LOADER — Grand Boot Sequence */
     .loader {
       position: fixed;
       inset: 0;
-      background: var(--bg);
+      background: #0A0908;
       z-index: 9999;
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
-      gap: 3rem;
-    }
-
-    .loader.hidden {
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.6s ease;
-    }
-
-    .loader-counter {
-      font-family: var(--fm);
-      font-size: 48px;
-      font-weight: 700;
-      color: var(--amber);
-      min-width: 100px;
-      text-align: center;
-    }
-
-    .loader-name {
-      font-family: var(--fh);
-      font-size: clamp(1.5rem, 4vw, 2.5rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--text);
       overflow: hidden;
-      height: 1.2em;
     }
 
-    .loader-name span {
-      display: inline-block;
-    }
-
-    .loader-sweep {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--amber), var(--coral), var(--gold), transparent);
-      width: 0%;
-    }
-
-    .loader-pulse {
+    .loader-grid {
       position: absolute;
       inset: 0;
-      background: var(--amber-dim);
-      animation: pulse 1.5s ease-in-out infinite;
+      background-image:
+        linear-gradient(rgba(198,123,46,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(198,123,46,0.06) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0;
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 0; }
-      50% { opacity: 1; }
+    .loader-circuits {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .loader-circuits line {
+      stroke: var(--amber);
+      stroke-width: 1.5;
+      opacity: 0.4;
+    }
+    .loader-circuits circle {
+      fill: var(--amber);
+      opacity: 0.6;
+    }
+
+    .loader-center {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .loader-hex {
+      width: 100px;
+      height: 100px;
+      position: relative;
+    }
+    .loader-hex svg {
+      width: 100%;
+      height: 100%;
+    }
+    .loader-hex-path {
+      fill: none;
+      stroke: var(--amber);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .loader-hex-fill {
+      fill: rgba(198,123,46,0.08);
+      stroke: none;
+    }
+    .loader-hex-inner {
+      fill: none;
+      stroke: var(--gold);
+      stroke-width: 1;
+      opacity: 0.5;
+    }
+
+    .loader-boot {
+      font-family: var(--fm);
+      font-size: 12px;
+      color: rgba(198,123,46,0.7);
+      text-align: left;
+      line-height: 1.8;
+      min-width: 340px;
+      height: 120px;
+      overflow: hidden;
+    }
+    .loader-boot-line {
+      opacity: 0;
+      transform: translateX(-5px);
+    }
+    .loader-boot-line .ok {
+      color: #4AEE7D;
+      font-weight: 600;
+    }
+    .loader-boot-line .fail {
+      color: var(--coral);
+    }
+
+    .loader-name-grand {
+      font-family: var(--fh);
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--cream);
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    .loader-bar {
+      width: 240px;
+      height: 2px;
+      background: rgba(198,123,46,0.15);
+      border-radius: 1px;
+      overflow: hidden;
+      opacity: 0;
+    }
+    .loader-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--amber), var(--gold));
+      border-radius: 1px;
+    }
+
+    .loader-subtitle {
+      font-family: var(--fm);
+      font-size: 11px;
+      color: var(--amber);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0;
+    }
+
+    /* Subtle ring pulse behind hex */
+    .loader-ring {
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      border: 1px solid rgba(198,123,46,0.1);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .loader-ring:nth-child(2) {
+      width: 220px;
+      height: 220px;
+      border-color: rgba(198,123,46,0.05);
     }
 
     /* NAV */
@@ -2945,7 +3027,7 @@
       nav, .mobile-nav, .hamburger, .dark-mode-toggle, .cursor, .cursor-spotlight,
       .scroll-indicator, .critter-gear, .critter-sprite, .xp-hud, .rpg-overlay,
       .milestone-badge, .particle, .skip-nav, .evo-overlay, .hero-particles,
-      .hero-orb, .terminal-scanline, footer .footer-links,
+      .hero-orb, .terminal-scanline, .loader, footer .footer-links,
       #personalContent { display: none !important; }
       body { background: white !important; color: #222 !important; font-size: 11pt; }
       section { break-inside: avoid; page-break-inside: avoid; }
@@ -3191,16 +3273,37 @@
 <body>
 <a href="#statement" class="skip-link">Skip to content</a>
 
-<!-- LOADER -->
+<!-- LOADER — Grand Boot Sequence -->
 <div class="loader" id="loader">
-  <div style="position: relative; width: 100%; height: 120px; display: flex; align-items: center; justify-content: center;">
-    <div class="loader-pulse"></div>
-    <div class="loader-counter" id="loaderCounter">0</div>
+  <div class="loader-grid" id="loaderGrid"></div>
+  <svg class="loader-circuits" id="loaderCircuits" preserveAspectRatio="none"></svg>
+  <div class="loader-center">
+    <div style="position:relative;display:flex;align-items:center;justify-content:center;">
+      <div class="loader-ring"></div>
+      <div class="loader-ring"></div>
+      <div class="loader-hex" id="loaderHex">
+        <svg viewBox="0 0 100 100">
+          <polygon class="loader-hex-fill" points="50,5 93,27.5 93,72.5 50,95 7,72.5 7,27.5" opacity="0"/>
+          <polygon class="loader-hex-path" id="hexOuter" points="50,5 93,27.5 93,72.5 50,95 7,72.5 7,27.5"/>
+          <polygon class="loader-hex-inner" id="hexInner" points="50,20 78,35 78,65 50,80 22,65 22,35" opacity="0"/>
+          <text x="50" y="54" text-anchor="middle" fill="var(--amber)" font-family="var(--fm)" font-size="11" opacity="0" id="hexLabel">JC</text>
+        </svg>
+      </div>
+    </div>
+    <div class="loader-name-grand" id="loaderName">Joneil Caoile</div>
+    <div class="loader-subtitle" id="loaderSubtitle">Biomedical Engineer</div>
+    <div class="loader-bar" id="loaderBar">
+      <div class="loader-bar-fill" id="loaderBarFill"></div>
+    </div>
+    <div class="loader-boot" id="loaderBoot">
+      <div class="loader-boot-line">[sys] Initializing engineer profile...</div>
+      <div class="loader-boot-line">[edu] M.S. Biomedical Engineering — Stevens <span class="ok">LOADED</span></div>
+      <div class="loader-boot-line">[exp] 400+ clinical observation hours <span class="ok">VERIFIED</span></div>
+      <div class="loader-boot-line">[hfe] IEC 62366-1 human factors framework <span class="ok">ACTIVE</span></div>
+      <div class="loader-boot-line">[dev] UseTrace HFE + PhotoCull AI <span class="ok">DEPLOYED</span></div>
+      <div class="loader-boot-line">[loc] SoCal medtech — validation / R&amp;D / HF <span class="ok">READY</span></div>
+    </div>
   </div>
-  <div class="loader-name">
-    <span>Joneil Caoile</span>
-  </div>
-  <div class="loader-sweep" id="loaderSweep"></div>
 </div>
 
 <!-- SCROLL PROGRESS -->
@@ -3359,9 +3462,9 @@
       <div class="terminal-scanline"></div>
       <div class="terminal-line"><span class="terminal-prompt">$</span> <span class="terminal-output">joneil --role medtech-engineer</span></div>
       <div class="terminal-line"></div>
-      <div class="terminal-line"><span class="terminal-output">┌─────────────────────────────┐</span></div>
-      <div class="terminal-line"><span class="terminal-output">│ QUALIFICATION SUMMARY       │</span></div>
-      <div class="terminal-line"><span class="terminal-output">└─────────────────────────────┘</span></div>
+      <div class="terminal-line"><span class="terminal-output">┌──────────────────────────────┐</span></div>
+      <div class="terminal-line"><span class="terminal-output">│  QUALIFICATION SUMMARY       │</span></div>
+      <div class="terminal-line"><span class="terminal-output">└──────────────────────────────┘</span></div>
       <div class="terminal-line"></div>
       <div class="terminal-line"><span class="terminal-output">EDUCATION</span></div>
       <div class="terminal-line"><span class="terminal-output">↳ M.S. Biomedical Engineering</span></div>
@@ -4163,7 +4266,7 @@
   }
 
   function updateDarkModeToggle() {
-    darkModeToggle.textContent = isDarkActive() ? '☀️' : '🌙';
+    darkModeToggle.textContent = isDarkActive() ? '🌙' : '☀️';
   }
 
   darkModeToggle.addEventListener('click', () => {
@@ -4180,50 +4283,107 @@
   }
   updateDarkModeToggle();
 
-  /* LOADER */
+  /* LOADER — Grand Boot Sequence */
   function animateLoader() {
     const loader = document.getElementById('loader');
-    const counter = document.getElementById('loaderCounter');
-    const nameSpan = document.querySelector('.loader-name span');
-    const sweep = document.getElementById('loaderSweep');
+    const grid = document.getElementById('loaderGrid');
+    const circuitsSvg = document.getElementById('loaderCircuits');
+    const hexOuter = document.getElementById('hexOuter');
+    const hexInner = document.getElementById('hexInner');
+    const hexLabel = document.getElementById('hexLabel');
+    const bootLines = document.querySelectorAll('.loader-boot-line');
+    const nameEl = document.getElementById('loaderName');
+    const subtitle = document.getElementById('loaderSubtitle');
+    const bar = document.getElementById('loaderBar');
+    const barFill = document.getElementById('loaderBarFill');
+    const rings = document.querySelectorAll('.loader-ring');
 
-    let count = 0;
-    const countInterval = setInterval(() => {
-      count += Math.random() * 35;
-      if (count > 100) count = 100;
-      counter.textContent = Math.floor(count);
+    // Generate random circuit traces
+    const w = window.innerWidth, h = window.innerHeight;
+    const cx = w / 2, cy = h / 2;
+    let circuitHTML = '';
+    for (let i = 0; i < 12; i++) {
+      const angle = (Math.PI * 2 / 12) * i + (Math.random() - 0.5) * 0.3;
+      const r1 = 100 + Math.random() * 40;
+      const r2 = 200 + Math.random() * Math.min(w, h) * 0.35;
+      const x1 = cx + Math.cos(angle) * r1;
+      const y1 = cy + Math.sin(angle) * r1;
+      const x2 = cx + Math.cos(angle) * r2;
+      const y2 = cy + Math.sin(angle) * r2;
+      const len = Math.sqrt((x2-x1)**2 + (y2-y1)**2);
+      circuitHTML += '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke-dasharray="'+len+'" stroke-dashoffset="'+len+'"/>';
+      circuitHTML += '<circle cx="'+x2+'" cy="'+y2+'" r="2.5" opacity="0"/>';
+    }
+    circuitsSvg.innerHTML = circuitHTML;
+    circuitsSvg.setAttribute('viewBox', '0 0 '+w+' '+h);
 
-      if (count >= 100) {
-        clearInterval(countInterval);
-        counter.textContent = '100';
+    const circuitLines = circuitsSvg.querySelectorAll('line');
+    const circuitDots = circuitsSvg.querySelectorAll('circle');
 
-        gsap.timeline()
-          .to(nameSpan, { duration: 0.5, autoAlpha: 1, y: 0, ease: 'power2.out' }, 0)
-          .to(sweep, { duration: 0.8, width: '100%', ease: 'power2.inOut' }, 0.2)
-          .to(loader, {
-            duration: 0.6,
-            autoAlpha: 0,
-            pointerEvents: 'none',
-            delay: 0.6,
-            ease: 'power2.inOut',
-            onComplete: () => {
-              // Recalculate all ScrollTrigger positions after loader clears
-              ScrollTrigger.refresh(true);
-            }
-          });
+    // Hex draw animation — get total perimeter length
+    const hexPerimeter = hexOuter.getTotalLength ? hexOuter.getTotalLength() : 360;
+    gsap.set(hexOuter, { strokeDasharray: hexPerimeter, strokeDashoffset: hexPerimeter });
 
-        // Safety fallback: force-hide loader if GSAP stalls (background tab throttling)
-        setTimeout(() => {
-          if (loader.style.visibility !== 'hidden') {
-            loader.style.opacity = '0';
-            loader.style.visibility = 'hidden';
-            loader.style.pointerEvents = 'none';
-          }
-          // Also refresh triggers in case GSAP stalled
+    // Master timeline
+    const tl = gsap.timeline();
+
+    // Phase 1: Grid fades in + hex draws itself (0s - 0.8s)
+    tl.to(grid, { opacity: 1, duration: 0.6, ease: 'power1.in' }, 0)
+      .to(hexOuter, { strokeDashoffset: 0, duration: 0.8, ease: 'power2.inOut' }, 0.1)
+      .to(rings, { opacity: 1, scale: 1.1, duration: 0.6, stagger: 0.15, ease: 'power1.out' }, 0.2);
+
+    // Phase 2: Circuit traces draw outward (0.3s - 1.0s)
+    circuitLines.forEach((line, i) => {
+      tl.to(line, { strokeDashoffset: 0, duration: 0.5 + Math.random() * 0.3, ease: 'power2.out' }, 0.3 + i * 0.04);
+    });
+    circuitDots.forEach((dot, i) => {
+      tl.to(dot, { opacity: 0.6, duration: 0.15 }, 0.7 + i * 0.04);
+    });
+
+    // Phase 3: Hex inner + label appear (0.6s)
+    tl.to(hexInner, { opacity: 0.5, duration: 0.3, ease: 'power1.in' }, 0.6)
+      .to(hexLabel, { opacity: 1, duration: 0.3 }, 0.7)
+      .to('.loader-hex-fill', { opacity: 1, duration: 0.4 }, 0.6);
+
+    // Phase 4: Name + subtitle + bar (0.8s - 1.4s)
+    tl.to(nameEl, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 0.8)
+      .to(subtitle, { opacity: 1, duration: 0.4, ease: 'power1.in' }, 1.0)
+      .to(bar, { opacity: 1, duration: 0.2 }, 1.0)
+      .to(barFill, { width: '100%', duration: 1.4, ease: 'power1.inOut' }, 1.0);
+
+    // Phase 5: Boot lines type in staggered (1.0s - 2.2s)
+    bootLines.forEach((line, i) => {
+      tl.to(line, { opacity: 1, x: 0, duration: 0.25, ease: 'power2.out' }, 1.0 + i * 0.2);
+    });
+
+    // Phase 6: Hold for a beat, then exit (2.6s - 3.2s)
+    // Flash the whole thing briefly
+    tl.to('.loader-center', { scale: 1.02, duration: 0.15, ease: 'power1.in' }, 2.5)
+      .to('.loader-center', { scale: 1, duration: 0.1 }, 2.65)
+      // Fade out circuits + grid
+      .to([circuitsSvg, grid, rings[0], rings[1]], { opacity: 0, duration: 0.3 }, 2.7)
+      // Center content rises up and fades
+      .to('.loader-center', { y: -30, opacity: 0, duration: 0.4, ease: 'power2.in' }, 2.8)
+      // Loader itself fades to reveal page
+      .to(loader, {
+        autoAlpha: 0,
+        duration: 0.4,
+        ease: 'power2.inOut',
+        onComplete: () => {
+          loader.style.pointerEvents = 'none';
           ScrollTrigger.refresh(true);
-        }, 4000);
+        }
+      }, 3.0);
+
+    // Safety fallback: force-hide loader if GSAP stalls (background tab throttling)
+    setTimeout(() => {
+      if (loader.style.visibility !== 'hidden' && parseFloat(getComputedStyle(loader).opacity) > 0.1) {
+        loader.style.opacity = '0';
+        loader.style.visibility = 'hidden';
+        loader.style.pointerEvents = 'none';
+        ScrollTrigger.refresh(true);
       }
-    }, 100);
+    }, 5000);
   }
 
   animateLoader();
@@ -5075,11 +5235,11 @@
       });
       if (revealList.length === 0) clearInterval(revealInterval);
     }, 600);
-  }, 4000);
+  }, 5500);
 
-  // Hero entrance — staggered reveal after loader finishes
-  gsap.from('.status-badge', { duration: 0.6, autoAlpha: 0, y: 15, stagger: 0.15, ease: 'power2.out', delay: 2.2 });
-  gsap.from('.hero-tag', { duration: 0.5, autoAlpha: 0, x: -15, ease: 'power2.out', delay: 2.4 });
+  // Hero entrance — staggered reveal after loader finishes (~3.4s)
+  gsap.from('.status-badge', { duration: 0.6, autoAlpha: 0, y: 15, stagger: 0.15, ease: 'power2.out', delay: 3.4 });
+  gsap.from('.hero-tag', { duration: 0.5, autoAlpha: 0, x: -15, ease: 'power2.out', delay: 3.6 });
   // Hero name — decode/scramble reveal (terminal hacker aesthetic)
   (function() {
     const nameEl = document.querySelector('.hero-name');
@@ -5120,14 +5280,14 @@
         idx++;
         scrambleFrame();
       }, 80);
-    }, 2500);
+    }, 3700);
   })();
-  gsap.from('.hero-desc', { duration: 0.7, autoAlpha: 0, y: 15, ease: 'power2.out', delay: 2.8 });
-  gsap.from('.hero-targets', { duration: 0.5, autoAlpha: 0, y: 10, ease: 'power2.out', delay: 3.0 });
-  gsap.from('.hero-roles', { duration: 0.5, autoAlpha: 0, ease: 'power2.out', delay: 3.1 });
-  gsap.from('.hero-ctas .cta-btn', { duration: 0.5, autoAlpha: 0, y: 15, stagger: 0.12, ease: 'power2.out', delay: 3.2 });
-  gsap.from('.terminal', { duration: 1, autoAlpha: 0, x: 40, scale: 0.97, ease: 'power2.out', delay: 2.6 });
-  gsap.from('.scroll-indicator', { duration: 0.5, autoAlpha: 0, y: -10, ease: 'power2.out', delay: 3.5 });
+  gsap.from('.hero-desc', { duration: 0.7, autoAlpha: 0, y: 15, ease: 'power2.out', delay: 4.0 });
+  gsap.from('.hero-targets', { duration: 0.5, autoAlpha: 0, y: 10, ease: 'power2.out', delay: 4.2 });
+  gsap.from('.hero-roles', { duration: 0.5, autoAlpha: 0, ease: 'power2.out', delay: 4.3 });
+  gsap.from('.hero-ctas .cta-btn', { duration: 0.5, autoAlpha: 0, y: 15, stagger: 0.12, ease: 'power2.out', delay: 4.4 });
+  gsap.from('.terminal', { duration: 1, autoAlpha: 0, x: 40, scale: 0.97, ease: 'power2.out', delay: 3.8 });
+  gsap.from('.scroll-indicator', { duration: 0.5, autoAlpha: 0, y: -10, ease: 'power2.out', delay: 4.7 });
 
   // Hero floating particles (ember/dust motes)
   (function() {
@@ -5201,7 +5361,7 @@
     }
 
     // Start particles after loader finishes
-    setTimeout(() => animate(), 2200);
+    setTimeout(() => animate(), 3400);
 
     // Pause when hero not visible (perf)
     const heroObs = new IntersectionObserver(entries => {
