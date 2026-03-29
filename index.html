@@ -4795,28 +4795,30 @@
   }
 
   // Safety net: interval-based reveal for any GSAP autoAlpha elements stuck hidden.
-  // Checks every 500ms if hidden elements have entered the viewport, reveals them smoothly.
-  // Clears itself once all elements are visible. Starts after 2s to let GSAP set from-states.
+  // Runs every 500ms checking if hidden elements have entered the viewport.
+  // Elements already visible (revealed by GSAP normally) get removed from the list.
+  // Elements still off-screen stay in the list and keep getting checked on future ticks.
+  // Only clears when every element has been revealed or is already visible. No hard stop.
   const revealSelectors = '.bring-card, .work-visual, .work-card, .work-card-label, .work-evidence, .work-tech, .work-links, .journey-node, .journey-future, .journey-waypoint, .journey-now-badge, .journey-branches, .featured-card, .story-text p, .story-headshot, .statement-quote, .contact-left h2, .contact-left p, #contact .form-group, #contact .form-submit, #toolkit .spec-table thead, #toolkit .spec-table tbody tr, #credentials, .hero-name, .hero-desc, .hero-targets, .hero-roles, .hero-ctas .cta-btn, .terminal, .scroll-indicator, .status-badge, .hero-tag, #statement .spec-table thead, #statement .spec-table tbody tr, #toolkit > .container > p, .featured-problem, .featured-solution, #featured .spec-table, .featured-tech, .featured-link, .featured-card h3:first-child';
   setTimeout(() => {
     let revealList = Array.from(document.querySelectorAll(revealSelectors));
     const revealInterval = setInterval(() => {
       const vh = window.innerHeight;
       revealList = revealList.filter(el => {
+        const cs = getComputedStyle(el);
+        // Already visible (GSAP revealed it normally) — remove from list
+        if (cs.visibility !== 'hidden' && parseFloat(cs.opacity) >= 0.5) return false;
+        // In or near viewport but still hidden — force reveal
         const rect = el.getBoundingClientRect();
-        if (rect.top < vh + 80 && rect.bottom > -80) {
-          const cs = getComputedStyle(el);
-          if (cs.visibility === 'hidden' || parseFloat(cs.opacity) < 0.1) {
-            gsap.to(el, { duration: 0.5, autoAlpha: 1, y: 0, x: 0, scale: 1, ease: 'power2.out' });
-            return false;
-          }
+        if (rect.top < vh + 100 && rect.bottom > -100) {
+          gsap.to(el, { duration: 0.5, autoAlpha: 1, y: 0, x: 0, scale: 1, ease: 'power2.out' });
+          return false;
         }
+        // Still off-screen — keep checking
         return true;
       });
       if (revealList.length === 0) clearInterval(revealInterval);
     }, 500);
-    // Hard stop after 30s regardless
-    setTimeout(() => clearInterval(revealInterval), 30000);
   }, 2000);
 
   // Hero entrance — staggered reveal after loader finishes
