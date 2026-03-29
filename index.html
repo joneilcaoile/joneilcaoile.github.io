@@ -4795,9 +4795,10 @@
   }
 
   // Safety net: interval-based reveal for any GSAP autoAlpha elements stuck hidden.
-  // Waits 4s for all GSAP from-states to be applied (hero delays go up to 3.5s),
-  // then checks every 600ms. Uses overwrite to kill any GSAP tween fighting the reveal.
-  // Never removes elements from the list until they are confirmed visible AND in viewport.
+  // GSAP's from() tweens with ScrollTrigger control visibility through GSAP's internal
+  // render cache. DOM manipulation and even !important CSS cannot override this.
+  // The ONLY way to override: use gsap.set() with autoAlpha, which updates GSAP's cache.
+  // Must also kill the parent ScrollTrigger first so it stops re-applying from-values.
   const revealSelectors = '.bring-card, .work-visual, .work-card, .work-card-label, .work-evidence, .work-tech, .work-links, .journey-node, .journey-future, .journey-waypoint, .journey-now-badge, .journey-branches, .featured-card, .story-text p, .story-headshot, .statement-quote, .contact-left h2, .contact-left p, #contact .form-group, #contact .form-submit, #toolkit .spec-table thead, #toolkit .spec-table tbody tr, #credentials, .hero-name, .hero-desc, .hero-targets, .hero-roles, .hero-ctas .cta-btn, .terminal, .scroll-indicator, .status-badge, .hero-tag, #statement .spec-table thead, #statement .spec-table tbody tr, #toolkit > .container > p, .featured-problem, .featured-solution, #featured .spec-table, .featured-tech, .featured-link, .featured-card h3:first-child';
   setTimeout(() => {
     let revealList = Array.from(document.querySelectorAll(revealSelectors));
@@ -4810,10 +4811,14 @@
         const cs = getComputedStyle(el);
         const hidden = cs.visibility === 'hidden' || parseFloat(cs.opacity) < 0.1;
         if (hidden) {
-          // Kill any existing GSAP tween on this element, then force reveal
+          // 1. Kill any ScrollTrigger controlling this element
+          ScrollTrigger.getAll().forEach(st => {
+            if (st.animation && st.animation.targets && st.animation.targets().indexOf(el) !== -1) st.kill();
+          });
+          // 2. Kill any active GSAP tweens
           gsap.killTweensOf(el);
-          gsap.set(el, { clearProps: 'transform' });
-          gsap.to(el, { duration: 0.5, autoAlpha: 1, y: 0, x: 0, scale: 1, ease: 'power2.out', overwrite: true });
+          // 3. Use gsap.set with autoAlpha to properly update GSAP's internal render cache
+          gsap.set(el, { autoAlpha: 1, x: 0, y: 0, scale: 1 });
           return true; // keep in list until confirmed visible on next tick
         }
         // In viewport and visible — confirmed good, remove from list
