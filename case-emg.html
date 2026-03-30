@@ -1,358 +1,1035 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Parkinson's Tremor-Suppression EMG Cuff — Case Study | Joneil Caoile</title>
-<meta name="description" content="Wearable EMG cuff for real-time detection of Parkinsonian tremor. Built Python simulation to model 4–8 Hz tremor and validate suppression approach before hardware.">
-<meta property="og:title" content="EMG Tremor-Suppression Cuff — Case Study | Joneil Caoile">
-<meta property="og:description" content="Wearable EMG cuff concept for detecting Parkinsonian tremor and suppressing it via pneumatic actuation. Full Python simulation built from scratch.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://joneilcaoile.github.io/case-emg.html">
-<meta property="og:image" content="https://joneilcaoile.github.io/og-preview.jpg">
-<link rel="canonical" href="https://joneilcaoile.github.io/case-emg.html">
-<meta name="theme-color" content="#0a0a0f">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%230a0a0f'/><text x='50' y='68' font-family='system-ui' font-size='52' font-weight='700' fill='%2314b8a6' text-anchor='middle'>JC</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#0a0a0f;--bg2:#111118;--bg3:#1a1a24;
-  --teal:#14b8a6;--teal-dim:rgba(20,184,166,0.08);--teal-glow:rgba(20,184,166,0.25);
-  --blue:#3b82f6;--purple:#8b5cf6;--amber:#f59e0b;--red:#ef4444;
-  --w:#f0f0f0;--w70:rgba(240,240,240,0.7);--w40:rgba(240,240,240,0.4);--w15:rgba(240,240,240,0.15);--w06:rgba(240,240,240,0.06);
-  --fh:'Space Grotesk',system-ui,sans-serif;
-  --fb:'Inter',system-ui,sans-serif;
-  --fm:'JetBrains Mono',monospace;
-  --ease:cubic-bezier(.16,1,.3,1);
-}
-html{scroll-behavior:smooth}
-body{font-family:var(--fb);color:var(--w70);background:var(--bg);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-::selection{background:var(--teal-glow);color:var(--w)}
-a{color:var(--teal);text-decoration:none}
-*:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Parkinson's Tremor-Suppression EMG Cuff | Case Study | Joneil Caoile</title>
+  <meta name="description" content="Wearable EMG cuff for real-time detection of Parkinsonian tremor. Built Python simulation to model 4–8 Hz tremor and validate suppression approach before hardware.">
+  <meta property="og:title" content="Parkinson's Tremor-Suppression EMG Cuff | Case Study | Joneil Caoile">
+  <meta property="og:description" content="Wearable system for detecting Parkinsonian tremor and suppressing it via pneumatic actuation. Full Python simulation built from scratch.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://joneilcaoile.github.io/case-emg.html">
+  <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.jpg">
+  <link rel="canonical" href="https://joneilcaoile.github.io/case-emg.html">
+  <meta name="theme-color" content="#FAFAF8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; frame-src 'none'; object-src 'none'; base-uri 'self';">
 
-.w{max-width:820px;margin:0 auto;padding:0 24px}
-.w-wide{max-width:1000px;margin:0 auto;padding:0 24px}
+  <!-- Fonts (same as main portfolio) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-/* ── Back nav ─────────────────────────────────── */
-.back-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;background:rgba(10,10,15,.9);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--w06)}
-.back-nav-in{display:flex;justify-content:space-between;align-items:center}
-.back-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--fh);font-size:.8125rem;font-weight:500;color:var(--w40);transition:color .2s}
-.back-link:hover{color:var(--w)}
-.back-link svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 
-/* ── Hero ─────────────────────────────────────── */
-.cs-hero{padding:140px 0 80px;position:relative;overflow:hidden}
-.cs-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(to top,var(--bg),transparent);pointer-events:none}
-.cs-badge{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border-radius:16px;font-family:var(--fm);font-size:.6875rem;letter-spacing:.04em;background:var(--teal-dim);border:1px solid rgba(20,184,166,.15);color:var(--teal);margin-bottom:24px}
-.cs-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse-dot 2s ease-in-out infinite}
-@keyframes pulse-dot{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(20,184,166,.4)}50%{opacity:.7;box-shadow:0 0 0 6px rgba(20,184,166,0)}}
-.cs-hero h1{font-family:var(--fh);font-size:clamp(2.5rem,5vw,4rem);font-weight:700;letter-spacing:-.04em;color:var(--w);line-height:1.05;margin-bottom:20px}
-.cs-hero h1 .grad{background:linear-gradient(135deg,var(--teal),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.cs-hero-sub{font-size:1.125rem;color:var(--w40);max-width:580px;line-height:1.8;margin-bottom:32px}
-.cs-meta{display:flex;flex-wrap:wrap;gap:24px}
-.cs-meta-item{display:flex;flex-direction:column;gap:2px}
-.cs-meta-label{font-family:var(--fm);font-size:.625rem;letter-spacing:.1em;text-transform:uppercase;color:var(--w40)}
-.cs-meta-val{font-family:var(--fh);font-size:.9375rem;color:var(--w);font-weight:500}
+  <style>
+    /* ===== DESIGN SYSTEM (matches main portfolio) ===== */
+    :root {
+      --bg: #FAFAF8;
+      --bg-warm: #F5F3EE;
+      --bg-dark: #0F0E0C;
+      --bg-dark-2: #1A1815;
+      --text: #1A1815;
+      --text-muted: #6B6560;
+      --text-light: #9A9490;
 
-/* ── Sections ─────────────────────────────────── */
-.cs-sec{padding:64px 0}
-.cs-sec+.cs-sec{border-top:1px solid var(--w06)}
-.cs-sec h2{font-family:var(--fh);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;letter-spacing:-.03em;color:var(--w);margin-bottom:24px;line-height:1.2}
-.cs-sec h3{font-family:var(--fh);font-size:1.125rem;font-weight:600;color:var(--w);margin-bottom:8px;margin-top:32px;letter-spacing:-.01em}
-.cs-sec p{font-size:1rem;line-height:1.8;margin-bottom:16px}
-.cs-sec p strong{color:var(--w);font-weight:500}
+      --amber: #D97706;
+      --amber-light: #FEF3C7;
+      --amber-mid: #F59E0B;
+      --coral: #E05C4A;
+      --gold: #C89B3C;
 
-/* ── Problem/Solution split ───────────────────── */
-.cs-split{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin:32px 0}
-.cs-split-box{padding:28px;border-radius:12px;border:1px solid var(--w06)}
-.cs-split-box.problem{background:rgba(239,68,68,.04);border-color:rgba(239,68,68,.12)}
-.cs-split-box.solution{background:var(--teal-dim);border-color:rgba(20,184,166,.12)}
-.cs-split-box h3{margin-top:0;font-size:1rem;color:var(--w)}
-.cs-split-box p{font-size:.9375rem;margin-bottom:12px}
-.cs-split-box p:last-child{margin-bottom:0}
-@media(max-width:768px){.cs-split{grid-template-columns:1fr}}
+      --accent: var(--amber);
+      --accent-glow: rgba(217, 119, 6, 0.15);
 
-/* ── Architecture diagram ─────────────────────── */
-.arch{background:var(--bg2);border:1px solid var(--w06);border-radius:12px;padding:40px;margin:32px 0;overflow-x:auto}
-.arch-title{font-family:var(--fh);font-size:.8125rem;font-weight:600;color:var(--w40);letter-spacing:.06em;text-transform:uppercase;margin-bottom:24px;text-align:center}
-.arch-flow{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
-.arch-node{padding:14px 20px;border-radius:10px;font-family:var(--fm);font-size:.75rem;text-align:center;min-width:120px;border:1px solid var(--w06);transition:all .3s var(--ease)}
-.arch-node:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
-.arch-node.input{background:rgba(59,130,246,.08);border-color:rgba(59,130,246,.2);color:var(--blue)}
-.arch-node.process{background:var(--teal-dim);border-color:rgba(20,184,166,.2);color:var(--teal)}
-.arch-node.output{background:rgba(139,92,246,.08);border-color:rgba(139,92,246,.2);color:var(--purple)}
-.arch-node.ai{background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.2);color:var(--amber)}
-.arch-arrow{color:var(--w15);font-size:1.25rem;flex-shrink:0}
-.arch-sub{font-size:.625rem;color:var(--w40);display:block;margin-top:4px;font-family:var(--fb)}
+      --font-head: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
 
-/* ── Standards callout ────────────────────────── */
-.standards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:32px 0}
-.std-card{padding:20px;border-radius:10px;background:var(--bg2);border:1px solid var(--w06);transition:border-color .3s}
-.std-card:hover{border-color:var(--teal-glow)}
-.std-card h4{font-family:var(--fm);font-size:.75rem;color:var(--teal);margin-bottom:6px;letter-spacing:.02em}
-.std-card p{font-size:.8125rem;line-height:1.6;margin:0}
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 48px rgba(0,0,0,0.12);
 
-/* ── Metrics row ──────────────────────────────── */
-.cs-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin:32px 0}
-.cs-met{text-align:center;padding:28px 16px;border-radius:12px;background:var(--bg2);border:1px solid var(--w06);transition:all .3s var(--ease)}
-.cs-met:hover{border-color:var(--teal-glow);transform:translateY(-3px)}
-.cs-met-val{font-family:var(--fh);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--w);letter-spacing:-.02em}
-.cs-met-val .unit{font-size:.75em;color:var(--teal);font-weight:400}
-.cs-met-label{font-size:.75rem;color:var(--w40);margin-top:4px}
-@media(max-width:768px){.cs-metrics{grid-template-columns:repeat(2,1fr)}}
+      --progress-h: 3px;
+    }
 
-/* ── Tech stack ───────────────────────────────── */
-.cs-tags{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0}
-.cs-tag{padding:6px 14px;border-radius:6px;font-family:var(--fm);font-size:.75rem;background:var(--teal-dim);color:var(--teal);border:1px solid rgba(20,184,166,.1);transition:all .2s}
-.cs-tag:hover{transform:translateY(-1px);border-color:rgba(20,184,166,.3)}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ── CTA ──────────────────────────────────────── */
-.cs-cta{padding:80px 0;text-align:center}
-.cs-cta h2{margin-bottom:16px}
-.cs-cta p{font-size:1rem;color:var(--w40);margin-bottom:32px;max-width:480px;margin-left:auto;margin-right:auto}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:8px;font-family:var(--fh);font-size:.8125rem;font-weight:600;border:1.5px solid transparent;transition:all .25s var(--ease);text-decoration:none}
-.btn-glow{background:var(--teal);color:var(--bg);border-color:var(--teal)}
-.btn-glow:hover{box-shadow:0 0 30px var(--teal-glow);transform:translateY(-2px)}
-.btn-line{background:transparent;color:var(--w);border-color:var(--w15)}
-.btn-line:hover{border-color:var(--w);transform:translateY(-2px)}
-.cs-cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    html { scroll-behavior: smooth; }
 
-/* ── Footer ───────────────────────────────────── */
-.foot{padding:24px 0;border-top:1px solid var(--w06);text-align:center}
-.foot p{font-size:.75rem;color:var(--w15)}
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
 
-/* ── Scroll progress ──────────────────────────── */
-.prog{position:fixed;top:0;left:0;height:2px;z-index:200;background:linear-gradient(90deg,var(--teal),var(--blue));transform-origin:left;transform:scaleX(0)}
-</style>
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+
+    /* ===== SCROLL PROGRESS ===== */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: var(--progress-h);
+      width: 0%;
+      background: linear-gradient(90deg, var(--amber), var(--coral));
+      z-index: 200;
+      transition: width 0.1s linear;
+    }
+
+    /* ===== BACK NAV ===== */
+    .back-nav {
+      position: fixed;
+      top: var(--progress-h);
+      left: 0; right: 0;
+      z-index: 100;
+      background: rgba(250,250,248,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding: 0 clamp(1.5rem, 5vw, 3rem);
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .back-link {
+      font-family: var(--font-head);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover { color: var(--amber); }
+    .back-link:focus-visible { outline: 2px solid var(--amber); outline-offset: 4px; border-radius: 4px; }
+
+    .back-nav-right {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-light);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .github-link {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.75rem;
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: var(--radius-sm);
+      transition: all 0.2s;
+      letter-spacing: 0.05em;
+    }
+    .github-link:hover {
+      color: var(--amber);
+      border-color: var(--amber);
+      background: var(--amber-light);
+    }
+
+    /* ===== SKIP NAV ===== */
+    .skip-nav {
+      position: absolute;
+      top: -100px;
+      left: 1rem;
+      background: var(--amber);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      font-weight: 600;
+      z-index: 1000;
+      transition: top 0.2s;
+    }
+    .skip-nav:focus { top: 1rem; }
+
+    /* ===== MAIN LAYOUT ===== */
+    main {
+      padding-top: calc(60px + var(--progress-h));
+    }
+
+    .section {
+      padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 3rem);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section-wide {
+      padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 3rem);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* Reveal class — initial state set by GSAP JS, not CSS */
+    .r { }
+
+    /* ===== HERO ===== */
+    .hero {
+      padding: clamp(4rem, 10vw, 8rem) clamp(1.5rem, 5vw, 3rem) clamp(3rem, 6vw, 5rem);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: var(--amber-light);
+      color: var(--amber);
+      border: 1px solid rgba(217,119,6,0.25);
+      border-radius: 100px;
+      padding: 0.3rem 0.85rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--amber);
+    }
+
+    .hero-title {
+      font-family: var(--font-head);
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-title .accent {
+      background: linear-gradient(135deg, var(--amber), var(--coral));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--text-muted);
+      max-width: 640px;
+      margin-bottom: 2.5rem;
+      line-height: 1.75;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.5rem;
+      font-size: 0.82rem;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+    }
+
+    .meta-item .meta-label {
+      color: var(--text-light);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .meta-divider {
+      width: 1px;
+      height: 1.2em;
+      background: rgba(0,0,0,0.12);
+      align-self: center;
+    }
+
+    /* ===== SECTION HEADINGS ===== */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: var(--font-head);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+
+    .prose {
+      color: var(--text-muted);
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .prose strong { color: var(--text); font-weight: 600; }
+
+    /* ===== PROBLEM / SOLUTION CARDS ===== */
+    .ps-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 600px) { .ps-grid { grid-template-columns: 1fr; } }
+
+    .ps-card {
+      padding: 1.75rem;
+      border-radius: var(--radius);
+      border: 1px solid rgba(0,0,0,0.08);
+      background: var(--bg-warm);
+    }
+
+    .ps-card.problem { border-left: 3px solid var(--coral); }
+    .ps-card.solution { border-left: 3px solid var(--amber); }
+
+    .ps-card-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .ps-card.problem .ps-card-label { color: var(--coral); }
+    .ps-card.solution .ps-card-label { color: var(--amber); }
+
+    .ps-card-title {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      color: var(--text);
+    }
+
+    .ps-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ===== DARK SECTIONS ===== */
+    .dark-section {
+      background: var(--bg-dark);
+      color: #F5F3EE;
+    }
+
+    .dark-section .section-label { color: var(--amber-mid); }
+    .dark-section .section-title { color: #F5F3EE; }
+    .dark-section .prose { color: rgba(245,243,238,0.7); }
+    .dark-section .prose strong { color: #F5F3EE; }
+
+    /* ===== ARCHITECTURE DIAGRAM ===== */
+    .arch {
+      background: var(--bg-dark-2);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 2rem 1.5rem;
+      margin: 2rem 0;
+      overflow-x: auto;
+    }
+
+    .arch-title {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(245,243,238,0.4);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .arch-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .arch-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.85rem 1.1rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-head);
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-align: center;
+      min-width: 90px;
+      border: 1px solid transparent;
+    }
+
+    .arch-node.input { background: rgba(59,130,246,0.15); border-color: rgba(59,130,246,0.3); color: #93C5FD; }
+    .arch-node.process { background: rgba(20,184,166,0.15); border-color: rgba(20,184,166,0.3); color: #5EEAD4; }
+    .arch-node.ai { background: rgba(217,119,6,0.2); border-color: rgba(217,119,6,0.4); color: #FCD34D; }
+    .arch-node.output { background: rgba(168,85,247,0.15); border-color: rgba(168,85,247,0.3); color: #C4B5FD; }
+
+    .arch-sub {
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      font-weight: 400;
+      opacity: 0.7;
+      line-height: 1.3;
+    }
+
+    .arch-arrow {
+      color: rgba(245,243,238,0.25);
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    /* ===== STANDARDS GRID ===== */
+    .standards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .std-card {
+      background: var(--bg-dark-2);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.25rem;
+      text-align: center;
+    }
+
+    .std-card-title {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--amber-mid);
+      margin-bottom: 0.75rem;
+    }
+
+    .std-card p {
+      font-size: 0.8rem;
+      color: rgba(245,243,238,0.65);
+      line-height: 1.6;
+    }
+
+    /* ===== METRICS GRID ===== */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .metric-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .metric-grid { grid-template-columns: 1fr; }
+    }
+
+    .metric-card {
+      background: var(--bg-dark-2);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 1.75rem 1.25rem;
+      text-align: center;
+    }
+
+    .metric-value {
+      font-family: var(--font-head);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700;
+      color: var(--amber-mid);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .metric-label {
+      font-size: 0.8rem;
+      color: rgba(245,243,238,0.55);
+      letter-spacing: 0.02em;
+    }
+
+    /* ===== TECH STACK ===== */
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .tech-tag {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 100px;
+      background: rgba(217,119,6,0.12);
+      color: var(--amber-mid);
+      border: 1px solid rgba(217,119,6,0.25);
+    }
+
+    .tech-note {
+      margin-top: 1.5rem;
+    }
+
+    .tech-note-title {
+      font-family: var(--font-head);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #F5F3EE;
+      margin-bottom: 0.5rem;
+    }
+
+    .tech-note p {
+      font-size: 0.9rem;
+      color: rgba(245,243,238,0.65);
+      line-height: 1.75;
+    }
+
+    /* ===== LEARNINGS SECTION ===== */
+    .learnings-section {
+      background: var(--bg-dark);
+    }
+
+    .learning-item {
+      padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .learning-item:last-child { border-bottom: none; }
+
+    .learning-num {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--amber-mid);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+
+    .learning-title {
+      font-family: var(--font-head);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #F5F3EE;
+      margin-bottom: 0.6rem;
+    }
+
+    .learning-body {
+      font-size: 0.92rem;
+      color: rgba(245,243,238,0.65);
+      line-height: 1.75;
+    }
+
+    /* ===== CASE STUDY NAV ===== */
+    .case-nav {
+      border-top: 1px solid rgba(0,0,0,0.08);
+      padding: 2.5rem clamp(1.5rem, 5vw, 3rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .case-nav-link {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .case-nav-link:hover { opacity: 0.7; }
+
+    .case-nav-dir {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+
+    .case-nav-name {
+      font-family: var(--font-head);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .case-nav-link.right { text-align: right; }
+
+    /* ===== CTA ===== */
+    .cta-section {
+      background: var(--bg-warm);
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .cta-inner {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+      padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 3rem);
+    }
+
+    .cta-title {
+      font-family: var(--font-head);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .cta-body {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      line-height: 1.75;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-head);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--amber);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--amber-mid); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(217,119,6,0.3); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1.5px solid rgba(0,0,0,0.15);
+    }
+    .btn-outline:hover { border-color: var(--amber); color: var(--amber); transform: translateY(-1px); }
+
+    .btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 4px; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--bg-dark);
+      color: rgba(245,243,238,0.4);
+      text-align: center;
+      padding: 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+    }
+
+    footer a { color: var(--amber-mid); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
 </head>
 <body>
-<div class="prog" id="prog"></div>
 
-<!-- Back nav -->
-<nav class="back-nav">
-  <div class="w-wide back-nav-in">
-    <a href="index.html" class="back-link"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Back to portfolio</a>
-    <a href="https://github.com/joneilcaoile" target="_blank" class="back-link">GitHub <svg viewBox="0 0 24 24" style="width:12px;height:12px"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></a>
-  </div>
-</nav>
+  <a class="skip-nav" href="#main">Skip to content</a>
+  <div id="progress-bar" role="progressbar" aria-label="Reading progress"></div>
 
-<!-- Hero -->
-<section class="cs-hero">
-  <div class="w">
-    <div class="cs-badge">Research prototype</div>
-    <h1>Parkinson's Tremor-Suppression <span class="grad">EMG Cuff</span></h1>
-    <p class="cs-hero-sub">Wearable system for real-time detection of Parkinsonian tremor using forearm EMG signals. Built Python simulation to validate signal processing approach and suppression triggers before hardware integration.</p>
-    <div class="cs-meta">
-      <div class="cs-meta-item"><span class="cs-meta-label">Role</span><span class="cs-meta-val">Lead developer — signal processing</span></div>
-      <div class="cs-meta-item"><span class="cs-meta-label">Timeline</span><span class="cs-meta-val">Sep 2024 — Dec 2024</span></div>
-      <div class="cs-meta-item"><span class="cs-meta-label">Type</span><span class="cs-meta-val">Course project / Research prototype</span></div>
-      <div class="cs-meta-item"><span class="cs-meta-label">Standards</span><span class="cs-meta-val">IEC 60601-1-2 · ISO 10993</span></div>
-    </div>
-  </div>
-</section>
+  <!-- Back nav -->
+  <nav class="back-nav" aria-label="Case study navigation">
+    <a class="back-link" href="index.html">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to portfolio
+    </a>
+    <a class="github-link" href="https://github.com/joneilcaoile" target="_blank" rel="noopener noreferrer">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+      GitHub
+    </a>
+  </nav>
 
-<div class="w">
+  <main id="main">
 
-<!-- Problem / Solution -->
-<section class="cs-sec">
-  <h2>The clinical need</h2>
-  <p>Parkinson's disease affects approximately 1 million people in the U.S., with resting tremor (4–8 Hz) being one of the most disabling symptoms. Tremor impairs fine motor tasks — writing, eating, grasping objects — severely reducing quality of life. Current treatment options are limited: <strong>pharmacological interventions</strong> have variable efficacy and side effects, while <strong>deep brain stimulation (DBS)</strong> is invasive, costly, and not accessible to all patients.</p>
-  <p>Non-invasive wearable solutions that can detect tremor onset in real time and trigger suppression mechanisms remain underdeveloped. A wearable EMG cuff capable of identifying tremor timing could enable counter-stimulation or mechanical dampening strategies, offering patients a low-risk intervention option.</p>
-
-  <div class="cs-split">
-    <div class="cs-split-box problem">
-      <h3>The challenge</h3>
-      <p>Parkinsonian tremor occurs at 4–8 Hz in forearm musculature. Detecting this narrow frequency band in real time from EMG requires robust signal processing. Noise, motion artifacts, and physiological variation complicate detection. Hardware-first approaches risk wasting time on non-viable signal chains.</p>
-    </div>
-    <div class="cs-split-box solution">
-      <h3>The approach</h3>
-      <p>Build a complete Python signal processing pipeline modeling the EMG → bandpass filter → feature extraction → detection algorithm chain. Simulate tremor dynamics at known frequencies. Validate detection sensitivity and latency before any hardware fabrication. De-risk the hardware build.</p>
-    </div>
-  </div>
-</section>
-
-<!-- Architecture -->
-<section class="cs-sec">
-  <h2>System architecture</h2>
-  <p>The wearable system follows a classical real-time biomedical signal processing flow. EMG sensors on the forearm capture muscle electrical activity, which is then processed through a tight filtering and feature extraction pipeline to identify tremor-specific signatures.</p>
-
-  <div class="arch">
-    <div class="arch-title">Signal Processing Pipeline</div>
-    <div class="arch-flow">
-      <div class="arch-node input">
-        EMG Sensors
-        <span class="arch-sub">Forearm surface electrodes</span>
+    <!-- ===== HERO ===== -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="status-badge r">
+        <span class="status-dot" aria-hidden="true"></span>
+        Research Prototype
       </div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-node process">
-        Bandpass Filter
-        <span class="arch-sub">4–8 Hz tremor band</span>
+
+      <h1 class="hero-title r" id="hero-title">
+        Parkinson's Tremor-Suppression <span class="accent">EMG Cuff</span>
+      </h1>
+
+      <p class="hero-desc r">
+        Wearable system for real-time detection of Parkinsonian tremor using forearm EMG signals. Built Python simulation to validate signal processing approach and suppression triggers before hardware integration.
+      </p>
+
+      <div class="meta-row r">
+        <div class="meta-item">
+          <span class="meta-label">Role</span>
+          Lead developer, signal processing
+        </div>
+        <div class="meta-divider" aria-hidden="true"></div>
+        <div class="meta-item">
+          <span class="meta-label">Timeline</span>
+          Sep – Dec 2024
+        </div>
+        <div class="meta-divider" aria-hidden="true"></div>
+        <div class="meta-item">
+          <span class="meta-label">Type</span>
+          Course project / Research prototype
+        </div>
+        <div class="meta-divider" aria-hidden="true"></div>
+        <div class="meta-item">
+          <span class="meta-label">Standards</span>
+          IEC 60601-1-2, ISO 10993
+        </div>
       </div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-node process">
-        Feature Extraction
-        <span class="arch-sub">RMS, spectral power, coherence</span>
+    </section>
+
+    <!-- ===== PROBLEM / SOLUTION ===== -->
+    <section class="section" aria-labelledby="need-title">
+      <h2 class="section-title r" id="need-title">The clinical need</h2>
+      <p class="prose r">
+        Parkinson's disease affects approximately 1 million people in the U.S., with resting tremor (4–8 Hz) being one of the most disabling symptoms. Tremor impairs fine motor tasks: writing, eating, grasping objects. This severely reduces quality of life. Current treatment options are limited. <strong>Pharmacological interventions</strong> have variable efficacy and side effects, while <strong>deep brain stimulation (DBS)</strong> is invasive, costly, and not accessible to all patients.
+      </p>
+      <p class="prose r">
+        Non-invasive wearable solutions that can detect tremor onset in real time and trigger suppression mechanisms remain underdeveloped. A wearable EMG cuff capable of identifying tremor timing could enable counter-stimulation or mechanical dampening strategies, offering patients a low-risk intervention option.
+      </p>
+
+      <div class="ps-grid r">
+        <div class="ps-card problem">
+          <div class="ps-card-label">The Challenge</div>
+          <h3 class="ps-card-title">Detection complexity</h3>
+          <p>Parkinsonian tremor occurs at 4–8 Hz in forearm musculature. Detecting this narrow frequency band in real time from EMG requires robust signal processing. Noise, motion artifacts, and physiological variation complicate detection. Hardware-first approaches risk wasting time on non-viable signal chains.</p>
+        </div>
+        <div class="ps-card solution">
+          <div class="ps-card-label">The Approach</div>
+          <h3 class="ps-card-title">Simulation-driven validation</h3>
+          <p>Build a complete Python signal processing pipeline modeling the EMG flow through bandpass filter, feature extraction, and detection algorithm. Simulate tremor dynamics at known frequencies. Validate detection sensitivity and latency before any hardware fabrication. De-risk the hardware build.</p>
+        </div>
       </div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-node process">
-        Tremor Detection
-        <span class="arch-sub">Threshold + coherence check</span>
+    </section>
+
+    <!-- ===== ARCHITECTURE ===== -->
+    <section class="section dark-section r">
+      <h2 class="section-title" id="arch-title">System architecture</h2>
+      <p class="prose">
+        The wearable system follows a classical real-time biomedical signal processing flow. EMG sensors on the forearm capture muscle electrical activity, which is then processed through a tight filtering and feature extraction pipeline to identify tremor-specific signatures.
+      </p>
+
+      <div class="arch">
+        <div class="arch-title">Signal Processing Pipeline</div>
+        <div class="arch-flow">
+          <div class="arch-node input">
+            EMG Sensors
+            <span class="arch-sub">Forearm surface electrodes</span>
+          </div>
+          <span class="arch-arrow">→</span>
+          <div class="arch-node process">
+            Bandpass Filter
+            <span class="arch-sub">4–8 Hz tremor band</span>
+          </div>
+          <span class="arch-arrow">→</span>
+          <div class="arch-node process">
+            Feature Extraction
+            <span class="arch-sub">RMS, spectral power, coherence</span>
+          </div>
+          <span class="arch-arrow">→</span>
+          <div class="arch-node process">
+            Tremor Detection
+            <span class="arch-sub">Threshold + coherence check</span>
+          </div>
+          <span class="arch-arrow">→</span>
+          <div class="arch-node output">
+            Suppression Trigger
+            <span class="arch-sub">Counter-stim / dampening</span>
+          </div>
+        </div>
       </div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-node output">
-        Suppression Trigger
-        <span class="arch-sub">Counter-stim / dampening</span>
+
+      <h3 class="section-title" style="margin-top: 2.5rem; margin-bottom: 1.5rem;">Design decisions</h3>
+      <p class="prose">
+        <strong>Bandpass filter centered at 6 Hz.</strong> Parkinsonian tremor peaks around 4–8 Hz. A Butterworth bandpass filter (6th order, 4–8 Hz) isolates tremor signatures while rejecting DC drift, low-frequency movement, and high-frequency noise. Real-time latency is critical. We target less than 100 ms end-to-end detection.
+      </p>
+      <p class="prose">
+        <strong>Multi-feature detection, not single threshold.</strong> RMS energy alone generates false positives from voluntary muscle activation. We combine RMS, spectral power concentration, and coherence across electrode channels. A tremor detection event requires all three features to align, raising specificity without sacrificing sensitivity.
+      </p>
+      <p class="prose">
+        <strong>Python simulation before hardware.</strong> We modeled tremor dynamics (sinusoidal + noise) and stress-tested the pipeline against realistic EMG corruption. Only after validating detection accuracy on simulated data did we move toward hardware fabrication. This iterative de-risking prevented costly false starts.
+      </p>
+    </section>
+
+    <!-- ===== STANDARDS ===== -->
+    <section class="section">
+      <h2 class="section-title r" id="standards-title">Regulatory and safety framework</h2>
+      <p class="prose r">
+        This wearable medical device concept must adhere to international standards for medical device safety, biocompatibility, and electromagnetic compatibility. Understanding regulatory pathways early shapes architecture choices and validation protocols.
+      </p>
+
+      <div class="standards-grid r">
+        <div class="std-card">
+          <div class="std-card-title">IEC 60601-1-2</div>
+          <p>Electromagnetic compatibility (EMC) for medical electrical equipment. Critical for wearables operating near body and in varying EM environments.</p>
+        </div>
+        <div class="std-card">
+          <div class="std-card-title">ISO 10993 Series</div>
+          <p>Biocompatibility of medical devices. Electrode materials and skin-contact components must meet cytocompatibility and irritation thresholds.</p>
+        </div>
+        <div class="std-card">
+          <div class="std-card-title">IEC 60601-1 General</div>
+          <p>Safety requirements for medical electrical equipment. Risk analysis, electrical safety, and design controls.</p>
+        </div>
+        <div class="std-card">
+          <div class="std-card-title">FDA De Novo Pathway</div>
+          <p>For novel wearable neurotech devices without predicate. Requires comprehensive design history file and clinical validation.</p>
+        </div>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <h3>Design decisions</h3>
-  <p><strong>Bandpass filter centered at 6 Hz.</strong> Parkinsonian tremor peaks around 4–8 Hz. A butterworth bandpass filter (6th order, 4–8 Hz) isolates tremor signatures while rejecting DC drift, low-frequency movement, and high-frequency noise. Real-time latency is critical — we target <100 ms end-to-end detection.</p>
-  <p><strong>Multi-feature detection, not single threshold.</strong> RMS energy alone generates false positives (voluntary muscle activation). We combine RMS, spectral power concentration, and coherence across electrode channels. A tremor detection event requires all three features to align — raising specificity without sacrificing sensitivity.</p>
-  <p><strong>Python simulation before hardware.</strong> We modeled tremor dynamics (sinusoidal + noise) and stress-tested the pipeline against realistic EMG corruption. Only after validating detection accuracy on simulated data did we move toward hardware fabrication. This iterative de-risking prevented costly false starts.</p>
-</section>
+    <!-- ===== METRICS ===== -->
+    <section class="section dark-section r">
+      <h2 class="section-title">Signal processing targets</h2>
+      <p class="prose">
+        Validation metrics measure both the accuracy of our tremor detection algorithm and the real-time feasibility of the system.
+      </p>
 
-<!-- Clinical / Regulatory context -->
-<section class="cs-sec">
-  <h2>Regulatory & safety framework</h2>
-  <p>This wearable medical device concept must adhere to international standards for medical device safety, biocompatibility, and electromagnetic compatibility. Understanding regulatory pathways early shapes architecture choices and validation protocols.</p>
+      <div class="metric-grid">
+        <div class="metric-card">
+          <div class="metric-value">4–8<span style="font-size: 0.5em; display: block;">Hz</span></div>
+          <div class="metric-label">Tremor band targeted</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">&lt;100<span style="font-size: 0.5em; display: block;">ms</span></div>
+          <div class="metric-label">Detection latency target</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">95<span style="font-size: 0.5em; display: block;">%</span></div>
+          <div class="metric-label">Simulated sensitivity</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">6</div>
+          <div class="metric-label">Filter order (Butterworth)</div>
+        </div>
+      </div>
+    </section>
 
-  <div class="standards">
-    <div class="std-card">
-      <h4>IEC 60601-1-2</h4>
-      <p>Electromagnetic compatibility (EMC) for medical electrical equipment. Critical for wearables operating near body and in varying EM environments.</p>
-    </div>
-    <div class="std-card">
-      <h4>ISO 10993 Series</h4>
-      <p>Biocompatibility of medical devices. Electrode materials and skin-contact components must meet cytocompatibility and irritation thresholds.</p>
-    </div>
-    <div class="std-card">
-      <h4>IEC 60601-1 (General)</h4>
-      <p>Safety requirements for medical electrical equipment. Risk analysis, electrical safety, and design controls.</p>
-    </div>
-    <div class="std-card">
-      <h4>FDA De Novo Pathway</h4>
-      <p>For novel wearable neurotech devices without predicate. Requires comprehensive design history file and clinical validation.</p>
-    </div>
-  </div>
-</section>
+    <!-- ===== TECH STACK ===== -->
+    <section class="section">
+      <h2 class="section-title r" id="tech-title">Implementation stack</h2>
+      <div class="tech-tags r">
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">scipy.signal</span>
+        <span class="tech-tag">numpy</span>
+        <span class="tech-tag">matplotlib</span>
+        <span class="tech-tag">EMG Processing</span>
+        <span class="tech-tag">Signal Filtering</span>
+        <span class="tech-tag">Feature Extraction</span>
+        <span class="tech-tag">Real-time Simulation</span>
+      </div>
 
-<!-- Metrics -->
-<section class="cs-sec">
-  <h2>Signal processing targets</h2>
-  <p>Validation metrics measure both the accuracy of our tremor detection algorithm and the real-time feasibility of the system.</p>
+      <h3 class="section-title" style="margin-top: 2.5rem; margin-bottom: 1.5rem; font-size: 1.2rem;">Technology rationale</h3>
+      <p class="prose">
+        <strong>scipy.signal:</strong> Production-grade filtering (Butterworth, Chebyshev, Bessel). We compared multiple designs for phase distortion and attenuation characteristics before settling on 6th-order Butterworth, offering excellent rolloff without excessive phase lag.
+      </p>
+      <p class="prose">
+        <strong>numpy for vector operations:</strong> EMG processing is array-heavy. numpy's C-backend ensures real-time throughput even with 1+ kHz sampling rates across multiple channels.
+      </p>
+      <p class="prose">
+        <strong>matplotlib for validation:</strong> Time-domain waveforms, FFT spectrograms, and filter response plots proved critical for debugging detection failures and tuning thresholds iteratively.
+      </p>
+    </section>
 
-  <div class="cs-metrics">
-    <div class="cs-met">
-      <div class="cs-met-val">4<span class="unit">–8</span></div>
-      <div class="cs-met-label">Hz tremor band targeted</div>
-    </div>
-    <div class="cs-met">
-      <div class="cs-met-val">&lt;100<span class="unit">ms</span></div>
-      <div class="cs-met-label">detection latency target</div>
-    </div>
-    <div class="cs-met">
-      <div class="cs-met-val">95<span class="unit">%</span></div>
-      <div class="cs-met-label">simulated sensitivity</div>
-    </div>
-    <div class="cs-met">
-      <div class="cs-met-val">6</div>
-      <div class="cs-met-label">filter order (Butterworth)</div>
-    </div>
-  </div>
-</section>
+    <!-- ===== LEARNINGS ===== -->
+    <section class="section learnings-section">
+      <h2 class="section-title">What this taught me</h2>
 
-<!-- Tech stack -->
-<section class="cs-sec">
-  <h2>Implementation stack</h2>
-  <div class="cs-tags">
-    <span class="cs-tag">Python</span>
-    <span class="cs-tag">scipy.signal</span>
-    <span class="cs-tag">numpy</span>
-    <span class="cs-tag">matplotlib</span>
-    <span class="cs-tag">EMG Processing</span>
-    <span class="cs-tag">Signal Filtering</span>
-    <span class="cs-tag">Feature Extraction</span>
-    <span class="cs-tag">Real-time Simulation</span>
-  </div>
+      <div class="learning-item r">
+        <div class="learning-num">01</div>
+        <h3 class="learning-title">Simulating before building saves months</h3>
+        <p class="learning-body">A week of Python modeling revealed that naive single-channel thresholding would produce unacceptable false positive rates. Multi-channel coherence checks added complexity but eliminated the problem. Hardware teams found this out the hard way. We caught it in simulation.</p>
+      </div>
 
-  <h3>Technology rationale</h3>
-  <p><strong>scipy.signal</strong> — Production-grade filtering (butterworth, Chebyshev, Bessel). We compared multiple designs for phase distortion and attenuation characteristics before settling on 6th-order Butterworth: excellent rolloff without excessive phase lag.</p>
-  <p><strong>numpy for vector operations</strong> — EMG processing is array-heavy. numpy's C-backend ensures real-time throughput even with 1+ kHz sampling rates across multiple channels.</p>
-  <p><strong>matplotlib for validation</strong> — Time-domain waveforms, FFT spectrograms, and filter response plots proved critical for debugging detection failures and tuning thresholds iteratively.</p>
-</section>
+      <div class="learning-item r">
+        <div class="learning-num">02</div>
+        <h3 class="learning-title">Biomedical signals are hostile</h3>
+        <p class="learning-body">Textbooks show clean sinusoids. Real EMG is fractional-volt noise contaminated with motion artifacts, ECG cross-talk, and 60 Hz hum. Every design choice (filter order, feature set, threshold) had to survive adversarial noise tests before acceptance.</p>
+      </div>
 
-<!-- What I learned -->
-<section class="cs-sec">
-  <h2>What this taught me</h2>
-  <p><strong>Simulating before building saves months.</strong> A week of Python modeling revealed that naive single-channel thresholding would produce unacceptable false positive rates. Multi-channel coherence checks added complexity but eliminated the problem. Hardware teams found this out the hard way; we caught it in simulation.</p>
-  <p><strong>Biomedical signals are hostile.</strong> Textbooks show clean sinusoids. Real EMG is fractional-volt noise contaminated with motion artifacts, ECG cross-talk, and 60 Hz hum. Every design choice (filter order, feature set, threshold) had to survive adversarial noise tests before acceptance.</p>
-  <p><strong>Regulatory thinking must start early.</strong> EMC, biocompatibility, and design controls aren't afterthoughts. Building regulatory awareness into the signal processing design (e.g., choosing components with certified datasheets, documenting filter design rationale) streamlines later validation.</p>
-</section>
+      <div class="learning-item r">
+        <div class="learning-num">03</div>
+        <h3 class="learning-title">Regulatory thinking must start early</h3>
+        <p class="learning-body">EMC, biocompatibility, and design controls are not afterthoughts. Building regulatory awareness into the signal processing design (choosing components with certified datasheets, documenting filter design rationale) streamlines later validation.</p>
+      </div>
+    </section>
 
-</div>
+    <!-- ===== CASE NAV ===== -->
+    <nav class="case-nav r" aria-label="Adjacent case studies">
+      <a href="case-fall.html" class="case-nav-link">
+        <span class="case-nav-dir">Previous</span>
+        <span class="case-nav-name">FALL Monitor</span>
+      </a>
+      <a href="case-photocull.html" class="case-nav-link right">
+        <span class="case-nav-dir">Next</span>
+        <span class="case-nav-name">PhotoCull AI</span>
+      </a>
+    </nav>
 
-<!-- CTA -->
-<section class="cs-cta">
-  <div class="w">
-    <h2>Interested in this work?</h2>
-    <p>I bring signal processing rigor, medical device regulatory depth, and a bias toward validation-before-build to every project. Looking for roles in wearable biomedtech, diagnostics, or neural interfaces.</p>
-    <div class="cs-cta-btns">
-      <a href="index.html#contact" class="btn btn-glow">Get in touch</a>
-      <a href="index.html" class="btn btn-line">Back to portfolio</a>
-    </div>
-  </div>
-</section>
+    <!-- ===== CTA ===== -->
+    <section class="cta-section r">
+      <div class="cta-inner">
+        <h2 class="cta-title">Interested in this work?</h2>
+        <p class="cta-body">
+          I bring signal processing rigor, medical device regulatory depth, and a bias toward validation-before-build to every project. Looking for roles in wearable biomedtech, diagnostics, or neural interfaces.
+        </p>
+        <div class="btn-row">
+          <a href="index.html#contact" class="btn btn-primary">Get in touch</a>
+          <a href="index.html" class="btn btn-outline">Back to portfolio</a>
+        </div>
+      </div>
+    </section>
 
-<footer class="foot"><div class="w"><p>&copy; <script>document.write(new Date().getFullYear())</script> Joneil Caoile</p></div></footer>
+  </main>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script>
-gsap.registerPlugin(ScrollTrigger);
+  <footer>
+    <p>&copy; <script>document.write(new Date().getFullYear())</script> Joneil Caoile</p>
+  </footer>
 
-/* Progress bar */
-ScrollTrigger.create({
-  trigger: document.documentElement, start: 'top top', end: 'bottom bottom',
-  onUpdate: s => gsap.set('#prog', { scaleX: s.progress }),
-});
+  <script>
+    // GSAP animations
+    gsap.registerPlugin(ScrollTrigger);
 
-/* Fade in sections */
-gsap.utils.toArray('.cs-sec, .cs-hero, .cs-cta').forEach(el => {
-  gsap.from(el, {
-    opacity: 0, y: 30, duration: 0.7, ease: 'power3.out',
-    scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-  });
-});
+    // Progress bar
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = total > 0 ? scrolled / total : 0;
+      gsap.set('#progress-bar', { width: progress * 100 + '%' });
+    });
 
-/* Stagger architecture nodes */
-gsap.from('.arch-node', {
-  opacity: 0, y: 16, duration: 0.4, stagger: 0.12, ease: 'power3.out',
-  scrollTrigger: { trigger: '.arch', start: 'top 85%', once: true },
-});
+    // Fade in sections
+    gsap.utils.toArray('.r').forEach(el => {
+      gsap.from(el, {
+        opacity: 0,
+        y: 24,
+        duration: 0.6,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 88%',
+          once: true,
+        },
+      });
+    });
 
-/* Stagger metric cards */
-gsap.from('.cs-met', {
-  opacity: 0, y: 20, duration: 0.5, stagger: 0.1, ease: 'power3.out',
-  scrollTrigger: { trigger: '.cs-metrics', start: 'top 88%', once: true },
-});
+    // Stagger arch nodes
+    gsap.from('.arch-node', {
+      opacity: 0,
+      y: 16,
+      duration: 0.4,
+      stagger: 0.1,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.arch',
+        start: 'top 85%',
+        once: true,
+      },
+    });
 
-/* Stagger standards cards */
-gsap.from('.std-card', {
-  opacity: 0, y: 16, duration: 0.4, stagger: 0.08, ease: 'power3.out',
-  scrollTrigger: { trigger: '.standards', start: 'top 88%', once: true },
-});
+    // Stagger metric cards
+    gsap.from('.metric-card', {
+      opacity: 0,
+      y: 20,
+      duration: 0.5,
+      stagger: 0.1,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.metric-grid',
+        start: 'top 88%',
+        once: true,
+      },
+    });
 
-/* Stagger tags */
-gsap.from('.cs-tag', {
-  opacity: 0, y: 10, duration: 0.3, stagger: 0.04, ease: 'power3.out',
-  scrollTrigger: { trigger: '.cs-tags', start: 'top 90%', once: true },
-});
-</script>
+    // Stagger standards cards
+    gsap.from('.std-card', {
+      opacity: 0,
+      y: 16,
+      duration: 0.4,
+      stagger: 0.08,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.standards-grid',
+        start: 'top 88%',
+        once: true,
+      },
+    });
+
+    // Stagger tech tags
+    gsap.from('.tech-tag', {
+      opacity: 0,
+      y: 10,
+      duration: 0.3,
+      stagger: 0.04,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.tech-tags',
+        start: 'top 90%',
+        once: true,
+      },
+    });
+
+    // Stagger learning items
+    gsap.from('.learning-item', {
+      opacity: 0,
+      y: 16,
+      duration: 0.4,
+      stagger: 0.1,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.learnings-section',
+        start: 'top 85%',
+        once: true,
+      },
+    });
+  </script>
 </body>
 </html>

@@ -1,358 +1,958 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fall Study Reliability Tool — Case Study | Joneil Caoile</title>
-<meta name="description" content="Automated inter-rater reliability assessment for clinical fall-risk research. Flags unreliable assessment items before study finalization.">
-<meta property="og:title" content="Fall Risk ML Study — Case Study | Joneil Caoile">
-<meta property="og:description" content="ML pipeline for classifying fall risk in older adults using motion capture data. OptiTrack + scikit-learn + clinical validation.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://joneilcaoile.github.io/case-fall.html">
-<meta property="og:image" content="https://joneilcaoile.github.io/og-preview.jpg">
-<link rel="canonical" href="https://joneilcaoile.github.io/case-fall.html">
-<meta name="theme-color" content="#0a0a0f">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%230a0a0f'/><text x='50' y='68' font-family='system-ui' font-size='52' font-weight='700' fill='%2314b8a6' text-anchor='middle'>JC</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#0a0a0f;--bg2:#111118;--bg3:#1a1a24;
-  --teal:#14b8a6;--teal-dim:rgba(20,184,166,0.08);--teal-glow:rgba(20,184,166,0.25);
-  --blue:#3b82f6;--purple:#8b5cf6;--amber:#f59e0b;--red:#ef4444;
-  --w:#f0f0f0;--w70:rgba(240,240,240,0.7);--w40:rgba(240,240,240,0.4);--w15:rgba(240,240,240,0.15);--w06:rgba(240,240,240,0.06);
-  --fh:'Space Grotesk',system-ui,sans-serif;
-  --fb:'Inter',system-ui,sans-serif;
-  --fm:'JetBrains Mono',monospace;
-  --ease:cubic-bezier(.16,1,.3,1);
-}
-html{scroll-behavior:smooth}
-body{font-family:var(--fb);color:var(--w70);background:var(--bg);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-::selection{background:var(--teal-glow);color:var(--w)}
-a{color:var(--teal);text-decoration:none}
-*:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fall Study Reliability Tool | Case Study | Joneil Caoile</title>
+  <meta name="description" content="Automated inter-rater reliability assessment for clinical fall-risk research. Flags unreliable assessment items before study finalization.">
+  <meta property="og:title" content="Fall Risk ML Study | Case Study | Joneil Caoile">
+  <meta property="og:description" content="ML pipeline for classifying fall risk in older adults using motion capture data. OptiTrack + scikit-learn + clinical validation.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://joneilcaoile.github.io/case-fall.html">
+  <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.jpg">
+  <link rel="canonical" href="https://joneilcaoile.github.io/case-fall.html">
+  <meta name="theme-color" content="#FAFAF8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; frame-src 'none'; object-src 'none'; base-uri 'self';">
 
-.w{max-width:820px;margin:0 auto;padding:0 24px}
-.w-wide{max-width:1000px;margin:0 auto;padding:0 24px}
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%23FAFAF8'/><text x='50' y='68' font-family='system-ui' font-size='52' font-weight='700' fill='%23D97706' text-anchor='middle'>JC</text></svg>">
 
-/* ── Back nav ─────────────────────────────────── */
-.back-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;background:rgba(10,10,15,.9);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--w06)}
-.back-nav-in{display:flex;justify-content:space-between;align-items:center}
-.back-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--fh);font-size:.8125rem;font-weight:500;color:var(--w40);transition:color .2s}
-.back-link:hover{color:var(--w)}
-.back-link svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-/* ── Hero ─────────────────────────────────────── */
-.cs-hero{padding:140px 0 80px;position:relative;overflow:hidden}
-.cs-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(to top,var(--bg),transparent);pointer-events:none}
-.cs-badge{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border-radius:16px;font-family:var(--fm);font-size:.6875rem;letter-spacing:.04em;background:var(--teal-dim);border:1px solid rgba(20,184,166,.15);color:var(--teal);margin-bottom:24px}
-.cs-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse-dot 2s ease-in-out infinite}
-@keyframes pulse-dot{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(20,184,166,.4)}50%{opacity:.7;box-shadow:0 0 0 6px rgba(20,184,166,0)}}
-.cs-hero h1{font-family:var(--fh);font-size:clamp(2.5rem,5vw,4rem);font-weight:700;letter-spacing:-.04em;color:var(--w);line-height:1.05;margin-bottom:20px}
-.cs-hero h1 .grad{background:linear-gradient(135deg,var(--teal),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.cs-hero-sub{font-size:1.125rem;color:var(--w40);max-width:580px;line-height:1.8;margin-bottom:32px}
-.cs-meta{display:flex;flex-wrap:wrap;gap:24px}
-.cs-meta-item{display:flex;flex-direction:column;gap:2px}
-.cs-meta-label{font-family:var(--fm);font-size:.625rem;letter-spacing:.1em;text-transform:uppercase;color:var(--w40)}
-.cs-meta-val{font-family:var(--fh);font-size:.9375rem;color:var(--w);font-weight:500}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 
-/* ── Sections ─────────────────────────────────── */
-.cs-sec{padding:64px 0}
-.cs-sec+.cs-sec{border-top:1px solid var(--w06)}
-.cs-sec h2{font-family:var(--fh);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;letter-spacing:-.03em;color:var(--w);margin-bottom:24px;line-height:1.2}
-.cs-sec h3{font-family:var(--fh);font-size:1.125rem;font-weight:600;color:var(--w);margin-bottom:8px;margin-top:32px;letter-spacing:-.01em}
-.cs-sec p{font-size:1rem;line-height:1.8;margin-bottom:16px}
-.cs-sec p strong{color:var(--w);font-weight:500}
+  <style>
+    /* ===== DESIGN SYSTEM (warm light theme) ===== */
+    :root {
+      --bg: #FAFAF8;
+      --bg-warm: #F5F3EE;
+      --bg-dark: #0F0E0C;
+      --bg-dark-2: #1A1815;
+      --text: #1A1815;
+      --text-muted: #6B6560;
+      --text-light: #9A9490;
 
-/* ── Problem/Solution split ───────────────────── */
-.cs-split{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin:32px 0}
-.cs-split-box{padding:28px;border-radius:12px;border:1px solid var(--w06)}
-.cs-split-box.problem{background:rgba(239,68,68,.04);border-color:rgba(239,68,68,.12)}
-.cs-split-box.solution{background:var(--teal-dim);border-color:rgba(20,184,166,.12)}
-.cs-split-box h3{margin-top:0;font-size:1rem;color:var(--w)}
-.cs-split-box p{font-size:.9375rem;margin-bottom:12px}
-.cs-split-box p:last-child{margin-bottom:0}
-@media(max-width:768px){.cs-split{grid-template-columns:1fr}}
+      --amber: #D97706;
+      --amber-light: #FEF3C7;
+      --amber-mid: #F59E0B;
+      --coral: #E05C4A;
+      --gold: #C89B3C;
 
-/* ── Architecture diagram ─────────────────────── */
-.arch{background:var(--bg2);border:1px solid var(--w06);border-radius:12px;padding:40px;margin:32px 0;overflow-x:auto}
-.arch-title{font-family:var(--fh);font-size:.8125rem;font-weight:600;color:var(--w40);letter-spacing:.06em;text-transform:uppercase;margin-bottom:24px;text-align:center}
-.arch-flow{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
-.arch-node{padding:14px 20px;border-radius:10px;font-family:var(--fm);font-size:.75rem;text-align:center;min-width:120px;border:1px solid var(--w06);transition:all .3s var(--ease)}
-.arch-node:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
-.arch-node.input{background:rgba(59,130,246,.08);border-color:rgba(59,130,246,.2);color:var(--blue)}
-.arch-node.process{background:var(--teal-dim);border-color:rgba(20,184,166,.2);color:var(--teal)}
-.arch-node.output{background:rgba(139,92,246,.08);border-color:rgba(139,92,246,.2);color:var(--purple)}
-.arch-node.ai{background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.2);color:var(--amber)}
-.arch-arrow{color:var(--w15);font-size:1.25rem;flex-shrink:0}
-.arch-sub{font-size:.625rem;color:var(--w40);display:block;margin-top:4px;font-family:var(--fb)}
+      --accent: var(--amber);
+      --accent-glow: rgba(217, 119, 6, 0.15);
 
-/* ── Standards callout ────────────────────────── */
-.standards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:32px 0}
-.std-card{padding:20px;border-radius:10px;background:var(--bg2);border:1px solid var(--w06);transition:border-color .3s}
-.std-card:hover{border-color:var(--teal-glow)}
-.std-card h4{font-family:var(--fm);font-size:.75rem;color:var(--teal);margin-bottom:6px;letter-spacing:.02em}
-.std-card p{font-size:.8125rem;line-height:1.6;margin:0}
+      --font-head: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
 
-/* ── Metrics row ──────────────────────────────── */
-.cs-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin:32px 0}
-.cs-met{text-align:center;padding:28px 16px;border-radius:12px;background:var(--bg2);border:1px solid var(--w06);transition:all .3s var(--ease)}
-.cs-met:hover{border-color:var(--teal-glow);transform:translateY(-3px)}
-.cs-met-val{font-family:var(--fh);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--w);letter-spacing:-.02em}
-.cs-met-val .unit{font-size:.75em;color:var(--teal);font-weight:400}
-.cs-met-label{font-size:.75rem;color:var(--w40);margin-top:4px}
-@media(max-width:768px){.cs-metrics{grid-template-columns:repeat(2,1fr)}}
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 48px rgba(0,0,0,0.12);
 
-/* ── Tech stack ───────────────────────────────── */
-.cs-tags{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0}
-.cs-tag{padding:6px 14px;border-radius:6px;font-family:var(--fm);font-size:.75rem;background:var(--teal-dim);color:var(--teal);border:1px solid rgba(20,184,166,.1);transition:all .2s}
-.cs-tag:hover{transform:translateY(-1px);border-color:rgba(20,184,166,.3)}
+      --progress-h: 3px;
+    }
 
-/* ── CTA ──────────────────────────────────────── */
-.cs-cta{padding:80px 0;text-align:center}
-.cs-cta h2{margin-bottom:16px}
-.cs-cta p{font-size:1rem;color:var(--w40);margin-bottom:32px;max-width:480px;margin-left:auto;margin-right:auto}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:8px;font-family:var(--fh);font-size:.8125rem;font-weight:600;border:1.5px solid transparent;transition:all .25s var(--ease);text-decoration:none}
-.btn-glow{background:var(--teal);color:var(--bg);border-color:var(--teal)}
-.btn-glow:hover{box-shadow:0 0 30px var(--teal-glow);transform:translateY(-2px)}
-.btn-line{background:transparent;color:var(--w);border-color:var(--w15)}
-.btn-line:hover{border-color:var(--w);transform:translateY(-2px)}
-.cs-cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ── Footer ───────────────────────────────────── */
-.foot{padding:24px 0;border-top:1px solid var(--w06);text-align:center}
-.foot p{font-size:.75rem;color:var(--w15)}
+    html { scroll-behavior: smooth; }
 
-/* ── Scroll progress ──────────────────────────── */
-.prog{position:fixed;top:0;left:0;height:2px;z-index:200;background:linear-gradient(90deg,var(--teal),var(--blue));transform-origin:left;transform:scaleX(0)}
-</style>
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+
+    ::selection {
+      background: var(--accent-glow);
+      color: var(--text);
+    }
+
+    a {
+      color: var(--amber);
+      text-decoration: none;
+    }
+
+    *:focus-visible {
+      outline: 2px solid var(--amber);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* ===== SCROLL PROGRESS ===== */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: var(--progress-h);
+      width: 0%;
+      background: linear-gradient(90deg, var(--amber), var(--coral));
+      z-index: 200;
+      transition: width 0.1s linear;
+    }
+
+    /* ===== BACK NAV ===== */
+    .back-nav {
+      position: fixed;
+      top: var(--progress-h);
+      left: 0; right: 0;
+      z-index: 100;
+      background: rgba(250,250,248,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding: 0 clamp(1.5rem, 5vw, 3rem);
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .back-link {
+      font-family: var(--font-head);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover { color: var(--amber); }
+    .back-link:focus-visible { outline: 2px solid var(--amber); outline-offset: 4px; border-radius: 4px; }
+
+    .back-link svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* ===== SKIP NAV ===== */
+    .skip-nav {
+      position: absolute;
+      top: -100px;
+      left: 1rem;
+      background: var(--amber);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      font-weight: 600;
+      z-index: 1000;
+      transition: top 0.2s;
+    }
+
+    .skip-nav:focus { top: 1rem; }
+
+    /* ===== MAIN LAYOUT ===== */
+    main {
+      padding-top: calc(60px + var(--progress-h));
+    }
+
+    .section {
+      padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 3rem);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section-wide {
+      padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 3rem);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      padding: clamp(4rem, 10vw, 8rem) clamp(1.5rem, 5vw, 3rem) clamp(3rem, 6vw, 5rem);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: var(--amber-light);
+      color: var(--amber);
+      border: 1px solid rgba(217,119,6,0.25);
+      border-radius: 100px;
+      padding: 0.3rem 0.85rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--amber);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(217,119,6,0.4); }
+      50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(217,119,6,0); }
+    }
+
+    .hero-title {
+      font-family: var(--font-head);
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-title .accent {
+      background: linear-gradient(135deg, var(--amber), var(--coral));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--text-muted);
+      max-width: 640px;
+      margin-bottom: 2.5rem;
+      line-height: 1.75;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.5rem;
+      font-size: 0.82rem;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+    }
+
+    .meta-item .meta-label {
+      color: var(--text-light);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ===== SECTION HEADINGS ===== */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: var(--font-head);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+
+    .prose {
+      color: var(--text-muted);
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .prose strong { color: var(--text); font-weight: 600; }
+
+    /* ===== PROBLEM / SOLUTION CARDS ===== */
+    .ps-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 600px) { .ps-grid { grid-template-columns: 1fr; } }
+
+    .ps-card {
+      padding: 1.75rem;
+      border-radius: var(--radius);
+      border: 1px solid rgba(0,0,0,0.08);
+      background: var(--bg-warm);
+    }
+
+    .ps-card.problem { border-left: 3px solid var(--coral); }
+    .ps-card.solution { border-left: 3px solid var(--amber); }
+
+    .ps-card-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .ps-card.problem .ps-card-label { color: var(--coral); }
+    .ps-card.solution .ps-card-label { color: var(--amber); }
+
+    .ps-card-title {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      color: var(--text);
+    }
+
+    .ps-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ===== DARK SECTIONS ===== */
+    .dark-section {
+      background: var(--bg-dark);
+      color: #F5F3EE;
+    }
+
+    .dark-section .section-label { color: var(--amber-mid); }
+    .dark-section .section-title { color: #F5F3EE; }
+    .dark-section .prose { color: rgba(245,243,238,0.7); }
+    .dark-section .prose strong { color: #F5F3EE; }
+
+    /* ===== ARCHITECTURE DIAGRAM ===== */
+    .arch {
+      background: var(--bg-dark-2);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 2rem 1.5rem;
+      margin: 2rem 0;
+      overflow-x: auto;
+    }
+
+    .arch-title {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(245,243,238,0.4);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .arch-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .arch-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.85rem 1.1rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-head);
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-align: center;
+      min-width: 90px;
+      border: 1px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .arch-node:hover { transform: translateY(-2px); }
+
+    .arch-node.input { background: rgba(59,130,246,0.15); border-color: rgba(59,130,246,0.3); color: #93C5FD; }
+    .arch-node.process { background: rgba(20,184,166,0.15); border-color: rgba(20,184,166,0.3); color: #5EEAD4; }
+    .arch-node.ai { background: rgba(217,119,6,0.2); border-color: rgba(217,119,6,0.4); color: #FCD34D; }
+    .arch-node.output { background: rgba(168,85,247,0.15); border-color: rgba(168,85,247,0.3); color: #C4B5FD; }
+
+    .arch-sub {
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      font-weight: 400;
+      opacity: 0.7;
+      line-height: 1.3;
+    }
+
+    .arch-arrow {
+      color: rgba(245,243,238,0.25);
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    /* ===== STANDARDS CARDS ===== */
+    .standards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .std-card {
+      padding: 1.5rem 1.25rem;
+      border-radius: var(--radius);
+      background: var(--bg-warm);
+      border: 1px solid rgba(0,0,0,0.08);
+      transition: border-color 0.3s;
+    }
+
+    .std-card:hover { border-color: rgba(217,119,6,0.25); }
+
+    .std-card h4 {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--amber);
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .std-card p {
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      margin: 0;
+      color: var(--text-muted);
+    }
+
+    /* ===== METRICS GRID ===== */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .metric-card {
+      background: var(--bg-warm);
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.25rem;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .metric-card:hover {
+      border-color: rgba(217,119,6,0.25);
+      transform: translateY(-2px);
+    }
+
+    .metric-value {
+      font-family: var(--font-head);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+
+    .metric-unit {
+      font-size: 0.75em;
+      color: var(--amber);
+      font-weight: 400;
+    }
+
+    .metric-label {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      margin-top: 0.35rem;
+    }
+
+    /* ===== TECH TAGS ===== */
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin: 2rem 0;
+    }
+
+    .tech-tag {
+      padding: 0.45rem 0.9rem;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 500;
+      background: var(--amber-light);
+      color: var(--amber);
+      border: 1px solid rgba(217,119,6,0.25);
+      transition: all 0.2s;
+    }
+
+    .tech-tag:hover {
+      transform: translateY(-1px);
+      border-color: rgba(217,119,6,0.4);
+    }
+
+    /* ===== PROJECT NAV (prev/next) ===== */
+    .project-nav {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 4rem 0;
+      padding: 2rem 0;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+
+    @media (max-width: 600px) {
+      .project-nav { grid-template-columns: 1fr; }
+      .project-nav-next { order: 2; }
+    }
+
+    .project-nav-link {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .project-nav-link:hover {
+      color: var(--text);
+    }
+
+    .project-nav-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+
+    .project-nav-title {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--amber);
+    }
+
+    /* ===== CTA SECTION ===== */
+    .cta-section {
+      padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 3rem);
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .cta-section .section-title {
+      margin-bottom: 1rem;
+    }
+
+    .cta-desc {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.65rem 1.5rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-head);
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 1.5px solid transparent;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      letter-spacing: -0.01em;
+    }
+
+    .btn-primary {
+      background: var(--amber);
+      color: white;
+      border-color: var(--amber);
+    }
+
+    .btn-primary:hover {
+      background: var(--amber-mid);
+      border-color: var(--amber-mid);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border-color: rgba(0,0,0,0.12);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--amber);
+      color: var(--amber);
+      transform: translateY(-2px);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      padding: 1.5rem clamp(1.5rem, 5vw, 3rem);
+      border-top: 1px solid rgba(0,0,0,0.08);
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .footer p {
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }
+
+    /* ===== MEDIA QUERIES ===== */
+    @media (max-width: 768px) {
+      .metric-grid { grid-template-columns: repeat(2, 1fr); }
+      .standards { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-<div class="prog" id="prog"></div>
+  <a href="#main" class="skip-nav">Skip to main content</a>
 
-<!-- Back nav -->
-<nav class="back-nav">
-  <div class="w-wide back-nav-in">
-    <a href="index.html" class="back-link"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Back to portfolio</a>
-    <a href="https://github.com/joneilcaoile/fall-study-reliability" target="_blank" class="back-link">GitHub <svg viewBox="0 0 24 24" style="width:12px;height:12px"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></a>
-  </div>
-</nav>
+  <!-- Progress bar -->
+  <div id="progress-bar"></div>
 
-<!-- Hero -->
-<section class="cs-hero">
-  <div class="w">
-    <div class="cs-badge">Research collaboration</div>
-    <h1>Fall Study <span class="grad">Reliability Tool</span></h1>
-    <p class="cs-hero-sub">Automated inter-rater reliability assessment for clinical fall-risk research. Flags unreliable assessment items before study finalization so researchers can fix them — not discover them in publication.</p>
-    <div class="cs-meta">
-      <div class="cs-meta-item"><span class="cs-meta-label">Role</span><span class="cs-meta-val">Developer & data analyst</span></div>
-      <div class="cs-meta-item"><span class="cs-meta-label">Timeline</span><span class="cs-meta-val">Sep 2024 — Dec 2024</span></div>
-      <div class="cs-meta-item"><span class="cs-meta-label">Type</span><span class="cs-meta-val">Research tool / Clinical collaboration</span></div>
-      <div class="cs-meta-item"><span class="cs-meta-label">Standard</span><span class="cs-meta-val">Krippendorff's Alpha · ICC</span></div>
-    </div>
-  </div>
-</section>
+  <!-- Back nav -->
+  <nav class="back-nav">
+    <a href="index.html" class="back-link">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      Back to portfolio
+    </a>
+    <a href="https://github.com/joneilcaoile/fall-study-reliability" target="_blank" class="back-link">
+      GitHub
+      <svg viewBox="0 0 24 24" style="width:12px;height:12px"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+    </a>
+  </nav>
 
-<div class="w">
-
-<!-- Problem / Solution -->
-<section class="cs-sec">
-  <h2>The hidden cost of reliability discovery</h2>
-  <p>In fall-risk research, multiple clinicians watch the same video recordings and independently rate patient movement patterns. Agreement between raters is critical for study validity — it determines whether the assessment tool is trustworthy and publishable.</p>
-  <p>The problem: inter-rater reliability calculations happen <strong>after</strong> data collection and analysis are complete. If Krippendorff's Alpha drops below 0.667 (minimum acceptable), or you can't reach 0.80 (target), it's too late. The items are already baked into your study design. Revising the instrument mid-way through means recoding hundreds of responses or scrapping months of work.</p>
-
-  <div class="cs-split">
-    <div class="cs-split-box problem">
-      <h3>Before automated analysis</h3>
-      <p>Manual calculation or basic Excel formulas. Reliability computed after all data collected. Low-confidence items discovered too late to fix. No real-time visibility into which assessment items are problematic.</p>
-    </div>
-    <div class="cs-split-box solution">
-      <h3>With the reliability tool</h3>
-      <p>Qualtrics exports flow into an automated Python pipeline. Krippendorff's Alpha computed per item, per group. Unreliable items flagged immediately. Researchers can refine the instrument, recalibrate raters, or remove problem items before finalizing the study.</p>
-    </div>
-  </div>
-</section>
-
-<!-- Architecture -->
-<section class="cs-sec">
-  <h2>How it works</h2>
-  <p>The tool ingests survey responses from Qualtrics, transforms them into a format suitable for reliability analysis, computes inter-rater agreement metrics, and produces a dashboard report highlighting problem areas.</p>
-
-  <div class="arch">
-    <div class="arch-title">System Architecture</div>
-    <div class="arch-flow">
-      <div class="arch-node input">
-        Qualtrics Export
-        <span class="arch-sub">CSV survey responses</span>
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        Research collaboration
       </div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-node process">
-        Python ETL
-        <span class="arch-sub">Data cleaning, reshaping, validation</span>
+      <h1 class="hero-title">Fall Study <span class="accent">Reliability Tool</span></h1>
+      <p class="hero-desc">Automated inter-rater reliability assessment for clinical fall-risk research. Flags unreliable assessment items before study finalization so researchers can fix them rather than discover them in publication.</p>
+      <div class="meta-row">
+        <div class="meta-item">
+          <span class="meta-label">Role</span>
+          <span>Developer & data analyst</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Timeline</span>
+          <span>Sep – Dec 2024</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Type</span>
+          <span>Research tool / Clinical collaboration</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Standard</span>
+          <span>Krippendorff's Alpha · ICC</span>
+        </div>
       </div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-node process">
-        SQLite Database
-        <span class="arch-sub">Rater responses, item metadata</span>
+    </section>
+
+    <!-- Problem / Solution -->
+    <section class="section">
+      <h2 class="section-title">The hidden cost of reliability discovery</h2>
+      <p class="prose">In fall-risk research, multiple clinicians watch the same video recordings and independently rate patient movement patterns. Agreement between raters is critical for study validity. It determines whether the assessment tool is trustworthy and publishable.</p>
+      <p class="prose">The problem: inter-rater reliability calculations happen <strong>after</strong> data collection and analysis are complete. If Krippendorff's Alpha drops below 0.667 (minimum acceptable), or you can't reach 0.80 (target), it's too late. The items are already baked into your study design. Revising the instrument mid-way through means recoding hundreds of responses or scrapping months of work.</p>
+
+      <div class="ps-grid">
+        <div class="ps-card problem">
+          <div class="ps-card-label">Before automated analysis</div>
+          <h3 class="ps-card-title">Manual assessment</h3>
+          <p>Manual calculation or basic Excel formulas. Reliability computed after all data collected. Low-confidence items discovered too late to fix. No real-time visibility into which assessment items are problematic.</p>
+        </div>
+        <div class="ps-card solution">
+          <div class="ps-card-label">With the reliability tool</div>
+          <h3 class="ps-card-title">Automated pipeline</h3>
+          <p>Qualtrics exports flow into an automated Python pipeline. Krippendorff's Alpha computed per item, per group. Unreliable items flagged immediately. Researchers can refine the instrument, recalibrate raters, or remove problem items before finalizing the study.</p>
+        </div>
       </div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-node ai">
-        Krippendorff's Alpha
-        <span class="arch-sub">Per-item reliability computation</span>
+    </section>
+
+    <!-- Architecture -->
+    <section class="section dark-section">
+      <h2 class="section-title">How it works</h2>
+      <p class="prose">The tool ingests survey responses from Qualtrics, transforms them into a format suitable for reliability analysis, computes inter-rater agreement metrics, and produces a dashboard report highlighting problem areas.</p>
+
+      <div class="arch">
+        <div class="arch-title">System Architecture</div>
+        <div class="arch-flow">
+          <div class="arch-node input">
+            Qualtrics Export
+            <span class="arch-sub">CSV survey responses</span>
+          </div>
+          <span class="arch-arrow">→</span>
+          <div class="arch-node process">
+            Python ETL
+            <span class="arch-sub">Data cleaning, reshaping, validation</span>
+          </div>
+          <span class="arch-arrow">→</span>
+          <div class="arch-node process">
+            SQLite Database
+            <span class="arch-sub">Rater responses, item metadata</span>
+          </div>
+          <span class="arch-arrow">→</span>
+          <div class="arch-node ai">
+            Krippendorff's Alpha
+            <span class="arch-sub">Per-item reliability computation</span>
+          </div>
+          <span class="arch-arrow">→</span>
+          <div class="arch-node output">
+            Reliability Dashboard
+            <span class="arch-sub">Flag items, export reports</span>
+          </div>
+        </div>
       </div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-node output">
-        Reliability Dashboard
-        <span class="arch-sub">Flag items, export reports</span>
+
+      <h3 class="section-title" style="color: #F5F3EE; margin-top: 3rem;">Key design decisions</h3>
+      <p class="prose"><strong>Qualtrics as the single source of truth.</strong> Rather than build a custom form system, we export directly from the research team's existing survey platform. No double-entry, no manual transcription. The pipeline pulls new responses and recomputes automatically.</p>
+      <p class="prose"><strong>Krippendorff's Alpha for ordinal scale agreement.</strong> Fall-risk assessments use Likert scales, 1 through 5 ordinal ratings. Krippendorff's Alpha handles ordinal data correctly, accounts for missing values, and works with any number of raters. It's the gold standard for inter-rater reliability in clinical research.</p>
+      <p class="prose"><strong>Item-level flagging, not global thresholds.</strong> A single global reliability score hides the real problem. Some items agree well, others don't. The tool flags each item independently so researchers know exactly which assessment question is unreliable and needs refinement.</p>
+    </section>
+
+    <!-- Research context -->
+    <section class="section">
+      <h2 class="section-title">Research foundation</h2>
+      <p class="prose">Inter-rater reliability is non-negotiable in clinical research. These metrics and standards ensure that assessment tools are trustworthy before they're used to evaluate patient outcomes.</p>
+
+      <div class="standards">
+        <div class="std-card">
+          <h4>Krippendorff's Alpha</h4>
+          <p>Measures agreement for ordinal and nominal data. Minimum 0.667 for exploratory research, 0.80+ for regulatory and clinical use.</p>
+        </div>
+        <div class="std-card">
+          <h4>Intraclass Correlation (ICC)</h4>
+          <p>Assesses consistency of continuous ratings. Complements Krippendorff's for interval-scale assessments.</p>
+        </div>
+        <div class="std-card">
+          <h4>Rater Calibration</h4>
+          <p>Multiple clinicians must be trained to apply the same standards. Low reliability often signals training gaps, not flawed items.</p>
+        </div>
+        <div class="std-card">
+          <h4>COSMIN Guidelines</h4>
+          <p>Standards for evaluating the quality of outcome measurement instruments in medical research and practice.</p>
+        </div>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <h3>Key design decisions</h3>
-  <p><strong>Qualtrics as the single source of truth.</strong> Rather than build a custom form system, we export directly from the research team's existing survey platform. No double-entry, no manual transcription. The pipeline pulls new responses and recomputes automatically.</p>
-  <p><strong>Krippendorff's Alpha for ordinal scale agreement.</strong> Fall-risk assessments use Likert scales (1–5 ordinal ratings). Krippendorff's Alpha handles ordinal data correctly, accounts for missing values, and works with any number of raters. It's the gold standard for inter-rater reliability in clinical research.</p>
-  <p><strong>Item-level flagging, not global thresholds.</strong> A single global reliability score hides the real problem: some items agree well, others don't. The tool flags each item independently so researchers know exactly which assessment question is unreliable and needs refinement.</p>
-</section>
+    <!-- Metrics -->
+    <section class="section">
+      <h2 class="section-title">Reliability benchmarks</h2>
+      <p class="prose">These thresholds guide the analysis and flag items that fall short of clinical research standards.</p>
 
-<!-- Research context -->
-<section class="cs-sec">
-  <h2>Research foundation</h2>
-  <p>Inter-rater reliability is non-negotiable in clinical research. These metrics and standards ensure that assessment tools are trustworthy before they're used to evaluate patient outcomes.</p>
+      <div class="metric-grid">
+        <div class="metric-card">
+          <div class="metric-value">0.667<span class="metric-unit">+</span></div>
+          <div class="metric-label">minimum acceptable Krippendorff's Alpha</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">0.80</div>
+          <div class="metric-label">target inter-rater reliability</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">N×M</div>
+          <div class="metric-label">raters × items handled</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">Real-time</div>
+          <div class="metric-label">flagging and reporting</div>
+        </div>
+      </div>
+    </section>
 
-  <div class="standards">
-    <div class="std-card">
-      <h4>Krippendorff's Alpha</h4>
-      <p>Measures agreement for ordinal and nominal data. Minimum 0.667 for exploratory research, 0.80+ for regulatory/clinical use.</p>
-    </div>
-    <div class="std-card">
-      <h4>Intraclass Correlation (ICC)</h4>
-      <p>Assesses consistency of continuous ratings. Complements Krippendorff's for interval-scale assessments.</p>
-    </div>
-    <div class="std-card">
-      <h4>Rater Calibration</h4>
-      <p>Multiple clinicians must be trained to apply the same standards. Low reliability often signals training gaps, not flawed items.</p>
-    </div>
-    <div class="std-card">
-      <h4>COSMIN Guidelines</h4>
-      <p>Standards for evaluating the quality of outcome measurement instruments in medical research and practice.</p>
-    </div>
-  </div>
-</section>
+    <!-- Tech stack -->
+    <section class="section">
+      <h2 class="section-title">Built with</h2>
+      <div class="tech-tags">
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">SQLite</span>
+        <span class="tech-tag">Pandas</span>
+        <span class="tech-tag">Krippendorff's Alpha</span>
+        <span class="tech-tag">Qualtrics API</span>
+        <span class="tech-tag">Statistical Analysis</span>
+        <span class="tech-tag">Data Pipeline</span>
+        <span class="tech-tag">Reliability Metrics</span>
+      </div>
 
-<!-- Metrics -->
-<section class="cs-sec">
-  <h2>Reliability benchmarks</h2>
-  <p>These thresholds guide the analysis and flag items that fall short of clinical research standards.</p>
+      <h3 class="section-title" style="margin-top: 2rem;">Why these choices?</h3>
+      <p class="prose"><strong>Python + Pandas.</strong> Fast data manipulation and transformation. The Qualtrics CSV export can be messy with nested columns and encoded values. Pandas cleans it up reliably.</p>
+      <p class="prose"><strong>SQLite for persistence.</strong> The database outlives any single run. Researchers can query historical reliability scores, track how items improve after recalibration, and audit the analysis pipeline.</p>
+      <p class="prose"><strong>Krippendorff's Alpha computation.</strong> Implemented from first principles so every step is auditable and transparent. No black-box calculation. Researchers can verify the math and cite the methodology.</p>
+    </section>
 
-  <div class="cs-metrics">
-    <div class="cs-met">
-      <div class="cs-met-val">0.667<span class="unit">+</span></div>
-      <div class="cs-met-label">minimum acceptable Krippendorff's Alpha</div>
-    </div>
-    <div class="cs-met">
-      <div class="cs-met-val">0.80</div>
-      <div class="cs-met-label">target inter-rater reliability</div>
-    </div>
-    <div class="cs-met">
-      <div class="cs-met-val">N×M</div>
-      <div class="cs-met-label">raters × items handled</div>
-    </div>
-    <div class="cs-met">
-      <div class="cs-met-val">Real-time</div>
-      <div class="cs-met-label">flagging and reporting</div>
-    </div>
-  </div>
-</section>
+    <!-- What I learned -->
+    <section class="section">
+      <h2 class="section-title">What I learned</h2>
+      <p class="prose"><strong>Data quality is upstream of analysis.</strong> The first version failed silently on malformed ratings, out-of-range values, missing data, and misaligned columns. Now every input gets validated hard. Garbage in equals garbage out, so I catch it before the Krippendorff's computation.</p>
+      <p class="prose"><strong>Reliability is a conversation, not a report.</strong> Researchers don't just need numbers. They need to understand which items failed and why. Low alpha might mean the item is poorly worded, the raters need more training, or the construct itself is ambiguous. A good dashboard flags the item and prompts the right questions.</p>
+      <p class="prose"><strong>Clinical research timelines are unforgiving.</strong> If your reliability analysis takes 3 weeks to set up, it's useless when IRB approval and data collection start next month. The tool had to be deployable in days, not weeks. That meant automating as much as possible and making the pipeline self-service for non-technical researchers.</p>
+    </section>
 
-<!-- Tech stack -->
-<section class="cs-sec">
-  <h2>Built with</h2>
-  <div class="cs-tags">
-    <span class="cs-tag">Python</span>
-    <span class="cs-tag">SQLite</span>
-    <span class="cs-tag">Pandas</span>
-    <span class="cs-tag">Krippendorff's Alpha</span>
-    <span class="cs-tag">Qualtrics API</span>
-    <span class="cs-tag">Statistical Analysis</span>
-    <span class="cs-tag">Data Pipeline</span>
-    <span class="cs-tag">Reliability Metrics</span>
-  </div>
+    <!-- Project navigation -->
+    <section class="section">
+      <div class="project-nav">
+        <a href="case-emg.html" class="project-nav-link">
+          <span class="project-nav-label">Previous project</span>
+          <span class="project-nav-title">EMG Classification</span>
+        </a>
+        <a href="case-photocull.html" class="project-nav-link" style="text-align: right;">
+          <span class="project-nav-label">Next project</span>
+          <span class="project-nav-title">PhotoCull AI</span>
+        </a>
+      </div>
+    </section>
 
-  <h3>Why these choices?</h3>
-  <p><strong>Python + Pandas</strong> — Fast data manipulation and transformation. The Qualtrics CSV export can be messy (nested columns, encoded values); Pandas cleans it up reliably.</p>
-  <p><strong>SQLite for persistence</strong> — The database outlives any single run. Researchers can query historical reliability scores, track how items improve after recalibration, and audit the analysis pipeline.</p>
-  <p><strong>Krippendorff's Alpha computation</strong> — Implemented from first principles so every step is auditable and transparent. No black-box calculation. Researchers can verify the math and cite the methodology.</p>
-</section>
+    <!-- CTA -->
+    <section class="cta-section">
+      <h2 class="section-title">Interested in this work?</h2>
+      <p class="cta-desc">I'm looking for roles where I can bring this kind of thinking. Clinical rigor, automated data pipelines, and research collaboration matter in validation and quality teams in medtech.</p>
+      <div class="cta-buttons">
+        <a href="https://github.com/joneilcaoile/fall-study-reliability" target="_blank" class="btn btn-primary">View on GitHub</a>
+        <a href="index.html#contact" class="btn btn-outline">Get in touch</a>
+      </div>
+    </section>
 
-<!-- What I learned -->
-<section class="cs-sec">
-  <h2>What I learned</h2>
-  <p><strong>Data quality is upstream of analysis.</strong> The first version failed silently on malformed ratings (out-of-range values, missing data, misaligned columns). Now every input gets validated hard. Garbage in = garbage out, so I catch it before the Krippendorff's computation.</p>
-  <p><strong>Reliability is a conversation, not a report.</strong> Researchers don't just need numbers — they need to understand which items failed and why. Low alpha might mean the item is poorly worded, the raters need more training, or the construct itself is ambiguous. A good dashboard flags the item and prompts the right questions.</p>
-  <p><strong>Clinical research timelines are unforgiving.</strong> If your reliability analysis takes 3 weeks to set up, it's useless when IRB approval and data collection start next month. The tool had to be deployable in days, not weeks. That meant automating as much as possible and making the pipeline self-service for non-technical researchers.</p>
-</section>
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; <script>document.write(new Date().getFullYear())</script> Joneil Caoile</p>
+    </footer>
+  </main>
 
-</div>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
 
-<!-- CTA -->
-<section class="cs-cta">
-  <div class="w">
-    <h2>Interested in this work?</h2>
-    <p>I'm looking for roles where I can bring this kind of thinking — clinical rigor, automated data pipelines, and research collaboration — to validation and quality teams in medtech.</p>
-    <div class="cs-cta-btns">
-      <a href="https://github.com/joneilcaoile/fall-study-reliability" target="_blank" class="btn btn-glow">View on GitHub</a>
-      <a href="index.html#contact" class="btn btn-line">Get in touch</a>
-    </div>
-  </div>
-</section>
+    // Progress bar
+    ScrollTrigger.create({
+      trigger: document.documentElement,
+      start: 'top top',
+      end: 'bottom bottom',
+      onUpdate: s => {
+        gsap.set('#progress-bar', { width: s.progress * 100 + '%' });
+      }
+    });
 
-<footer class="foot"><div class="w"><p>&copy; <script>document.write(new Date().getFullYear())</script> Joneil Caoile</p></div></footer>
+    // Fade in sections
+    gsap.utils.toArray('.section, .hero, .cta-section').forEach(el => {
+      gsap.from(el, {
+        opacity: 0,
+        y: 30,
+        duration: 0.7,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 88%',
+          once: true
+        }
+      });
+    });
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script>
-gsap.registerPlugin(ScrollTrigger);
+    // Stagger architecture nodes
+    gsap.from('.arch-node', {
+      opacity: 0,
+      y: 16,
+      duration: 0.4,
+      stagger: 0.12,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.arch',
+        start: 'top 85%',
+        once: true
+      }
+    });
 
-/* Progress bar */
-ScrollTrigger.create({
-  trigger: document.documentElement, start: 'top top', end: 'bottom bottom',
-  onUpdate: s => gsap.set('#prog', { scaleX: s.progress }),
-});
+    // Stagger metric cards
+    gsap.from('.metric-card', {
+      opacity: 0,
+      y: 20,
+      duration: 0.5,
+      stagger: 0.1,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.metric-grid',
+        start: 'top 88%',
+        once: true
+      }
+    });
 
-/* Fade in sections */
-gsap.utils.toArray('.cs-sec, .cs-hero, .cs-cta').forEach(el => {
-  gsap.from(el, {
-    opacity: 0, y: 30, duration: 0.7, ease: 'power3.out',
-    scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-  });
-});
+    // Stagger standards cards
+    gsap.from('.std-card', {
+      opacity: 0,
+      y: 16,
+      duration: 0.4,
+      stagger: 0.08,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.standards',
+        start: 'top 88%',
+        once: true
+      }
+    });
 
-/* Stagger architecture nodes */
-gsap.from('.arch-node', {
-  opacity: 0, y: 16, duration: 0.4, stagger: 0.12, ease: 'power3.out',
-  scrollTrigger: { trigger: '.arch', start: 'top 85%', once: true },
-});
+    // Stagger tech tags
+    gsap.from('.tech-tag', {
+      opacity: 0,
+      y: 10,
+      duration: 0.3,
+      stagger: 0.04,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.tech-tags',
+        start: 'top 90%',
+        once: true
+      }
+    });
 
-/* Stagger metric cards */
-gsap.from('.cs-met', {
-  opacity: 0, y: 20, duration: 0.5, stagger: 0.1, ease: 'power3.out',
-  scrollTrigger: { trigger: '.cs-metrics', start: 'top 88%', once: true },
-});
-
-/* Stagger standards cards */
-gsap.from('.std-card', {
-  opacity: 0, y: 16, duration: 0.4, stagger: 0.08, ease: 'power3.out',
-  scrollTrigger: { trigger: '.standards', start: 'top 88%', once: true },
-});
-
-/* Stagger tags */
-gsap.from('.cs-tag', {
-  opacity: 0, y: 10, duration: 0.3, stagger: 0.04, ease: 'power3.out',
-  scrollTrigger: { trigger: '.cs-tags', start: 'top 90%', once: true },
-});
-</script>
+    // Stagger problem/solution cards
+    gsap.from('.ps-card', {
+      opacity: 0,
+      y: 16,
+      duration: 0.4,
+      stagger: 0.12,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.ps-grid',
+        start: 'top 88%',
+        once: true
+      }
+    });
+  </script>
 </body>
 </html>

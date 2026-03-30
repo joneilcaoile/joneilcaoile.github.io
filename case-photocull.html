@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PhotoCull AI — Case Study | Joneil Caoile</title>
+  <title>PhotoCull AI | Case Study | Joneil Caoile</title>
   <meta name="description" content="PhotoCull AI: Free, local-only AI photo culling tool that runs entirely in the browser. Built by Joneil Caoile, MS BME.">
-  <meta property="og:title" content="PhotoCull AI — Case Study | Joneil Caoile">
-  <meta property="og:description" content="Browser-native CV/ML tool that analyzes photos across 10 features and scores them 0–100 — replacing $10–30/month paid tools with a zero-install, zero-cloud alternative.">
+  <meta property="og:title" content="PhotoCull AI | Case Study | Joneil Caoile">
+  <meta property="og:description" content="Browser-native CV/ML tool that analyzes photos across 10 features and scores them 0–100. Replaces $10–30/month paid tools with a zero-install, zero-cloud alternative.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://joneilcaoile.github.io/case-photocull.html">
   <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.jpg">
   <link rel="canonical" href="https://joneilcaoile.github.io/case-photocull.html">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; frame-src 'none'; object-src 'none'; base-uri 'self';">
   <meta name="theme-color" content="#FAFAF8">
 
   <!-- Fonts (same as main portfolio) -->
@@ -728,7 +729,7 @@
       </h1>
 
       <p class="hero-desc r">
-        PhotoCull AI analyzes photos across 10 computer vision features and scores them 0–100 for quality — replacing $10–30/month paid subscriptions with a free, local-only alternative that never touches a server.
+        PhotoCull AI analyzes photos across 10 computer vision features and scores them 0–100 for quality. It replaces $10–30/month paid subscriptions with a free, local-only alternative that never touches a server.
       </p>
 
       <div class="meta-row r">
@@ -760,7 +761,7 @@
       <h2 class="section-title r" id="problem-heading">Photographers pay monthly for what should be free</h2>
 
       <p class="prose r">
-        After a shoot, photographers face hundreds or thousands of nearly identical images. The culling step — picking keeps from rejects — is tedious and repeatable. Tools like <strong>Aftershoot ($15/month)</strong> and <strong>FilterPixel ($10/month)</strong> exist to automate it, but they require cloud uploads, subscriptions, and trust that your images stay private.
+        After a shoot, photographers face hundreds or thousands of nearly identical images. The culling step, picking keeps from rejects, is tedious and repeatable. Tools like <strong>Aftershoot ($15/month)</strong> and <strong>FilterPixel ($10/month)</strong> exist to automate it, but they require cloud uploads, subscriptions, and trust that your images stay private.
       </p>
 
       <p class="prose r">
@@ -857,17 +858,17 @@
 
           <div class="tech-note r">
             <div class="tech-note-title">Single-file architecture</div>
-            <p>The entire app — 2,754 lines of HTML, CSS, and JS — ships as one file with no build step. This was a deliberate constraint: the tool needs to work for non-technical users who just want to open something in a browser. Zero install friction, zero dependency management, zero server.</p>
+            <p>The entire app is 2,754 lines of HTML, CSS, and JS, shipped as one file with no build step. This was a deliberate constraint: the tool needs to work for non-technical users who just want to open something in a browser. Zero install friction, zero dependency management, zero server.</p>
           </div>
 
           <div class="tech-note r" style="margin-top:1.25rem;">
             <div class="tech-note-title">Differential evolution for model training</div>
-            <p>With 10 feature weights to optimize and no large labeled dataset, gradient descent wasn't the right tool. Differential evolution is population-based and derivative-free — it handles the non-convex loss surface from human quality judgments without needing explicit gradients. 5-fold stratified cross-validation kept it from overfitting to the training sample.</p>
+            <p>With 10 feature weights to optimize and no large labeled dataset, gradient descent wasn't the right tool. Differential evolution is population-based and derivative-free. It handles the non-convex loss surface from human quality judgments without needing explicit gradients. 5-fold stratified cross-validation kept it from overfitting to the training sample.</p>
           </div>
 
           <div class="tech-note r" style="margin-top:1.25rem;">
             <div class="tech-note-title">Privacy as a feature, not a footnote</div>
-            <p>Every analysis runs client-side. TensorFlow.js loads the BlazeFace model once locally. EXIF parsing reads raw ArrayBuffers in the browser. No image data ever leaves the device. This wasn't just an ethical choice — it's a concrete competitive differentiator against every cloud-based tool in this space.</p>
+            <p>Every analysis runs client-side. TensorFlow.js loads the BlazeFace model once locally. EXIF parsing reads raw ArrayBuffers in the browser. No image data ever leaves the device. This wasn't just an ethical choice. It's a concrete competitive differentiator against every cloud-based tool in this space.</p>
           </div>
         </div>
       </section>
@@ -1000,17 +1001,17 @@
 
         <div class="tech-note r">
           <div class="tech-note-title">TensorFlow.js + BlazeFace</div>
-          <p>TF.js lets a neural network run entirely in the browser — no Python server, no API call, no data leaving the device. BlazeFace is optimized for real-time face detection on mobile hardware, which matters when processing a full wedding shoot of 2,000+ images.</p>
+          <p>TF.js lets a neural network run entirely in the browser. No Python server, no API call, no data leaving the device. BlazeFace is optimized for real-time face detection on mobile hardware, which matters when processing a full wedding shoot of 2,000+ images.</p>
         </div>
 
         <div class="tech-note r" style="margin-top:1.25rem;">
           <div class="tech-note-title">Tenengrad sharpness (Sobel gradient magnitude²)</div>
-          <p>Tenengrad is the standard reference algorithm for focus measurement in computational photography — used in autofocus systems and scientific imaging pipelines. Sobel gradient magnitude squared captures high-frequency edge energy, which correlates directly with perceived sharpness. Gaussian pre-smoothing reduces noise sensitivity before the gradient step.</p>
+          <p>Tenengrad is the standard reference algorithm for focus measurement in computational photography. It's used in autofocus systems and scientific imaging pipelines. Sobel gradient magnitude squared captures high-frequency edge energy, which correlates directly with perceived sharpness. Gaussian pre-smoothing reduces noise sensitivity before the gradient step.</p>
         </div>
 
         <div class="tech-note r" style="margin-top:1.25rem;">
           <div class="tech-note-title">dHash for duplicate detection</div>
-          <p>Perceptual hashing reduces each image to a 64-bit signature based on relative gradient direction in a 9×8 downsample. Hamming distance ≤ 8 flags images as duplicates — this threshold catches burst sequences and nearly-identical compositions while ignoring legitimate differences in exposure or framing.</p>
+          <p>Perceptual hashing reduces each image to a 64-bit signature based on relative gradient direction in a 9×8 downsample. Hamming distance ≤ 8 flags images as duplicates. This threshold catches burst sequences and nearly-identical compositions while ignoring legitimate differences in exposure or framing.</p>
         </div>
       </section>
     </div>
@@ -1024,19 +1025,19 @@
         <div class="learning-item r">
           <div class="learning-num">01</div>
           <div class="learning-title">The model training loop was the easy part. Calibrating the thresholds was where the real work lived.</div>
-          <p class="learning-body">Differential evolution converges well — getting good feature weights wasn't the hard problem. The hard problem was deciding what score qualifies as a "Keep" vs. a "Maybe." Those thresholds are human judgments, not math. I had to label enough images to build a calibration set, then tune thresholds until the output matched what I'd actually do in Lightroom. That feedback loop took longer than the ML training itself.</p>
+          <p class="learning-body">Differential evolution converges well. Getting good feature weights wasn't the hard problem. The hard problem was deciding what score qualifies as a "Keep" vs. a "Maybe." Those thresholds are human judgments, not math. I had to label enough images to build a calibration set, then tune thresholds until the output matched what I'd actually do in Lightroom. That feedback loop took longer than the ML training itself.</p>
         </div>
 
         <div class="learning-item r">
           <div class="learning-num">02</div>
           <div class="learning-title">Single-file architecture is a real constraint, not just a party trick.</div>
-          <p class="learning-body">Keeping everything in one file meant no module system, no tree-shaking, no lazy loading. At 2,754 lines, managing scope and avoiding global collisions required actual discipline — namespacing, careful function ordering, and being deliberate about what state lives where. It's a different set of skills than framework-based work, and I came out of it with a much clearer mental model of how browsers actually parse and execute code.</p>
+          <p class="learning-body">Keeping everything in one file meant no module system, no tree-shaking, no lazy loading. At 2,754 lines, managing scope and avoiding global collisions required actual discipline: namespacing, careful function ordering, and being deliberate about what state lives where. It's a different set of skills than framework-based work, and I came out of it with a much clearer mental model of how browsers actually parse and execute code.</p>
         </div>
 
         <div class="learning-item r">
           <div class="learning-num">03</div>
           <div class="learning-title">Security in a client-side app still requires real engineering.</div>
-          <p class="learning-body">Because there's no server, there's a temptation to think security doesn't matter. It does. Malicious EXIF data, oversized files, and crafted filenames are all real attack vectors even in a pure browser context. Building the HTML entity escaping helper, setting a Content Security Policy, and enforcing the 80MB file limit weren't afterthoughts — they were part of the spec from the start. Getting the pre-deployment audit to pass clean was a meaningful milestone.</p>
+          <p class="learning-body">Because there's no server, there's a temptation to think security doesn't matter. It does. Malicious EXIF data, oversized files, and crafted filenames are all real attack vectors even in a pure browser context. Building the HTML entity escaping helper, setting a Content Security Policy, and enforcing the 80MB file limit weren't afterthoughts. They were part of the spec from the start. Getting the pre-deployment audit to pass clean was a meaningful milestone.</p>
         </div>
       </section>
     </div>
