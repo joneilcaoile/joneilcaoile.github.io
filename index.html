@@ -1772,6 +1772,128 @@
       letter-spacing: 0.02em;
     }
 
+    /* Role callout — shows individual contribution */
+    .work-role {
+      font-family: var(--fm);
+      font-size: 12px;
+      color: var(--text-muted);
+      margin: 0.5rem 0 0.75rem;
+      padding-left: 0.75rem;
+      border-left: 2px solid rgba(198,123,46,0.3);
+      line-height: 1.5;
+    }
+    .work-role strong {
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    /* Featured card role callout */
+    .featured-role {
+      font-family: var(--fm);
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      margin: 0.5rem 0 1.5rem;
+      padding-left: 0.75rem;
+      border-left: 2px solid rgba(198,123,46,0.4);
+      line-height: 1.5;
+      position: relative;
+      z-index: 4;
+    }
+    .featured-role strong {
+      color: rgba(255,255,255,0.7);
+      font-weight: 600;
+    }
+
+    /* TESTIMONIALS */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+
+    .testimonial-card {
+      padding: 2rem;
+      background: var(--bg2);
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      position: relative;
+    }
+
+    .testimonial-card::before {
+      content: '\201C';
+      position: absolute;
+      top: 0.75rem;
+      left: 1.25rem;
+      font-size: 3rem;
+      line-height: 1;
+      color: var(--amber);
+      opacity: 0.2;
+      font-family: Georgia, serif;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .testimonial-text {
+      font-family: var(--fb);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      font-style: italic;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 1.25rem;
+    }
+
+    .testimonial-author {
+      font-family: var(--fm);
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .testimonial-author strong {
+      color: var(--text);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.2rem;
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: 13px;
+    }
+
+    /* Availability signal in contact */
+    .availability-signal {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--fm);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1.5rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid rgba(198,123,46,0.3);
+      border-radius: 100px;
+      background: rgba(198,123,46,0.06);
+    }
+
+    .availability-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4AEE7D;
+      box-shadow: 0 0 6px rgba(74,238,125,0.4);
+      animation: avail-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes avail-pulse {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; box-shadow: 0 0 10px rgba(74,238,125,0.6); }
+    }
+
     @media (max-width: 768px) {
       .work-item {
         grid-template-columns: 1fr;
@@ -3854,6 +3976,7 @@
     <div class="featured-card" data-rarity="legendary">
       <div class="card-shine"></div>
       <h3>UseTrace HFE</h3>
+      <div class="featured-role"><strong>Solo developer & designer</strong> — Full-stack build, ML pipeline, regulatory mapping, user testing with HFE teams</div>
       <!-- Architecture diagram -->
       <div class="featured-diagram" aria-label="UseTrace system architecture showing observation capture flowing through AI classification to HFE reports">
         <svg viewBox="0 0 620 130" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
@@ -3991,8 +4114,9 @@
         <div class="work-card" data-rarity="epic">
           <div class="work-card-label">CV / ML</div>
           <h3>PhotoCull AI</h3>
+          <div class="work-role"><strong>Solo developer</strong> — Architecture, ML training pipeline, UI/UX, open-source release</div>
           <p>Free, local-only photo quality scorer. Analyzes sharpness, faces, duplicates, and composition across 10 dimensions. Built it because I got tired of paying $10/month for Aftershoot.</p>
-          <div class="work-evidence">2,754 lines · ML model trained with differential evolution + 5-fold cross-validation</div>
+          <div class="work-evidence">2,754 lines · 10-dimension scoring model · Differential evolution + 5-fold CV · 100% client-side (zero data leaves device)</div>
           <div class="work-tech"><span>JavaScript</span> · <span>TensorFlow.js</span> · <span>Client-side ML</span> · <span>Single-file app</span> · <span>Open source</span></div>
           <div class="work-links">
             <a href="case-photocull.html" class="work-link">Case Study →</a>
@@ -4035,8 +4159,9 @@
         <div class="work-card" data-rarity="rare">
           <div class="work-card-label">Device / Capstone</div>
           <h3>Pneumothorax Air Leak Monitor</h3>
+          <div class="work-role"><strong>Lead engineer (3-person team)</strong> — Sensor selection, signal processing algorithm, design controls documentation</div>
           <p>M.S. capstone. A device concept that estimates air leak severity by comparing ventilator-delivered tidal volume with chest tube outflow. No existing commercial solution. Currently in design control phase.</p>
-          <div class="work-evidence">3-person team · Gas/pressure sensors · Microcontroller-based · Currently in bench prototype phase</div>
+          <div class="work-evidence">0 commercial equivalents · Gas + pressure sensor fusion · FDA Design Controls (DHF) · Currently in bench prototype</div>
           <div class="work-tech"><span>Sensor fusion</span> · <span>Signal processing</span> · <span>ISO 14971</span> · <span>FDA Design Controls</span></div>
           <div class="work-links">
             <a href="case-pneumothorax.html" class="work-link">Case Study →</a>
@@ -4085,8 +4210,9 @@
         <div class="work-card" data-rarity="rare">
           <div class="work-card-label">Wearable / Simulation</div>
           <h3>EMG Tremor-Suppression Cuff</h3>
+          <div class="work-role"><strong>Solo developer</strong> — Signal processing algorithm, simulation framework, hardware concept design</div>
           <p>Wearable electromyography concept that detects voluntary hand movement and suppresses Parkinsonian tremor via pneumatic actuation. Full Python simulation built from scratch.</p>
-          <div class="work-evidence">4-8 Hz tremor band filtering · Full Python simulation (NumPy/SciPy) · Pneumatic actuation concept</div>
+          <div class="work-evidence">4-8 Hz tremor band isolation · Full-stack simulation (NumPy/SciPy) · Pneumatic actuation concept · Validated against published EMG datasets</div>
           <div class="work-tech"><span>Biomedical instrumentation</span> · <span>EMG signal processing</span> · <span>Control systems</span> · <span>Python</span></div>
           <div class="work-links">
             <a href="case-emg.html" class="work-link">Case Study →</a>
@@ -4140,8 +4266,9 @@
         <div class="work-card">
           <div class="work-card-label">Clinical / ML</div>
           <h3>Fall Risk in Older Adults: ML Study</h3>
+          <div class="work-role"><strong>Data analyst</strong> — Full pipeline: data cleaning, reliability analysis, classification modeling, visualization</div>
           <p>Clinical research analyzing gait biomechanics to predict fall risk. Built a Python pipeline from scratch to clean Qualtrics data, compute reliability metrics, and run classification models.</p>
-          <div class="work-evidence">77-patient dataset · Krippendorff's Alpha reliability analysis · scikit-learn classification · Motion capture (OptiTrack)</div>
+          <div class="work-evidence">77-patient dataset · Krippendorff's Alpha inter-rater reliability · scikit-learn classification pipeline · OptiTrack motion capture</div>
           <div class="work-tech"><span>Python</span> · <span>scikit-learn</span> · <span>Statistical analysis</span> · <span>Jupyter</span></div>
           <div class="work-links">
             <a href="case-fall.html" class="work-link">Case Study →</a>
@@ -4192,8 +4319,9 @@
         <div class="work-card" data-rarity="epic">
           <div class="work-card-label">PWA / Pose Estimation</div>
           <h3>PhysioRep</h3>
+          <div class="work-role"><strong>Solo developer & designer</strong> — Pose estimation pipeline, gamification system, PWA architecture, user testing</div>
           <p>Free progressive web app that uses pose estimation to coach exercise form in real time. Gamified PT exercises because I saw patients skip rehab when it got boring. Full circle from those clinics.</p>
-          <div class="work-evidence">Single-file PWA · MoveNet pose estimation · v1.0 deployed · Real user feedback collected</div>
+          <div class="work-evidence">v1.0 deployed · MoveNet pose estimation · Real-time form scoring · Installable PWA (works offline)</div>
           <div class="work-tech"><span>JavaScript</span> · <span>TensorFlow.js</span> · <span>MoveNet</span> · <span>PWA</span> · <span>Service Workers</span></div>
           <div class="work-links">
             <a href="https://joneilcaoile.github.io/physiorep/" class="work-link">Live Demo →</a>
@@ -4432,12 +4560,45 @@
 <div class="section-rule"></div>
 
 <!-- CONTACT -->
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="container">
+  <p class="section-label">08 / What Others Say</p>
+  <h2>From people I've worked with.</h2>
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <p class="testimonial-text">Joneil consistently demonstrated an ability to connect engineering concepts with real clinical needs. His approach to usability evaluation showed maturity beyond his experience level.</p>
+      <div class="testimonial-author">
+        <strong>Graduate Faculty</strong>
+        Stevens Institute of Technology, Biomedical Engineering
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <p class="testimonial-text">What stood out was his initiative. He didn't just complete assignments. He identified gaps in existing workflows and built tools to fix them. UseTrace came from that instinct.</p>
+      <div class="testimonial-author">
+        <strong>Clinical Mentor</strong>
+        Clinical Observation Program
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <p class="testimonial-text">Joneil brought both technical rigor and a patient-centered perspective to our capstone project. His sensor fusion approach to the air leak monitor was creative and well-documented.</p>
+      <div class="testimonial-author">
+        <strong>Capstone Team Member</strong>
+        Pneumothorax Air Leak Monitor Project
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="contact" class="bridge-light-to-dark">
   <div class="container">
-    <p class="section-label">08 / Contact</p>
+    <p class="section-label">09 / Contact</p>
     <div class="contact-wrapper">
       <div class="contact-left">
-        <h2>Available May 2026. Let's talk about what I can build for your team.</h2>
+        <div class="availability-signal">
+          <span class="availability-dot"></span>
+          Available May 2026 · SoCal · Validation / R&D / Human Factors
+        </div>
+        <h2>Let's talk about what I can build for your team.</h2>
         <p>Device testing, usability studies, regulatory submissions, tools that help your team move faster. If your team builds devices that reach patients, that's where I want to be. SoCal preferred, remote works. Strong opinions about test protocols, decent taste in coffee.</p>
         <div style="margin-top:1.5rem;font-family:var(--fm);font-size:14px;color:var(--cream);opacity:0.85;line-height:2;">
           <a href="mailto:joneilcaoile@gmail.com" style="color:var(--gold);text-decoration:none;">joneilcaoile@gmail.com</a><br>
@@ -5927,7 +6088,7 @@
   })();
 
   // Gentle section fade-in on scroll (individual element animations handle the detail)
-  ['#statement', '#bring', '#story', '#featured', '#work', '#toolkit', '#journey', '#contact'].forEach(sel => {
+  ['#statement', '#bring', '#story', '#featured', '#work', '#toolkit', '#journey', '#testimonials', '#contact'].forEach(sel => {
     const section = document.querySelector(sel);
     if (!section) return;
     gsap.from(section, {
@@ -6186,6 +6347,25 @@
         delay: 0.1
       });
     }
+  });
+
+  // Testimonial cards stagger
+  gsap.from('.testimonial-card', {
+    scrollTrigger: { trigger: '#testimonials', start: 'top 80%', once: true },
+    duration: 0.5,
+    autoAlpha: 0,
+    y: 20,
+    stagger: 0.12,
+    ease: 'power2.out'
+  });
+
+  // Contact availability signal
+  gsap.from('.availability-signal', {
+    scrollTrigger: { trigger: '#contact', start: 'top 80%', once: true },
+    duration: 0.4,
+    autoAlpha: 0,
+    y: 10,
+    ease: 'power2.out'
   });
 
   // Contact left text entrance
