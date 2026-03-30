@@ -1068,6 +1068,8 @@
 
     .terminal-line {
       margin: 0.4rem 0;
+      position: relative;
+      z-index: 3;
     }
 
     .terminal-prompt {
@@ -1085,9 +1087,11 @@
       margin: 0.6rem 0;
       display: inline-block;
       letter-spacing: 0.08em;
+      position: relative;
+      z-index: 3;
     }
 
-    /* ORB GRADIENTS */
+    /* ORB GRADIENTS — behind all hero content */
     .hero::before,
     .hero::after {
       content: '';
@@ -1095,6 +1099,8 @@
       border-radius: 50%;
       filter: blur(80px);
       opacity: 0.15;
+      z-index: 0;
+      pointer-events: none;
     }
 
     .hero::before {
@@ -1408,12 +1414,26 @@
       inset: 0;
       background: linear-gradient(135deg, rgba(212, 162, 51, 0.05), transparent);
       pointer-events: none;
+      z-index: 1;
       animation: shimmer 3s ease-in-out infinite;
     }
 
     @keyframes shimmer {
       0%, 100% { opacity: 0.5; }
       50% { opacity: 1; }
+    }
+
+    /* All featured card content sits above shine/shimmer overlays */
+    .featured-card > h3,
+    .featured-card > .featured-diagram,
+    .featured-card > .featured-problem,
+    .featured-card > .featured-solution,
+    .featured-card > .spec-table,
+    .featured-card > .featured-tech,
+    .featured-card > .featured-link,
+    #featured > .container > .spec-table {
+      position: relative;
+      z-index: 4;
     }
 
     .featured-diagram {
@@ -1547,6 +1567,7 @@
       position: absolute;
       inset: 0;
       opacity: 0.18;
+      z-index: 0;
     }
 
     .work-visual-icon {
@@ -2211,6 +2232,7 @@
       border: 1px solid rgba(198,123,46,0.12);
       border-radius: 10px;
       pointer-events: none;
+      z-index: 0;
     }
     .ro-tree-header {
       text-align: center;
