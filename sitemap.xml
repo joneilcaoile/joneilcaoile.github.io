@@ -14,7 +14,13 @@
   </url>
   <url>
     <loc>https://joneilcaoile.github.io/case-photocull.html</loc>
-    <lastmod>2026-03-27</lastmod>
+    <lastmod>2026-03-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://joneilcaoile.github.io/case-physiorep.html</loc>
+    <lastmod>2026-03-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -26,14 +32,14 @@
   </url>
   <url>
     <loc>https://joneilcaoile.github.io/case-emg.html</loc>
-    <lastmod>2026-03-21</lastmod>
+    <lastmod>2026-03-30</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://joneilcaoile.github.io/case-fall.html</loc>
-    <lastmod>2026-03-21</lastmod>
+    <lastmod>2026-03-30</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
 </urlset>
