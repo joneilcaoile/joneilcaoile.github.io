@@ -2198,7 +2198,7 @@
       font-family: var(--fm);
       font-size: 13px;
       font-weight: 600;
-      color: var(--text-faint);
+      color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
@@ -2217,7 +2217,8 @@
 
     .form-group input:focus,
     .form-group textarea:focus {
-      outline: none;
+      outline: 2px solid var(--amber);
+      outline-offset: 2px;
       border-color: var(--amber);
       background: var(--dark3);
     }
@@ -4633,7 +4634,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="container">
-    &copy; <script>document.write(new Date().getFullYear())</script> Joneil Caoile. Built with too much coffee.
+    &copy; <span id="footer-year">2026</span> Joneil Caoile. Built with too much coffee.
     <span class="footer-links">
       <a href="https://linkedin.com/in/joneilcaoile" target="_blank" rel="noopener">LinkedIn</a>
       <a href="https://github.com/joneilcaoile" target="_blank" rel="noopener">GitHub</a>
@@ -7254,6 +7255,9 @@
       },83);
     });
   })();
+
+  /* Footer year */
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
 </script>
 
 </body>
