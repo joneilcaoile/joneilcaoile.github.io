@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PhysioRep | Case Study | Joneil Caoile</title>
+  <meta name="description" content="PhysioRep: Camera-based workout form tracker PWA using MediaPipe Pose. Counts reps, scores form, gives voice coaching in real time. Built by Joneil Caoile, MS BME.">
+  <meta property="og:title" content="PhysioRep | Case Study | Joneil Caoile">
+  <meta property="og:description" content="Free PWA that uses pose estimation to count reps, score exercise form, and give voice coaching in real time. No backend, no framework, works offline.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://joneilcaoile.github.io/case-physiorep.html">
+  <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.jpg">
+  <link rel="canonical" href="https://joneilcaoile.github.io/case-physiorep.html">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; frame-src 'none'; object-src 'none'; base-uri 'self';">
+  <meta name="theme-color" content="#FAFAF8">
+
+  <!-- Fonts (same as main portfolio) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+
+  <style>
+    /* ===== DESIGN SYSTEM (matches main portfolio) ===== */
+    :root {
+      --bg: #FAFAF8;
+      --bg-warm: #F5F3EE;
+      --bg-dark: #0F0E0C;
+      --bg-dark-2: #1A1815;
+      --text: #1A1815;
+      --text-muted: #6B6560;
+      --text-light: #9A9490;
+
+      --amber: #D97706;
+      --amber-light: #FEF3C7;
+      --amber-mid: #F59E0B;
+      --coral: #E05C4A;
+      --gold: #C89B3C;
+
+      --teal: #0D9488;
+      --teal-light: #CCFBF1;
+
+      --accent: var(--amber);
+      --accent-glow: rgba(217, 119, 6, 0.15);
+
+      --font-head: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 48px rgba(0,0,0,0.12);
+
+      --progress-h: 3px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+
+    /* ===== SCROLL PROGRESS ===== */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: var(--progress-h);
+      width: 0%;
+      background: linear-gradient(90deg, var(--amber), var(--coral));
+      z-index: 200;
+      transition: width 0.1s linear;
+    }
+
+    /* ===== BACK NAV ===== */
+    .back-nav {
+      position: fixed;
+      top: var(--progress-h);
+      left: 0; right: 0;
+      z-index: 100;
+      background: rgba(250,250,248,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding: 0 clamp(1.5rem, 5vw, 3rem);
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .back-link {
+      font-family: var(--font-head);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover { color: var(--amber); }
+    .back-link:focus-visible { outline: 2px solid var(--amber); outline-offset: 4px; border-radius: 4px; }
+
+    .github-link {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.75rem;
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: var(--radius-sm);
+      transition: all 0.2s;
+      letter-spacing: 0.05em;
+    }
+    .github-link:hover {
+      color: var(--amber);
+      border-color: var(--amber);
+      background: var(--amber-light);
+    }
+
+    /* ===== SKIP NAV ===== */
+    .skip-nav {
+      position: absolute;
+      top: -100px;
+      left: 1rem;
+      background: var(--amber);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      font-weight: 600;
+      z-index: 1000;
+      transition: top 0.2s;
+    }
+    .skip-nav:focus { top: 1rem; }
+
+    /* ===== MAIN LAYOUT ===== */
+    main {
+      padding-top: calc(60px + var(--progress-h));
+    }
+
+    .section {
+      padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 3rem);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section-wide {
+      padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 3rem);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .r { }
+
+    /* ===== HERO ===== */
+    .hero {
+      padding: clamp(4rem, 10vw, 8rem) clamp(1.5rem, 5vw, 3rem) clamp(3rem, 6vw, 5rem);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: var(--teal-light);
+      color: var(--teal);
+      border: 1px solid rgba(13,148,136,0.25);
+      border-radius: 100px;
+      padding: 0.3rem 0.85rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+
+    .hero-title {
+      font-family: var(--font-head);
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-title .accent {
+      background: linear-gradient(135deg, var(--amber), var(--coral));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--text-muted);
+      max-width: 640px;
+      margin-bottom: 2.5rem;
+      line-height: 1.75;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.5rem;
+      font-size: 0.82rem;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+    }
+
+    .meta-item .meta-label {
+      color: var(--text-light);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .meta-divider {
+      width: 1px;
+      height: 1.2em;
+      background: rgba(0,0,0,0.12);
+      align-self: center;
+    }
+
+    /* ===== SECTION HEADINGS ===== */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: var(--font-head);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+
+    .prose {
+      color: var(--text-muted);
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .prose strong { color: var(--text); font-weight: 600; }
+
+    /* ===== PROBLEM / SOLUTION CARDS ===== */
+    .ps-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 600px) { .ps-grid { grid-template-columns: 1fr; } }
+
+    .ps-card {
+      padding: 1.75rem;
+      border-radius: var(--radius);
+      border: 1px solid rgba(0,0,0,0.08);
+      background: var(--bg-warm);
+    }
+
+    .ps-card.problem { border-left: 3px solid var(--coral); }
+    .ps-card.solution { border-left: 3px solid var(--amber); }
+
+    .ps-card-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .ps-card.problem .ps-card-label { color: var(--coral); }
+    .ps-card.solution .ps-card-label { color: var(--amber); }
+
+    .ps-card-title {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      color: var(--text);
+    }
+
+    .ps-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ===== DARK SECTIONS ===== */
+    .dark-section {
+      background: var(--bg-dark);
+      color: #F5F3EE;
+    }
+
+    .dark-section .section-label { color: var(--amber-mid); }
+    .dark-section .section-title { color: #F5F3EE; }
+    .dark-section .prose { color: rgba(245,243,238,0.7); }
+    .dark-section .prose strong { color: #F5F3EE; }
+
+    /* ===== ARCHITECTURE DIAGRAM ===== */
+    .arch {
+      background: var(--bg-dark-2);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 2rem 1.5rem;
+      margin: 2rem 0;
+      overflow-x: auto;
+    }
+
+    .arch-title {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(245,243,238,0.4);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .arch-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .arch-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.85rem 1.1rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-head);
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-align: center;
+      min-width: 90px;
+      border: 1px solid transparent;
+    }
+
+    .arch-node.input { background: rgba(59,130,246,0.15); border-color: rgba(59,130,246,0.3); color: #93C5FD; }
+    .arch-node.process { background: rgba(20,184,166,0.15); border-color: rgba(20,184,166,0.3); color: #5EEAD4; }
+    .arch-node.ai { background: rgba(217,119,6,0.2); border-color: rgba(217,119,6,0.4); color: #FCD34D; }
+    .arch-node.output { background: rgba(168,85,247,0.15); border-color: rgba(168,85,247,0.3); color: #C4B5FD; }
+
+    .arch-sub {
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      font-weight: 400;
+      opacity: 0.7;
+      line-height: 1.3;
+    }
+
+    .arch-arrow {
+      color: rgba(245,243,238,0.25);
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .arch-pipeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin: 1.25rem 0;
+    }
+
+    .arch-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* ===== FEATURE GRID ===== */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .feature-card {
+      background: var(--bg-dark-2);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+
+    .feature-card-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .feature-card h3 {
+      font-family: var(--font-head);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #F5F3EE;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-card p {
+      font-size: 0.85rem;
+      color: rgba(245,243,238,0.6);
+      line-height: 1.65;
+    }
+
+    /* ===== SCOPE / METRICS GRID ===== */
+    .scope-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .scope-card {
+      background: var(--bg-dark-2);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.25rem;
+      text-align: center;
+    }
+
+    .scope-value {
+      font-family: var(--font-head);
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--amber-mid);
+      line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+
+    .scope-label {
+      font-size: 0.78rem;
+      color: rgba(245,243,238,0.5);
+      letter-spacing: 0.04em;
+    }
+
+    /* ===== TECH STACK ===== */
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .tech-tag {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 100px;
+      background: rgba(217,119,6,0.12);
+      color: var(--amber-mid);
+      border: 1px solid rgba(217,119,6,0.25);
+    }
+
+    .tech-note {
+      margin-top: 1.5rem;
+    }
+
+    .tech-note-title {
+      font-family: var(--font-head);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #F5F3EE;
+      margin-bottom: 0.5rem;
+    }
+
+    .tech-note p {
+      font-size: 0.9rem;
+      color: rgba(245,243,238,0.65);
+      line-height: 1.75;
+    }
+
+    /* ===== LEARNINGS ===== */
+    .learnings-section {
+      background: var(--bg-dark);
+    }
+
+    .learning-item {
+      padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .learning-item:last-child { border-bottom: none; }
+
+    .learning-num {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--amber-mid);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+
+    .learning-title {
+      font-family: var(--font-head);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #F5F3EE;
+      margin-bottom: 0.6rem;
+    }
+
+    .learning-body {
+      font-size: 0.92rem;
+      color: rgba(245,243,238,0.65);
+      line-height: 1.75;
+    }
+
+    /* ===== CTA ===== */
+    .cta-section {
+      background: var(--bg-warm);
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .cta-inner {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 3rem);
+      text-align: center;
+    }
+
+    .cta-body {
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-head);
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 0.7rem 1.4rem;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--amber);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--amber-mid); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(217,119,6,0.3); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1.5px solid rgba(0,0,0,0.15);
+    }
+    .btn-outline:hover { border-color: var(--amber); color: var(--amber); transform: translateY(-1px); }
+
+    .btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 4px; }
+
+    /* ===== CASE STUDY NAV ===== */
+    .case-nav {
+      border-top: 1px solid rgba(0,0,0,0.08);
+      padding: 2.5rem clamp(1.5rem, 5vw, 3rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .case-nav-link {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .case-nav-link:hover { opacity: 0.7; }
+
+    .case-nav-dir {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+
+    .case-nav-name {
+      font-family: var(--font-head);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .case-nav-link.right { text-align: right; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--bg-dark);
+      color: rgba(245,243,238,0.4);
+      text-align: center;
+      padding: 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+    }
+
+    footer a { color: var(--amber-mid); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      .meta-row { flex-direction: column; gap: 0.35rem; }
+      .meta-divider { display: none; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .scope-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="skip-nav" href="#main">Skip to content</a>
+  <div id="progress-bar" role="progressbar" aria-label="Reading progress"></div>
+
+  <!-- Back nav -->
+  <nav class="back-nav" aria-label="Case study navigation">
+    <a class="back-link" href="index.html">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to portfolio
+    </a>
+    <div style="display:flex;align-items:center;gap:1rem;">
+      <a class="github-link" href="https://github.com/joneilcaoile/physiorep" target="_blank" rel="noopener noreferrer">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a class="github-link" href="https://joneilcaoile.github.io/physiorep/" target="_blank" rel="noopener noreferrer">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Live demo
+      </a>
+    </div>
+  </nav>
+
+  <main id="main">
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="status-badge r">
+        <span class="status-dot" aria-hidden="true"></span>
+        PWA v1.0 Deployed
+      </div>
+
+      <h1 class="hero-title r" id="hero-title">
+        Exercise form coaching<br>from <span class="accent">your camera</span>
+      </h1>
+
+      <p class="hero-desc r">
+        PhysioRep is a free progressive web app that uses pose estimation to count reps, score exercise form, and give voice coaching in real time. No app store, no backend, no account. Open a browser and start training.
+      </p>
+
+      <div class="meta-row r">
+        <div class="meta-item">
+          <span class="meta-label">Role</span>
+          Solo Developer
+        </div>
+        <div class="meta-divider" aria-hidden="true"></div>
+        <div class="meta-item">
+          <span class="meta-label">Timeline</span>
+          March 2026
+        </div>
+        <div class="meta-divider" aria-hidden="true"></div>
+        <div class="meta-item">
+          <span class="meta-label">Type</span>
+          PWA / Pose Estimation
+        </div>
+        <div class="meta-divider" aria-hidden="true"></div>
+        <div class="meta-item">
+          <span class="meta-label">License</span>
+          MIT
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PROBLEM ===== -->
+    <section class="section" aria-labelledby="problem-heading">
+      <p class="section-label r">The Problem</p>
+      <h2 class="section-title r" id="problem-heading">Patients skip rehab when it gets boring</h2>
+
+      <p class="prose r">
+        In clinical rotations, I watched PT patients lose motivation mid-program. The exercises themselves aren't hard. The problem is doing them alone at home with no feedback and no sense of progress. Without a therapist watching, form degrades, reps become guesses, and compliance drops.
+      </p>
+
+      <p class="prose r">
+        Existing fitness apps either cost money, require wearable sensors, or just play a video and hope you follow along. None of them actually watch you move and tell you what to fix. The gap is <strong>real-time, camera-based form feedback</strong> that anyone can access for free.
+      </p>
+
+      <div class="ps-grid">
+        <div class="ps-card problem r">
+          <div class="ps-card-label">The gap</div>
+          <div class="ps-card-title">No feedback, no accountability</div>
+          <p>Home exercise programs rely on patients remembering cues from their last PT visit. Without real-time correction, form degrades. Without rep counting, progress is invisible.</p>
+        </div>
+        <div class="ps-card solution r">
+          <div class="ps-card-label">The solution</div>
+          <div class="ps-card-title">Camera as coach, browser as gym</div>
+          <p>A PWA that uses your device camera to track joint angles, count reps automatically, score form in real time, and give voice cues when something needs correction. Works offline, installs like an app, costs nothing.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ARCHITECTURE ===== -->
+    <div class="dark-section">
+      <section class="section" aria-labelledby="arch-heading">
+        <p class="section-label r">How It Works</p>
+        <h2 class="section-title r" id="arch-heading">Pose estimation to form scoring</h2>
+
+        <p class="prose r">
+          The camera feed runs through MediaPipe Pose to extract 33 body landmarks per frame. Joint angles are computed from those landmarks, compared against per-exercise thresholds, and scored. When form degrades, the Web Speech API delivers a spoken correction in real time.
+        </p>
+
+        <div class="arch r">
+          <div class="arch-title">Real-Time Pipeline</div>
+          <div class="arch-pipeline">
+            <div class="arch-row">
+              <div class="arch-node input">
+                Camera Feed
+                <span class="arch-sub">getUserMedia API</span>
+              </div>
+              <span class="arch-arrow">&rarr;</span>
+              <div class="arch-node ai">
+                MediaPipe Pose
+                <span class="arch-sub">33 landmarks per frame</span>
+              </div>
+              <span class="arch-arrow">&rarr;</span>
+              <div class="arch-node process">
+                Joint Angles
+                <span class="arch-sub">Knee, hip, elbow, shoulder</span>
+              </div>
+            </div>
+            <div class="arch-row" style="justify-content:center;color:rgba(245,243,238,0.2);font-size:1.1rem;">&darr;</div>
+            <div class="arch-row">
+              <div class="arch-node process">
+                Rep Counter
+                <span class="arch-sub">State machine per exercise</span>
+              </div>
+              <span class="arch-arrow">&rarr;</span>
+              <div class="arch-node process">
+                Form Scorer
+                <span class="arch-sub">Threshold comparison</span>
+              </div>
+              <span class="arch-arrow">&rarr;</span>
+              <div class="arch-node output">
+                Voice Coaching
+                <span class="arch-sub">Web Speech API</span>
+              </div>
+            </div>
+            <div class="arch-row" style="justify-content:center;color:rgba(245,243,238,0.2);font-size:1.1rem;">&darr;</div>
+            <div class="arch-row">
+              <div class="arch-node process">
+                IndexedDB
+                <span class="arch-sub">Workout history + progress</span>
+              </div>
+              <span class="arch-arrow">&rarr;</span>
+              <div class="arch-node output">
+                Fitness Score
+                <span class="arch-sub">0-1000 composite</span>
+              </div>
+              <span class="arch-arrow">&rarr;</span>
+              <div class="arch-node output">
+                Achievements
+                <span class="arch-sub">Badges + challenges</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:2.5rem;">
+          <p class="section-label r" style="color:var(--amber-mid);">Key Design Decisions</p>
+
+          <div class="tech-note r">
+            <div class="tech-note-title">No framework, no build step</div>
+            <p>The entire app is vanilla JavaScript. No React, no Webpack, no transpilation. This was deliberate: the app needs to be inspectable by anyone, forkable without tooling, and cacheable by a service worker without worrying about chunk hashes. It also means the mental model is simple. What you see in the source is what runs in the browser.</p>
+          </div>
+
+          <div class="tech-note r" style="margin-top:1.25rem;">
+            <div class="tech-note-title">Progressive disclosure: Simple / Standard / Nerd mode</div>
+            <p>Not every user wants the same depth of information. A PT patient doing rehab squats doesn't need to see joint angle telemetry. A fitness enthusiast might. Three UI modes let users choose their complexity level without redesigning the interface.</p>
+          </div>
+
+          <div class="tech-note r" style="margin-top:1.25rem;">
+            <div class="tech-note-title">Offline-first PWA architecture</div>
+            <p>A service worker caches all assets including the MediaPipe model files from CDN. Once the app loads once, it works without internet. This matters for the use case: people exercising in basements, garages, and PT clinics with spotty WiFi. Real user feedback confirmed this was the right call.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== FEATURES ===== -->
+    <div class="dark-section" style="background:var(--bg-dark-2);border-top:1px solid rgba(255,255,255,0.04);">
+      <section class="section-wide" aria-labelledby="features-heading">
+        <p class="section-label r" style="color:var(--amber-mid);">Feature Set</p>
+        <h2 class="section-title r" id="features-heading">More than a rep counter</h2>
+
+        <div class="feature-grid">
+          <div class="feature-card r">
+            <div class="feature-card-icon" aria-hidden="true">&#x1f3cb;</div>
+            <h3>18 Exercises</h3>
+            <p>Camera-based rep counting and form scoring for squats, push-ups, lunges, planks, and 14 more movements with per-exercise angle thresholds.</p>
+          </div>
+          <div class="feature-card r">
+            <div class="feature-card-icon" aria-hidden="true">&#x1f4cb;</div>
+            <h3>Structured Programs</h3>
+            <p>5 multi-week training programs with progressive overload. 7 HIIT protocols including Tabata, EMOM, AMRAP, and circuits.</p>
+          </div>
+          <div class="feature-card r">
+            <div class="feature-card-icon" aria-hidden="true">&#x2764;</div>
+            <h3>Heart Rate (rPPG)</h3>
+            <p>Camera-based heart rate estimation using remote photoplethysmography. No wearable required. Measures pulse from subtle skin color changes.</p>
+          </div>
+          <div class="feature-card r">
+            <div class="feature-card-icon" aria-hidden="true">&#x1f3e5;</div>
+            <h3>PT Compliance Mode</h3>
+            <p>Pain tracking, shareable progress reports, and compliance logging designed for patients doing prescribed home exercise programs.</p>
+          </div>
+          <div class="feature-card r">
+            <div class="feature-card-icon" aria-hidden="true">&#x1f4f9;</div>
+            <h3>Video Upload Analysis</h3>
+            <p>Record yourself or upload a video for post-workout form analysis. Review your movement quality after the fact, not just in real time.</p>
+          </div>
+          <div class="feature-card r">
+            <div class="feature-card-icon" aria-hidden="true">&#x1f3c6;</div>
+            <h3>Gamification</h3>
+            <p>Achievement badges, social challenges, friend codes, fitness score (0-1000), body radar visualization, and flexibility scoring to keep users engaged.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== SCOPE ===== -->
+    <div class="dark-section" style="background:var(--bg-dark);">
+      <section class="section" aria-labelledby="scope-heading">
+        <p class="section-label r">Project Scope</p>
+        <h2 class="section-title r" id="scope-heading">What was built</h2>
+
+        <!-- All numbers sourced from vault: 01 - Projects/PhysioRep.md -->
+        <div class="scope-grid">
+          <div class="scope-card r">
+            <div class="scope-value">18</div>
+            <div class="scope-label">exercises with pose tracking</div>
+          </div>
+          <div class="scope-card r">
+            <div class="scope-value">82/82</div>
+            <div class="scope-label">Jest tests passing</div>
+          </div>
+          <div class="scope-card r">
+            <div class="scope-value">12</div>
+            <div class="scope-label">training programs + HIIT protocols</div>
+          </div>
+          <div class="scope-card r">
+            <div class="scope-value">0</div>
+            <div class="scope-label">backend dependencies</div>
+          </div>
+        </div>
+        <!-- Source: vault note "01 - Projects/PhysioRep.md" -->
+      </section>
+    </div>
+
+    <!-- ===== TECH STACK ===== -->
+    <div class="dark-section" style="background:var(--bg-dark-2);border-top:1px solid rgba(255,255,255,0.04);">
+      <section class="section" aria-labelledby="tech-heading">
+        <p class="section-label r" style="color:var(--amber-mid);">Tech Stack</p>
+        <h2 class="section-title r" id="tech-heading">Chosen for the constraints</h2>
+
+        <div class="tech-tags r">
+          <span class="tech-tag">Vanilla JavaScript</span>
+          <span class="tech-tag">MediaPipe Pose</span>
+          <span class="tech-tag">IndexedDB</span>
+          <span class="tech-tag">Web Speech API</span>
+          <span class="tech-tag">Web Audio API</span>
+          <span class="tech-tag">Service Worker</span>
+          <span class="tech-tag">Jest</span>
+          <span class="tech-tag">PWA</span>
+          <span class="tech-tag">rPPG</span>
+        </div>
+
+        <div class="tech-note r">
+          <div class="tech-note-title">MediaPipe Pose</div>
+          <p>MediaPipe provides real-time pose estimation with 33 body landmarks per frame, running entirely in the browser via WebAssembly. It's fast enough for live exercise feedback on mobile hardware, and the CDN-hosted model files get cached by the service worker for offline use.</p>
+        </div>
+
+        <div class="tech-note r" style="margin-top:1.25rem;">
+          <div class="tech-note-title">IndexedDB for persistence</div>
+          <p>Workout history, progress data, and user settings all persist in IndexedDB. Unlike localStorage, it handles structured data without serialization overhead. Combined with the service worker cache, the entire app state survives network outages, browser restarts, and device switches.</p>
+        </div>
+
+        <div class="tech-note r" style="margin-top:1.25rem;">
+          <div class="tech-note-title">Security hardening</div>
+          <p>Full 10-section security audit passed. Content Security Policy meta tag, SRI hashes on CDN scripts, custom safeHTML sanitizer on all innerHTML calls, landmark validation, rate limiting, video upload validation. No secrets, no external API calls, no PII collection. MIT licensed.</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== LEARNINGS ===== -->
+    <div class="dark-section learnings-section">
+      <section class="section" aria-labelledby="learnings-heading">
+        <p class="section-label r">What I Learned</p>
+        <h2 class="section-title r" id="learnings-heading">Building for real users changed everything</h2>
+
+        <div class="learning-item r">
+          <div class="learning-num">01</div>
+          <div class="learning-title">Real user feedback found bugs that tests never would.</div>
+          <p class="learning-body">I posted PhysioRep to Reddit (r/bodyweightfitness) on launch day. Within hours, users reported that onboarding buttons weren't working on any browser. The root cause: my Content Security Policy was missing 'unsafe-inline', which silently blocked all inline onclick handlers. Tests passed. The app looked fine in my local environment. But actual users on actual devices hit a wall immediately. That experience drove home why shipping early matters more than shipping perfect.</p>
+        </div>
+
+        <div class="learning-item r">
+          <div class="learning-num">02</div>
+          <div class="learning-title">Pose estimation is easy. Good exercise thresholds are not.</div>
+          <p class="learning-body">Getting MediaPipe to detect body landmarks is straightforward. The hard engineering was calibrating angle thresholds per exercise so that "good form" and "bad form" match what a PT would actually say. Squats got praised by users. Push-ups were flagging good reps as bad because the shoulder angle thresholds were too strict. The difference between a demo and a product is in those thresholds.</p>
+        </div>
+
+        <div class="learning-item r">
+          <div class="learning-num">03</div>
+          <div class="learning-title">Offline-first is a feature users don't know they need until they need it.</div>
+          <p class="learning-body">One Reddit commenter specifically mentioned the app working in their basement with bad WiFi. They didn't ask for offline support. They just noticed it worked when nothing else did. The service worker + CDN caching strategy paid off exactly the way it was designed to, in a use case I'd planned for but couldn't have predicted when someone would actually hit it.</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== CTA ===== -->
+    <div class="cta-section">
+      <div class="cta-inner">
+        <h2 class="section-title r">Looking for someone who ships products, not just prototypes</h2>
+        <p class="cta-body r">
+          I'm finishing my M.S. in Biomedical Engineering at Stevens and looking for validation, applications, or R&amp;D engineering roles in SoCal. If you want someone who builds real tools that real people use, let's talk.
+        </p>
+        <div class="btn-row r">
+          <a class="btn btn-primary" href="https://github.com/joneilcaoile/physiorep" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+            View on GitHub
+          </a>
+          <a class="btn btn-primary" href="https://joneilcaoile.github.io/physiorep/" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Try the live demo
+          </a>
+          <a class="btn btn-outline" href="index.html#contact">
+            Get in touch
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Case study nav -->
+    <nav class="case-nav" aria-label="Other case studies">
+      <a class="case-nav-link" href="case-photocull.html">
+        <span class="case-nav-dir">&larr; Previous</span>
+        <span class="case-nav-name">PhotoCull AI</span>
+      </a>
+      <a class="case-nav-link right" href="case-pneumothorax.html">
+        <span class="case-nav-dir">Next &rarr;</span>
+        <span class="case-nav-name">Pneumothorax Monitor</span>
+      </a>
+    </nav>
+
+  </main>
+
+  <footer>
+    <p>Joneil Caoile &middot; M.S. Biomedical Engineering &middot; Stevens Institute of Technology &middot; <a href="https://joneilcaoile.github.io">joneilcaoile.github.io</a></p>
+  </footer>
+
+  <script>
+    // Scroll progress bar
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      document.getElementById('progress-bar').style.width = pct + '%';
+      document.getElementById('progress-bar').setAttribute('aria-valuenow', Math.round(pct));
+    }, { passive: true });
+
+    // Tab title easter egg
+    document.addEventListener('visibilitychange', () => {
+      document.title = document.hidden
+        ? '\uD83C\uDFCB\uFE0F Don\'t skip your reps!'
+        : 'PhysioRep \u2014 Case Study | Joneil Caoile';
+    });
+
+    // GSAP scroll reveals
+    window.addEventListener('load', () => {
+      if (typeof gsap === 'undefined') {
+        document.querySelectorAll('.r').forEach(el => {
+          el.style.opacity = 1;
+          el.style.transform = 'none';
+        });
+        return;
+      }
+      gsap.registerPlugin(ScrollTrigger);
+
+      gsap.set('.r', { opacity: 0, y: 28 });
+
+      gsap.to('.hero .r', {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        stagger: 0.12,
+        ease: 'power2.out',
+        delay: 0.15
+      });
+
+      gsap.utils.toArray('.r:not(.hero .r)').forEach(el => {
+        gsap.to(el, {
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 88%',
+            toggleActions: 'play none none none'
+          },
+          opacity: 1,
+          y: 0,
+          duration: 0.55,
+          ease: 'power2.out'
+        });
+      });
+    });
+  </script>
+</body>
+</html>
