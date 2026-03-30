@@ -11,6 +11,7 @@
   <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Joneil Caoile portfolio preview showing biomedical engineering projects and skills">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Joneil Caoile | Biomedical Engineer">
   <meta name="twitter:description" content="Building AI tools for medical device safety. Portfolio, projects, and contact.">
@@ -3695,7 +3696,7 @@
 <!-- CURSOR -->
 <div class="cursor" id="cursor"></div>
 <div class="cursor-spotlight" id="spotlight"></div>
-<canvas id="cursorTrail" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9997;"></canvas>
+<canvas id="cursorTrail" aria-hidden="true" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9997;"></canvas>
 
 <!-- CRITTER PET -->
 <div class="critter-container" id="critterContainer" title="Portfolio Pet. Click to earn XP!">
@@ -3719,7 +3720,7 @@
     <circle id="critterRingFill" cx="38" cy="38" r="35" fill="none" stroke="var(--amber)" stroke-width="2.5" stroke-linecap="round"
       stroke-dasharray="220" stroke-dashoffset="220" transform="rotate(-90 38 38)" style="transition: stroke-dashoffset 0.5s ease"/>
   </svg>
-  <canvas id="critterCanvas" width="16" height="16" style="width:64px;height:64px;"></canvas>
+  <canvas id="critterCanvas" aria-hidden="true" width="16" height="16" style="width:64px;height:64px;"></canvas>
   <div class="critter-label" id="critterLabel">Egg</div>
   <div class="critter-history" id="critterHistory"></div>
 </div>
@@ -3728,8 +3729,8 @@
 <div class="evo-overlay" id="evoOverlay">
   <div class="evo-text" id="evoText">Evolving...</div>
   <div class="evo-canvas-wrap" id="evoWrap">
-    <canvas id="evoOld" width="16" height="16"></canvas>
-    <canvas id="evoNew" width="16" height="16"></canvas>
+    <canvas id="evoOld" aria-hidden="true" width="16" height="16"></canvas>
+    <canvas id="evoNew" aria-hidden="true" width="16" height="16"></canvas>
     <div class="evo-particles" id="evoParticles"></div>
   </div>
   <div class="evo-text" id="evoName"></div>
@@ -3811,8 +3812,8 @@
 <!-- HERO -->
 <section id="hero" class="container">
   <!-- Ambient background effects -->
-  <canvas class="hero-gradient-mesh" id="heroGradientMesh"></canvas>
-  <canvas class="hero-particles" id="heroParticles"></canvas>
+  <canvas class="hero-gradient-mesh" aria-hidden="true" id="heroGradientMesh"></canvas>
+  <canvas class="hero-particles" aria-hidden="true" id="heroParticles"></canvas>
   <div class="hero-left">
     <div class="status-badge">Currently building UseTrace HFE</div>
     <div class="status-badge" style="background: var(--dark3); color: var(--gold);">Available May 2026 · SoCal</div>
@@ -4408,7 +4409,7 @@
   <div class="journey-tree">
     <!-- Undergrad -->
     <div class="journey-node journey-node-major" data-jclass="prospector" data-side="left">
-      <canvas class="journey-sprite" data-jclass="prospector" width="20" height="26"></canvas>
+      <canvas class="journey-sprite" aria-hidden="true" data-jclass="prospector" width="20" height="26"></canvas>
       <div class="journey-node-school">Cal State Long Beach</div>
       <div class="journey-node-mascot">49ers</div>
       <div class="journey-node-year">2017–2020</div>
@@ -4431,7 +4432,7 @@
 
     <!-- Graduate School -->
     <div class="journey-node journey-node-major journey-node-current" data-jclass="duck" data-side="right">
-      <canvas class="journey-sprite" data-jclass="duck" width="20" height="26"></canvas>
+      <canvas class="journey-sprite" aria-hidden="true" data-jclass="duck" width="20" height="26"></canvas>
       <div class="journey-node-school">Stevens Institute</div>
       <div class="journey-node-mascot">Ducks</div>
       <div class="journey-node-year">2024–2026</div>
@@ -4469,7 +4470,7 @@
 
       <div class="journey-branch">
         <div class="journey-future" data-jclass="acolyte">
-          <canvas class="journey-sprite" data-jclass="acolyte" width="20" height="26"></canvas>
+          <canvas class="journey-sprite" aria-hidden="true" data-jclass="acolyte" width="20" height="26"></canvas>
           <div class="journey-future-role">Acolyte</div>
           <div class="journey-future-title">Validation Engineer</div>
         </div>
@@ -4477,7 +4478,7 @@
 
       <div class="journey-branch">
         <div class="journey-future" data-jclass="sage">
-          <canvas class="journey-sprite" data-jclass="sage" width="20" height="26"></canvas>
+          <canvas class="journey-sprite" aria-hidden="true" data-jclass="sage" width="20" height="26"></canvas>
           <div class="journey-future-role">Sage</div>
           <div class="journey-future-title">Applications Engineer</div>
         </div>
@@ -4485,7 +4486,7 @@
 
       <div class="journey-branch">
         <div class="journey-future" data-jclass="blacksmith">
-          <canvas class="journey-sprite" data-jclass="blacksmith" width="20" height="26"></canvas>
+          <canvas class="journey-sprite" aria-hidden="true" data-jclass="blacksmith" width="20" height="26"></canvas>
           <div class="journey-future-role">Blacksmith</div>
           <div class="journey-future-title">R&amp;D Engineer</div>
         </div>
@@ -4493,7 +4494,7 @@
 
       <div class="journey-branch">
         <div class="journey-future" data-jclass="creator">
-          <canvas class="journey-sprite" data-jclass="creator" width="20" height="26"></canvas>
+          <canvas class="journey-sprite" aria-hidden="true" data-jclass="creator" width="20" height="26"></canvas>
           <div class="journey-future-role">Creator</div>
           <div class="journey-future-title">Human Factors Engineer</div>
         </div>
