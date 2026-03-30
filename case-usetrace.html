@@ -11,8 +11,30 @@
   <meta property="og:url" content="https://joneilcaoile.github.io/case-usetrace.html">
   <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.jpg">
   <link rel="canonical" href="https://joneilcaoile.github.io/case-usetrace.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="UseTrace HFE | Case Study | Joneil Caoile">
+  <meta name="twitter:description" content="AI-powered tool that automates HFE documentation workflows: task analysis, use error categorization, and simulated-use protocol generation.">
+  <meta name="twitter:image" content="https://joneilcaoile.github.io/og-preview.jpg">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; frame-src 'none'; object-src 'none'; base-uri 'self';">
   <meta name="theme-color" content="#FAFAF8">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "UseTrace HFE | Case Study | Joneil Caoile",
+    "author": {
+      "@type": "Person",
+      "name": "Joneil Caoile",
+      "url": "https://joneilcaoile.github.io"
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "Joneil Caoile"
+    },
+    "mainEntityOfPage": "https://joneilcaoile.github.io/case-usetrace.html",
+    "description": "AI-powered tool that automates HFE documentation workflows: task analysis, use error categorization, and simulated-use protocol generation."
+  }
+  </script>
 
   <!-- Fonts (same as main portfolio) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -810,15 +832,15 @@
 
         <div class="decisions">
           <div class="decision-card r">
-            <h4>Why structured templates over free-form generation</h4>
+            <h3>Why structured templates over free-form generation</h3>
             <p>FDA reviewers are trained to expect specific table formats and field names. Free-form generation that deviates from established patterns creates review friction. UseTrace targets the formatting problem, not the content judgment problem.</p>
           </div>
           <div class="decision-card r">
-            <h4>Why keep the engineer in the loop</h4>
+            <h3>Why keep the engineer in the loop</h3>
             <p>Use error categorization and risk severity decisions require device-specific knowledge and contextual judgment. Automating those judgments would produce documentation that can't survive an FDA audit. UseTrace accelerates structure, not substance.</p>
           </div>
           <div class="decision-card r">
-            <h4>Why start with literature, not code</h4>
+            <h3>Why start with literature, not code</h3>
             <p>The project began with a systematic literature review of IEC 62366-1, FDA HFE guidance, and existing tooling gaps. Building on a documented foundation means every design decision can be traced back to a regulatory or research rationale.</p>
           </div>
         </div>
@@ -836,15 +858,15 @@
       </p>
       <div class="standards">
         <div class="std-card r">
-          <h4>IEC 62366-1:2015</h4>
+          <h3>IEC 62366-1:2015</h3>
           <p>The primary international standard for medical device usability engineering. Defines the Use Specification, task analysis requirements, use error analysis, and summative evaluation criteria that UseTrace targets.</p>
         </div>
         <div class="std-card r">
-          <h4>FDA HFE Guidance (2016)</h4>
+          <h3>FDA HFE Guidance (2016)</h3>
           <p>FDA's "Applying Human Factors and Usability Engineering to Medical Devices" guidance. Defines what must be in a Human Factors Engineering Report and what evidence is required for 510(k) and PMA submissions.</p>
         </div>
         <div class="std-card r">
-          <h4>ISO 14971:2019</h4>
+          <h3>ISO 14971:2019</h3>
           <p>Risk management standard for medical devices. Informs how use-related hazards and risk-use traceability are structured in UseTrace's output. It connects HFE analysis to the broader risk management file.</p>
         </div>
       </div>
@@ -900,11 +922,11 @@
       </div>
       <div class="tech-notes">
         <div class="tech-note r">
-          <h4>Why Python</h4>
+          <h3>Why Python</h3>
           <p>Python's ecosystem for document parsing, text analysis, and structured data output is well-suited to the HFE documentation problem. The script-first approach makes it easy for safety engineers to run on their own machines without requiring a web deployment.</p>
         </div>
         <div class="tech-note r">
-          <h4>Inter-rater Reliability (Krippendorff's Alpha)</h4>
+          <h3>Inter-rater Reliability (Krippendorff's Alpha)</h3>
           <p>Use error categorization involves judgment calls. To make UseTrace's classification outputs defensible in regulatory contexts, inter-rater reliability metrics were incorporated into the evaluation methodology. This is the same approach FDA expects in summative study reports.</p>
         </div>
       </div>
@@ -917,7 +939,7 @@
         <h2 class="s-title r" id="learnings-heading">What I Learned</h2>
 
         <div class="learning-item r">
-          <h4>The real bottleneck isn't what engineers think it is</h4>
+          <h3>The real bottleneck isn't what engineers think it is</h3>
           <p>
             Talking to people in HFE consulting and reading FDA warning letters made it clear:
             the documentation delays aren't from lack of knowing what to write. They're from
@@ -926,7 +948,7 @@
           </p>
         </div>
         <div class="learning-item r">
-          <h4>Regulatory documents are more useful than they look</h4>
+          <h3>Regulatory documents are more useful than they look</h3>
           <p>
             IEC 62366-1 and the FDA HFE guidance aren't vague policy statements. They're
             essentially detailed specifications for what a compliant document looks like. Once I
@@ -936,7 +958,7 @@
           </p>
         </div>
         <div class="learning-item r">
-          <h4>Starting with literature review before code is the right call in regulated domains</h4>
+          <h3>Starting with literature review before code is the right call in regulated domains</h3>
           <p>
             In a regulated space, shipping something that doesn't align with existing guidance
             isn't just a product mistake. It can cause harm. Doing the literature review first

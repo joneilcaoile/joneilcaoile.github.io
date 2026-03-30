@@ -57,7 +57,11 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Instrument+Sans:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://formspree.io">
+  <link rel="preload" as="image" href="headshot.webp" type="image/webp">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Instrument+Sans:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Instrument+Sans:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet"></noscript>
 
   <style>
     /* RESET */
@@ -75,7 +79,7 @@
       --bg3: #F5F3EF;
       --bg-warm: #FDF8F3;
 
-      --amber: #C67B2E;
+      --amber: #A06522;
       --amber-light: #D4944A;
       --amber-dim: rgba(198,123,46,0.06);
       --amber-glow: rgba(198,123,46,0.12);
@@ -96,7 +100,7 @@
       --text: #2C2620;
       --text-secondary: #4A443C;
       --text-muted: #635B52;
-      --text-faint: #9A928A;
+      --text-faint: #756B63;
 
       --border: #E8E4DE;
       --border-light: #F0ECE6;
@@ -123,6 +127,8 @@
         --bg3: #252019;
         --bg-warm: #1F1A15;
 
+        --amber: #C67B2E;
+
         --text: #F2EDE5;
         --text-secondary: #C9BFBB;
         --text-muted: #9A9186;
@@ -139,6 +145,8 @@
       --bg2: #1C1915;
       --bg3: #252019;
       --bg-warm: #1F1A15;
+
+      --amber: #C67B2E;
 
       --text: #F2EDE5;
       --text-secondary: #C9BFBB;
@@ -476,7 +484,7 @@
     .loader-boot {
       font-family: var(--fm);
       font-size: 12px;
-      color: rgba(198,123,46,0.7);
+      color: rgba(212,148,74,0.9);
       text-align: left;
       line-height: 1.8;
       min-width: 340px;
@@ -668,9 +676,9 @@
       font-size: 12px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: rgba(198,123,46,0.5);
+      color: rgba(212,148,74,0.85);
       background: none;
-      border: 1px solid rgba(198,123,46,0.25);
+      border: 1px solid rgba(212,148,74,0.5);
       border-radius: 4px;
       padding: 8px 16px;
       cursor: pointer;
@@ -3888,8 +3896,8 @@
     <table class="spec-table">
       <thead>
         <tr>
-          <th>Parameter</th>
-          <th>Value</th>
+          <th scope="col">Parameter</th>
+          <th scope="col">Value</th>
         </tr>
       </thead>
       <tbody>
@@ -4023,8 +4031,8 @@
       <table class="spec-table" style="margin-top: 2rem;">
         <thead>
           <tr>
-            <th>Specification</th>
-            <th>Performance</th>
+            <th scope="col">Specification</th>
+            <th scope="col">Performance</th>
           </tr>
         </thead>
         <tbody>
@@ -4347,10 +4355,10 @@
   <table class="spec-table">
     <thead>
       <tr>
-        <th>Domain</th>
-        <th>Capabilities</th>
-        <th>Standards / Tools</th>
-        <th>Depth</th>
+        <th scope="col">Domain</th>
+        <th scope="col">Capabilities</th>
+        <th scope="col">Standards / Tools</th>
+        <th scope="col">Depth</th>
       </tr>
     </thead>
     <tbody>
@@ -4617,15 +4625,15 @@
         <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
         <div class="form-group">
           <label for="name">Name</label>
-          <input type="text" id="name" name="name" placeholder="Your name" required>
+          <input type="text" id="name" name="name" placeholder="Your name" required aria-required="true">
         </div>
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="you@company.com" required>
+          <input type="email" id="email" name="email" placeholder="you@company.com" required aria-required="true">
         </div>
         <div class="form-group">
           <label for="message">Message</label>
-          <textarea id="message" name="message" placeholder="Tell me about the role, or just say hi. I respond fast." required></textarea>
+          <textarea id="message" name="message" placeholder="Tell me about the role, or just say hi. I respond fast." required aria-required="true"></textarea>
         </div>
         <button type="submit" class="form-submit" id="formSubmit">Send</button>
         <div id="formStatus" role="status" aria-live="polite" style="font-family:var(--fm);font-size:14px;margin-top:0.5rem;min-height:1.5em;"></div>
