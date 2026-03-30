@@ -1066,15 +1066,10 @@
     </div>
 
     <!-- Case study nav -->
-    <nav class="case-nav" aria-label="Other case studies">
-      <a class="case-nav-link" href="case-usetrace.html">
-        <span class="case-nav-dir">← Previous</span>
-        <span class="case-nav-name">UseTrace HFE</span>
-      </a>
-      <a class="case-nav-link right" href="case-pneumothorax.html">
-        <span class="case-nav-dir">Next →</span>
-        <span class="case-nav-name">Pneumothorax Monitor</span>
-      </a>
+    <nav class="cs-nav" aria-label="Project navigation" style="max-width:900px;margin:0 auto;padding:2rem clamp(1.5rem,5vw,3rem);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(0,0,0,0.08);">
+      <a href="case-fall.html" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">← Fall Study</a>
+      <a href="index.html#projects" style="font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);text-decoration:none;">All Projects</a>
+      <a href="case-pneumothorax.html" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">Pneumothorax Monitor →</a>
     </nav>
 
   </main>
@@ -1096,8 +1091,8 @@
     // Tab title easter egg
     document.addEventListener('visibilitychange', () => {
       document.title = document.hidden
-        ? '📸 Come back! — PhotoCull AI'
-        : 'PhotoCull AI — Case Study | Joneil Caoile';
+        ? '📸 Come back! | PhotoCull AI'
+        : 'PhotoCull AI | Case Study | Joneil Caoile';
     });
 
     // GSAP scroll reveals
