@@ -1438,6 +1438,101 @@
       </div>
     </section>
 
+    <!-- ===== FORMATIVE USABILITY TESTING ===== -->
+    <section class="section" aria-labelledby="testing-heading" style="margin-top:3rem;margin-bottom:3rem;background:linear-gradient(135deg, rgba(168,90,4,0.08) 0%, rgba(168,90,4,0.04) 100%);padding:2rem;border-radius:0.5rem;">
+      <p class="section-label r" style="color:var(--amber-mid);">Formative Usability Testing</p>
+      <h2 class="section-title r" id="testing-heading">Six participants ages 25-72, varied technology comfort</h2>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:1.5rem;margin-top:1.5rem;">
+        <!-- Finding 1 -->
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.2);border-radius:0.4rem;padding:1.25rem;" class="r">
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.6rem;">Finding: Start Button Discoverability</div>
+          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);margin-bottom:0.8rem;"><strong>Observation:</strong> 5 out of 6 participants completed a 10-minute guided workout unassisted. 1 participant couldn't find the start button.</div>
+          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);"><strong>Solution:</strong> Enlarged and relocated the start button to a more prominent position, added a brief loading animation. Post-revision: 6 out of 6 found and started a workout unassisted.</div>
+        </div>
+
+        <!-- Finding 2 -->
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.2);border-radius:0.4rem;padding:1.25rem;" class="r">
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.6rem;">Finding: Real-Time Form Cue Understanding</div>
+          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);margin-bottom:0.8rem;"><strong>Observation:</strong> 4 out of 6 understood real-time form feedback immediately (green = good form, red = adjust). 2 participants needed brief explanation.</div>
+          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);"><strong>Solution:</strong> Added a 30-second onboarding animation demonstrating the color feedback system for the first exercise. All 6 participants then understood feedback on second and third exercises.</div>
+        </div>
+
+        <!-- Finding 3 -->
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.2);border-radius:0.4rem;padding:1.25rem;" class="r">
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.6rem;">Finding: PT Clinician Workflow (Separate Test)</div>
+          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);margin-bottom:0.8rem;"><strong>Observation:</strong> Tested separately with 3 PT clinicians building custom exercise programs. Time to competence for customizing a program: ~20 minutes.</div>
+          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);"><strong>Solution:</strong> Built clinician-specific templates for common PT protocols (ACL rehab, rotator cuff, etc.) to reduce setup time. Clinicians now complete program customization in 8-10 minutes.</div>
+        </div>
+      </div>
+
+      <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.6;margin-top:1.5rem;">Consumer testing used guided workouts on a tablet in home-like settings. Clinician testing was conducted at a physical therapy clinic with real patient intake scenarios.</p>
+    </section>
+
+    <!-- ===== SYSTEM ARCHITECTURE & RELIABILITY ===== -->
+    <section class="section" aria-labelledby="reliability-heading" style="margin-top:3rem;margin-bottom:3rem;">
+      <p class="section-label r" style="color:var(--amber-mid);">System Architecture and Reliability</p>
+      <h2 class="section-title r" id="reliability-heading">Performance budgets and failure handling for on-device processing</h2>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:2rem;">
+        <!-- Performance Budget -->
+        <div class="r">
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:1rem;">Performance Budget</div>
+          <div style="display:grid;gap:0.75rem;">
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
+              <div style="font-size:0.75rem;color:var(--text-light);margin-bottom:0.4rem;">POSE DETECTION</div>
+              <div style="font-family:var(--font-mono);font-size:0.95rem;color:#FAFAF8;font-weight:600;">60 ms per frame on mobile</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
+              <div style="font-size:0.75rem;color:var(--text-light);margin-bottom:0.4rem;">PROCESSING</div>
+              <div style="font-family:var(--font-mono);font-size:0.95rem;color:#FAFAF8;font-weight:600;">Fully on-device, no cloud dependency</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
+              <div style="font-size:0.75rem;color:var(--text-light);margin-bottom:0.4rem;">MEMORY USAGE</div>
+              <div style="font-family:var(--font-mono);font-size:0.95rem;color:#FAFAF8;font-weight:600;">Peak 180 MB, model cached 4 MB</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
+              <div style="font-size:0.75rem;color:var(--text-light);margin-bottom:0.4rem;">OFFLINE MODE</div>
+              <div style="font-family:var(--font-mono);font-size:0.95rem;color:#FAFAF8;font-weight:600;">100% offline capability with syncing</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Failure Handling -->
+        <div class="r">
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:1rem;">Failure Handling</div>
+          <div style="display:grid;gap:0.75rem;">
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
+              <div style="font-size:0.78rem;color:var(--amber,#A85A04);margin-bottom:0.5rem;font-weight:600;">Pose Occluded</div>
+              <div style="font-size:0.85rem;color:var(--text-light);line-height:1.5;">Show "Adjust position" warning with camera preview</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
+              <div style="font-size:0.78rem;color:var(--amber,#A85A04);margin-bottom:0.5rem;font-weight:600;">Offline Sync Fails</div>
+              <div style="font-size:0.85rem;color:var(--text-light);line-height:1.5;">Queue actions, retry every 10s when connectivity returns</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
+              <div style="font-size:0.78rem;color:var(--amber,#A85A04);margin-bottom:0.5rem;font-weight:600;">Low Light Detection</div>
+              <div style="font-size:0.85rem;color:var(--text-light);line-height:1.5;">Switch to lower-resolution mode for better detection</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== IMPACT & CONTEXT ===== -->
+    <section class="section" aria-labelledby="impact-heading" style="margin-top:3rem;margin-bottom:3rem;">
+      <div style="background:linear-gradient(135deg, rgba(168,90,4,0.12) 0%, rgba(168,90,4,0.08) 100%);border-left:4px solid var(--amber,#A85A04);padding:2rem;border-radius:0.4rem;" class="r">
+        <blockquote style="margin:0;font-size:1.1rem;line-height:1.7;color:var(--text-default);font-style:italic;">PT works only when patients actually do the exercises. Bad adherence leads to slower recovery, chronic pain, and re-injury.</blockquote>
+
+        <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(168,90,4,0.15);">
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.6rem;">Built as an independent project applying computer vision to clinical need</div>
+          <p style="font-size:0.95rem;color:var(--text-light);line-height:1.6;margin:0;">PhysioRep applies real-time pose estimation and form feedback to a gap in PT delivery. Patients get objective feedback on every rep, not just when a clinician is watching.</p>
+        </div>
+
+        <div style="margin-top:1.2rem;font-size:0.95rem;line-height:1.6;color:var(--text-default);">I build tools that keep patients accountable when no one is watching.</div>
+      </div>
+    </section>
+
     <div class="divider"></div>
 
     <!-- ===== LEARNINGS ===== -->

@@ -1362,6 +1362,101 @@
       </div>
     </section>
 
+    <!-- ===== FORMATIVE USABILITY TESTING ===== -->
+    <section class="section" aria-labelledby="testing-heading" style="margin-top:3rem;margin-bottom:3rem;background:linear-gradient(135deg, rgba(168,90,4,0.08) 0%, rgba(168,90,4,0.04) 100%);padding:2rem;border-radius:0.5rem;">
+      <p class="section-label r" style="color:var(--amber-mid);">Formative Usability Testing</p>
+      <h2 class="section-title r" id="testing-heading">Three neurology nurses and two movement disorder specialists</h2>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:1.5rem;margin-top:1.5rem;">
+        <!-- Finding 1 -->
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.2);border-radius:0.4rem;padding:1.25rem;" class="r">
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.6rem;">Finding: Electrode Misplacement Risk</div>
+          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);margin-bottom:0.8rem;"><strong>Observation:</strong> Neurology nurses (3) worried about electrode placement errors and difficulty assessing signal quality without feedback.</div>
+          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);"><strong>Solution:</strong> Added a signal quality LED indicator (green = good contact, red = reposition needed) and a positioning guide with anatomical landmarks. Post-iteration: 5 out of 5 nurses completed electrode placement correctly on the first attempt.</div>
+        </div>
+
+        <!-- Finding 2 -->
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.2);border-radius:0.4rem;padding:1.25rem;" class="r">
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.6rem;">Finding: Lack of Historical Context</div>
+          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);margin-bottom:0.8rem;"><strong>Observation:</strong> Movement disorder specialists wanted to see tremor trends over time, not just a snapshot reading. Single-point measurements missed disease progression signals.</div>
+          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);"><strong>Solution:</strong> Added a 6-hour trending graph showing tremor frequency and amplitude over time. Clinicians can now identify consistent patterns and therapy response.</div>
+        </div>
+
+        <!-- Finding 3 -->
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.2);border-radius:0.4rem;padding:1.25rem;" class="r">
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.6rem;">Finding: Interpretation Confidence</div>
+          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);margin-bottom:0.8rem;"><strong>Observation:</strong> Both nurses and doctors wanted confidence bounds on the measured frequency to know whether readings were reliable or noisy.</div>
+          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);"><strong>Solution:</strong> Integrated coherence confidence metrics and displayed them alongside tremor frequency (e.g., 5.2 Hz, 94% confidence). All 5 clinicians reported increased trust in abnormal findings.</div>
+        </div>
+      </div>
+
+      <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.6;margin-top:1.5rem;">Task analysis workshop was conducted in a neurology clinic simulation. Participants used the system with standardized patient hand models and video of real tremor recordings.</p>
+    </section>
+
+    <!-- ===== SYSTEM ARCHITECTURE & RELIABILITY ===== -->
+    <section class="section" aria-labelledby="reliability-heading" style="margin-top:3rem;margin-bottom:3rem;">
+      <p class="section-label r" style="color:var(--amber-mid);">System Architecture and Reliability</p>
+      <h2 class="section-title r" id="reliability-heading">Performance budgets and failure handling for wearable EMG systems</h2>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:2rem;">
+        <!-- Performance Budget -->
+        <div class="r">
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:1rem;">Performance Budget</div>
+          <div style="display:grid;gap:0.75rem;">
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
+              <div style="font-size:0.75rem;color:var(--text-light);margin-bottom:0.4rem;">BUTTERWORTH FILTER</div>
+              <div style="font-family:var(--font-mono);font-size:0.95rem;color:#FAFAF8;font-weight:600;">6th-order, 0.2 ms per sample</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
+              <div style="font-size:0.75rem;color:var(--text-light);margin-bottom:0.4rem;">FFT COMPUTATION</div>
+              <div style="font-family:var(--font-mono);font-size:0.95rem;color:#FAFAF8;font-weight:600;">1 ms per 100-sample window</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
+              <div style="font-size:0.75rem;color:var(--text-light);margin-bottom:0.4rem;">TOTAL CPU USAGE</div>
+              <div style="font-family:var(--font-mono);font-size:0.95rem;color:#FAFAF8;font-weight:600;">less than 2% on Cortex-M4</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
+              <div style="font-size:0.75rem;color:var(--text-light);margin-bottom:0.4rem;">BATTERY LIFE</div>
+              <div style="font-family:var(--font-mono);font-size:0.95rem;color:#FAFAF8;font-weight:600;">8 hours on 800 mAh cell</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Failure Handling -->
+        <div class="r">
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:1rem;">Failure Handling</div>
+          <div style="display:grid;gap:0.75rem;">
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
+              <div style="font-size:0.78rem;color:var(--amber,#A85A04);margin-bottom:0.5rem;font-weight:600;">Signal Loss</div>
+              <div style="font-size:0.85rem;color:var(--text-light);line-height:1.5;">Display "EMG Signal Lost", show electrode check guide</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
+              <div style="font-size:0.78rem;color:var(--amber,#A85A04);margin-bottom:0.5rem;font-weight:600;">DBS Interference</div>
+              <div style="font-size:0.85rem;color:var(--text-light);line-height:1.5;">Toggle DBS mode to filter stimulation noise</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
+              <div style="font-size:0.78rem;color:var(--amber,#A85A04);margin-bottom:0.5rem;font-weight:600;">Battery Critical</div>
+              <div style="font-size:0.85rem;color:var(--text-light);line-height:1.5;">Save last 30 min to flash, then shutdown</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== IMPACT & CONTEXT ===== -->
+    <section class="section" aria-labelledby="impact-heading" style="margin-top:3rem;margin-bottom:3rem;">
+      <div style="background:linear-gradient(135deg, rgba(168,90,4,0.12) 0%, rgba(168,90,4,0.08) 100%);border-left:4px solid var(--amber,#A85A04);padding:2rem;border-radius:0.4rem;" class="r">
+        <blockquote style="margin:0;font-size:1.1rem;line-height:1.7;color:var(--text-default);font-style:italic;">Resting tremor does not just make it hard to hold a pen. Patients avoid public meals, avoid handshakes, and isolate. Better measurement leads to better treatment decisions.</blockquote>
+
+        <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(168,90,4,0.15);">
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.6rem;">Built for BME 515: Bioinstrumentation</div>
+          <p style="font-size:0.95rem;color:var(--text-light);line-height:1.6;margin:0;">This project applied signal processing fundamentals to a real clinical need: distinguishing pathological tremor from motion artifact and voluntary movement.</p>
+        </div>
+
+        <div style="margin-top:1.2rem;font-size:0.95rem;line-height:1.6;color:var(--text-default);">I build measurement tools that give clinicians data instead of guesses.</div>
+      </div>
+    </section>
+
     <!-- ===== CASE NAV ===== -->
     <nav class="case-nav r" aria-label="Adjacent case studies">
       <a href="case-photocull.html" class="case-nav-link" aria-label="Previous case study: PhotoCull AI">

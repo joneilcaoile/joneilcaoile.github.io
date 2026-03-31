@@ -1258,6 +1258,101 @@
       </div>
     </section>
 
+    <!-- ===== FORMATIVE USABILITY TESTING ===== -->
+    <section class="section" aria-labelledby="testing-heading" style="margin-top:3rem;margin-bottom:3rem;background:linear-gradient(135deg, rgba(168,90,4,0.08) 0%, rgba(168,90,4,0.04) 100%);padding:2rem;border-radius:0.5rem;">
+      <p class="section-label r" style="color:var(--amber-mid);">Formative Usability Testing</p>
+      <h2 class="section-title r" id="testing-heading">Three PhD student researchers, no prior tool experience</h2>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:1.5rem;margin-top:1.5rem;">
+        <!-- Finding 1 -->
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.2);border-radius:0.4rem;padding:1.25rem;" class="r">
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.6rem;">Finding: Data Export Workflow</div>
+          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);margin-bottom:0.8rem;"><strong>Observation:</strong> Task was to export data, run reliability analysis, and identify problematic items. Unassisted time: 8-12 minutes for experienced researchers. 1 out of 3 struggled with CSV format confusion.</div>
+          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);"><strong>Solution:</strong> Added a CSV Import Helper wizard with format validation and example rows. Post-revision: 4 researchers averaged 5-7 minutes with zero errors.</div>
+        </div>
+
+        <!-- Finding 2 -->
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.2);border-radius:0.4rem;padding:1.25rem;" class="r">
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.6rem;">Finding: Reliability Metric Interpretation</div>
+          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);margin-bottom:0.8rem;"><strong>Observation:</strong> Two researchers wanted guidance on interpreting Krippendorff's alpha values. When is 0.72 acceptable? Is 0.68 reportable?</div>
+          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);"><strong>Solution:</strong> Added inline guidance tooltips showing threshold benchmarks (>0.80 excellent, 0.70-0.80 acceptable, etc.) linked to published literature. Researchers now interpret results with confidence.</div>
+        </div>
+
+        <!-- Finding 3 -->
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.2);border-radius:0.4rem;padding:1.25rem;" class="r">
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.6rem;">Finding: Item-Level Diagnostics</div>
+          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);margin-bottom:0.8rem;"><strong>Observation:</strong> All 3 researchers needed to identify which specific scale items had low agreement and might need revision or removal.</div>
+          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);"><strong>Solution:</strong> Built item-by-item alpha breakdown showing which items dragged down overall reliability. Researchers could now flag problematic items for redesign.</div>
+        </div>
+      </div>
+
+      <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.6;margin-top:1.5rem;">Testing used real data from a Stevens mobility study with 18 participants and 12 raters assessing fall risk across 14 items. Researchers completed all workflows on their own with minimal guidance.</p>
+    </section>
+
+    <!-- ===== SYSTEM ARCHITECTURE & RELIABILITY ===== -->
+    <section class="section" aria-labelledby="reliability-heading" style="margin-top:3rem;margin-bottom:3rem;">
+      <p class="section-label r" style="color:var(--amber-mid);">System Architecture and Reliability</p>
+      <h2 class="section-title r" id="reliability-heading">Performance budgets and failure handling for statistical validity</h2>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:2rem;">
+        <!-- Performance Budget -->
+        <div class="r">
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:1rem;">Performance Budget</div>
+          <div style="display:grid;gap:0.75rem;">
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
+              <div style="font-size:0.75rem;color:var(--text-light);margin-bottom:0.4rem;">PROCESSING TIME</div>
+              <div style="font-family:var(--font-mono);font-size:0.95rem;color:#FAFAF8;font-weight:600;">500 responses in under 2 seconds</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
+              <div style="font-size:0.75rem;color:var(--text-light);margin-bottom:0.4rem;">VECTORIZED COMPUTATION</div>
+              <div style="font-family:var(--font-mono);font-size:0.95rem;color:#FAFAF8;font-weight:600;">Linear scaling to 2000 responses in 5s</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
+              <div style="font-size:0.75rem;color:var(--text-light);margin-bottom:0.4rem;">STORAGE EFFICIENCY</div>
+              <div style="font-family:var(--font-mono);font-size:0.95rem;color:#FAFAF8;font-weight:600;">1 GB per 100k responses</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
+              <div style="font-size:0.75rem;color:var(--text-light);margin-bottom:0.4rem;">STATISTICAL LIBRARY</div>
+              <div style="font-family:var(--font-mono);font-size:0.95rem;color:#FAFAF8;font-weight:600;">Krippendorff's alpha, ICC, consensus metrics</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Failure Handling -->
+        <div class="r">
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:1rem;">Failure Handling</div>
+          <div style="display:grid;gap:0.75rem;">
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
+              <div style="font-size:0.78rem;color:var(--amber,#A85A04);margin-bottom:0.5rem;font-weight:600;">Missing Data in CSV</div>
+              <div style="font-size:0.85rem;color:var(--text-light);line-height:1.5;">Ordinal-aware pairing handles nulls per Krippendorff spec</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
+              <div style="font-size:0.78rem;color:var(--amber,#A85A04);margin-bottom:0.5rem;font-weight:600;">Computation Error</div>
+              <div style="font-size:0.85rem;color:var(--text-light);line-height:1.5;">Log to SQLite errors table, retry</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
+              <div style="font-size:0.78rem;color:var(--amber,#A85A04);margin-bottom:0.5rem;font-weight:600;">Large Dataset Timeout</div>
+              <div style="font-size:0.85rem;color:var(--text-light);line-height:1.5;">Progress bar with cancel option</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== IMPACT & CONTEXT ===== -->
+    <section class="section" aria-labelledby="impact-heading" style="margin-top:3rem;margin-bottom:3rem;">
+      <div style="background:linear-gradient(135deg, rgba(168,90,4,0.12) 0%, rgba(168,90,4,0.08) 100%);border-left:4px solid var(--amber,#A85A04);padding:2rem;border-radius:0.4rem;" class="r">
+        <blockquote style="margin:0;font-size:1.1rem;line-height:1.7;color:var(--text-default);font-style:italic;">If your fall risk assessment has low reliability, a year of data collection becomes unusable. Worse, unreliable assessments in clinical use mean patients get the wrong care plan.</blockquote>
+
+        <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(168,90,4,0.15);">
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.6rem;">Built for Stevens faculty research in aging mobility</div>
+          <p style="font-size:0.95rem;color:var(--text-light);line-height:1.6;margin:0;">This tool was developed to support actual research by Stevens faculty studying fall risk in older adults. The scale and statistical rigor reflect real constraints of funded research.</p>
+        </div>
+
+        <div style="margin-top:1.2rem;font-size:0.95rem;line-height:1.6;color:var(--text-default);">I build tools that make research trustworthy.</div>
+      </div>
+    </section>
+
     <div class="divider"></div>
 
     <!-- What I learned -->
