@@ -3629,6 +3629,138 @@
       100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
     }
 
+    /* ============================================================
+       ACHIEVEMENT SYSTEM
+       ============================================================ */
+    .ach-section {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin-top: 16px;
+      padding-top: 14px;
+    }
+    .ach-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .ach-title {
+      font-family: var(--fm);
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+    }
+    .ach-count {
+      font-family: var(--fm);
+      font-size: 11px;
+      color: var(--amber);
+      font-weight: 600;
+    }
+    .ach-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .ach-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 10px 4px 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+      transition: all 0.2s;
+      position: relative;
+    }
+    .ach-card.locked {
+      opacity: 0.35;
+      filter: grayscale(0.8);
+    }
+    .ach-card.locked .ach-icon { filter: blur(1px); }
+    .ach-card.unlocked {
+      border-color: rgba(198,123,46,0.2);
+      background: rgba(198,123,46,0.04);
+    }
+    .ach-card.unlocked:hover {
+      border-color: rgba(198,123,46,0.4);
+      background: rgba(198,123,46,0.08);
+      transform: translateY(-2px);
+    }
+    .ach-icon { font-size: 18px; line-height: 1; }
+    .ach-name {
+      font-family: var(--fm);
+      font-size: 8px;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.3;
+      letter-spacing: 0.3px;
+    }
+    .ach-card.unlocked .ach-name { color: var(--text); }
+    .ach-xp {
+      font-family: var(--fm);
+      font-size: 7px;
+      color: var(--amber);
+      opacity: 0.7;
+    }
+    .ach-card.locked .ach-xp { color: var(--text-muted); }
+
+    /* Achievement unlock toast (overlays milestone badge) */
+    .ach-toast {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: var(--dark);
+      border: 1px solid var(--amber);
+      border-radius: 10px;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 6000;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5), 0 0 16px rgba(198,123,46,0.15);
+    }
+    .ach-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .ach-toast-icon { font-size: 24px; }
+    .ach-toast-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .ach-toast-label {
+      font-family: var(--fm);
+      font-size: 9px;
+      color: var(--amber);
+      letter-spacing: 2px;
+    }
+    .ach-toast-name {
+      font-family: var(--fm);
+      font-size: 12px;
+      color: var(--text);
+      font-weight: 600;
+    }
+    .ach-toast-xp {
+      font-family: var(--fm);
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    /* Progress ring on XP HUD */
+    .xp-ach-count {
+      font-family: var(--fm);
+      font-size: 9px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 2px;
+      letter-spacing: 0.5px;
+    }
+
     /* Fit Report Card */
     .chip-fit {
       background: var(--dark2);
@@ -4299,6 +4431,24 @@
       <span class="rpg-stat-label">PORTFOLIO</span>
       <span class="rpg-stat-value">5 Projects</span>
     </div>
+    <!-- ACHIEVEMENTS -->
+    <div class="ach-section">
+      <div class="ach-header">
+        <span class="ach-title">ACHIEVEMENTS</span>
+        <span class="ach-count" id="achCount">0 / 12</span>
+      </div>
+      <div class="ach-grid" id="achGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ACHIEVEMENT TOAST -->
+<div class="ach-toast" id="achToast" aria-live="polite">
+  <div class="ach-toast-icon" id="achToastIcon"></div>
+  <div class="ach-toast-text">
+    <div class="ach-toast-label">ACHIEVEMENT UNLOCKED</div>
+    <div class="ach-toast-name" id="achToastName"></div>
+    <div class="ach-toast-xp" id="achToastXP"></div>
   </div>
 </div>
 
@@ -5277,6 +5427,7 @@
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
     updateDarkModeToggle();
+    if (typeof tryAchievement === 'function') tryAchievement('dark-side');
   });
 
   const savedTheme = localStorage.getItem('theme');
@@ -5978,6 +6129,7 @@
       playEvolution(currentStage, naturalStage);
       critterContainer.classList.add('critter-evolve');
       setTimeout(() => critterContainer.classList.remove('critter-evolve'), 600);
+      if (naturalStage > 0 && typeof tryAchievement === 'function') tryAchievement('pet-parent');
       // Reset display override on evolution
       displayOverride = -1;
       refreshMiniHistory(naturalStage);
@@ -6189,6 +6341,7 @@
       if (konamiIndex === konamiCode.length) {
         updateXP(200);
         konamiIndex = 0;
+        if (typeof tryAchievement === 'function') tryAchievement('contra-vet');
         runKonamiSequence();
       }
     } else {
@@ -6310,6 +6463,7 @@
   function activateRPGOverlay() {
     rpgOverlay.classList.add('active');
     showToast('PROFILE STATS UNLOCKED', 3000);
+    if (typeof tryAchievement === 'function') tryAchievement('full-profile');
   }
 
   /* XP HUD click opens RPG overlay */
@@ -7249,6 +7403,7 @@
         updateXP(100);
         showXPHud();
         showToast('MESSAGE SENT +100 XP', 3000);
+        if (typeof tryAchievement === 'function') tryAchievement('contact-made');
       } else {
         formStatus.textContent = 'Something went wrong. Try emailing me directly.';
         formStatus.style.color = '#E84040';
@@ -7977,6 +8132,138 @@
   })();
 
   /* ============================================================
+     ACHIEVEMENT SYSTEM — 12 unlockable achievements
+     Psychology: completion bias, variable-ratio reinforcement,
+       loss aversion (locked cards visible), Zeigarnik effect
+     ============================================================ */
+  (function() {
+    const ACH = [
+      { id: 'first-steps',   icon: '🏁', name: 'First Steps',      xp: 10,  desc: 'Scroll past the hero' },
+      { id: 'deep-reader',   icon: '📖', name: 'Deep Reader',      xp: 25,  desc: 'Open a case study' },
+      { id: 'lab-rat',       icon: '🔬', name: 'Lab Rat',          xp: 15,  desc: 'Visit the projects section' },
+      { id: 'dark-side',     icon: '🌙', name: 'Dark Side',        xp: 10,  desc: 'Toggle dark mode' },
+      { id: 'time-invested', icon: '⏱️', name: 'Time Invested',    xp: 30,  desc: 'Spend 2+ minutes on site' },
+      { id: 'networker',     icon: '🔗', name: 'Networker',        xp: 15,  desc: 'Click LinkedIn or GitHub' },
+      { id: 'contra-vet',    icon: '🎮', name: 'Contra Veteran',   xp: 50,  desc: 'Enter the Konami code' },
+      { id: 'chips-friend',  icon: '🤖', name: "Chip's Friend",    xp: 40,  desc: 'Complete Chip fit analysis' },
+      { id: 'contact-made',  icon: '✉️', name: 'Contact Made',     xp: 50,  desc: 'Submit the contact form' },
+      { id: 'pet-parent',    icon: '🥚', name: 'Pet Parent',       xp: 20,  desc: 'Evolve critter past stage 1' },
+      { id: 'full-profile',  icon: '📋', name: 'Full Profile',     xp: 15,  desc: 'Open the RPG stats panel' },
+      { id: 'completionist', icon: '🏆', name: 'Completionist',    xp: 100, desc: 'Unlock all other achievements' }
+    ];
+
+    const STORAGE_KEY = 'jc_achievements';
+    let unlocked = {};
+
+    // Load from localStorage
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) unlocked = JSON.parse(saved);
+    } catch(e) { unlocked = {}; }
+
+    function save() {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(unlocked)); } catch(e) {}
+    }
+
+    // Render achievement grid inside RPG overlay
+    function renderGrid() {
+      const grid = document.getElementById('achGrid');
+      const count = document.getElementById('achCount');
+      if (!grid) return;
+      const unlockedCount = Object.keys(unlocked).length;
+      count.textContent = unlockedCount + ' / ' + ACH.length;
+
+      grid.innerHTML = ACH.map(a => {
+        const done = unlocked[a.id];
+        return '<div class="ach-card ' + (done ? 'unlocked' : 'locked') + '" title="' + a.desc + '">' +
+          '<div class="ach-icon">' + (done ? a.icon : '🔒') + '</div>' +
+          '<div class="ach-name">' + a.name + '</div>' +
+          '<div class="ach-xp">' + (done ? '+' + a.xp + ' XP' : '???') + '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    // Show toast notification
+    function showAchToast(ach) {
+      const toast = document.getElementById('achToast');
+      const icon = document.getElementById('achToastIcon');
+      const name = document.getElementById('achToastName');
+      const xp = document.getElementById('achToastXP');
+      if (!toast) return;
+      icon.textContent = ach.icon;
+      name.textContent = ach.name;
+      xp.textContent = '+' + ach.xp + ' XP';
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 3500);
+    }
+
+    // Try to unlock an achievement
+    function tryAchievement(id) {
+      if (unlocked[id]) return false;
+      const ach = ACH.find(function(a) { return a.id === id; });
+      if (!ach) return false;
+      unlocked[id] = Date.now();
+      save();
+      showAchToast(ach);
+      renderGrid();
+      // Award XP through existing system
+      if (typeof updateXP === 'function') updateXP(ach.xp);
+      if (typeof showXPHud === 'function') showXPHud();
+      // Check completionist
+      if (id !== 'completionist') {
+        var otherCount = ACH.filter(function(a) { return a.id !== 'completionist'; }).length;
+        var doneCount = ACH.filter(function(a) { return a.id !== 'completionist' && unlocked[a.id]; }).length;
+        if (doneCount >= otherCount) tryAchievement('completionist');
+      }
+      return true;
+    }
+
+    // Expose globally so triggers throughout the codebase can call it
+    window.tryAchievement = tryAchievement;
+
+    // Initial render
+    renderGrid();
+
+    // --- TRIGGER: First Steps (scroll past hero) ---
+    var heroTriggered = false;
+    window.addEventListener('scroll', function() {
+      if (heroTriggered) return;
+      if (window.scrollY > window.innerHeight * 0.8) {
+        heroTriggered = true;
+        tryAchievement('first-steps');
+      }
+    }, { passive: true });
+
+    // --- TRIGGER: Lab Rat (scroll to projects/work section) ---
+    var labTriggered = false;
+    var workSection = document.getElementById('work');
+    if (workSection) {
+      window.addEventListener('scroll', function() {
+        if (labTriggered) return;
+        var rect = workSection.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.6) {
+          labTriggered = true;
+          tryAchievement('lab-rat');
+        }
+      }, { passive: true });
+    }
+
+    // --- TRIGGER: Time Invested (2 minutes on site) ---
+    setTimeout(function() { tryAchievement('time-invested'); }, 120000);
+
+    // --- TRIGGER: Networker (LinkedIn or GitHub clicks) ---
+    document.querySelectorAll('a[href*="linkedin.com"], a[href*="github.com"]').forEach(function(link) {
+      link.addEventListener('click', function() { tryAchievement('networker'); });
+    });
+
+    // --- TRIGGER: Deep Reader (case study links) ---
+    document.querySelectorAll('a[href*="case-"]').forEach(function(link) {
+      link.addEventListener('click', function() { tryAchievement('deep-reader'); });
+    });
+
+  })();
+
+  /* ============================================================
      CHIP — PORTFOLIO CHATBOT WITH RECRUITER PROFILING
      Psychology stack: foot-in-the-door → profiling → anchoring
        → Barnum effect → commitment/consistency → visualization
@@ -8320,6 +8607,9 @@
       setTimeout(function() {
         goToState('post_report');
       }, 1800);
+
+      // Achievement: completed Chip fit analysis
+      if (typeof tryAchievement === 'function') tryAchievement('chips-friend');
     }
 
     /* ---- DIALOGUE ENGINE ---- */
