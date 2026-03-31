@@ -3629,6 +3629,106 @@
       100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
     }
 
+    /* Fit Report Card */
+    .chip-fit {
+      background: var(--dark2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      margin: 4px 0;
+      width: 100%;
+      max-width: 100%;
+      animation: chipMsgIn 0.3s ease;
+    }
+    .chip-fit-title {
+      font-size: 9px;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .chip-fit-subtitle {
+      font-size: 12px;
+      color: var(--amber);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .chip-fit-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .chip-fit-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      width: 90px;
+      flex-shrink: 0;
+      text-align: right;
+    }
+    .chip-fit-bar {
+      flex: 1;
+      height: 8px;
+      background: var(--dark3);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .chip-fit-fill {
+      height: 100%;
+      border-radius: 4px;
+      width: 0%;
+      transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .chip-fit-fill.high { background: var(--amber); }
+    .chip-fit-fill.mid { background: var(--amber-light); }
+    .chip-fit-pct {
+      font-size: 10px;
+      color: var(--text);
+      width: 32px;
+      text-align: right;
+      font-weight: 600;
+    }
+    .chip-fit-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 10px 0;
+    }
+    .chip-fit-overall {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+    .chip-fit-overall-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+    .chip-fit-overall-score {
+      font-size: 20px;
+      color: var(--amber);
+      font-weight: 700;
+    }
+    .chip-fit-verdict {
+      text-align: center;
+      margin-top: 10px;
+      padding: 8px;
+      border-radius: 6px;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+    }
+    .chip-fit-verdict.high {
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      color: #22c55e;
+    }
+    .chip-fit-verdict.very-high {
+      background: rgba(198, 123, 46, 0.1);
+      border: 1px solid rgba(198, 123, 46, 0.3);
+      color: var(--amber);
+    }
+
     /* RPG OVERLAY */
     .rpg-overlay {
       position: fixed;
@@ -7877,8 +7977,9 @@
   })();
 
   /* ============================================================
-     CHIP — PORTFOLIO CHATBOT
-     Psychology: foot-in-the-door → commitment/consistency → visualization
+     CHIP — PORTFOLIO CHATBOT WITH RECRUITER PROFILING
+     Psychology stack: foot-in-the-door → profiling → anchoring
+       → Barnum effect → commitment/consistency → visualization
      ============================================================ */
   (function() {
     const chipWidget = document.getElementById('chipWidget');
@@ -7897,216 +7998,247 @@
     let msgIndex = 0;
     let isTyping = false;
 
+    /* ---- RECRUITER PROFILE (built through questions) ---- */
+    const profile = { role: '', priority: '', concern: '' };
+
+    /* Scoring profiles per role: real skills, defensible in an interview */
+    const roleProfiles = {
+      validation: {
+        title: 'Validation Engineer',
+        base: [
+          { label: 'Test Protocols', score: 88 },
+          { label: 'Risk Analysis', score: 84 },
+          { label: 'Regulatory', score: 86 },
+          { label: 'Clinical Insight', score: 91 },
+          { label: 'Documentation', score: 80 }
+        ]
+      },
+      rd: {
+        title: 'R&D Engineer',
+        base: [
+          { label: 'Prototyping', score: 89 },
+          { label: 'Full-Stack Dev', score: 87 },
+          { label: 'Sensor Systems', score: 83 },
+          { label: 'Ship Speed', score: 91 },
+          { label: 'Problem Solving', score: 88 }
+        ]
+      },
+      hfe: {
+        title: 'Human Factors Engineer',
+        base: [
+          { label: 'Clinical Empathy', score: 95 },
+          { label: 'Usability Testing', score: 88 },
+          { label: 'IEC 62366-1', score: 84 },
+          { label: 'Task Analysis', score: 82 },
+          { label: 'User Advocacy', score: 92 }
+        ]
+      },
+      apps: {
+        title: 'Applications Engineer',
+        base: [
+          { label: 'Tool Building', score: 91 },
+          { label: 'Data Analysis', score: 86 },
+          { label: 'Communication', score: 89 },
+          { label: 'Debugging', score: 84 },
+          { label: 'User Training', score: 87 }
+        ]
+      }
+    };
+
+    /* Boosts based on what the recruiter says matters */
+    const priorityBoosts = {
+      testing:    [5, 3, 2, 0, 1],
+      building:   [1, 2, 4, 5, 3],
+      users:      [0, 1, 2, 5, 4],
+      versatile:  [3, 3, 3, 3, 3]
+    };
+    const concernBoosts = {
+      culture:    [0, 2, 0, 3, 4],
+      depth:      [4, 3, 2, 0, 1],
+      independent:[2, 1, 3, 5, 2],
+      regulatory: [3, 5, 4, 0, 1]
+    };
+
+    function computeScores() {
+      const rp = roleProfiles[profile.role] || roleProfiles.validation;
+      const pb = priorityBoosts[profile.priority] || priorityBoosts.versatile;
+      const cb = concernBoosts[profile.concern] || concernBoosts.culture;
+      const scored = rp.base.map(function(item, i) {
+        const raw = item.score + (pb[i] || 0) + (cb[i] || 0);
+        return { label: item.label, score: Math.min(raw, 98) };
+      });
+      scored.sort(function(a, b) { return b.score - a.score; });
+      return scored;
+    }
+
+    function overallScore(scores) {
+      const sum = scores.reduce(function(a, s) { return a + s.score; }, 0);
+      return Math.round(sum / scores.length);
+    }
+
     /* ---- PIXEL SPRITE ---- */
-    const P = 4; // pixel scale
+    const P = 4;
     const _ = '';
-    const TC = '#c67b2e'; // teal/amber body
-    const LT = '#d4944a'; // lighter amber
-    const WW = '#f2ede5'; // white eyes
-    const DK = '#1c1915'; // dark
-    const GL = '#22c55e'; // green glow antenna
-    const EY = '#1a1a1a';
+    const TC = '#c67b2e';
+    const WW = '#f2ede5';
+    const DK = '#1c1915';
+    const GL = '#22c55e';
 
     const spriteNeutral = [
-      [_,_,_,GL,_,_,_],
-      [_,_,GL,GL,GL,_,_],
-      [_,TC,TC,TC,TC,TC,_],
-      [_,TC,WW,TC,WW,TC,_],
-      [_,TC,TC,TC,TC,TC,_],
-      [_,TC,_,DK,_,TC,_],
-      [_,TC,TC,TC,TC,TC,_],
-      [_,_,TC,TC,TC,_,_],
-      [_,TC,TC,TC,TC,TC,_],
-      [_,_,TC,_,TC,_,_],
+      [_,_,_,GL,_,_,_],[_,_,GL,GL,GL,_,_],
+      [_,TC,TC,TC,TC,TC,_],[_,TC,WW,TC,WW,TC,_],
+      [_,TC,TC,TC,TC,TC,_],[_,TC,_,DK,_,TC,_],
+      [_,TC,TC,TC,TC,TC,_],[_,_,TC,TC,TC,_,_],
+      [_,TC,TC,TC,TC,TC,_],[_,_,TC,_,TC,_,_]
     ];
     const spriteHappy = [
-      [_,_,_,GL,_,_,_],
-      [_,_,GL,GL,GL,_,_],
-      [_,TC,TC,TC,TC,TC,_],
-      [_,TC,WW,TC,WW,TC,_],
-      [_,TC,TC,TC,TC,TC,_],
-      [_,TC,DK,DK,DK,TC,_],
-      [_,TC,TC,TC,TC,TC,_],
-      [_,_,TC,TC,TC,_,_],
-      [_,TC,TC,TC,TC,TC,_],
-      [_,_,TC,_,TC,_,_],
+      [_,_,_,GL,_,_,_],[_,_,GL,GL,GL,_,_],
+      [_,TC,TC,TC,TC,TC,_],[_,TC,WW,TC,WW,TC,_],
+      [_,TC,TC,TC,TC,TC,_],[_,TC,DK,DK,DK,TC,_],
+      [_,TC,TC,TC,TC,TC,_],[_,_,TC,TC,TC,_,_],
+      [_,TC,TC,TC,TC,TC,_],[_,_,TC,_,TC,_,_]
     ];
 
     function drawChipSprite(canvas, data, scale) {
-      const ctx = canvas.getContext('2d');
+      var ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let r = 0; r < data.length; r++) {
-        for (let c = 0; c < data[r].length; c++) {
-          if (data[r][c]) {
-            ctx.fillStyle = data[r][c];
-            ctx.fillRect(c * scale, r * scale, scale, scale);
-          }
-        }
-      }
+      for (var r = 0; r < data.length; r++)
+        for (var c = 0; c < data[r].length; c++)
+          if (data[r][c]) { ctx.fillStyle = data[r][c]; ctx.fillRect(c*scale, r*scale, scale, scale); }
     }
-
-    // Draw both sprite instances
     drawChipSprite(chipSprite, spriteNeutral, P);
     drawChipSprite(chipAvatar, spriteNeutral, 3);
 
     function setExpression(type) {
-      const data = type === 'happy' ? spriteHappy : spriteNeutral;
-      drawChipSprite(chipSprite, data, P);
-      drawChipSprite(chipAvatar, data, 3);
+      var d = type === 'happy' ? spriteHappy : spriteNeutral;
+      drawChipSprite(chipSprite, d, P); drawChipSprite(chipAvatar, d, 3);
     }
 
     /* ---- DIALOGUE TREE ---- */
-    const tree = {
+    var tree = {
       intro: {
         msgs: [
           "Hey. I'm Chip.",
-          "I live on this portfolio and I have exactly one job.",
-          "Convince you to talk to Joneil.",
-          "Full transparency. No tricks. Okay maybe light tricks. Want to play along?"
+          "I live on this portfolio. One job: figure out if Joneil's a fit for your team.",
+          "Three quick questions. I'll run a fit analysis. Takes 30 seconds.",
+          "Want to try it?"
         ],
         options: [
-          { label: "Alright, convince me", next: 'what_role' },
-          { label: "I'm good, just browsing", next: 'declined' }
+          { label: "Sure, run the analysis", next: 'what_role' },
+          { label: "I'm just browsing", next: 'declined' }
         ]
       },
       declined: {
         msgs: [
-          "Respect. I'll be right here if you change your mind.",
-          "(I'm very patient. I'm a chatbot.)"
+          "No pressure. I'll be here.",
+          "(I literally have nowhere else to go.)"
         ],
         options: [
-          { label: "Actually, go ahead", next: 'what_role' }
-        ],
-        onEnter: function() { setExpression('neutral'); }
+          { label: "Okay fine, run it", next: 'what_role' }
+        ]
       },
       what_role: {
         msgs: [
-          "Quick question.",
-          "What kind of engineer is your team missing?"
+          "Question 1 of 3.",
+          "What role are you trying to fill?"
         ],
         options: [
-          { label: "Validation / QA", next: 'role_val' },
-          { label: "R&D / Product Dev", next: 'role_rd' },
-          { label: "Someone who gets users", next: 'role_hf' },
-          { label: "Just looking around", next: 'role_browse' }
-        ],
-        onEnter: function() { setExpression('neutral'); }
-      },
-      role_val: {
-        msgs: [
-          "Validation? Perfect.",
-          "He wrote test protocols for a medical device with zero commercial equivalent.",
-          "Built a Python reliability tool that faculty used to fix survey instruments.",
-          "Passed security audits on three public repos before going live.",
-          "ISO 14971 risk analysis, IEC 62366-1 use specs. Not just buzzwords."
-        ],
-        options: [
-          { label: "What else has he built?", next: 'receipts' },
-          { label: "Okay I'm interested", next: 'the_ask' }
+          { label: "Validation / Quality", next: 'set_val' },
+          { label: "R&D / Product Dev", next: 'set_rd' },
+          { label: "Human Factors / UX", next: 'set_hfe' },
+          { label: "Applications Engineer", next: 'set_apps' }
         ]
       },
-      role_rd: {
+      set_val:  { msgs: [], options: [], onEnter: function() { profile.role = 'validation'; goToState('what_matters'); } },
+      set_rd:   { msgs: [], options: [], onEnter: function() { profile.role = 'rd'; goToState('what_matters'); } },
+      set_hfe:  { msgs: [], options: [], onEnter: function() { profile.role = 'hfe'; goToState('what_matters'); } },
+      set_apps: { msgs: [], options: [], onEnter: function() { profile.role = 'apps'; goToState('what_matters'); } },
+
+      what_matters: {
         msgs: [
-          "R&D? Great.",
-          "Right now he's building a pneumothorax air leak monitor from scratch. Gas sensors, pressure sensors, microcontroller.",
-          "He also trained an ML scoring model with differential evolution. Deployed it as a single-file web app.",
-          "The guy builds real things and ships them."
+          "Question 2 of 3.",
+          "What does your team need most right now?"
         ],
         options: [
-          { label: "What else has he built?", next: 'receipts' },
-          { label: "Okay I'm interested", next: 'the_ask' }
+          { label: "Hands-on testing & validation", next: 'set_testing' },
+          { label: "Building new products/features", next: 'set_building' },
+          { label: "Understanding end users", next: 'set_users' },
+          { label: "Cross-functional versatility", next: 'set_versatile' }
         ]
       },
-      role_hf: {
+      set_testing:   { msgs: [], options: [], onEnter: function() { profile.priority = 'testing'; goToState('concern'); } },
+      set_building:  { msgs: [], options: [], onEnter: function() { profile.priority = 'building'; goToState('concern'); } },
+      set_users:     { msgs: [], options: [], onEnter: function() { profile.priority = 'users'; goToState('concern'); } },
+      set_versatile: { msgs: [], options: [], onEnter: function() { profile.priority = 'versatile'; goToState('concern'); } },
+
+      concern: {
         msgs: [
-          "Someone who understands users? You're in the right place.",
-          "400+ hours of clinical observation in a PT clinic.",
-          "He can tell you why a clinician will hate your button placement.",
-          "Most engineers simulate. He's watched the real thing."
+          "Last one.",
+          "What's your biggest concern when hiring entry-level engineers?"
         ],
         options: [
-          { label: "What else has he built?", next: 'receipts' },
-          { label: "Okay I'm interested", next: 'the_ask' }
+          { label: "Culture fit & communication", next: 'set_culture' },
+          { label: "Technical depth", next: 'set_depth' },
+          { label: "Ability to work independently", next: 'set_independent' },
+          { label: "Regulatory knowledge", next: 'set_regulatory' }
         ]
       },
-      role_browse: {
+      set_culture:     { msgs: [], options: [], onEnter: function() { profile.concern = 'culture'; goToState('calculating'); } },
+      set_depth:       { msgs: [], options: [], onEnter: function() { profile.concern = 'depth'; goToState('calculating'); } },
+      set_independent: { msgs: [], options: [], onEnter: function() { profile.concern = 'independent'; goToState('calculating'); } },
+      set_regulatory:  { msgs: [], options: [], onEnter: function() { profile.concern = 'regulatory'; goToState('calculating'); } },
+
+      calculating: {
         msgs: [
-          "Just browsing? That's cool.",
-          "But you're talking to a chatbot on a portfolio site.",
-          "That means something caught your eye.",
-          "What was it?"
-        ],
-        options: [
-          { label: "The projects", next: 'receipts' },
-          { label: "This chatbot honestly", next: 'meta' },
-          { label: "The Konami code", next: 'konami_nod' }
-        ]
-      },
-      meta: {
-        msgs: [
-          "Ha. I appreciate the honesty.",
-          "Fun fact: I was built to be charming. Is it working?",
-          "...Don't answer that. Here's the real pitch:"
-        ],
-        options: [
-          { label: "Go on then", next: 'receipts' }
-        ],
-        onEnter: function() { setExpression('happy'); }
-      },
-      konami_nod: {
-        msgs: [
-          "A person of culture.",
-          "If you appreciated the Contra reference, you'll appreciate Joneil's attention to detail.",
-          "Same guy who put 30 lives on a portfolio also puts SRI hashes on CDN scripts."
-        ],
-        options: [
-          { label: "Show me the receipts", next: 'receipts' }
-        ],
-        onEnter: function() { setExpression('happy'); }
-      },
-      receipts: {
-        msgs: [
-          "Receipts time."
-        ],
-        evidence: [
-          "PhotoCull AI — replaces $30/mo photo tools. Free, open source. 2,754 lines, single file.",
-          "PhysioRep — camera-based form tracker. 82/82 tests passing. Works offline.",
-          "Pneumothorax Monitor — no commercial equivalent exists. He's building one from scratch.",
-          "UseTrace HFE — automates FDA Human Factors documentation. 3,000+ lines of Python."
-        ],
-        afterEvidence: [
-          "That's not resume padding. That's a GitHub commit history."
-        ],
-        options: [
-          { label: "Would this guy get an interview?", next: 'the_ask' }
-        ]
-      },
-      the_ask: {
-        msgs: [
-          "Here's the thing."
+          "Got it. Running fit analysis..."
         ],
         options: [],
         onEnter: function() {
-          const seconds = Math.round((Date.now() - startTime) / 1000);
-          const timeStr = seconds > 120 ? Math.round(seconds / 60) + ' minutes' : seconds + ' seconds';
-          tree.the_ask.msgs = [
-            "Here's the thing.",
-            "You've been here for " + timeStr + ".",
-            "You've read about his projects. Probably scrolled the case studies.",
-            "Your brain already started imagining what he'd bring to your team.",
-            "So... one button. No commitment. Just a signal."
-          ];
-          tree.the_ask.options = [
-            { label: "Yeah, I'd interview this guy", next: 'celebration', cls: 'hire-btn' }
-          ];
+          setExpression('neutral');
+          // After the "Running..." message, show the report
+          setTimeout(function() {
+            renderFitReport();
+          }, 1400);
         }
       },
+
+      post_report: {
+        msgs: [],
+        options: [],
+        onEnter: function() {
+          var scores = computeScores();
+          var overall = overallScore(scores);
+          var rp = roleProfiles[profile.role] || roleProfiles.validation;
+          var verdict = overall >= 88 ? 'VERY HIGH' : 'HIGH';
+
+          // Tailored insight based on their concern
+          var insight = {
+            culture: "He spent 400+ hours in a PT clinic. Not simulating. Watching real clinicians, real patients. That builds a kind of empathy most engineers never develop.",
+            depth: "PhotoCull AI: 2,754 lines, ML model trained with differential evolution. PhysioRep: 82/82 tests passing. Pneumothorax monitor: built from sensors up. He goes deep.",
+            independent: "Four solo projects shipped to production. PhotoCull, PhysioRep, UseTrace, and a clinical reliability tool. No team to hide behind.",
+            regulatory: "ISO 14971 risk analysis. IEC 62366-1 usability engineering. FDA HFE guidance. He built UseTrace specifically to automate regulatory documentation."
+          };
+
+          tree.post_report.msgs = [
+            insight[profile.concern] || insight.culture,
+            "You picked " + profile.concern.replace('_', ' ') + " as your top concern. That's exactly where he's strongest.",
+            "Here's the real question:"
+          ];
+          tree.post_report.options = [
+            { label: "Yeah, I'd interview this guy", next: 'celebration', cls: 'hire-btn' },
+            { label: "Send me his resume instead", next: 'resume' }
+          ];
+
+          showNextMessage();
+        }
+      },
+
       celebration: {
         msgs: [
           "CHIP: 1  ·  DOUBT: 0",
           "I knew it.",
-          "Joneil responds within 24 hours. The form is right below.",
-          "Thanks for humoring me. Seriously."
+          "Joneil responds within 24 hours. The contact form is right below.",
+          "Tell him Chip sent you. (He'll know.)"
         ],
         options: [
           { label: "Take me to the contact form", next: 'contact' }
@@ -8117,77 +8249,110 @@
           try { updateXP(100); } catch(e) {}
         }
       },
+
+      resume: {
+        msgs: [
+          "Smart. Due diligence.",
+          "The resume button is in the top nav. PDF, one page, no fluff.",
+          "But between us? The case studies on this site tell a better story than any resume."
+        ],
+        options: [
+          { label: "Fair point. Contact form?", next: 'contact' }
+        ],
+        onEnter: function() { setExpression('happy'); }
+      },
+
       contact: {
-        msgs: [ "Good luck finding a better hire. (I'm biased, obviously.)" ],
+        msgs: [ "Good luck finding a better fit. (I'm biased. I live here.)" ],
         options: [],
         onEnter: function() {
           setTimeout(function() {
-            const contactSection = document.getElementById('contact');
-            if (contactSection) {
-              gsap.to(window, { duration: 1, scrollTo: { y: contactSection, offsetY: 80 }, ease: 'power2.inOut' });
-            }
-            // Pre-fill subject if possible
-            const subjectField = document.querySelector('input[name="subject"], input[name="_subject"]');
-            if (subjectField) subjectField.value = 'Met Chip on your portfolio — interested in chatting';
+            var cs = document.getElementById('contact');
+            if (cs) gsap.to(window, { duration: 1, scrollTo: { y: cs, offsetY: 80 }, ease: 'power2.inOut' });
+            var sub = document.querySelector('input[name="subject"], input[name="_subject"]');
+            if (sub) sub.value = 'Chip says we should talk';
           }, 800);
         }
       }
     };
+
+    /* ---- FIT REPORT RENDERER ---- */
+    function renderFitReport() {
+      var scores = computeScores();
+      var overall = overallScore(scores);
+      var rp = roleProfiles[profile.role] || roleProfiles.validation;
+      var verdict = overall >= 88 ? 'VERY HIGH' : 'HIGH';
+      var verdictClass = overall >= 88 ? 'very-high' : 'high';
+
+      var card = document.createElement('div');
+      card.className = 'chip-fit';
+      var html = '<div class="chip-fit-title">FIT REPORT</div>';
+      html += '<div class="chip-fit-subtitle">Joneil \u00D7 ' + rp.title + '</div>';
+
+      scores.forEach(function(s, i) {
+        var cls = s.score >= 88 ? 'high' : 'mid';
+        html += '<div class="chip-fit-row">';
+        html += '<span class="chip-fit-label">' + s.label + '</span>';
+        html += '<div class="chip-fit-bar"><div class="chip-fit-fill ' + cls + '" data-target="' + s.score + '"></div></div>';
+        html += '<span class="chip-fit-pct">' + s.score + '%</span>';
+        html += '</div>';
+      });
+
+      html += '<hr class="chip-fit-divider">';
+      html += '<div class="chip-fit-overall">';
+      html += '<span class="chip-fit-overall-label">OVERALL FIT</span>';
+      html += '<span class="chip-fit-overall-score">' + overall + '%</span>';
+      html += '</div>';
+      html += '<div class="chip-fit-verdict ' + verdictClass + '">INTERVIEW LIKELIHOOD: ' + verdict + '</div>';
+
+      card.innerHTML = html;
+      chipMessages.appendChild(card);
+      chipMessages.scrollTop = chipMessages.scrollHeight;
+
+      // Animate bars filling
+      setTimeout(function() {
+        card.querySelectorAll('.chip-fit-fill').forEach(function(bar) {
+          bar.style.width = bar.getAttribute('data-target') + '%';
+        });
+      }, 100);
+
+      // After animation, continue dialogue
+      setTimeout(function() {
+        goToState('post_report');
+      }, 1800);
+    }
 
     /* ---- DIALOGUE ENGINE ---- */
     function goToState(stateName) {
       currentState = stateName;
       msgIndex = 0;
       chipOptions.innerHTML = '';
-      const state = tree[stateName];
+      var state = tree[stateName];
+      if (!state) return;
       if (state.onEnter) state.onEnter();
-      showNextMessage();
+      if (state.msgs && state.msgs.length > 0) showNextMessage();
     }
 
     function showNextMessage() {
-      const state = tree[currentState];
+      var state = tree[currentState];
       if (!state) return;
 
       if (msgIndex < state.msgs.length) {
         showTyping();
-        const delay = msgIndex === 0 ? 400 : 600;
+        var delay = msgIndex === 0 ? 400 : 550;
         setTimeout(function() {
           hideTyping();
           addMessage(state.msgs[msgIndex]);
           msgIndex++;
           showNextMessage();
         }, delay);
-      } else if (state.evidence && state.evidence.length > 0) {
-        // Show evidence messages one by one
-        let evidenceIdx = 0;
-        function showEvidence() {
-          if (evidenceIdx < state.evidence.length) {
-            showTyping();
-            setTimeout(function() {
-              hideTyping();
-              addMessage(state.evidence[evidenceIdx], 'evidence');
-              evidenceIdx++;
-              showEvidence();
-            }, 500);
-          } else if (state.afterEvidence) {
-            showTyping();
-            setTimeout(function() {
-              hideTyping();
-              state.afterEvidence.forEach(function(m) { addMessage(m); });
-              showOptions(state.options);
-            }, 500);
-          } else {
-            showOptions(state.options);
-          }
-        }
-        showEvidence();
       } else {
         showOptions(state.options);
       }
     }
 
     function addMessage(text, cls) {
-      const div = document.createElement('div');
+      var div = document.createElement('div');
       div.className = 'chip-msg' + (cls ? ' ' + cls : '');
       div.textContent = text;
       chipMessages.appendChild(div);
@@ -8195,7 +8360,7 @@
     }
 
     function addUserMessage(text) {
-      const div = document.createElement('div');
+      var div = document.createElement('div');
       div.className = 'chip-msg-user';
       div.textContent = text;
       chipMessages.appendChild(div);
@@ -8205,7 +8370,7 @@
     function showTyping() {
       if (isTyping) return;
       isTyping = true;
-      const div = document.createElement('div');
+      var div = document.createElement('div');
       div.className = 'chip-typing';
       div.id = 'chipTypingIndicator';
       div.innerHTML = '<span></span><span></span><span></span>';
@@ -8215,7 +8380,7 @@
 
     function hideTyping() {
       isTyping = false;
-      const el = document.getElementById('chipTypingIndicator');
+      var el = document.getElementById('chipTypingIndicator');
       if (el) el.remove();
     }
 
@@ -8223,7 +8388,7 @@
       chipOptions.innerHTML = '';
       if (!options || options.length === 0) return;
       options.forEach(function(opt) {
-        const btn = document.createElement('button');
+        var btn = document.createElement('button');
         btn.className = 'chip-opt' + (opt.cls ? ' ' + opt.cls : '');
         btn.textContent = opt.label;
         btn.addEventListener('click', function() {
@@ -8237,9 +8402,9 @@
 
     /* ---- CONFETTI ---- */
     function fireConfetti() {
-      const colors = ['#c67b2e', '#d4944a', '#22c55e', '#3b82f6', '#8b5cf6', '#f97316', '#ef4444', '#eab308'];
-      for (let i = 0; i < 45; i++) {
-        const piece = document.createElement('div');
+      var colors = ['#c67b2e', '#d4944a', '#22c55e', '#3b82f6', '#8b5cf6', '#f97316', '#ef4444', '#eab308'];
+      for (var i = 0; i < 50; i++) {
+        var piece = document.createElement('div');
         piece.className = 'confetti-piece';
         piece.style.left = (Math.random() * 100) + 'vw';
         piece.style.top = (-10 - Math.random() * 20) + 'px';
@@ -8250,7 +8415,7 @@
         piece.style.animationDuration = (2 + Math.random() * 2) + 's';
         piece.style.animationDelay = (Math.random() * 0.5) + 's';
         document.body.appendChild(piece);
-        setTimeout(function() { piece.remove(); }, 4500);
+        setTimeout(function(p) { return function() { p.remove(); }; }(piece), 4500);
       }
     }
 
@@ -8263,9 +8428,7 @@
         chipChat.classList.add('open');
         chatOpen = true;
         chipBadge.classList.add('hide');
-        if (chipMessages.children.length === 0) {
-          goToState('intro');
-        }
+        if (chipMessages.children.length === 0) goToState('intro');
       }
     });
 
@@ -8274,17 +8437,15 @@
       chatOpen = false;
     });
 
-    /* ---- ENTRANCE (show after 15s or scroll past hero) ---- */
-    let chipShown = false;
+    /* ---- ENTRANCE ---- */
+    var chipShown = false;
     function showChip() {
       if (chipShown) return;
       chipShown = true;
       chipWidget.style.display = 'block';
       chipWidget.classList.add('chip-entrance');
     }
-
     setTimeout(showChip, 15000);
-
     window.addEventListener('scroll', function() {
       if (window.scrollY > window.innerHeight * 0.6) showChip();
     }, { passive: true });
