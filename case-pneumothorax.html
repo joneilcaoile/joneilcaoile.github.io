@@ -3,64 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Pneumothorax Air Leak Monitor | Case Study | Joneil Caoile</title>
+  <title>Pneumothorax Air Leak Monitor — Case Study | Joneil Caoile</title>
   <meta name="description" content="A ventilator-integrated device concept for objective, continuous pneumothorax air leak monitoring. BME 565 capstone, Stevens Institute of Technology.">
-  <meta property="og:title" content="Pneumothorax Air Leak Monitor | Case Study | Joneil Caoile">
-  <meta property="og:description" content="A device concept that estimates pulmonary air leak severity by comparing ventilator-delivered tidal volume with chest tube outflow. Built as a bench-level prototype with no existing commercial equivalent.">
+  <meta property="og:title" content="Pneumothorax Air Leak Monitor — Case Study | Joneil Caoile">
+  <meta property="og:description" content="A device concept that estimates pulmonary air leak severity by comparing ventilator-delivered tidal volume with chest tube outflow — built as a bench-level prototype with no existing commercial equivalent.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://joneilcaoile.github.io/case-pneumothorax.html">
   <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.jpg">
-  <meta property="og:image:alt" content="Joneil Caoile portfolio case study preview">
   <link rel="canonical" href="https://joneilcaoile.github.io/case-pneumothorax.html">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Pneumothorax Air Leak Monitor | Case Study | Joneil Caoile">
-  <meta name="twitter:description" content="A device concept that estimates pulmonary air leak severity by comparing ventilator-delivered tidal volume with chest tube outflow. Built as a bench-level prototype with no existing commercial equivalent.">
-  <meta name="twitter:image" content="https://joneilcaoile.github.io/og-preview.jpg">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; frame-src 'none'; object-src 'none'; base-uri 'self';">
   <meta name="theme-color" content="#FAFAF8">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="manifest" href="/site.webmanifest">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Pneumothorax Air Leak Monitor | Case Study | Joneil Caoile",
-    "author": {
-      "@type": "Person",
-      "name": "Joneil Caoile",
-      "url": "https://joneilcaoile.github.io"
-    },
-    "publisher": {
-      "@type": "Person",
-      "name": "Joneil Caoile"
-    },
-    "mainEntityOfPage": "https://joneilcaoile.github.io/case-pneumothorax.html",
-    "description": "A device concept that estimates pulmonary air leak severity by comparing ventilator-delivered tidal volume with chest tube outflow. Built as a bench-level prototype with no existing commercial equivalent."
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Portfolio",
-        "item": "https://joneilcaoile.github.io/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Pneumothorax Air Leak Monitor",
-        "item": "https://joneilcaoile.github.io/case-pneumothorax.html"
-      }
-    ]
-  }
-  </script>
 
   <!-- Fonts (same as main portfolio) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -82,7 +34,7 @@
       --text-muted: #6B6560;
       --text-light: #9A9490;
 
-      --amber: #A85A04;
+      --amber: #D97706;
       --amber-light: #FEF3C7;
       --amber-mid: #F59E0B;
       --coral: #E05C4A;
@@ -741,23 +693,49 @@
     footer a { color: var(--amber-mid); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
 
-    /* ===== PRINT STYLES ===== */
-    @media print {
-      *, *::before, *::after { animation: none !important; transition: none !important; }
-      .back-nav, #progress-bar, .skip-nav, .case-nav, .cta-section { display: none !important; }
-      body { background: white !important; color: #222 !important; font-size: 11pt; }
-      main { padding-top: 0 !important; }
-      .section { padding: 1.5rem 0; max-width: 100%; }
-      section { break-inside: avoid; page-break-inside: avoid; }
-      a { color: #222 !important; text-decoration: underline; }
-      a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; color: #666; }
-      .table-wrap { border: 1px solid #ccc; }
-      thead { background: #333 !important; }
-      tbody tr:nth-child(even) { background: #f5f5f5 !important; }
-      h1, h2, h3 { color: #222 !important; }
-      footer { border-top: 1px solid #ccc; }
+    /* ===== FAILURE MODE TABLE ===== */
+    .failure-modes-wrap {
+      overflow-x: auto;
+      margin: 2rem 0;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.08);
+      background: var(--bg-dark-2);
     }
 
+    .failure-modes-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.87rem;
+      background: var(--bg-dark-2);
+    }
+
+    .failure-modes-table th {
+      font-family: var(--font-head);
+      font-weight: 600;
+      padding: 0.9rem 1.1rem;
+      text-align: left;
+      color: var(--amber-mid);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-bottom: 2px solid rgba(217,119,6,0.3);
+    }
+
+    .failure-modes-table td {
+      padding: 1rem 1.1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: rgba(245,243,238,0.75);
+      line-height: 1.6;
+    }
+
+    .failure-modes-table tr:last-child td { border-bottom: none; }
+    .failure-modes-table tr:hover td { background: rgba(217,119,6,0.06); }
+
+    .failure-modes-table td:first-child {
+      font-family: var(--font-head);
+      color: rgba(245,243,238,0.9);
+      font-weight: 500;
+    }
   </style>
 </head>
 <body>
@@ -771,9 +749,9 @@
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
       Back to portfolio
     </a>
-    <a class="github-link" href="index.html#contact" rel="noopener noreferrer">
+    <a class="github-link" href="https://docs.google.com/document/d/1C0AL9XNVWHgxx7miGX3OMHbf6qp8rv27t3ATvTXH1ac/edit" target="_blank" rel="noopener noreferrer">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-      Get in touch
+      Team Notebook
     </a>
   </nav>
 
@@ -791,7 +769,7 @@
       </h1>
 
       <p class="hero-desc r">
-        A ventilator-integrated device prototype that continuously estimates pulmonary air leak severity by comparing delivered tidal volume with chest tube outflow. This gives clinicians an objective number where today they make a visual guess.
+        A ventilator-integrated device prototype that continuously estimates pulmonary air leak severity by comparing delivered tidal volume with chest tube outflow — giving clinicians an objective number where today they make a visual guess.
       </p>
 
       <div class="meta-row r">
@@ -815,55 +793,6 @@
           Stevens Institute of Technology
         </div>
       </div>
-      <div class="r" style="margin-top:1rem;font-family:var(--font-mono, 'JetBrains Mono', monospace);font-size:0.72rem;color:var(--text-light, #9A9490);letter-spacing:0.04em;">17 min read</div>
-    </section>
-
-    <!-- VIDEO WALKTHROUGH -->
-    <section class="section" style="padding-top:0;">
-      <div class="r" style="background:var(--bg-warm, #F5F3EE);border-radius:var(--radius, 12px);padding:2rem;text-align:center;">
-        <div style="font-family:var(--font-mono, 'JetBrains Mono', monospace);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber, #A85A04);margin-bottom:0.75rem;">Video Walkthrough</div>
-        <div style="aspect-ratio:16/9;background:var(--bg-dark, #0F0E0C);border-radius:var(--radius-sm, 8px);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;">
-          <div style="text-align:center;color:var(--text-light, #9A9490);">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.4;margin-bottom:0.5rem;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-            <p style="font-size:0.82rem;margin:0;">Video coming soon</p>
-          </div>
-        </div>
-        <p style="font-size:0.85rem;color:var(--text-muted, #6B6560);margin:0;">A narrated walkthrough of the Pneumothorax Air Leak Monitor showing the bench prototype, sensor integration, and clinical workflow design. Coming soon.</p>
-      </div>
-    </section>
-
-    <!-- KEY METRICS -->
-    <section class="section" style="padding-top:0;">
-      <div class="r" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;">
-        <div style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius-sm,8px);padding:1.25rem;text-align:center;">
-          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--amber,#A85A04);line-height:1;">2</div>
-          <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;color:var(--text-light,#9A9490);margin-top:0.4rem;letter-spacing:0.03em;">Sensor Channels</div>
-        </div>
-        <div style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius-sm,8px);padding:1.25rem;text-align:center;">
-          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--amber,#A85A04);line-height:1;">±5%</div>
-          <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;color:var(--text-light,#9A9490);margin-top:0.4rem;letter-spacing:0.03em;">Target Accuracy</div>
-        </div>
-        <div style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius-sm,8px);padding:1.25rem;text-align:center;">
-          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--amber,#A85A04);line-height:1;">0</div>
-          <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;color:var(--text-light,#9A9490);margin-top:0.4rem;letter-spacing:0.03em;">Commercial Equivalents</div>
-        </div>
-        <div style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius-sm,8px);padding:1.25rem;text-align:center;">
-          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--amber,#A85A04);line-height:1;">IEC 60601</div>
-          <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;color:var(--text-light,#9A9490);margin-top:0.4rem;letter-spacing:0.03em;">Design Target</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ROLE CONTEXT -->
-    <section class="section" style="padding-top:0;">
-      <div class="r" style="background:var(--bg-warm,#F5F3EE);border-left:4px solid var(--amber,#A85A04);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
-        <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:0.75rem;">Why This Project Matters</div>
-        <div style="display:grid;gap:0.6rem;font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;">
-          <p style="margin:0;"><strong style="color:var(--text,#1A1815);">For V&V Engineers:</strong> Risk management per ISO 14971 from day one. IQ/OQ/PQ thinking applied to a bench prototype. Test methods designed for a device with zero commercial predicate.</p>
-          <p style="margin:0;"><strong style="color:var(--text,#1A1815);">For R&D Engineers:</strong> Bench-level prototype with dual-sensor architecture. Hardware-software integration, signal processing pipeline, first-principles design for a novel clinical need.</p>
-          <p style="margin:0;"><strong style="color:var(--text,#1A1815);">For HFE Engineers:</strong> ICU workflow analysis identified 5 clinician interaction points and mapped potential use errors. Post-deployment training protocol designed for high-acuity environments.</p>
-        </div>
-      </div>
     </section>
 
     <!-- ===== PROBLEM ===== -->
@@ -876,7 +805,7 @@
       </p>
 
       <p class="prose r">
-        There's no standardized, objective measurement. No device on the market measures pulmonary air leak severity continuously and quantitatively. <strong>Patients stay on chest tubes longer than necessary</strong> because there's no clear data-driven threshold to trigger a weaning decision. This means more hospital days, more infection risk, and more discomfort for no clinical benefit.
+        There's no standardized, objective measurement. No device on the market measures pulmonary air leak severity continuously and quantitatively. <strong>Patients stay on chest tubes longer than necessary</strong> because there's no clear data-driven threshold to trigger a weaning decision — which means more hospital days, more infection risk, and more discomfort for no clinical benefit.
       </p>
 
       <div class="ps-grid">
@@ -888,47 +817,8 @@
         <div class="ps-card solution r">
           <div class="ps-card-label">Our approach</div>
           <div class="ps-card-title">Continuous, quantified leak severity</div>
-          <p>By comparing ventilator-delivered tidal volume with measured chest tube outflow, we can compute a leak differential: a real number that can be trended over time and used as a weaning trigger.</p>
+          <p>By comparing ventilator-delivered tidal volume with measured chest tube outflow, we can compute a leak differential — a real number that can be trended over time and used as a weaning trigger.</p>
         </div>
-      </div>
-
-      <div class="r" style="margin:1.5rem 0;overflow-x:auto;">
-        <figure style="margin:0;">
-          <svg viewBox="0 0 900 140" style="width:100%;max-width:900px;height:auto;display:block;" aria-label="Pneumothorax monitor signal processing pipeline: ventilator delivers air, flow sensor measures inlet, differential calculation derives leak severity, display shows severity score">
-            <defs>
-              <style>
-                .flow-node { fill: #0F0E0C; stroke: #A85A04; stroke-width: 2; rx: 6; }
-                .flow-text { fill: white; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; text-anchor: middle; }
-                .flow-sub { fill: #A85A04; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-anchor: middle; }
-                .flow-arrow { stroke: #A85A04; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
-                .arrowhead { fill: #A85A04; }
-              </style>
-              <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-                <polygon points="0 0, 10 3, 0 6" class="arrowhead"/>
-              </marker>
-            </defs>
-            <rect class="flow-node" x="20" y="30" width="130" height="80"/>
-            <text class="flow-text" x="85" y="65">Ventilator</text>
-            <text class="flow-sub" x="85" y="85">Tidal Volume</text>
-            <path class="flow-arrow" d="M 150 70 L 190 70"/>
-            <rect class="flow-node" x="190" y="30" width="130" height="80"/>
-            <text class="flow-text" x="255" y="65">Flow Sensor</text>
-            <text class="flow-sub" x="255" y="85">Inlet Pressure</text>
-            <path class="flow-arrow" d="M 320 70 L 360 70"/>
-            <rect class="flow-node" x="360" y="30" width="130" height="80"/>
-            <text class="flow-text" x="425" y="65">Signal Process</text>
-            <text class="flow-sub" x="425" y="85">Chest Tube Out</text>
-            <path class="flow-arrow" d="M 490 70 L 530 70"/>
-            <rect class="flow-node" x="530" y="30" width="130" height="80"/>
-            <text class="flow-text" x="595" y="65">Differential</text>
-            <text class="flow-sub" x="595" y="85">Computation</text>
-            <path class="flow-arrow" d="M 660 70 L 700 70"/>
-            <rect class="flow-node" x="700" y="30" width="160" height="80"/>
-            <text class="flow-text" x="780" y="65">Leak Severity</text>
-            <text class="flow-sub" x="780" y="85">Clinical Display</text>
-          </svg>
-          <figcaption style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-light);text-align:center;margin-top:0.5rem;">Signal flow from ventilator to clinical decision endpoint</figcaption>
-        </figure>
       </div>
     </section>
 
@@ -986,17 +876,17 @@
 
           <div class="tech-note r">
             <div class="tech-note-title">Comparative measurement over absolute measurement</div>
-            <p>We don't need to know the exact air leak volume. We need to know how much of what the ventilator sent didn't stay in the lungs. A differential approach is more robust to sensor drift and calibration variance than trying to measure absolute outflow, and it maps directly to the clinical question: how much is leaking?</p>
+            <p>We don't need to know the exact air leak volume — we need to know how much of what the ventilator sent didn't stay in the lungs. A differential approach is more robust to sensor drift and calibration variance than trying to measure absolute outflow, and it maps directly to the clinical question: how much is leaking?</p>
           </div>
 
           <div class="tech-note r" style="margin-top:1.25rem;">
-            <div class="tech-note-title">Bench prototype scope: by design</div>
-            <p>BME 565 is a device design course, not a clinical trial. We scoped the prototype to demonstrate the sensing principle and computation without attempting patient contact. A bench-level prototype that proves the measurement concept is the appropriate deliverable at this stage. The right next step would be animal model validation, not human use.</p>
+            <div class="tech-note-title">Bench prototype scope — by design</div>
+            <p>BME 565 is a device design course, not a clinical trial. We scoped the prototype to demonstrate the sensing principle and computation without attempting patient contact. A bench-level prototype that proves the measurement concept is the appropriate deliverable at this stage — the right next step would be animal model validation, not human use.</p>
           </div>
 
           <div class="tech-note r" style="margin-top:1.25rem;">
             <div class="tech-note-title">Simulated-use workflow first</div>
-            <p>Before touching hardware, I designed the simulated-use workflow: the sequence of steps a clinician would follow to set up, use, and interpret the device. Starting from use first rather than specs first kept the design anchored to what the user actually needs, not just what we could build.</p>
+            <p>Before touching hardware, I designed the simulated-use workflow — the sequence of steps a clinician would follow to set up, use, and interpret the device. Starting from use first rather than specs first kept the design anchored to what the user actually needs, not just what we could build.</p>
           </div>
         </div>
       </section>
@@ -1009,21 +899,21 @@
         <h2 class="section-title r" id="standards-heading">Designed with the regulatory path in mind</h2>
 
         <p class="prose r">
-          BME 565 teaches device design as a regulated practice, not just engineering. The concepts and frameworks below were part of the course curriculum and informed how we approached the design process. From risk management to use specification, these are foundational.
+          BME 565 teaches device design as a regulated practice, not just engineering. The concepts and frameworks below were part of the course curriculum and informed how we approached the design process — from risk management to use specification.
         </p>
 
         <div class="standards r">
           <div class="std-card">
-            <h3>ISO 14971:2019</h3>
-            <p>Risk management for medical devices. Risk identification and mitigation thinking shaped the design from the start: failure modes, hazardous situations, and acceptable risk criteria. This was core design, not a compliance layer tacked on at the end.</p>
+            <h4>ISO 14971:2019</h4>
+            <p>Risk management for medical devices. Risk identification and mitigation thinking — failure modes, hazardous situations, and acceptable risk criteria — shaped the design from the start, not as a compliance layer tacked on at the end.</p>
           </div>
           <div class="std-card">
-            <h3>IEC 62366-1:2015</h3>
-            <p>Usability engineering for medical devices. The simulated-use workflow I designed follows the use specification structure from IEC 62366-1: intended users, use environment, task analysis, use errors that could harm.</p>
+            <h4>IEC 62366-1:2015</h4>
+            <p>Usability engineering for medical devices. The simulated-use workflow I designed follows the use specification structure from IEC 62366-1 — intended users, use environment, task analysis, use errors that could harm.</p>
           </div>
           <div class="std-card">
-            <h3>21 CFR Part 820</h3>
-            <p>FDA Quality System Regulation for medical device design controls. Design inputs, outputs, verification, and validation planning. These concepts frame how a prototype like this would eventually move through a formal development process.</p>
+            <h4>21 CFR Part 820</h4>
+            <p>FDA Quality System Regulation for medical device design controls. Design inputs, outputs, verification, and validation planning — concepts that frame how a prototype like this would eventually move through a formal development process.</p>
           </div>
         </div>
       </section>
@@ -1036,10 +926,11 @@
         <h2 class="section-title r" id="scope-heading">Where we are</h2>
 
         <div class="inprogress-callout r">
-          <div class="inprogress-callout-label">Note: In Progress</div>
+          <div class="inprogress-callout-label">Note — In Progress</div>
           <p>This project completes in May 2026 with prototype testing and a final presentation. The scope below reflects the design and development phase. Test results and outcomes will be added when available.</p>
         </div>
 
+        <!-- Scope — verified facts only, no fabricated metrics -->
         <div class="scope-grid">
           <div class="scope-card r">
             <div class="scope-value">3</div>
@@ -1054,109 +945,11 @@
             <div class="scope-label">commercial equivalents exist</div>
           </div>
           <div class="scope-card r">
-            <div class="scope-value">14</div>
-            <div class="scope-label">V&V test cases authored</div>
+            <div class="scope-value">Bench</div>
+            <div class="scope-label">prototype level, simulated use</div>
           </div>
         </div>
-
-        <h3 class="r" style="margin-top:2.5rem;font-size:1.1rem;color:var(--amber-mid);">My Contribution</h3>
-        <p class="section-body r" style="margin-top:0.75rem;">
-          As concept lead, I owned the sensing architecture: selected the gas flow and differential
-          pressure transducers, designed the sensor fusion algorithm in MATLAB, and built the
-          bench test fixtures. I authored the full Design History File including user needs
-          documentation, design inputs/outputs, the ISO 14971 risk analysis (FMEA with 23 hazard
-          scenarios), and all 14 IQ/OQ/PQ verification test cases with quantitative acceptance
-          criteria traceable to design inputs. My teammates focused on CAD enclosure design and
-          the clinical workflow analysis.
-        </p>
-
-        <h3 class="r" style="margin-top:2rem;font-size:1.1rem;color:var(--amber-mid);">V&V Approach</h3>
-        <p class="section-body r" style="margin-top:0.75rem;">
-          Test protocols follow a risk-based strategy: critical-to-safety parameters (leak detection
-          threshold, measurement drift, response time) have tighter acceptance criteria and more
-          test repetitions. Each test case maps to a specific design input via the requirements
-          traceability matrix. The 14 test cases cover sensor accuracy, drift over 24-hour
-          continuous operation, response to simulated leak profiles, alarm threshold sensitivity,
-          and environmental noise rejection. All protocols authored before prototype assembly
-          to prevent post-hoc rationalization of results.
-        </p>
-
-        <!-- V&V TRACEABILITY SAMPLE -->
-        <div class="r" style="overflow-x:auto;margin-top:1.5rem;">
-          <table style="width:100%;border-collapse:collapse;font-size:0.82rem;line-height:1.5;" aria-label="Sample V&V traceability matrix mapping design inputs to test methods and acceptance criteria">
-            <thead>
-              <tr style="background:var(--bg-dark);color:#fff;">
-                <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Design Input</th>
-                <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Risk Ref</th>
-                <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Test Method</th>
-                <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Acceptance Criteria</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
-                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">Leak detection threshold &le;50 mL/min</td>
-                <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.78rem;color:var(--amber-mid);">FMEA-003</td>
-                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">Simulated leak profile, 5 trials at 25/50/75/100 mL/min</td>
-                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">Detect 50 mL/min leak in &le;30s, 5/5 trials</td>
-              </tr>
-              <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
-                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">Measurement drift &lt;2% over 24h</td>
-                <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.78rem;color:var(--amber-mid);">FMEA-007</td>
-                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">Continuous 24h bench run, hourly calibration check</td>
-                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">Drift &lt;2% from baseline at all check points</td>
-              </tr>
-              <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
-                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">Alarm response time &le;5s</td>
-                <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.78rem;color:var(--amber-mid);">FMEA-011</td>
-                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">Step-function leak onset, time-to-alarm measurement</td>
-                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">Alarm triggers within 5s of threshold breach, 10/10 trials</td>
-              </tr>
-              <tr>
-                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">Environmental noise rejection</td>
-                <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.78rem;color:var(--amber-mid);">FMEA-015</td>
-                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">Vibration and acoustic interference during measurement</td>
-                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">No false positive alarms across 3 noise profiles</td>
-              </tr>
-            </tbody>
-          </table>
-          <p style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;color:var(--text-muted,#9A9490);margin-top:0.5rem;text-align:center;">Sample rows from the full 14-case traceability matrix</p>
-        </div>
-
         <!-- Source: vault note "01 - Projects/Job Search/Projects/🫁 Pneumothorax Air Leak Monitor.md" -->
-
-        <h3 class="r" style="margin-top:2rem;font-size:1.1rem;color:var(--amber-mid);">Clinical Integration: How ICU Teams Would Use This</h3>
-        <p class="section-body r" style="margin-top:0.75rem;">
-          Current weaning decisions rely on subjective assessment: clinicians visually inspect the
-          chest tube water seal chamber for bubbling, then guess whether the leak is resolving.
-          This device replaces that guess with a number. The clinical workflow changes from
-          "check for bubbles every 4 hours" to "read the leak differential on the bedside display
-          and compare against the threshold the attending set at admission."
-        </p>
-        <p class="section-body r" style="margin-top:0.75rem;">
-          Task analysis identified 5 critical interaction points: initial sensor attachment to
-          the ventilator circuit, chest tube sensor placement, threshold calibration by the
-          attending physician, routine reading by bedside nurses (every 2-4 hours), and the
-          weaning decision checkpoint. Each interaction was evaluated for potential use errors:
-          sensor misalignment, threshold confusion between patients, alarm fatigue from false
-          positives, and one-handed operation constraints during emergencies.
-        </p>
-        <p class="section-body r" style="margin-top:0.75rem;">
-          The IEC 62366-1 use specification was drafted before hardware prototyping. Constraints
-          it surfaced: the display must be readable from 6 feet (nurse station distance), alarms
-          must distinguish from existing ventilator alarms, and the sensor attachment must be
-          completable in under 30 seconds by a single nurse.
-        </p>
-
-        <h3 class="r" style="margin-top:2rem;font-size:1.1rem;color:var(--amber-mid);">Supporting Clinicians After Deployment</h3>
-        <p class="section-body r" style="margin-top:0.75rem;">
-          The deployment plan includes a 30-minute bedside training protocol for ICU nurses covering
-          sensor attachment, threshold interpretation, and alarm response. A one-page troubleshooting
-          guide addresses the three most common field issues: sensor displacement during patient
-          repositioning, false alarms from ventilator circuit disconnection, and threshold confusion
-          between patients (each patient gets an individually calibrated baseline). Clinician feedback
-          feeds back to engineering through a structured observation form: nurses log discrepancies
-          between device output and their clinical assessment, creating a continuous validation loop.
-        </p>
       </section>
     </div>
 
@@ -1184,253 +977,54 @@
 
         <div class="tech-note r" style="margin-top:1.25rem;">
           <div class="tech-note-title">CAD and form factor planning</div>
-          <p>Form factor matters for a bedside ICU device. The enclosure needs to be cleanable, mountable to a ventilator pole or bed rail, and interpretable at a glance by a nurse who's managing multiple patients. Early CAD work focused on those constraints before finalizing the sensing architecture. A technically correct sensor in an unusable housing doesn't get adopted.</p>
+          <p>Form factor matters for a bedside ICU device. The enclosure needs to be cleanable, mountable to a ventilator pole or bed rail, and interpretable at a glance by a nurse who's managing multiple patients. Early CAD work focused on those constraints before finalizing the sensing architecture — because a technically correct sensor in an unusable housing doesn't get adopted.</p>
+        </div>
+
+        <div class="tech-note r" style="margin-top:1.5rem;">
+          <div class="tech-note-title">Failure mode detection and in-field monitoring</div>
+          <p>The device must detect and respond to sensor failures, calibration drift, and microcontroller errors. Failures are flagged to nurses with clear instructions. Failed measurements are marked unreliable; the system either switches to fallback mode or triggers a manual recalibration workflow. No silent failure.</p>
+        </div>
+
+        <div class="failure-modes-wrap r" style="margin-top:1.5rem;">
+          <table class="failure-modes-table">
+            <thead>
+              <tr>
+                <th>Failure Mode</th>
+                <th>Detection Method</th>
+                <th>Response</th>
+                <th>Recovery</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Inlet sensor signal loss</td>
+                <td>Continuous impedance monitoring, alert if signal drops below threshold for more than 3 seconds</td>
+                <td>Display "Inlet Sensor: Check Connection", switch to single-sensor estimation mode</td>
+                <td>Nurse reconnects sensor, device auto-recalibrates within 30 seconds</td>
+              </tr>
+              <tr>
+                <td>Outlet sensor displacement</td>
+                <td>Pressure spike detection (sudden drop in measured outflow)</td>
+                <td>Audible alarm plus visual alert "Outlet Sensor Displaced", flag all readings as unreliable</td>
+                <td>Weekly verification protocol. Nurse confirms sensor position during routine checks</td>
+              </tr>
+              <tr>
+                <td>Calibration drift (greater than 2 percent over 24 hours)</td>
+                <td>Internal reference signal check every 4 hours, compares current baseline to initial calibration</td>
+                <td>Display "Recalibration Recommended" after 24 hours continuous use</td>
+                <td>One-button recalibration. Device runs 60-second baseline capture with known zero-flow state</td>
+              </tr>
+              <tr>
+                <td>Microcontroller hang</td>
+                <td>Hardware watchdog timer (60-second timeout)</td>
+                <td>Automatic system reset, preserves last 30 minutes of data in non-volatile memory</td>
+                <td>Device restarts in less than 10 seconds, resumes monitoring with last-known calibration</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
     </div>
-
-    <!-- DEPLOYMENT & SUPPORT -->
-    <section class="section" role="region" aria-labelledby="deploy-heading-pn">
-      <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:0.5rem;" class="r">Field Readiness</div>
-      <h2 class="r" id="deploy-heading-pn" style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.3rem,3vw,1.7rem);font-weight:700;margin-bottom:1rem;">Clinical Deployment Considerations</h2>
-
-      <div style="display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));" class="r">
-        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
-          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">ICU Integration Plan</div>
-          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">Designed the deployment workflow for a 24/7 critical care environment: device mounting on ventilator cart, alarm integration with existing nurse call systems, and a 15-minute staff training protocol.</p>
-        </div>
-        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
-          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">Troubleshooting Protocol</div>
-          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">Authored a field troubleshooting guide covering the 5 most likely failure modes: sensor drift, tubing disconnection, power interruption, false alarms from patient movement, and calibration timeout.</p>
-        </div>
-        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
-          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">Biomedical Engineering Handoff</div>
-          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">Created documentation for hospital BME teams: device specifications, preventive maintenance schedule, calibration procedure, and spare parts list. Written so a BME tech can service the device without contacting the manufacturer.</p>
-        </div>
-        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
-          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">Clinical Feedback Loop</div>
-          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">Designed a structured feedback form for ICU nurses to report usability issues, false alarms, and workflow disruptions. Data feeds directly into the risk management file for post-market surveillance.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- TECHNICAL PERFORMANCE -->
-    <section class="section" style="padding-top:0;">
-      <div class="r" style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius,12px);padding:1.5rem;">
-        <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:1rem;">Technical Performance</div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.75rem;">
-          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
-            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Signal Processing</div>
-            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">MATLAB R2024a</div>
-          </div>
-          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
-            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Sample Rate</div>
-            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">1 kHz (both channels)</div>
-          </div>
-          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
-            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Accuracy Target</div>
-            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">±5% of calibrated reference</div>
-          </div>
-          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
-            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Power Budget</div>
-            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">&lt;500mW continuous operation</div>
-          </div>
-          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
-            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Alert Latency</div>
-            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">&lt;5s from threshold breach</div>
-          </div>
-          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
-            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Continuous Operation</div>
-            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">24h with &lt;2% drift</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== VALIDATION RESULTS ===== -->
-    <section class="section" aria-labelledby="validation-heading" style="margin-top:3rem;">
-      <p class="section-label r" style="color:var(--amber-mid);">Validation Results</p>
-      <h2 class="section-title r" id="validation-heading">Test outcomes from 50 simulated pneumothorax cases</h2>
-
-      <div style="overflow-x:auto;margin-top:1.5rem;">
-        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
-          <thead>
-            <tr style="background:rgba(168,90,4,0.15);border-bottom:2px solid var(--amber,#A85A04);">
-              <th style="padding:0.85rem;text-align:left;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Test Case</th>
-              <th style="padding:0.85rem;text-align:left;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Method</th>
-              <th style="padding:0.85rem;text-align:left;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Result</th>
-              <th style="padding:0.85rem;text-align:center;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Leak Detection Sensitivity</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">50 simulated leaks, 10–150 mL/min flow</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">96% (48/50 detected)</td>
-              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Specificity (False Negatives)</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">No-leak baseline, stable chest tube pressure</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">98% (49/50 no false alarm)</td>
-              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Sensor Drift (24h)</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">Continuous monitoring, room temperature ±2°C</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">1.8% calibration drift</td>
-              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Alert Latency (Threshold Breach)</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">From pressure spike to alarm trigger time</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">2.3s average (range 1.9–2.7s)</td>
-              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">False Positive Rate (100 trials)</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">Stable pressure, transient noise injection</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">2/100 spurious alarms</td>
-              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.6;margin-top:1.5rem;">Results were consistent across three humidity levels (20%, 50%, 80%) and two sensor orientation angles. The two missed detections occurred below 12 mL/min (below clinical relevance threshold). Sensor drift remained under specification even with a 5-hour temperature excursion to 38°C.</p>
-    </section>
-
-    <!-- ===== DESIGN ITERATION ===== -->
-    <section class="section" aria-labelledby="iteration-heading" style="margin-top:3rem;margin-bottom:3rem;">
-      <p class="section-label r" style="color:var(--amber-mid);">Design Iteration</p>
-      <h2 class="section-title r" id="iteration-heading">Three major pivots from concept to final prototype</h2>
-
-      <div style="display:flex;flex-direction:column;gap:1.5rem;margin-top:1.5rem;">
-        <!-- Iteration 1 -->
-        <div style="position:relative;padding-left:2rem;border-left:2px solid var(--amber,#A85A04);" class="r">
-          <div style="position:absolute;left:-11px;top:0;width:20px;height:20px;background:var(--amber,#A85A04);border-radius:50%;border:2px solid var(--bg-dark,#0F0E0C);"></div>
-          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.4rem;">Iteration 1: Single Airflow Sensor</div>
-          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>The Problem:</strong> Initial design used a single thermal mass airflow sensor. It showed good sensitivity at low flows (10–20 mL/min) but saturated above 150 mL/min, making it impossible to quantify clinically significant leaks.</div>
-          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>What Failed:</strong> After running tests on a bench fixture with reference flows up to 200 mL/min, the sensor output plateaued. We could detect a leak was present, but not how severe it was. That ambiguity is unusable in a clinical setting.</div>
-          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-light);"><strong>Next Step:</strong> Added a differential pressure channel. This gives us two independent measurements. The airflow sensor handles low-flow sensitivity, pressure sensor handles the dynamic range.</div>
-        </div>
-
-        <!-- Iteration 2 -->
-        <div style="position:relative;padding-left:2rem;border-left:2px solid var(--amber,#A85A04);" class="r">
-          <div style="position:absolute;left:-11px;top:0;width:20px;height:20px;background:var(--amber,#A85A04);border-radius:50%;border:2px solid var(--bg-dark,#0F0E0C);"></div>
-          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.4rem;">Iteration 2: Dual Sensors with Fusion</div>
-          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>The Problem:</strong> With two sensors, we got 4x dynamic range (now 10–200 mL/min measurable), but the alarm latency shot up to 8 seconds. Two separate thresholds meant waiting for both to agree before declaring a leak. The 8-second lag was clinically unacceptable.</div>
-          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>What Failed:</strong> Simple threshold logic treats the sensors independently. If either crosses 150 mL/min, alarm fires. But noise on one sensor creates false alarms (2.3% false positive rate). We needed to weight the measurements intelligently.</div>
-          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-light);"><strong>Next Step:</strong> Implemented a Kalman filter to fuse the two measurements. The filter weights the airflow sensor heavily at low flows (where it's accurate) and shifts trust to the pressure sensor at high flows. Alarm latency dropped to 2.3s and false positives fell to 2%.</div>
-        </div>
-
-        <!-- Iteration 3 -->
-        <div style="position:relative;padding-left:2rem;border-left:2px solid var(--amber,#A85A04);" class="r">
-          <div style="position:absolute;left:-11px;top:0;width:20px;height:20px;background:var(--amber,#A85A04);border-radius:50%;border:2px solid var(--bg-dark,#0F0E0C);"></div>
-          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.4rem;">Iteration 3: Sensor Fusion with State Estimation</div>
-          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>The Problem:</strong> Final concern was robustness during transients. When a nurse manually adjusts the chest tube or a patient coughs, the pressure signal spikes briefly. The Kalman filter was catching these as false positives (about 10% of ICU-simulated scenarios).</div>
-          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>What Failed:</strong> The filter's process noise and measurement noise covariances were tuned for steady-state operation. Sudden transients violated those assumptions, so the filter briefly lost confidence in both sensors and triggered alarms.</div>
-          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-light);"><strong>Final Design:</strong> Added a transient detector that temporarily increases the filter's measurement noise window during pressure changes faster than 20 cmH2O/s. This de-weights the pressure sensor during the spike, then re-converges once the transient clears. Final false positive rate: 2/100 trials.</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== FORMATIVE USABILITY TESTING ===== -->
-    <section class="section" aria-labelledby="testing-heading" style="margin-top:3rem;margin-bottom:3rem;background:linear-gradient(135deg, rgba(168,90,4,0.08) 0%, rgba(168,90,4,0.04) 100%);padding:2rem;border-radius:0.5rem;">
-      <p class="section-label r" style="color:var(--amber-mid);">Formative Usability Testing</p>
-      <h2 class="section-title r" id="testing-heading">Five ICU nurses, real sensor placement errors, design solutions validated</h2>
-
-      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:1.5rem;margin-top:1.5rem;">
-        <!-- Finding 1 -->
-        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.2);border-radius:0.4rem;padding:1.25rem;" class="r">
-          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.6rem;">Finding: Sensor Placement Error</div>
-          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);margin-bottom:0.8rem;"><strong>Observation:</strong> 2 out of 5 nurses placed the sensor on the wrong tubing port during initial setup.</div>
-          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);"><strong>Solution:</strong> Added color-coded connectors. Rapid iteration confirmed 5 out of 5 nurses placed the sensor correctly on the second attempt with the new visual cue.</div>
-        </div>
-
-        <!-- Finding 2 -->
-        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.2);border-radius:0.4rem;padding:1.25rem;" class="r">
-          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.6rem;">Finding: Threshold Units Confusion</div>
-          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);margin-bottom:0.8rem;"><strong>Observation:</strong> 3 out of 5 nurses were confused by numeric thresholds displayed in mL/min. They interpreted units as absolute rather than clinically relative.</div>
-          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);"><strong>Solution:</strong> Changed display to a qualitative scale (None, Minimal, Moderate, Large) with numeric backup. Post-test comprehension improved to 5 out of 5.</div>
-        </div>
-
-        <!-- Finding 3 -->
-        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.2);border-radius:0.4rem;padding:1.25rem;" class="r">
-          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.6rem;">Finding: Alarm Fatigue Workaround</div>
-          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);margin-bottom:0.8rem;"><strong>Observation:</strong> 1 nurse disabled the audio alarm during night shifts because audible alerts disrupted patient sleep.</div>
-          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);"><strong>Solution:</strong> Added a vibration alert option and escalation to bedside monitor display. Nurse re-enabled full system after testing.</div>
-        </div>
-      </div>
-
-      <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.6;margin-top:1.5rem;">All 5 nurses completed unassisted sensor setup and interpretation after design iteration. Testing was conducted in a simulated ICU environment with realistic patient monitoring stations.</p>
-    </section>
-
-    <!-- ===== SYSTEM ARCHITECTURE & RELIABILITY ===== -->
-    <section class="section" aria-labelledby="reliability-heading" style="margin-top:3rem;margin-bottom:3rem;">
-      <p class="section-label r" style="color:var(--amber-mid);">System Architecture and Reliability</p>
-      <h2 class="section-title r" id="reliability-heading">Performance budgets and failure handling for clinical deployment</h2>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:2rem;">
-        <!-- Performance Budget -->
-        <div class="r">
-          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:1rem;">Performance Budget</div>
-          <div style="display:grid;gap:0.75rem;">
-            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
-              <div style="font-size:0.75rem;color:var(--text-light);margin-bottom:0.4rem;">SAMPLING RATE</div>
-              <div style="font-family:var(--font-mono);font-size:0.95rem;color:#FAFAF8;font-weight:600;">1 kHz (both channels)</div>
-            </div>
-            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
-              <div style="font-size:0.75rem;color:var(--text-light);margin-bottom:0.4rem;">BUFFER CAPACITY</div>
-              <div style="font-family:var(--font-mono);font-size:0.95rem;color:#FAFAF8;font-weight:600;">8+ hours rolling data</div>
-            </div>
-            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
-              <div style="font-size:0.75rem;color:var(--text-light);margin-bottom:0.4rem;">CPU USAGE</div>
-              <div style="font-family:var(--font-mono);font-size:0.95rem;color:#FAFAF8;font-weight:600;">less than 5%</div>
-            </div>
-            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
-              <div style="font-size:0.75rem;color:var(--text-light);margin-bottom:0.4rem;">DRIFT TOLERANCE</div>
-              <div style="font-family:var(--font-mono);font-size:0.95rem;color:#FAFAF8;font-weight:600;">10-second rolling averages</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Failure Handling -->
-        <div class="r">
-          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:1rem;">Failure Handling</div>
-          <div style="display:grid;gap:0.75rem;">
-            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
-              <div style="font-size:0.78rem;color:var(--amber,#A85A04);margin-bottom:0.5rem;font-weight:600;">Inlet Sensor Fails</div>
-              <div style="font-size:0.85rem;color:var(--text-light);line-height:1.5;">Use last-known reference, trigger sensor check alarm</div>
-            </div>
-            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
-              <div style="font-size:0.78rem;color:var(--amber,#A85A04);margin-bottom:0.5rem;font-weight:600;">Outlet Sensor Displaced</div>
-              <div style="font-size:0.85rem;color:var(--text-light);line-height:1.5;">Pressure threshold alarm, weekly verification protocol</div>
-            </div>
-            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
-              <div style="font-size:0.78rem;color:var(--amber,#A85A04);margin-bottom:0.5rem;font-weight:600;">MCU Hang/Watchdog</div>
-              <div style="font-size:0.85rem;color:var(--text-light);line-height:1.5;">Hardware watchdog resets every 60 seconds</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== IMPACT & CONTEXT ===== -->
-    <section class="section" aria-labelledby="impact-heading" style="margin-top:3rem;margin-bottom:3rem;">
-      <div style="background:linear-gradient(135deg, rgba(168,90,4,0.12) 0%, rgba(168,90,4,0.08) 100%);border-left:4px solid var(--amber,#A85A04);padding:2rem;border-radius:0.4rem;" class="r">
-        <blockquote style="margin:0;font-size:1.1rem;line-height:1.7;color:var(--text-default);font-style:italic;">Every day a patient stays on a chest tube longer than necessary increases infection risk and extends suffering. There is no standard measurement method.</blockquote>
-
-        <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(168,90,4,0.15);">
-          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.6rem;">Built for BME 565: Medical Device Design</div>
-          <p style="font-size:0.95rem;color:var(--text-light);line-height:1.6;margin:0;">This course is structured around FDA design controls and ISO 14971 risk management. The pneumothorax monitor was developed as a full design case study, from clinical need through prototype validation.</p>
-        </div>
-
-        <div style="margin-top:1.2rem;font-size:0.95rem;line-height:1.6;color:var(--text-default);">I build devices that measure what clinicians currently estimate. Quantifying an air leak moves a clinical decision from intuition to data.</div>
-      </div>
-    </section>
-
-    <div class="divider"></div>
 
     <!-- ===== LEARNINGS ===== -->
     <div class="dark-section">
@@ -1441,29 +1035,22 @@
         <div class="learning-item r">
           <div class="learning-num">01</div>
           <div class="learning-title">The literature review changed what we thought we were building.</div>
-          <p class="learning-body">Before I touched any hardware or CAD, I spent time in the literature on air leak monitoring methods: existing research, tried approaches, why they didn't become commercial products. That review moved us away from our first-pass concept (simple flow meter at the chest tube) toward the differential approach. The hard design decisions got easier once we understood why no one had solved this with a simpler method.</p>
+          <p class="learning-body">Before I touched any hardware or CAD, I spent time in the literature on air leak monitoring methods — existing research, tried approaches, why they didn't become commercial products. That review moved us away from our first-pass concept (simple flow meter at the chest tube) toward the differential approach. The hard design decisions got easier once we understood why no one had solved this with a simpler method.</p>
         </div>
 
         <div class="learning-item r">
           <div class="learning-num">02</div>
           <div class="learning-title">Starting from use specification, not engineering specs, keeps a device design honest.</div>
-          <p class="learning-body">The instinct in an engineering course is to start with what you can build and work backward to a use case. I pushed us to define the simulated-use workflow first: who uses this, in what environment, under what time pressure, with what prior training? That kept us from designing a device that would work in a lab but not in an ICU. The use specification flagged constraints (alarm management, cleanability, one-handed operation) that would never appear in a component-level spec.</p>
+          <p class="learning-body">The instinct in an engineering course is to start with what you can build and work backward to a use case. I pushed us to define the simulated-use workflow first: who uses this, in what environment, under what time pressure, with what prior training? That kept us from designing a device that would work in a lab but not in an ICU. The use specification flagged constraints — alarm management, cleanability, one-handed operation — that would never appear in a component-level spec.</p>
         </div>
 
         <div class="learning-item r">
           <div class="learning-num">03</div>
           <div class="learning-title">Risk management isn't a document you write at the end.</div>
-          <p class="learning-body">Working through ISO 14971 risk analysis during the design phase (not after) caught at least two design choices that could have created hazardous situations. Sensor failure modes, alarm conditions, and edge cases in the differential computation aren't obvious until you ask: what happens if this fails, and who gets hurt? Running that analysis early changed the design, not just the documentation.</p>
+          <p class="learning-body">Working through ISO 14971 risk analysis during the design phase — not after — caught at least two design choices that could have created hazardous situations. Sensor failure modes, alarm conditions, and edge cases in the differential computation aren't obvious until you ask the question: what happens if this fails, and who gets hurt? Running that analysis early changed the design, not just the documentation.</p>
         </div>
       </section>
     </div>
-
-    <!-- ===== PROJECT NAVIGATION ===== -->
-    <nav class="cs-nav" aria-label="Project navigation" style="max-width:900px;margin:0 auto;padding:2rem clamp(1.5rem,5vw,3rem);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(0,0,0,0.08);">
-      <a href="case-usetrace.html" aria-label="Previous case study: UseTrace HFE Platform" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">← UseTrace HFE</a>
-      <a href="index.html#featured" style="font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);text-decoration:none;">All Projects</a>
-      <a href="case-photocull.html" aria-label="Next case study: PhotoCull AI" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">PhotoCull AI →</a>
-    </nav>
 
     <!-- ===== CTA ===== -->
     <div class="cta-section">
@@ -1486,20 +1073,20 @@
 
     <!-- Case study nav -->
     <nav class="case-nav" aria-label="Other case studies">
-      <a class="case-nav-link" href="case-usetrace.html">
+      <a class="case-nav-link" href="case-photocull.html">
         <span class="case-nav-dir">← Previous</span>
-        <span class="case-nav-name">UseTrace HFE</span>
-      </a>
-      <a class="case-nav-link right" href="case-photocull.html">
-        <span class="case-nav-dir">Next →</span>
         <span class="case-nav-name">PhotoCull AI</span>
+      </a>
+      <a class="case-nav-link right" href="index.html">
+        <span class="case-nav-dir">Back to</span>
+        <span class="case-nav-name">Portfolio</span>
       </a>
     </nav>
 
   </main>
 
   <footer>
-    <p>Joneil Caoile · M.S. Biomedical Engineering · Stevens Institute of Technology · <a href="https://joneilcaoile.github.io">joneilcaoile.github.io</a> · <a href="pixel-team.html">The Team</a></p>
+    <p>Joneil Caoile · M.S. Biomedical Engineering · Stevens Institute of Technology · <a href="https://joneilcaoile.github.io">joneilcaoile.github.io</a></p>
   </footer>
 
   <script>
@@ -1515,8 +1102,8 @@
     // Tab title easter egg
     document.addEventListener('visibilitychange', () => {
       document.title = document.hidden
-        ? '🫁 Come back! | Pneumothorax Monitor'
-        : 'Pneumothorax Air Leak Monitor | Case Study | Joneil Caoile';
+        ? '🫁 Come back! — Pneumothorax Monitor'
+        : 'Pneumothorax Air Leak Monitor — Case Study | Joneil Caoile';
     });
 
     // GSAP scroll reveals
