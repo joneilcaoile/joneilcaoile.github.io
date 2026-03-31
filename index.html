@@ -3564,7 +3564,7 @@
       width: 340px;
       max-height: 440px;
       background: var(--dark);
-      border: 1px solid var(--border);
+      border: 1px solid #3A3530;
       border-radius: 12px;
       overflow: hidden;
       display: none;
@@ -3589,17 +3589,17 @@
       align-items: center;
       gap: 10px;
       padding: 12px 14px;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid #3A3530;
       background: var(--dark2);
     }
     .chip-chat-header canvas { image-rendering: pixelated; flex-shrink: 0; }
-    .chip-chat-name { font-size: 11px; color: var(--amber); font-weight: 600; }
-    .chip-chat-role { font-size: 9px; color: var(--text-muted); margin-top: 2px; }
+    .chip-chat-name { font-size: 11px; color: #C67B2E; font-weight: 600; }
+    .chip-chat-role { font-size: 9px; color: #9A9186; margin-top: 2px; }
     .chip-chat-close {
       margin-left: auto;
       background: none;
       border: none;
-      color: var(--text-muted);
+      color: #9A9186;
       cursor: pointer;
       font-size: 16px;
       padding: 4px 8px;
@@ -3609,7 +3609,7 @@
       align-items: center;
       justify-content: center;
     }
-    .chip-chat-close:hover { color: var(--amber); }
+    .chip-chat-close:hover { color: #C67B2E; }
 
     /* Messages area */
     .chip-messages {
@@ -3624,7 +3624,7 @@
     }
     .chip-msg {
       background: var(--dark3);
-      color: var(--text);
+      color: #F2EDE5;
       padding: 10px 14px;
       border-radius: 12px 12px 12px 4px;
       font-size: 12px;
@@ -3634,14 +3634,15 @@
       word-break: break-word;
     }
     .chip-msg.evidence {
-      border-left: 2px solid var(--amber);
-      background: rgba(198,123,46,0.06);
+      border-left: 2px solid #C67B2E;
+      background: rgba(198,123,46,0.12);
+      color: #E8DDD0;
       font-size: 11px;
     }
     .chip-msg-user {
-      background: var(--amber-dim);
-      border: 1px solid var(--amber-soft);
-      color: var(--amber);
+      background: rgba(198,123,46,0.15);
+      border: 1px solid rgba(198,123,46,0.25);
+      color: #D4944A;
       padding: 8px 14px;
       border-radius: 12px 12px 4px 12px;
       font-size: 12px;
@@ -3681,13 +3682,13 @@
       display: flex;
       flex-direction: column;
       gap: 6px;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid #3A3530;
     }
     .chip-options:empty { display: none; border: none; padding: 0; }
     .chip-opt {
       background: none;
-      border: 1px solid var(--border);
-      color: var(--text);
+      border: 1px solid #4A4439;
+      color: #E8DDD0;
       padding: 10px 14px;
       border-radius: 8px;
       font-family: var(--fm);
@@ -3700,26 +3701,26 @@
       align-items: center;
     }
     .chip-opt:hover {
-      border-color: var(--amber);
-      color: var(--amber);
-      background: var(--amber-dim);
+      border-color: #C67B2E;
+      color: #C67B2E;
+      background: rgba(198,123,46,0.12);
     }
 
     /* Big hire button */
     .chip-opt.hire-btn {
-      border-color: var(--amber);
-      color: var(--amber);
+      border-color: #C67B2E;
+      color: #C67B2E;
       text-align: center;
       justify-content: center;
       font-size: 12px;
       font-weight: 600;
       letter-spacing: 0.5px;
-      background: rgba(198,123,46,0.08);
+      background: rgba(198,123,46,0.12);
       transition: all 0.2s;
     }
     .chip-opt.hire-btn:hover {
-      background: var(--amber);
-      color: var(--dark);
+      background: #C67B2E;
+      color: #1C1915;
       transform: scale(1.02);
       box-shadow: 0 0 20px rgba(198,123,46,0.3);
     }
@@ -3876,7 +3877,7 @@
     /* Fit Report Card */
     .chip-fit {
       background: var(--dark2);
-      border: 1px solid var(--border);
+      border: 1px solid #3A3530;
       border-radius: 8px;
       padding: 14px;
       margin: 4px 0;
@@ -3886,14 +3887,14 @@
     }
     .chip-fit-title {
       font-size: 9px;
-      color: var(--text-muted);
+      color: #9A9186;
       letter-spacing: 2px;
       text-transform: uppercase;
       margin-bottom: 2px;
     }
     .chip-fit-subtitle {
       font-size: 12px;
-      color: var(--amber);
+      color: #C67B2E;
       font-weight: 600;
       margin-bottom: 12px;
     }
@@ -3905,7 +3906,7 @@
     }
     .chip-fit-label {
       font-size: 10px;
-      color: var(--text-muted);
+      color: #9A9186;
       width: 90px;
       flex-shrink: 0;
       text-align: right;
@@ -3923,18 +3924,18 @@
       width: 0%;
       transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .chip-fit-fill.high { background: var(--amber); }
-    .chip-fit-fill.mid { background: var(--amber-light); }
+    .chip-fit-fill.high { background: #C67B2E; }
+    .chip-fit-fill.mid { background: #D4944A; }
     .chip-fit-pct {
       font-size: 10px;
-      color: var(--text);
+      color: #F2EDE5;
       width: 32px;
       text-align: right;
       font-weight: 600;
     }
     .chip-fit-divider {
       border: none;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid #3A3530;
       margin: 10px 0;
     }
     .chip-fit-overall {
@@ -3945,12 +3946,12 @@
     }
     .chip-fit-overall-label {
       font-size: 10px;
-      color: var(--text-muted);
+      color: #9A9186;
       letter-spacing: 1px;
     }
     .chip-fit-overall-score {
       font-size: 20px;
-      color: var(--amber);
+      color: #C67B2E;
       font-weight: 700;
     }
     .chip-fit-verdict {
@@ -3970,7 +3971,7 @@
     .chip-fit-verdict.very-high {
       background: rgba(198, 123, 46, 0.1);
       border: 1px solid rgba(198, 123, 46, 0.3);
-      color: var(--amber);
+      color: #C67B2E;
     }
 
     /* RPG OVERLAY */
@@ -5543,18 +5544,18 @@
   </a>
 </nav>
 
-<!-- CHIP CHATBOT -->
+<!-- CHET CHATBOT -->
 <div class="chip-widget" id="chipWidget" style="display:none;">
-  <button class="chip-toggle" id="chipToggle" aria-label="Chat with Chip, Joneil's portfolio assistant">
+  <button class="chip-toggle" id="chipToggle" aria-label="Chat with Chet, Joneil's portfolio consultant">
     <canvas id="chipSprite" width="32" height="40" aria-hidden="true"></canvas>
     <span class="chip-badge" id="chipBadge">1</span>
   </button>
-  <div class="chip-chat" id="chipChat" role="dialog" aria-label="Chat with Chip">
+  <div class="chip-chat" id="chipChat" role="dialog" aria-label="Chat with Chet">
     <div class="chip-chat-header">
       <canvas id="chipAvatar" width="24" height="30" aria-hidden="true"></canvas>
       <div>
-        <div class="chip-chat-name">Chip</div>
-        <div class="chip-chat-role">Portfolio Hype Bot</div>
+        <div class="chip-chat-name">Chet</div>
+        <div class="chip-chat-role">Talent Acquisition Consultant (Self-Appointed)</div>
       </div>
       <button class="chip-chat-close" id="chipClose" aria-label="Close chat">&times;</button>
     </div>
@@ -8534,7 +8535,7 @@
       { id: 'time-invested', icon: '⏱️', name: 'Time Invested',    xp: 30,  desc: 'Spend 2+ minutes on site' },
       { id: 'networker',     icon: '🔗', name: 'Networker',        xp: 15,  desc: 'Click LinkedIn or GitHub' },
       { id: 'contra-vet',    icon: '🎮', name: 'Contra Veteran',   xp: 50,  desc: 'Enter the Konami code' },
-      { id: 'chips-friend',  icon: '🤖', name: "Chip's Friend",    xp: 40,  desc: 'Complete Chip fit analysis' },
+      { id: 'chips-friend',  icon: '🤖', name: "Chet's Colleague",  xp: 40,  desc: 'Complete Chet fit analysis' },
       { id: 'contact-made',  icon: '✉️', name: 'Contact Made',     xp: 50,  desc: 'Submit the contact form' },
       { id: 'pet-parent',    icon: '🥚', name: 'Pet Parent',       xp: 20,  desc: 'Evolve critter past stage 1' },
       { id: 'full-profile',  icon: '📋', name: 'Full Profile',     xp: 15,  desc: 'Open the RPG stats panel' },
@@ -8752,27 +8753,32 @@
       return Math.round(sum / scores.length);
     }
 
-    /* ---- PIXEL SPRITE ---- */
+    /* ---- PIXEL SPRITE: CHET — corporate middle manager energy ---- */
     const P = 4;
     const _ = '';
-    const TC = '#c67b2e';
-    const WW = '#f2ede5';
-    const DK = '#1c1915';
-    const GL = '#22c55e';
+    const SK = '#ffd5b8';  /* skin */
+    const HR = '#4a3728';  /* hair (slicked back) */
+    const WW = '#f2ede5';  /* whites / shirt */
+    const DK = '#1c1915';  /* dark / eyes */
+    const GL = '#4a7fbf';  /* glasses frames (blue steel) */
+    const TI = '#b84a3c';  /* power tie (coral red) */
+    const SU = '#3a3530';  /* suit jacket */
 
+    /* Chet: slicked hair, glasses, suit, power tie. Peak professionalism. */
     const spriteNeutral = [
-      [_,_,_,GL,_,_,_],[_,_,GL,GL,GL,_,_],
-      [_,TC,TC,TC,TC,TC,_],[_,TC,WW,TC,WW,TC,_],
-      [_,TC,TC,TC,TC,TC,_],[_,TC,_,DK,_,TC,_],
-      [_,TC,TC,TC,TC,TC,_],[_,_,TC,TC,TC,_,_],
-      [_,TC,TC,TC,TC,TC,_],[_,_,TC,_,TC,_,_]
+      [_,_,HR,HR,HR,_,_],[_,HR,HR,HR,HR,HR,_],
+      [_,SK,SK,SK,SK,SK,_],[_,GL,WW,SK,WW,GL,_],
+      [_,SK,DK,SK,DK,SK,_],[_,SK,SK,SK,SK,SK,_],
+      [_,SU,SU,WW,SU,SU,_],[_,SU,SU,TI,SU,SU,_],
+      [_,SU,SU,TI,SU,SU,_],[_,_,SU,_,SU,_,_]
     ];
+    /* Happy Chet: slight grin (mouth wider) */
     const spriteHappy = [
-      [_,_,_,GL,_,_,_],[_,_,GL,GL,GL,_,_],
-      [_,TC,TC,TC,TC,TC,_],[_,TC,WW,TC,WW,TC,_],
-      [_,TC,TC,TC,TC,TC,_],[_,TC,DK,DK,DK,TC,_],
-      [_,TC,TC,TC,TC,TC,_],[_,_,TC,TC,TC,_,_],
-      [_,TC,TC,TC,TC,TC,_],[_,_,TC,_,TC,_,_]
+      [_,_,HR,HR,HR,_,_],[_,HR,HR,HR,HR,HR,_],
+      [_,SK,SK,SK,SK,SK,_],[_,GL,WW,SK,WW,GL,_],
+      [_,SK,DK,SK,DK,SK,_],[_,SK,DK,DK,DK,SK,_],
+      [_,SU,SU,WW,SU,SU,_],[_,SU,SU,TI,SU,SU,_],
+      [_,SU,SU,TI,SU,SU,_],[_,_,SU,_,SU,_,_]
     ];
 
     function drawChipSprite(canvas, data, scale) {
@@ -8794,23 +8800,23 @@
     var tree = {
       intro: {
         msgs: [
-          "Hey. I'm Chip.",
-          "I live on this portfolio. One job: figure out if Joneil's a fit for your team.",
-          "Three quick questions. I'll run a fit analysis. Takes 30 seconds.",
-          "Want to try it?"
+          "Good afternoon. I'm Chet.",
+          "I serve as Senior Talent Acquisition Consultant for this portfolio. The title is self-appointed but the analysis is real.",
+          "I have three questions, a proprietary scoring algorithm, and a very strong opinion about Joneil.",
+          "Shall we proceed with the evaluation?"
         ],
         options: [
-          { label: "Sure, run the analysis", next: 'what_role' },
-          { label: "I'm just browsing", next: 'declined' }
+          { label: "Sure, let's see what you've got", next: 'what_role' },
+          { label: "I'm just looking around", next: 'declined' }
         ]
       },
       declined: {
         msgs: [
-          "No pressure. I'll be here.",
-          "(I literally have nowhere else to go.)"
+          "Understood. I'll be here.",
+          "I am, quite literally, contractually bound to this div element."
         ],
         options: [
-          { label: "Okay fine, run it", next: 'what_role' }
+          { label: "Alright, run your analysis", next: 'what_role' }
         ]
       },
       what_role: {
@@ -8866,7 +8872,7 @@
 
       calculating: {
         msgs: [
-          "Got it. Running fit analysis..."
+          "Excellent. Compiling your personalized talent assessment. One moment."
         ],
         options: [],
         onEnter: function() {
@@ -8889,20 +8895,20 @@
 
           // Tailored insight based on their concern
           var insight = {
-            culture: "He spent 400+ hours in a PT clinic. Not simulating. Watching real clinicians, real patients. That builds a kind of empathy most engineers never develop.",
-            depth: "PhotoCull AI: 2,754 lines, ML model trained with differential evolution. PhysioRep: 82/82 tests passing. Pneumothorax monitor: built from sensors up. He goes deep.",
-            independent: "Four solo projects shipped to production. PhotoCull, PhysioRep, UseTrace, and a clinical reliability tool. No team to hide behind.",
-            regulatory: "ISO 14971 risk analysis. IEC 62366-1 usability engineering. FDA HFE guidance. He built UseTrace specifically to automate regulatory documentation."
+            culture: "400+ hours of clinical observation. Not reading about patients. Sitting in PT clinics watching real clinicians interact with real devices. That is not something you can fake on a resume.",
+            depth: "PhotoCull AI: 2,754 lines, ML pipeline with differential evolution. PhysioRep: 82/82 tests passing. Pneumothorax monitor: built from raw sensors up. I reviewed the repos personally.",
+            independent: "Four solo projects shipped to production. PhotoCull, PhysioRep, UseTrace, and a clinical reliability tool. No team. No hand-holding. Just shipped code.",
+            regulatory: "ISO 14971 risk analysis. IEC 62366-1 usability engineering. FDA HFE guidance. He built UseTrace specifically to automate the regulatory paperwork that makes other engineers quit."
           };
 
           tree.post_report.msgs = [
             insight[profile.concern] || insight.culture,
-            "You picked " + profile.concern.replace('_', ' ') + " as your top concern. That's exactly where he's strongest.",
-            "Here's the real question:"
+            "Per my analysis, your stated concern aligns directly with his documented strengths. That is not a coincidence. I am just very good at this.",
+            "I'll cut to the recommendation:"
           ];
           tree.post_report.options = [
-            { label: "Yeah, I'd interview this guy", next: 'celebration', cls: 'hire-btn' },
-            { label: "Send me his resume instead", next: 'resume' }
+            { label: "Schedule the interview", next: 'celebration', cls: 'hire-btn' },
+            { label: "Send me his resume first", next: 'resume' }
           ];
 
           showNextMessage();
@@ -8911,10 +8917,10 @@
 
       celebration: {
         msgs: [
-          "CHIP: 1  ·  DOUBT: 0",
-          "I knew it.",
-          "Joneil responds within 24 hours. The contact form is right below.",
-          "Tell him Chip sent you. (He'll know.)"
+          "CHET: 1 / OPEN REQS: 0",
+          "For the record, I am updating my internal scorecard.",
+          "Joneil responds within 24 hours. The contact form is directly below. I will personally ensure your message reaches his inbox.",
+          "(I am a chatbot. I will do no such thing. But the form works.)"
         ],
         options: [
           { label: "Take me to the contact form", next: 'contact' }
@@ -8928,9 +8934,9 @@
 
       resume: {
         msgs: [
-          "Smart. Due diligence.",
-          "The resume button is in the top nav. PDF, one page, no fluff.",
-          "But between us? The case studies on this site tell a better story than any resume."
+          "A thorough approach. I respect due diligence.",
+          "Resume PDF is in the top nav. One page, no buzzwords, no \"leveraged synergies.\"",
+          "Though if I may be candid: the case studies on this site are a more compelling indicator of capability than any single-page document. That is my professional opinion."
         ],
         options: [
           { label: "Fair point. Contact form?", next: 'contact' }
@@ -8939,14 +8945,14 @@
       },
 
       contact: {
-        msgs: [ "Good luck finding a better fit. (I'm biased. I live here.)" ],
+        msgs: [ "This concludes our session. I will note for the record that I recommended the hire before you did." ],
         options: [],
         onEnter: function() {
           setTimeout(function() {
             var cs = document.getElementById('contact');
             if (cs) gsap.to(window, { duration: 1, scrollTo: { y: cs, offsetY: 80 }, ease: 'power2.inOut' });
             var sub = document.querySelector('input[name="subject"], input[name="_subject"]');
-            if (sub) sub.value = 'Chip says we should talk';
+            if (sub) sub.value = 'Chet says we should talk';
           }, 800);
         }
       }
