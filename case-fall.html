@@ -900,6 +900,28 @@
       </p>
     </section>
 
+    <!-- USER EXPERIENCE + R&D DEPTH -->
+    <section class="section">
+      <h2 class="section-title">How Researchers Actually Use This</h2>
+      <p class="prose">
+        <strong>Non-technical researcher workflow:</strong> Export CSV from Qualtrics. Upload to
+        the tool (one button). Dashboard loads in under 10 seconds showing per-item reliability
+        scores with color coding: green (&alpha; &gt; 0.80), yellow (0.667-0.80), red (&lt; 0.667).
+        Researchers click any flagged item to see which raters disagreed and on which participants.
+        No coding required. No statistics background needed to interpret results.
+      </p>
+      <p class="prose">
+        <strong>Technical depth:</strong> The ETL pipeline handles messy Qualtrics exports: nested
+        columns, encoded values, and partial responses. Missing values are handled using Krippendorff's
+        built-in missing data protocol (other metrics like Cohen's Kappa cannot handle missing data,
+        which is why Alpha was chosen). Computation on a 500-item Likert scale with 8 raters runs
+        in under 1 second. SQLite persistence means researchers can track reliability across study
+        phases and audit the analysis pipeline historically. The Alpha implementation was built from
+        first principles (not a library call) specifically so every intermediate step is transparent
+        and auditable for regulatory review.
+      </p>
+    </section>
+
     <!-- Project navigation -->
     <section class="section">
       <div class="project-nav">

@@ -987,6 +987,30 @@
       </p>
     </section>
 
+    <!-- ===== VALIDATION & DEPLOYMENT ===== -->
+    <section class="section r">
+      <h2 class="section-title">Validation Rigor and Deployment Readiness</h2>
+      <p class="prose">
+        <strong>Regulatory mapping:</strong> The signal processing pipeline was designed per
+        IEC 60601-1 electrical safety standards and IEC 60601-1-2 for EMC. The 14 test scenarios
+        in the simulation framework each have quantitative acceptance criteria traceable to the
+        use specification: normal operation (sensitivity &ge;95%), tremor onset/cessation (latency
+        &lt;100ms), voluntary movement interference (specificity &ge;85%), and environmental noise
+        rejection (no false triggers at 60 Hz hum levels up to 10x ambient). Simulation results
+        were validated against PhysioNet open-source tremor recordings for reproducibility.
+      </p>
+      <p class="prose">
+        <strong>Bringing this to clinicians:</strong> The hardware concept includes a single large
+        dial with detents for sensitivity adjustment, accounting for tremor-affected fine motor
+        control. The calibration procedure was designed to be patient-operable in a home setting:
+        30-second guided calibration via haptic feedback, no touchscreen required. Status
+        indication uses both LED color and vibration pattern so users with visual or auditory
+        limitations receive clear feedback. A one-page quick-start guide and troubleshooting
+        flowchart were drafted for the neurologist handoff, covering: electrode placement, sensitivity
+        adjustment, expected battery life, and when to contact support.
+      </p>
+    </section>
+
     <!-- ===== CASE NAV ===== -->
     <nav class="case-nav r" aria-label="Adjacent case studies">
       <a href="case-photocull.html" class="case-nav-link">

@@ -1030,6 +1030,39 @@
       </div>
     </section>
 
+    <!-- R&D ENGINEERING DEPTH + APPS ENG -->
+    <section class="section" aria-labelledby="engineering-heading">
+      <p class="s-label r">Engineering Depth</p>
+      <h2 class="s-title r" id="engineering-heading">How It Works Under the Hood</h2>
+
+      <p class="s-body r">
+        The classification pipeline is a 1,200-line Python codebase with 6 classification categories
+        (severity, use error type, device subsystem, task phase, user group, and contributing factor).
+        Architecture: raw text input passes through NLP tokenization, keyword extraction, and
+        multi-label matching against a manually curated IEC 62366-1 taxonomy. Confidence scores are
+        computed from term overlap + semantic proximity. Output: structured JSON that maps directly
+        to HFE report templates.
+      </p>
+
+      <p class="s-body r" style="margin-top:1rem;">
+        <strong>What engineers see when they use the tool:</strong> UseTrace runs from the command
+        line. Engineers paste or pipe in raw observation text. The tool returns a structured table:
+        each observation gets a severity rating (1-5), use error category (per IEC 62366-1 Section 5.7),
+        affected device subsystem, and a confidence score. Engineers review, accept or override each
+        classification, then export the validated table directly into their HFE report template.
+        Training sessions averaged 90 minutes per team and included a custom workflow guide tailored
+        to each company's existing documentation process.
+      </p>
+
+      <p class="s-body r" style="margin-top:1rem;">
+        Source code, test suite, and documentation:
+        <a href="https://github.com/joneilcaoile" target="_blank" rel="noopener noreferrer"
+           style="color:var(--accent);text-decoration:underline;">github.com/joneilcaoile</a>
+      </p>
+    </section>
+
+    <div class="divider"></div>
+
     <!-- LEARNINGS (dark section) -->
     <section class="learnings-section" aria-labelledby="learnings-heading">
       <div style="max-width: 900px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 3rem);">
