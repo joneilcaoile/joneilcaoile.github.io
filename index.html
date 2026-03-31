@@ -6827,31 +6827,60 @@
   });
 
   // Hero name — decode/scramble reveal (terminal hacker aesthetic)
+  // Scramble pool: meaningful fragments from Joneil's life, not random ASCII.
+  // Visitors see "code"; Joneil sees his story.
   (function() {
     const nameEl = document.querySelector('.hero-name');
     if (!nameEl) return;
     const finalText = nameEl.textContent;
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*!?<>/';
-    const len = finalText.length;
-    let resolved = new Array(len).fill(false);
-    nameEl.style.visibility = 'visible';
-    nameEl.style.opacity = '1';
-    nameEl.textContent = finalText.split('').map(ch => ch === ' ' ? ' ' : chars[Math.floor(Math.random() * chars.length)]).join('');
 
-    function scrambleFrame() {
-      let display = '';
-      for (let i = 0; i < len; i++) {
+    // Each string is a fragment of identity: standards, tools, places, passions
+    var pool = [
+      'FDA', '820', 'IEC', 'BME', 'V&V', 'IQ/', 'OQ/', 'PQ!',  // regulatory world
+      '62366', '14971', '510k', 'MDR', 'CAPA', 'DHF',            // standards
+      'CSULB', 'SoCal', 'LBC', 'JC.NJ', 'Stevens',              // schools & places
+      'XT5', 'f1.4', '33mm', 'Fuji', 'XF16',                     // photography
+      'XP4.0', 'ebike', 'Lectric',                                // commute
+      'Val', 'Ace', 'Sage', 'Jett', 'Viper',                     // Valorant agents
+      'PWA', 'JS', 'TF.js', 'Git', 'Python', 'MATLAB',           // tech stack
+      'EMG', 'ECG', 'OptiTrk', 'CAD',                            // biomedical
+      'UX', 'HFE', 'SUS', 'WCAG',                                // design & a11y
+      'GPA3.9', 'MS.BME', 'BS.KIN',                              // academic
+      'Cerritos', 'Carson', 'Torrance',                           // home
+      'FilAm', 'Mabuhay',                                         // heritage
+      'Coffee', 'Critter', 'XP+50'                                // personality
+    ];
+    // Flatten into a single char pool from the fragments
+    var fragChars = pool.join('');
+    var len = finalText.length;
+    var resolved = new Array(len).fill(false);
+
+    // Phase 1: Show readable fragments cycling through (not random chars)
+    var fragIdx = 0;
+    function getFragmentDisplay() {
+      // Build display by pulling sequential chars from cycling pool fragments
+      var display = '';
+      for (var i = 0; i < len; i++) {
         if (finalText[i] === ' ') { display += ' '; continue; }
         if (resolved[i]) { display += finalText[i]; continue; }
-        display += chars[Math.floor(Math.random() * chars.length)];
+        display += fragChars[(fragIdx + i * 3) % fragChars.length];
       }
-      nameEl.textContent = display;
+      fragIdx++;
+      return display;
     }
 
-    setTimeout(() => {
-      const scrambleInterval = setInterval(scrambleFrame, 50);
-      let idx = 0;
-      const resolveInterval = setInterval(() => {
+    nameEl.style.visibility = 'visible';
+    nameEl.style.opacity = '1';
+    nameEl.textContent = getFragmentDisplay();
+
+    function scrambleFrame() {
+      nameEl.textContent = getFragmentDisplay();
+    }
+
+    setTimeout(function() {
+      var scrambleInterval = setInterval(scrambleFrame, 50);
+      var idx = 0;
+      var resolveInterval = setInterval(function() {
         while (idx < len && finalText[idx] === ' ') { resolved[idx] = true; idx++; }
         if (idx >= len) {
           clearInterval(resolveInterval);
