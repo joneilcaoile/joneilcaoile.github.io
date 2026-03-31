@@ -906,6 +906,117 @@
       </div>
     </section>
 
+    <!-- TASK ANALYSIS -->
+    <section class="section" style="padding-top:0;" role="region" aria-labelledby="task-analysis-fall">
+      <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:0.5rem;" class="r">User Workflow Analysis</div>
+      <h2 class="r" id="task-analysis-fall" style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.3rem,3vw,1.7rem);font-weight:700;margin-bottom:0.75rem;">Critical Task Analysis</h2>
+      <p class="r" style="font-size:0.88rem;color:var(--text-muted,#6B6560);margin-bottom:1.25rem;">Mapping the researcher workflow for gait-based fall risk assessment. This analysis identifies where data quality and interpretation errors could undermine clinical validity.</p>
+
+      <div style="overflow-x:auto;" class="r">
+        <table style="width:100%;border-collapse:collapse;font-size:0.82rem;line-height:1.5;" aria-label="Task analysis for fall risk gait assessment research workflow">
+          <thead>
+            <tr style="background:var(--bg-dark,#0F0E0C);color:#fff;">
+              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Step</th>
+              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">User Action</th>
+              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">System Response</th>
+              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Potential Use Error</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--amber,#A85A04);">1.1</td>
+              <td style="padding:0.6rem 0.85rem;">Set up motion capture sensors on patient</td>
+              <td style="padding:0.6rem 0.85rem;">System confirms sensor connection and orientation</td>
+              <td style="padding:0.6rem 0.85rem;">Sensor placement varies between technicians, introducing measurement bias</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--amber,#A85A04);">1.2</td>
+              <td style="padding:0.6rem 0.85rem;">Record patient walking trial (3 passes)</td>
+              <td style="padding:0.6rem 0.85rem;">Skeleton visualization, real-time joint tracking</td>
+              <td style="padding:0.6rem 0.85rem;">Patient stops mid-trial or uses assistive device inconsistently</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--amber,#A85A04);">1.3</td>
+              <td style="padding:0.6rem 0.85rem;">Run automated gait feature extraction</td>
+              <td style="padding:0.6rem 0.85rem;">12 features computed, data quality score displayed</td>
+              <td style="padding:0.6rem 0.85rem;">Researcher proceeds despite low quality score, trains on noisy data</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--amber,#A85A04);">1.4</td>
+              <td style="padding:0.6rem 0.85rem;">Train/evaluate classification model</td>
+              <td style="padding:0.6rem 0.85rem;">AUC-ROC, sensitivity, specificity displayed</td>
+              <td style="padding:0.6rem 0.85rem;">Researcher selects model with highest accuracy without checking for overfitting</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--amber,#A85A04);">1.5</td>
+              <td style="padding:0.6rem 0.85rem;">Generate risk assessment report for clinician</td>
+              <td style="padding:0.6rem 0.85rem;">Color-coded risk category with confidence interval</td>
+              <td style="padding:0.6rem 0.85rem;">Clinician treats screening result as definitive diagnosis</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="r" style="margin:2rem 0;overflow-x:auto;">
+      <figure style="margin:0;">
+        <svg viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:800px;display:block;margin:0 auto;" aria-label="Wireframe of the clinician-facing fall risk assessment dashboard">
+          <!-- Browser chrome -->
+          <rect x="0" y="0" width="800" height="400" rx="12" fill="#0F0E0C"/>
+          <rect x="0" y="0" width="800" height="36" rx="12" fill="#1A1815"/>
+          <circle cx="20" cy="18" r="5" fill="#E05C4A"/>
+          <circle cx="38" cy="18" r="5" fill="#C89B3C"/>
+          <circle cx="56" cy="18" r="5" fill="#16A34A"/>
+          <text x="400" y="22" fill="#9A9490" font-family="monospace" font-size="10" text-anchor="middle">Fall Risk Assessment — Patient Dashboard</text>
+
+          <!-- Header -->
+          <rect x="20" y="50" width="760" height="40" rx="6" fill="#1A1815"/>
+          <text x="40" y="75" fill="#FAFAF8" font-family="sans-serif" font-size="14" font-weight="bold">Patient: [Redacted]</text>
+          <text x="300" y="75" fill="#9A9490" font-family="monospace" font-size="11">Session: 2026-03-15 | Trial 3 of 3</text>
+          <rect x="660" y="56" width="100" height="28" rx="14" fill="#A85A04"/>
+          <text x="710" y="75" fill="#FAFAF8" font-family="sans-serif" font-size="11" text-anchor="middle">HIGH RISK</text>
+
+          <!-- Risk score card -->
+          <rect x="20" y="104" width="240" height="130" rx="8" fill="#1A1815"/>
+          <text x="40" y="128" fill="#9A9490" font-family="monospace" font-size="9" letter-spacing="1">RISK SCORE</text>
+          <text x="140" y="185" fill="#E05C4A" font-family="sans-serif" font-size="48" font-weight="bold" text-anchor="middle">0.89</text>
+          <text x="140" y="210" fill="#9A9490" font-family="monospace" font-size="10" text-anchor="middle">AUC-ROC | CI: 0.82–0.94</text>
+
+          <!-- Gait features chart -->
+          <rect x="280" y="104" width="500" height="130" rx="8" fill="#1A1815"/>
+          <text x="300" y="128" fill="#9A9490" font-family="monospace" font-size="9" letter-spacing="1">GAIT FEATURES (12)</text>
+          <!-- Bar chart -->
+          <rect x="310" y="145" width="60" height="70" rx="3" fill="#A85A04" opacity="0.8"/>
+          <rect x="380" y="155" width="60" height="60" rx="3" fill="#A85A04" opacity="0.6"/>
+          <rect x="450" y="140" width="60" height="75" rx="3" fill="#E05C4A" opacity="0.8"/>
+          <rect x="520" y="165" width="60" height="50" rx="3" fill="#A85A04" opacity="0.5"/>
+          <rect x="590" y="150" width="60" height="65" rx="3" fill="#A85A04" opacity="0.7"/>
+          <rect x="660" y="170" width="60" height="45" rx="3" fill="#C89B3C" opacity="0.6"/>
+          <text x="340" y="228" fill="#9A9490" font-family="monospace" font-size="8" text-anchor="middle">Stride</text>
+          <text x="410" y="228" fill="#9A9490" font-family="monospace" font-size="8" text-anchor="middle">Cadence</text>
+          <text x="480" y="228" fill="#E05C4A" font-family="monospace" font-size="8" text-anchor="middle">Sway</text>
+          <text x="550" y="228" fill="#9A9490" font-family="monospace" font-size="8" text-anchor="middle">Speed</text>
+          <text x="620" y="228" fill="#9A9490" font-family="monospace" font-size="8" text-anchor="middle">Asym.</text>
+          <text x="690" y="228" fill="#9A9490" font-family="monospace" font-size="8" text-anchor="middle">Stance</text>
+
+          <!-- Bottom section -->
+          <rect x="20" y="248" width="370" height="130" rx="8" fill="#1A1815"/>
+          <text x="40" y="272" fill="#9A9490" font-family="monospace" font-size="9" letter-spacing="1">SESSION HISTORY</text>
+          <!-- Mini trend line -->
+          <polyline points="50,330 110,320 170,310 230,325 290,295 350,280" stroke="#A85A04" stroke-width="2" fill="none"/>
+          <text x="200" y="365" fill="#9A9490" font-family="monospace" font-size="9" text-anchor="middle">6 sessions over 3 months</text>
+
+          <rect x="410" y="248" width="370" height="130" rx="8" fill="#1A1815"/>
+          <text x="430" y="272" fill="#9A9490" font-family="monospace" font-size="9" letter-spacing="1">CLINICAL NOTES</text>
+          <text x="430" y="295" fill="#6B6560" font-family="sans-serif" font-size="11">⚠ Lateral sway exceeds 2σ threshold</text>
+          <text x="430" y="315" fill="#6B6560" font-family="sans-serif" font-size="11">⚠ Stride variability increasing trend</text>
+          <text x="430" y="335" fill="#6B6560" font-family="sans-serif" font-size="11">✓ Cadence within normal range</text>
+          <text x="430" y="365" fill="#9A9490" font-family="sans-serif" font-size="10" font-style="italic">Screening only — not diagnostic</text>
+        </svg>
+        <figcaption style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.7rem;color:var(--text-light,#9A9490);text-align:center;margin-top:0.5rem;">Wireframe: clinician-facing fall risk dashboard showing risk score, gait feature breakdown, session trends, and clinical notes</figcaption>
+      </figure>
+    </div>
+
     <!-- USE ERROR ANALYSIS -->
     <section class="section" role="region" aria-labelledby="use-errors-heading">
       <div class="section-num r" style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:0.5rem;">HFE Analysis</div>
@@ -1002,6 +1113,66 @@
       <p class="prose"><strong>SQLite for persistence.</strong> The database outlives any single run. Researchers can query historical reliability scores, track how items improve after recalibration, and audit the analysis pipeline.</p>
       <p class="prose"><strong>Krippendorff's Alpha computation.</strong> Implemented from first principles so every step is auditable and transparent. No black-box calculation. Researchers can verify the math and cite the methodology.</p>
     </section>
+
+    <!-- DEPLOYMENT & SUPPORT -->
+    <section class="section" role="region" aria-labelledby="deploy-heading-fall">
+      <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:0.5rem;" class="r">Field Readiness</div>
+      <h2 class="r" id="deploy-heading-fall" style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.3rem,3vw,1.7rem);font-weight:700;margin-bottom:1rem;">Research Deployment & Clinician Support</h2>
+
+      <div style="display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));" class="r">
+        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">Multi-Site Deployment</div>
+          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">The assessment pipeline was designed to work across different clinical sites with varying motion capture equipment. Configuration profiles for 3 hardware setups, automatic sensor mapping, and site-specific calibration routines.</p>
+        </div>
+        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">Clinician-Facing Interface</div>
+          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">Built the results dashboard for clinicians, not ML engineers. Risk scores displayed as color-coded categories (Low/Moderate/High) with plain-language explanations. No model internals exposed to end users.</p>
+        </div>
+        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">Data Quality Assurance</div>
+          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">Automated data quality checks flag common issues before model training: missing markers, recording duration too short, patient moved outside capture volume, and inter-trial variability exceeding threshold.</p>
+        </div>
+        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">Research Reproducibility</div>
+          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">Every model run auto-generates a metadata report: dataset version, feature set, hyperparameters, cross-validation results, and hardware configuration. Designed for peer review and regulatory audit trails.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECHNICAL PERFORMANCE -->
+    <section class="section" style="padding-top:0;">
+      <div class="r" style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius,12px);padding:1.5rem;">
+        <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:1rem;">Technical Performance</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.75rem;">
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Dataset</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">156 patient recordings</div>
+          </div>
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Features</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">12 gait parameters</div>
+          </div>
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Model</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">Random Forest (optimized)</div>
+          </div>
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">AUC-ROC</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">0.89 (5-fold CV)</div>
+          </div>
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Sensitivity</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">92% at 85% specificity</div>
+          </div>
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Training Time</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">&lt;30s on consumer hardware</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
 
     <!-- What I learned -->
     <section class="section">

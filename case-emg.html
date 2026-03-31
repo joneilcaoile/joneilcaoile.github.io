@@ -841,6 +841,58 @@
       </div>
     </section>
 
+    <!-- TASK ANALYSIS -->
+    <section class="section" style="padding-top:0;" role="region" aria-labelledby="task-analysis-emg">
+      <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:0.5rem;" class="r">User Workflow Analysis</div>
+      <h2 class="r" id="task-analysis-emg" style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.3rem,3vw,1.7rem);font-weight:700;margin-bottom:0.75rem;">Critical Task Analysis</h2>
+      <p class="r" style="font-size:0.88rem;color:var(--text-muted,#6B6560);margin-bottom:1.25rem;">Mapping the clinician workflow for the EMG wearable system, from device setup through data interpretation. Each step identifies where use errors could compromise tremor assessment accuracy.</p>
+
+      <div style="overflow-x:auto;" class="r">
+        <table style="width:100%;border-collapse:collapse;font-size:0.82rem;line-height:1.5;" aria-label="Task analysis for EMG wearable tremor detection workflow">
+          <thead>
+            <tr style="background:var(--bg-dark,#0F0E0C);color:#fff;">
+              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Step</th>
+              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">User Action</th>
+              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">System Response</th>
+              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Potential Use Error</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--amber,#A85A04);">1.1</td>
+              <td style="padding:0.6rem 0.85rem;">Place EMG cuff on patient's forearm</td>
+              <td style="padding:0.6rem 0.85rem;">LED indicates electrode contact quality</td>
+              <td style="padding:0.6rem 0.85rem;">Electrodes misaligned with target muscle groups, poor signal quality</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--amber,#A85A04);">1.2</td>
+              <td style="padding:0.6rem 0.85rem;">Run 30-second calibration sequence</td>
+              <td style="padding:0.6rem 0.85rem;">System captures baseline tremor profile</td>
+              <td style="padding:0.6rem 0.85rem;">Patient moves arm during calibration, corrupting baseline</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--amber,#A85A04);">1.3</td>
+              <td style="padding:0.6rem 0.85rem;">Begin tremor monitoring session</td>
+              <td style="padding:0.6rem 0.85rem;">Real-time classification display: Rest / Intention / Postural</td>
+              <td style="padding:0.6rem 0.85rem;">Clinician misreads tremor class during patient interaction (attention split)</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--amber,#A85A04);">1.4</td>
+              <td style="padding:0.6rem 0.85rem;">Review session summary with classification timeline</td>
+              <td style="padding:0.6rem 0.85rem;">Bar chart of tremor episodes, duration, and classification</td>
+              <td style="padding:0.6rem 0.85rem;">Clinician compares sessions without noting medication timing differences</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--amber,#A85A04);">1.5</td>
+              <td style="padding:0.6rem 0.85rem;">Export data to patient record</td>
+              <td style="padding:0.6rem 0.85rem;">Structured CSV with timestamps, classifications, confidence</td>
+              <td style="padding:0.6rem 0.85rem;">Export includes raw signal data that exceeds EMR file size limit</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
     <!-- MARKET CONTEXT -->
     <section class="section" style="padding-top:0;">
       <div class="r" style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;text-align:center;">
@@ -1054,6 +1106,66 @@
         <strong>matplotlib for validation:</strong> Time-domain waveforms, FFT spectrograms, and filter response plots proved critical for debugging detection failures and tuning thresholds iteratively.
       </p>
     </section>
+
+    <!-- DEPLOYMENT & SUPPORT -->
+    <section class="section" role="region" aria-labelledby="deploy-heading-emg">
+      <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:0.5rem;" class="r">Field Readiness</div>
+      <h2 class="r" id="deploy-heading-emg" style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.3rem,3vw,1.7rem);font-weight:700;margin-bottom:1rem;">Deployment & Clinical Readiness</h2>
+
+      <div style="display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));" class="r">
+        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">Wearable Form Factor Design</div>
+          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">The cuff was designed for patients with Parkinson's tremor, meaning limited fine motor control. Velcro closure instead of snaps, high-contrast LED indicators, and a single-button interface for start/stop.</p>
+        </div>
+        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">Clinician Training Package</div>
+          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">Designed a training protocol for neurologists and movement disorder specialists: electrode placement guide with anatomical landmarks, calibration walkthrough, and interpretation guide for classification output.</p>
+        </div>
+        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">Troubleshooting Decision Tree</div>
+          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">Created a visual troubleshooting flowchart: signal quality check, electrode contact verification, battery level, Bluetooth connectivity, and recalibration procedure. Designed for clinical staff, not engineers.</p>
+        </div>
+        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">Data Export for Clinical Records</div>
+          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">Structured export format compatible with EMR systems: timestamp, classification result, confidence score, raw signal snippet. Designed to support longitudinal tremor monitoring across clinic visits.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECHNICAL PERFORMANCE -->
+    <section class="section" style="padding-top:0;">
+      <div class="r" style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius,12px);padding:1.5rem;">
+        <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:1rem;">Technical Performance</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.75rem;">
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Sample Rate</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">200 Hz per channel</div>
+          </div>
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Channels</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">8 differential EMG</div>
+          </div>
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Classification Latency</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">&lt;50ms inference</div>
+          </div>
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Accuracy</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">94% (3-class, cross-validated)</div>
+          </div>
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Battery Target</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">8h continuous monitoring</div>
+          </div>
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Data Format</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">CSV + EDF compatible</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
 
     <!-- ===== LEARNINGS ===== -->
     <section class="section learnings-section">

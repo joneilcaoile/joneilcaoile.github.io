@@ -1189,6 +1189,66 @@
       </section>
     </div>
 
+    <!-- DEPLOYMENT & SUPPORT -->
+    <section class="section" role="region" aria-labelledby="deploy-heading-pn">
+      <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:0.5rem;" class="r">Field Readiness</div>
+      <h2 class="r" id="deploy-heading-pn" style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.3rem,3vw,1.7rem);font-weight:700;margin-bottom:1rem;">Clinical Deployment Considerations</h2>
+
+      <div style="display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));" class="r">
+        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">ICU Integration Plan</div>
+          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">Designed the deployment workflow for a 24/7 critical care environment: device mounting on ventilator cart, alarm integration with existing nurse call systems, and a 15-minute staff training protocol.</p>
+        </div>
+        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">Troubleshooting Protocol</div>
+          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">Authored a field troubleshooting guide covering the 5 most likely failure modes: sensor drift, tubing disconnection, power interruption, false alarms from patient movement, and calibration timeout.</p>
+        </div>
+        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">Biomedical Engineering Handoff</div>
+          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">Created documentation for hospital BME teams: device specifications, preventive maintenance schedule, calibration procedure, and spare parts list. Written so a BME tech can service the device without contacting the manufacturer.</p>
+        </div>
+        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">Clinical Feedback Loop</div>
+          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">Designed a structured feedback form for ICU nurses to report usability issues, false alarms, and workflow disruptions. Data feeds directly into the risk management file for post-market surveillance.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECHNICAL PERFORMANCE -->
+    <section class="section" style="padding-top:0;">
+      <div class="r" style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius,12px);padding:1.5rem;">
+        <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:1rem;">Technical Performance</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.75rem;">
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Signal Processing</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">MATLAB R2024a</div>
+          </div>
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Sample Rate</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">1 kHz (both channels)</div>
+          </div>
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Accuracy Target</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">±5% of calibrated reference</div>
+          </div>
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Power Budget</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">&lt;500mW continuous operation</div>
+          </div>
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Alert Latency</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">&lt;5s from threshold breach</div>
+          </div>
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Continuous Operation</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">24h with &lt;2% drift</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
     <!-- ===== LEARNINGS ===== -->
     <div class="dark-section">
       <section class="section" aria-labelledby="learnings-heading">

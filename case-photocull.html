@@ -1277,6 +1277,58 @@
       </section>
     </div>
 
+    <!-- TASK ANALYSIS -->
+    <section class="section" style="padding-top:0;" role="region" aria-labelledby="task-analysis-pc">
+      <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:0.5rem;" class="r">User Workflow Analysis</div>
+      <h2 class="r" id="task-analysis-pc" style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.3rem,3vw,1.7rem);font-weight:700;margin-bottom:0.75rem;">Critical Task Analysis</h2>
+      <p class="r" style="font-size:0.88rem;color:var(--text-muted,#6B6560);margin-bottom:1.25rem;">Applying IEC 62366-1 task analysis methodology to a consumer photo tool. Even outside regulated devices, this structured approach identifies where users fail.</p>
+
+      <div style="overflow-x:auto;" class="r">
+        <table style="width:100%;border-collapse:collapse;font-size:0.82rem;line-height:1.5;" aria-label="Task analysis for PhotoCull photo culling workflow">
+          <thead>
+            <tr style="background:var(--bg-dark,#0F0E0C);color:#fff;">
+              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Step</th>
+              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">User Action</th>
+              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">System Response</th>
+              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Potential Use Error</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--amber,#A85A04);">1.1</td>
+              <td style="padding:0.6rem 0.85rem;">Drag photos into browser window</td>
+              <td style="padding:0.6rem 0.85rem;">Upload progress bar, thumbnail grid renders</td>
+              <td style="padding:0.6rem 0.85rem;">User drops folder instead of files, browser navigates away</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--amber,#A85A04);">1.2</td>
+              <td style="padding:0.6rem 0.85rem;">Review AI-scored photo grid</td>
+              <td style="padding:0.6rem 0.85rem;">Photos sorted by quality score, color-coded badges</td>
+              <td style="padding:0.6rem 0.85rem;">User misinterprets score as subjective preference, not technical quality</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--amber,#A85A04);">1.3</td>
+              <td style="padding:0.6rem 0.85rem;">Adjust scoring thresholds via sliders</td>
+              <td style="padding:0.6rem 0.85rem;">Grid re-sorts in real time, keep/cull counts update</td>
+              <td style="padding:0.6rem 0.85rem;">User sets threshold too aggressively, culls good photos</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--amber,#A85A04);">1.4</td>
+              <td style="padding:0.6rem 0.85rem;">Review flagged duplicates in comparison view</td>
+              <td style="padding:0.6rem 0.85rem;">Side-by-side display with difference highlights</td>
+              <td style="padding:0.6rem 0.85rem;">User keeps lower-quality duplicate due to slight composition preference</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--amber,#A85A04);">1.5</td>
+              <td style="padding:0.6rem 0.85rem;">Export curated set</td>
+              <td style="padding:0.6rem 0.85rem;">ZIP download of selected photos with metadata preserved</td>
+              <td style="padding:0.6rem 0.85rem;">User exports without checking final selection, includes culled photos</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
     <!-- USE ERROR ANALYSIS -->
     <section class="section" role="region" aria-labelledby="use-errors-heading-photocull">
       <div class="section-num r" style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:0.5rem;">HFE Analysis</div>
@@ -1328,6 +1380,66 @@
         </table>
       </div>
     </section>
+
+    <!-- DEPLOYMENT & SUPPORT -->
+    <section class="section" role="region" aria-labelledby="deploy-heading-pc">
+      <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:0.5rem;" class="r">Field Readiness</div>
+      <h2 class="r" id="deploy-heading-pc" style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.3rem,3vw,1.7rem);font-weight:700;margin-bottom:1rem;">User Support & Field Deployment</h2>
+
+      <div style="display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));" class="r">
+        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">Zero-Install Deployment</div>
+          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">PhotoCull runs entirely in the browser. No downloads, no accounts, no server dependencies. This eliminates the entire technical support category of 'installation issues' that plagues desktop photo tools.</p>
+        </div>
+        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">Self-Service Troubleshooting</div>
+          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">Built contextual help tooltips on every scoring dimension. When a user questions why a photo scored low, they can hover to see exactly which features (blur, composition, exposure) contributed to the score.</p>
+        </div>
+        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">Error Handling & Recovery</div>
+          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">Graceful degradation for edge cases: oversized images auto-resize, unsupported formats show clear error messages with format requirements, and browser crashes trigger auto-recovery of the last session state.</p>
+        </div>
+        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">User Feedback Integration</div>
+          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">GitHub Issues as the primary feedback channel. Structured issue templates for bug reports (with browser/OS fields) and feature requests. 12 issues addressed in v1.1 and v1.2 releases.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECHNICAL PERFORMANCE -->
+    <section class="section" style="padding-top:0;">
+      <div class="r" style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius,12px);padding:1.5rem;">
+        <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:1rem;">Technical Performance</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.75rem;">
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Bundle Size</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">~45KB (no dependencies)</div>
+          </div>
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Per-Image Latency</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">150ms average</div>
+          </div>
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Max Batch Size</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">1,000+ photos</div>
+          </div>
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Browser Support</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">Chrome, Firefox, Safari, Edge</div>
+          </div>
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Memory Usage</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">&lt;200MB for 500 photos</div>
+          </div>
+          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Privacy</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">100% client-side, zero uploads</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
 
     <!-- ===== LEARNINGS ===== -->
     <div class="dark-section learnings-section">
