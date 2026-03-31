@@ -3,161 +3,495 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Joneil's Pixel Team</title>
+<title>Pixel Team — Joneil Caoile</title>
+<meta name="description" content="One person, five hats. An interactive pixel art story about the roles behind joneilcaoile.github.io">
+<meta name="theme-color" content="#0d1117">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  /* ============================================================
+     RESET + BASE
+     ============================================================ */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0d1117;
+    --bg2: #161b22;
+    --bg3: #1c2128;
+    --border: #30363d;
+    --text: #c9d1d9;
+    --text-dim: #8b949e;
+    --text-faint: #484f58;
+    --teal: #14b8a6;
+    --teal-dim: rgba(20, 184, 166, 0.15);
+    --teal-glow: rgba(20, 184, 166, 0.4);
+    --green: #22c55e;
+    --blue: #3b82f6;
+    --purple: #8b5cf6;
+    --orange: #f97316;
+    --coral: #ef4444;
+    --gold: #eab308;
+    --font: 'Press Start 2P', monospace;
+  }
+
+  html { font-size: 16px; }
+
   body {
-    background: #0d1117;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Skip nav */
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--teal);
+    color: var(--bg);
+    padding: 8px 16px;
+    font-size: 8px;
+    z-index: 100;
+    text-decoration: none;
+  }
+  .skip-link:focus { top: 0; }
+
+  /* ============================================================
+     BACK LINK
+     ============================================================ */
+  .back-bar {
+    width: 100%;
+    padding: 16px 24px;
     display: flex;
     align-items: center;
+    gap: 12px;
+  }
+  .back-bar a {
+    color: var(--text-dim);
+    font-size: 8px;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+  }
+  .back-bar a:hover, .back-bar a:focus-visible { color: var(--teal); }
+
+  /* ============================================================
+     SCENE (THE STAGE)
+     ============================================================ */
+  .scene-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    min-height: 100vh;
-    font-family: 'Press Start 2P', monospace;
-    overflow: hidden;
-  }
-  .scene {
+    width: 100%;
+    max-width: 960px;
+    padding: 0 16px;
     position: relative;
-    width: 900px;
-    height: 520px;
-  }
-  .ground {
-    position: absolute;
-    bottom: 80px;
-    left: 40px;
-    right: 40px;
-    height: 2px;
-    background: #21262d;
-  }
-  /* Character wrapper */
-  .char-wrap {
-    position: absolute;
-    bottom: 82px;
-    cursor: pointer;
-    transition: transform 0.15s;
-  }
-  .char-wrap:hover { transform: translateY(-4px); }
-  .char-wrap:hover .role-tag { opacity: 1; transform: translateX(-50%) translateY(-6px); }
-  .char-wrap:hover .activity-tag { opacity: 1; }
-
-  canvas { image-rendering: pixelated; display: block; }
-
-  /* Idle bob - subtle movement */
-  .bob {
-    animation: bob 2.8s ease-in-out infinite;
-  }
-  @keyframes bob {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-1.5px); }
   }
 
-  /* Glow effect for hover */
-  .char-wrap.hovering canvas {
-    filter: drop-shadow(0 0 8px #14b8a6);
+  .title-block {
+    text-align: center;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.3s ease forwards;
   }
-
-  /* Role tag (above head on hover) */
-  .role-tag {
-    position: absolute;
-    top: -28px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #14b8a6;
-    color: #0d1117;
-    padding: 4px 10px;
+  .title-block h1 {
+    font-size: clamp(10px, 2.5vw, 16px);
+    letter-spacing: 2px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .title-block h1 span { color: var(--teal); }
+  .title-block p {
+    color: var(--text-dim);
+    font-size: clamp(6px, 1.5vw, 8px);
+    margin-top: 12px;
+    letter-spacing: 1px;
+  }
+  .title-block .hint {
+    color: var(--text-faint);
     font-size: 7px;
-    white-space: nowrap;
-    opacity: 0;
-    transition: all 0.25s;
-    z-index: 10;
-  }
-
-  /* Activity tag (below feet) */
-  .activity-tag {
-    position: absolute;
-    bottom: -22px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #8b949e;
-    font-size: 6px;
-    white-space: nowrap;
-    opacity: 0;
-    transition: opacity 0.25s;
+    margin-top: 6px;
     letter-spacing: 0.5px;
   }
 
-  /* Title */
-  .title-row {
-    position: absolute;
-    top: 35px;
+  .stage {
+    position: relative;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: clamp(12px, 3vw, 36px);
+    padding-bottom: 32px;
+    min-height: 200px;
+  }
+
+  /* Ground line */
+  .stage::after {
+    content: '';
+    position: absolute;
+    bottom: 30px;
+    left: 5%;
+    right: 5%;
+    height: 2px;
+    background: var(--border);
+  }
+
+  /* ============================================================
+     CHARACTERS
+     ============================================================ */
+  .char {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.2s ease;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .char:nth-child(1) { animation-delay: 0.5s; }
+  .char:nth-child(2) { animation-delay: 0.7s; }
+  .char:nth-child(3) { animation-delay: 0.9s; }
+  .char:nth-child(4) { animation-delay: 1.1s; }
+  .char:nth-child(5) { animation-delay: 1.3s; }
+
+  .char:hover, .char:focus-visible { transform: translateY(-6px); }
+  .char:focus-visible { outline: 2px solid var(--teal); outline-offset: 4px; border-radius: 4px; }
+
+  .char.active { transform: translateY(-6px); }
+  .char.active canvas { filter: drop-shadow(0 0 10px var(--teal-glow)); }
+  .char.active .char-name { color: var(--teal); }
+
+  .char.dimmed { opacity: 0.3; filter: grayscale(0.6); pointer-events: none; }
+
+  canvas {
+    image-rendering: pixelated;
+    display: block;
+    transition: filter 0.25s;
+  }
+
+  .char-name {
+    font-size: clamp(5px, 1.2vw, 7px);
+    color: var(--text-dim);
+    letter-spacing: 1px;
+    margin-top: 8px;
     text-align: center;
+    transition: color 0.25s;
+    white-space: nowrap;
   }
-  .title-row h1 {
-    color: #c9d1d9;
-    font-size: 13px;
-    letter-spacing: 2px;
+
+  /* Idle bob */
+  .bob { animation: bob 2.8s ease-in-out infinite; }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
   }
-  .title-row h1 span { color: #14b8a6; }
-  .title-row p {
-    color: #8b949e;
-    font-size: 7px;
-    margin-top: 10px;
+
+  /* ============================================================
+     DIALOGUE BOX
+     ============================================================ */
+  .dialogue-overlay {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    padding: 0 16px 24px;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .dialogue-overlay.open {
+    pointer-events: auto;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .dialogue-box {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--bg2);
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    padding: 20px 24px 16px;
+    position: relative;
+    box-shadow: 0 -4px 32px rgba(0,0,0,0.4);
+  }
+
+  .dialogue-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .dialogue-speaker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .speaker-icon {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .speaker-name {
+    font-size: 9px;
     letter-spacing: 1px;
   }
 
-  /* Floating particles */
+  .dialogue-close {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: var(--font);
+    font-size: 7px;
+    padding: 4px 8px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .dialogue-close:hover { border-color: var(--teal); color: var(--teal); }
+
+  .dialogue-text {
+    font-size: clamp(7px, 1.5vw, 9px);
+    line-height: 2;
+    color: var(--text);
+    min-height: 48px;
+    letter-spacing: 0.3px;
+  }
+
+  .dialogue-text .cursor-blink {
+    display: inline-block;
+    width: 8px;
+    height: 2px;
+    background: var(--teal);
+    animation: blink 0.6s step-end infinite;
+    vertical-align: middle;
+    margin-left: 2px;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .dialogue-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 14px;
+    gap: 8px;
+  }
+
+  .dialogue-pages {
+    display: flex;
+    gap: 6px;
+  }
+  .dialogue-pages .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 1px;
+    background: var(--border);
+    transition: background 0.2s;
+  }
+  .dialogue-pages .dot.active { background: var(--teal); }
+  .dialogue-pages .dot.visited { background: var(--text-faint); }
+
+  .dialogue-advance {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: var(--font);
+    font-size: 7px;
+    padding: 6px 14px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .dialogue-advance:hover { border-color: var(--teal); color: var(--teal); }
+
+  /* ============================================================
+     SPARKLES
+     ============================================================ */
   .sparkle {
     position: absolute;
-    width: 2px; height: 2px;
+    width: 2px;
+    height: 2px;
     border-radius: 50%;
     opacity: 0;
-    animation: sparkle-up 4s ease-out infinite;
+    pointer-events: none;
+    animation: sparkle-up 5s ease-out infinite;
   }
   @keyframes sparkle-up {
     0% { opacity: 0; transform: translateY(0) scale(1); }
-    15% { opacity: 0.8; }
-    100% { opacity: 0; transform: translateY(-80px) scale(0.3); }
+    12% { opacity: 0.7; }
+    100% { opacity: 0; transform: translateY(-90px) scale(0.2); }
+  }
+
+  /* ============================================================
+     COMPLETION TOAST
+     ============================================================ */
+  .toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-60px);
+    background: var(--bg2);
+    border: 1px solid var(--teal);
+    color: var(--teal);
+    font-family: var(--font);
+    font-size: 7px;
+    padding: 12px 20px;
+    border-radius: 4px;
+    z-index: 60;
+    opacity: 0;
+    transition: all 0.4s ease;
+    letter-spacing: 0.5px;
+    pointer-events: none;
+    text-align: center;
+    line-height: 2;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ============================================================
+     ANIMATIONS
+     ============================================================ */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ============================================================
+     REDUCED MOTION
+     ============================================================ */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+    .bob { animation: none; }
+  }
+
+  /* ============================================================
+     MOBILE
+     ============================================================ */
+  @media (max-width: 600px) {
+    .stage {
+      gap: 8px;
+      padding-bottom: 24px;
+    }
+    .dialogue-box {
+      padding: 16px;
+    }
+    .dialogue-overlay {
+      padding: 0 8px 16px;
+    }
+    .char-name {
+      font-size: 5px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .stage {
+      gap: 4px;
+    }
   }
 </style>
 </head>
 <body>
 
-<div class="scene" id="scene">
-  <div class="title-row">
+<a href="#stage" class="skip-link">Skip to characters</a>
+
+<nav class="back-bar" aria-label="Navigation">
+  <a href="/">&#8592; BACK TO PORTFOLIO</a>
+</nav>
+
+<main class="scene-wrap">
+  <div class="title-block">
     <h1>ONE PERSON · <span>FIVE HATS</span></h1>
-    <p>hover to see what everyone's working on</p>
+    <p>click a character to hear their story</p>
+    <p class="hint">press SPACE or ENTER to advance dialogue</p>
   </div>
-  <div class="ground"></div>
+
+  <div class="stage" id="stage" role="group" aria-label="Interactive pixel art characters">
+    <!-- Characters injected by JS -->
+  </div>
+</main>
+
+<div class="dialogue-overlay" id="dialogueOverlay" role="dialog" aria-label="Character dialogue" aria-modal="false">
+  <div class="dialogue-box">
+    <div class="dialogue-header">
+      <div class="dialogue-speaker">
+        <div class="speaker-icon" id="speakerIcon"></div>
+        <div class="speaker-name" id="speakerName"></div>
+      </div>
+      <button class="dialogue-close" id="dialogueClose" aria-label="Close dialogue">ESC</button>
+    </div>
+    <div class="dialogue-text" id="dialogueText" aria-live="polite"></div>
+    <div class="dialogue-footer">
+      <div class="dialogue-pages" id="dialoguePages"></div>
+      <button class="dialogue-advance" id="dialogueAdvance">NEXT &#9654;</button>
+    </div>
+  </div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
-const S = 6; // scale: each pixel = 6×6 real px
+/* ============================================================
+   PIXEL ART DATA
+   ============================================================ */
+const S = 5; // pixel scale
 const _ = '';
 
 // Palette
-const SK = '#dba97a';  // skin
-const HR = '#1a1209';  // hair
-const EY = '#1a1a1a';  // eyes
-const T  = '#14b8a6';  // teal
-const BL = '#3b82f6';  // blue
-const PR = '#8b5cf6';  // purple
-const W  = '#e5e7eb';  // white
-const GY = '#6b7280';  // gray
-const DK = '#1e1e2e';  // dark shirt
-const NV = '#1e3a5f';  // navy
-const GN = '#22c55e';  // green
-const OR = '#f97316';  // orange
-const RD = '#ef4444';  // red
-const SC = '#0ea5e9';  // screen blue
-const LB = '#7dd3fc';  // light blue
-const SH = '#4b4b4b';  // shoes
-const LP = '#2d1d3f';  // dark purple
-const WH = '#f9fafb';  // bright white
-const CB = '#d4a762';  // clipboard brown
-const GL = '#b8f7d5';  // green liquid
+const SK = '#dba97a';
+const HR = '#1a1209';
+const EY = '#1a1a1a';
+const T  = '#14b8a6';
+const BL = '#3b82f6';
+const PR = '#8b5cf6';
+const W  = '#e5e7eb';
+const GY = '#6b7280';
+const DK = '#1e1e2e';
+const NV = '#1e3a5f';
+const GN = '#22c55e';
+const OR = '#f97316';
+const RD = '#ef4444';
+const SH = '#4b4b4b';
+const CB = '#d4a762';
+const GL = '#b8f7d5';
+const LP = '#2d1d3f';
+const WH = '#f9fafb';
 
-// ===== 1. BIOMED ENGINEER (lab coat, holding test tube with green liquid) =====
+/* ---------- BIOMED ENGINEER ---------- */
 const biomed = [
   [_,_,HR,HR,HR,HR,_,_,_,_],
   [_,HR,HR,HR,HR,HR,HR,_,_,_],
@@ -179,7 +513,7 @@ const biomed = [
   [_,_,SH,SH,_,SH,SH,_,_,_],
 ];
 
-// ===== 2. UX DESIGNER (purple shirt, holding stylus + drawing tablet below) =====
+/* ---------- UX RESEARCHER ---------- */
 const uxd = [
   [_,_,HR,HR,HR,HR,_,_,_,_,_],
   [_,HR,HR,HR,HR,HR,HR,_,_,_,_],
@@ -203,7 +537,7 @@ const uxd = [
   [_,_,SH,SH,_,SH,SH,_,_,_,_],
 ];
 
-// ===== 3. AI BUILDER (dark hoodie, laptop with neural net nodes) =====
+/* ---------- AI / ML BUILDER ---------- */
 const ai = [
   [_,_,HR,HR,HR,HR,_,_,_,_,_,_,_,_],
   [_,HR,HR,HR,HR,HR,HR,_,_,_,_,_,_,_],
@@ -225,7 +559,7 @@ const ai = [
   [_,_,SH,SH,_,SH,SH,GY,GY,GY,GY,GY,GY,_],
 ];
 
-// ===== 4. HUMAN FACTORS ENGINEER (blue shirt, clipboard + stopwatch) =====
+/* ---------- HUMAN FACTORS ---------- */
 const hfe = [
   [_,_,HR,HR,HR,HR,_,_,_,_,_],
   [_,HR,HR,HR,HR,HR,HR,_,_,_,_],
@@ -247,7 +581,7 @@ const hfe = [
   [_,_,SH,SH,_,SH,SH,_,_,_,_],
 ];
 
-// ===== 5. DEVELOPER (dark shirt, headphones, monitor with colorful code) =====
+/* ---------- DEVELOPER ---------- */
 const dev = [
   [_,_,GY,HR,HR,HR,GY,_,_,_,_,_,_,_,_],
   [_,GY,HR,HR,HR,HR,HR,GY,_,_,_,_,_,_,_],
@@ -269,187 +603,104 @@ const dev = [
   [_,_,SH,SH,_,SH,SH,GY,GY,GY,GY,GY,GY,GY,_],
 ];
 
-// ============================================================
-// RENDER ALL CHARACTERS
-// ============================================================
-const chars = [
-  { data: biomed, x: 50,  role: 'BIOMED ENGINEER',  activity: 'validating a test protocol', delay: 0 },
-  { data: uxd,    x: 195, role: 'UX DESIGNER',       activity: 'sketching wireframes',       delay: 0.5 },
-  { data: ai,     x: 350, role: 'AI / ML BUILDER',   activity: 'training the model',         delay: 1.0 },
-  { data: hfe,    x: 530, role: 'HUMAN FACTORS',      activity: 'running a usability test',   delay: 1.5 },
-  { data: dev,    x: 700, role: 'DEVELOPER',          activity: 'shipping at 2am',            delay: 2.0 },
+/* ============================================================
+   DIALOGUE CONTENT (all verified from vault)
+   ============================================================ */
+const dialogues = [
+  {
+    name: 'BIOMED ENGINEER',
+    color: '#14b8a6',
+    project: 'Pneumothorax Air Leak Monitor',
+    lines: [
+      "Right now, clinicians eyeball chest tube air leaks. No measurement, no standard. Just... vibes.",
+      "We're building a device that compares ventilator-delivered tidal volume with chest tube outflow using gas and pressure sensors.",
+      "Three-person team. I led device concept development, sensing architecture, and simulated-use workflow design.",
+      "There's literally no commercial equivalent on the market. Zero. That's what makes this interesting.",
+      "Risk analysis follows ISO 14971. Use specification follows IEC 62366-1. This is real medical device design, not a class exercise."
+    ]
+  },
+  {
+    name: 'UX RESEARCHER',
+    color: '#8b5cf6',
+    project: 'UseTrace HFE Automation',
+    lines: [
+      "Every medical device going through FDA review needs Human Factors documentation. Every. Single. One.",
+      "Engineers spend weeks manually building task analysis tables and traceability matrices in Excel. I automated the scaffolding.",
+      "The tool decomposes use scenarios into task analysis per IEC 62366-1, categorizes use errors, and generates risk-use traceability.",
+      "3,000+ lines of Python. The AI handles formatting. The engineer keeps control of every safety decision.",
+      "It's not about replacing the human. It's about freeing them up to focus on the judgment calls that actually matter."
+    ]
+  },
+  {
+    name: 'AI / ML BUILDER',
+    color: '#22c55e',
+    project: 'PhotoCull AI',
+    lines: [
+      "Photographers spend hours sorting through shoots. Paid tools charge $10-30/month. Mine's free and runs in your browser.",
+      "Ten computer vision features. Sharpness via Tenengrad, face and eye detection with TensorFlow.js, blink detection, perceptual hashing for duplicates.",
+      "I trained the scoring model with differential evolution and 5-fold stratified cross-validation.",
+      "2,754 lines. Single file. Zero backend. 100% local. Your photos never leave your machine.",
+      "Open source, MIT licensed. I wanted to prove you don't need a complex build pipeline to ship a real product."
+    ]
+  },
+  {
+    name: 'HUMAN FACTORS',
+    color: '#3b82f6',
+    project: '400+ Hours Clinical',
+    lines: [
+      "400+ hours in a PT clinic. Not as a student project. Serious clinical observation.",
+      "I watched clinicians fight with bad equipment every day. The clamp that's hard to adjust. The sensor that takes too long to calibrate.",
+      "That's what pulled me from kinesiology into engineering. I understand the user because I've been in their world.",
+      "Most engineers can run a simulation. I can run a simulation AND tell you why the nurse will hate that button placement.",
+      "The intersection of clinical and engineering fluency is rare. That's where I operate."
+    ]
+  },
+  {
+    name: 'DEVELOPER',
+    color: '#f97316',
+    project: 'PhysioRep PWA',
+    lines: [
+      "Camera-based workout form tracker. Uses MediaPipe Pose for real-time rep counting and form scoring.",
+      "18 exercises, 5 programs, 7 HIIT protocols. Voice coaching. Works offline as a Progressive Web App.",
+      "Vanilla JS. No framework, no backend, no build step. 82 out of 82 tests passing.",
+      "I even built in rPPG heart rate estimation from the camera feed. Plus a PT compliance mode with shareable reports.",
+      "Deployed to GitHub Pages. Service worker cached. Full security audit passed."
+    ]
+  }
 ];
 
-const scene = document.getElementById('scene');
+/* ============================================================
+   CHARACTER SPRITES + RENDERING
+   ============================================================ */
+const charData = [
+  { data: biomed, name: 'BIOMED' },
+  { data: uxd,    name: 'HFE' },
+  { data: ai,     name: 'AI / ML' },
+  { data: hfe,    name: 'CLINICAL' },
+  { data: dev,    name: 'DEV' },
+];
 
-// ===== ANIMATION FUNCTIONS =====
-function drawBase(ctx, data, S) {
-  const rows = data.length;
-  for (let r = 0; r < rows; r++) {
-    for (let col = 0; col < data[r].length; col++) {
-      const px = data[r][col];
-      if (px) {
-        ctx.fillStyle = px;
-        ctx.fillRect(col * S, r * S, S, S);
+const stage = document.getElementById('stage');
+const charElements = [];
+
+function drawSprite(ctx, data) {
+  for (let r = 0; r < data.length; r++) {
+    for (let c = 0; c < data[r].length; c++) {
+      if (data[r][c]) {
+        ctx.fillStyle = data[r][c];
+        ctx.fillRect(c * S, r * S, S, S);
       }
     }
   }
 }
 
-// Biomed: swirling test tube (slight sway effect)
-function animateBiomedIdle(ctx, data, S, time) {
-  drawBase(ctx, data, S);
-  const sway = Math.sin(time * 0.003) * 0.6;
-
-  // Highlight the test tube with a glow
-  ctx.shadowColor = GL;
-  ctx.shadowBlur = 2;
-  ctx.fillStyle = GL;
-  const tubeCol = 8, tubeStartRow = 12;
-  ctx.fillRect((tubeCol + sway) * S, tubeStartRow * S, S, S);
-  ctx.shadowBlur = 0;
-}
-
-function hoverBiomedStart(ctx, data, S) {
-  drawBase(ctx, data, S);
-  // Bright highlight on test tube
-  ctx.fillStyle = '#ffffff';
-  ctx.globalAlpha = 0.6;
-  ctx.fillRect(8 * S, 11 * S, S, S);
-  ctx.globalAlpha = 1.0;
-}
-
-// UX Designer: stylus hand pulsing
-function animateUXDIdle(ctx, data, S, time) {
-  drawBase(ctx, data, S);
-  const pulse = Math.sin(time * 0.004) * 0.4 + 0.6;
-
-  // Pulsing glow on stylus hand
-  ctx.globalAlpha = pulse * 0.5;
-  ctx.fillStyle = OR;
-  ctx.fillRect(8 * S, 11 * S, S, S);
-  ctx.globalAlpha = 1.0;
-}
-
-function hoverUXDStart(ctx, data, S) {
-  drawBase(ctx, data, S);
-  // Bright highlight on tablet
-  ctx.fillStyle = T;
-  ctx.globalAlpha = 0.5;
-  ctx.fillRect(2 * S, 14 * S, 8 * S, 2 * S);
-  ctx.globalAlpha = 1.0;
-}
-
-// AI Builder: neural net pulsing
-function animateAIIdle(ctx, data, S, time) {
-  drawBase(ctx, data, S);
-
-  const pulse = Math.sin(time * 0.005) * 0.5 + 0.5;
-
-  // Pulsing glow on screen area
-  ctx.globalAlpha = pulse * 0.5;
-  ctx.fillStyle = T;
-  ctx.fillRect(8 * S, 14 * S, 6 * S, 3 * S);
-  ctx.globalAlpha = 1.0;
-}
-
-function hoverAIStart(ctx, data, S) {
-  drawBase(ctx, data, S);
-  // Bright screen highlight
-  ctx.fillStyle = GN;
-  ctx.globalAlpha = 0.6;
-  ctx.fillRect(8 * S, 14 * S, 6 * S, 3 * S);
-  ctx.globalAlpha = 1.0;
-}
-
-// Human Factors: clipboard pulsing
-function animateHFEIdle(ctx, data, S, time) {
-  drawBase(ctx, data, S);
-  const pulse = Math.sin(time * 0.0035) * 0.3 + 0.7;
-
-  // Pulsing glow on clipboard
-  ctx.globalAlpha = pulse * 0.5;
-  ctx.fillStyle = CB;
-  ctx.fillRect(8 * S, 12 * S, 2 * S, 5 * S);
-  ctx.globalAlpha = 1.0;
-}
-
-function hoverHFEStart(ctx, data, S) {
-  drawBase(ctx, data, S);
-  // Checkmark highlight on clipboard
-  ctx.fillStyle = GN;
-  ctx.globalAlpha = 0.7;
-  ctx.fillRect(8 * S, 13 * S, 2 * S, S);
-  ctx.globalAlpha = 1.0;
-}
-
-// Developer: code lines cycling colors
-function animateDevIdle(ctx, data, S, time) {
-  drawBase(ctx, data, S);
-
-  const lineShift = Math.floor((time * 0.002) % 5);
-  const colors = [GN, BL, PR, T, W];
-
-  // Color cycle on code lines (rows 14-16, cols 8-13)
-  for (let row = 14; row < 17; row++) {
-    for (let col = 8; col < 13; col++) {
-      const colorIdx = (col + lineShift) % colors.length;
-      ctx.fillStyle = colors[colorIdx];
-      ctx.fillRect(col * S, row * S, S, S);
-    }
-  }
-}
-
-function hoverDevStart(ctx, data, S) {
-  drawBase(ctx, data, S);
-  // Green success highlight on monitor
-  ctx.fillStyle = GN;
-  ctx.globalAlpha = 0.6;
-  ctx.fillRect(8 * S, 14 * S, 6 * S, 3 * S);
-  ctx.globalAlpha = 1.0;
-}
-
-// Character animation states
-const animators = [
-  { idle: animateBiomedIdle, hoverStart: hoverBiomedStart, type: 'biomed' },
-  { idle: animateUXDIdle, hoverStart: hoverUXDStart, type: 'uxd' },
-  { idle: animateAIIdle, hoverStart: hoverAIStart, type: 'ai' },
-  { idle: animateHFEIdle, hoverStart: hoverHFEStart, type: 'hfe' },
-  { idle: animateDevIdle, hoverStart: hoverDevStart, type: 'dev' },
-];
-
-let animationFrameId;
-let startTime = Date.now();
-const canvases = [];
-
-function animate() {
-  const elapsed = Date.now() - startTime;
-
-  chars.forEach((c, i) => {
-    const animator = animators[i];
-    const data = canvases[i];
-    const ctx = data.ctx;
-    const wrap = data.wrap;
-
-    // Clear canvas
-    ctx.clearRect(0, 0, data.canvas.width, data.canvas.height);
-
-    // Draw appropriate animation state
-    if (wrap.classList.contains('hovering')) {
-      animator.hoverStart(ctx, c.data, S);
-    } else {
-      animator.idle(ctx, c.data, S, elapsed);
-    }
-  });
-
-  animationFrameId = requestAnimationFrame(animate);
-}
-
-chars.forEach((c, i) => {
+charData.forEach((c, i) => {
   const wrap = document.createElement('div');
-  wrap.className = 'char-wrap';
-  wrap.style.left = c.x + 'px';
-  wrap.setAttribute('data-char-idx', i);
+  wrap.className = 'char';
+  wrap.setAttribute('tabindex', '0');
+  wrap.setAttribute('role', 'button');
+  wrap.setAttribute('aria-label', dialogues[i].name + '. Click to hear their story about ' + dialogues[i].project);
+  wrap.dataset.index = i;
 
   const rows = c.data.length;
   const cols = Math.max(...c.data.map(r => r.length));
@@ -460,50 +711,216 @@ chars.forEach((c, i) => {
   canvas.style.width = (cols * S) + 'px';
   canvas.style.height = (rows * S) + 'px';
   canvas.className = 'bob';
-  canvas.style.animationDelay = c.delay + 's';
+  canvas.style.animationDelay = (i * 0.4) + 's';
+  canvas.setAttribute('aria-hidden', 'true');
 
   const ctx = canvas.getContext('2d');
-  canvases[i] = { canvas, ctx, wrap, data: c.data };
+  drawSprite(ctx, c.data);
 
   wrap.appendChild(canvas);
 
-  // Role tag
-  const tag = document.createElement('div');
-  tag.className = 'role-tag';
-  tag.textContent = c.role;
-  wrap.appendChild(tag);
+  const label = document.createElement('div');
+  label.className = 'char-name';
+  label.textContent = c.name;
+  wrap.appendChild(label);
 
-  // Activity tag
-  const act = document.createElement('div');
-  act.className = 'activity-tag';
-  act.textContent = c.activity;
-  wrap.appendChild(act);
-
-  // Hover handlers
-  wrap.addEventListener('mouseenter', () => {
-    wrap.classList.add('hovering');
-  });
-  wrap.addEventListener('mouseleave', () => {
-    wrap.classList.remove('hovering');
-  });
-
-  scene.appendChild(wrap);
-
-  // Sparkle particles per character
-  const colors = [GN, T, PR, BL, OR];
-  for (let j = 0; j < 4; j++) {
+  // Sparkles
+  const sparkColors = [T, GN, PR, BL, OR];
+  for (let j = 0; j < 3; j++) {
     const sp = document.createElement('div');
     sp.className = 'sparkle';
-    sp.style.background = colors[i];
-    sp.style.left = (c.x + 15 + Math.random() * 40) + 'px';
-    sp.style.bottom = (160 + Math.random() * 30) + 'px';
-    sp.style.animationDelay = (Math.random() * 4) + 's';
-    scene.appendChild(sp);
+    sp.style.background = sparkColors[i];
+    sp.style.left = (Math.random() * (cols * S)) + 'px';
+    sp.style.bottom = (rows * S + 10 + Math.random() * 20) + 'px';
+    sp.style.animationDelay = (Math.random() * 5) + 's';
+    wrap.appendChild(sp);
+  }
+
+  wrap.addEventListener('click', () => openDialogue(i));
+  wrap.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openDialogue(i);
+    }
+  });
+
+  stage.appendChild(wrap);
+  charElements.push(wrap);
+});
+
+/* ============================================================
+   DIALOGUE ENGINE
+   ============================================================ */
+const overlay = document.getElementById('dialogueOverlay');
+const textEl = document.getElementById('dialogueText');
+const nameEl = document.getElementById('speakerName');
+const iconEl = document.getElementById('speakerIcon');
+const pagesEl = document.getElementById('dialoguePages');
+const advBtn = document.getElementById('dialogueAdvance');
+const closeBtn = document.getElementById('dialogueClose');
+const toastEl = document.getElementById('toast');
+
+let currentChar = -1;
+let currentLine = 0;
+let typeTimer = null;
+let typedLength = 0;
+let isTyping = false;
+let fullText = '';
+const visited = new Set();
+
+function openDialogue(charIndex) {
+  currentChar = charIndex;
+  currentLine = 0;
+
+  // Highlight active character, dim others
+  charElements.forEach((el, i) => {
+    el.classList.toggle('active', i === charIndex);
+    el.classList.toggle('dimmed', i !== charIndex);
+  });
+
+  const d = dialogues[charIndex];
+  nameEl.textContent = d.name;
+  nameEl.style.color = d.color;
+  iconEl.style.background = d.color;
+
+  // Build page dots
+  pagesEl.innerHTML = '';
+  d.lines.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    pagesEl.appendChild(dot);
+  });
+
+  overlay.classList.add('open');
+  typeLine(d.lines[0]);
+  updateAdvanceButton();
+}
+
+function typeLine(text) {
+  fullText = text;
+  typedLength = 0;
+  isTyping = true;
+  textEl.innerHTML = '';
+  clearInterval(typeTimer);
+
+  typeTimer = setInterval(() => {
+    typedLength++;
+    textEl.innerHTML = escHTML(fullText.slice(0, typedLength)) + '<span class="cursor-blink"></span>';
+
+    if (typedLength >= fullText.length) {
+      clearInterval(typeTimer);
+      isTyping = false;
+      textEl.innerHTML = escHTML(fullText);
+    }
+  }, 28);
+}
+
+function escHTML(str) {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function advanceDialogue() {
+  if (currentChar < 0) return;
+  const d = dialogues[currentChar];
+
+  // If still typing, complete instantly
+  if (isTyping) {
+    clearInterval(typeTimer);
+    isTyping = false;
+    textEl.innerHTML = escHTML(fullText);
+    return;
+  }
+
+  // Next line
+  if (currentLine < d.lines.length - 1) {
+    currentLine++;
+    updateDots();
+    typeLine(d.lines[currentLine]);
+    updateAdvanceButton();
+  } else {
+    // Finished this character
+    visited.add(currentChar);
+    closeDialogue();
+    checkAllVisited();
+  }
+}
+
+function updateDots() {
+  const dots = pagesEl.querySelectorAll('.dot');
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('active', i === currentLine);
+    dot.classList.toggle('visited', i < currentLine);
+  });
+}
+
+function updateAdvanceButton() {
+  const d = dialogues[currentChar];
+  if (currentLine >= d.lines.length - 1) {
+    advBtn.innerHTML = 'DONE &#10003;';
+  } else {
+    advBtn.innerHTML = 'NEXT &#9654;';
+  }
+}
+
+function closeDialogue() {
+  overlay.classList.remove('open');
+  clearInterval(typeTimer);
+  currentChar = -1;
+
+  charElements.forEach(el => {
+    el.classList.remove('active', 'dimmed');
+  });
+}
+
+function checkAllVisited() {
+  if (visited.size === dialogues.length) {
+    setTimeout(() => {
+      showToast("ALL ROLES UNLOCKED<br>One person. Five hats. Zero fluff.");
+    }, 500);
+  }
+}
+
+function showToast(msg) {
+  toastEl.innerHTML = msg;
+  toastEl.classList.add('show');
+  setTimeout(() => toastEl.classList.remove('show'), 4000);
+}
+
+// Event listeners
+advBtn.addEventListener('click', advanceDialogue);
+closeBtn.addEventListener('click', closeDialogue);
+
+document.addEventListener('keydown', (e) => {
+  if (!overlay.classList.contains('open')) return;
+
+  if (e.key === 'Escape') {
+    closeDialogue();
+  } else if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowRight') {
+    e.preventDefault();
+    advanceDialogue();
   }
 });
 
-// Start animation loop after all DOM is ready
-animate();
+// Click outside dialogue box to close
+overlay.addEventListener('click', (e) => {
+  if (e.target === overlay) closeDialogue();
+});
+
+/* ============================================================
+   CONSOLE EASTER EGG
+   ============================================================ */
+console.log('%c' +
+  '╔══════════════════════════════════════╗\n' +
+  '║   ONE PERSON · FIVE HATS            ║\n' +
+  '║                                      ║\n' +
+  '║   You found the pixel team.          ║\n' +
+  '║   Click each character to hear       ║\n' +
+  '║   their story.                       ║\n' +
+  '║                                      ║\n' +
+  '║   joneilcaoile.github.io             ║\n' +
+  '╚══════════════════════════════════════╝',
+  'color: #14b8a6; font-family: monospace; font-size: 11px;'
+);
 </script>
 </body>
 </html>
