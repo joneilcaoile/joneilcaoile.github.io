@@ -9,7 +9,7 @@
   <meta property="og:description" content="ML pipeline for classifying fall risk in older adults using motion capture data. OptiTrack + scikit-learn + clinical validation.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://joneilcaoile.github.io/case-fall.html">
-  <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.jpg">
+  <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.svg">
   <link rel="canonical" href="https://joneilcaoile.github.io/case-fall.html">
   <meta name="theme-color" content="#FAFAF8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; frame-src 'none'; object-src 'none'; base-uri 'self';">
@@ -88,15 +88,24 @@
       border-radius: 4px;
     }
 
-    /* ===== SCROLL PROGRESS ===== */
-    #progress-bar {
+    /* ===== READING PROGRESS BAR ===== */
+    #reading-progress {
       position: fixed;
-      top: 0; left: 0;
-      height: var(--progress-h);
-      width: 0%;
-      background: linear-gradient(90deg, var(--amber), var(--coral));
-      z-index: 200;
-      transition: width 0.1s linear;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 100%;
+      background: linear-gradient(90deg, var(--amber) 0%, var(--gold) 100%);
+      transform-origin: left;
+      transform: scaleX(0);
+      z-index: 9999;
+      will-change: transform;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #reading-progress {
+        transition: none;
+      }
     }
 
     /* ===== BACK NAV ===== */
@@ -619,6 +628,49 @@
       transform: translateY(-2px);
     }
 
+    /* ===== KEYBOARD NAVIGATION HINT ===== */
+    .keyboard-hint {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: rgba(26, 24, 21, 0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(217, 119, 6, 0.3);
+      border-radius: 8px;
+      padding: 0.75rem 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      color: var(--gold);
+      text-align: center;
+      line-height: 1.5;
+      pointer-events: none;
+      opacity: 0;
+      animation: hint-fade 0.4s ease-out forwards;
+      animation-delay: 0.8s;
+    }
+
+    @keyframes hint-fade {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .keyboard-hint {
+        bottom: 1rem;
+        right: 1rem;
+        font-size: 0.7rem;
+        padding: 0.6rem 1rem;
+      }
+    }
+
     /* ===== FOOTER ===== */
     .footer {
       padding: 1.5rem clamp(1.5rem, 5vw, 3rem);
@@ -644,7 +696,7 @@
   <a href="#main" class="skip-nav">Skip to main content</a>
 
   <!-- Progress bar -->
-  <div id="progress-bar"></div>
+  <div id="reading-progress" role="progressbar" aria-label="Reading progress"></div>
 
   <!-- Back nav -->
   <nav class="back-nav">
@@ -875,15 +927,17 @@
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
-    // Progress bar
-    ScrollTrigger.create({
-      trigger: document.documentElement,
-      start: 'top top',
-      end: 'bottom bottom',
-      onUpdate: s => {
-        gsap.set('#progress-bar', { width: s.progress * 100 + '%' });
-      }
-    });
+    // Reading progress bar using CSS transform for performance
+    function updateReadingProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+      const progressBar = document.getElementById('reading-progress');
+      progressBar.style.transform = `scaleX(${progress})`;
+      progressBar.setAttribute('aria-valuenow', Math.round(progress * 100));
+    }
+    window.addEventListener('scroll', updateReadingProgress, { passive: true });
+    updateReadingProgress();
 
     // Fade in sections
     gsap.utils.toArray('.section, .hero, .cta-section').forEach(el => {
@@ -968,6 +1022,46 @@
         start: 'top 88%',
         once: true
       }
+    });
+
+    /* KEYBOARD NAVIGATION */
+    const caseStudyNav = {
+      'case-pneumothorax.html': { prev: 'case-physiorep.html', next: 'case-usetrace.html' },
+      'case-usetrace.html': { prev: 'case-pneumothorax.html', next: 'case-photocull.html' },
+      'case-photocull.html': { prev: 'case-usetrace.html', next: 'case-emg.html' },
+      'case-emg.html': { prev: 'case-photocull.html', next: 'case-fall.html' },
+      'case-fall.html': { prev: 'case-emg.html', next: 'case-physiorep.html' },
+      'case-physiorep.html': { prev: 'case-fall.html', next: 'case-pneumothorax.html' }
+    };
+
+    const currentFile = window.location.pathname.split('/').pop() || 'case-fall.html';
+    const nav = caseStudyNav[currentFile];
+
+    document.addEventListener('keydown', (e) => {
+      const target = e.target;
+      if (target.matches('input, textarea')) return;
+
+      if (e.key === 'ArrowLeft' && nav?.prev) {
+        window.location.href = nav.prev;
+      } else if (e.key === 'ArrowRight' && nav?.next) {
+        window.location.href = nav.next;
+      } else if (e.key === 'Escape') {
+        window.location.href = 'index.html#project';
+      }
+    });
+
+    /* Show keyboard hint on page load */
+    window.addEventListener('load', () => {
+      const hint = document.createElement('div');
+      hint.className = 'keyboard-hint';
+      hint.textContent = '← → Navigate case studies   Esc Back';
+      document.body.appendChild(hint);
+
+      setTimeout(() => {
+        hint.style.opacity = '0';
+        hint.style.transition = 'opacity 0.4s ease-out';
+        setTimeout(() => hint.remove(), 400);
+      }, 3000);
     });
   </script>
 </body>
