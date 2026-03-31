@@ -3340,6 +3340,10 @@
       0%, 100% { transform: translateY(0) scaleX(-1); }
       50% { transform: translateY(-3px) scaleX(-1); }
     }
+    .critter-container.pet-sleeping {
+      opacity: 0.7;
+      filter: brightness(0.85);
+    }
     .critter-react {
       animation: critter-jump 0.4s ease-out !important;
     }
@@ -4555,6 +4559,13 @@
     <div class="csetting-label">Drag me anywhere!</div>
     <div class="csetting-row">
       <button class="csetting-btn" id="critterReset" title="Reset to bottom-right corner">Reset Position</button>
+    </div>
+    <div class="csetting-label">Behavior</div>
+    <div class="csetting-row">
+      <button class="csetting-btn active" data-behavior="walk" title="Patrol the page">Walk</button>
+      <button class="csetting-btn" data-behavior="still" title="Stay put">Still</button>
+      <button class="csetting-btn" data-behavior="sleep" title="Zzz...">Sleep</button>
+      <button class="csetting-btn" data-behavior="play" title="Bounce around!">Play</button>
     </div>
     <div class="csetting-label">Idle</div>
     <div class="csetting-row">
@@ -6588,15 +6599,19 @@
     critterContainer.style.bottom = '1rem';
     petWalkX = 16; // reset walk position
     petDragged = false; // resume walking
+    setPetBehavior('walk'); // reset to walk mode
     critterSettings.classList.remove('open');
   });
 
-  // Pet walking behavior — slow patrol along bottom of page
+  // Pet behavior system: walk | still | sleep | play
+  var petBehavior = 'walk'; // current behavior mode
   var petWalkX = 16; // current left offset in px
   var petWalkDir = 1; // 1 = right, -1 = left
-  var petWalkSpeed = 0.3; // pixels per frame (~18px/sec at 60fps)
   var petWalkPaused = false;
   var petDragged = false; // true once user drags, stops auto-walk permanently until reset
+  var petPlayDir = 1;
+  var petPlaySpeed = 0;
+  var petPlayTimer = 0;
 
   // Flip sprite when walking left via CSS class
   function updatePetFlip() {
@@ -6609,23 +6624,82 @@
 
   var petWalkInterval = null;
   function petWalkTick() {
-    if (isDragging || petDragged || petWalkPaused || critterHover) return;
-    petWalkX += petWalkSpeed * petWalkDir;
+    if (isDragging || petDragged || critterHover) return;
+
+    if (petBehavior === 'still' || petBehavior === 'sleep') return;
+
+    var speed = 0.3; // walk: ~18px/sec
+    var dir = petWalkDir;
+
+    if (petBehavior === 'play') {
+      speed = petPlaySpeed;
+      dir = petPlayDir;
+      petPlayTimer--;
+      if (petPlayTimer <= 0) {
+        // Random burst: new direction, new speed, random duration
+        petPlayDir = Math.random() > 0.5 ? 1 : -1;
+        petPlaySpeed = 0.4 + Math.random() * 1.2;
+        petPlayTimer = 30 + Math.floor(Math.random() * 120);
+        dir = petPlayDir;
+        speed = petPlaySpeed;
+        // Occasional pause
+        if (Math.random() < 0.25) {
+          petPlaySpeed = 0;
+          petPlayTimer = 20 + Math.floor(Math.random() * 40);
+          return;
+        }
+      }
+    }
+
+    petWalkX += speed * dir;
 
     // Bounce at edges: 16px padding on each side
     var maxX = window.innerWidth - critterContainer.offsetWidth - 16;
     if (petWalkX >= maxX) {
       petWalkX = maxX;
       petWalkDir = -1;
-      updatePetFlip();
+      if (petBehavior === 'play') petPlayDir = -1;
     } else if (petWalkX <= 16) {
       petWalkX = 16;
       petWalkDir = 1;
-      updatePetFlip();
+      if (petBehavior === 'play') petPlayDir = 1;
+    }
+
+    // Update flip based on actual direction used
+    var actualDir = petBehavior === 'play' ? petPlayDir : petWalkDir;
+    if (actualDir === -1) {
+      critterContainer.classList.add('walk-left');
+    } else {
+      critterContainer.classList.remove('walk-left');
     }
 
     critterContainer.style.left = petWalkX + 'px';
     critterContainer.style.right = 'auto';
+  }
+
+  function setPetBehavior(mode) {
+    petBehavior = mode;
+    critterContainer.classList.remove('pet-sleeping');
+    if (mode === 'sleep') {
+      critterAnimMode = 2; // force sleep animation
+      critterContainer.classList.add('pet-sleeping');
+      // Also update the idle button highlight
+      critterSettings.querySelectorAll('[data-anim]').forEach(function(b) { b.classList.remove('active'); });
+      var sleepBtn = critterSettings.querySelector('[data-anim="2"]');
+      if (sleepBtn) sleepBtn.classList.add('active');
+    } else if (mode === 'play') {
+      petPlayTimer = 0; // trigger immediate random burst
+      if (critterAnimMode === 2) {
+        critterAnimMode = 1; // switch off sleep, use bounce for play
+        critterSettings.querySelectorAll('[data-anim]').forEach(function(b) { b.classList.remove('active'); });
+        var bounceBtn = critterSettings.querySelector('[data-anim="1"]');
+        if (bounceBtn) bounceBtn.classList.add('active');
+      }
+    }
+    // Update behavior button highlights
+    critterSettings.querySelectorAll('[data-behavior]').forEach(function(b) { b.classList.remove('active'); });
+    var activeBtn = critterSettings.querySelector('[data-behavior="' + mode + '"]');
+    if (activeBtn) activeBtn.classList.add('active');
   }
 
   // Start walking after a short delay using setInterval (survives tab backgrounding)
@@ -6633,6 +6707,15 @@
     updatePetFlip();
     petWalkInterval = setInterval(petWalkTick, 16);
   }, 2000);
+
+  // Behavior mode buttons
+  critterSettings.querySelectorAll('[data-behavior]').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      petDragged = false; // reset drag lock when changing behavior
+      setPetBehavior(btn.dataset.behavior);
+    });
+  });
 
   // Animation mode buttons
   critterSettings.querySelectorAll('[data-anim]').forEach(btn => {
@@ -8595,7 +8678,7 @@
           popup.style.whiteSpace = 'normal';
           popup.style.textAlign = 'center';
           document.body.appendChild(popup);
-          setTimeout(function() { popup.remove(); }, 2000);
+          setTimeout(function() { popup.remove(); }, 3500);
         }
       });
     });
@@ -8635,7 +8718,7 @@
       popup.style.left = e.clientX + 'px';
       popup.style.top = (e.clientY - 10) + 'px';
       document.body.appendChild(popup);
-      setTimeout(function() { popup.remove(); }, 1300);
+      setTimeout(function() { popup.remove(); }, 2800);
 
       // Easter egg: after 10 clicks, show a special message
       if (clickCount === 10) {
@@ -8649,7 +8732,7 @@
           tip.style.fontSize = '14px';
           tip.style.animation = 'shootFloat 2.5s ease-out forwards';
           document.body.appendChild(tip);
-          setTimeout(function() { tip.remove(); }, 2600);
+          setTimeout(function() { tip.remove(); }, 4500);
         }, 200);
       }
     });
@@ -8678,7 +8761,7 @@
     gsap.timeline()
       .set(milestoneBadge, { display: 'block', opacity: 0, scale: 0.5 })
       .to(milestoneBadge, { duration: 0.5, opacity: 1, scale: 1, ease: 'back.out(1.7)' })
-      .to(milestoneBadge, { duration: 0.3, opacity: 0, scale: 0.8, ease: 'power2.in', delay: 0.8,
+      .to(milestoneBadge, { duration: 0.3, opacity: 0, scale: 0.8, ease: 'power2.in', delay: 2.0,
         onComplete: () => {
           gsap.set(milestoneBadge, { display: 'none' });
           showNextMilestone();
