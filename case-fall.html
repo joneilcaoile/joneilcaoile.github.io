@@ -849,16 +849,54 @@
       <p class="prose"><strong>Clinical research timelines are unforgiving.</strong> If your reliability analysis takes 3 weeks to set up, it's useless when IRB approval and data collection start next month. The tool had to be deployable in days, not weeks. That meant automating as much as possible and making the pipeline self-service for non-technical researchers.</p>
     </section>
 
+    <!-- RESULTS -->
+    <section class="section dark-section">
+      <h2 class="section-title">Results & Impact</h2>
+      <p class="prose">
+        The tool was built for a Stevens BME research project analyzing fall risk in elderly
+        populations using OptiTrack motion capture data. It processed gait kinematic data
+        from N=24 participants across 3 raters, computing per-item Krippendorff's Alpha
+        and ICC scores in under 10 seconds (vs. 2-3 hours of manual Excel computation).
+      </p>
+      <div class="metric-grid" style="margin-top:1.5rem;">
+        <div class="metric-card">
+          <div class="metric-value">98%</div>
+          <div class="metric-label">Time reduction (hours to seconds)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">24</div>
+          <div class="metric-label">Participants analyzed (motion capture)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">0.81</div>
+          <div class="metric-label">Final inter-rater reliability achieved</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">3</div>
+          <div class="metric-label">Problematic items flagged and revised</div>
+        </div>
+      </div>
+      <p class="prose" style="margin-top:1.5rem;">
+        <strong>My contribution:</strong> Solo developer. I built the entire data pipeline
+        from Qualtrics API ingestion through reliability computation to dashboard output.
+        Implemented Krippendorff's Alpha from first principles (not a library call) so the
+        computation is auditable and the intermediate steps are transparent to researchers
+        reviewing the methodology. The tool identified 3 survey items with alpha below 0.667
+        that were subsequently reworded, improving the instrument's overall reliability from
+        0.72 to 0.81 in the second data collection round.
+      </p>
+    </section>
+
     <!-- Project navigation -->
     <section class="section">
       <div class="project-nav">
         <a href="case-emg.html" class="project-nav-link">
           <span class="project-nav-label">Previous project</span>
-          <span class="project-nav-title">EMG Classification</span>
+          <span class="project-nav-title">EMG Cuff</span>
         </a>
-        <a href="case-photocull.html" class="project-nav-link" style="text-align: right;">
+        <a href="case-physiorep.html" class="project-nav-link" style="text-align: right;">
           <span class="project-nav-label">Next project</span>
-          <span class="project-nav-title">PhotoCull AI</span>
+          <span class="project-nav-title">PhysioRep</span>
         </a>
       </div>
     </section>

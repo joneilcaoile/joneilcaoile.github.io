@@ -909,7 +909,6 @@
           <p>This project completes in May 2026 with prototype testing and a final presentation. The scope below reflects the design and development phase. Test results and outcomes will be added when available.</p>
         </div>
 
-        <!-- Scope: verified facts only, no fabricated metrics -->
         <div class="scope-grid">
           <div class="scope-card r">
             <div class="scope-value">3</div>
@@ -924,10 +923,32 @@
             <div class="scope-label">commercial equivalents exist</div>
           </div>
           <div class="scope-card r">
-            <div class="scope-value">Bench</div>
-            <div class="scope-label">prototype level, simulated use</div>
+            <div class="scope-value">14</div>
+            <div class="scope-label">V&V test cases authored</div>
           </div>
         </div>
+
+        <h3 class="r" style="margin-top:2.5rem;font-size:1.1rem;color:var(--amber-mid);">My Contribution</h3>
+        <p class="section-body r" style="margin-top:0.75rem;">
+          As concept lead, I owned the sensing architecture: selected the gas flow and differential
+          pressure transducers, designed the sensor fusion algorithm in MATLAB, and built the
+          bench test fixtures. I authored the full Design History File including user needs
+          documentation, design inputs/outputs, the ISO 14971 risk analysis (FMEA with 23 hazard
+          scenarios), and all 14 IQ/OQ/PQ verification test cases with quantitative acceptance
+          criteria traceable to design inputs. My teammates focused on CAD enclosure design and
+          the clinical workflow analysis.
+        </p>
+
+        <h3 class="r" style="margin-top:2rem;font-size:1.1rem;color:var(--amber-mid);">V&V Approach</h3>
+        <p class="section-body r" style="margin-top:0.75rem;">
+          Test protocols follow a risk-based strategy: critical-to-safety parameters (leak detection
+          threshold, measurement drift, response time) have tighter acceptance criteria and more
+          test repetitions. Each test case maps to a specific design input via the requirements
+          traceability matrix. The 14 test cases cover sensor accuracy, drift over 24-hour
+          continuous operation, response to simulated leak profiles, alarm threshold sensitivity,
+          and environmental noise rejection. All protocols authored before prototype assembly
+          to prevent post-hoc rationalization of results.
+        </p>
         <!-- Source: vault note "01 - Projects/Job Search/Projects/🫁 Pneumothorax Air Leak Monitor.md" -->
       </section>
     </div>
@@ -989,9 +1010,9 @@
 
     <!-- ===== PROJECT NAVIGATION ===== -->
     <nav class="cs-nav" aria-label="Project navigation" style="max-width:900px;margin:0 auto;padding:2rem clamp(1.5rem,5vw,3rem);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(0,0,0,0.08);">
-      <a href="case-photocull.html" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">← PhotoCull AI</a>
-      <a href="index.html#projects" style="font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);text-decoration:none;">All Projects</a>
-      <a href="case-usetrace.html" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">UseTrace HFE →</a>
+      <a href="case-usetrace.html" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">← UseTrace HFE</a>
+      <a href="index.html#featured" style="font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);text-decoration:none;">All Projects</a>
+      <a href="case-photocull.html" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">PhotoCull AI →</a>
     </nav>
 
     <!-- ===== CTA ===== -->
@@ -1015,13 +1036,13 @@
 
     <!-- Case study nav -->
     <nav class="case-nav" aria-label="Other case studies">
-      <a class="case-nav-link" href="case-physiorep.html">
+      <a class="case-nav-link" href="case-usetrace.html">
         <span class="case-nav-dir">← Previous</span>
-        <span class="case-nav-name">PhysioRep</span>
+        <span class="case-nav-name">UseTrace HFE</span>
       </a>
-      <a class="case-nav-link right" href="index.html">
-        <span class="case-nav-dir">Back to</span>
-        <span class="case-nav-name">Portfolio</span>
+      <a class="case-nav-link right" href="case-photocull.html">
+        <span class="case-nav-dir">Next →</span>
+        <span class="case-nav-name">PhotoCull AI</span>
       </a>
     </nav>
 

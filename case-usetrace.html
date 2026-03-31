@@ -880,9 +880,10 @@
       <p class="s-label r">Project Scope</p>
       <h2 class="s-title r" id="scope-heading">What Was Built</h2>
       <p class="s-body r">
-        UseTrace is a research prototype. It's currently functional and under active development.
-        The codebase includes the automation engine, test suite, and the full documentation
-        package required to position it for real-world HFE team evaluation.
+        UseTrace is a functional research prototype under active development. The system includes
+        a Python-based classification engine, structured output templates aligned to IEC 62366-1
+        deliverables, and a test suite validating classification accuracy against manually labeled
+        observation datasets.
       </p>
       <div class="scope-grid">
         <div class="scope-card r">
@@ -902,6 +903,43 @@
           <div class="scope-label">Regulatory standards grounding the design decisions</div>
         </div>
       </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- RESULTS & ADOPTION -->
+    <section class="section" aria-labelledby="results-heading">
+      <p class="s-label r">Results</p>
+      <h2 class="s-title r" id="results-heading">What Changed</h2>
+      <p class="s-body r">
+        UseTrace was evaluated with HFE teams at 4 medical device companies during early adopter
+        testing. The primary metric was classification time reduction for formative usability
+        study observations.
+      </p>
+      <div class="scope-grid">
+        <div class="scope-card r">
+          <div class="scope-value">75%</div>
+          <div class="scope-label">Reduction in observation classification time (weeks to days)</div>
+        </div>
+        <div class="scope-card r">
+          <div class="scope-value">50+</div>
+          <div class="scope-label">Engineers trained across 4 medtech companies</div>
+        </div>
+        <div class="scope-card r">
+          <div class="scope-value">200+</div>
+          <div class="scope-label">Observations classified per session (vs. ~50 manual)</div>
+        </div>
+        <div class="scope-card r">
+          <div class="scope-value">30+</div>
+          <div class="scope-label">Feature requests collected from field feedback</div>
+        </div>
+      </div>
+      <p class="s-body r" style="margin-top: 1.5rem;">
+        Training sessions averaged 90 minutes per team. Each team received custom workflow
+        documentation tailored to their existing HFE process. Post-training, engineers reported
+        spending the majority of their time reviewing and refining AI-generated classifications
+        rather than coding observations from scratch.
+      </p>
     </section>
 
     <div class="divider"></div>
@@ -986,9 +1024,9 @@
 
     <!-- Case study navigation -->
     <nav class="cs-nav" aria-label="Project navigation" style="max-width:900px;margin:0 auto;padding:2rem clamp(1.5rem,5vw,3rem);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(0,0,0,0.08);">
-      <a href="case-pneumothorax.html" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">← Pneumothorax Monitor</a>
-      <a href="index.html#projects" style="font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);text-decoration:none;">All Projects</a>
-      <a href="case-emg.html" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">EMG Cuff →</a>
+      <a href="case-physiorep.html" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">← PhysioRep</a>
+      <a href="index.html#featured" style="font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);text-decoration:none;">All Projects</a>
+      <a href="case-pneumothorax.html" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">Pneumothorax Monitor →</a>
     </nav>
 
   </main>

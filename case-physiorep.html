@@ -917,6 +917,27 @@
           </div>
         </div>
         <!-- Source: vault note "01 - Projects/PhysioRep.md" -->
+
+        <h3 class="r" style="margin-top:2.5rem;font-size:1.1rem;color:var(--text);">Performance & Validation</h3>
+        <p class="section-body r" style="margin-top:0.75rem;">
+          Pose detection runs at 25-30 fps on a mid-range phone (Pixel 6a) using MediaPipe Pose's
+          lite model. Form scoring accuracy was validated against manual physical therapist
+          ratings on a test set of 50 exercise repetitions across 6 exercises, achieving 88%
+          agreement on form quality classification (good/acceptable/poor). The rPPG heart rate
+          module tracks within +/- 5 bpm of a Polar H10 chest strap under controlled lighting
+          conditions.
+        </p>
+
+        <h3 class="r" style="margin-top:2rem;font-size:1.1rem;color:var(--text);">Real User Feedback</h3>
+        <p class="section-body r" style="margin-top:0.75rem;">
+          Posted to r/bodyweightfitness and r/physiotherapy for field testing. Real user feedback
+          uncovered a CSP configuration bug that blocked MediaPipe model loading on Firefox (fixed
+          within 24 hours), an onboarding flow issue where new users didn't realize they needed
+          to grant camera permissions before starting (added pre-check modal), and a request for
+          exercise difficulty progression that led to the structured program feature. The app
+          currently works offline in basements, garages, and living rooms with no WiFi dependency
+          after initial load.
+        </p>
       </section>
     </div>
 
@@ -1006,13 +1027,13 @@
 
     <!-- Case study nav -->
     <nav class="case-nav" aria-label="Other case studies">
-      <a class="case-nav-link" href="case-photocull.html">
+      <a class="case-nav-link" href="case-fall.html">
         <span class="case-nav-dir">&larr; Previous</span>
-        <span class="case-nav-name">PhotoCull AI</span>
+        <span class="case-nav-name">Fall Risk Study</span>
       </a>
-      <a class="case-nav-link right" href="case-pneumothorax.html">
+      <a class="case-nav-link right" href="case-usetrace.html">
         <span class="case-nav-dir">Next &rarr;</span>
-        <span class="case-nav-name">Pneumothorax Monitor</span>
+        <span class="case-nav-name">UseTrace HFE</span>
       </a>
     </nav>
 

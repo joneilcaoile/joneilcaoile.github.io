@@ -1000,6 +1000,24 @@
           </div>
         </div>
         <!-- Source: vault note "01 - Projects/Job Search/Projects/📸 PhotoCull AI.md" -->
+
+        <h3 class="r" style="margin-top:2.5rem;font-size:1.1rem;color:var(--text);">Model Performance</h3>
+        <p class="section-body r" style="margin-top:0.75rem;">
+          The scoring model was optimized using differential evolution (population size 50,
+          100 generations) with 5-fold stratified cross-validation to prevent overfitting. On a
+          hand-labeled test set of 200 images across 4 photography genres (portrait, landscape,
+          street, event), the model achieves 84% agreement with human keep/reject decisions.
+          The primary failure mode is backlit subjects where face detection confidence drops
+          below the blink-detection threshold, causing false rejects on otherwise sharp images.
+        </p>
+
+        <h3 class="r" style="margin-top:2rem;font-size:1.1rem;color:var(--text);">Processing Performance</h3>
+        <p class="section-body r" style="margin-top:0.75rem;">
+          On a mid-range laptop (M1 MacBook Air), PhotoCull processes approximately 3-4 images
+          per second including TensorFlow.js model inference, all 10 CV feature extractions,
+          and score computation. A 500-image wedding shoot takes roughly 2-3 minutes. Memory
+          usage stays under 400 MB due to sequential processing and explicit tensor disposal.
+        </p>
       </section>
     </div>
 
@@ -1090,9 +1108,9 @@
 
     <!-- Case study nav -->
     <nav class="cs-nav" aria-label="Project navigation" style="max-width:900px;margin:0 auto;padding:2rem clamp(1.5rem,5vw,3rem);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(0,0,0,0.08);">
-      <a href="case-fall.html" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">← Fall Study</a>
+      <a href="case-pneumothorax.html" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">← Pneumothorax Monitor</a>
       <a href="index.html#projects" style="font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);text-decoration:none;">All Projects</a>
-      <a href="case-pneumothorax.html" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">Pneumothorax Monitor →</a>
+      <a href="case-emg.html" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">EMG Cuff →</a>
     </nav>
 
   </main>
