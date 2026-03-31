@@ -3578,6 +3578,35 @@
       animation: chipPulse 2s ease infinite;
     }
     .chip-badge.hide { display: none; }
+
+    /* Chet name label — speech bubble */
+    .chip-label {
+      position: absolute;
+      right: 64px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--dark);
+      color: var(--cream);
+      font-family: var(--fm);
+      font-size: 11px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--amber);
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity 0.4s;
+    }
+    .chip-label::after {
+      content: '';
+      position: absolute;
+      right: -6px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 5px solid transparent;
+      border-left-color: var(--amber);
+    }
+    .chip-label.hide { opacity: 0; }
     @keyframes chipPulse {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.15); }
@@ -4419,6 +4448,7 @@
       <div class="loader-boot-line">[hfe] IEC 62366-1 human factors framework <span class="ok">ACTIVE</span></div>
       <div class="loader-boot-line">[dev] UseTrace HFE + PhotoCull AI <span class="ok">DEPLOYED</span></div>
       <div class="loader-boot-line">[loc] SoCal medtech // validation / R&amp;D / HF <span class="ok">READY</span></div>
+      <div class="loader-boot-line">[chet] Self-appointed talent consultant standing by <span class="ok">CAFFEINATED</span></div>
     </div>
   </div>
   <button class="skip-intro" id="skipIntro" aria-label="Skip intro animation">Skip intro ▸</button>
@@ -4634,7 +4664,7 @@
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nav-actions">
-    <a href="Joneil_Caoile_Resume.pdf" download class="nav-resume-btn" aria-label="Download resume">Resume ↓</a>
+    <a href="Joneil_Caoile_Resume.pdf" target="_blank" rel="noopener" class="nav-resume-btn" aria-label="View resume">Resume →</a>
     <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">🌙</button>
     <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
       <span></span>
@@ -5613,6 +5643,7 @@
     <canvas id="chipSprite" width="32" height="40" aria-hidden="true"></canvas>
     <span class="chip-badge" id="chipBadge">1</span>
   </button>
+  <span class="chip-label" id="chipLabel">Ask Chet</span>
   <div class="chip-chat" id="chipChat" role="dialog" aria-label="Chat with Chet">
     <div class="chip-chat-header">
       <canvas id="chipAvatar" width="24" height="30" aria-hidden="true"></canvas>
@@ -7469,7 +7500,7 @@
     var ctx = canvas.getContext('2d');
     var W = canvas.width, H = canvas.height;
     var cx = W / 2, cy = H / 2;
-    var maxR = Math.min(cx, cy) - 60;
+    var maxR = Math.min(cx, cy) - 80;
 
     var domains = [
       { label: 'Testing & V&V', value: 0.82, color: '#C67B2E', desc: 'IQ/OQ/PQ, risk-based strategies, design verification' },
@@ -7560,11 +7591,11 @@
       }
 
       // Labels
-      ctx.font = '600 22px ' + getComputedStyle(document.documentElement).getPropertyValue('--fh').trim();
+      ctx.font = '600 18px ' + getComputedStyle(document.documentElement).getPropertyValue('--fh').trim();
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       for (var i = 0; i < n; i++) {
-        var lp = getPoint(i, maxR + 36);
+        var lp = getPoint(i, maxR + 40);
         ctx.fillStyle = domains[i].color;
         ctx.globalAlpha = 0.3 + 0.7 * progress;
         ctx.fillText(domains[i].label, lp.x, lp.y);
@@ -8466,9 +8497,50 @@
 
     /* Handle dark mode changes */
     new MutationObserver(function() {
-      synapseNodes = [];
-      flowDots = [];
+      netNodes = [];
+      pipePackets = [];
     }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+    /* Handle clicks on fake window buttons (X, minimize, maximize) */
+    var windowQuips = [
+      'Nice try. This window is load-bearing.',
+      'Error: Cannot close. Process "being impressive" is critical.',
+      'ACCESS DENIED. You need admin privileges. And those are imaginary.',
+      'This window has tenure. It stays.',
+      'Closing this would violate FDA 21 CFR 820.30(j).',
+      'Task Manager also can\'t close this. I checked.',
+      'The close button is decorative. Like a pocket square.'
+    ];
+    var lastWindowQuip = -1;
+
+    dividers.forEach(function(div) {
+      div.addEventListener('click', function(e) {
+        var rect = div.getBoundingClientRect();
+        var clickX = e.clientX - rect.left;
+        var clickY = e.clientY - rect.top;
+        var relX = clickX / rect.width;
+
+        /* Title bar area: top ~20px, close button in top-right ~5% */
+        if (clickY < 24 && relX > 0.88) {
+          e.stopPropagation();
+          var idx;
+          do { idx = Math.floor(Math.random() * windowQuips.length); } while (idx === lastWindowQuip && windowQuips.length > 1);
+          lastWindowQuip = idx;
+
+          var popup = document.createElement('div');
+          popup.className = 'shoot-popup';
+          popup.textContent = windowQuips[idx];
+          popup.style.left = e.clientX + 'px';
+          popup.style.top = e.clientY + 'px';
+          popup.style.fontSize = '11px';
+          popup.style.maxWidth = '260px';
+          popup.style.whiteSpace = 'normal';
+          popup.style.textAlign = 'center';
+          document.body.appendChild(popup);
+          setTimeout(function() { popup.remove(); }, 2000);
+        }
+      });
+    });
   })();
 
   /* CROSSHAIR CLICK POPUPS — funny messages when clicking with reticle cursor */
@@ -9363,6 +9435,16 @@
           { label: 'Debugging', score: 84 },
           { label: 'User Training', score: 87 }
         ]
+      },
+      other: {
+        title: 'General Fit',
+        base: [
+          { label: 'Adaptability', score: 90 },
+          { label: 'Technical Range', score: 87 },
+          { label: 'Communication', score: 89 },
+          { label: 'Problem Solving', score: 88 },
+          { label: 'Clinical Insight', score: 91 }
+        ]
       }
     };
 
@@ -9469,13 +9551,15 @@
           { label: "Validation / Quality", next: 'set_val' },
           { label: "R&D / Product Dev", next: 'set_rd' },
           { label: "Human Factors / UX", next: 'set_hfe' },
-          { label: "Applications Engineer", next: 'set_apps' }
+          { label: "Applications Engineer", next: 'set_apps' },
+          { label: "Other / Just Browsing", next: 'set_other' }
         ]
       },
       set_val:  { msgs: [], options: [], onEnter: function() { profile.role = 'validation'; goToState('what_matters'); } },
       set_rd:   { msgs: [], options: [], onEnter: function() { profile.role = 'rd'; goToState('what_matters'); } },
       set_hfe:  { msgs: [], options: [], onEnter: function() { profile.role = 'hfe'; goToState('what_matters'); } },
       set_apps: { msgs: [], options: [], onEnter: function() { profile.role = 'apps'; goToState('what_matters'); } },
+      set_other: { msgs: [], options: [], onEnter: function() { profile.role = 'other'; goToState('what_matters'); } },
 
       what_matters: {
         msgs: [
@@ -9744,6 +9828,10 @@
 
     /* ---- WIDGET BEHAVIOR ---- */
     chipToggle.addEventListener('click', function() {
+      /* Hide the "Ask Chet" label on first click */
+      var lbl = document.getElementById('chipLabel');
+      if (lbl) lbl.classList.add('hide');
+
       if (chatOpen) {
         chipChat.classList.remove('open');
         chatOpen = false;
