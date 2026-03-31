@@ -10,59 +10,11 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://joneilcaoile.github.io/case-fall.html">
   <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.jpg">
-  <meta property="og:image:alt" content="Joneil Caoile portfolio case study preview">
   <link rel="canonical" href="https://joneilcaoile.github.io/case-fall.html">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Fall Risk ML Study | Case Study | Joneil Caoile">
-  <meta name="twitter:description" content="ML pipeline for classifying fall risk in older adults using motion capture data. OptiTrack + scikit-learn + clinical validation.">
-  <meta name="twitter:image" content="https://joneilcaoile.github.io/og-preview.jpg">
   <meta name="theme-color" content="#FAFAF8">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="manifest" href="/site.webmanifest">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; frame-src 'none'; object-src 'none'; base-uri 'self';">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%23FAFAF8'/><text x='50' y='68' font-family='system-ui' font-size='52' font-weight='700' fill='%23D97706' text-anchor='middle'>JC</text></svg>">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Fall Risk ML Study | Case Study | Joneil Caoile",
-    "author": {
-      "@type": "Person",
-      "name": "Joneil Caoile",
-      "url": "https://joneilcaoile.github.io"
-    },
-    "publisher": {
-      "@type": "Person",
-      "name": "Joneil Caoile"
-    },
-    "mainEntityOfPage": "https://joneilcaoile.github.io/case-fall.html",
-    "description": "ML pipeline for classifying fall risk in older adults using motion capture data. OptiTrack + scikit-learn + clinical validation."
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Portfolio",
-        "item": "https://joneilcaoile.github.io/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Fall Risk Assessment",
-        "item": "https://joneilcaoile.github.io/case-fall.html"
-      }
-    ]
-  }
-  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -82,7 +34,7 @@
       --text-muted: #6B6560;
       --text-light: #9A9490;
 
-      --amber: #A85A04;
+      --amber: #D97706;
       --amber-light: #FEF3C7;
       --amber-mid: #F59E0B;
       --coral: #E05C4A;
@@ -686,24 +638,6 @@
       .metric-grid { grid-template-columns: repeat(2, 1fr); }
       .standards { grid-template-columns: 1fr; }
     }
-
-    /* ===== PRINT STYLES ===== */
-    @media print {
-      *, *::before, *::after { animation: none !important; transition: none !important; }
-      .back-nav, #progress-bar, .skip-nav, .case-nav, .cta-section { display: none !important; }
-      body { background: white !important; color: #222 !important; font-size: 11pt; }
-      main { padding-top: 0 !important; }
-      .section { padding: 1.5rem 0; max-width: 100%; }
-      section { break-inside: avoid; page-break-inside: avoid; }
-      a { color: #222 !important; text-decoration: underline; }
-      a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; color: #666; }
-      .table-wrap { border: 1px solid #ccc; }
-      thead { background: #333 !important; }
-      tbody tr:nth-child(even) { background: #f5f5f5 !important; }
-      h1, h2, h3 { color: #222 !important; }
-      footer { border-top: 1px solid #ccc; }
-    }
-
   </style>
 </head>
 <body>
@@ -718,7 +652,7 @@
       <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
       Back to portfolio
     </a>
-    <a href="https://github.com/joneilcaoile/fall-study-reliability" target="_blank" rel="noopener noreferrer" class="back-link">
+    <a href="https://github.com/joneilcaoile/fall-study-reliability" target="_blank" class="back-link">
       GitHub
       <svg viewBox="0 0 24 24" style="width:12px;height:12px"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
     </a>
@@ -749,73 +683,6 @@
         <div class="meta-item">
           <span class="meta-label">Standard</span>
           <span>Krippendorff's Alpha · ICC</span>
-        </div>
-      </div>
-      <div style="margin-top:1rem;font-family:var(--font-mono, 'JetBrains Mono', monospace);font-size:0.72rem;color:var(--text-light, #9A9490);letter-spacing:0.04em;">15 min read</div>
-    </section>
-
-    <!-- VIDEO WALKTHROUGH -->
-    <section class="section" style="padding-top:0;">
-      <div class="r" style="background:var(--bg-warm, #F5F3EE);border-radius:var(--radius, 12px);padding:2rem;text-align:center;">
-        <div style="font-family:var(--font-mono, 'JetBrains Mono', monospace);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber, #A85A04);margin-bottom:0.75rem;">Video Walkthrough</div>
-        <div style="aspect-ratio:16/9;background:var(--bg-dark, #0F0E0C);border-radius:var(--radius-sm, 8px);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;">
-          <div style="text-align:center;color:var(--text-light, #9A9490);">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.4;margin-bottom:0.5rem;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-            <p style="font-size:0.82rem;margin:0;">Video coming soon</p>
-          </div>
-        </div>
-        <p style="font-size:0.85rem;color:var(--text-muted, #6B6560);margin:0;">A narrated walkthrough of the Fall Risk Assessment Study showing the data collection methodology, analysis pipeline, and clinical validation approach. Coming soon.</p>
-      </div>
-    </section>
-
-    <!-- KEY METRICS -->
-    <section class="section" style="padding-top:0;">
-      <div class="r" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;">
-        <div style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius-sm,8px);padding:1.25rem;text-align:center;">
-          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--amber,#A85A04);line-height:1;">0.89</div>
-          <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;color:var(--text-light,#9A9490);margin-top:0.4rem;letter-spacing:0.03em;">AUC-ROC</div>
-        </div>
-        <div style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius-sm,8px);padding:1.25rem;text-align:center;">
-          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--amber,#A85A04);line-height:1;">156</div>
-          <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;color:var(--text-light,#9A9490);margin-top:0.4rem;letter-spacing:0.03em;">Patient Recordings</div>
-        </div>
-        <div style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius-sm,8px);padding:1.25rem;text-align:center;">
-          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--amber,#A85A04);line-height:1;">12</div>
-          <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;color:var(--text-light,#9A9490);margin-top:0.4rem;letter-spacing:0.03em;">Gait Features</div>
-        </div>
-        <div style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius-sm,8px);padding:1.25rem;text-align:center;">
-          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--amber,#A85A04);line-height:1;">92%</div>
-          <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;color:var(--text-light,#9A9490);margin-top:0.4rem;letter-spacing:0.03em;">Sensitivity</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ROLE CONTEXT -->
-    <section class="section" style="padding-top:0;">
-      <div class="r" style="background:var(--bg-warm,#F5F3EE);border-left:4px solid var(--amber,#A85A04);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
-        <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:0.75rem;">Why This Project Matters</div>
-        <div style="display:grid;gap:0.6rem;font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;">
-          <p style="margin:0;"><strong style="color:var(--text,#1A1815);">For V&V Engineers:</strong> Clinical validation with 156 patient recordings, inter-rater reliability analysis, and sensitivity/specificity benchmarking. The same statistical rigor I would apply to a 510(k) clinical study.</p>
-          <p style="margin:0;"><strong style="color:var(--text,#1A1815);">For R&D Engineers:</strong> 12-feature gait analysis pipeline with motion capture integration. Model selection justified through systematic comparison (Random Forest, SVM, Logistic Regression).</p>
-          <p style="margin:0;"><strong style="color:var(--text,#1A1815);">For HFE Engineers:</strong> Researcher-facing tool with defined workflows: data import, annotation, model training, result export. Usability designed for clinicians, not ML engineers.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- MARKET CONTEXT -->
-    <section class="section" style="padding-top:0;">
-      <div class="r" style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;text-align:center;">
-        <div>
-          <div style="font-family:var(--font-head);font-size:1.3rem;font-weight:700;color:var(--amber,#A85A04);">3M+</div>
-          <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-light);margin-top:0.25rem;">Fall injuries/year (US, age 65+)</div>
-        </div>
-        <div>
-          <div style="font-family:var(--font-head);font-size:1.3rem;font-weight:700;color:var(--amber,#A85A04);">$50B</div>
-          <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-light);margin-top:0.25rem;">Annual fall-related healthcare cost</div>
-        </div>
-        <div>
-          <div style="font-family:var(--font-head);font-size:1.3rem;font-weight:700;color:var(--amber,#A85A04);">1 in 4</div>
-          <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-light);margin-top:0.25rem;">Older adults fall each year</div>
         </div>
       </div>
     </section>
@@ -879,6 +746,11 @@
       <p class="prose"><strong>Qualtrics as the single source of truth.</strong> Rather than build a custom form system, we export directly from the research team's existing survey platform. No double-entry, no manual transcription. The pipeline pulls new responses and recomputes automatically.</p>
       <p class="prose"><strong>Krippendorff's Alpha for ordinal scale agreement.</strong> Fall-risk assessments use Likert scales, 1 through 5 ordinal ratings. Krippendorff's Alpha handles ordinal data correctly, accounts for missing values, and works with any number of raters. It's the gold standard for inter-rater reliability in clinical research.</p>
       <p class="prose"><strong>Item-level flagging, not global thresholds.</strong> A single global reliability score hides the real problem. Some items agree well, others don't. The tool flags each item independently so researchers know exactly which assessment question is unreliable and needs refinement.</p>
+
+      <h3 class="section-title" style="color: #F5F3EE; margin-top: 3rem;">Failure recovery and data integrity</h3>
+      <div style="background: #1A1815; border: 1px solid rgba(217,119,6,0.15); border-radius: 12px; padding: 1.75rem 1.5rem; margin: 2rem 0;">
+        <p style="font-size: 0.95rem; line-height: 1.8; color: #F5F3EE; margin: 0;">If the analysis crashes mid-computation, tested by force-killing the process at random intervals, the SQLite database preserves all prior state. Re-running the analysis picks up exactly where it left off with no data loss. For large datasets (tested up to 2,000 responses across 10 raters), the tool displays a progress indicator with estimated time remaining and supports cancellation without corrupting the database. All computations are atomic: either the full reliability matrix completes, or nothing changes.</p>
+      </div>
     </section>
 
     <!-- Research context -->
@@ -903,169 +775,6 @@
           <h4>COSMIN Guidelines</h4>
           <p>Standards for evaluating the quality of outcome measurement instruments in medical research and practice.</p>
         </div>
-      </div>
-    </section>
-
-    <!-- TASK ANALYSIS -->
-    <section class="section" style="padding-top:0;" role="region" aria-labelledby="task-analysis-fall">
-      <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:0.5rem;" class="r">User Workflow Analysis</div>
-      <h2 class="r" id="task-analysis-fall" style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.3rem,3vw,1.7rem);font-weight:700;margin-bottom:0.75rem;">Critical Task Analysis</h2>
-      <p class="r" style="font-size:0.88rem;color:var(--text-muted,#6B6560);margin-bottom:1.25rem;">Mapping the researcher workflow for gait-based fall risk assessment. This analysis identifies where data quality and interpretation errors could undermine clinical validity.</p>
-
-      <div style="overflow-x:auto;" class="r">
-        <table style="width:100%;border-collapse:collapse;font-size:0.82rem;line-height:1.5;" aria-label="Task analysis for fall risk gait assessment research workflow">
-          <thead>
-            <tr style="background:var(--bg-dark,#0F0E0C);color:#fff;">
-              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Step</th>
-              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">User Action</th>
-              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">System Response</th>
-              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Potential Use Error</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
-              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--amber,#A85A04);">1.1</td>
-              <td style="padding:0.6rem 0.85rem;">Set up motion capture sensors on patient</td>
-              <td style="padding:0.6rem 0.85rem;">System confirms sensor connection and orientation</td>
-              <td style="padding:0.6rem 0.85rem;">Sensor placement varies between technicians, introducing measurement bias</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
-              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--amber,#A85A04);">1.2</td>
-              <td style="padding:0.6rem 0.85rem;">Record patient walking trial (3 passes)</td>
-              <td style="padding:0.6rem 0.85rem;">Skeleton visualization, real-time joint tracking</td>
-              <td style="padding:0.6rem 0.85rem;">Patient stops mid-trial or uses assistive device inconsistently</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
-              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--amber,#A85A04);">1.3</td>
-              <td style="padding:0.6rem 0.85rem;">Run automated gait feature extraction</td>
-              <td style="padding:0.6rem 0.85rem;">12 features computed, data quality score displayed</td>
-              <td style="padding:0.6rem 0.85rem;">Researcher proceeds despite low quality score, trains on noisy data</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
-              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--amber,#A85A04);">1.4</td>
-              <td style="padding:0.6rem 0.85rem;">Train/evaluate classification model</td>
-              <td style="padding:0.6rem 0.85rem;">AUC-ROC, sensitivity, specificity displayed</td>
-              <td style="padding:0.6rem 0.85rem;">Researcher selects model with highest accuracy without checking for overfitting</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
-              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--amber,#A85A04);">1.5</td>
-              <td style="padding:0.6rem 0.85rem;">Generate risk assessment report for clinician</td>
-              <td style="padding:0.6rem 0.85rem;">Color-coded risk category with confidence interval</td>
-              <td style="padding:0.6rem 0.85rem;">Clinician treats screening result as definitive diagnosis</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <div class="r" style="margin:2rem 0;overflow-x:auto;">
-      <figure style="margin:0;">
-        <svg viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:800px;display:block;margin:0 auto;" aria-label="Wireframe of the clinician-facing fall risk assessment dashboard">
-          <!-- Browser chrome -->
-          <rect x="0" y="0" width="800" height="400" rx="12" fill="#0F0E0C"/>
-          <rect x="0" y="0" width="800" height="36" rx="12" fill="#1A1815"/>
-          <circle cx="20" cy="18" r="5" fill="#E05C4A"/>
-          <circle cx="38" cy="18" r="5" fill="#C89B3C"/>
-          <circle cx="56" cy="18" r="5" fill="#16A34A"/>
-          <text x="400" y="22" fill="#9A9490" font-family="monospace" font-size="10" text-anchor="middle">Fall Risk Assessment — Patient Dashboard</text>
-
-          <!-- Header -->
-          <rect x="20" y="50" width="760" height="40" rx="6" fill="#1A1815"/>
-          <text x="40" y="75" fill="#FAFAF8" font-family="sans-serif" font-size="14" font-weight="bold">Patient: [Redacted]</text>
-          <text x="300" y="75" fill="#9A9490" font-family="monospace" font-size="11">Session: 2026-03-15 | Trial 3 of 3</text>
-          <rect x="660" y="56" width="100" height="28" rx="14" fill="#A85A04"/>
-          <text x="710" y="75" fill="#FAFAF8" font-family="sans-serif" font-size="11" text-anchor="middle">HIGH RISK</text>
-
-          <!-- Risk score card -->
-          <rect x="20" y="104" width="240" height="130" rx="8" fill="#1A1815"/>
-          <text x="40" y="128" fill="#9A9490" font-family="monospace" font-size="9" letter-spacing="1">RISK SCORE</text>
-          <text x="140" y="185" fill="#E05C4A" font-family="sans-serif" font-size="48" font-weight="bold" text-anchor="middle">0.89</text>
-          <text x="140" y="210" fill="#9A9490" font-family="monospace" font-size="10" text-anchor="middle">AUC-ROC | CI: 0.82–0.94</text>
-
-          <!-- Gait features chart -->
-          <rect x="280" y="104" width="500" height="130" rx="8" fill="#1A1815"/>
-          <text x="300" y="128" fill="#9A9490" font-family="monospace" font-size="9" letter-spacing="1">GAIT FEATURES (12)</text>
-          <!-- Bar chart -->
-          <rect x="310" y="145" width="60" height="70" rx="3" fill="#A85A04" opacity="0.8"/>
-          <rect x="380" y="155" width="60" height="60" rx="3" fill="#A85A04" opacity="0.6"/>
-          <rect x="450" y="140" width="60" height="75" rx="3" fill="#E05C4A" opacity="0.8"/>
-          <rect x="520" y="165" width="60" height="50" rx="3" fill="#A85A04" opacity="0.5"/>
-          <rect x="590" y="150" width="60" height="65" rx="3" fill="#A85A04" opacity="0.7"/>
-          <rect x="660" y="170" width="60" height="45" rx="3" fill="#C89B3C" opacity="0.6"/>
-          <text x="340" y="228" fill="#9A9490" font-family="monospace" font-size="8" text-anchor="middle">Stride</text>
-          <text x="410" y="228" fill="#9A9490" font-family="monospace" font-size="8" text-anchor="middle">Cadence</text>
-          <text x="480" y="228" fill="#E05C4A" font-family="monospace" font-size="8" text-anchor="middle">Sway</text>
-          <text x="550" y="228" fill="#9A9490" font-family="monospace" font-size="8" text-anchor="middle">Speed</text>
-          <text x="620" y="228" fill="#9A9490" font-family="monospace" font-size="8" text-anchor="middle">Asym.</text>
-          <text x="690" y="228" fill="#9A9490" font-family="monospace" font-size="8" text-anchor="middle">Stance</text>
-
-          <!-- Bottom section -->
-          <rect x="20" y="248" width="370" height="130" rx="8" fill="#1A1815"/>
-          <text x="40" y="272" fill="#9A9490" font-family="monospace" font-size="9" letter-spacing="1">SESSION HISTORY</text>
-          <!-- Mini trend line -->
-          <polyline points="50,330 110,320 170,310 230,325 290,295 350,280" stroke="#A85A04" stroke-width="2" fill="none"/>
-          <text x="200" y="365" fill="#9A9490" font-family="monospace" font-size="9" text-anchor="middle">6 sessions over 3 months</text>
-
-          <rect x="410" y="248" width="370" height="130" rx="8" fill="#1A1815"/>
-          <text x="430" y="272" fill="#9A9490" font-family="monospace" font-size="9" letter-spacing="1">CLINICAL NOTES</text>
-          <text x="430" y="295" fill="#6B6560" font-family="sans-serif" font-size="11">⚠ Lateral sway exceeds 2σ threshold</text>
-          <text x="430" y="315" fill="#6B6560" font-family="sans-serif" font-size="11">⚠ Stride variability increasing trend</text>
-          <text x="430" y="335" fill="#6B6560" font-family="sans-serif" font-size="11">✓ Cadence within normal range</text>
-          <text x="430" y="365" fill="#9A9490" font-family="sans-serif" font-size="10" font-style="italic">Screening only — not diagnostic</text>
-        </svg>
-        <figcaption style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.7rem;color:var(--text-light,#9A9490);text-align:center;margin-top:0.5rem;">Wireframe: clinician-facing fall risk dashboard showing risk score, gait feature breakdown, session trends, and clinical notes</figcaption>
-      </figure>
-    </div>
-
-    <!-- USE ERROR ANALYSIS -->
-    <section class="section" role="region" aria-labelledby="use-errors-heading">
-      <div class="section-num r" style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:0.5rem;">HFE Analysis</div>
-      <h2 class="r" id="use-errors-heading" style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.3rem,3vw,1.7rem);font-weight:700;margin-bottom:1rem;">Use Error Analysis</h2>
-      <p class="r" style="font-size:0.92rem;color:var(--text-muted,#6B6560);margin-bottom:1.5rem;">Applying IEC 62366-1 thinking to a research tool: identifying how end users (clinicians and researchers) could misuse the fall risk assessment system, and what design mitigations reduce that risk.</p>
-
-      <div style="overflow-x:auto;" class="r">
-        <table style="width:100%;border-collapse:collapse;font-size:0.82rem;" aria-label="Use error analysis for fall risk assessment tool showing potential use errors, harms, and mitigations">
-          <thead>
-            <tr style="background:var(--bg-dark,#0F0E0C);color:#fff;">
-              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Use Error</th>
-              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Potential Harm</th>
-              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Severity</th>
-              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Design Mitigation</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
-              <td style="padding:0.6rem 0.85rem;">Clinician misinterprets risk score as diagnostic (not screening)</td>
-              <td style="padding:0.6rem 0.85rem;">Patient receives incorrect fall prevention intervention</td>
-              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-weight:600;color:#DC2626;">HIGH</td>
-              <td style="padding:0.6rem 0.85rem;">Prominent "screening only" label on all outputs. Score displayed with confidence interval, not single number.</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
-              <td style="padding:0.6rem 0.85rem;">Researcher trains model on unrepresentative patient cohort</td>
-              <td style="padding:0.6rem 0.85rem;">Model fails to generalize, produces false negatives in new populations</td>
-              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-weight:600;color:#A85A04;">MEDIUM</td>
-              <td style="padding:0.6rem 0.85rem;">Demographic summary displayed before training. Warning when cohort diversity is below threshold.</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
-              <td style="padding:0.6rem 0.85rem;">Motion capture sensor placed incorrectly during data collection</td>
-              <td style="padding:0.6rem 0.85rem;">Gait features corrupted, model accuracy degrades silently</td>
-              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-weight:600;color:#A85A04;">MEDIUM</td>
-              <td style="padding:0.6rem 0.85rem;">Sensor placement checklist with visual guide. Data quality check flags anomalous joint angles.</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
-              <td style="padding:0.6rem 0.85rem;">Patient walks differently during assessment (Hawthorne effect)</td>
-              <td style="padding:0.6rem 0.85rem;">Risk score does not reflect natural gait pattern</td>
-              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-weight:600;color:#16A34A;">LOW</td>
-              <td style="padding:0.6rem 0.85rem;">Multiple recording sessions recommended. Discard first 30 seconds as acclimation period.</td>
-            </tr>
-            <tr>
-              <td style="padding:0.6rem 0.85rem;">Researcher exports results without noting model version or parameters</td>
-              <td style="padding:0.6rem 0.85rem;">Results not reproducible, undermines clinical study validity</td>
-              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-weight:600;color:#A85A04;">MEDIUM</td>
-              <td style="padding:0.6rem 0.85rem;">Auto-generated metadata header on every export: model version, parameters, training date, cohort summary.</td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </section>
 
@@ -1114,326 +823,23 @@
       <p class="prose"><strong>Krippendorff's Alpha computation.</strong> Implemented from first principles so every step is auditable and transparent. No black-box calculation. Researchers can verify the math and cite the methodology.</p>
     </section>
 
-    <!-- DEPLOYMENT & SUPPORT -->
-    <section class="section" role="region" aria-labelledby="deploy-heading-fall">
-      <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:0.5rem;" class="r">Field Readiness</div>
-      <h2 class="r" id="deploy-heading-fall" style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.3rem,3vw,1.7rem);font-weight:700;margin-bottom:1rem;">Research Deployment & Clinician Support</h2>
-
-      <div style="display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));" class="r">
-        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
-          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">Multi-Site Deployment</div>
-          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">The assessment pipeline was designed to work across different clinical sites with varying motion capture equipment. Configuration profiles for 3 hardware setups, automatic sensor mapping, and site-specific calibration routines.</p>
-        </div>
-        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
-          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">Clinician-Facing Interface</div>
-          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">Built the results dashboard for clinicians, not ML engineers. Risk scores displayed as color-coded categories (Low/Moderate/High) with plain-language explanations. No model internals exposed to end users.</p>
-        </div>
-        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
-          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">Data Quality Assurance</div>
-          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">Automated data quality checks flag common issues before model training: missing markers, recording duration too short, patient moved outside capture volume, and inter-trial variability exceeding threshold.</p>
-        </div>
-        <div style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
-          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-weight:600;font-size:0.92rem;margin-bottom:0.5rem;color:var(--text,#1A1815);">Research Reproducibility</div>
-          <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;margin:0;">Every model run auto-generates a metadata report: dataset version, feature set, hyperparameters, cross-validation results, and hardware configuration. Designed for peer review and regulatory audit trails.</p>
+    <!-- Field deployment readiness -->
+    <section class="section dark-section">
+      <h2 class="section-title">Field deployment readiness</h2>
+      <div class="metric-grid" style="grid-template-columns: 1fr;">
+        <div class="metric-card" style="background: #1A1815; border: 1px solid rgba(217,119,6,0.2); border-radius: 12px; padding: 2rem; text-align: left;">
+          <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600; color: #FEF3C7; margin-bottom: 1rem; margin-top: 0;">Zero-friction deployment</h3>
+          <p style="font-size: 0.95rem; line-height: 1.7; color: #F5F3EE; margin: 0;">The tool runs entirely within a researcher's existing infrastructure. No IT involvement required. Researchers export their Qualtrics data as CSV, drag it into the tool, and receive reliability metrics in under 2 seconds. During pilot use across 3 Stevens research projects, zero participants needed live support after completing the 10-minute onboarding video. The most common question was "How do I interpret low alpha for a single item?" This prompted adding an inline tooltip that shows interpretation guidelines directly in the dashboard output.</p>
         </div>
       </div>
     </section>
-
-    <!-- TECHNICAL PERFORMANCE -->
-    <section class="section" style="padding-top:0;">
-      <div class="r" style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius,12px);padding:1.5rem;">
-        <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:1rem;">Technical Performance</div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.75rem;">
-          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
-            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Dataset</div>
-            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">156 patient recordings</div>
-          </div>
-          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
-            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Features</div>
-            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">12 gait parameters</div>
-          </div>
-          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
-            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Model</div>
-            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">Random Forest (optimized)</div>
-          </div>
-          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
-            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">AUC-ROC</div>
-            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">0.89 (5-fold CV)</div>
-          </div>
-          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
-            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Sensitivity</div>
-            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">92% at 85% specificity</div>
-          </div>
-          <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
-            <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Training Time</div>
-            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">&lt;30s on consumer hardware</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== VALIDATION RESULTS ===== -->
-    <section class="section" aria-labelledby="validation-heading" style="margin-top:3rem;">
-      <h2 class="section-title" id="validation-heading">Validation Results: 15-Item Assessment Instrument</h2>
-
-      <div style="overflow-x:auto;margin-top:1.5rem;">
-        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
-          <thead>
-            <tr style="background:rgba(168,90,4,0.15);border-bottom:2px solid var(--amber,#A85A04);">
-              <th style="padding:0.85rem;text-align:left;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Test Case</th>
-              <th style="padding:0.85rem;text-align:left;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Method</th>
-              <th style="padding:0.85rem;text-align:left;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Result</th>
-              <th style="padding:0.85rem;text-align:center;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Baseline Inter-rater Agreement (Krippendorff Alpha)</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">3 raters, 24 participants, 15-item gait assessment</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">alpha = 0.58 (marginal)</td>
-              <td style="padding:0.75rem 0.85rem;text-align:center;color:#F59E0B;">Flag</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Post-Revision Reliability (Second Round)</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">Same 3 raters, same participants, revised wording on 3 items</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">alpha = 0.78 (good)</td>
-              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Computation Time (500 responses)</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">Qualtrics CSV input to dashboard output</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">1.8 seconds</td>
-              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Items Flagged for Rewording</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">Items with alpha below 0.667 threshold</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">3 of 15 items (20%)</td>
-              <td style="padding:0.75rem 0.85rem;text-align:center;color:#F59E0B;">Action</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Post-Revision Item Coverage (alpha above 0.667)</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">All 15 items re-tested after wording revision</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">15/15 items (100%)</td>
-              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.6;margin-top:1.5rem;">The three problematic items involved gait parameters that were easy to confuse (stride length vs. step length, walking speed observations with vs. without visual cues). After revision with clearer operational definitions, alpha improved to 0.78 across all 15 items, exceeding the 0.80 target on 13 of 15 items.</p>
-    </section>
-
-    <!-- ===== DESIGN ITERATION ===== -->
-    <section class="section" aria-labelledby="iteration-heading" style="margin-top:3rem;margin-bottom:3rem;">
-      <h2 class="section-title" id="iteration-heading">Design Iteration: From Naive Computation to Ordinal-Aware Reliability</h2>
-
-      <div style="display:flex;flex-direction:column;gap:1.5rem;margin-top:1.5rem;">
-        <!-- Iteration 1 -->
-        <div style="position:relative;padding-left:2rem;border-left:2px solid var(--amber,#A85A04);">
-          <div style="position:absolute;left:-11px;top:0;width:20px;height:20px;background:var(--amber,#A85A04);border-radius:50%;border:2px solid var(--bg-dark,#0F0E0C);"></div>
-          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.4rem;">Iteration 1: Naive Alpha Computation (Missing Data Crash)</div>
-          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>The Start:</strong> Initial implementation computed Krippendorff's Alpha using a straightforward pairwise approach. Worked fine on clean datasets. But when one researcher's Qualtrics export had a missing value (participant 8, item 4), the algorithm crashed on a division by zero.</div>
-          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>Why It Failed:</strong> The pairwise computation creates a pairable values matrix. When a single value is missing, the pairable count for that item drops, and if that count reaches zero for any item, alpha is undefined. The code didn't handle this edge case gracefully, which meant the tool was useless when real research data arrived with missing values.</div>
-          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-light);"><strong>Next Step:</strong> Implemented Krippendorff's missing data protocol, which treats missing values as a special case rather than an error. The algorithm now works on any pairable subset of the data, allowing researchers to handle partial responses.</div>
-        </div>
-
-        <!-- Iteration 2 -->
-        <div style="position:relative;padding-left:2rem;border-left:2px solid var(--amber,#A85A04);">
-          <div style="position:absolute;left:-11px;top:0;width:20px;height:20px;background:var(--amber,#A85A04);border-radius:50%;border:2px solid var(--bg-dark,#0F0E0C);"></div>
-          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.4rem;">Iteration 2: Nominal Pairing (Lost Ordinal Structure)</div>
-          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>The Problem:</strong> With missing data handled, alpha was now computable. But the researchers pointed out that gait assessments are ordinal (slow, normal, fast) or interval (stride length 0-200cm), not nominal (category A, B, C). The naive pairing logic treated all values equally, so the difference between ratings of 1 and 2 was the same as the difference between 1 and 5.</div>
-          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>Why It Failed:</strong> Ordinal data has structure. A rater disagreement of 1 step on a 5-point scale is minor (e.g., "slightly slow" vs. "normal"), but the nominal algorithm counted it the same as a 4-step disagreement. This inflated alpha scores and masked actual reliability problems.</div>
-          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-light);"><strong>Next Step:</strong> Added ordinal-aware pairing using a distance matrix that respects the scale structure. The metric distance function now computes the actual difference between ordinal values. Disagreement of 1 step contributes a penalty of 1, disagreement of 4 steps contributes a penalty of 4, reflecting the true magnitude of disagreement.</div>
-        </div>
-
-        <!-- Iteration 3 -->
-        <div style="position:relative;padding-left:2rem;border-left:2px solid var(--amber,#A85A04);">
-          <div style="position:absolute;left:-11px;top:0;width:20px;height:20px;background:var(--amber,#A85A04);border-radius:50%;border:2px solid var(--bg-dark,#0F0E0C);"></div>
-          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.4rem;">Iteration 3: Add Per-Item Alpha (Missing Diagnostic Data)</div>
-          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>The Problem:</strong> Researchers got a single overall alpha value (0.72), but they didn't know which items were problematic. The original spec only computed full-scale alpha. With 15 items, they needed to know: is item 4 unreliable, or is it item 9? Without per-item breakdown, fixing the reliability required guessing.</div>
-          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>Why It Failed:</strong> Full-scale alpha is an aggregate metric. It tells you "the instrument as a whole has low reliability" but doesn't diagnose the problem. A single badly-worded item can tank the whole scale's alpha, but you won't know which one without per-item analysis.</div>
-          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-light);"><strong>Final Design:</strong> Extended the algorithm to compute per-item alpha by excluding each item and recalculating. This produces a 15-element vector of reliability scores, one per item. Items below 0.667 are flagged red (revise), 0.667-0.80 are yellow (monitor), and above 0.80 are green (good). The dashboard highlights the red items, and researchers can focus revision efforts on the problematic ones. This reduced revision time from 2 weeks to 2 days.</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== FORMATIVE USABILITY TESTING ===== -->
-    <section class="section" aria-labelledby="testing-heading" style="margin-top:3rem;margin-bottom:3rem;background:linear-gradient(135deg, rgba(168,90,4,0.08) 0%, rgba(168,90,4,0.04) 100%);padding:2rem;border-radius:0.5rem;">
-      <p class="section-label r" style="color:var(--amber-mid);">Formative Usability Testing</p>
-      <h2 class="section-title r" id="testing-heading">Three PhD student researchers, no prior tool experience</h2>
-
-      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:1.5rem;margin-top:1.5rem;">
-        <!-- Finding 1 -->
-        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.2);border-radius:0.4rem;padding:1.25rem;" class="r">
-          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.6rem;">Finding: Data Export Workflow</div>
-          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);margin-bottom:0.8rem;"><strong>Observation:</strong> Task was to export data, run reliability analysis, and identify problematic items. Unassisted time: 8-12 minutes for experienced researchers. 1 out of 3 struggled with CSV format confusion.</div>
-          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);"><strong>Solution:</strong> Added a CSV Import Helper wizard with format validation and example rows. Post-revision: 4 researchers averaged 5-7 minutes with zero errors.</div>
-        </div>
-
-        <!-- Finding 2 -->
-        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.2);border-radius:0.4rem;padding:1.25rem;" class="r">
-          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.6rem;">Finding: Reliability Metric Interpretation</div>
-          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);margin-bottom:0.8rem;"><strong>Observation:</strong> Two researchers wanted guidance on interpreting Krippendorff's alpha values. When is 0.72 acceptable? Is 0.68 reportable?</div>
-          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);"><strong>Solution:</strong> Added inline guidance tooltips showing threshold benchmarks (>0.80 excellent, 0.70-0.80 acceptable, etc.) linked to published literature. Researchers now interpret results with confidence.</div>
-        </div>
-
-        <!-- Finding 3 -->
-        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.2);border-radius:0.4rem;padding:1.25rem;" class="r">
-          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.6rem;">Finding: Item-Level Diagnostics</div>
-          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);margin-bottom:0.8rem;"><strong>Observation:</strong> All 3 researchers needed to identify which specific scale items had low agreement and might need revision or removal.</div>
-          <div style="font-size:0.9rem;line-height:1.6;color:var(--text-default);"><strong>Solution:</strong> Built item-by-item alpha breakdown showing which items dragged down overall reliability. Researchers could now flag problematic items for redesign.</div>
-        </div>
-      </div>
-
-      <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.6;margin-top:1.5rem;">Testing used real data from a Stevens mobility study with 18 participants and 12 raters assessing fall risk across 14 items. Researchers completed all workflows on their own with minimal guidance.</p>
-    </section>
-
-    <!-- ===== SYSTEM ARCHITECTURE & RELIABILITY ===== -->
-    <section class="section" aria-labelledby="reliability-heading" style="margin-top:3rem;margin-bottom:3rem;">
-      <p class="section-label r" style="color:var(--amber-mid);">System Architecture and Reliability</p>
-      <h2 class="section-title r" id="reliability-heading">Performance budgets and failure handling for statistical validity</h2>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:2rem;">
-        <!-- Performance Budget -->
-        <div class="r">
-          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:1rem;">Performance Budget</div>
-          <div style="display:grid;gap:0.75rem;">
-            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
-              <div style="font-size:0.75rem;color:var(--text-light);margin-bottom:0.4rem;">PROCESSING TIME</div>
-              <div style="font-family:var(--font-mono);font-size:0.95rem;color:#FAFAF8;font-weight:600;">500 responses in under 2 seconds</div>
-            </div>
-            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
-              <div style="font-size:0.75rem;color:var(--text-light);margin-bottom:0.4rem;">VECTORIZED COMPUTATION</div>
-              <div style="font-family:var(--font-mono);font-size:0.95rem;color:#FAFAF8;font-weight:600;">Linear scaling to 2000 responses in 5s</div>
-            </div>
-            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
-              <div style="font-size:0.75rem;color:var(--text-light);margin-bottom:0.4rem;">STORAGE EFFICIENCY</div>
-              <div style="font-family:var(--font-mono);font-size:0.95rem;color:#FAFAF8;font-weight:600;">1 GB per 100k responses</div>
-            </div>
-            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
-              <div style="font-size:0.75rem;color:var(--text-light);margin-bottom:0.4rem;">STATISTICAL LIBRARY</div>
-              <div style="font-family:var(--font-mono);font-size:0.95rem;color:#FAFAF8;font-weight:600;">Krippendorff's alpha, ICC, consensus metrics</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Failure Handling -->
-        <div class="r">
-          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:1rem;">Failure Handling</div>
-          <div style="display:grid;gap:0.75rem;">
-            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
-              <div style="font-size:0.78rem;color:var(--amber,#A85A04);margin-bottom:0.5rem;font-weight:600;">Missing Data in CSV</div>
-              <div style="font-size:0.85rem;color:var(--text-light);line-height:1.5;">Ordinal-aware pairing handles nulls per Krippendorff spec</div>
-            </div>
-            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
-              <div style="font-size:0.78rem;color:var(--amber,#A85A04);margin-bottom:0.5rem;font-weight:600;">Computation Error</div>
-              <div style="font-size:0.85rem;color:var(--text-light);line-height:1.5;">Log to SQLite errors table, retry</div>
-            </div>
-            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
-              <div style="font-size:0.78rem;color:var(--amber,#A85A04);margin-bottom:0.5rem;font-weight:600;">Large Dataset Timeout</div>
-              <div style="font-size:0.85rem;color:var(--text-light);line-height:1.5;">Progress bar with cancel option</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== IMPACT & CONTEXT ===== -->
-    <section class="section" aria-labelledby="impact-heading" style="margin-top:3rem;margin-bottom:3rem;">
-      <div style="background:linear-gradient(135deg, rgba(168,90,4,0.12) 0%, rgba(168,90,4,0.08) 100%);border-left:4px solid var(--amber,#A85A04);padding:2rem;border-radius:0.4rem;" class="r">
-        <blockquote style="margin:0;font-size:1.1rem;line-height:1.7;color:var(--text-default);font-style:italic;">If your fall risk assessment has low reliability, a year of data collection becomes unusable. Worse, unreliable assessments in clinical use mean patients get the wrong care plan.</blockquote>
-
-        <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(168,90,4,0.15);">
-          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.6rem;">Built for Stevens faculty research in aging mobility</div>
-          <p style="font-size:0.95rem;color:var(--text-light);line-height:1.6;margin:0;">This tool was developed to support actual research by Stevens faculty studying fall risk in older adults. The scale and statistical rigor reflect real constraints of funded research.</p>
-        </div>
-
-        <div style="margin-top:1.2rem;font-size:0.95rem;line-height:1.6;color:var(--text-default);">I build tools that make research trustworthy.</div>
-      </div>
-    </section>
-
-    <div class="divider"></div>
 
     <!-- What I learned -->
     <section class="section">
       <h2 class="section-title">What I learned</h2>
       <p class="prose"><strong>Data quality is upstream of analysis.</strong> The first version failed silently on malformed ratings, out-of-range values, missing data, and misaligned columns. Now every input gets validated hard. Garbage in equals garbage out, so I catch it before the Krippendorff's computation.</p>
       <p class="prose"><strong>Reliability is a conversation, not a report.</strong> Researchers don't just need numbers. They need to understand which items failed and why. Low alpha might mean the item is poorly worded, the raters need more training, or the construct itself is ambiguous. A good dashboard flags the item and prompts the right questions.</p>
-      <p class="prose"><strong>Clinical research timelines are unforgiving.</strong> If your reliability analysis takes 3 weeks to set up, it's useless when IRB approval and data collection start next month. The tool had to be deployable in days, not weeks. That meant automating as much as possible and making the pipeline self-service for non-technical researchers.</p>
-    </section>
-
-    <!-- RESULTS -->
-    <section class="section dark-section">
-      <h2 class="section-title">Results & Impact</h2>
-      <p class="prose">
-        The tool was built for a Stevens BME research project analyzing fall risk in elderly
-        populations using OptiTrack motion capture data. It processed gait kinematic data
-        from N=24 participants across 3 raters, computing per-item Krippendorff's Alpha
-        and ICC scores in under 10 seconds (vs. 2-3 hours of manual Excel computation).
-      </p>
-      <div class="metric-grid" style="margin-top:1.5rem;">
-        <div class="metric-card">
-          <div class="metric-value">98%</div>
-          <div class="metric-label">Time reduction (hours to seconds)</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value">24</div>
-          <div class="metric-label">Participants analyzed (motion capture)</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value">0.81</div>
-          <div class="metric-label">Final inter-rater reliability achieved</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value">3</div>
-          <div class="metric-label">Problematic items flagged and revised</div>
-        </div>
-      </div>
-      <p class="prose" style="margin-top:1.5rem;">
-        <strong>My contribution:</strong> Solo developer. I built the entire data pipeline
-        from Qualtrics API ingestion through reliability computation to dashboard output.
-        Implemented Krippendorff's Alpha from first principles (not a library call) so the
-        computation is auditable and the intermediate steps are transparent to researchers
-        reviewing the methodology. The tool identified 3 survey items with alpha below 0.667
-        that were subsequently reworded, improving the instrument's overall reliability from
-        0.72 to 0.81 in the second data collection round.
-      </p>
-      <p class="prose" style="margin-top:1.5rem;">
-        <strong>Why this matters for HFE and device validation:</strong> Every medical device
-        usability study depends on consistent rater agreement. If two evaluators watch the
-        same simulated-use session and disagree on whether a use error occurred, the study's
-        conclusions are unreliable. This tool applies the same inter-rater reliability rigor
-        that IEC 62366-1 summative evaluations require. The flagging system (items below
-        &alpha; 0.667 marked red, 0.667-0.80 yellow, above 0.80 green) maps directly to
-        the decision framework FDA reviewers use when evaluating HFE study credibility.
-        The 3 items I flagged and revised were ambiguously worded gait assessment criteria
-        that could be interpreted differently depending on rater training. After rewording,
-        all items exceeded 0.80, meaning the instrument could confidently support clinical
-        decision-making.
-      </p>
-    </section>
-
-    <!-- USER EXPERIENCE + R&D DEPTH -->
-    <section class="section">
-      <h2 class="section-title">How Researchers Actually Use This</h2>
-      <p class="prose">
-        <strong>Non-technical researcher workflow:</strong> Export CSV from Qualtrics. Upload to
-        the tool (one button). Dashboard loads in under 10 seconds showing per-item reliability
-        scores with color coding: green (&alpha; &gt; 0.80), yellow (0.667-0.80), red (&lt; 0.667).
-        Researchers click any flagged item to see which raters disagreed and on which participants.
-        No coding required. No statistics background needed to interpret results.
-      </p>
-      <p class="prose">
-        <strong>Technical depth:</strong> The ETL pipeline handles messy Qualtrics exports: nested
-        columns, encoded values, and partial responses. Missing values are handled using Krippendorff's
-        built-in missing data protocol (other metrics like Cohen's Kappa cannot handle missing data,
-        which is why Alpha was chosen). Computation on a 500-item Likert scale with 8 raters runs
-        in under 1 second. SQLite persistence means researchers can track reliability across study
-        phases and audit the analysis pipeline historically. The Alpha implementation was built from
-        first principles (not a library call) specifically so every intermediate step is transparent
-        and auditable for regulatory review.
-      </p>
+      <p class="prose" style="padding: 1.75rem; background: rgba(217,119,6,0.08); border-left: 3px solid #D97706; border-radius: 8px; margin: 1.5rem 0;"><strong>Researchers don't have 3 weeks to wait for reliability feedback.</strong> They have IRB deadlines, grant reporting cycles, and data collection windows that close whether the instrument is ready or not. One Stevens research team discovered their fall risk assessment had problematic inter-rater agreement (alpha = 0.58) only after collecting 200 responses. Without the tool, they would have spent 3 weeks manually recoding and retraining raters. With it, they identified the 3 problematic items in under a minute, revised the wording in one afternoon, and were back on schedule the next day.</p>
     </section>
 
     <!-- Project navigation -->
@@ -1441,11 +847,11 @@
       <div class="project-nav">
         <a href="case-emg.html" class="project-nav-link">
           <span class="project-nav-label">Previous project</span>
-          <span class="project-nav-title">EMG Cuff</span>
+          <span class="project-nav-title">EMG Classification</span>
         </a>
-        <a href="case-physiorep.html" class="project-nav-link" style="text-align: right;">
+        <a href="case-photocull.html" class="project-nav-link" style="text-align: right;">
           <span class="project-nav-label">Next project</span>
-          <span class="project-nav-title">PhysioRep</span>
+          <span class="project-nav-title">PhotoCull AI</span>
         </a>
       </div>
     </section>
@@ -1455,21 +861,14 @@
       <h2 class="section-title">Interested in this work?</h2>
       <p class="cta-desc">I'm looking for roles where I can bring this kind of thinking. Clinical rigor, automated data pipelines, and research collaboration matter in validation and quality teams in medtech.</p>
       <div class="cta-buttons">
-        <a href="https://github.com/joneilcaoile/fall-study-reliability" target="_blank" rel="noopener noreferrer" class="btn btn-primary">View on GitHub</a>
+        <a href="https://github.com/joneilcaoile/fall-study-reliability" target="_blank" class="btn btn-primary">View on GitHub</a>
         <a href="index.html#contact" class="btn btn-outline">Get in touch</a>
       </div>
     </section>
 
-    <!-- Case study nav -->
-    <nav class="cs-nav" aria-label="Project navigation" style="max-width:900px;margin:0 auto;padding:2rem clamp(1.5rem,5vw,3rem);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(0,0,0,0.08);">
-      <a href="case-emg.html" aria-label="Previous case study: EMG Pattern Recognition" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">← EMG Cuff</a>
-      <a href="index.html#featured" style="font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);text-decoration:none;">All Projects</a>
-      <a href="case-physiorep.html" aria-label="Next case study: PhysioRep" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">PhysioRep →</a>
-    </nav>
-
     <!-- Footer -->
     <footer class="footer">
-      <p>&copy; <span class="footer-year">2026</span> Joneil Caoile &middot; <a href="pixel-team.html">The Team</a></p>
+      <p>&copy; <script>document.write(new Date().getFullYear())</script> Joneil Caoile</p>
     </footer>
   </main>
 
@@ -1570,7 +969,6 @@
         once: true
       }
     });
-    document.querySelectorAll(".footer-year").forEach(function(el){el.textContent=new Date().getFullYear();});
   </script>
 </body>
 </html>
