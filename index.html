@@ -8407,27 +8407,26 @@
       return { canvas: canvas, ctx: ctx, type: type, dpr: dpr, el: div, fromLight: fromLight, toLight: toLight, visible: false };
     }
 
-    /* Visibility observer — only animate when in viewport */
-    var observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        var item = activeCanvases.find(function(a) { return a.el === entry.target; });
-        if (item) item.visible = entry.isIntersecting;
-      });
-      /* Start/stop loop */
-      var anyVisible = activeCanvases.some(function(a) { return a.visible; });
-      if (anyVisible && !running) { running = true; tick(); }
-      if (!anyVisible) running = false;
-    }, { rootMargin: '100px' });
-
+    /* Init all canvases */
     dividers.forEach(function(div) {
       var item = initDivider(div);
       activeCanvases.push(item);
-      observer.observe(div);
     });
 
+    /* Check visibility via bounding rect (more reliable than IO) */
+    function checkVisibility() {
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var margin = 150;
+      for (var i = 0; i < activeCanvases.length; i++) {
+        var rect = activeCanvases[i].el.getBoundingClientRect();
+        activeCanvases[i].visible = rect.bottom > -margin && rect.top < vh + margin;
+      }
+    }
+
     function tick() {
-      if (!running) return;
       frame++;
+      /* Check visibility every 10 frames to save perf */
+      if (frame % 10 === 0) checkVisibility();
       var colors = getColors();
 
       for (var i = 0; i < activeCanvases.length; i++) {
@@ -8443,6 +8442,10 @@
 
       requestAnimationFrame(tick);
     }
+
+    /* Start immediately */
+    checkVisibility();
+    tick();
 
     /* Handle resize */
     var resizeTimer;
