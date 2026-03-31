@@ -3172,7 +3172,7 @@
     .critter-container {
       position: fixed;
       bottom: 1rem;
-      right: 1rem;
+      left: 1rem;
       z-index: 499;
       cursor: grab;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -3332,6 +3332,13 @@
     }
     .critter-container > canvas {
       animation: critter-idle 2s ease-in-out infinite;
+    }
+    .critter-container.walk-left > canvas {
+      animation: critter-idle-flip 2s ease-in-out infinite;
+    }
+    @keyframes critter-idle-flip {
+      0%, 100% { transform: translateY(0) scaleX(-1); }
+      50% { transform: translateY(-3px) scaleX(-1); }
     }
     .critter-react {
       animation: critter-jump 0.4s ease-out !important;
@@ -6525,6 +6532,7 @@
   // Drag to move pet anywhere
   let isDragging = false, dragStartX = 0, dragStartY = 0, petStartX = 0, petStartY = 0;
   let hasMoved = false; // track if pet was dragged (vs clicked for XP)
+  var petDragged = false; // once user drags, stop auto-walk
 
   function onDragStart(e) {
     if (e.target === document.getElementById('critterGear') || critterSettings.contains(e.target)) return;
@@ -6559,6 +6567,7 @@
 
   function onDragEnd() {
     if (!isDragging) return;
+    if (hasMoved) petDragged = true; // stop auto-walk once user places the pet
     isDragging = false;
     critterContainer.classList.remove('dragging');
   }
@@ -6573,12 +6582,60 @@
   // Reset position button
   document.getElementById('critterReset').addEventListener('click', (e) => {
     e.stopPropagation();
-    critterContainer.style.left = '';
+    critterContainer.style.left = '1rem';
     critterContainer.style.top = '';
-    critterContainer.style.right = '1rem';
+    critterContainer.style.right = '';
     critterContainer.style.bottom = '1rem';
+    petWalkX = 16; // reset walk position
+    petDragged = false; // resume walking
     critterSettings.classList.remove('open');
   });
+
+  // Pet walking behavior — slow patrol along bottom of page
+  var petWalkX = 16; // current left offset in px
+  var petWalkDir = 1; // 1 = right, -1 = left
+  var petWalkSpeed = 0.3; // pixels per frame (~18px/sec at 60fps)
+  var petWalkPaused = false;
+  var petDragged = false; // true once user drags, stops auto-walk permanently until reset
+
+  // Flip sprite when walking left via CSS class
+  function updatePetFlip() {
+    if (petWalkDir === -1) {
+      critterContainer.classList.add('walk-left');
+    } else {
+      critterContainer.classList.remove('walk-left');
+    }
+  }
+
+  function petWalkTick() {
+    if (isDragging || petDragged || petWalkPaused || critterHover) {
+      requestAnimationFrame(petWalkTick);
+      return;
+    }
+    petWalkX += petWalkSpeed * petWalkDir;
+
+    // Bounce at edges: 16px padding on each side, account for pet width (~80px with container)
+    var maxX = window.innerWidth - critterContainer.offsetWidth - 16;
+    if (petWalkX >= maxX) {
+      petWalkX = maxX;
+      petWalkDir = -1;
+      updatePetFlip();
+    } else if (petWalkX <= 16) {
+      petWalkX = 16;
+      petWalkDir = 1;
+      updatePetFlip();
+    }
+
+    critterContainer.style.left = petWalkX + 'px';
+    critterContainer.style.right = 'auto';
+    requestAnimationFrame(petWalkTick);
+  }
+
+  // Start walking after a short delay
+  setTimeout(function() {
+    updatePetFlip();
+    requestAnimationFrame(petWalkTick);
+  }, 2000);
 
   // Animation mode buttons
   critterSettings.querySelectorAll('[data-anim]').forEach(btn => {
