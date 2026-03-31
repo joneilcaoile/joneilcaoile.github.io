@@ -1221,15 +1221,53 @@
       margin: 0;
     }
 
-    /* BRIDGE GRADIENTS — transitions confined to padding zones for text readability */
+    /* SECTION WAVE DIVIDERS — organic SVG waves between light/dark sections */
+    .wave-divider {
+      position: relative;
+      width: 100%;
+      height: 80px;
+      overflow: hidden;
+      line-height: 0;
+      z-index: 1;
+    }
+    .wave-divider svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    /* Light-to-dark wave: sits between a light section and a dark one */
+    .wave-divider.light-to-dark {
+      background: var(--dark2);
+      margin-top: -1px;
+    }
+    .wave-divider.light-to-dark svg path {
+      fill: var(--bg);
+    }
+
+    /* Dark-to-light wave: sits between a dark section and a light one */
+    .wave-divider.dark-to-light {
+      background: var(--bg);
+      margin-top: -1px;
+    }
+    .wave-divider.dark-to-light svg path {
+      fill: var(--dark2);
+    }
+
+    /* Bridge classes still set backgrounds, but no gradient needed — waves handle transitions */
     .bridge-light-to-dark {
-      background: linear-gradient(to bottom, var(--bg) 0%, var(--bg) calc(100% - 80px), var(--dark2) 100%);
+      background: var(--bg);
       position: relative;
     }
 
     .bridge-dark-to-light {
-      background: linear-gradient(to bottom, var(--dark2) 0%, var(--bg) 80px, var(--bg) 100%);
+      background: var(--bg);
       position: relative;
+    }
+
+    /* Dark sections that waves flow into */
+    .dark-section {
+      background: var(--dark2);
+      color: var(--cream);
     }
 
     /* STATEMENT */
@@ -1389,7 +1427,7 @@
 
     /* FEATURED */
     #featured {
-      background: linear-gradient(to bottom, var(--bg) 0%, var(--dark2) 80px, var(--dark2) 100%);
+      background: var(--dark2);
       color: var(--cream);
       position: relative;
     }
@@ -4373,6 +4411,16 @@
   </style>
 </head>
 <body>
+<!-- SVG NOISE FILTER — adds subtle grain texture to wave dividers -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feBlend in="SourceGraphic" mode="soft-light"/>
+    </filter>
+  </defs>
+</svg>
 <a href="#statement" class="skip-link">Skip to content</a>
 
 <!-- LOADER — Grand Boot Sequence -->
@@ -4749,6 +4797,18 @@
   </div>
 </section>
 
+<!-- WAVE: statement (light) → dark band → bring (light) -->
+<div class="wave-divider light-to-dark" style="filter:url(#grain)" aria-hidden="true">
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,0 L0,30 C240,70 480,20 720,50 C960,80 1200,10 1440,40 L1440,0 Z"/>
+  </svg>
+</div>
+<div class="wave-divider dark-to-light" style="filter:url(#grain)" aria-hidden="true">
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,0 L0,45 C360,10 720,65 1080,25 C1260,10 1380,55 1440,35 L1440,0 Z"/>
+  </svg>
+</div>
+
 <!-- WHAT I BRING -->
 <section id="bring" class="bridge-dark-to-light">
   <div class="container">
@@ -4875,6 +4935,13 @@
   </div>
 </section>
 
+<!-- WAVE: story (light) → featured (dark) -->
+<div class="wave-divider light-to-dark" style="filter:url(#grain)" aria-hidden="true">
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,0 L0,20 C180,65 420,5 660,45 C900,80 1140,15 1440,55 L1440,0 Z"/>
+  </svg>
+</div>
+
 <!-- FEATURED PROJECT -->
 <section id="featured" class="bridge-light-to-dark">
   <div class="container">
@@ -4960,6 +5027,13 @@
     </div>
   </div>
 </section>
+
+<!-- WAVE: featured (dark) → work (light) -->
+<div class="wave-divider dark-to-light" style="filter:url(#grain)" aria-hidden="true">
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,0 L0,60 C200,10 440,70 720,30 C1000,0 1240,50 1440,20 L1440,0 Z"/>
+  </svg>
+</div>
 
 <!-- OTHER WORK — ZIGZAG EDITORIAL -->
 <section id="work" class="bridge-dark-to-light">
@@ -5502,6 +5576,13 @@
     </div>
   </div>
 </section>
+
+<!-- WAVE: testimonials (light) → contact (dark) -->
+<div class="wave-divider light-to-dark" style="filter:url(#grain)" aria-hidden="true">
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,0 L0,35 C300,75 600,0 900,50 C1100,75 1300,20 1440,45 L1440,0 Z"/>
+  </svg>
+</div>
 
 <section id="contact" class="bridge-light-to-dark">
   <div class="container">
@@ -7914,8 +7995,8 @@
     var quips = [
       'MISS', '+0 XP', 'FRIENDLY FIRE', 'WRONG TARGET',
       'HE\'S ON YOUR TEAM', 'CEASEFIRE VIOLATION', 'NOT A HEADSHOT',
-      'TRY THE CONTACT FORM', 'THAT\'S A DIV, NOT AN ENEMY',
-      'BULLETS DON\'T WORK ON CSS', 'YOU MISSED THE HIRE BUTTON',
+      'TRY THE CONTACT FORM', 'THAT\'S A SECTION, NOT AN ENEMY',
+      'BULLETS DON\'T WORK HERE', 'YOU MISSED THE HIRE BUTTON',
       'RECRUITER DOWN', '*RELOAD*', 'CRITICAL MISS', 'ARMOR TOO THICK',
       'NAH', 'HIRE HIM INSTEAD', 'THAT PIXEL HAD A FAMILY',
       'RICOCHET', 'OUT OF AMMO', '360 NO SCOPE... MISS',
