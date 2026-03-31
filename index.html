@@ -825,6 +825,27 @@
       background: radial-gradient(circle, rgba(198,123,46,0.12) 0%, rgba(198,123,46,0.04) 40%, transparent 70%);
     }
 
+    /* Crosshair click popups */
+    .shoot-popup {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      font-family: var(--fm);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--amber);
+      text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+      white-space: nowrap;
+      opacity: 1;
+      transform: translateY(0);
+      animation: shootFloat 1.2s ease-out forwards;
+    }
+    @keyframes shootFloat {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      60% { opacity: 0.8; }
+      100% { opacity: 0; transform: translateY(-40px) scale(0.8); }
+    }
+
     /* Terminal scanline */
     .terminal::after {
       content: '';
@@ -4428,12 +4449,19 @@
     <line x1="22.5" y1="22.5" x2="33" y2="33" stroke="var(--amber)" stroke-width="2.5" stroke-linecap="round"/>
     <circle cx="15" cy="15" r="2" fill="var(--amber)" opacity="0.3"/>
   </svg>
-  <!-- Skills (Bring): wrench (toolkit) -->
+  <!-- Skills (Bring): gear/cog (engineering precision) -->
   <svg class="cursor-icon" data-cursor="skills" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M28.5 7.5C26.5 5.5 23.5 5 21 6L14 13L6 21L5 28L7 30L8 28L15 21L23 13L30 6C28.5 8.5 31 11 28.5 7.5Z" stroke="var(--amber)" stroke-width="1.5" stroke-linejoin="round" fill="rgba(198,123,46,0.08)"/>
-    <path d="M8 28L5 31" stroke="var(--amber)" stroke-width="1.5" stroke-linecap="round"/>
-    <path d="M21 6C23 4 27 4 30 6C32 9 32 13 30 15" stroke="var(--amber)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-    <circle cx="25" cy="11" r="2" fill="var(--amber)" opacity="0.4"/>
+    <circle cx="18" cy="18" r="6" stroke="var(--amber)" stroke-width="1.5" fill="rgba(198,123,46,0.08)"/>
+    <circle cx="18" cy="18" r="2.5" fill="var(--amber)" opacity="0.5"/>
+    <!-- Gear teeth (8 evenly spaced) -->
+    <line x1="18" y1="3" x2="18" y2="8" stroke="var(--amber)" stroke-width="3" stroke-linecap="round"/>
+    <line x1="18" y1="28" x2="18" y2="33" stroke="var(--amber)" stroke-width="3" stroke-linecap="round"/>
+    <line x1="3" y1="18" x2="8" y2="18" stroke="var(--amber)" stroke-width="3" stroke-linecap="round"/>
+    <line x1="28" y1="18" x2="33" y2="18" stroke="var(--amber)" stroke-width="3" stroke-linecap="round"/>
+    <line x1="7.4" y1="7.4" x2="11" y2="11" stroke="var(--amber)" stroke-width="3" stroke-linecap="round"/>
+    <line x1="25" y1="25" x2="28.6" y2="28.6" stroke="var(--amber)" stroke-width="3" stroke-linecap="round"/>
+    <line x1="7.4" y1="28.6" x2="11" y2="25" stroke="var(--amber)" stroke-width="3" stroke-linecap="round"/>
+    <line x1="25" y1="11" x2="28.6" y2="7.4" stroke="var(--amber)" stroke-width="3" stroke-linecap="round"/>
   </svg>
   <!-- Journey: compass (navigation) -->
   <svg class="cursor-icon" data-cursor="journey" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -7881,6 +7909,60 @@
     }
   });
 
+  /* CROSSHAIR CLICK POPUPS — funny messages when clicking with reticle cursor */
+  (function() {
+    var quips = [
+      'MISS', '+0 XP', 'FRIENDLY FIRE', 'WRONG TARGET',
+      'HE\'S ON YOUR TEAM', 'CEASEFIRE VIOLATION', 'NOT A HEADSHOT',
+      'TRY THE CONTACT FORM', 'THAT\'S A DIV, NOT AN ENEMY',
+      'BULLETS DON\'T WORK ON CSS', 'YOU MISSED THE HIRE BUTTON',
+      'RECRUITER DOWN', '*RELOAD*', 'CRITICAL MISS', 'ARMOR TOO THICK',
+      'NAH', 'HIRE HIM INSTEAD', 'THAT PIXEL HAD A FAMILY',
+      'RICOCHET', 'OUT OF AMMO', '360 NO SCOPE... MISS',
+      'TRY ↑↑↓↓←→←→BA', 'ACHIEVEMENT NOT UNLOCKED',
+      'CHET DISAPPROVES', 'STOP SHOOTING MY PORTFOLIO'
+    ];
+    var lastQuip = -1;
+    var clickCount = 0;
+
+    document.addEventListener('click', function(e) {
+      // Don't trigger on interactive elements
+      if (e.target.closest('a, button, input, textarea, select, .chip-widget, .chip-opt, nav, .rpg-overlay')) return;
+      // Only on desktop with custom cursor
+      if (window.matchMedia('(pointer:coarse)').matches) return;
+
+      clickCount++;
+      // Pick a quip (no repeats)
+      var idx;
+      do { idx = Math.floor(Math.random() * quips.length); } while (idx === lastQuip);
+      lastQuip = idx;
+
+      var popup = document.createElement('div');
+      popup.className = 'shoot-popup';
+      popup.textContent = quips[idx];
+      popup.style.left = e.clientX + 'px';
+      popup.style.top = (e.clientY - 10) + 'px';
+      document.body.appendChild(popup);
+      setTimeout(function() { popup.remove(); }, 1300);
+
+      // Easter egg: after 10 clicks, show a special message
+      if (clickCount === 10) {
+        setTimeout(function() {
+          var tip = document.createElement('div');
+          tip.className = 'shoot-popup';
+          tip.textContent = 'OKAY YOU CLEARLY LIKE CLICKING. TRY THE KONAMI CODE.';
+          tip.style.left = '50%';
+          tip.style.top = '50%';
+          tip.style.transform = 'translate(-50%, -50%)';
+          tip.style.fontSize = '14px';
+          tip.style.animation = 'shootFloat 2.5s ease-out forwards';
+          document.body.appendChild(tip);
+          setTimeout(function() { tip.remove(); }, 2600);
+        }, 200);
+      }
+    });
+  })();
+
   /* SCROLL MILESTONE ACHIEVEMENTS */
   const milestoneBadge = document.getElementById('milestoneBadge');
   const milestoneText = document.getElementById('milestoneText');
@@ -8800,23 +8882,20 @@
     var tree = {
       intro: {
         msgs: [
-          "Good afternoon. I'm Chet.",
-          "I serve as Senior Talent Acquisition Consultant for this portfolio. The title is self-appointed but the analysis is real.",
-          "I have three questions, a proprietary scoring algorithm, and a very strong opinion about Joneil.",
-          "Shall we proceed with the evaluation?"
+          "Chet here. Self-appointed talent consultant.",
+          "3 questions. 30 seconds. I'll tell you if Joneil's your guy."
         ],
         options: [
-          { label: "Sure, let's see what you've got", next: 'what_role' },
-          { label: "I'm just looking around", next: 'declined' }
+          { label: "Run it", next: 'what_role' },
+          { label: "Just browsing", next: 'declined' }
         ]
       },
       declined: {
         msgs: [
-          "Understood. I'll be here.",
-          "I am, quite literally, contractually bound to this div element."
+          "Understood. I am contractually bound to this div element, so I'll be here."
         ],
         options: [
-          { label: "Alright, run your analysis", next: 'what_role' }
+          { label: "Fine, run the analysis", next: 'what_role' }
         ]
       },
       what_role: {
@@ -8872,7 +8951,7 @@
 
       calculating: {
         msgs: [
-          "Excellent. Compiling your personalized talent assessment. One moment."
+          "Compiling talent assessment..."
         ],
         options: [],
         onEnter: function() {
@@ -8903,8 +8982,7 @@
 
           tree.post_report.msgs = [
             insight[profile.concern] || insight.culture,
-            "Per my analysis, your stated concern aligns directly with his documented strengths. That is not a coincidence. I am just very good at this.",
-            "I'll cut to the recommendation:"
+            "Your top concern is his top strength. That is not a coincidence."
           ];
           tree.post_report.options = [
             { label: "Schedule the interview", next: 'celebration', cls: 'hire-btn' },
@@ -8918,9 +8996,8 @@
       celebration: {
         msgs: [
           "CHET: 1 / OPEN REQS: 0",
-          "For the record, I am updating my internal scorecard.",
-          "Joneil responds within 24 hours. The contact form is directly below. I will personally ensure your message reaches his inbox.",
-          "(I am a chatbot. I will do no such thing. But the form works.)"
+          "Joneil responds within 24 hours. Contact form is below.",
+          "(I would personally deliver your message but I am a chatbot.)"
         ],
         options: [
           { label: "Take me to the contact form", next: 'contact' }
@@ -8934,9 +9011,8 @@
 
       resume: {
         msgs: [
-          "A thorough approach. I respect due diligence.",
-          "Resume PDF is in the top nav. One page, no buzzwords, no \"leveraged synergies.\"",
-          "Though if I may be candid: the case studies on this site are a more compelling indicator of capability than any single-page document. That is my professional opinion."
+          "Resume PDF is in the top nav. One page, no \"leveraged synergies.\"",
+          "But the case studies tell a better story. That is my professional opinion."
         ],
         options: [
           { label: "Fair point. Contact form?", next: 'contact' }
