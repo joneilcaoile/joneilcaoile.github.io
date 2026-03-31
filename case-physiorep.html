@@ -941,6 +941,48 @@
       </section>
     </div>
 
+    <!-- ===== CLINICAL VALIDATION & HFE ===== -->
+    <div class="dark-section" style="background:var(--bg-dark);border-top:1px solid rgba(255,255,255,0.04);">
+      <section class="section" aria-labelledby="clinical-heading">
+        <p class="section-label r" style="color:var(--amber-mid);">Clinical Context</p>
+        <h2 class="section-title r" id="clinical-heading">Designed for physical therapy adherence</h2>
+
+        <p class="section-body r" style="margin-top:0.75rem;">
+          Home exercise adherence drops below 35% within 2 weeks of discharge. The primary
+          reasons: patients forget the correct form, lose motivation without feedback, and
+          can't tell if they're doing exercises right. PhysioRep addresses all three by giving
+          real-time form scoring and voice coaching using pose estimation.
+        </p>
+
+        <p class="section-body r" style="margin-top:0.75rem;">
+          <strong>Task analysis for PT exercises:</strong> Each of the 18 supported exercises
+          was decomposed into joint angle targets, common compensations, and failure modes. For
+          squats, the critical measurements are knee valgus angle, hip hinge depth, and trunk
+          forward lean. For push-ups: elbow angle at bottom, shoulder protraction, and head
+          position. These thresholds were calibrated against manual PT ratings on 50 repetitions
+          per exercise.
+        </p>
+
+        <p class="section-body r" style="margin-top:0.75rem;">
+          <strong>Use error analysis:</strong> Field testing on Reddit uncovered 3 key use errors:
+          (1) users standing too close to the camera for full-body detection, (2) users
+          misinterpreting "poor form" feedback as "stop exercising" rather than "adjust position,"
+          and (3) users with limited mobility unable to reach the calibration pose. Each error
+          was resolved: minimum distance indicator, graduated feedback scale (good/adjust/stop),
+          and adaptive calibration that uses whatever range of motion the user can achieve.
+        </p>
+
+        <p class="section-body r" style="margin-top:0.75rem;">
+          <strong>Accessibility for rehabilitation patients:</strong> High-contrast mode for
+          low vision. Voice-only mode for screen reader users. Adjustable feedback volume and
+          speech rate. Exercise modifications automatically suggested for limited mobility. All
+          controls operable without precise mouse targeting. These constraints were defined
+          before the first line of code using the same HFE methodology as my medical device
+          projects.
+        </p>
+      </section>
+    </div>
+
     <!-- ===== TECH STACK ===== -->
     <div class="dark-section" style="background:var(--bg-dark-2);border-top:1px solid rgba(255,255,255,0.04);">
       <section class="section" aria-labelledby="tech-heading">

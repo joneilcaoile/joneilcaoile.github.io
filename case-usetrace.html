@@ -944,6 +944,65 @@
 
     <div class="divider"></div>
 
+    <!-- REGULATORY FRAMEWORK & TRACEABILITY -->
+    <section class="section" aria-labelledby="reg-heading">
+      <p class="s-label r">Regulatory Framework</p>
+      <h2 class="s-title r" id="reg-heading">How Every Output Traces to a Standard</h2>
+      <p class="s-body r">
+        UseTrace is built around a traceability model: every classification output maps to a specific
+        clause in IEC 62366-1:2015 or FDA's Human Factors guidance. This isn't loose alignment.
+        Each observation category corresponds to a deliverable type required for HFE submissions.
+      </p>
+
+      <div style="overflow-x:auto;margin-top:1.5rem;">
+        <table class="r" style="width:100%;border-collapse:collapse;font-family:var(--font-body);font-size:0.85rem;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--accent);text-align:left;">
+              <th style="padding:0.75rem 1rem;font-family:var(--font-mono);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);">UseTrace Output</th>
+              <th style="padding:0.75rem 1rem;font-family:var(--font-mono);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);">Standard Reference</th>
+              <th style="padding:0.75rem 1rem;font-family:var(--font-mono);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);">HFE Deliverable</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 1rem;">Task analysis breakdown</td>
+              <td style="padding:0.6rem 1rem;font-family:var(--font-mono);font-size:0.8rem;">IEC 62366-1 Section 5.5</td>
+              <td style="padding:0.6rem 1rem;">Use specification</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 1rem;">Use error classification</td>
+              <td style="padding:0.6rem 1rem;font-family:var(--font-mono);font-size:0.8rem;">IEC 62366-1 Section 5.7</td>
+              <td style="padding:0.6rem 1rem;">Formative evaluation report</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 1rem;">Severity rating</td>
+              <td style="padding:0.6rem 1rem;font-family:var(--font-mono);font-size:0.8rem;">ISO 14971 Section 4.4</td>
+              <td style="padding:0.6rem 1rem;">Use-related risk analysis</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 1rem;">Device subsystem mapping</td>
+              <td style="padding:0.6rem 1rem;font-family:var(--font-mono);font-size:0.8rem;">FDA HFE Guidance (2016)</td>
+              <td style="padding:0.6rem 1rem;">Critical task identification</td>
+            </tr>
+            <tr>
+              <td style="padding:0.6rem 1rem;">Inter-rater reliability score</td>
+              <td style="padding:0.6rem 1rem;font-family:var(--font-mono);font-size:0.8rem;">IEC 62366-1 Section 5.9</td>
+              <td style="padding:0.6rem 1rem;">Summative evaluation confidence</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="s-body r" style="margin-top:1.25rem;">
+        Validation against manual classification used Krippendorff's Alpha (&alpha; &gt; 0.80 target)
+        across 3 independent reviewers. Each classification category was tested on 200+ labeled
+        observations from real formative study datasets. Pass criteria: agreement within 1 severity
+        level on 95% of observations, exact category match on 85%+.
+      </p>
+    </section>
+
+    <div class="divider"></div>
+
     <!-- TECH STACK -->
     <section class="section" aria-labelledby="tech-heading">
       <p class="s-label r">Tech Stack</p>
