@@ -1225,7 +1225,7 @@
     .signal-divider {
       position: relative;
       width: 100%;
-      height: 120px;
+      height: 140px;
       overflow: hidden;
       z-index: 1;
       margin-top: -1px;
@@ -7978,368 +7978,414 @@
     function drawBg(ctx, w, h, fromColor, toColor) {
       var grad = ctx.createLinearGradient(0, 0, 0, h);
       grad.addColorStop(0, fromColor);
-      grad.addColorStop(0.4, fromColor);
-      grad.addColorStop(0.6, toColor);
+      grad.addColorStop(0.35, fromColor);
+      grad.addColorStop(0.65, toColor);
       grad.addColorStop(1, toColor);
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, w, h);
     }
 
-    /* ── ECG HEARTBEAT ── */
+    /* ── TKINTER GUI HELPERS ── */
+    var TK = {
+      /* Classic beveled border (raised or sunken) */
+      bevel: function(ctx, x, y, w, h, raised, bg) {
+        ctx.fillStyle = bg || '#d9d9d9';
+        ctx.fillRect(x, y, w, h);
+        var hi = raised ? '#ffffff' : '#808080';
+        var lo = raised ? '#808080' : '#ffffff';
+        ctx.strokeStyle = hi; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(x, y + h); ctx.lineTo(x, y); ctx.lineTo(x + w, y); ctx.stroke();
+        ctx.strokeStyle = lo;
+        ctx.beginPath(); ctx.moveTo(x + w, y); ctx.lineTo(x + w, y + h); ctx.lineTo(x, y + h); ctx.stroke();
+      },
+      /* Sunken panel (inset display area) */
+      sunken: function(ctx, x, y, w, h, bg) {
+        this.bevel(ctx, x, y, w, h, false, bg || '#1a1a2e');
+      },
+      /* Title bar with text */
+      titleBar: function(ctx, x, y, w, h, text, active) {
+        var grad = ctx.createLinearGradient(x, y, x + w, y);
+        if (active) {
+          grad.addColorStop(0, '#000080');
+          grad.addColorStop(1, '#1084d0');
+        } else {
+          grad.addColorStop(0, '#808080');
+          grad.addColorStop(1, '#b0b0b0');
+        }
+        ctx.fillStyle = grad;
+        ctx.fillRect(x, y, w, h);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 10px "JetBrains Mono", "Courier New", monospace';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(text, x + 4, y + h / 2);
+        /* Close/min/max buttons */
+        var bs = h - 4;
+        for (var b = 0; b < 3; b++) {
+          var bx = x + w - (bs + 3) * (b + 1);
+          TK.bevel(ctx, bx, y + 2, bs, bs, true, '#c0c0c0');
+        }
+        /* X on close */
+        var cx = x + w - bs - 3 + 3; var cy = y + 5;
+        ctx.strokeStyle = '#000000'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + bs - 6, cy + bs - 6); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx + bs - 6, cy); ctx.lineTo(cx, cy + bs - 6); ctx.stroke();
+      },
+      /* Label text */
+      label: function(ctx, x, y, text, color) {
+        ctx.fillStyle = color || '#000000';
+        ctx.font = '10px "JetBrains Mono", "Courier New", monospace';
+        ctx.textBaseline = 'top';
+        ctx.fillText(text, x, y);
+      },
+      /* Progress bar */
+      progress: function(ctx, x, y, w, h, pct, color) {
+        this.sunken(ctx, x, y, w, h, '#e0e0e0');
+        var inner = Math.max(0, Math.min(1, pct)) * (w - 4);
+        /* Chunked blocks like classic Windows */
+        var blockW = 8; var gap = 2;
+        var filled = Math.floor(inner / (blockW + gap));
+        for (var b = 0; b < filled; b++) {
+          ctx.fillStyle = color || '#000080';
+          ctx.fillRect(x + 2 + b * (blockW + gap), y + 2, blockW, h - 4);
+        }
+      },
+      /* LED indicator */
+      led: function(ctx, x, y, r, on, color) {
+        ctx.beginPath();
+        ctx.arc(x, y, r + 1, 0, Math.PI * 2);
+        ctx.fillStyle = '#404040';
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fillStyle = on ? (color || '#00ff00') : '#333333';
+        ctx.fill();
+      }
+    };
+
+    /* ── ECG: Patient Monitor Window ── */
     function drawECG(ctx, w, h, t, colors, fromC, toC) {
       drawBg(ctx, w, h, fromC, toC);
+      ctx.globalAlpha = 0.85;
 
-      /* Draw subtle grid lines */
-      ctx.strokeStyle = colors.amber + '0A';
-      ctx.lineWidth = 1;
-      for (var gy = 0; gy < h; gy += 20) {
-        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(w, gy); ctx.stroke();
+      /* Window frame */
+      var wx = w * 0.08, wy = 8, ww = w * 0.84, wh = h - 16;
+      TK.bevel(ctx, wx, wy, ww, wh, true, '#c0c0c0');
+      TK.titleBar(ctx, wx + 2, wy + 2, ww - 4, 16, 'vital_signs.exe — Patient Monitor', true);
+
+      /* Sunken display area (the monitor screen) */
+      var dx = wx + 4, dy = wy + 20, dw = ww - 8, dh = wh - 38;
+      TK.sunken(ctx, dx, dy, dw, dh, '#0a1a0a');
+
+      /* Grid */
+      ctx.strokeStyle = '#0a3a0a';
+      ctx.lineWidth = 0.5;
+      for (var gy = dy + 8; gy < dy + dh; gy += 12) {
+        ctx.beginPath(); ctx.moveTo(dx + 2, gy); ctx.lineTo(dx + dw - 2, gy); ctx.stroke();
       }
-      for (var gx = 0; gx < w; gx += 20) {
-        ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, h); ctx.stroke();
+      for (var gx = dx + 8; gx < dx + dw; gx += 12) {
+        ctx.beginPath(); ctx.moveTo(gx, dy + 2); ctx.lineTo(gx, dy + dh - 2); ctx.stroke();
       }
 
-      /* ECG waveform — PQRST complex */
-      var mid = h * 0.5;
+      /* ECG trace */
+      var mid = dy + dh * 0.5;
       var speed = t * 0.8;
-      var segLen = 280;
+      var segLen = 220;
+      var scanX = (speed * 1.2) % dw;
 
-      ctx.lineWidth = 2.5;
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-
-      /* Draw 2 traces at different speeds and vertical offsets */
-      var traces = [
-        { offset: -12, alpha: 0.9, color: colors.amber, spd: speed },
-        { offset: 18, alpha: 0.3, color: colors.teal, spd: speed * 0.7 + 40 }
-      ];
-
-      for (var ti = 0; ti < traces.length; ti++) {
-        var tr = traces[ti];
-        ctx.beginPath();
-        ctx.strokeStyle = tr.color;
-        ctx.globalAlpha = tr.alpha;
-
-        for (var x = 0; x < w; x += 2) {
-          var phase = ((x + tr.spd) % segLen) / segLen;
-          var y = mid + tr.offset;
-
-          /* P wave */
-          if (phase > 0.1 && phase < 0.18) {
-            var pp = (phase - 0.1) / 0.08;
-            y -= Math.sin(pp * Math.PI) * 8;
-          }
-          /* Q dip */
-          else if (phase > 0.22 && phase < 0.26) {
-            var qp = (phase - 0.22) / 0.04;
-            y += Math.sin(qp * Math.PI) * 6;
-          }
-          /* R spike */
-          else if (phase > 0.26 && phase < 0.34) {
-            var rp = (phase - 0.26) / 0.08;
-            y -= Math.sin(rp * Math.PI) * 35;
-          }
-          /* S dip */
-          else if (phase > 0.34 && phase < 0.38) {
-            var sp = (phase - 0.34) / 0.04;
-            y += Math.sin(sp * Math.PI) * 10;
-          }
-          /* T wave */
-          else if (phase > 0.45 && phase < 0.58) {
-            var tp = (phase - 0.45) / 0.13;
-            y -= Math.sin(tp * Math.PI) * 12;
-          }
-
-          if (x === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-        ctx.stroke();
-
-        /* Glow pass */
-        ctx.lineWidth = 6;
-        ctx.globalAlpha = tr.alpha * 0.15;
-        ctx.stroke();
-        ctx.lineWidth = 2.5;
-      }
-
-      /* Pulse dot that travels along the primary trace */
-      ctx.globalAlpha = 1;
-      var dotX = (speed * 1.5) % w;
-      var dotPhase = ((dotX + speed) % segLen) / segLen;
-      var dotY = mid - 12;
-      if (dotPhase > 0.26 && dotPhase < 0.34) {
-        var drp = (dotPhase - 0.26) / 0.08;
-        dotY -= Math.sin(drp * Math.PI) * 35;
-      }
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'butt';
+      ctx.strokeStyle = '#00ff41';
       ctx.beginPath();
-      ctx.arc(dotX, dotY, 4, 0, Math.PI * 2);
-      ctx.fillStyle = colors.amber;
-      ctx.fill();
-      /* Dot glow */
-      var dg = ctx.createRadialGradient(dotX, dotY, 0, dotX, dotY, 20);
-      dg.addColorStop(0, colors.amber + '40');
-      dg.addColorStop(1, colors.amber + '00');
-      ctx.fillStyle = dg;
-      ctx.beginPath();
-      ctx.arc(dotX, dotY, 20, 0, Math.PI * 2);
-      ctx.fill();
+
+      for (var x = 0; x < dw; x += 1) {
+        /* Blank zone ahead of scan line */
+        var distFromScan = (x - scanX + dw) % dw;
+        if (distFromScan < 30 && distFromScan > 0) continue;
+
+        var phase = ((x + speed) % segLen) / segLen;
+        var y = mid;
+        if (phase > 0.1 && phase < 0.18) y -= Math.sin((phase - 0.1) / 0.08 * Math.PI) * 6;
+        else if (phase > 0.22 && phase < 0.26) y += Math.sin((phase - 0.22) / 0.04 * Math.PI) * 5;
+        else if (phase > 0.26 && phase < 0.34) y -= Math.sin((phase - 0.26) / 0.08 * Math.PI) * (dh * 0.35);
+        else if (phase > 0.34 && phase < 0.38) y += Math.sin((phase - 0.34) / 0.04 * Math.PI) * 8;
+        else if (phase > 0.45 && phase < 0.58) y -= Math.sin((phase - 0.45) / 0.13 * Math.PI) * 10;
+
+        var px = dx + 2 + x;
+        if (x === 0 || distFromScan > dw - 2) ctx.moveTo(px, y);
+        else ctx.lineTo(px, y);
+      }
+      ctx.stroke();
+
+      /* Scan dot */
+      ctx.fillStyle = '#00ff41';
+      ctx.fillRect(dx + 2 + scanX - 1, mid - 3, 3, 6);
+
+      /* Status bar at bottom */
+      var sy = wy + wh - 16;
+      TK.bevel(ctx, wx + 2, sy, ww - 4, 14, false, '#c0c0c0');
+      var bpm = 72 + Math.floor(Math.sin(t * 0.01) * 4);
+      TK.label(ctx, wx + 8, sy + 2, 'HR: ' + bpm + ' BPM', '#000000');
+      TK.label(ctx, wx + 140, sy + 2, 'SpO2: 98%', '#000000');
+      TK.label(ctx, wx + 260, sy + 2, 'STATUS: NOMINAL', '#006600');
+      TK.led(ctx, wx + ww - 16, sy + 7, 4, Math.floor(t / 30) % 2 === 0, '#00ff00');
 
       ctx.globalAlpha = 1;
     }
 
-    /* ── SYNAPSE NETWORK ── */
-    var synapseNodes = [];
-    function initSynapseNodes(w, h) {
-      synapseNodes = [];
-      var count = Math.floor(w / 50);
+    /* ── SYNAPSE: Network Monitor Window ── */
+    var netNodes = [];
+    function initNetNodes(w, h, wx, wy, dw, dh) {
+      netNodes = [];
+      var count = Math.min(Math.floor(dw / 45), 24);
       for (var i = 0; i < count; i++) {
-        synapseNodes.push({
-          x: Math.random() * w,
-          y: Math.random() * h,
-          vx: (Math.random() - 0.5) * 0.4,
-          vy: (Math.random() - 0.5) * 0.3,
-          r: 2 + Math.random() * 3,
-          pulse: Math.random() * Math.PI * 2
+        netNodes.push({
+          x: wx + 8 + Math.random() * (dw - 16),
+          y: wy + 22 + Math.random() * (dh - 16),
+          status: Math.random() > 0.15 ? 1 : 0
         });
       }
     }
 
     function drawSynapse(ctx, w, h, t, colors, fromC, toC) {
       drawBg(ctx, w, h, fromC, toC);
+      ctx.globalAlpha = 0.85;
 
-      if (synapseNodes.length === 0 || synapseNodes.length < 10) initSynapseNodes(w, h);
+      var wx = w * 0.06, wy = 6, ww = w * 0.88, wh = h - 12;
+      TK.bevel(ctx, wx, wy, ww, wh, true, '#c0c0c0');
+      TK.titleBar(ctx, wx + 2, wy + 2, ww - 4, 16, 'netmon.py — Node Topology', true);
 
-      var connectDist = 120;
+      var dx = wx + 4, dy = wy + 20, dw = ww - 8, dh = wh - 38;
+      TK.sunken(ctx, dx, dy, dw, dh, '#0a0a1e');
 
-      /* Update positions */
-      for (var i = 0; i < synapseNodes.length; i++) {
-        var n = synapseNodes[i];
-        n.x += n.vx;
-        n.y += n.vy;
-        if (n.x < 0 || n.x > w) n.vx *= -1;
-        if (n.y < 0 || n.y > h) n.vy *= -1;
-        n.x = Math.max(0, Math.min(w, n.x));
-        n.y = Math.max(0, Math.min(h, n.y));
+      if (netNodes.length === 0) initNetNodes(w, h, dx, dy, dw, dh);
+
+      /* Flicker node statuses occasionally */
+      if (t % 90 === 0) {
+        for (var i = 0; i < netNodes.length; i++) {
+          if (Math.random() < 0.1) netNodes[i].status = netNodes[i].status ? 0 : 1;
+        }
       }
 
-      /* Draw connections */
-      for (var i = 0; i < synapseNodes.length; i++) {
-        for (var j = i + 1; j < synapseNodes.length; j++) {
-          var dx = synapseNodes[i].x - synapseNodes[j].x;
-          var dy = synapseNodes[i].y - synapseNodes[j].y;
-          var dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < connectDist) {
-            var alpha = (1 - dist / connectDist) * 0.3;
-            ctx.strokeStyle = colors.teal;
-            ctx.globalAlpha = alpha;
-            ctx.lineWidth = 1;
+      /* Connections (dashed lines) */
+      ctx.setLineDash([3, 3]);
+      ctx.lineWidth = 1;
+      for (var i = 0; i < netNodes.length; i++) {
+        for (var j = i + 1; j < netNodes.length; j++) {
+          var ddx = netNodes[i].x - netNodes[j].x;
+          var ddy = netNodes[i].y - netNodes[j].y;
+          if (Math.sqrt(ddx * ddx + ddy * ddy) < 100) {
+            var both = netNodes[i].status && netNodes[j].status;
+            ctx.strokeStyle = both ? '#1a5a1a' : '#3a1a1a';
             ctx.beginPath();
-            ctx.moveTo(synapseNodes[i].x, synapseNodes[i].y);
-            ctx.lineTo(synapseNodes[j].x, synapseNodes[j].y);
+            ctx.moveTo(netNodes[i].x, netNodes[i].y);
+            ctx.lineTo(netNodes[j].x, netNodes[j].y);
             ctx.stroke();
 
-            /* Traveling pulse on some connections */
-            if ((i + j) % 5 === 0) {
-              var pulseFrac = (Math.sin(t * 0.02 + i) + 1) / 2;
-              var px = synapseNodes[i].x + (synapseNodes[j].x - synapseNodes[i].x) * pulseFrac;
-              var py = synapseNodes[i].y + (synapseNodes[j].y - synapseNodes[i].y) * pulseFrac;
-              ctx.globalAlpha = alpha * 2;
-              ctx.beginPath();
-              ctx.arc(px, py, 2, 0, Math.PI * 2);
-              ctx.fillStyle = colors.gold;
-              ctx.fill();
+            /* Packet traveling along active connections */
+            if (both && (i + j) % 3 === 0) {
+              var pp = ((t * 0.02 + i * 0.7) % 1);
+              var pkx = netNodes[i].x + (netNodes[j].x - netNodes[i].x) * pp;
+              var pky = netNodes[i].y + (netNodes[j].y - netNodes[i].y) * pp;
+              ctx.fillStyle = '#ffff00';
+              ctx.fillRect(pkx - 2, pky - 2, 4, 4);
             }
           }
         }
       }
+      ctx.setLineDash([]);
 
-      /* Draw nodes */
-      for (var i = 0; i < synapseNodes.length; i++) {
-        var n = synapseNodes[i];
-        var pulseScale = 1 + Math.sin(t * 0.03 + n.pulse) * 0.3;
-        ctx.globalAlpha = 0.6 + Math.sin(t * 0.03 + n.pulse) * 0.3;
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r * pulseScale, 0, Math.PI * 2);
-        ctx.fillStyle = i % 3 === 0 ? colors.coral : i % 3 === 1 ? colors.amber : colors.teal;
-        ctx.fill();
-
-        /* Node glow */
-        ctx.globalAlpha = 0.1;
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r * pulseScale * 3, 0, Math.PI * 2);
-        var ng = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r * pulseScale * 3);
-        ng.addColorStop(0, (i % 3 === 0 ? colors.coral : colors.teal) + '30');
-        ng.addColorStop(1, (i % 3 === 0 ? colors.coral : colors.teal) + '00');
-        ctx.fillStyle = ng;
-        ctx.fill();
+      /* Nodes as square LEDs */
+      for (var i = 0; i < netNodes.length; i++) {
+        var n = netNodes[i];
+        /* Sunken square */
+        ctx.fillStyle = '#1a1a1a';
+        ctx.fillRect(n.x - 5, n.y - 5, 10, 10);
+        ctx.fillStyle = n.status ? '#00cc44' : '#cc3333';
+        ctx.fillRect(n.x - 4, n.y - 4, 8, 8);
+        /* Tiny label */
+        ctx.fillStyle = '#4a6a8a';
+        ctx.font = '7px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('N' + i, n.x, n.y + 13);
+        ctx.textAlign = 'left';
       }
+
+      /* Status bar */
+      var sy = wy + wh - 16;
+      TK.bevel(ctx, wx + 2, sy, ww - 4, 14, false, '#c0c0c0');
+      var online = netNodes.filter(function(n) { return n.status; }).length;
+      TK.label(ctx, wx + 8, sy + 2, 'Nodes: ' + online + '/' + netNodes.length + ' online', '#000000');
+      TK.label(ctx, wx + 200, sy + 2, 'Latency: ' + (12 + Math.floor(Math.sin(t * 0.03) * 5)) + 'ms', '#000000');
+      TK.led(ctx, wx + ww - 16, sy + 7, 4, online === netNodes.length, online === netNodes.length ? '#00ff00' : '#ffaa00');
 
       ctx.globalAlpha = 1;
     }
 
-    /* ── FREQUENCY SPECTRUM ── */
+    /* ── SPECTRUM: Signal Analyzer Window ── */
     function drawSpectrum(ctx, w, h, t, colors, fromC, toC) {
       drawBg(ctx, w, h, fromC, toC);
+      ctx.globalAlpha = 0.85;
 
-      var barCount = Math.floor(w / 8);
-      var barW = 4;
-      var maxH = h * 0.6;
-      var baseY = h * 0.5;
+      var wx = w * 0.05, wy = 6, ww = w * 0.9, wh = h - 12;
+      TK.bevel(ctx, wx, wy, ww, wh, true, '#c0c0c0');
+      TK.titleBar(ctx, wx + 2, wy + 2, ww - 4, 16, 'fft_analyzer.m — Spectral Analysis', true);
+
+      var dx = wx + 4, dy = wy + 20, dw = ww - 8, dh = wh - 38;
+      TK.sunken(ctx, dx, dy, dw, dh, '#0a0a18');
+
+      /* Frequency bars */
+      var barCount = Math.floor(dw / 6);
+      var barW = 3;
+      var gap = 3;
+      var maxH = dh - 8;
 
       for (var i = 0; i < barCount; i++) {
-        var x = (i / barCount) * w;
-        /* Multiple frequency components for organic feel */
-        var val = Math.sin(i * 0.15 + t * 0.02) * 0.3
-                + Math.sin(i * 0.08 + t * 0.015) * 0.25
-                + Math.sin(i * 0.03 + t * 0.01) * 0.2
-                + Math.cos(i * 0.2 - t * 0.025) * 0.15;
-        val = (val + 1) / 2;
+        var x = dx + 4 + i * (barW + gap);
+        var val = Math.sin(i * 0.18 + t * 0.025) * 0.3
+                + Math.sin(i * 0.09 + t * 0.018) * 0.25
+                + Math.sin(i * 0.04 + t * 0.012) * 0.2
+                + Math.cos(i * 0.22 - t * 0.03) * 0.15;
+        val = Math.max(0.05, (val + 1) / 2);
         var barH = val * maxH;
 
-        /* Color based on frequency band */
-        var hue;
-        if (i < barCount * 0.25) hue = colors.teal;
-        else if (i < barCount * 0.5) hue = colors.amber;
-        else if (i < barCount * 0.75) hue = colors.gold;
-        else hue = colors.coral;
-
-        ctx.globalAlpha = 0.4 + val * 0.5;
-        ctx.fillStyle = hue;
-
-        /* Draw bar going both up and down from center */
-        var half = barH / 2;
-        ctx.fillRect(x, baseY - half, barW, half);
-        ctx.globalAlpha = (0.4 + val * 0.5) * 0.5;
-        ctx.fillRect(x, baseY, barW, half * 0.6);
-
-        /* Peak dot */
-        if (val > 0.7) {
-          ctx.globalAlpha = val;
-          ctx.beginPath();
-          ctx.arc(x + barW / 2, baseY - half - 4, 2, 0, Math.PI * 2);
-          ctx.fill();
+        /* Green-to-yellow-to-red like an audio meter */
+        var segH = 3;
+        var segs = Math.floor(barH / (segH + 1));
+        var totalSegs = Math.floor(maxH / (segH + 1));
+        for (var s = 0; s < segs; s++) {
+          var sy = dy + dh - 4 - s * (segH + 1);
+          var ratio = s / totalSegs;
+          if (ratio > 0.85) ctx.fillStyle = '#ff2222';
+          else if (ratio > 0.65) ctx.fillStyle = '#ffaa00';
+          else ctx.fillStyle = '#00cc44';
+          ctx.fillRect(x, sy, barW, segH);
         }
+
+        /* Peak hold line */
+        var peakY = dy + dh - 4 - segs * (segH + 1) - 3;
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(x, peakY, barW, 1);
       }
 
-      /* Center line */
-      ctx.globalAlpha = 0.15;
-      ctx.strokeStyle = colors.muted;
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(0, baseY);
-      ctx.lineTo(w, baseY);
-      ctx.stroke();
+      /* Axis labels */
+      ctx.fillStyle = '#4a6a8a';
+      ctx.font = '8px monospace';
+      ctx.fillText('0Hz', dx + 4, dy + dh - 1);
+      ctx.textAlign = 'right';
+      ctx.fillText('22kHz', dx + dw - 4, dy + dh - 1);
+      ctx.textAlign = 'left';
+      ctx.fillText('-0dB', dx + dw + 1, dy + 10);
+      ctx.fillText('-60dB', dx + dw + 1, dy + dh - 4);
+
+      /* Status bar */
+      var sby = wy + wh - 16;
+      TK.bevel(ctx, wx + 2, sby, ww - 4, 14, false, '#c0c0c0');
+      TK.label(ctx, wx + 8, sby + 2, 'Sample Rate: 44.1kHz', '#000000');
+      TK.label(ctx, wx + 200, sby + 2, 'FFT: 2048', '#000000');
+      TK.label(ctx, wx + 320, sby + 2, 'Window: Hanning', '#000000');
+      TK.led(ctx, wx + ww - 16, sby + 7, 4, true, '#00ff00');
 
       ctx.globalAlpha = 1;
     }
 
-    /* ── DATA FLOW PIPELINE ── */
-    var flowDots = [];
-    function initFlowDots(w, h) {
-      flowDots = [];
-      for (var i = 0; i < 40; i++) {
-        flowDots.push({
-          x: Math.random() * w,
-          y: h * 0.2 + Math.random() * h * 0.6,
-          speed: 0.5 + Math.random() * 1.5,
-          size: 2 + Math.random() * 4,
-          color: i % 4
+    /* ── DATAFLOW: Validation Pipeline Window ── */
+    var pipePackets = [];
+    function initPipePackets(dx, dw) {
+      pipePackets = [];
+      for (var i = 0; i < 12; i++) {
+        pipePackets.push({
+          x: dx + Math.random() * dw,
+          speed: 0.3 + Math.random() * 0.8,
+          stage: Math.floor(Math.random() * 4)
         });
       }
     }
 
     function drawDataflow(ctx, w, h, t, colors, fromC, toC) {
       drawBg(ctx, w, h, fromC, toC);
+      ctx.globalAlpha = 0.85;
 
-      if (flowDots.length === 0) initFlowDots(w, h);
+      var wx = w * 0.04, wy = 6, ww = w * 0.92, wh = h - 12;
+      TK.bevel(ctx, wx, wy, ww, wh, true, '#c0c0c0');
+      TK.titleBar(ctx, wx + 2, wy + 2, ww - 4, 16, 'pipeline_monitor.py — V&V Status', true);
 
-      /* Draw flow lanes */
-      var lanes = [h * 0.3, h * 0.45, h * 0.6, h * 0.75];
-      ctx.globalAlpha = 0.06;
-      ctx.strokeStyle = colors.amber;
-      ctx.lineWidth = 1;
-      for (var l = 0; l < lanes.length; l++) {
-        ctx.beginPath();
-        for (var x = 0; x < w; x += 3) {
-          var ly = lanes[l] + Math.sin(x * 0.01 + l * 1.5) * 8;
-          if (x === 0) ctx.moveTo(x, ly);
-          else ctx.lineTo(x, ly);
-        }
-        ctx.stroke();
-      }
+      var dx = wx + 4, dy = wy + 20, dw = ww - 8, dh = wh - 38;
 
-      /* Draw and update dots */
-      var palette = [colors.amber, colors.teal, colors.coral, colors.gold];
-      for (var i = 0; i < flowDots.length; i++) {
-        var d = flowDots[i];
-        d.x += d.speed;
-        if (d.x > w + 10) {
-          d.x = -10;
-          d.y = h * 0.2 + Math.random() * h * 0.6;
-        }
+      /* Four pipeline stages as sunken panels */
+      var stages = ['INPUT', 'IQ/OQ', 'V&V', 'RELEASE'];
+      var stageW = (dw - 20) / 4;
+      var stageColors = ['#0a1a0a', '#0a0a1e', '#1a0a1a', '#0a1a1a'];
+      var stageAccent = ['#00cc44', '#4488ff', '#cc44ff', '#44cccc'];
 
-        /* Snap to nearest lane with sine wobble */
-        var nearLane = lanes[0];
-        var nearDist = 9999;
-        for (var l = 0; l < lanes.length; l++) {
-          var ld = Math.abs(d.y - lanes[l]);
-          if (ld < nearDist) { nearDist = ld; nearLane = lanes[l]; }
-        }
-        var drawY = nearLane + Math.sin(d.x * 0.01 + i) * 8;
+      for (var s = 0; s < 4; s++) {
+        var sx = dx + 4 + s * (stageW + 4);
+        var sdy = dy + 2;
 
-        ctx.globalAlpha = 0.7;
-        ctx.beginPath();
-        ctx.arc(d.x, drawY, d.size, 0, Math.PI * 2);
-        ctx.fillStyle = palette[d.color];
-        ctx.fill();
+        /* Stage panel */
+        TK.sunken(ctx, sx, sdy, stageW, dh - 4, stageColors[s]);
 
-        /* Trail */
-        ctx.globalAlpha = 0.15;
-        ctx.beginPath();
-        ctx.moveTo(d.x, drawY);
-        ctx.lineTo(d.x - 20 * d.speed, drawY);
-        ctx.strokeStyle = palette[d.color];
-        ctx.lineWidth = d.size * 0.8;
-        ctx.lineCap = 'round';
-        ctx.stroke();
-
-        /* Glow */
-        ctx.globalAlpha = 0.08;
-        var fg = ctx.createRadialGradient(d.x, drawY, 0, d.x, drawY, d.size * 4);
-        fg.addColorStop(0, palette[d.color] + '40');
-        fg.addColorStop(1, palette[d.color] + '00');
-        ctx.fillStyle = fg;
-        ctx.beginPath();
-        ctx.arc(d.x, drawY, d.size * 4, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      /* Gate nodes along the pipeline */
-      var gateX = [w * 0.2, w * 0.4, w * 0.6, w * 0.8];
-      var gateLabels = ['IN', 'V&V', 'QC', 'OUT'];
-      for (var g = 0; g < gateX.length; g++) {
-        var gy = h * 0.5 + Math.sin(t * 0.015 + g * 2) * 5;
-        ctx.globalAlpha = 0.25;
-        ctx.beginPath();
-        ctx.arc(gateX[g], gy, 14, 0, Math.PI * 2);
-        ctx.strokeStyle = colors.amber;
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-
-        /* Rotating ring */
-        ctx.beginPath();
-        ctx.arc(gateX[g], gy, 18, t * 0.02 + g, t * 0.02 + g + Math.PI * 0.5);
-        ctx.globalAlpha = 0.12;
-        ctx.stroke();
-
-        /* Label */
-        ctx.globalAlpha = 0.3;
-        ctx.fillStyle = colors.amber;
-        ctx.font = '9px "JetBrains Mono", monospace';
+        /* Stage label */
+        ctx.fillStyle = stageAccent[s];
+        ctx.font = 'bold 9px monospace';
         ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(gateLabels[g], gateX[g], gy);
+        ctx.fillText(stages[s], sx + stageW / 2, sdy + 12);
+
+        /* Progress bar per stage */
+        var pcts = [0.92, 0.78, 0.65, 0.45];
+        var pct = pcts[s] + Math.sin(t * 0.01 + s * 1.5) * 0.08;
+        TK.progress(ctx, sx + 4, sdy + 18, stageW - 8, 8, pct, stageAccent[s]);
+
+        /* Count label */
+        var count = Math.floor(pct * 100);
+        ctx.fillStyle = '#888888';
+        ctx.font = '8px monospace';
+        ctx.fillText(count + '%', sx + stageW / 2, sdy + 36);
+
+        /* Mini LED grid (represents test cases) */
+        var cols = 6, rows = 2;
+        var ledSize = 4;
+        var ledGap = 3;
+        var gridW = cols * (ledSize + ledGap);
+        var gridX = sx + (stageW - gridW) / 2;
+        for (var r = 0; r < rows; r++) {
+          for (var c = 0; c < cols; c++) {
+            var lx = gridX + c * (ledSize + ledGap);
+            var ly = sdy + 42 + r * (ledSize + ledGap);
+            var on = ((r * cols + c) / (rows * cols)) < pct;
+            /* Blink the edge cases */
+            if (Math.abs((r * cols + c) / (rows * cols) - pct) < 0.1) {
+              on = Math.floor(t / 15) % 2 === 0;
+            }
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillRect(lx, ly, ledSize + 2, ledSize + 2);
+            ctx.fillStyle = on ? stageAccent[s] : '#2a2a2a';
+            ctx.fillRect(lx + 1, ly + 1, ledSize, ledSize);
+          }
+        }
+
+        ctx.textAlign = 'left';
+
+        /* Arrow between stages */
+        if (s < 3) {
+          var ax = sx + stageW + 1;
+          var ay = sdy + dh / 2 - 2;
+          ctx.fillStyle = '#808080';
+          ctx.fillRect(ax, ay - 1, 3, 3);
+          /* Animated packet dot */
+          if (Math.floor(t / 20 + s * 7) % 3 === 0) {
+            ctx.fillStyle = stageAccent[s];
+            ctx.fillRect(ax - 1, ay - 2, 5, 5);
+          }
+        }
       }
+
+      /* Status bar */
+      var sby = wy + wh - 16;
+      TK.bevel(ctx, wx + 2, sby, ww - 4, 14, false, '#c0c0c0');
+      var passed = 847 + Math.floor(t * 0.05) % 20;
+      TK.label(ctx, wx + 8, sby + 2, 'Tests: ' + passed + '/892 PASS', '#006600');
+      TK.label(ctx, wx + 200, sby + 2, '3 WARN  0 FAIL', '#666600');
+      TK.led(ctx, wx + ww - 16, sby + 7, 4, true, '#00ff00');
 
       ctx.globalAlpha = 1;
     }
@@ -8410,8 +8456,8 @@
           a.ctx = a.canvas.getContext('2d');
           a.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         }
-        synapseNodes = [];
-        flowDots = [];
+        netNodes = [];
+        pipePackets = [];
       }, 200);
     });
 
