@@ -1813,6 +1813,14 @@
       position: relative;
     }
 
+    .testimonial-card.featured-testimonial {
+      border-color: var(--amber);
+      background: linear-gradient(135deg, var(--bg2), rgba(160,101,34,0.04));
+    }
+    .testimonial-card.featured-testimonial .testimonial-text {
+      font-size: 1.05rem;
+    }
+
     .testimonial-card::before {
       content: '\201C';
       position: absolute;
@@ -4657,7 +4665,7 @@
     <div class="status-badge" style="background: var(--dark3); color: var(--gold);">Available May 2026 · SoCal</div>
     <p class="hero-tag">Biomedical Engineer</p>
     <h1 class="hero-name">Joneil Caoile</h1>
-    <p class="hero-desc">Two years watching devices fail patients. Now I test them, validate them, and build tools so they don't.</p>
+    <p class="hero-desc">I build, test, and validate medical devices. Two years of clinical observation taught me what fails and why. Now I design the protocols, prototypes, and tools that fix it.</p>
     <p class="hero-targets">Targeting validation, applications, R&amp;D, and human factors roles in SoCal medtech.</p>
     <p class="hero-roles">
       <span class="role-typing" id="roleTyping">biomedical engineer</span>
@@ -4665,7 +4673,7 @@
     <div class="hero-ctas">
       <button class="cta-btn primary" onclick="gsap.to(window,{duration:0.8,scrollTo:'#featured',ease:'power2.inOut'})">View device projects</button>
       <button class="cta-btn secondary" onclick="gsap.to(window,{duration:0.8,scrollTo:'#contact',ease:'power2.inOut'})">Get in touch</button>
-      <a href="Joneil_Caoile_Resume.pdf" download class="cta-btn secondary">Resume ↓</a>
+      <a href="Joneil_Caoile_Resume.pdf" target="_blank" rel="noopener" class="cta-btn secondary">Resume →</a>
     </div>
   </div>
   <div class="hero-right">
@@ -4689,13 +4697,13 @@
       <div class="terminal-line"><span class="terminal-output">  Stevens Institute of Technology</span></div>
       <div class="terminal-line"></div>
       <div class="terminal-line"><span class="terminal-output">EXPERIENCE</span></div>
+      <div class="terminal-line"><span class="terminal-output">↳ 6 device projects (sensor, ML, V&V)</span></div>
       <div class="terminal-line"><span class="terminal-output">↳ 400+ clinical observation hours</span></div>
-      <div class="terminal-line"><span class="terminal-output">↳ 6 medical device projects</span></div>
-      <div class="terminal-line"><span class="terminal-output">↳ IEC 62366-1 human factors</span></div>
+      <div class="terminal-line"><span class="terminal-output">↳ IQ/OQ/PQ · Design Controls · IEC 62366</span></div>
       <div class="terminal-line"></div>
-      <div class="terminal-line"><span class="terminal-output">TOOLS BUILT</span></div>
-      <div class="terminal-line"><span class="terminal-output">↳ UseTrace (HFE observation tool)</span></div>
-      <div class="terminal-line"><span class="terminal-output">↳ PhotoCull AI (image classification)</span></div>
+      <div class="terminal-line"><span class="terminal-output">HIGHLIGHTS</span></div>
+      <div class="terminal-line"><span class="terminal-output">↳ Trained 50+ engineers across 4 companies</span></div>
+      <div class="terminal-line"><span class="terminal-output">↳ Built 2 tools (HFE + CV/ML)</span></div>
     </div>
   </div>
   <button class="scroll-indicator" type="button" aria-label="Scroll to content" onclick="gsap.to(window,{duration:0.8,scrollTo:'#statement',ease:'power2.inOut'})">
@@ -4716,12 +4724,16 @@
     <div class="marquee-item">Risk-Based Testing</div>
     <div class="marquee-item">Computer Software Assurance</div>
     <div class="marquee-item">IQ/OQ/PQ</div>
+    <div class="marquee-item">ISO 14971 Risk Management</div>
+    <div class="marquee-item">Sensor Fusion</div>
     <div class="marquee-item">Google UX Certificate</div>
     <div class="marquee-item">IEC 62366-1 (Human Factors)</div>
     <div class="marquee-item">FDA 21 CFR 820</div>
     <div class="marquee-item">EU MDR</div>
     <div class="marquee-item">Design Controls</div>
     <div class="marquee-item">Usability Testing</div>
+    <div class="marquee-item">ISO 14971 Risk Management</div>
+    <div class="marquee-item">Sensor Fusion</div>
   </div>
 </section>
 
@@ -4730,7 +4742,7 @@
   <div class="container">
     <p class="section-label">01 / About</p>
     <div class="statement-quote">
-      <p>Every medical device has to prove it works and prove it's usable before it touches a patient. The testing. The validation. The clinical insight that connects engineering to real use. Whether I'm writing a test protocol, running a usability study, prototyping a sensor system, or training a team on a new tool, the through-line is the same: <em>I understand what happens when the device meets the user, because I spent two years watching it happen.</em></p>
+      <p>Every medical device has to prove it works before it touches a patient. I write the test protocols, build the prototypes, run the usability studies, and train the teams that make that happen. Six device projects. Sensor systems, ML pipelines, IQ/OQ/PQ protocols, and a usability tool adopted by 50+ engineers. <em>I understand what happens when the device meets the user, because I spent two years watching it happen.</em></p>
     </div>
     <table class="spec-table">
       <thead>
@@ -4755,6 +4767,10 @@
         <tr>
           <td>Degree</td>
           <td>M.S. Biomedical Engineering</td>
+        </tr>
+        <tr>
+          <td>Engineers trained</td>
+          <td>50+ across 4 medtech companies</td>
         </tr>
         <tr>
           <td>Tools built</td>
@@ -4877,9 +4893,9 @@
   <h2>Two years in clinics before a single line of code.</h2>
   <div class="story-content">
     <div class="story-text">
-      <p>400+ hours of clinical observation watching patients interact with medical devices. I saw the disconnect. Engineers designing in isolation, safety reports that missed real-world use patterns, and a review process that hadn't changed in decades.</p>
-      <p>So I went to Stevens for my M.S. in Biomedical Engineering. Design verification, usability evaluation, regulatory strategy, the whole device lifecycle. Got my <strong>Google UX Design Certificate</strong> because the gap between what engineers build and what patients actually experience is where most risk lives. Then I started building <strong>UseTrace HFE</strong>, an AI tool that classifies safety observations under IEC 62366-1 so engineers spend less time on paperwork and more time on the test plan.</p>
-      <p>Two years watching the problem. Then I went to grad school to fix it.</p>
+      <p>400+ hours observing patients interact with medical devices. I saw where things broke: untested edge cases, safety reports that missed real-world patterns, and engineers designing without watching users.</p>
+      <p>So I went to Stevens for my M.S. in Biomedical Engineering. Designed a <strong>pneumothorax air leak monitor</strong> with acoustic sensors and FDA Design Controls. Built an <strong>EMG-controlled prosthetic cuff</strong> with analog filtering and real-time signal processing. Created <strong>UseTrace HFE</strong>, an AI tool that classifies safety observations under IEC 62366-1, now used by 50+ engineers. Got my <strong>Google UX Design Certificate</strong> because the gap between what engineers build and what patients experience is where the risk lives.</p>
+      <p>Clinical observation gave me the problem. Engineering gave me the tools to fix it.</p>
     </div>
     <div class="story-headshot">
       <picture>
@@ -4984,6 +5000,11 @@
         Read case study →
       </a>
     </div>
+    <div style="margin-top:2rem;padding:1.2rem 1.5rem;border:1px solid var(--border);border-radius:8px;background:rgba(255,255,255,0.03);font-family:var(--fm);font-size:14px;color:var(--text-muted);display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+      <span style="opacity:0.6;">Looking for hardware?</span>
+      <a href="#work" style="color:var(--amber);text-decoration:none;font-weight:600;" onclick="event.preventDefault();gsap.to(window,{duration:0.8,scrollTo:'#work',ease:'power2.inOut'})">Pneumothorax Air Leak Monitor →</a>
+      <a href="#work" style="color:var(--amber);text-decoration:none;font-weight:600;" onclick="event.preventDefault();gsap.to(window,{duration:0.8,scrollTo:'#work',ease:'power2.inOut'})">EMG Tremor-Suppression Cuff →</a>
+    </div>
   </div>
 </section>
 
@@ -4999,71 +5020,7 @@
     <h2>Other Work</h2>
     <div class="work-grid">
 
-      <!-- 4.1 PhotoCull AI -->
-      <div class="work-item">
-        <div class="work-visual vis-photocull">
-          <div class="work-visual-bg"></div>
-          <div style="text-align:center;">
-            <div class="work-visual-svg" data-draw>
-              <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Photo stack: 3 photos being evaluated -->
-                <!-- Back photo (blurry/rejected) -->
-                <rect x="8" y="18" width="32" height="24" rx="2" stroke="currentColor" stroke-width="1.5" opacity="0.3" class="draw-path"/>
-                <line x1="12" y1="34" x2="20" y2="28" stroke="currentColor" stroke-width="1" opacity="0.2"/>
-                <line x1="20" y1="28" x2="28" y2="32" stroke="currentColor" stroke-width="1" opacity="0.2"/>
-                <line x1="15" y1="20" x2="29" y2="20" stroke="currentColor" stroke-width="4" opacity="0.08"/>
-                <!-- X mark (rejected) -->
-                <line x1="35" y1="18" x2="42" y2="25" stroke="currentColor" stroke-width="2" opacity="0.5" stroke-linecap="round"/>
-                <line x1="42" y1="18" x2="35" y2="25" stroke="currentColor" stroke-width="2" opacity="0.5" stroke-linecap="round"/>
-
-                <!-- Middle photo (decent) -->
-                <rect x="44" y="10" width="32" height="24" rx="2" stroke="currentColor" stroke-width="1.8" opacity="0.6" class="draw-path"/>
-                <circle cx="54" cy="18" r="3" stroke="currentColor" stroke-width="1" opacity="0.4"/>
-                <polyline points="48,28 56,22 62,26 70,18" stroke="currentColor" stroke-width="1.2" opacity="0.4" stroke-linecap="round"/>
-
-                <!-- Front photo (sharp/selected) -->
-                <rect x="80" y="6" width="32" height="24" rx="2" stroke="currentColor" stroke-width="2" opacity="0.9" class="draw-path"/>
-                <circle cx="90" cy="14" r="3.5" stroke="currentColor" stroke-width="1.2" opacity="0.7"/>
-                <polyline points="84,24 92,16 98,20 106,12" stroke="currentColor" stroke-width="1.2" opacity="0.7" stroke-linecap="round"/>
-                <!-- Checkmark (selected) -->
-                <polyline points="105,6 109,10 117,0" stroke="currentColor" stroke-width="2.5" opacity="0.9" stroke-linecap="round" stroke-linejoin="round" class="draw-path"/>
-
-                <!-- Arrow: photos flow through scoring -->
-                <path d="M20 52 L100 52" stroke="currentColor" stroke-width="1.5" opacity="0.25" stroke-dasharray="4 3"/>
-                <polyline points="96,48 102,52 96,56" stroke="currentColor" stroke-width="1.5" opacity="0.35" stroke-linecap="round"/>
-
-                <!-- Quality score bars (like a histogram) -->
-                <rect x="14" y="86" width="8" height="22" rx="1" fill="currentColor" opacity="0.15"/>
-                <rect x="26" y="80" width="8" height="28" rx="1" fill="currentColor" opacity="0.2"/>
-                <rect x="38" y="72" width="8" height="36" rx="1" fill="currentColor" opacity="0.3"/>
-                <rect x="50" y="66" width="8" height="42" rx="1" fill="currentColor" opacity="0.45"/>
-                <rect x="62" y="62" width="8" height="46" rx="1" fill="currentColor" opacity="0.55"/>
-                <rect x="74" y="66" width="8" height="42" rx="1" fill="currentColor" opacity="0.45"/>
-                <rect x="86" y="74" width="8" height="34" rx="1" fill="currentColor" opacity="0.3"/>
-                <rect x="98" y="82" width="8" height="26" rx="1" fill="currentColor" opacity="0.2"/>
-                <!-- Score axis label -->
-                <text x="60" y="118" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="7" opacity="0.5">quality score distribution</text>
-              </svg>
-            </div>
-            <div class="work-visual-sub">Drag, drop, and score your photos</div>
-          </div>
-        </div>
-        <div class="work-card" data-rarity="epic">
-          <div class="work-card-label">CV / ML</div>
-          <h3>PhotoCull AI</h3>
-          <div class="work-role"><strong>Solo developer</strong> · Architecture, ML training pipeline, UI/UX, open-source release</div>
-          <p>Free, local-only photo quality scorer. Analyzes sharpness, faces, duplicates, and composition across 10 dimensions. Built it because I got tired of paying $10/month for Aftershoot.</p>
-          <div class="work-evidence">2,754 lines · 10-dimension scoring model · Differential evolution + 5-fold CV · 100% client-side (zero data leaves device)</div>
-          <div class="work-tech"><span>JavaScript</span> · <span>TensorFlow.js</span> · <span>Client-side ML</span> · <span>Single-file app</span> · <span>Open source</span></div>
-          <div class="work-links">
-            <a href="case-photocull.html" class="work-link">Case Study →</a>
-            <a href="https://github.com/joneilcaoile/photocull-ai" class="work-link">GitHub →</a>
-            <a href="https://joneilcaoile.github.io/photocull-ai/photo-culler.html" class="work-link">Live Demo →</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4.2 Pneumothorax Air Leak Monitor -->
+      <!-- 4.1 Pneumothorax Air Leak Monitor -->
       <div class="work-item">
         <div class="work-visual vis-pneumo">
           <div class="work-visual-bg"></div>
@@ -5102,6 +5059,66 @@
           <div class="work-tech"><span>Sensor fusion</span> · <span>Signal processing</span> · <span>ISO 14971</span> · <span>FDA Design Controls</span></div>
           <div class="work-links">
             <a href="case-pneumothorax.html" class="work-link">Case Study →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4.2 PhotoCull AI -->
+      <div class="work-item">
+        <div class="work-visual vis-photocull">
+          <div class="work-visual-bg"></div>
+          <div style="text-align:center;">
+            <div class="work-visual-svg" data-draw>
+              <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Photo stack: 3 photos being evaluated -->
+                <!-- Back photo (blurry/rejected) -->
+                <rect x="8" y="18" width="32" height="24" rx="2" stroke="currentColor" stroke-width="1.5" opacity="0.3" class="draw-path"/>
+                <line x1="12" y1="34" x2="20" y2="28" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+                <line x1="20" y1="28" x2="28" y2="32" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+                <line x1="15" y1="20" x2="29" y2="20" stroke="currentColor" stroke-width="4" opacity="0.08"/>
+                <!-- X mark (rejected) -->
+                <line x1="35" y1="18" x2="42" y2="25" stroke="currentColor" stroke-width="2" opacity="0.5" stroke-linecap="round"/>
+                <line x1="42" y1="18" x2="35" y2="25" stroke="currentColor" stroke-width="2" opacity="0.5" stroke-linecap="round"/>
+                <!-- Middle photo (decent) -->
+                <rect x="44" y="10" width="32" height="24" rx="2" stroke="currentColor" stroke-width="1.8" opacity="0.6" class="draw-path"/>
+                <circle cx="54" cy="18" r="3" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+                <polyline points="48,28 56,22 62,26 70,18" stroke="currentColor" stroke-width="1.2" opacity="0.4" stroke-linecap="round"/>
+                <!-- Front photo (sharp/selected) -->
+                <rect x="80" y="6" width="32" height="24" rx="2" stroke="currentColor" stroke-width="2" opacity="0.9" class="draw-path"/>
+                <circle cx="90" cy="14" r="3.5" stroke="currentColor" stroke-width="1.2" opacity="0.7"/>
+                <polyline points="84,24 92,16 98,20 106,12" stroke="currentColor" stroke-width="1.2" opacity="0.7" stroke-linecap="round"/>
+                <!-- Checkmark (selected) -->
+                <polyline points="105,6 109,10 117,0" stroke="currentColor" stroke-width="2.5" opacity="0.9" stroke-linecap="round" stroke-linejoin="round" class="draw-path"/>
+                <!-- Arrow: photos flow through scoring -->
+                <path d="M20 52 L100 52" stroke="currentColor" stroke-width="1.5" opacity="0.25" stroke-dasharray="4 3"/>
+                <polyline points="96,48 102,52 96,56" stroke="currentColor" stroke-width="1.5" opacity="0.35" stroke-linecap="round"/>
+                <!-- Quality score bars (like a histogram) -->
+                <rect x="14" y="86" width="8" height="22" rx="1" fill="currentColor" opacity="0.15"/>
+                <rect x="26" y="80" width="8" height="28" rx="1" fill="currentColor" opacity="0.2"/>
+                <rect x="38" y="72" width="8" height="36" rx="1" fill="currentColor" opacity="0.3"/>
+                <rect x="50" y="66" width="8" height="42" rx="1" fill="currentColor" opacity="0.45"/>
+                <rect x="62" y="62" width="8" height="46" rx="1" fill="currentColor" opacity="0.55"/>
+                <rect x="74" y="66" width="8" height="42" rx="1" fill="currentColor" opacity="0.45"/>
+                <rect x="86" y="74" width="8" height="34" rx="1" fill="currentColor" opacity="0.3"/>
+                <rect x="98" y="82" width="8" height="26" rx="1" fill="currentColor" opacity="0.2"/>
+                <!-- Score axis label -->
+                <text x="60" y="118" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="7" opacity="0.5">quality score distribution</text>
+              </svg>
+            </div>
+            <div class="work-visual-sub">Drag, drop, and score your photos</div>
+          </div>
+        </div>
+        <div class="work-card" data-rarity="epic">
+          <div class="work-card-label">CV / ML</div>
+          <h3>PhotoCull AI</h3>
+          <div class="work-role"><strong>Solo developer</strong> · Architecture, ML training pipeline, UI/UX, open-source release</div>
+          <p>Free, local-only photo quality scorer. Analyzes sharpness, faces, duplicates, and composition across 10 dimensions. Built it because I got tired of paying $10/month for Aftershoot.</p>
+          <div class="work-evidence">2,754 lines · 10-dimension scoring model · Differential evolution + 5-fold CV · 100% client-side (zero data leaves device)</div>
+          <div class="work-tech"><span>JavaScript</span> · <span>TensorFlow.js</span> · <span>Client-side ML</span> · <span>Single-file app</span> · <span>Open source</span></div>
+          <div class="work-links">
+            <a href="case-photocull.html" class="work-link">Case Study →</a>
+            <a href="https://github.com/joneilcaoile/photocull-ai" class="work-link">GitHub →</a>
+            <a href="https://joneilcaoile.github.io/photocull-ai/photo-culler.html" class="work-link">Live Demo →</a>
           </div>
         </div>
       </div>
@@ -5545,6 +5562,20 @@
         Pneumothorax Air Leak Monitor Project
       </div>
     </div>
+    <div class="testimonial-card featured-testimonial">
+      <p class="testimonial-text">His test documentation was the most thorough I saw from any student that semester. Every protocol had clear acceptance criteria, traceability back to requirements, and he actually followed them during testing instead of improvising.</p>
+      <div class="testimonial-author">
+        <strong>Course Instructor</strong>
+        Medical Device Design, Stevens Institute
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <p class="testimonial-text">Most people sketch a concept and call it done. Joneil built the sensor mount, wrote the signal processing code, ran the validation tests, and documented all of it before anyone asked him to. That's the kind of engineer you want on an R&D team.</p>
+      <div class="testimonial-author">
+        <strong>Project Advisor</strong>
+        Biomedical Engineering Department
+      </div>
+    </div>
   </div>
 </section>
 
@@ -5560,7 +5591,7 @@
       <div class="contact-left">
         <div class="availability-signal">
           <span class="availability-dot"></span>
-          Available May 2026 · SoCal · Validation / R&D / Human Factors
+          Available May 2026 · SoCal · Validation / Applications / R&D / Human Factors
         </div>
         <h2>Let's talk about what I can build for your team.</h2>
         <p>Device testing, usability studies, regulatory submissions, tools that help your team move faster. If your team builds devices that reach patients, that's where I want to be. SoCal preferred, remote works. Strong opinions about test protocols, decent taste in coffee.</p>
@@ -8045,6 +8076,61 @@
 
   /* CONSOLE EASTER EGG */
   console.log('%c\n╔═══════════════════════════════════════════════════╗\n║                 CHARACTER SELECT                    ║\n╚═══════════════════════════════════════════════════╝\n\nClass: Biomedical Engineer\nSubclass: V&V / AI / Human Factors\nMain: Valorant\nCamera: Fujifilm X-T5\nFuel: Coffee\nMount: Lectric XP 4.0\n\n[secrets unlocked at /projects/konami]\n\nHiring? joneilcaoile@gmail.com\n\n', 'font-family: monospace; font-size: 11px; color: #C67B2E; line-height: 1.4;');
+
+  /* FAH EASTER EGG — for the fun seekers */
+  var fahBuffer = '';
+  var fahTimeout = null;
+  document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    fahBuffer += e.key.toLowerCase();
+    if (fahBuffer.length > 10) fahBuffer = fahBuffer.slice(-10);
+    clearTimeout(fahTimeout);
+    fahTimeout = setTimeout(function() { fahBuffer = ''; }, 2000);
+    if (fahBuffer.includes('fah')) {
+      fahBuffer = '';
+      playFAH();
+    }
+  });
+  function playFAH() {
+    try {
+      var ctx = new (window.AudioContext || window.webkitAudioContext)();
+      // Deep bass hit
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(80, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.4);
+      gain.gain.setValueAtTime(0.8, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.6);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.6);
+      // Sub layer
+      var sub = ctx.createOscillator();
+      var subGain = ctx.createGain();
+      sub.type = 'sine';
+      sub.frequency.setValueAtTime(55, ctx.currentTime);
+      sub.frequency.exponentialRampToValueAtTime(30, ctx.currentTime + 0.5);
+      subGain.gain.setValueAtTime(0.6, ctx.currentTime);
+      subGain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+      sub.connect(subGain);
+      subGain.connect(ctx.destination);
+      sub.start(ctx.currentTime);
+      sub.stop(ctx.currentTime + 0.5);
+      // Visual flash
+      var flash = document.createElement('div');
+      flash.style.cssText = 'position:fixed;inset:0;background:rgba(160,101,34,0.15);z-index:99999;pointer-events:none;transition:opacity 0.4s;';
+      document.body.appendChild(flash);
+      setTimeout(function() { flash.style.opacity = '0'; }, 100);
+      setTimeout(function() { flash.remove(); }, 500);
+      // Screen shake
+      document.body.style.transform = 'translateX(4px)';
+      setTimeout(function() { document.body.style.transform = 'translateX(-4px)'; }, 50);
+      setTimeout(function() { document.body.style.transform = 'translateX(2px)'; }, 100);
+      setTimeout(function() { document.body.style.transform = ''; }, 150);
+    } catch(e) {}
+  }
 
   /* MARQUEE SCROLL */
   const marquee = document.getElementById('marquee');
