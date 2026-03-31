@@ -6607,14 +6607,12 @@
     }
   }
 
+  var petWalkInterval = null;
   function petWalkTick() {
-    if (isDragging || petDragged || petWalkPaused || critterHover) {
-      requestAnimationFrame(petWalkTick);
-      return;
-    }
+    if (isDragging || petDragged || petWalkPaused || critterHover) return;
     petWalkX += petWalkSpeed * petWalkDir;
 
-    // Bounce at edges: 16px padding on each side, account for pet width (~80px with container)
+    // Bounce at edges: 16px padding on each side
     var maxX = window.innerWidth - critterContainer.offsetWidth - 16;
     if (petWalkX >= maxX) {
       petWalkX = maxX;
@@ -6628,13 +6626,12 @@
 
     critterContainer.style.left = petWalkX + 'px';
     critterContainer.style.right = 'auto';
-    requestAnimationFrame(petWalkTick);
   }
 
-  // Start walking after a short delay
+  // Start walking after a short delay using setInterval (survives tab backgrounding)
   setTimeout(function() {
     updatePetFlip();
-    requestAnimationFrame(petWalkTick);
+    petWalkInterval = setInterval(petWalkTick, 16);
   }, 2000);
 
   // Animation mode buttons
