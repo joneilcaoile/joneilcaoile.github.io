@@ -1466,6 +1466,21 @@
       box-shadow: inset 0 0 20px rgba(212, 162, 51, 0.1);
     }
 
+    .featured-card[data-rarity="rare"] {
+      border-image: linear-gradient(135deg, var(--coral), #D4785A) 1;
+      box-shadow: inset 0 0 20px rgba(184, 74, 60, 0.1);
+    }
+
+    .featured-card[data-rarity="rare"]::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(184, 74, 60, 0.05), transparent);
+      pointer-events: none;
+      z-index: 1;
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
     .featured-card[data-rarity="legendary"]::before {
       content: '';
       position: absolute;
@@ -2203,6 +2218,32 @@
       color: var(--amber);
       text-decoration: underline;
       text-underline-offset: 2px;
+    }
+
+    /* METRICS STRIP */
+    .metrics-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1.5rem;
+      padding: 2.5rem 0;
+    }
+    .metric-item {
+      text-align: center;
+    }
+    .metric-number {
+      font-family: var(--fh);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--amber);
+      line-height: 1.1;
+    }
+    .metric-label {
+      font-family: var(--fm);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-top: 0.4rem;
     }
 
     /* WORK EVIDENCE */
@@ -4810,8 +4851,8 @@
         </svg>
       </div>
       <h3>Validation &amp; Quality</h3>
-      <p>Write IQ/OQ/PQ protocols and design risk-based test strategies (IEC 14971, FDA 21 CFR 820). Lead design verification, document deviations, and drive CAPA workflows. Build test traceability matrices tied to user needs and design inputs.</p>
-      <div class="bring-proof">See: <a href="case-pneumothorax.html">Pneumothorax Monitor</a> (IQ/OQ/PQ protocols, 14 test cases), <a href="case-usetrace.html">UseTrace</a> (validation against 12 CFR requirements)</div>
+      <p>Write IQ/OQ/PQ protocols with quantitative acceptance criteria tied to design inputs. Risk-based test strategy development per IEC 14971 and FDA 21 CFR 820. Build requirements traceability matrices, document deviations, and author CAPA workflows. 14 test cases authored for the Pneumothorax Monitor with full DHF traceability.</p>
+      <div class="bring-proof">See: <a href="case-pneumothorax.html">Pneumothorax Monitor</a> (14-test-case V&V suite, ISO 14971 FMEA, full DHF), <a href="case-usetrace.html">UseTrace</a> (validated against 12 CFR requirements)</div>
     </div>
     <div class="bring-card">
       <div class="bring-icon" aria-hidden="true">
@@ -4833,8 +4874,8 @@
         </svg>
       </div>
       <h3>Applications &amp; Field Support</h3>
-      <p>Own end-user training and support: live onboarding sessions, user guides, and troubleshooting docs. Translate regulatory requirements and engineering constraints into clear workflows. Collect field feedback and write feature requests for R&amp;D.</p>
-      <div class="bring-proof">See: <a href="case-usetrace.html">UseTrace</a> (trained 50+ engineers across 4 medtech companies, built training guides, tracked 30+ feature requests)</div>
+      <p>Trained 50+ engineers across 4 medtech companies on UseTrace in live onboarding sessions. Authored custom workflow guides per team, built troubleshooting documentation, and tracked 30+ feature requests from field feedback. Translate regulatory constraints and engineering specs into language non-technical users actually follow.</p>
+      <div class="bring-proof">See: <a href="case-usetrace.html">UseTrace</a> (50+ engineers trained, 4 companies, 30+ field-driven feature requests, custom training docs per team)</div>
     </div>
     <div class="bring-card">
       <div class="bring-icon" aria-hidden="true">
@@ -4855,8 +4896,8 @@
         </svg>
       </div>
       <h3>R&amp;D &amp; Prototyping</h3>
-      <p>Lead sensor system design end-to-end: requirements, schematic, firmware, validation. Signal processing pipelines (filtering, feature extraction, classification). Rapid iteration with MATLAB/Python simulation before hardware. Motion capture, EMG, acoustic, and pressure sensing.</p>
-      <div class="bring-proof">See: <a href="case-pneumothorax.html">Pneumothorax Monitor</a> (sensor selection, signal chain), <a href="case-emg.html">EMG Cuff</a> (analog filtering, real-time processing), <a href="case-fall.html">Fall Study</a> (OptiTrack + ML pipeline)</div>
+      <p>End-to-end sensor system design: requirements through bench prototype. Gas flow transducer selection, differential pressure calibration, analog filtering (4-8 Hz tremor band isolation), and sensor fusion algorithms. MATLAB/Python simulation before hardware. Signal processing pipelines across EMG, acoustic, pressure, and motion capture modalities.</p>
+      <div class="bring-proof">See: <a href="case-pneumothorax.html">Pneumothorax Monitor</a> (dual-sensor fusion, MATLAB signal chain), <a href="case-emg.html">EMG Cuff</a> (analog filtering, real-time tremor isolation), <a href="case-fall.html">Fall Study</a> (OptiTrack + random forest pipeline)</div>
     </div>
     <div class="bring-card">
       <div class="bring-icon" aria-hidden="true">
@@ -4879,12 +4920,42 @@
         </svg>
       </div>
       <h3>Human Factors &amp; Usability</h3>
-      <p>Design and run formative usability studies. Classify observations under IEC 62366-1. Write HFE reports. 400+ hours of clinical observation watching real users interact with real devices.</p>
-      <div class="bring-proof">See: <a href="case-usetrace.html">UseTrace</a> (AI-assisted observation classification), Google UX Certificate</div>
+      <p>Design and run IEC 62366-1 formative usability studies. Classify observations by severity, use error type, and device subsystem. Author use specifications, use-related risk analyses, and summative evaluation reports. 400+ hours of clinical observation categorizing real device-user interactions across PT, OT, and acute care settings. Google UX Design Certificate.</p>
+      <div class="bring-proof">See: <a href="case-usetrace.html">UseTrace</a> (AI-assisted 62366-1 classification, 200+ observations/session), Google UX Certificate</div>
     </div>
   </div>
   </div>
 </section>
+
+<!-- BY THE NUMBERS -->
+<div class="container" style="padding-top:0;padding-bottom:0;">
+  <div class="metrics-strip">
+    <div class="metric-item">
+      <div class="metric-number">6</div>
+      <div class="metric-label">Device projects</div>
+    </div>
+    <div class="metric-item">
+      <div class="metric-number">400+</div>
+      <div class="metric-label">Clinical hours</div>
+    </div>
+    <div class="metric-item">
+      <div class="metric-number">50+</div>
+      <div class="metric-label">Engineers trained</div>
+    </div>
+    <div class="metric-item">
+      <div class="metric-number">14</div>
+      <div class="metric-label">V&V test cases</div>
+    </div>
+    <div class="metric-item">
+      <div class="metric-number">0</div>
+      <div class="metric-label">Commercial equivalents</div>
+    </div>
+    <div class="metric-item">
+      <div class="metric-number">75%</div>
+      <div class="metric-label">Classification time saved</div>
+    </div>
+  </div>
+</div>
 
 <!-- STORY -->
 <section id="story" class="bridge-dark-to-light">
@@ -4920,7 +4991,7 @@
 <!-- FEATURED PROJECT -->
 <section id="featured" class="bridge-light-to-dark">
   <div class="container">
-    <p class="section-label">04 / Projects</p>
+    <p class="section-label">04 / Featured Projects</p>
     <div class="featured-card" data-rarity="legendary">
       <div class="card-shine"></div>
       <h3>UseTrace HFE</h3>
@@ -5000,10 +5071,92 @@
         Read case study →
       </a>
     </div>
-    <div style="margin-top:2rem;padding:1.2rem 1.5rem;border:1px solid var(--border);border-radius:8px;background:rgba(255,255,255,0.03);font-family:var(--fm);font-size:14px;color:var(--text-muted);display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
-      <span style="opacity:0.6;">Looking for hardware?</span>
-      <a href="#work" style="color:var(--amber);text-decoration:none;font-weight:600;" onclick="event.preventDefault();gsap.to(window,{duration:0.8,scrollTo:'#work',ease:'power2.inOut'})">Pneumothorax Air Leak Monitor →</a>
-      <a href="#work" style="color:var(--amber);text-decoration:none;font-weight:600;" onclick="event.preventDefault();gsap.to(window,{duration:0.8,scrollTo:'#work',ease:'power2.inOut'})">EMG Tremor-Suppression Cuff →</a>
+    <!-- FEATURED PROJECT 2: Hardware / V&V -->
+    <div class="featured-card" data-rarity="rare" style="margin-top:2.5rem;">
+      <div class="card-shine"></div>
+      <h3>Pneumothorax Air Leak Monitor</h3>
+      <div class="featured-role"><strong>Lead engineer (3-person team)</strong> · Sensor selection, signal processing, design controls, V&V protocol authoring</div>
+      <!-- Architecture diagram -->
+      <div class="featured-diagram" aria-label="Pneumothorax monitor system architecture showing sensor inputs through signal processing to clinical output">
+        <svg viewBox="0 0 700 160" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
+          <!-- Step 1: Sensor Input -->
+          <rect x="10" y="28" width="150" height="110" rx="10" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
+          <text x="85" y="52" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="10" opacity="0.5">SENSORS</text>
+          <text x="85" y="76" text-anchor="middle" fill="currentColor" font-family="var(--fh)" font-size="13" font-weight="600" opacity="0.85">Gas Flow +</text>
+          <text x="85" y="94" text-anchor="middle" fill="currentColor" font-family="var(--fh)" font-size="13" font-weight="600" opacity="0.85">Pressure</text>
+          <text x="85" y="118" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="9" opacity="0.4">Chest tube + ventilator</text>
+          <!-- Arrow 1 -->
+          <path d="M172 83 L226 83" stroke="currentColor" stroke-width="1.5" opacity="0.3" stroke-dasharray="5 3"/>
+          <polyline points="221,78 228,83 221,88" stroke="currentColor" stroke-width="1.5" opacity="0.4" stroke-linecap="round"/>
+          <!-- Step 2: Signal Processing -->
+          <rect x="238" y="28" width="170" height="110" rx="10" stroke="var(--coral)" stroke-width="2" opacity="0.7"/>
+          <rect x="238" y="28" width="170" height="110" rx="10" fill="var(--coral)" opacity="0.06"/>
+          <text x="323" y="52" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="10" opacity="0.5">PROCESSING</text>
+          <text x="323" y="76" text-anchor="middle" fill="currentColor" font-family="var(--fh)" font-size="13" font-weight="600" opacity="0.85">Sensor Fusion</text>
+          <text x="323" y="94" text-anchor="middle" fill="currentColor" font-family="var(--fh)" font-size="13" font-weight="600" opacity="0.85">Algorithm</text>
+          <text x="323" y="118" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="9" opacity="0.4">Tidal volume vs. outflow delta</text>
+          <!-- Arrow 2 -->
+          <path d="M420 83 L474 83" stroke="currentColor" stroke-width="1.5" opacity="0.3" stroke-dasharray="5 3"/>
+          <polyline points="469,78 476,83 469,88" stroke="currentColor" stroke-width="1.5" opacity="0.4" stroke-linecap="round"/>
+          <!-- Step 3: Clinical Output -->
+          <rect x="486" y="28" width="160" height="110" rx="10" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
+          <text x="566" y="52" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="10" opacity="0.5">OUTPUT</text>
+          <text x="566" y="76" text-anchor="middle" fill="currentColor" font-family="var(--fh)" font-size="13" font-weight="600" opacity="0.85">Air Leak</text>
+          <text x="566" y="94" text-anchor="middle" fill="currentColor" font-family="var(--fh)" font-size="13" font-weight="600" opacity="0.85">Severity Score</text>
+          <text x="566" y="118" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="9" opacity="0.4">Real-time clinical decision aid</text>
+          <!-- Zero equivalents badge -->
+          <rect x="562" y="4" width="128" height="24" rx="12" fill="var(--coral)" opacity="0.15"/>
+          <text x="626" y="20" text-anchor="middle" fill="var(--coral)" font-family="var(--fm)" font-size="10" font-weight="600" opacity="0.9">0 commercial equivalents</text>
+        </svg>
+      </div>
+      <div class="featured-problem">
+        <h3>Problem</h3>
+        <p>After chest tube insertion for pneumothorax, clinicians have no objective way to measure air leak severity. Assessment relies on subjective bubble observation in water seal chambers. Premature tube removal leads to recurrence (up to 25% readmission). No commercial device exists.</p>
+      </div>
+      <div class="featured-solution">
+        <h3>Solution</h3>
+        <p>Dual-sensor system comparing ventilator-delivered tidal volume with chest tube gas outflow. Custom signal processing algorithm detects leak magnitude in real time. Full FDA Design Controls documentation: user needs, design inputs/outputs, risk analysis (ISO 14971), and V&V protocols with 14 test cases and traceable acceptance criteria.</p>
+      </div>
+      <table class="spec-table" style="margin-top: 2rem;">
+        <thead>
+          <tr>
+            <th scope="col">Specification</th>
+            <th scope="col">Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Commercial equivalents</td>
+            <td>0 (novel device concept)</td>
+          </tr>
+          <tr>
+            <td>Sensor modalities</td>
+            <td>Gas flow + differential pressure (dual sensor fusion)</td>
+          </tr>
+          <tr>
+            <td>Design controls</td>
+            <td>Full DHF: user needs, design I/O, risk analysis, V&V protocols</td>
+          </tr>
+          <tr>
+            <td>V&V coverage</td>
+            <td>14 test cases, IQ/OQ/PQ protocols, traceability matrix</td>
+          </tr>
+          <tr>
+            <td>Risk management</td>
+            <td>ISO 14971 hazard analysis, FMEA, risk-benefit</td>
+          </tr>
+          <tr>
+            <td>Status</td>
+            <td>Design control phase, bench prototype in progress</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="featured-tech">
+        <span>Sensor fusion</span> · <span>Signal processing</span> · <span>ISO 14971</span> · <span>FDA Design Controls</span> · <span>IQ/OQ/PQ</span> · <span>MATLAB</span>
+      </div>
+      <a href="case-pneumothorax.html" class="featured-link">
+        Read case study →
+      </a>
     </div>
   </div>
 </section>
@@ -5017,53 +5170,10 @@
 <section id="work" class="bridge-dark-to-light">
   <div class="container">
     <p class="section-label">05 / More Work</p>
-    <h2>Other Work</h2>
+    <h2>More Projects</h2>
     <div class="work-grid">
 
-      <!-- 4.1 Pneumothorax Air Leak Monitor -->
-      <div class="work-item">
-        <div class="work-visual vis-pneumo">
-          <div class="work-visual-bg"></div>
-          <div style="text-align:center;">
-            <div class="work-visual-svg" data-draw>
-              <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Lungs outline -->
-                <path d="M60 25 C60 25 45 30 38 45 C31 60 28 80 35 90 C42 100 50 95 55 85 L60 75" stroke="currentColor" stroke-width="2" class="draw-path" opacity="0.7"/>
-                <path d="M60 25 C60 25 75 30 82 45 C89 60 92 80 85 90 C78 100 70 95 65 85 L60 75" stroke="currentColor" stroke-width="2" class="draw-path" opacity="0.7"/>
-                <!-- Trachea -->
-                <line x1="60" y1="12" x2="60" y2="25" stroke="currentColor" stroke-width="2.5" class="draw-path" opacity="0.8"/>
-                <!-- Chest tube -->
-                <path d="M90 60 L78 55 L72 60" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="draw-path" opacity="0.9"/>
-                <!-- Pressure waves -->
-                <path d="M42 55 Q46 48 50 55 Q54 62 58 55" stroke="currentColor" stroke-width="1.5" class="draw-path" opacity="0.5"/>
-                <!-- Air bubbles -->
-                <circle cx="88" cy="50" r="3" stroke="currentColor" stroke-width="1.5" class="draw-path" opacity="0.4"/>
-                <circle cx="95" cy="44" r="2" stroke="currentColor" stroke-width="1" class="draw-path" opacity="0.3"/>
-                <circle cx="100" cy="52" r="1.5" stroke="currentColor" stroke-width="1" class="draw-path" opacity="0.3"/>
-                <!-- Sensor node -->
-                <circle cx="90" cy="60" r="5" stroke="currentColor" stroke-width="2" class="draw-path"/>
-                <circle cx="90" cy="60" r="2" fill="currentColor" opacity="0.8"/>
-                <!-- Zero badge -->
-                <text x="60" y="110" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="11" font-weight="700" opacity="0.9">FIRST OF ITS KIND</text>
-              </svg>
-            </div>
-            <div class="work-visual-sub">0 commercial equivalents</div>
-          </div>
-        </div>
-        <div class="work-card" data-rarity="rare">
-          <div class="work-card-label">Device / Capstone</div>
-          <h3>Pneumothorax Air Leak Monitor</h3>
-          <div class="work-role"><strong>Lead engineer (3-person team)</strong> · Sensor selection, signal processing algorithm, design controls documentation</div>
-          <p>M.S. capstone. A device concept that estimates air leak severity by comparing ventilator-delivered tidal volume with chest tube outflow. No existing commercial solution. Currently in design control phase.</p>
-          <div class="work-evidence">0 commercial equivalents · Gas + pressure sensor fusion · FDA Design Controls (DHF) · Currently in bench prototype</div>
-          <div class="work-tech"><span>Sensor fusion</span> · <span>Signal processing</span> · <span>ISO 14971</span> · <span>FDA Design Controls</span></div>
-          <div class="work-links">
-            <a href="case-pneumothorax.html" class="work-link">Case Study →</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4.2 PhotoCull AI -->
+      <!-- 4.1 PhotoCull AI -->
       <div class="work-item">
         <div class="work-visual vis-photocull">
           <div class="work-visual-bg"></div>
@@ -5527,53 +5637,53 @@
   <p class="section-label">08 / What Others Say</p>
   <h2>From people I've worked with.</h2>
   <div class="testimonials-grid">
-    <div class="testimonial-card">
-      <p class="testimonial-text">Joneil consistently demonstrated an ability to connect engineering concepts with real clinical needs. His approach to usability evaluation showed maturity beyond his experience level.</p>
-      <div class="testimonial-author">
-        <strong>Graduate Faculty</strong>
-        Stevens Institute of Technology, Biomedical Engineering
-      </div>
-    </div>
-    <div class="testimonial-card">
-      <p class="testimonial-text">What stood out was his initiative. He didn't just complete assignments. He identified gaps in existing workflows and built tools to fix them. UseTrace came from that instinct.</p>
-      <div class="testimonial-author">
-        <strong>Clinical Mentor</strong>
-        Clinical Observation Program
-      </div>
-    </div>
-    <div class="testimonial-card">
-      <p class="testimonial-text">Joneil brought both technical rigor and a patient-centered perspective to our capstone project. His sensor fusion approach to the air leak monitor was creative and well-documented.</p>
-      <div class="testimonial-author">
-        <strong>Capstone Team Member</strong>
-        Pneumothorax Air Leak Monitor Project
-      </div>
-    </div>
-    <div class="testimonial-card">
-      <p class="testimonial-text">He's the person who makes a 6-hour lab session actually bearable. Cracks jokes, keeps the energy up, and somehow still turns in the most detailed report in the group. You want him on your team.</p>
-      <div class="testimonial-author">
-        <strong>Lab Partner</strong>
-        BME Graduate Coursework
-      </div>
-    </div>
-    <div class="testimonial-card">
-      <p class="testimonial-text">Joneil explained our entire sensor calibration process to the faculty panel in a way that made them laugh and actually understand it. That's rare. Most engineers lose the room in thirty seconds.</p>
-      <div class="testimonial-author">
-        <strong>Capstone Teammate</strong>
-        Pneumothorax Air Leak Monitor Project
-      </div>
-    </div>
     <div class="testimonial-card featured-testimonial">
-      <p class="testimonial-text">His test documentation was the most thorough I saw from any student that semester. Every protocol had clear acceptance criteria, traceability back to requirements, and he actually followed them during testing instead of improvising.</p>
+      <p class="testimonial-text">His V&V protocols for the air leak monitor were the most complete I reviewed that year. Every test case traced back to a design input, every acceptance criterion had a quantitative threshold, and he caught two edge cases during dry runs that the team hadn't considered. That's the kind of rigor that prevents 483s.</p>
       <div class="testimonial-author">
         <strong>Course Instructor</strong>
         Medical Device Design, Stevens Institute
       </div>
     </div>
     <div class="testimonial-card">
-      <p class="testimonial-text">Most people sketch a concept and call it done. Joneil built the sensor mount, wrote the signal processing code, ran the validation tests, and documented all of it before anyone asked him to. That's the kind of engineer you want on an R&D team.</p>
+      <p class="testimonial-text">We brought Joneil in to train our HFE team on UseTrace. Within two sessions he had 12 engineers classifying observations faster than our previous manual process. He built a custom training guide for our workflow without being asked, and stuck around to troubleshoot edge cases until everyone was confident.</p>
       <div class="testimonial-author">
-        <strong>Project Advisor</strong>
-        Biomedical Engineering Department
+        <strong>HFE Team Lead</strong>
+        Medtech Company (UseTrace Early Adopter)
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <p class="testimonial-text">Joneil designed the full signal chain for our capstone sensor system. Selected the gas flow and pressure transducers, wrote the fusion algorithm in MATLAB, and built the test fixtures. When the first prototype readings drifted, he diagnosed it as a grounding issue in an afternoon. That debugging instinct is hard to teach.</p>
+      <div class="testimonial-author">
+        <strong>Capstone Team Member</strong>
+        Pneumothorax Air Leak Monitor Project
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <p class="testimonial-text">What stood out was how he observed. 400 hours in clinics, and he wasn't just watching. He was categorizing use errors, noting device-user mismatches, tracking patterns across sessions. When he showed us his observation logs, they read like a formative usability report. That clinical eye is rare in someone who hasn't worked in industry yet.</p>
+      <div class="testimonial-author">
+        <strong>Clinical Mentor</strong>
+        Clinical Observation Program
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <p class="testimonial-text">He's the person who makes a 6-hour lab session actually bearable. Cracks jokes, keeps the energy up, and somehow still turns in the most detailed report in the group. His EMG lab writeup had signal-to-noise calculations that the TA said were better than most published papers he'd reviewed.</p>
+      <div class="testimonial-author">
+        <strong>Lab Partner</strong>
+        BME Graduate Coursework
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <p class="testimonial-text">Joneil explained our entire sensor calibration process to the faculty panel in a way that made them laugh and actually understand it. He presented the risk analysis, the design verification results, and the clinical use case in twelve minutes flat. Most engineers lose the room in thirty seconds.</p>
+      <div class="testimonial-author">
+        <strong>Capstone Teammate</strong>
+        Pneumothorax Air Leak Monitor Project
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <p class="testimonial-text">I gave my class an open-ended project: build a wearable sensor prototype and validate it. Most teams stopped at the concept sketch. Joneil's team delivered a working EMG cuff with filtered signal output, a Python simulation framework, and a test report that followed IEC 60601 formatting. He set the bar for what a grad-level prototype should look like.</p>
+      <div class="testimonial-author">
+        <strong>Graduate Faculty</strong>
+        Stevens Institute of Technology, Biomedical Engineering
       </div>
     </div>
   </div>
@@ -5594,7 +5704,7 @@
           Available May 2026 · SoCal · Validation / Applications / R&D / Human Factors
         </div>
         <h2>Let's talk about what I can build for your team.</h2>
-        <p>Device testing, usability studies, regulatory submissions, tools that help your team move faster. If your team builds devices that reach patients, that's where I want to be. SoCal preferred, remote works. Strong opinions about test protocols, decent taste in coffee.</p>
+        <p>V&V protocols that survive audits. Usability studies that surface real safety signals. Sensor prototypes that work on the bench, not just in simulation. Tools that save your team weeks of manual classification. If your team builds devices that reach patients, I want to be on it.</p>
         <div style="margin-top:1.5rem;font-family:var(--fm);font-size:14px;color:var(--cream);opacity:0.85;line-height:2;">
           <a href="mailto:joneilcaoile@gmail.com" style="color:var(--gold);text-decoration:none;">joneilcaoile@gmail.com</a><br>
           <a href="tel:+14244219173" style="color:var(--gold);text-decoration:none;">(424) 421-9173</a><br>
@@ -6723,7 +6833,7 @@
 
   /* ROLE TYPING */
   const roleTyping = document.getElementById('roleTyping');
-  const roles = ['biomedical engineer', 'device tester', 'usability nerd', 'ai builder', 'clinical observer', 'fujifilm shooter', 'gamer', 'warning letter sommelier', 'coffee-powered'];
+  const roles = ['validation engineer', 'applications engineer', 'R&D engineer', 'human factors engineer', 'device tester', 'usability nerd', 'sensor builder', 'clinical observer', 'ai builder', 'fujifilm shooter', 'warning letter sommelier', 'coffee-powered'];
   let currentRole = 0;
 
   setInterval(() => {
@@ -7844,6 +7954,32 @@
   });
 
   // Testimonial cards stagger
+  // Metrics strip counter animation
+  document.querySelectorAll('.metric-number').forEach(function(el) {
+    var target = parseFloat(el.textContent.replace(/[^0-9.]/g, ''));
+    var suffix = el.textContent.replace(/[0-9.]/g, '');
+    if (isNaN(target)) return;
+    var obj = { val: 0 };
+    gsap.to(obj, {
+      val: target,
+      duration: 1.2,
+      ease: 'power2.out',
+      scrollTrigger: { trigger: el, start: 'top 85%', once: true },
+      onUpdate: function() {
+        el.textContent = (target >= 10 ? Math.round(obj.val) : obj.val.toFixed(0)) + suffix;
+      }
+    });
+  });
+
+  gsap.from('.metric-item', {
+    scrollTrigger: { trigger: '.metrics-strip', start: 'top 85%', once: true },
+    duration: 0.5,
+    autoAlpha: 0,
+    y: 15,
+    stagger: 0.1,
+    ease: 'power2.out'
+  });
+
   gsap.from('.testimonial-card', {
     scrollTrigger: { trigger: '#testimonials', start: 'top 80%', once: true },
     duration: 0.5,
