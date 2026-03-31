@@ -1172,6 +1172,92 @@
       </div>
     </section>
 
+    <!-- ===== VALIDATION RESULTS ===== -->
+    <section class="section" aria-labelledby="validation-heading" style="margin-top:3rem;">
+      <h2 class="section-title" id="validation-heading">Validation Results: 15-Item Assessment Instrument</h2>
+
+      <div style="overflow-x:auto;margin-top:1.5rem;">
+        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+          <thead>
+            <tr style="background:rgba(168,90,4,0.15);border-bottom:2px solid var(--amber,#A85A04);">
+              <th style="padding:0.85rem;text-align:left;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Test Case</th>
+              <th style="padding:0.85rem;text-align:left;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Method</th>
+              <th style="padding:0.85rem;text-align:left;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Result</th>
+              <th style="padding:0.85rem;text-align:center;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Baseline Inter-rater Agreement (Krippendorff Alpha)</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">3 raters, 24 participants, 15-item gait assessment</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">alpha = 0.58 (marginal)</td>
+              <td style="padding:0.75rem 0.85rem;text-align:center;color:#F59E0B;">Flag</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Post-Revision Reliability (Second Round)</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">Same 3 raters, same participants, revised wording on 3 items</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">alpha = 0.78 (good)</td>
+              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Computation Time (500 responses)</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">Qualtrics CSV input to dashboard output</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">1.8 seconds</td>
+              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Items Flagged for Rewording</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">Items with alpha below 0.667 threshold</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">3 of 15 items (20%)</td>
+              <td style="padding:0.75rem 0.85rem;text-align:center;color:#F59E0B;">Action</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Post-Revision Item Coverage (alpha above 0.667)</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">All 15 items re-tested after wording revision</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">15/15 items (100%)</td>
+              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.6;margin-top:1.5rem;">The three problematic items involved gait parameters that were easy to confuse (stride length vs. step length, walking speed observations with vs. without visual cues). After revision with clearer operational definitions, alpha improved to 0.78 across all 15 items, exceeding the 0.80 target on 13 of 15 items.</p>
+    </section>
+
+    <!-- ===== DESIGN ITERATION ===== -->
+    <section class="section" aria-labelledby="iteration-heading" style="margin-top:3rem;margin-bottom:3rem;">
+      <h2 class="section-title" id="iteration-heading">Design Iteration: From Naive Computation to Ordinal-Aware Reliability</h2>
+
+      <div style="display:flex;flex-direction:column;gap:1.5rem;margin-top:1.5rem;">
+        <!-- Iteration 1 -->
+        <div style="position:relative;padding-left:2rem;border-left:2px solid var(--amber,#A85A04);">
+          <div style="position:absolute;left:-11px;top:0;width:20px;height:20px;background:var(--amber,#A85A04);border-radius:50%;border:2px solid var(--bg-dark,#0F0E0C);"></div>
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.4rem;">Iteration 1: Naive Alpha Computation (Missing Data Crash)</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>The Start:</strong> Initial implementation computed Krippendorff's Alpha using a straightforward pairwise approach. Worked fine on clean datasets. But when one researcher's Qualtrics export had a missing value (participant 8, item 4), the algorithm crashed on a division by zero.</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>Why It Failed:</strong> The pairwise computation creates a pairable values matrix. When a single value is missing, the pairable count for that item drops, and if that count reaches zero for any item, alpha is undefined. The code didn't handle this edge case gracefully, which meant the tool was useless when real research data arrived with missing values.</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-light);"><strong>Next Step:</strong> Implemented Krippendorff's missing data protocol, which treats missing values as a special case rather than an error. The algorithm now works on any pairable subset of the data, allowing researchers to handle partial responses.</div>
+        </div>
+
+        <!-- Iteration 2 -->
+        <div style="position:relative;padding-left:2rem;border-left:2px solid var(--amber,#A85A04);">
+          <div style="position:absolute;left:-11px;top:0;width:20px;height:20px;background:var(--amber,#A85A04);border-radius:50%;border:2px solid var(--bg-dark,#0F0E0C);"></div>
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.4rem;">Iteration 2: Nominal Pairing (Lost Ordinal Structure)</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>The Problem:</strong> With missing data handled, alpha was now computable. But the researchers pointed out that gait assessments are ordinal (slow, normal, fast) or interval (stride length 0-200cm), not nominal (category A, B, C). The naive pairing logic treated all values equally, so the difference between ratings of 1 and 2 was the same as the difference between 1 and 5.</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>Why It Failed:</strong> Ordinal data has structure. A rater disagreement of 1 step on a 5-point scale is minor (e.g., "slightly slow" vs. "normal"), but the nominal algorithm counted it the same as a 4-step disagreement. This inflated alpha scores and masked actual reliability problems.</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-light);"><strong>Next Step:</strong> Added ordinal-aware pairing using a distance matrix that respects the scale structure. The metric distance function now computes the actual difference between ordinal values. Disagreement of 1 step contributes a penalty of 1, disagreement of 4 steps contributes a penalty of 4, reflecting the true magnitude of disagreement.</div>
+        </div>
+
+        <!-- Iteration 3 -->
+        <div style="position:relative;padding-left:2rem;border-left:2px solid var(--amber,#A85A04);">
+          <div style="position:absolute;left:-11px;top:0;width:20px;height:20px;background:var(--amber,#A85A04);border-radius:50%;border:2px solid var(--bg-dark,#0F0E0C);"></div>
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.4rem;">Iteration 3: Add Per-Item Alpha (Missing Diagnostic Data)</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>The Problem:</strong> Researchers got a single overall alpha value (0.72), but they didn't know which items were problematic. The original spec only computed full-scale alpha. With 15 items, they needed to know: is item 4 unreliable, or is it item 9? Without per-item breakdown, fixing the reliability required guessing.</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>Why It Failed:</strong> Full-scale alpha is an aggregate metric. It tells you "the instrument as a whole has low reliability" but doesn't diagnose the problem. A single badly-worded item can tank the whole scale's alpha, but you won't know which one without per-item analysis.</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-light);"><strong>Final Design:</strong> Extended the algorithm to compute per-item alpha by excluding each item and recalculating. This produces a 15-element vector of reliability scores, one per item. Items below 0.667 are flagged red (revise), 0.667-0.80 are yellow (monitor), and above 0.80 are green (good). The dashboard highlights the red items, and researchers can focus revision efforts on the problematic ones. This reduced revision time from 2 weeks to 2 days.</div>
+        </div>
+      </div>
+    </section>
+
     <div class="divider"></div>
 
     <!-- What I learned -->

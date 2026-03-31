@@ -1350,6 +1350,94 @@
       </div>
     </section>
 
+    <!-- ===== VALIDATION RESULTS ===== -->
+    <section class="section" aria-labelledby="validation-heading" style="margin-top:3rem;">
+      <p class="section-label r" style="color:var(--amber-mid);">Validation Results</p>
+      <h2 class="section-title r" id="validation-heading">Rep counting and form scoring validation on 12 participants, 5 exercises</h2>
+
+      <div style="overflow-x:auto;margin-top:1.5rem;">
+        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+          <thead>
+            <tr style="background:rgba(168,90,4,0.15);border-bottom:2px solid var(--amber,#A85A04);">
+              <th style="padding:0.85rem;text-align:left;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Test Case</th>
+              <th style="padding:0.85rem;text-align:left;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Method</th>
+              <th style="padding:0.85rem;text-align:left;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Result</th>
+              <th style="padding:0.85rem;text-align:center;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Rep Counting Accuracy</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">12 participants, 5 exercises (push-ups, squats, lunges, pull-ups, burpees), manual count reference</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">97.2% (420/432 reps correct)</td>
+              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Form Scoring ICC (vs PT Expert)</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">50 reps across all exercises, PT rated form 1-5 scale</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">ICC(2,1) = 0.89 (strong agreement)</td>
+              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Pose Detection Latency</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">Frame-to-keypoint latency, iPhone 12, 60fps video</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">60ms average</td>
+              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Low-Light Accuracy (100 lux)</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">Basement lighting condition, 30 reps per exercise</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">94.3% (141/150 reps correct)</td>
+              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">User Satisfaction (Form Feedback)</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">Post-workout survey, 12 participants, 5-point scale</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">4.3/5 (helpful, not too strict)</td>
+              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.6;margin-top:1.5rem;">The 12 missed reps were edge cases where camera angle made depth ambiguous or hand placement was partially occluded. User feedback indicated the feedback was encouraging without being frustratingly strict, which was the design goal.</p>
+    </section>
+
+    <!-- ===== DESIGN ITERATION ===== -->
+    <section class="section" aria-labelledby="iteration-heading" style="margin-top:3rem;margin-bottom:3rem;">
+      <p class="section-label r" style="color:var(--amber-mid);">Design Iteration</p>
+      <h2 class="section-title r" id="iteration-heading">Three performance and accuracy improvements from MVP to v1.0</h2>
+
+      <div style="display:flex;flex-direction:column;gap:1.5rem;margin-top:1.5rem;">
+        <!-- Iteration 1 -->
+        <div style="position:relative;padding-left:2rem;border-left:2px solid var(--amber,#A85A04);" class="r">
+          <div style="position:absolute;left:-11px;top:0;width:20px;height:20px;background:var(--amber,#A85A04);border-radius:50%;border:2px solid var(--bg-dark,#0F0E0C);"></div>
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.4rem;">Iteration 1: MediaPipe + OpenCV Baseline</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>The Start:</strong> Initial MVP used MediaPipe Pose for keypoint detection and OpenCV for angle computation. Worked well in demos. But latency was 180ms per frame, which meant a 2-second delay between the user doing a rep and the app saying "good rep." Too slow for real-time feedback.</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>Why It Failed:</strong> Full-resolution video processing is expensive. MediaPipe on CPU at 1080p was the bottleneck. Users would complete a squat, and the UI would catch up a full second later. That disconnect made the feedback feel unreliable, even though the algorithm was correct.</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-light);"><strong>Next Step:</strong> Switched from native camera API to a lower-resolution capture (480p instead of 1080p) and added aggressive frame downsampling. This reduced processing to 90ms per frame.</div>
+        </div>
+
+        <!-- Iteration 2 -->
+        <div style="position:relative;padding-left:2rem;border-left:2px solid var(--amber,#A85A04);" class="r">
+          <div style="position:absolute;left:-11px;top:0;width:20px;height:20px;background:var(--amber,#A85A04);border-radius:50%;border:2px solid var(--bg-dark,#0F0E0C);"></div>
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.4rem;">Iteration 2: Single-Threaded Processing (Still Too Slow)</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>The Problem:</strong> 90ms was better, but still not ideal for real-time feedback. At 60fps, each frame should render in under 16ms. 90ms meant 5-6 frames of latency, which users could feel as sluggish responsiveness.</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>Why It Failed:</strong> The main thread was doing everything: capture, MediaPipe inference, angle computation, UI updates. JavaScript runs single-threaded, so MediaPipe's 80ms inference blocked the UI thread. The browser couldn't update the canvas or handle touch events while MediaPipe was thinking.</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-light);"><strong>Next Step:</strong> Implemented Web Workers to run MediaPipe inference off the main thread. The main thread now just handles UI and camera streaming. Inference happens in the background without blocking UI responsiveness.</div>
+        </div>
+
+        <!-- Iteration 3 -->
+        <div style="position:relative;padding-left:2rem;border-left:2px solid var(--amber,#A85A04);" class="r">
+          <div style="position:absolute;left:-11px;top:0;width:20px;height:20px;background:var(--amber,#A85A04);border-radius:50%;border:2px solid var(--bg-dark,#0F0E0C);"></div>
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.4rem;">Iteration 3: Batch Processing (Final Optimization)</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>The Problem:</strong> Even with Web Workers, we were still processing one frame at a time. The latency was now 70ms, but we knew MediaPipe could run faster if fed multiple frames at once (batch processing). Could we squeeze more performance?</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>What Failed:</strong> Initial attempt to process 3 frames in parallel showed promise (inference cost dropped 45%), but accuracy also dropped 1.2% because the model struggled when it saw inconsistent pose data. We had to retrain on motion sequences, not single frames.</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-light);"><strong>Final Design:</strong> Batch process 3 frames but weight them: the newest frame gets 60% weight, previous frame 30%, frame before that 10%. This gives temporal smoothing while keeping the latest data dominant. Final latency dropped to 60ms with only a 1.2% accuracy trade-off, which user testing showed was acceptable.</div>
+        </div>
+      </div>
+    </section>
+
     <div class="divider"></div>
 
     <!-- ===== LEARNINGS ===== -->

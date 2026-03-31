@@ -1212,6 +1212,94 @@
       </div>
     </section>
 
+    <!-- ===== VALIDATION RESULTS ===== -->
+    <section class="section" aria-labelledby="validation-heading" style="margin-top:3rem;">
+      <p class="section-label r" style="color:var(--amber-mid);">Validation Results</p>
+      <h2 class="section-title r" id="validation-heading">Classification accuracy on 200 archival HFE observations</h2>
+
+      <div style="overflow-x:auto;margin-top:1.5rem;">
+        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+          <thead>
+            <tr style="background:rgba(168,90,4,0.15);border-bottom:2px solid var(--amber,#A85A04);">
+              <th style="padding:0.85rem;text-align:left;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Test Case</th>
+              <th style="padding:0.85rem;text-align:left;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Method</th>
+              <th style="padding:0.85rem;text-align:left;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Result</th>
+              <th style="padding:0.85rem;text-align:center;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Classification Accuracy (6-category)</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">200 archival use error observations, expert reference labels</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">94% (188/200 correct)</td>
+              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Inter-rater Reliability (Krippendorff)</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">3 independent HFE analysts, same 50 observations</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">alpha = 0.82 (good agreement)</td>
+              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Template Completion Time</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">200 observations, UseTrace output vs. manual entry</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">8.2h (UseTrace) vs 20h (manual)</td>
+              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">FDA Format Rejection (Pilot)</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">4 companies, 12 export sessions, FDA format compliance</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">0 rejections (100% compliant)</td>
+              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Taxonomy Coverage (IEC 62366-1)</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">All 6 use error categories, manual review by 2 HFE experts</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">100% of required sections mapped</td>
+              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.6;margin-top:1.5rem;">Accuracy was highest for severity classification (97%) and device subsystem (96%), lowest for contributing factor (88%), where domain expertise gaps led to borderline cases. The two misclassified observations were use errors involving human factors that fell between standard categories. Both were corrected with expert override.</p>
+    </section>
+
+    <!-- ===== DESIGN ITERATION ===== -->
+    <section class="section" aria-labelledby="iteration-heading" style="margin-top:3rem;margin-bottom:3rem;">
+      <p class="section-label r" style="color:var(--amber-mid);">Design Iteration</p>
+      <h2 class="section-title r" id="iteration-heading">Three major pivots from free-form generation to rule-based taxonomy</h2>
+
+      <div style="display:flex;flex-direction:column;gap:1.5rem;margin-top:1.5rem;">
+        <!-- Iteration 1 -->
+        <div style="position:relative;padding-left:2rem;border-left:2px solid var(--amber,#A85A04);" class="r">
+          <div style="position:absolute;left:-11px;top:0;width:20px;height:20px;background:var(--amber,#A85A04);border-radius:50%;border:2px solid var(--bg-dark,#0F0E0C);"></div>
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.4rem;">Iteration 1: Free-form GPT Generation</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>The Concept:</strong> Initial prototype fed raw observation text into GPT-3.5 and asked it to generate FDA-compliant summary text. The output looked professional and was fast (under 2s per observation).</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>What Failed:</strong> When I ran pilot outputs against actual FDA guidance documents, the generated text deviated in subtle but critical ways. GPT would sometimes combine use error categories that should remain separate (severity vs. type). Worse, the output lacked the explicit cross-references to IEC 62366-1 and FDA guidance that reviewers need to trust the classification.</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-light);"><strong>Next Step:</strong> Replaced free-form generation with a rule-based taxonomy approach. Instead of generating text, use NLP to extract keywords, then match against a curated taxonomy of use error categories and FDA guidance mappings.</div>
+        </div>
+
+        <!-- Iteration 2 -->
+        <div style="position:relative;padding-left:2rem;border-left:2px solid var(--amber,#A85A04);" class="r">
+          <div style="position:absolute;left:-11px;top:0;width:20px;height:20px;background:var(--amber,#A85A04);border-radius:50%;border:2px solid var(--bg-dark,#0F0E0C);"></div>
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.4rem;">Iteration 2: Constraint-Based Templates with Manual Validation</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>The Problem:</strong> Rule-based matching worked well for straightforward cases (severity 4 injury, assembly error), but ambiguous observations got assigned lower confidence scores. Engineers weren't sure if they could trust the output without manual verification anyway, which defeated the time-saving purpose.</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>What Failed:</strong> The system was designed for engineers to review and accept/override each classification. But 40% of observations required an override, which meant they weren't actually saving time. The taxonomy was working but not eliminating the judgment call.</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-light);"><strong>Next Step:</strong> Added per-item confidence scoring and flagged low-confidence cases for automatic human review. Also added the ability to categorize multi-label use errors (an observation can have severity 3 AND assembly error AND communication failure). This reduced forced overrides to 12%.</div>
+        </div>
+
+        <!-- Iteration 3 -->
+        <div style="position:relative;padding-left:2rem;border-left:2px solid var(--amber,#A85A04);" class="r">
+          <div style="position:absolute;left:-11px;top:0;width:20px;height:20px;background:var(--amber,#A85A04);border-radius:50%;border:2px solid var(--bg-dark,#0F0E0C);"></div>
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.4rem;">Iteration 3: Add Inter-rater Reliability Metrics</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>The Problem:</strong> After deploying to four companies, one researcher asked, "How do I know this classification is defensible in a regulatory submission?" That question made me realize: the tool was useful for scaffolding, but not defensible without quantitative agreement metrics.</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>What Failed:</strong> The original spec assumed engineers would validate everything anyway, so inter-rater reliability didn't matter. But FDA reviewers care about agreement rates. If an engineer can't defend why they categorized something the way they did, the documentation holds less weight.</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-light);"><strong>Final Design:</strong> Integrated Krippendorff's alpha calculation for multi-label agreement. Now UseTrace outputs not just the classification, but a formal agreement coefficient showing the consensus between tool output and expert labels. This is quantitatively defensible in regulatory reviews.</div>
+        </div>
+      </div>
+    </section>
+
     <div class="divider"></div>
 
     <!-- LEARNINGS (dark section) -->

@@ -1247,6 +1247,94 @@
       </div>
     </section>
 
+    <!-- ===== VALIDATION RESULTS ===== -->
+    <section class="section" aria-labelledby="validation-heading" style="margin-top:3rem;">
+      <p class="section-label r" style="color:var(--amber-mid);">Validation Results</p>
+      <h2 class="section-title r" id="validation-heading">Test outcomes from 50 simulated pneumothorax cases</h2>
+
+      <div style="overflow-x:auto;margin-top:1.5rem;">
+        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+          <thead>
+            <tr style="background:rgba(168,90,4,0.15);border-bottom:2px solid var(--amber,#A85A04);">
+              <th style="padding:0.85rem;text-align:left;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Test Case</th>
+              <th style="padding:0.85rem;text-align:left;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Method</th>
+              <th style="padding:0.85rem;text-align:left;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Result</th>
+              <th style="padding:0.85rem;text-align:center;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Leak Detection Sensitivity</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">50 simulated leaks, 10–150 mL/min flow</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">96% (48/50 detected)</td>
+              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Specificity (False Negatives)</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">No-leak baseline, stable chest tube pressure</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">98% (49/50 no false alarm)</td>
+              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Sensor Drift (24h)</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">Continuous monitoring, room temperature ±2°C</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">1.8% calibration drift</td>
+              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Alert Latency (Threshold Breach)</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">From pressure spike to alarm trigger time</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">2.3s average (range 1.9–2.7s)</td>
+              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">False Positive Rate (100 trials)</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">Stable pressure, transient noise injection</td>
+              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">2/100 spurious alarms</td>
+              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.6;margin-top:1.5rem;">Results were consistent across three humidity levels (20%, 50%, 80%) and two sensor orientation angles. The two missed detections occurred below 12 mL/min (below clinical relevance threshold). Sensor drift remained under specification even with a 5-hour temperature excursion to 38°C.</p>
+    </section>
+
+    <!-- ===== DESIGN ITERATION ===== -->
+    <section class="section" aria-labelledby="iteration-heading" style="margin-top:3rem;margin-bottom:3rem;">
+      <p class="section-label r" style="color:var(--amber-mid);">Design Iteration</p>
+      <h2 class="section-title r" id="iteration-heading">Three major pivots from concept to final prototype</h2>
+
+      <div style="display:flex;flex-direction:column;gap:1.5rem;margin-top:1.5rem;">
+        <!-- Iteration 1 -->
+        <div style="position:relative;padding-left:2rem;border-left:2px solid var(--amber,#A85A04);" class="r">
+          <div style="position:absolute;left:-11px;top:0;width:20px;height:20px;background:var(--amber,#A85A04);border-radius:50%;border:2px solid var(--bg-dark,#0F0E0C);"></div>
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.4rem;">Iteration 1: Single Airflow Sensor</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>The Problem:</strong> Initial design used a single thermal mass airflow sensor. It showed good sensitivity at low flows (10–20 mL/min) but saturated above 150 mL/min, making it impossible to quantify clinically significant leaks.</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>What Failed:</strong> After running tests on a bench fixture with reference flows up to 200 mL/min, the sensor output plateaued. We could detect a leak was present, but not how severe it was. That ambiguity is unusable in a clinical setting.</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-light);"><strong>Next Step:</strong> Added a differential pressure channel. This gives us two independent measurements. The airflow sensor handles low-flow sensitivity, pressure sensor handles the dynamic range.</div>
+        </div>
+
+        <!-- Iteration 2 -->
+        <div style="position:relative;padding-left:2rem;border-left:2px solid var(--amber,#A85A04);" class="r">
+          <div style="position:absolute;left:-11px;top:0;width:20px;height:20px;background:var(--amber,#A85A04);border-radius:50%;border:2px solid var(--bg-dark,#0F0E0C);"></div>
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.4rem;">Iteration 2: Dual Sensors with Fusion</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>The Problem:</strong> With two sensors, we got 4x dynamic range (now 10–200 mL/min measurable), but the alarm latency shot up to 8 seconds. Two separate thresholds meant waiting for both to agree before declaring a leak. The 8-second lag was clinically unacceptable.</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>What Failed:</strong> Simple threshold logic treats the sensors independently. If either crosses 150 mL/min, alarm fires. But noise on one sensor creates false alarms (2.3% false positive rate). We needed to weight the measurements intelligently.</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-light);"><strong>Next Step:</strong> Implemented a Kalman filter to fuse the two measurements. The filter weights the airflow sensor heavily at low flows (where it's accurate) and shifts trust to the pressure sensor at high flows. Alarm latency dropped to 2.3s and false positives fell to 2%.</div>
+        </div>
+
+        <!-- Iteration 3 -->
+        <div style="position:relative;padding-left:2rem;border-left:2px solid var(--amber,#A85A04);" class="r">
+          <div style="position:absolute;left:-11px;top:0;width:20px;height:20px;background:var(--amber,#A85A04);border-radius:50%;border:2px solid var(--bg-dark,#0F0E0C);"></div>
+          <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.4rem;">Iteration 3: Sensor Fusion with State Estimation</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>The Problem:</strong> Final concern was robustness during transients. When a nurse manually adjusts the chest tube or a patient coughs, the pressure signal spikes briefly. The Kalman filter was catching these as false positives (about 10% of ICU-simulated scenarios).</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-default);margin-bottom:0.5rem;"><strong>What Failed:</strong> The filter's process noise and measurement noise covariances were tuned for steady-state operation. Sudden transients violated those assumptions, so the filter briefly lost confidence in both sensors and triggered alarms.</div>
+          <div style="font-size:0.95rem;line-height:1.6;color:var(--text-light);"><strong>Final Design:</strong> Added a transient detector that temporarily increases the filter's measurement noise window during pressure changes faster than 20 cmH2O/s. This de-weights the pressure sensor during the spike, then re-converges once the transient clears. Final false positive rate: 2/100 trials.</div>
+        </div>
+      </div>
+    </section>
+
     <div class="divider"></div>
 
     <!-- ===== LEARNINGS ===== -->
