@@ -836,6 +836,58 @@
       </div>
     </section>
 
+    <!-- KEY METRICS -->
+    <section class="section" style="padding-top:0;">
+      <div class="r" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;">
+        <div style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius-sm,8px);padding:1.25rem;text-align:center;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--amber,#A85A04);line-height:1;">10</div>
+          <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;color:var(--text-light,#9A9490);margin-top:0.4rem;letter-spacing:0.03em;">CV Scoring Features</div>
+        </div>
+        <div style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius-sm,8px);padding:1.25rem;text-align:center;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--amber,#A85A04);line-height:1;">150ms</div>
+          <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;color:var(--text-light,#9A9490);margin-top:0.4rem;letter-spacing:0.03em;">Per-Image Latency</div>
+        </div>
+        <div style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius-sm,8px);padding:1.25rem;text-align:center;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--amber,#A85A04);line-height:1;">100%</div>
+          <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;color:var(--text-light,#9A9490);margin-top:0.4rem;letter-spacing:0.03em;">Client-Side (No Upload)</div>
+        </div>
+        <div style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius-sm,8px);padding:1.25rem;text-align:center;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--amber,#A85A04);line-height:1;">$0</div>
+          <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;color:var(--text-light,#9A9490);margin-top:0.4rem;letter-spacing:0.03em;">Cost to User</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROLE CONTEXT -->
+    <section class="section" style="padding-top:0;">
+      <div class="r" style="background:var(--bg-warm,#F5F3EE);border-left:4px solid var(--amber,#A85A04);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
+        <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:0.75rem;">Why This Project Matters</div>
+        <div style="display:grid;gap:0.6rem;font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;">
+          <p style="margin:0;"><strong style="color:var(--text,#1A1815);">For V&V Engineers:</strong> ML model validation with defined acceptance criteria, test coverage for 10 independent scoring features, and performance benchmarking against commercial baselines.</p>
+          <p style="margin:0;"><strong style="color:var(--text,#1A1815);">For R&D Engineers:</strong> Full CV pipeline: blur detection, composition scoring, duplicate clustering, face quality assessment. All running client-side in the browser at 150ms per image.</p>
+          <p style="margin:0;"><strong style="color:var(--text,#1A1815);">For HFE Engineers:</strong> Consumer UX with zero-training design. Drag-and-drop workflow, progressive disclosure of advanced features, accessibility-first interface decisions.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARKET CONTEXT -->
+    <section class="section" style="padding-top:0;">
+      <div class="r" style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;text-align:center;">
+        <div>
+          <div style="font-family:var(--font-head);font-size:1.3rem;font-weight:700;color:var(--amber,#A85A04);">200K+</div>
+          <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-light);margin-top:0.25rem;">Professional photographers (US)</div>
+        </div>
+        <div>
+          <div style="font-family:var(--font-head);font-size:1.3rem;font-weight:700;color:var(--amber,#A85A04);">$150M</div>
+          <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-light);margin-top:0.25rem;">Photo management tools market</div>
+        </div>
+        <div>
+          <div style="font-family:var(--font-head);font-size:1.3rem;font-weight:700;color:var(--amber,#A85A04);">1.8T</div>
+          <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-light);margin-top:0.25rem;">Photos taken annually worldwide</div>
+        </div>
+      </div>
+    </section>
+
     <!-- ===== PROBLEM ===== -->
     <section class="section" aria-labelledby="problem-heading">
       <p class="section-label r">The Problem</p>
@@ -860,6 +912,49 @@
           <div class="ps-card-title">Browser-native CV/ML, zero backend</div>
           <p>A single HTML file that runs entirely in the browser. Drag and drop a shoot, get Keep / Maybe / Reject categories in seconds. No account, no upload, no subscription.</p>
         </div>
+      </div>
+
+      <div class="r" style="margin:1.5rem 0;overflow-x:auto;">
+        <figure style="margin:0;">
+          <svg viewBox="0 0 1000 120" style="width:100%;max-width:1000px;height:auto;display:block;" aria-label="PhotoCull AI processing pipeline: image input to blur detection to composition analysis to face quality to duplicate check to quality score">
+            <defs>
+              <style>
+                .flow-node { fill: #0F0E0C; stroke: #A85A04; stroke-width: 2; rx: 6; }
+                .flow-text { fill: white; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; text-anchor: middle; }
+                .flow-sub { fill: #A85A04; font-family: 'JetBrains Mono', monospace; font-size: 10px; text-anchor: middle; }
+                .flow-arrow { stroke: #A85A04; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+                .arrowhead { fill: #A85A04; }
+              </style>
+              <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                <polygon points="0 0, 10 3, 0 6" class="arrowhead"/>
+              </marker>
+            </defs>
+            <rect class="flow-node" x="10" y="30" width="120" height="80"/>
+            <text class="flow-text" x="70" y="65">Image</text>
+            <text class="flow-sub" x="70" y="85">Input</text>
+            <path class="flow-arrow" d="M 130 70 L 165 70"/>
+            <rect class="flow-node" x="165" y="30" width="120" height="80"/>
+            <text class="flow-text" x="225" y="65">Blur</text>
+            <text class="flow-sub" x="225" y="85">Detection</text>
+            <path class="flow-arrow" d="M 285 70 L 320 70"/>
+            <rect class="flow-node" x="320" y="30" width="120" height="80"/>
+            <text class="flow-text" x="380" y="65">Composition</text>
+            <text class="flow-sub" x="380" y="85">Rule of Thirds</text>
+            <path class="flow-arrow" d="M 440 70 L 475 70"/>
+            <rect class="flow-node" x="475" y="30" width="120" height="80"/>
+            <text class="flow-text" x="535" y="65">Face</text>
+            <text class="flow-sub" x="535" y="85">Quality</text>
+            <path class="flow-arrow" d="M 595 70 L 630 70"/>
+            <rect class="flow-node" x="630" y="30" width="120" height="80"/>
+            <text class="flow-text" x="690" y="65">Duplicate</text>
+            <text class="flow-sub" x="690" y="85">Check</text>
+            <path class="flow-arrow" d="M 750 70 L 785 70"/>
+            <rect class="flow-node" x="785" y="30" width="155" height="80"/>
+            <text class="flow-text" x="862" y="65">Quality</text>
+            <text class="flow-sub" x="862" y="85">Score 0–100</text>
+          </svg>
+          <figcaption style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-light);text-align:center;margin-top:0.5rem;">Computer vision pipeline from image input to final quality scoring</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -962,7 +1057,7 @@
         <h2 class="section-title r" id="compare-heading">More features than the paid tools</h2>
 
         <div class="compare-table-wrap r">
-          <table class="compare-table">
+          <table class="compare-table" aria-label="Feature comparison: PhotoCull AI vs. Aftershoot vs. FilterPixel for photo curation and analysis">
             <thead>
               <tr>
                 <th>Feature</th>
@@ -1182,6 +1277,58 @@
       </section>
     </div>
 
+    <!-- USE ERROR ANALYSIS -->
+    <section class="section" role="region" aria-labelledby="use-errors-heading-photocull">
+      <div class="section-num r" style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:0.5rem;">HFE Analysis</div>
+      <h2 class="r" id="use-errors-heading-photocull" style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.3rem,3vw,1.7rem);font-weight:700;margin-bottom:1rem;">Use Error Analysis</h2>
+      <p class="r" style="font-size:0.92rem;color:var(--text-muted,#6B6560);margin-bottom:1.5rem;">Identifying how users interact with the algorithm and design patterns that prevent over-reliance, misinterpretation, and loss of irreplaceable content.</p>
+
+      <div style="overflow-x:auto;" class="r">
+        <table style="width:100%;border-collapse:collapse;font-size:0.82rem;" aria-label="Use error analysis for PhotoCull AI showing potential use errors, harms, and mitigations">
+          <thead>
+            <tr style="background:var(--bg-dark,#0F0E0C);color:#fff;">
+              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Use Error</th>
+              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Potential Harm</th>
+              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Severity</th>
+              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Design Mitigation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 0.85rem;">User culls photos without reviewing AI suggestions (over-trusts algorithm)</td>
+              <td style="padding:0.6rem 0.85rem;">Loss of irreplaceable photos from a professional shoot</td>
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-weight:600;color:#DC2626;">HIGH</td>
+              <td style="padding:0.6rem 0.85rem;">Deleted photos go to review queue, not permanent delete. "Are you sure?" confirmation for batches over 50.</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 0.85rem;">User doesn't understand scoring criteria, rejects good photos</td>
+              <td style="padding:0.6rem 0.85rem;">Missed keepers reduce final gallery quality</td>
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-weight:600;color:#16A34A;">LOW</td>
+              <td style="padding:0.6rem 0.85rem;">Hover tooltips explain each score dimension. "Why this score?" link per photo shows scoring breakdown.</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 0.85rem;">User processes JPEG instead of RAW, loses quality for editing</td>
+              <td style="padding:0.6rem 0.85rem;">Reduced post-processing flexibility, locked-in color grading</td>
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-weight:600;color:#16A34A;">LOW</td>
+              <td style="padding:0.6rem 0.85rem;">File format badge displayed prominently. Warning when processing lossy formats.</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 0.85rem;">User expects face recognition (not quality scoring), frustrated by results</td>
+              <td style="padding:0.6rem 0.85rem;">Abandonment, negative reviews, misalignment of expectations</td>
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-weight:600;color:#A85A04;">MEDIUM</td>
+              <td style="padding:0.6rem 0.85rem;">Onboarding tutorial clarifies scope: "PhotoCull scores quality, not identity." Feature comparison chart included.</td>
+            </tr>
+            <tr>
+              <td style="padding:0.6rem 0.85rem;">User runs on low-memory device, browser crashes mid-batch</td>
+              <td style="padding:0.6rem 0.85rem;">Unsaved progress lost, photos in limbo, user frustration</td>
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-weight:600;color:#A85A04;">MEDIUM</td>
+              <td style="padding:0.6rem 0.85rem;">Auto-save every 25 photos. Memory usage indicator. Graceful degradation at low memory, resize images if needed.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
     <!-- ===== LEARNINGS ===== -->
     <div class="dark-section learnings-section">
       <section class="section" aria-labelledby="learnings-heading">
@@ -1233,9 +1380,9 @@
 
     <!-- Case study nav -->
     <nav class="cs-nav" aria-label="Project navigation" style="max-width:900px;margin:0 auto;padding:2rem clamp(1.5rem,5vw,3rem);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(0,0,0,0.08);">
-      <a href="case-pneumothorax.html" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">← Pneumothorax Monitor</a>
+      <a href="case-pneumothorax.html" aria-label="Previous case study: Pneumothorax Air Leak Monitor" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">← Pneumothorax Monitor</a>
       <a href="index.html#projects" style="font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);text-decoration:none;">All Projects</a>
-      <a href="case-emg.html" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">EMG Cuff →</a>
+      <a href="case-emg.html" aria-label="Next case study: EMG Pattern Recognition" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">EMG Cuff →</a>
     </nav>
 
   </main>

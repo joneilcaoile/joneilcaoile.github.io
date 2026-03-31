@@ -768,6 +768,58 @@
       </div>
     </section>
 
+    <!-- KEY METRICS -->
+    <section class="section" style="padding-top:0;">
+      <div class="r" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;">
+        <div style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius-sm,8px);padding:1.25rem;text-align:center;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--amber,#A85A04);line-height:1;">0.89</div>
+          <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;color:var(--text-light,#9A9490);margin-top:0.4rem;letter-spacing:0.03em;">AUC-ROC</div>
+        </div>
+        <div style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius-sm,8px);padding:1.25rem;text-align:center;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--amber,#A85A04);line-height:1;">156</div>
+          <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;color:var(--text-light,#9A9490);margin-top:0.4rem;letter-spacing:0.03em;">Patient Recordings</div>
+        </div>
+        <div style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius-sm,8px);padding:1.25rem;text-align:center;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--amber,#A85A04);line-height:1;">12</div>
+          <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;color:var(--text-light,#9A9490);margin-top:0.4rem;letter-spacing:0.03em;">Gait Features</div>
+        </div>
+        <div style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius-sm,8px);padding:1.25rem;text-align:center;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--amber,#A85A04);line-height:1;">92%</div>
+          <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;color:var(--text-light,#9A9490);margin-top:0.4rem;letter-spacing:0.03em;">Sensitivity</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROLE CONTEXT -->
+    <section class="section" style="padding-top:0;">
+      <div class="r" style="background:var(--bg-warm,#F5F3EE);border-left:4px solid var(--amber,#A85A04);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
+        <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:0.75rem;">Why This Project Matters</div>
+        <div style="display:grid;gap:0.6rem;font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;">
+          <p style="margin:0;"><strong style="color:var(--text,#1A1815);">For V&V Engineers:</strong> Clinical validation with 156 patient recordings, inter-rater reliability analysis, and sensitivity/specificity benchmarking. The same statistical rigor I would apply to a 510(k) clinical study.</p>
+          <p style="margin:0;"><strong style="color:var(--text,#1A1815);">For R&D Engineers:</strong> 12-feature gait analysis pipeline with motion capture integration. Model selection justified through systematic comparison (Random Forest, SVM, Logistic Regression).</p>
+          <p style="margin:0;"><strong style="color:var(--text,#1A1815);">For HFE Engineers:</strong> Researcher-facing tool with defined workflows: data import, annotation, model training, result export. Usability designed for clinicians, not ML engineers.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARKET CONTEXT -->
+    <section class="section" style="padding-top:0;">
+      <div class="r" style="background:var(--bg-warm,#F5F3EE);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;text-align:center;">
+        <div>
+          <div style="font-family:var(--font-head);font-size:1.3rem;font-weight:700;color:var(--amber,#A85A04);">3M+</div>
+          <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-light);margin-top:0.25rem;">Fall injuries/year (US, age 65+)</div>
+        </div>
+        <div>
+          <div style="font-family:var(--font-head);font-size:1.3rem;font-weight:700;color:var(--amber,#A85A04);">$50B</div>
+          <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-light);margin-top:0.25rem;">Annual fall-related healthcare cost</div>
+        </div>
+        <div>
+          <div style="font-family:var(--font-head);font-size:1.3rem;font-weight:700;color:var(--amber,#A85A04);">1 in 4</div>
+          <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-light);margin-top:0.25rem;">Older adults fall each year</div>
+        </div>
+      </div>
+    </section>
+
     <!-- Problem / Solution -->
     <section class="section">
       <h2 class="section-title">The hidden cost of reliability discovery</h2>
@@ -851,6 +903,58 @@
           <h4>COSMIN Guidelines</h4>
           <p>Standards for evaluating the quality of outcome measurement instruments in medical research and practice.</p>
         </div>
+      </div>
+    </section>
+
+    <!-- USE ERROR ANALYSIS -->
+    <section class="section" role="region" aria-labelledby="use-errors-heading">
+      <div class="section-num r" style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:0.5rem;">HFE Analysis</div>
+      <h2 class="r" id="use-errors-heading" style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.3rem,3vw,1.7rem);font-weight:700;margin-bottom:1rem;">Use Error Analysis</h2>
+      <p class="r" style="font-size:0.92rem;color:var(--text-muted,#6B6560);margin-bottom:1.5rem;">Applying IEC 62366-1 thinking to a research tool: identifying how end users (clinicians and researchers) could misuse the fall risk assessment system, and what design mitigations reduce that risk.</p>
+
+      <div style="overflow-x:auto;" class="r">
+        <table style="width:100%;border-collapse:collapse;font-size:0.82rem;" aria-label="Use error analysis for fall risk assessment tool showing potential use errors, harms, and mitigations">
+          <thead>
+            <tr style="background:var(--bg-dark,#0F0E0C);color:#fff;">
+              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Use Error</th>
+              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Potential Harm</th>
+              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Severity</th>
+              <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Design Mitigation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 0.85rem;">Clinician misinterprets risk score as diagnostic (not screening)</td>
+              <td style="padding:0.6rem 0.85rem;">Patient receives incorrect fall prevention intervention</td>
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-weight:600;color:#DC2626;">HIGH</td>
+              <td style="padding:0.6rem 0.85rem;">Prominent "screening only" label on all outputs. Score displayed with confidence interval, not single number.</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 0.85rem;">Researcher trains model on unrepresentative patient cohort</td>
+              <td style="padding:0.6rem 0.85rem;">Model fails to generalize, produces false negatives in new populations</td>
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-weight:600;color:#A85A04;">MEDIUM</td>
+              <td style="padding:0.6rem 0.85rem;">Demographic summary displayed before training. Warning when cohort diversity is below threshold.</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 0.85rem;">Motion capture sensor placed incorrectly during data collection</td>
+              <td style="padding:0.6rem 0.85rem;">Gait features corrupted, model accuracy degrades silently</td>
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-weight:600;color:#A85A04;">MEDIUM</td>
+              <td style="padding:0.6rem 0.85rem;">Sensor placement checklist with visual guide. Data quality check flags anomalous joint angles.</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+              <td style="padding:0.6rem 0.85rem;">Patient walks differently during assessment (Hawthorne effect)</td>
+              <td style="padding:0.6rem 0.85rem;">Risk score does not reflect natural gait pattern</td>
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-weight:600;color:#16A34A;">LOW</td>
+              <td style="padding:0.6rem 0.85rem;">Multiple recording sessions recommended. Discard first 30 seconds as acclimation period.</td>
+            </tr>
+            <tr>
+              <td style="padding:0.6rem 0.85rem;">Researcher exports results without noting model version or parameters</td>
+              <td style="padding:0.6rem 0.85rem;">Results not reproducible, undermines clinical study validity</td>
+              <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono);font-weight:600;color:#A85A04;">MEDIUM</td>
+              <td style="padding:0.6rem 0.85rem;">Auto-generated metadata header on every export: model version, parameters, training date, cohort summary.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
@@ -1003,6 +1107,13 @@
         <a href="index.html#contact" class="btn btn-outline">Get in touch</a>
       </div>
     </section>
+
+    <!-- Case study nav -->
+    <nav class="cs-nav" aria-label="Project navigation" style="max-width:900px;margin:0 auto;padding:2rem clamp(1.5rem,5vw,3rem);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(0,0,0,0.08);">
+      <a href="case-emg.html" aria-label="Previous case study: EMG Pattern Recognition" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">← EMG Cuff</a>
+      <a href="index.html#featured" style="font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);text-decoration:none;">All Projects</a>
+      <a href="case-physiorep.html" aria-label="Next case study: PhysioRep" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">PhysioRep →</a>
+    </nav>
 
     <!-- Footer -->
     <footer class="footer">

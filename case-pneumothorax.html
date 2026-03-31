@@ -832,6 +832,40 @@
       </div>
     </section>
 
+    <!-- KEY METRICS -->
+    <section class="section" style="padding-top:0;">
+      <div class="r" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;">
+        <div style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius-sm,8px);padding:1.25rem;text-align:center;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--amber,#A85A04);line-height:1;">2</div>
+          <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;color:var(--text-light,#9A9490);margin-top:0.4rem;letter-spacing:0.03em;">Sensor Channels</div>
+        </div>
+        <div style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius-sm,8px);padding:1.25rem;text-align:center;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--amber,#A85A04);line-height:1;">±5%</div>
+          <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;color:var(--text-light,#9A9490);margin-top:0.4rem;letter-spacing:0.03em;">Target Accuracy</div>
+        </div>
+        <div style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius-sm,8px);padding:1.25rem;text-align:center;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--amber,#A85A04);line-height:1;">0</div>
+          <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;color:var(--text-light,#9A9490);margin-top:0.4rem;letter-spacing:0.03em;">Commercial Equivalents</div>
+        </div>
+        <div style="background:var(--bg-dark,#0F0E0C);border-radius:var(--radius-sm,8px);padding:1.25rem;text-align:center;">
+          <div style="font-family:var(--font-head,'Space Grotesk',sans-serif);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--amber,#A85A04);line-height:1;">IEC 60601</div>
+          <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;color:var(--text-light,#9A9490);margin-top:0.4rem;letter-spacing:0.03em;">Design Target</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROLE CONTEXT -->
+    <section class="section" style="padding-top:0;">
+      <div class="r" style="background:var(--bg-warm,#F5F3EE);border-left:4px solid var(--amber,#A85A04);border-radius:var(--radius-sm,8px);padding:1.25rem 1.5rem;">
+        <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--amber,#A85A04);margin-bottom:0.75rem;">Why This Project Matters</div>
+        <div style="display:grid;gap:0.6rem;font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.55;">
+          <p style="margin:0;"><strong style="color:var(--text,#1A1815);">For V&V Engineers:</strong> Risk management per ISO 14971 from day one. IQ/OQ/PQ thinking applied to a bench prototype. Test methods designed for a device with zero commercial predicate.</p>
+          <p style="margin:0;"><strong style="color:var(--text,#1A1815);">For R&D Engineers:</strong> Bench-level prototype with dual-sensor architecture. Hardware-software integration, signal processing pipeline, first-principles design for a novel clinical need.</p>
+          <p style="margin:0;"><strong style="color:var(--text,#1A1815);">For HFE Engineers:</strong> ICU workflow analysis identified 5 clinician interaction points and mapped potential use errors. Post-deployment training protocol designed for high-acuity environments.</p>
+        </div>
+      </div>
+    </section>
+
     <!-- ===== PROBLEM ===== -->
     <section class="section" aria-labelledby="problem-heading">
       <p class="section-label r">The Clinical Problem</p>
@@ -856,6 +890,45 @@
           <div class="ps-card-title">Continuous, quantified leak severity</div>
           <p>By comparing ventilator-delivered tidal volume with measured chest tube outflow, we can compute a leak differential: a real number that can be trended over time and used as a weaning trigger.</p>
         </div>
+      </div>
+
+      <div class="r" style="margin:1.5rem 0;overflow-x:auto;">
+        <figure style="margin:0;">
+          <svg viewBox="0 0 900 140" style="width:100%;max-width:900px;height:auto;display:block;" aria-label="Pneumothorax monitor signal processing pipeline: ventilator delivers air, flow sensor measures inlet, differential calculation derives leak severity, display shows severity score">
+            <defs>
+              <style>
+                .flow-node { fill: #0F0E0C; stroke: #A85A04; stroke-width: 2; rx: 6; }
+                .flow-text { fill: white; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; text-anchor: middle; }
+                .flow-sub { fill: #A85A04; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-anchor: middle; }
+                .flow-arrow { stroke: #A85A04; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+                .arrowhead { fill: #A85A04; }
+              </style>
+              <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                <polygon points="0 0, 10 3, 0 6" class="arrowhead"/>
+              </marker>
+            </defs>
+            <rect class="flow-node" x="20" y="30" width="130" height="80"/>
+            <text class="flow-text" x="85" y="65">Ventilator</text>
+            <text class="flow-sub" x="85" y="85">Tidal Volume</text>
+            <path class="flow-arrow" d="M 150 70 L 190 70"/>
+            <rect class="flow-node" x="190" y="30" width="130" height="80"/>
+            <text class="flow-text" x="255" y="65">Flow Sensor</text>
+            <text class="flow-sub" x="255" y="85">Inlet Pressure</text>
+            <path class="flow-arrow" d="M 320 70 L 360 70"/>
+            <rect class="flow-node" x="360" y="30" width="130" height="80"/>
+            <text class="flow-text" x="425" y="65">Signal Process</text>
+            <text class="flow-sub" x="425" y="85">Chest Tube Out</text>
+            <path class="flow-arrow" d="M 490 70 L 530 70"/>
+            <rect class="flow-node" x="530" y="30" width="130" height="80"/>
+            <text class="flow-text" x="595" y="65">Differential</text>
+            <text class="flow-sub" x="595" y="85">Computation</text>
+            <path class="flow-arrow" d="M 660 70 L 700 70"/>
+            <rect class="flow-node" x="700" y="30" width="160" height="80"/>
+            <text class="flow-text" x="780" y="65">Leak Severity</text>
+            <text class="flow-sub" x="780" y="85">Clinical Display</text>
+          </svg>
+          <figcaption style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-light);text-align:center;margin-top:0.5rem;">Signal flow from ventilator to clinical decision endpoint</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -1007,6 +1080,48 @@
           and environmental noise rejection. All protocols authored before prototype assembly
           to prevent post-hoc rationalization of results.
         </p>
+
+        <!-- V&V TRACEABILITY SAMPLE -->
+        <div class="r" style="overflow-x:auto;margin-top:1.5rem;">
+          <table style="width:100%;border-collapse:collapse;font-size:0.82rem;line-height:1.5;" aria-label="Sample V&V traceability matrix mapping design inputs to test methods and acceptance criteria">
+            <thead>
+              <tr style="background:var(--bg-dark);color:#fff;">
+                <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Design Input</th>
+                <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Risk Ref</th>
+                <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Test Method</th>
+                <th style="padding:0.7rem 0.85rem;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Acceptance Criteria</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
+                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">Leak detection threshold &le;50 mL/min</td>
+                <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.78rem;color:var(--amber-mid);">FMEA-003</td>
+                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">Simulated leak profile, 5 trials at 25/50/75/100 mL/min</td>
+                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">Detect 50 mL/min leak in &le;30s, 5/5 trials</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
+                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">Measurement drift &lt;2% over 24h</td>
+                <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.78rem;color:var(--amber-mid);">FMEA-007</td>
+                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">Continuous 24h bench run, hourly calibration check</td>
+                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">Drift &lt;2% from baseline at all check points</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
+                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">Alarm response time &le;5s</td>
+                <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.78rem;color:var(--amber-mid);">FMEA-011</td>
+                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">Step-function leak onset, time-to-alarm measurement</td>
+                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">Alarm triggers within 5s of threshold breach, 10/10 trials</td>
+              </tr>
+              <tr>
+                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">Environmental noise rejection</td>
+                <td style="padding:0.6rem 0.85rem;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.78rem;color:var(--amber-mid);">FMEA-015</td>
+                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">Vibration and acoustic interference during measurement</td>
+                <td style="padding:0.6rem 0.85rem;color:var(--text-white,#FAFAF8);">No false positive alarms across 3 noise profiles</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.68rem;color:var(--text-muted,#9A9490);margin-top:0.5rem;text-align:center;">Sample rows from the full 14-case traceability matrix</p>
+        </div>
+
         <!-- Source: vault note "01 - Projects/Job Search/Projects/🫁 Pneumothorax Air Leak Monitor.md" -->
 
         <h3 class="r" style="margin-top:2rem;font-size:1.1rem;color:var(--amber-mid);">Clinical Integration: How ICU Teams Would Use This</h3>
@@ -1102,9 +1217,9 @@
 
     <!-- ===== PROJECT NAVIGATION ===== -->
     <nav class="cs-nav" aria-label="Project navigation" style="max-width:900px;margin:0 auto;padding:2rem clamp(1.5rem,5vw,3rem);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(0,0,0,0.08);">
-      <a href="case-usetrace.html" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">← UseTrace HFE</a>
+      <a href="case-usetrace.html" aria-label="Previous case study: UseTrace HFE Platform" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">← UseTrace HFE</a>
       <a href="index.html#featured" style="font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);text-decoration:none;">All Projects</a>
-      <a href="case-photocull.html" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">PhotoCull AI →</a>
+      <a href="case-photocull.html" aria-label="Next case study: PhotoCull AI" style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-muted);text-decoration:none;">PhotoCull AI →</a>
     </nav>
 
     <!-- ===== CTA ===== -->
