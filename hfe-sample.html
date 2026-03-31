@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HFE Deliverable Sample | IEC 62366-1 | Joneil Caoile</title>
+  <meta name="description" content="Sample IEC 62366-1 Human Factors Engineering deliverables: task analysis, use-related risk analysis, and formative evaluation summary for a fictional insulin pump interface.">
+  <meta property="og:title" content="HFE Deliverable Sample | Joneil Caoile">
+  <meta property="og:description" content="Sample IEC 62366-1 Human Factors Engineering deliverables demonstrating task analysis, use-related risk analysis, and formative evaluation methodology.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://joneilcaoile.github.io/hfe-sample.html">
+  <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.jpg">
+  <meta property="og:image:alt" content="Joneil Caoile HFE deliverable sample preview">
+  <link rel="canonical" href="https://joneilcaoile.github.io/hfe-sample.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="HFE Deliverable Sample | Joneil Caoile">
+  <meta name="twitter:description" content="Sample IEC 62366-1 Human Factors Engineering deliverables demonstrating task analysis, use-related risk analysis, and formative evaluation methodology.">
+  <meta name="twitter:image" content="https://joneilcaoile.github.io/og-preview.jpg">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self';">
+  <meta name="theme-color" content="#FAFAF8">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "HFE Deliverable Sample | IEC 62366-1 | Joneil Caoile",
+    "author": {
+      "@type": "Person",
+      "name": "Joneil Caoile",
+      "url": "https://joneilcaoile.github.io"
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "Joneil Caoile"
+    },
+    "mainEntityOfPage": "https://joneilcaoile.github.io/hfe-sample.html",
+    "description": "Sample IEC 62366-1 Human Factors Engineering deliverables for a fictional insulin pump interface."
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+
+  <style>
+    /* ===== DESIGN SYSTEM (matches main portfolio) ===== */
+    :root {
+      --bg: #FAFAF8;
+      --bg-warm: #F5F3EE;
+      --bg-dark: #0F0E0C;
+      --bg-dark-2: #1A1815;
+      --text: #1A1815;
+      --text-muted: #6B6560;
+      --text-light: #9A9490;
+
+      --amber: #A85A04;
+      --amber-light: #FEF3C7;
+      --amber-mid: #F59E0B;
+      --coral: #E05C4A;
+      --gold: #C89B3C;
+
+      --accent: var(--amber);
+      --accent-glow: rgba(217, 119, 6, 0.15);
+
+      --font-head: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 48px rgba(0,0,0,0.12);
+
+      --progress-h: 3px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+
+    /* ===== SCROLL PROGRESS ===== */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 0%; height: var(--progress-h);
+      background: linear-gradient(90deg, var(--amber), var(--coral));
+      z-index: 9999;
+      transition: width 0.15s linear;
+    }
+
+    /* ===== SKIP NAV ===== */
+    .skip-nav {
+      position: absolute;
+      top: -100px; left: 1rem;
+      background: var(--amber);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      z-index: 10000;
+      text-decoration: none;
+    }
+    .skip-nav:focus { top: 1rem; }
+
+    /* ===== BACK NAV ===== */
+    .back-nav {
+      position: fixed;
+      top: var(--progress-h); left: 0; right: 0;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      padding: 0 clamp(1.5rem, 5vw, 3rem);
+      background: rgba(250,250,248,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      z-index: 100;
+      font-family: var(--font-head);
+    }
+    .back-link {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.2s;
+      min-width: 44px;
+      min-height: 44px;
+    }
+    .back-link:hover, .back-link:focus-visible { color: var(--amber); }
+    .back-link svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    .nav-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .nav-badge {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      background: var(--amber-light);
+      color: var(--amber);
+      font-weight: 500;
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    main { padding-top: calc(60px + var(--progress-h)); }
+
+    .section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 3rem);
+    }
+
+    .section + .section { padding-top: 0; }
+
+    /* ===== HERO ===== */
+    .hero-section {
+      padding-top: clamp(5rem, 10vw, 8rem);
+      padding-bottom: clamp(2rem, 4vw, 3rem);
+    }
+
+    .hero-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: var(--font-head);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      max-width: 680px;
+    }
+
+    /* ===== DISCLAIMER BANNER ===== */
+    .disclaimer {
+      background: var(--amber-light);
+      border-left: 4px solid var(--amber);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem 1.5rem;
+      margin-top: 2rem;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--text);
+    }
+    .disclaimer strong {
+      font-weight: 600;
+      color: var(--amber);
+    }
+
+    /* ===== SECTION HEADERS ===== */
+    .section-num {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-family: var(--font-head);
+      font-size: clamp(1.3rem, 3vw, 1.7rem);
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 1rem;
+      line-height: 1.25;
+    }
+
+    h3 {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* ===== DOCUMENT META ===== */
+    .doc-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      background: var(--bg-warm);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .doc-meta-item {
+      font-size: 0.85rem;
+    }
+    .doc-meta-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 0.25rem;
+    }
+    .doc-meta-value {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* ===== TABLES ===== */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1.5rem 0 2rem;
+      border-radius: var(--radius);
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      line-height: 1.55;
+    }
+
+    thead {
+      background: var(--bg-dark);
+      color: #fff;
+    }
+
+    thead th {
+      font-family: var(--font-head);
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      padding: 0.85rem 1rem;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    tbody tr { border-bottom: 1px solid rgba(0,0,0,0.06); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:nth-child(even) { background: var(--bg-warm); }
+    tbody tr:hover { background: var(--amber-light); }
+
+    tbody td {
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      vertical-align: top;
+    }
+
+    .severity-high {
+      color: #DC2626;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+    }
+    .severity-med {
+      color: var(--amber);
+      font-weight: 600;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+    }
+    .severity-low {
+      color: #16A34A;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+    }
+
+    .risk-high {
+      background: #FEE2E2;
+      color: #DC2626;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      display: inline-block;
+    }
+    .risk-med {
+      background: var(--amber-light);
+      color: var(--amber);
+      font-weight: 600;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      display: inline-block;
+    }
+    .risk-low {
+      background: #DCFCE7;
+      color: #16A34A;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    /* ===== CALLOUT BOXES ===== */
+    .callout {
+      background: var(--bg-warm);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-left: 4px solid var(--amber);
+    }
+    .callout-title {
+      font-family: var(--font-head);
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+    .callout p {
+      margin-bottom: 0.5rem;
+      font-size: 0.88rem;
+    }
+    .callout p:last-child { margin-bottom: 0; }
+
+    /* ===== TAGS / PILLS ===== */
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.03em;
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      background: var(--bg-warm);
+      color: var(--text-muted);
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    /* ===== FINDINGS LIST ===== */
+    .finding {
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .finding-id {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--amber);
+      letter-spacing: 0.04em;
+      margin-bottom: 0.35rem;
+    }
+    .finding-title {
+      font-family: var(--font-head);
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+    .finding p {
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+    }
+    .finding-severity {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      margin-top: 0.25rem;
+    }
+    .finding-severity.high { background: #FEE2E2; color: #DC2626; }
+    .finding-severity.medium { background: var(--amber-light); color: var(--amber); }
+    .finding-severity.low { background: #DCFCE7; color: #16A34A; }
+
+    /* ===== FLOW DIAGRAM ===== */
+    .flow-diagram {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: var(--bg-warm);
+      border-radius: var(--radius);
+    }
+    .flow-node {
+      background: #fff;
+      border: 2px solid var(--amber);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      font-family: var(--font-head);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-align: center;
+      min-width: 120px;
+      color: var(--text);
+    }
+    .flow-node.active {
+      background: var(--amber);
+      color: #fff;
+      border-color: var(--amber);
+    }
+    .flow-arrow {
+      font-size: 1.2rem;
+      color: var(--amber);
+      padding: 0 0.5rem;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 600px) {
+      .flow-diagram { flex-direction: column; gap: 0; }
+      .flow-arrow { transform: rotate(90deg); padding: 0.25rem 0; }
+    }
+
+    /* ===== BACK TO PORTFOLIO CTA ===== */
+    .cta-section {
+      text-align: center;
+      padding: 3rem 1.5rem 4rem;
+    }
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-head);
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.85rem 2rem;
+      border-radius: var(--radius);
+      background: var(--bg-dark);
+      color: #fff;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      min-width: 44px;
+      min-height: 44px;
+    }
+    .cta-button:hover { background: var(--amber); transform: translateY(-2px); }
+    .cta-button:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      font-size: 0.78rem;
+      color: var(--text-light);
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    footer a:hover { color: var(--amber); }
+
+    /* ===== REVEAL CLASS ===== */
+    .r { opacity: 0; transform: translateY(28px); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .doc-meta { grid-template-columns: 1fr 1fr; }
+      thead th { font-size: 0.68rem; padding: 0.65rem 0.65rem; }
+      tbody td { padding: 0.6rem 0.65rem; font-size: 0.78rem; }
+    }
+    @media (max-width: 480px) {
+      .doc-meta { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<a class="skip-nav" href="#main-content">Skip to content</a>
+<div id="progress-bar" role="progressbar" aria-label="Reading progress"></div>
+
+<!-- BACK NAV -->
+<nav class="back-nav" aria-label="Back navigation">
+  <a class="back-link" href="index.html#projects" aria-label="Back to portfolio">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    Portfolio
+  </a>
+  <div class="nav-right">
+    <span class="nav-badge">HFE SAMPLE</span>
+  </div>
+</nav>
+
+<main id="main-content">
+
+  <!-- HERO -->
+  <section class="section hero-section">
+    <div class="hero-label r">IEC 62366-1 Deliverable Sample</div>
+    <h1 class="hero-title r">Human Factors Engineering<br>Work Sample</h1>
+    <p class="hero-subtitle r">A demonstration of the HFE deliverables I would produce in a medical device development role. This sample applies the IEC 62366-1 usability engineering process to a fictional insulin pump interface, covering task analysis, use-related risk analysis, and formative evaluation.</p>
+
+    <div class="disclaimer r">
+      <strong>Note:</strong> This is a fictional work sample created for portfolio purposes. The device ("GlucoFlow Pro"), clinical scenarios, and all data are entirely fabricated to demonstrate methodology. No real patient data, proprietary information, or existing product details are referenced.
+    </div>
+  </section>
+
+  <!-- DOCUMENT META -->
+  <section class="section">
+    <div class="doc-meta r">
+      <div class="doc-meta-item">
+        <div class="doc-meta-label">Document</div>
+        <div class="doc-meta-value">HFE-001 Rev A</div>
+      </div>
+      <div class="doc-meta-item">
+        <div class="doc-meta-label">Device</div>
+        <div class="doc-meta-value">GlucoFlow Pro Insulin Pump</div>
+      </div>
+      <div class="doc-meta-item">
+        <div class="doc-meta-label">Classification</div>
+        <div class="doc-meta-value">Class II (510(k))</div>
+      </div>
+      <div class="doc-meta-item">
+        <div class="doc-meta-label">Standard</div>
+        <div class="doc-meta-value">IEC 62366-1:2015+A1:2020</div>
+      </div>
+      <div class="doc-meta-item">
+        <div class="doc-meta-label">Author</div>
+        <div class="doc-meta-value">Joneil Caoile</div>
+      </div>
+      <div class="doc-meta-item">
+        <div class="doc-meta-label">Date</div>
+        <div class="doc-meta-value">March 2026</div>
+      </div>
+    </div>
+
+    <!-- IEC 62366-1 Process Flow -->
+    <div class="section-num r">Process Overview</div>
+    <h2 class="r">IEC 62366-1 Usability Engineering Process</h2>
+    <p class="r">The sections below map directly to the usability engineering process defined in IEC 62366-1. Each deliverable feeds into the next, building a traceable chain from user needs through risk control to validation.</p>
+
+    <div class="flow-diagram r">
+      <div class="flow-node">Use<br>Specification</div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-node active">Task<br>Analysis</div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-node active">Use-Related<br>Risk Analysis</div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-node active">Formative<br>Evaluation</div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-node">Summative<br>Evaluation</div>
+    </div>
+
+    <div class="tag-row r">
+      <span class="tag">IEC 62366-1</span>
+      <span class="tag">ISO 14971</span>
+      <span class="tag">FDA HFE Guidance</span>
+      <span class="tag">AAMI HE75</span>
+      <span class="tag">21 CFR 820</span>
+    </div>
+  </section>
+
+  <!-- SECTION 1: USE SPECIFICATION -->
+  <section class="section">
+    <div class="section-num r">Section 1</div>
+    <h2 class="r">Use Specification</h2>
+    <p class="r">Per IEC 62366-1 Clause 5.1, the use specification defines the intended users, use environments, and training requirements. This frames all downstream analysis.</p>
+
+    <div class="callout r">
+      <div class="callout-title">Device Description</div>
+      <p>GlucoFlow Pro is a patch-style insulin pump with a touchscreen controller for Type 1 and Type 2 diabetes management. It delivers continuous subcutaneous insulin infusion (CSII) with user-programmed basal rates and on-demand bolus doses.</p>
+    </div>
+
+    <div class="doc-meta r">
+      <div class="doc-meta-item">
+        <div class="doc-meta-label">Intended Users</div>
+        <div class="doc-meta-value">Adults (18+) with diabetes, caregivers, and healthcare providers (endocrinologists, CDEs)</div>
+      </div>
+      <div class="doc-meta-item">
+        <div class="doc-meta-label">Use Environment</div>
+        <div class="doc-meta-value">Home, workplace, outdoors, clinical settings. Variable lighting, noise, distractions.</div>
+      </div>
+      <div class="doc-meta-item">
+        <div class="doc-meta-label">Training</div>
+        <div class="doc-meta-value">1-hour in-clinic training session with CDE. Quick-start guide and in-app tutorials provided.</div>
+      </div>
+      <div class="doc-meta-item">
+        <div class="doc-meta-label">Critical Tasks</div>
+        <div class="doc-meta-value">Bolus delivery, occlusion alarm response, reservoir change, BG entry for dose calculation</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: TASK ANALYSIS -->
+  <section class="section">
+    <div class="section-num r">Section 2</div>
+    <h2 class="r">Task Analysis</h2>
+    <p class="r">Per IEC 62366-1 Clause 5.5, task analysis breaks critical use scenarios into sequential steps, identifies decision points, and maps potential use errors at each step. This analysis feeds directly into the use-related risk analysis (Section 3).</p>
+
+    <h3 class="r">Task 1: Deliver a Meal Bolus</h3>
+    <div class="table-wrap r">
+      <table>
+        <thead>
+          <tr>
+            <th>Step</th>
+            <th>User Action</th>
+            <th>System Response</th>
+            <th>Potential Use Error</th>
+            <th>Severity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1.1</td>
+            <td>Wake controller, navigate to Bolus screen</td>
+            <td>Bolus calculator displayed with current BG field</td>
+            <td>User selects wrong menu item (e.g., Basal Settings instead of Bolus)</td>
+            <td><span class="severity-low">LOW</span></td>
+          </tr>
+          <tr>
+            <td>1.2</td>
+            <td>Enter current blood glucose value</td>
+            <td>System displays correction factor and suggested dose</td>
+            <td>User enters BG in wrong units (mg/dL vs. mmol/L), resulting in incorrect correction dose</td>
+            <td><span class="severity-high">HIGH</span></td>
+          </tr>
+          <tr>
+            <td>1.3</td>
+            <td>Enter carbohydrate count for meal</td>
+            <td>System calculates total bolus (correction + carb dose)</td>
+            <td>User significantly underestimates or overestimates carb count</td>
+            <td><span class="severity-med">MEDIUM</span></td>
+          </tr>
+          <tr>
+            <td>1.4</td>
+            <td>Review calculated dose and confirm delivery</td>
+            <td>Confirmation screen: dose amount, delivery time, active insulin</td>
+            <td>User confirms without reviewing, accepts incorrect dose</td>
+            <td><span class="severity-high">HIGH</span></td>
+          </tr>
+          <tr>
+            <td>1.5</td>
+            <td>Monitor delivery progress indicator</td>
+            <td>Progress bar, vibration on completion, delivery summary</td>
+            <td>User assumes delivery started but did not confirm final step</td>
+            <td><span class="severity-high">HIGH</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="r">Task 2: Respond to an Occlusion Alarm</h3>
+    <div class="table-wrap r">
+      <table>
+        <thead>
+          <tr>
+            <th>Step</th>
+            <th>User Action</th>
+            <th>System Response</th>
+            <th>Potential Use Error</th>
+            <th>Severity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2.1</td>
+            <td>Acknowledge alarm (audible + haptic + visual alert)</td>
+            <td>Display shows "Occlusion Detected. Insulin delivery stopped."</td>
+            <td>User dismisses alarm without reading message (habitual alarm fatigue)</td>
+            <td><span class="severity-high">HIGH</span></td>
+          </tr>
+          <tr>
+            <td>2.2</td>
+            <td>Inspect infusion site and tubing for kinks</td>
+            <td>On-screen troubleshooting guide with illustrations</td>
+            <td>User does not inspect tubing, assumes alarm is false</td>
+            <td><span class="severity-med">MEDIUM</span></td>
+          </tr>
+          <tr>
+            <td>2.3</td>
+            <td>Clear occlusion or replace infusion set</td>
+            <td>System prompts "Prime new set? Y/N"</td>
+            <td>User replaces set but skips priming, resulting in air in line</td>
+            <td><span class="severity-high">HIGH</span></td>
+          </tr>
+          <tr>
+            <td>2.4</td>
+            <td>Confirm resolution, resume insulin delivery</td>
+            <td>System resumes basal delivery, logs event</td>
+            <td>User forgets to resume delivery manually after troubleshooting</td>
+            <td><span class="severity-high">HIGH</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="r">Task 3: Change Insulin Reservoir</h3>
+    <div class="table-wrap r">
+      <table>
+        <thead>
+          <tr>
+            <th>Step</th>
+            <th>User Action</th>
+            <th>System Response</th>
+            <th>Potential Use Error</th>
+            <th>Severity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>3.1</td>
+            <td>Navigate to Settings, select "Change Reservoir"</td>
+            <td>System pauses delivery, displays step-by-step guide</td>
+            <td>User attempts to change reservoir without pausing delivery via menu</td>
+            <td><span class="severity-low">LOW</span></td>
+          </tr>
+          <tr>
+            <td>3.2</td>
+            <td>Remove old reservoir, inspect for air bubbles in new reservoir</td>
+            <td>Animated guide showing bubble removal technique</td>
+            <td>User does not remove air bubbles before loading</td>
+            <td><span class="severity-med">MEDIUM</span></td>
+          </tr>
+          <tr>
+            <td>3.3</td>
+            <td>Load new reservoir, connect to infusion set</td>
+            <td>System detects reservoir, displays fill volume</td>
+            <td>Reservoir not fully seated, system cannot detect fill level</td>
+            <td><span class="severity-med">MEDIUM</span></td>
+          </tr>
+          <tr>
+            <td>3.4</td>
+            <td>Prime tubing, confirm priming complete</td>
+            <td>System primes set amount, prompts to verify drops at needle tip</td>
+            <td>User confirms priming without verifying drops, air remains in line</td>
+            <td><span class="severity-high">HIGH</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 3: USE-RELATED RISK ANALYSIS -->
+  <section class="section">
+    <div class="section-num r">Section 3</div>
+    <h2 class="r">Use-Related Risk Analysis</h2>
+    <p class="r">Per IEC 62366-1 Clause 5.4 and ISO 14971, this analysis maps use errors identified in the task analysis to potential harms, assigns severity and probability ratings, and determines residual risk levels. Each row traces from hazardous situation through to risk control measures.</p>
+
+    <div class="table-wrap r">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Use Error</th>
+            <th>Hazardous Situation</th>
+            <th>Harm</th>
+            <th>Severity</th>
+            <th>Probability</th>
+            <th>Risk Level</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-family:var(--font-mono);font-size:0.75rem;">UR-001</td>
+            <td>User enters BG in wrong units (mg/dL vs. mmol/L)</td>
+            <td>System calculates correction dose based on incorrect value (e.g., 7.2 mmol/L entered as 7.2 mg/dL)</td>
+            <td>Severe hypoglycemia or sustained hyperglycemia</td>
+            <td><span class="severity-high">S4</span></td>
+            <td>P2</td>
+            <td><span class="risk-high">HIGH</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--font-mono);font-size:0.75rem;">UR-002</td>
+            <td>User confirms bolus without reviewing dose</td>
+            <td>Incorrect dose delivered without user awareness</td>
+            <td>Hypoglycemia (over-delivery) or hyperglycemia (under-delivery)</td>
+            <td><span class="severity-high">S4</span></td>
+            <td>P3</td>
+            <td><span class="risk-high">HIGH</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--font-mono);font-size:0.75rem;">UR-003</td>
+            <td>User dismisses occlusion alarm without reading</td>
+            <td>Insulin delivery remains stopped, user unaware</td>
+            <td>Diabetic ketoacidosis (DKA) from prolonged insulin interruption</td>
+            <td><span class="severity-high">S5</span></td>
+            <td>P2</td>
+            <td><span class="risk-high">HIGH</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--font-mono);font-size:0.75rem;">UR-004</td>
+            <td>User skips priming after infusion set change</td>
+            <td>Air delivered subcutaneously, insulin not reaching body</td>
+            <td>Hyperglycemia from insulin gap, potential air embolism (rare)</td>
+            <td><span class="severity-med">S3</span></td>
+            <td>P2</td>
+            <td><span class="risk-med">MEDIUM</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--font-mono);font-size:0.75rem;">UR-005</td>
+            <td>User forgets to resume delivery after occlusion troubleshooting</td>
+            <td>Extended period without basal insulin delivery</td>
+            <td>DKA within 4-6 hours of interrupted delivery</td>
+            <td><span class="severity-high">S5</span></td>
+            <td>P2</td>
+            <td><span class="risk-high">HIGH</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--font-mono);font-size:0.75rem;">UR-006</td>
+            <td>User underestimates carb count by &gt;50%</td>
+            <td>Bolus dose too low for meal consumed</td>
+            <td>Postprandial hyperglycemia, long-term A1c impact</td>
+            <td><span class="severity-med">S2</span></td>
+            <td>P4</td>
+            <td><span class="risk-med">MEDIUM</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout r">
+      <div class="callout-title">Risk Control Measures (Selected)</div>
+      <p><strong>UR-001:</strong> Lock BG unit to region setting during setup. Display unit label adjacent to entry field. Add confirmation dialog when entered value falls outside expected range for selected unit.</p>
+      <p><strong>UR-002:</strong> Require 2-step confirmation: first screen shows dose breakdown, second screen requires explicit "Deliver" tap. Add 3-second hold-to-confirm for doses exceeding 10 units.</p>
+      <p><strong>UR-003:</strong> Escalating alarm protocol. If occlusion alarm is dismissed without resolution within 5 minutes, alarm re-triggers with louder volume. After 15 minutes, push notification to paired smartphone.</p>
+      <p><strong>UR-005:</strong> System auto-prompts "Resume delivery?" 10 minutes after occlusion alarm clearance if basal delivery has not restarted. Repeated every 15 minutes until confirmed.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 4: FORMATIVE EVALUATION -->
+  <section class="section">
+    <div class="section-num r">Section 4</div>
+    <h2 class="r">Formative Evaluation Summary</h2>
+    <p class="r">Per IEC 62366-1 Clause 5.8, formative evaluations are conducted iteratively during development to identify usability issues before summative (validation) testing. This section summarizes a simulated formative study evaluating the GlucoFlow Pro bolus delivery and alarm response workflows.</p>
+
+    <h3 class="r">Study Design</h3>
+    <div class="doc-meta r">
+      <div class="doc-meta-item">
+        <div class="doc-meta-label">Method</div>
+        <div class="doc-meta-value">Moderated think-aloud usability test</div>
+      </div>
+      <div class="doc-meta-item">
+        <div class="doc-meta-label">Participants</div>
+        <div class="doc-meta-value">8 adults with Type 1 diabetes (3 pump-naive, 5 experienced pump users)</div>
+      </div>
+      <div class="doc-meta-item">
+        <div class="doc-meta-label">Tasks Evaluated</div>
+        <div class="doc-meta-value">Bolus delivery, occlusion alarm response, reservoir change</div>
+      </div>
+      <div class="doc-meta-item">
+        <div class="doc-meta-label">Environment</div>
+        <div class="doc-meta-value">Simulated home setting with ambient noise and distractions</div>
+      </div>
+      <div class="doc-meta-item">
+        <div class="doc-meta-label">Data Collected</div>
+        <div class="doc-meta-value">Task completion, time-on-task, errors, near-misses, verbal feedback</div>
+      </div>
+      <div class="doc-meta-item">
+        <div class="doc-meta-label">Prototype</div>
+        <div class="doc-meta-value">Hi-fidelity interactive prototype (Figma + physical pump mockup)</div>
+      </div>
+    </div>
+
+    <h3 class="r">Key Findings</h3>
+
+    <div class="finding r">
+      <div class="finding-id">FINDING F-01</div>
+      <div class="finding-title">BG Unit Confusion During Bolus Entry</div>
+      <p>2 of 8 participants (both pump-naive) attempted to enter BG values in mmol/L despite the interface displaying mg/dL. Neither noticed the unit label until prompted by the moderator. One participant entered "7.2" intending mmol/L, which the system interpreted as 7.2 mg/dL, producing a negligible correction dose.</p>
+      <p><strong>Root cause:</strong> Unit label (small, grey text) lacked visual prominence. Users coming from glucose meters that default to mmol/L carried that mental model forward.</p>
+      <p><strong>Recommendation:</strong> Increase unit label size and contrast. Add a one-time setup screen that requires explicit unit selection with visual examples of each scale. Flag implausible values (e.g., BG &lt; 20 mg/dL).</p>
+      <span class="finding-severity high">HIGH PRIORITY</span>
+    </div>
+
+    <div class="finding r">
+      <div class="finding-id">FINDING F-02</div>
+      <div class="finding-title">Bolus Confirmation Too Easy to Skip</div>
+      <p>3 of 8 participants tapped through the confirmation screen in under 1 second, treating it as a routine dialog rather than a safety checkpoint. When asked afterward, 2 could not recall the dose amount they confirmed.</p>
+      <p><strong>Root cause:</strong> Confirmation dialog used standard button placement and styling, which users had been trained to tap through on smartphones. No friction to slow habitual confirmation.</p>
+      <p><strong>Recommendation:</strong> Replace single-tap confirmation with a hold-to-confirm interaction (3 seconds) for doses above a configurable threshold. Display dose amount in large, high-contrast text with active insulin-on-board context.</p>
+      <span class="finding-severity high">HIGH PRIORITY</span>
+    </div>
+
+    <div class="finding r">
+      <div class="finding-id">FINDING F-03</div>
+      <div class="finding-title">Occlusion Alarm Response Delayed by Alarm Fatigue</div>
+      <p>5 of 8 participants dismissed the occlusion alarm within 2 seconds. 3 of those 5 did not read the alarm message. When asked what the alarm was for, they guessed "low battery" or "time to check BG." Only participants who had experienced real occlusions on previous pumps responded appropriately.</p>
+      <p><strong>Root cause:</strong> Alarm presentation was visually similar to non-critical notifications (low reservoir, Bluetooth disconnect). Users with experience managing multiple daily alarms applied a "dismiss first, read later" pattern.</p>
+      <p><strong>Recommendation:</strong> Differentiate critical alarms visually (red background, distinct icon) and audibly (unique tone not shared with advisory alerts). Require explicit acknowledgment ("I understand insulin delivery has stopped") before allowing dismissal.</p>
+      <span class="finding-severity high">HIGH PRIORITY</span>
+    </div>
+
+    <div class="finding r">
+      <div class="finding-id">FINDING F-04</div>
+      <div class="finding-title">Reservoir Change Priming Step Unclear</div>
+      <p>2 of 8 participants were unsure when priming was complete. Both pressed "Done" before verifying drops at the needle tip. The animated guide was helpful but participants reported it moved too fast to follow while handling the physical components.</p>
+      <p><strong>Root cause:</strong> The priming step required simultaneous attention to the screen animation and the physical infusion set. Users prioritized the physical task and lost track of screen instructions.</p>
+      <p><strong>Recommendation:</strong> Add audio narration to priming steps. Include a checkpoint: "Do you see drops at the needle tip? [Yes / No / Show me again]" before allowing "Done."</p>
+      <span class="finding-severity medium">MEDIUM PRIORITY</span>
+    </div>
+  </section>
+
+  <!-- SECTION 5: TRACEABILITY -->
+  <section class="section">
+    <div class="section-num r">Section 5</div>
+    <h2 class="r">Traceability Matrix</h2>
+    <p class="r">Per IEC 62366-1 Clause 4.1.1, all HFE activities must maintain traceability. This matrix connects findings from the formative evaluation back to the task analysis, risk analysis, and forward to design changes, ensuring no identified use error is left unaddressed.</p>
+
+    <div class="table-wrap r">
+      <table>
+        <thead>
+          <tr>
+            <th>Finding</th>
+            <th>Task Ref</th>
+            <th>Risk Ref</th>
+            <th>Design Change</th>
+            <th>Verification</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>F-01</td>
+            <td>Step 1.2</td>
+            <td>UR-001</td>
+            <td>Prominent unit label, setup screen, implausible value flag</td>
+            <td>Re-test with 5 naive users in next formative round</td>
+          </tr>
+          <tr>
+            <td>F-02</td>
+            <td>Step 1.4</td>
+            <td>UR-002</td>
+            <td>Hold-to-confirm, large dose display, IOB context</td>
+            <td>A/B test hold vs. two-step confirmation, measure review time</td>
+          </tr>
+          <tr>
+            <td>F-03</td>
+            <td>Step 2.1</td>
+            <td>UR-003</td>
+            <td>Visual/audible differentiation, explicit acknowledgment text</td>
+            <td>Alarm response study: measure time-to-read, comprehension rate</td>
+          </tr>
+          <tr>
+            <td>F-04</td>
+            <td>Step 3.4</td>
+            <td>UR-004</td>
+            <td>Audio narration, visual checkpoint before "Done"</td>
+            <td>Observe priming completion accuracy in next round</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- METHODOLOGY NOTE -->
+  <section class="section">
+    <div class="section-num r">About This Sample</div>
+    <h2 class="r">Why I Built This</h2>
+    <p class="r">This deliverable sample demonstrates the type of HFE documentation I would produce in a medical device role. The methodology follows IEC 62366-1:2015+A1:2020, with risk analysis aligned to ISO 14971:2019. I chose an insulin pump scenario because it involves safety-critical use errors where HFE directly affects patient outcomes.</p>
+    <p class="r">My approach to HFE is grounded in real user behavior, not assumptions. The formative evaluation findings reflect patterns documented in published usability literature for insulin delivery devices: alarm fatigue, unit confusion, and habitual confirmation tapping are well-established failure modes in this device class.</p>
+    <p class="r">For examples of how I have applied similar thinking to real projects, see:</p>
+    <div class="tag-row r">
+      <a href="case-usetrace.html" class="tag" style="text-decoration:none;cursor:pointer;transition:background 0.2s;">UseTrace HFE Platform</a>
+      <a href="case-pneumothorax.html" class="tag" style="text-decoration:none;cursor:pointer;transition:background 0.2s;">Pneumothorax Air Leak Monitor</a>
+      <a href="case-fall.html" class="tag" style="text-decoration:none;cursor:pointer;transition:background 0.2s;">Fall Risk Assessment Study</a>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <a class="cta-button r" href="index.html#projects">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      Back to All Projects
+    </a>
+  </div>
+
+</main>
+
+<footer>
+  <p>Joneil Caoile &middot; M.S. Biomedical Engineering &middot; Stevens Institute of Technology &middot; <a href="https://joneilcaoile.github.io">joneilcaoile.github.io</a> &middot; <a href="pixel-team.html">The Team</a></p>
+</footer>
+
+<script>
+  // Scroll progress bar
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    document.getElementById('progress-bar').style.width = pct + '%';
+  });
+
+  // GSAP scroll reveals
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.set('.r', { opacity: 0, y: 28 });
+      document.querySelectorAll('.r').forEach(el => {
+        gsap.to(el, {
+          opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+        });
+      });
+    } else {
+      document.querySelectorAll('.r').forEach(el => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+    }
+  });
+</script>
+
+</body>
+</html>
