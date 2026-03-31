@@ -3279,6 +3279,97 @@
     .critter-container.corner-tl .critter-settings,
     .critter-container.corner-bl .critter-settings { right: auto; left: 0; }
 
+    /* KONAMI ACTIVATION SEQUENCE */
+    .konami-overlay {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      opacity: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .konami-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .konami-overlay .scanlines {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.15) 2px,
+        rgba(0, 0, 0, 0.15) 4px
+      );
+      pointer-events: none;
+      z-index: 2;
+    }
+    .konami-overlay .crt-flicker {
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0);
+      pointer-events: none;
+      z-index: 3;
+    }
+    .konami-sequence {
+      font-size: clamp(20px, 5vw, 48px);
+      color: #39ff14;
+      letter-spacing: 8px;
+      text-shadow: 0 0 10px #39ff14, 0 0 30px #39ff14;
+      z-index: 1;
+      opacity: 0;
+      white-space: nowrap;
+    }
+    .konami-label {
+      font-size: clamp(10px, 2vw, 16px);
+      color: #888;
+      letter-spacing: 4px;
+      margin-top: 24px;
+      z-index: 1;
+      opacity: 0;
+      text-transform: uppercase;
+    }
+    .konami-lives {
+      font-size: clamp(14px, 3vw, 28px);
+      color: #ff4444;
+      letter-spacing: 3px;
+      margin-top: 32px;
+      z-index: 1;
+      opacity: 0;
+    }
+    .konami-lives span {
+      color: #fff;
+      font-size: clamp(24px, 5vw, 56px);
+      text-shadow: 0 0 12px rgba(255, 68, 68, 0.6);
+    }
+    .konami-enter {
+      font-size: clamp(9px, 1.5vw, 13px);
+      color: #39ff14;
+      letter-spacing: 6px;
+      margin-top: 40px;
+      z-index: 1;
+      opacity: 0;
+      animation: none;
+    }
+    .konami-enter.blink {
+      animation: konami-blink 0.8s step-end infinite;
+    }
+    @keyframes konami-blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    @keyframes konami-flash {
+      0% { background: rgba(255, 255, 255, 0.8); }
+      100% { background: rgba(255, 255, 255, 0); }
+    }
+
     /* RPG OVERLAY */
     .rpg-overlay {
       position: fixed;
@@ -3850,6 +3941,16 @@
       <span class="rpg-stat-value">5 Projects</span>
     </div>
   </div>
+</div>
+
+<!-- KONAMI ACTIVATION OVERLAY -->
+<div class="konami-overlay" id="konamiOverlay" aria-hidden="true">
+  <div class="scanlines"></div>
+  <div class="crt-flicker" id="crtFlicker"></div>
+  <div class="konami-sequence" id="konamiSeq"></div>
+  <div class="konami-label" id="konamiLabel">CHEAT ACTIVATED</div>
+  <div class="konami-lives" id="konamiLives">LIVES: <span id="livesCount">03</span></div>
+  <div class="konami-enter" id="konamiEnter">PRESS START</div>
 </div>
 
 <!-- SKIP NAV (accessibility) -->
@@ -5701,20 +5802,127 @@
   /* KONAMI CODE */
   const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
   let konamiIndex = 0;
+  const konamiSymbols = ['↑', '↑', '↓', '↓', '←', '→', '←', '→', 'B', 'A'];
 
   document.addEventListener('keydown', (e) => {
     if (e.key === konamiCode[konamiIndex]) {
       konamiIndex++;
       if (konamiIndex === konamiCode.length) {
-        showToast('SECRET UNLOCKED · Entering pixel team...', 2000);
         updateXP(200);
         konamiIndex = 0;
-        setTimeout(() => { window.location.href = '/pixel-team.html'; }, 1200);
+        runKonamiSequence();
       }
     } else {
       konamiIndex = 0;
     }
   });
+
+  function runKonamiSequence() {
+    const overlay = document.getElementById('konamiOverlay');
+    const seqEl = document.getElementById('konamiSeq');
+    const labelEl = document.getElementById('konamiLabel');
+    const livesEl = document.getElementById('konamiLives');
+    const countEl = document.getElementById('livesCount');
+    const enterEl = document.getElementById('konamiEnter');
+    const flickerEl = document.getElementById('crtFlicker');
+
+    // Reset state
+    seqEl.textContent = '';
+    seqEl.style.opacity = '0';
+    labelEl.style.opacity = '0';
+    livesEl.style.opacity = '0';
+    enterEl.style.opacity = '0';
+    enterEl.classList.remove('blink');
+
+    // CRT power-on flash
+    overlay.classList.add('active');
+    flickerEl.style.animation = 'konami-flash 0.3s ease-out';
+    setTimeout(() => { flickerEl.style.animation = ''; }, 300);
+
+    // Retro beep using Web Audio
+    try {
+      const ac = new (window.AudioContext || window.webkitAudioContext)();
+      function beep(freq, time, dur) {
+        const o = ac.createOscillator();
+        const g = ac.createGain();
+        o.type = 'square';
+        o.frequency.value = freq;
+        g.gain.value = 0.08;
+        o.connect(g);
+        g.connect(ac.destination);
+        o.start(ac.currentTime + time);
+        g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + time + dur);
+        o.stop(ac.currentTime + time + dur);
+      }
+
+      // Type out the sequence one symbol at a time
+      let typed = '';
+      seqEl.style.opacity = '1';
+      konamiSymbols.forEach((sym, i) => {
+        setTimeout(() => {
+          typed += sym + ' ';
+          seqEl.textContent = typed;
+          beep(440 + i * 60, 0, 0.06);
+        }, 200 + i * 120);
+      });
+
+      // After sequence typed: flash + "CHEAT ACTIVATED"
+      const seqDone = 200 + konamiSymbols.length * 120 + 200;
+      setTimeout(() => {
+        flickerEl.style.animation = 'konami-flash 0.15s ease-out';
+        setTimeout(() => { flickerEl.style.animation = ''; }, 150);
+        beep(880, 0, 0.15);
+        labelEl.style.opacity = '1';
+      }, seqDone);
+
+      // Lives counter spinning up from 03 to 30
+      const livesStart = seqDone + 500;
+      setTimeout(() => {
+        livesEl.style.opacity = '1';
+        let lives = 3;
+        const livesTimer = setInterval(() => {
+          lives += 1;
+          countEl.textContent = lives < 10 ? '0' + lives : lives;
+          beep(200 + lives * 20, 0, 0.03);
+          if (lives >= 30) {
+            clearInterval(livesTimer);
+            // Flash on 30
+            countEl.style.textShadow = '0 0 20px #ff4444, 0 0 40px #ff4444';
+            beep(1200, 0, 0.2);
+            beep(1600, 0.1, 0.3);
+          }
+        }, 50);
+      }, livesStart);
+
+      // "PRESS START" blink
+      const pressStart = livesStart + 1600;
+      setTimeout(() => {
+        enterEl.style.opacity = '1';
+        enterEl.classList.add('blink');
+      }, pressStart);
+
+      // Navigate on any key or click
+      function goToPixelTeam() {
+        overlay.removeEventListener('click', goToPixelTeam);
+        document.removeEventListener('keydown', goToPixelTeam);
+        flickerEl.style.animation = 'konami-flash 0.2s ease-out';
+        beep(1000, 0, 0.1);
+        beep(1400, 0.05, 0.15);
+        setTimeout(() => {
+          window.location.href = '/pixel-team.html';
+        }, 250);
+      }
+
+      setTimeout(() => {
+        overlay.addEventListener('click', goToPixelTeam);
+        document.addEventListener('keydown', goToPixelTeam);
+      }, pressStart + 200);
+
+    } catch (err) {
+      // Fallback if Web Audio fails: just navigate
+      setTimeout(() => { window.location.href = '/pixel-team.html'; }, 800);
+    }
+  }
 
   /* RPG OVERLAY */
   const rpgOverlay = document.getElementById('rpgOverlay');
