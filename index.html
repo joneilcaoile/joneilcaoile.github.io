@@ -12983,5 +12983,140 @@
 })();
 </script>
 
+<!-- Enhanced terminal: typewriter responses -->
+<script>
+(function(){
+  var termInput=document.getElementById('terminalInput');
+  var termResp=document.getElementById('terminalResponses');
+  if(!termInput||!termResp)return;
+  var origHandler=termInput.onkeydown;
+
+  function typewrite(el,text,cb){
+    var i=0;
+    el.textContent='';
+    function next(){
+      if(i<text.length){el.textContent+=text[i];i++;setTimeout(next,12+Math.random()*18);}
+      else if(cb)cb();
+    }
+    next();
+  }
+
+  /* Wrap the existing terminal responses with typewriter */
+  var observer=new MutationObserver(function(mutations){
+    mutations.forEach(function(m){
+      m.addedNodes.forEach(function(node){
+        if(node.nodeType===1&&node.classList&&node.classList.contains('terminal-response')){
+          var text=node.textContent;
+          if(text.length>5&&!matchMedia('(prefers-reduced-motion:reduce)').matches){
+            typewrite(node,text);
+          }
+        }
+      });
+    });
+  });
+  observer.observe(termResp,{childList:true});
+})();
+</script>
+
+<!-- Smooth nav link active state tracking -->
+<script>
+(function(){
+  var navLinks=document.querySelectorAll('.nav-links a[href^="#"]');
+  if(!navLinks.length)return;
+  var sections=[];
+  navLinks.forEach(function(link){
+    var id=link.getAttribute('href').slice(1);
+    var sec=document.getElementById(id);
+    if(sec)sections.push({el:sec,link:link,id:id});
+  });
+
+  function update(){
+    var scrollY=window.scrollY+200;
+    var current=null;
+    sections.forEach(function(s){
+      if(scrollY>=s.el.offsetTop)current=s;
+    });
+    navLinks.forEach(function(l){l.classList.remove('nav-active');l.style.color='';});
+    if(current){
+      current.link.classList.add('nav-active');
+      current.link.style.color='var(--amber)';
+    }
+  }
+  window.addEventListener('scroll',update,{passive:true});
+  update();
+})();
+</script>
+
+<!-- Credential marquee pause on hover with smooth deceleration -->
+<script>
+(function(){
+  var marquee=document.querySelector('.marquee-wrapper');
+  if(!marquee)return;
+  marquee.addEventListener('mouseenter',function(){
+    marquee.style.animationPlayState='paused';
+    var items=marquee.querySelectorAll('.marquee-item');
+    items.forEach(function(item){
+      item.style.transform='scale(1.02)';
+      item.style.transition='transform 0.3s ease';
+    });
+  });
+  marquee.addEventListener('mouseleave',function(){
+    marquee.style.animationPlayState='running';
+    var items=marquee.querySelectorAll('.marquee-item');
+    items.forEach(function(item){
+      item.style.transform='';
+    });
+  });
+})();
+</script>
+
+<!-- Tooltip on hero role badges/keywords -->
+<script>
+(function(){
+  if(matchMedia('(pointer:coarse)').matches)return;
+  var keywords=document.querySelectorAll('.hero-role, .target-keyword');
+  keywords.forEach(function(kw){
+    var tips={'validation':'Testing medical devices before they reach patients','applications':'Bridging engineering and clinical workflows','human factors':'Making devices safe and intuitive for real users','r&d':'Building the next generation of medical devices'};
+    var text=kw.textContent.trim().toLowerCase();
+    var match=Object.keys(tips).find(function(k){return text.includes(k);});
+    if(!match)return;
+    kw.style.cursor='help';
+    kw.title=tips[match];
+  });
+})();
+</script>
+
+<!-- Confetti burst on form submit success -->
+<script>
+(function(){
+  var form=document.getElementById('contactForm');
+  var status=document.getElementById('formStatus');
+  if(!form||!status)return;
+  var origSubmit=form.onsubmit;
+
+  var observer=new MutationObserver(function(){
+    if(status.textContent.toLowerCase().includes('sent')||status.textContent.toLowerCase().includes('thank')){
+      if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+      for(var i=0;i<30;i++){
+        var p=document.createElement('span');
+        var colors=['var(--amber)','var(--coral,#E05C4A)','var(--gold,#C89B3C)','#60A5FA','#34D399'];
+        p.style.cssText='position:fixed;width:6px;height:6px;border-radius:2px;pointer-events:none;z-index:99999;background:'+colors[i%colors.length]+';left:50%;top:50%;';
+        document.body.appendChild(p);
+        var angle=Math.random()*Math.PI*2;
+        var dist=80+Math.random()*200;
+        var dx=Math.cos(angle)*dist;
+        var dy=Math.sin(angle)*dist-100;
+        p.animate([
+          {transform:'translate(0,0) rotate(0deg) scale(1)',opacity:1},
+          {transform:'translate('+dx+'px,'+dy+'px) rotate('+(360+Math.random()*360)+'deg) scale(0)',opacity:0}
+        ],{duration:1200+Math.random()*600,easing:'cubic-bezier(0.16,1,0.3,1)'});
+        (function(el){setTimeout(function(){el.remove();},2000);})(p);
+      }
+    }
+  });
+  observer.observe(status,{childList:true,characterData:true,subtree:true});
+})();
+</script>
+
 </body>
 </html>
