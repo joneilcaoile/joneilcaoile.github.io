@@ -833,10 +833,13 @@
     .scroll-top.visible { opacity: 1; pointer-events: auto; }
     .scroll-top:hover { background: #C67B2E; color: #1C1915; transform: translateY(-2px); }
     @media print { .scroll-top { display: none !important; } }
+    .page-transition { position:fixed; inset:0; z-index:10000; pointer-events:none; background:#1C1915; opacity:0; transition:opacity 0.4s cubic-bezier(0.4,0,0.2,1); }
+    .page-transition.active { opacity:1; pointer-events:all; }
   </style>
   <noscript><style>.r { opacity: 1 !important; transform: none !important; } .scroll-top { display: none !important; }</style></noscript>
 </head>
 <body>
+<div class="page-transition" id="pageTransition"></div>
 
   <a href="#main-content" class="skip-nav">Skip to main content</a>
   <div id="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
@@ -1284,5 +1287,24 @@
   /* Dynamic footer year */
   (function(){ var el = document.querySelector('.footer-year'); if (el) el.textContent = new Date().getFullYear(); })();
   </script>
+<script>
+(function pageTransitions(){
+  var ov=document.getElementById('pageTransition');if(!ov)return;
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('a[href$=".html"]');
+    if(!a)return;var h=a.getAttribute('href');
+    if(!h||h.startsWith('http')||h.startsWith('#')||h.startsWith('mailto'))return;
+    e.preventDefault();ov.classList.add('active');
+    setTimeout(function(){window.location.href=h;},400);
+  });
+  if(performance.getEntriesByType&&performance.getEntriesByType('navigation')[0]){
+    var t=performance.getEntriesByType('navigation')[0].type;
+    if(t==='navigate'||t==='back_forward'){
+      ov.style.opacity='1';ov.style.transition='none';
+      requestAnimationFrame(function(){ov.style.transition='opacity 0.4s cubic-bezier(0.4,0,0.2,1)';ov.style.opacity='0';});
+    }
+  }
+})();
+</script>
 </body>
 </html>

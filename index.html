@@ -524,6 +524,18 @@
     }
     @media print { body::after { display: none; } }
 
+    /* PAGE TRANSITION OVERLAY — smooth exit when navigating */
+    .page-transition {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      pointer-events: none;
+      background: var(--dark);
+      opacity: 0;
+      transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .page-transition.active { opacity: 1; pointer-events: all; }
+
     /* PAGE LOAD STATE — content hidden until loader finishes */
     main, nav, footer {
       opacity: 0;
@@ -2340,8 +2352,8 @@
     }
     .bring-card:hover {
       border-color: var(--coral);
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-card-hover);
+      transform: translateY(-3px) scale(1.01);
+      box-shadow: var(--shadow-card-hover), 0 0 30px rgba(198,123,46,0.08), inset 0 0 20px rgba(198,123,46,0.03);
       background: var(--bg-warm);
     }
 
@@ -3964,13 +3976,15 @@
       position: fixed;
       bottom: 2rem;
       right: 2rem;
-      width: 44px;
-      height: 44px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       background: var(--dark3);
-      border: 1px solid var(--border);
+      border: none;
       color: var(--amber);
-      font-size: 20px;
+      font-size: 14px;
+      font-family: var(--fm);
+      font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -3979,10 +3993,13 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.3s ease, background 0.3s ease, color 0.3s ease, transform 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25), 0 0 20px rgba(198,123,46,0.1);
     }
+    .scroll-top svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+    .scroll-top .progress-ring { fill: none; stroke: var(--amber); stroke-width: 2.5; stroke-linecap: round; transition: stroke-dashoffset 0.15s linear; }
+    .scroll-top .progress-bg { fill: none; stroke: var(--border); stroke-width: 1; }
     .scroll-top.visible { opacity: 1; pointer-events: auto; }
-    .scroll-top:hover { background: var(--amber); color: var(--dark); transform: translateY(-2px); }
+    .scroll-top:hover { background: var(--amber); color: var(--dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(198,123,46,0.3); }
 
     @media (max-width: 768px) {
       .dot-nav { display: none; }
@@ -4266,6 +4283,7 @@
   </noscript>
 </head>
 <body>
+<div class="page-transition" id="pageTransition"></div>
 <a href="#statement" class="skip-link">Skip to content</a>
 
 <!-- LOADER — Grand Boot Sequence -->
@@ -5399,7 +5417,10 @@
 </div>
 
 <!-- SCROLL TO TOP -->
-<button class="scroll-top" id="scrollTop" aria-label="Scroll to top">&uarr;</button>
+<button class="scroll-top" id="scrollTop" aria-label="Scroll to top">
+  <svg viewBox="0 0 48 48"><circle class="progress-bg" cx="24" cy="24" r="21"/><circle class="progress-ring" id="scrollRing" cx="24" cy="24" r="21" stroke-dasharray="131.95" stroke-dashoffset="131.95"/></svg>
+  <span id="scrollPercText" aria-hidden="true">↑</span>
+</button>
 
 <!-- FOOTER -->
 <footer>
@@ -7496,6 +7517,32 @@
     });
   }
 
+  // Work cards — staggered alternating entrance from left/right
+  document.querySelectorAll('.work-item').forEach(function(item, index) {
+    var isEven = index % 2 === 1;
+    var visual = item.querySelector('.work-visual');
+    var card = item.querySelector('.work-card');
+    if (visual) {
+      gsap.from(visual, {
+        autoAlpha: 0,
+        x: isEven ? 60 : -60,
+        duration: 0.8,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: item, start: 'top 80%', once: true }
+      });
+    }
+    if (card) {
+      gsap.from(card, {
+        autoAlpha: 0,
+        x: isEven ? -40 : 40,
+        duration: 0.8,
+        ease: 'power3.out',
+        delay: 0.15,
+        scrollTrigger: { trigger: item, start: 'top 80%', once: true }
+      });
+    }
+  });
+
   // Work card spotlight effect — radial glow follows cursor
   if (window.matchMedia('(pointer: fine)').matches) {
     document.querySelectorAll('.work-visual').forEach(function(vis) {
@@ -7623,8 +7670,11 @@
     }
   });
 
-  /* SCROLL PROGRESS BAR with trailing dot */
+  /* SCROLL PROGRESS BAR with trailing dot + circular ring */
   const scrollProgress = document.getElementById('scrollProgress');
+  const scrollRing = document.getElementById('scrollRing');
+  const scrollPercText = document.getElementById('scrollPercText');
+  const circumference = 2 * Math.PI * 21; // r=21
   window.addEventListener('scroll', () => {
     const scrollTop = window.scrollY;
     const docHeight = document.body.scrollHeight - window.innerHeight;
@@ -7635,6 +7685,16 @@
       scrollProgress.classList.add('active');
     } else {
       scrollProgress.classList.remove('active');
+    }
+    // Update circular ring
+    if (scrollRing) {
+      var offset = circumference - (scrollPercent / 100) * circumference;
+      scrollRing.style.strokeDashoffset = offset;
+    }
+    if (scrollPercText && scrollPercent > 5) {
+      scrollPercText.textContent = Math.round(scrollPercent) + '%';
+    } else if (scrollPercText) {
+      scrollPercText.textContent = '↑';
     }
   }, { passive: true });
 
@@ -8873,6 +8933,38 @@
     hint.addEventListener('click', openCmd);
     nav.appendChild(hint);
   })();
+})();
+</script>
+
+<!-- PAGE TRANSITION — smooth exit animation on internal navigation -->
+<script>
+(function pageTransitions() {
+  var overlay = document.getElementById('pageTransition');
+  if (!overlay) return;
+
+  // Intercept clicks to case study links and internal .html links
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('a[href$=".html"], .featured-link, .work-link');
+    if (!link) return;
+    var href = link.getAttribute('href');
+    if (!href || href.startsWith('http') || href.startsWith('#') || href.startsWith('mailto')) return;
+    e.preventDefault();
+    overlay.classList.add('active');
+    setTimeout(function() { window.location.href = href; }, 400);
+  });
+
+  // Fade in on page load (if navigated via transition)
+  if (performance.getEntriesByType && performance.getEntriesByType('navigation')[0]) {
+    var navType = performance.getEntriesByType('navigation')[0].type;
+    if (navType === 'navigate' || navType === 'back_forward') {
+      overlay.style.opacity = '1';
+      overlay.style.transition = 'none';
+      requestAnimationFrame(function() {
+        overlay.style.transition = 'opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+        overlay.style.opacity = '0';
+      });
+    }
+  }
 })();
 </script>
 
