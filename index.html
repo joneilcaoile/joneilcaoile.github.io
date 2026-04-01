@@ -2885,6 +2885,12 @@
       color: var(--cream);
     }
 
+    @property --border-angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
+
     .featured-card {
       background: var(--dark3);
       border: 2px solid transparent;
@@ -2893,7 +2899,13 @@
       position: relative;
       overflow: hidden;
       transition: transform 0.4s ease, box-shadow 0.4s ease;
+      background-image: linear-gradient(var(--dark3), var(--dark3)), conic-gradient(from var(--border-angle), var(--amber) 0%, transparent 30%, var(--coral) 50%, transparent 70%, var(--amber) 100%);
+      background-origin: border-box;
+      background-clip: padding-box, border-box;
+      animation: rotateBorder 6s linear infinite;
     }
+    @keyframes rotateBorder { to { --border-angle: 360deg; } }
+    @media (prefers-reduced-motion:reduce) { .featured-card { animation:none; border-color: rgba(217,119,6,0.2); background-image:none; } }
 
     .featured-card:hover {
       transform: translateY(-4px);
@@ -12522,6 +12534,177 @@
       el.style.boxShadow='';
       el.style.borderColor='';
     });
+  });
+})();
+</script>
+
+<!-- Glassmorphic tooltip on skill matrix cells -->
+<script>
+(function(){
+  if(matchMedia('(pointer:coarse)').matches)return;
+  var tooltip=document.createElement('div');
+  tooltip.className='matrix-tooltip';
+  tooltip.style.cssText='position:fixed;padding:6px 12px;background:rgba(15,14,12,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(217,119,6,0.2);border-radius:6px;color:#F5F3EE;font-size:12px;font-family:var(--font-mono);pointer-events:none;z-index:9999;opacity:0;transition:opacity 0.2s ease;white-space:nowrap;';
+  document.body.appendChild(tooltip);
+
+  document.querySelectorAll('.matrix-cell').forEach(function(cell){
+    cell.addEventListener('mouseenter',function(e){
+      var row=cell.closest('.matrix-row');
+      var skill=row?row.getAttribute('data-skill'):'';
+      var idx=Array.from(cell.parentNode.children).indexOf(cell)-1;
+      var headers=document.querySelectorAll('.matrix-project-header');
+      var project=headers[idx]?headers[idx].textContent.trim():'';
+      var has=cell.getAttribute('data-has')==='true';
+      tooltip.textContent=skill+(has?' \u2713 ':' \u2717 ')+project;
+      tooltip.style.opacity='1';
+    });
+    cell.addEventListener('mousemove',function(e){
+      tooltip.style.left=(e.clientX+12)+'px';
+      tooltip.style.top=(e.clientY-30)+'px';
+    });
+    cell.addEventListener('mouseleave',function(){
+      tooltip.style.opacity='0';
+    });
+  });
+})();
+</script>
+
+<!-- Particle burst on section header entrance -->
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var h2s=document.querySelectorAll('section h2');
+  h2s.forEach(function(h2){
+    var fired=false;
+    var obs=new IntersectionObserver(function(entries){
+      if(entries[0].isIntersecting&&!fired){
+        fired=true;
+        var rect=h2.getBoundingClientRect();
+        for(var i=0;i<12;i++){
+          var p=document.createElement('span');
+          p.style.cssText='position:fixed;width:4px;height:4px;border-radius:50%;pointer-events:none;z-index:9998;background:var(--amber);';
+          p.style.left=(rect.left+rect.width*Math.random())+'px';
+          p.style.top=(rect.top+rect.height/2)+'px';
+          p.style.opacity='1';
+          document.body.appendChild(p);
+          var angle=Math.random()*Math.PI*2;
+          var dist=30+Math.random()*50;
+          var dx=Math.cos(angle)*dist;
+          var dy=Math.sin(angle)*dist;
+          p.animate([
+            {transform:'translate(0,0) scale(1)',opacity:1},
+            {transform:'translate('+dx+'px,'+dy+'px) scale(0)',opacity:0}
+          ],{duration:600+Math.random()*400,easing:'cubic-bezier(0.16,1,0.3,1)'});
+          (function(el){setTimeout(function(){el.remove();},1200);})(p);
+        }
+        obs.disconnect();
+      }
+    },{threshold:0.5});
+    obs.observe(h2);
+  });
+})();
+</script>
+
+<!-- Konami code: IDDQD (doom god mode) easter egg -->
+<script>
+(function(){
+  var seq='iddqd';
+  var buf='';
+  document.addEventListener('keypress',function(e){
+    buf+=e.key.toLowerCase();
+    if(buf.length>seq.length)buf=buf.slice(-seq.length);
+    if(buf===seq){
+      document.body.style.transition='filter 0.5s ease';
+      document.body.style.filter='hue-rotate(180deg) saturate(2)';
+      var msg=document.createElement('div');
+      msg.textContent='GOD MODE ACTIVATED';
+      msg.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--font-mono);font-size:2rem;color:var(--amber);z-index:99999;text-shadow:0 0 20px rgba(217,119,6,0.5);pointer-events:none;animation:fadeOut 3s ease forwards;';
+      var style=document.createElement('style');
+      style.textContent='@keyframes fadeOut{0%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.5)}}';
+      document.head.appendChild(style);
+      document.body.appendChild(msg);
+      setTimeout(function(){
+        document.body.style.filter='';
+        msg.remove();
+        style.remove();
+      },3000);
+      buf='';
+    }
+  });
+})();
+</script>
+
+<!-- Smooth scroll progress sound (Web Audio API) -->
+<script>
+(function(){
+  var audioCtx=null;
+  var soundEnabled=false;
+  var lastSection='';
+
+  function playTick(){
+    if(!soundEnabled||!audioCtx)return;
+    var osc=audioCtx.createOscillator();
+    var gain=audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.frequency.value=800+Math.random()*400;
+    osc.type='sine';
+    gain.gain.value=0.03;
+    gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.08);
+    osc.start();
+    osc.stop(audioCtx.currentTime+0.08);
+  }
+
+  /* Toggle with Ctrl+Shift+S */
+  document.addEventListener('keydown',function(e){
+    if(e.ctrlKey&&e.shiftKey&&e.key==='S'){
+      e.preventDefault();
+      if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+      soundEnabled=!soundEnabled;
+      var msg=document.createElement('div');
+      msg.textContent='Sound '+(soundEnabled?'ON':'OFF');
+      msg.style.cssText='position:fixed;bottom:80px;right:20px;padding:8px 16px;background:rgba(15,14,12,0.9);color:var(--amber);font-family:var(--font-mono);font-size:12px;border-radius:6px;z-index:99999;opacity:1;transition:opacity 0.5s;pointer-events:none;';
+      document.body.appendChild(msg);
+      setTimeout(function(){msg.style.opacity='0';setTimeout(function(){msg.remove();},500);},1500);
+    }
+  });
+
+  /* Play tick on section change */
+  var sections=document.querySelectorAll('section[id]');
+  window.addEventListener('scroll',function(){
+    sections.forEach(function(s){
+      var r=s.getBoundingClientRect();
+      if(r.top<window.innerHeight/2&&r.bottom>window.innerHeight/2){
+        if(s.id!==lastSection){
+          lastSection=s.id;
+          playTick();
+        }
+      }
+    });
+  },{passive:true});
+})();
+</script>
+
+<!-- Journey timeline connecting line animation -->
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var nodes=document.querySelectorAll('.journey-node');
+  if(!nodes.length)return;
+  nodes.forEach(function(node,i){
+    node.style.opacity='0';
+    node.style.transform='translateX('+(i%2===0?'-30':'30')+'px)';
+    var obs=new IntersectionObserver(function(entries){
+      if(entries[0].isIntersecting){
+        setTimeout(function(){
+          node.style.transition='opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1)';
+          node.style.opacity='1';
+          node.style.transform='translateX(0)';
+        },i*120);
+        obs.disconnect();
+      }
+    },{threshold:0.2});
+    obs.observe(node);
   });
 })();
 </script>
