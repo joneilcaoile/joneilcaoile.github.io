@@ -2807,16 +2807,6 @@
       line-height: 1.5;
     }
 
-    .ro-ladder {
-      margin-top: 0.6rem;
-      padding-top: 0.6rem;
-      border-top: 1px solid rgba(198,123,46,0.15);
-      font-family: var(--fm);
-      font-size: 0.73rem;
-      color: rgba(255,255,255,0.35);
-    }
-    .ro-ladder span { color: var(--amber); font-weight: 600; }
-
     /* ── JOURNEY TREE ─────────────────────────────────────────────── */
     #journey h2 { margin-bottom: 0.8rem; }
     .journey-intro {
@@ -7368,18 +7358,6 @@
     formSubmit.disabled = false;
     formSubmit.textContent = 'Send';
   });
-
-  /* RO JOB TREE — detail data + sprite rendering + branch bar */
-  const roInfo = {
-    novice: { title: 'Novice', body: 'B.S. Kinesiology from CSUDH, Carson CA. Studied human movement, biomechanics, and exercise science. Started doing clinical observation hours and saw a completely different problem: <strong>engineers designing devices in isolation</strong> from the people who actually use them.' },
-    change: { title: '1st Job Change: M.S. Biomedical Engineering', body: 'Stevens Institute of Technology, Jersey City NJ. The full device lifecycle: design verification, usability evaluation, regulatory strategy, signal processing, machine learning. Plus a <strong>Google UX Design Certificate</strong> and 400+ hours of clinical observation watching real users interact with real devices. Graduating May 2026.' },
-    acolyte: { title: 'Acolyte: Validation Engineer', body: 'Physically running V&V tests on medical devices. Bench testing, environmental testing, design validation, simulated-use studies. <strong>In a lab with a device, proving it works.</strong><br><br>Stable hours. Office/lab-based. Massive SoCal market. Physical testing and pass/fail judgment stays human.<div class="ro-ladder">Career ladder: <span>VE &rarr; Senior VE &rarr; V&V Manager &rarr; Director of Quality</span></div>' },
-    sage: { title: 'Sage: Applications Engineer', body: 'Training clinicians on devices, troubleshooting in the field, bridging engineering and end-users. Physically in a hospital explaining a device to a surgeon. The relationship IS the product.<div class="ro-ladder">Career ladder: <span>Apps Eng &rarr; Senior Apps &rarr; Product Management</span></div>' },
-    blacksmith: { title: 'Blacksmith: R&D Engineer', body: 'Designing, prototyping, and testing medical devices. CAD, bench testing, design controls. Physical product work with real hardware.<div class="ro-ladder">Career ladder: <span>R&D Eng &rarr; Senior &rarr; Staff &rarr; Principal / R&D Manager</span></div>' },
-    creator: { title: 'Creator: Human Factors Engineer', body: 'Designing and testing how clinicians interact with devices. Usability studies, simulated-use testing, IEC 62366. Google UX cert + clinical observation hours make this a natural fit.<div class="ro-ladder">Career ladder: <span>Niche role with expanding regulatory demand</span></div>' }
-  };
-
-  /* RO tree removed — roInfo kept for journey node tooltips */
 
   /* PERSONAL SECTION TOGGLE */
   const personalToggle = document.getElementById('personalToggle');
