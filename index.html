@@ -241,6 +241,9 @@
     }
 
     .text-center { text-align: center; }
+    .callout-inline { margin: 2rem 0; }
+    .spec-table-spaced { margin-top: 2rem; }
+    .matrix-desc { color: var(--text-muted); margin-bottom: 2rem; }
 
     /* SCROLL PROGRESS BAR */
     .scroll-progress {
@@ -1023,6 +1026,10 @@
       50% { opacity: 0.4; }
     }
 
+    .status-badge.available {
+      background: var(--dark3);
+      color: var(--gold);
+    }
     .status-badge.available::before {
       background: var(--green);
       box-shadow: 0 0 6px rgba(45,90,61,0.5);
@@ -4633,7 +4640,7 @@
   <canvas class="hero-particles" id="heroParticles"></canvas>
   <div class="hero-left">
     <div class="status-badge">Currently building UseTrace HFE</div>
-    <div class="status-badge available" style="background: var(--dark3); color: var(--gold);">Available May 2026 · SoCal</div>
+    <div class="status-badge available">Available May 2026 · SoCal</div>
     <p class="hero-tag">Biomedical Engineer</p>
     <h1 class="hero-name">Joneil Caoile</h1>
     <p class="hero-desc">Two years watching devices fail patients. Now I test them, validate them, and build tools so they don't.</p>
@@ -4842,7 +4849,7 @@
         <h3>Solution</h3>
         <p>Multi-label classification (severity, type, device subsystem) with confidence scores and audit trails. Engineers validate AI-generated drafts instead of coding raw text. Cuts classification time to 3-5 days and maps directly to HFE report deliverables.</p>
       </div>
-      <table class="spec-table" style="margin-top: 2rem;">
+      <table class="spec-table spec-table-spaced">
         <thead>
           <tr>
             <th>Specification</th>
@@ -4880,7 +4887,7 @@
       </a>
     </div>
         <!-- FIELD-TESTED CALLOUT -->
-      <div class="callout" style="margin:2rem 0;">
+      <div class="callout callout-inline">
         <div class="callout-label">Field-Tested</div>
         <p>UseTrace launched to 4 medical device companies. Within the first month, 50+ HFE engineers adopted it. When one team reported that observation categorization was too slow on older laptops, I profiled the React render pipeline, found unoptimized re-renders, and shipped a fix in v2.1 that improved speed 3.2x. That's the cycle I bring to every project: ship, listen, fix, ship again.</p>
       </div>
@@ -5402,7 +5409,7 @@
   <div class="container">
     <p class="section-label">07 / Skills Map</p>
     <h2>Skills Across Projects</h2>
-    <p style="color: var(--text-muted); margin-bottom: 2rem;">Hover to explore which skills each project uses</p>
+    <p class="matrix-desc">Hover to explore which skills each project uses</p>
 
     <div class="matrix-wrapper">
       <div class="matrix-scroll-x">
