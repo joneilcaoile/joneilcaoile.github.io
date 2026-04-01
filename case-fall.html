@@ -592,49 +592,6 @@
       border-color: rgba(217,119,6,0.4);
     }
 
-    /* ===== PROJECT NAV (prev/next) ===== */
-    .project-nav {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      margin: 4rem 0;
-      padding: 2rem 0;
-      border-top: 1px solid rgba(0,0,0,0.08);
-      border-bottom: 1px solid rgba(0,0,0,0.08);
-    }
-
-    @media (max-width: 600px) {
-      .project-nav { grid-template-columns: 1fr; }
-      .project-nav-next { order: 2; }
-    }
-
-    .project-nav-link {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-
-    .project-nav-link:hover {
-      color: var(--text);
-    }
-
-    .project-nav-label {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-light);
-    }
-
-    .project-nav-title {
-      font-family: var(--font-head);
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--amber);
-    }
-
     /* ===== CTA SECTION ===== */
     .cta-section {
       padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 3rem);
@@ -1028,19 +985,6 @@
     </section>
 
     <!-- Project navigation -->
-    <section class="section">
-      <div class="project-nav">
-        <a href="case-emg.html" class="project-nav-link">
-          <span class="project-nav-label">Previous project</span>
-          <span class="project-nav-title">EMG Classification</span>
-        </a>
-        <a href="case-photocull.html" class="project-nav-link" style="text-align: right;">
-          <span class="project-nav-label">Next project</span>
-          <span class="project-nav-title">PhotoCull AI</span>
-        </a>
-      </div>
-    </section>
-
     <!-- ===== CASE NAV ===== -->
     <nav class="case-nav" aria-label="Adjacent case studies">
       <a href="case-emg.html" class="case-nav-link">
