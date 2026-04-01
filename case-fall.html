@@ -1003,7 +1003,7 @@
 
     <!-- Footer -->
     <footer class="footer">
-      <p>&copy; <script>document.write(new Date().getFullYear())</script> Joneil Caoile</p>
+      <p>&copy; <span class="footer-year">2026</span> Joneil Caoile</p>
     </footer>
   </main>
 
@@ -1171,6 +1171,8 @@
       nav.classList.toggle('scrolled', window.scrollY > 50);
     }, { passive: true });
   })();
+  /* Dynamic footer year */
+  (function(){ var el = document.querySelector('.footer-year'); if (el) el.textContent = new Date().getFullYear(); })();
   </script>
 </body>
 </html>

@@ -5525,7 +5525,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="container">
-    &copy; <script>document.write(new Date().getFullYear())</script> Joneil Caoile. <span id="coffeeText" style="cursor:pointer;" title="Click me">Built with too much coffee.</span>
+    &copy; <span id="footerYear">2026</span> Joneil Caoile. <span id="coffeeText" style="cursor:pointer;" title="Click me">Built with too much coffee.</span>
     <span class="footer-links">
       <a href="https://linkedin.com/in/joneilcaoile" target="_blank" rel="noopener">LinkedIn</a>
       <a href="https://github.com/joneilcaoile" target="_blank" rel="noopener">GitHub</a>
@@ -8400,6 +8400,12 @@
       }
     }, { threshold: 0.1 });
     obs.observe(el.closest('footer') || el);
+  })();
+
+  /* DYNAMIC FOOTER YEAR (replaces document.write) */
+  (function() {
+    var yearEl = document.getElementById('footerYear');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
   })();
 
   /* BRING CARD BORDER FILL ON SCROLL */

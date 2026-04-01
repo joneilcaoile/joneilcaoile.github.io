@@ -1130,7 +1130,7 @@
     <p>
       <a href="index.html">joneilcaoile.github.io</a>
       &nbsp;·&nbsp;
-      <script>document.write(new Date().getFullYear())</script>
+      <span class="footer-year">2026</span>
     </p>
   </footer>
 
@@ -1260,6 +1260,8 @@
       nav.classList.toggle('scrolled', window.scrollY > 50);
     }, { passive: true });
   })();
+  /* Dynamic footer year */
+  (function(){ var el = document.querySelector('.footer-year'); if (el) el.textContent = new Date().getFullYear(); })();
   </script>
 </body>
 </html>
