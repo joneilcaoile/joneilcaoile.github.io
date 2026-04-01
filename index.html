@@ -262,9 +262,23 @@
       width: 0%;
       z-index: 1001;
       transition: width 0.1s linear;
-      box-shadow: 0 0 8px var(--amber);
+      box-shadow: 0 0 8px var(--amber), 0 0 20px rgba(198,123,46,0.3);
       will-change: width;
     }
+    .scroll-progress::after {
+      content: '';
+      position: absolute;
+      right: -4px;
+      top: -4px;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--amber);
+      box-shadow: 0 0 12px var(--amber), 0 0 24px rgba(198,123,46,0.4);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .scroll-progress.active::after { opacity: 1; }
 
     @keyframes progress-gradient {
       0% { background-position: 0% 50%; }
@@ -968,6 +982,17 @@
       position: relative;
       overflow: hidden;
     }
+
+    /* 3D DNA helix canvas */
+    .hero-3d {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+    .hero-3d.active { opacity: 1; }
 
     /* Floating particle canvas behind hero content */
     .hero-particles {
@@ -1849,8 +1874,21 @@
     }
 
     .featured-card[data-rarity="legendary"] {
-      border-image: linear-gradient(135deg, var(--gold), var(--amber-light)) 1;
-      box-shadow: inset 0 0 20px rgba(212, 162, 51, 0.1);
+      border: 2px solid var(--gold);
+      box-shadow: inset 0 0 20px rgba(212, 162, 51, 0.1), 0 0 30px rgba(212, 162, 51, 0.08);
+      background-image: linear-gradient(var(--dark3), var(--dark3)), conic-gradient(from var(--border-angle, 0deg), var(--gold), var(--amber), var(--coral), var(--teal), var(--gold));
+      background-origin: border-box;
+      background-clip: padding-box, border-box;
+      border-color: transparent;
+      animation: rotate-border 6s linear infinite;
+    }
+    @property --border-angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
+    @keyframes rotate-border {
+      to { --border-angle: 360deg; }
     }
 
     .featured-card[data-rarity="legendary"]::before {
@@ -1993,6 +2031,18 @@
       pointer-events: none;
       z-index: 1;
     }
+
+    /* Spotlight effect that follows cursor on work cards */
+    .work-visual .card-spotlight {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      background: radial-gradient(400px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(198,123,46,0.12) 0%, transparent 60%);
+    }
+    .work-item:hover .card-spotlight { opacity: 1; }
 
     .work-visual-bg {
       position: absolute;
@@ -4389,6 +4439,8 @@
 <main>
 <!-- HERO -->
 <section id="hero" class="container">
+  <!-- 3D DNA helix background -->
+  <canvas class="hero-3d" id="hero3D"></canvas>
   <!-- Ambient background effects -->
   <canvas class="hero-gradient-mesh" id="heroGradientMesh"></canvas>
   <canvas class="hero-particles" id="heroParticles"></canvas>
@@ -5384,6 +5436,7 @@
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js" integrity="sha384-RVPQwTb0fPz9kI8s5GwAq1Qioto9fnEQt1aKGSQSm8xV6+DIdBSgcCShoHqfKnhv" crossorigin="anonymous"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" crossorigin="anonymous"></script>
 
 <script>
   /* HAMBURGER MENU */
@@ -6962,16 +7015,18 @@
     });
   })();
 
-  // Gentle section fade-in on scroll (individual element animations handle the detail)
+  // Cinematic section reveals with clip-path wipe
   ['#statement', '#bring', '#story', '#featured', '#work', '#toolkit', '#journey', '#contact'].forEach(sel => {
     const section = document.querySelector(sel);
     if (!section) return;
-    gsap.from(section, {
-      autoAlpha: 0,
-      y: 24,
-      duration: 0.6,
-      ease: 'power2.out',
-      scrollTrigger: { trigger: section, start: 'top 88%', once: true }
+    // Set initial clip-path to hide section
+    gsap.set(section, { clipPath: 'inset(8% 0% 8% 0%)', autoAlpha: 0 });
+    gsap.to(section, {
+      clipPath: 'inset(0% 0% 0% 0%)',
+      autoAlpha: 1,
+      duration: 1,
+      ease: 'power3.out',
+      scrollTrigger: { trigger: section, start: 'top 85%', once: true }
     });
   });
 
@@ -7018,6 +7073,26 @@
     ease: 'power2.out',
     delay: 0.15
   });
+
+  // Split-text reveal for section headings (words slide up from clip mask)
+  (function splitTextReveal() {
+    var headings = document.querySelectorAll('#bring h2, #story h2, #work h2, #toolkit h2, #journey h2, #contact h2');
+    headings.forEach(function(h) {
+      var words = h.textContent.split(' ');
+      h.innerHTML = words.map(function(word) {
+        return '<span style="display:inline-block;overflow:hidden;vertical-align:bottom;"><span class="split-word" style="display:inline-block;transform:translateY(110%)">' + word + '</span></span>';
+      }).join(' ');
+      h.style.visibility = 'visible';
+      h.style.opacity = '1';
+      gsap.to(h.querySelectorAll('.split-word'), {
+        y: '0%',
+        duration: 0.7,
+        stagger: 0.04,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: h, start: 'top 82%', once: true }
+      });
+    });
+  })();
 
   // Story text fade-in
   gsap.from('.story-text p', {
@@ -7312,6 +7387,61 @@
     });
   });
 
+  // Scroll velocity skew on section headings
+  (function scrollVelocitySkew() {
+    var prevScroll = window.scrollY;
+    var velocity = 0;
+    var headings = document.querySelectorAll('section h2');
+    if (!headings.length) return;
+
+    function updateSkew() {
+      var currentScroll = window.scrollY;
+      var delta = currentScroll - prevScroll;
+      velocity += (delta - velocity) * 0.1;
+      prevScroll = currentScroll;
+      var skew = Math.max(-3, Math.min(3, velocity * 0.3));
+      headings.forEach(function(h) {
+        h.style.transform = 'skewX(' + skew + 'deg)';
+      });
+      requestAnimationFrame(updateSkew);
+    }
+    requestAnimationFrame(updateSkew);
+  })();
+
+  // Large parallax watermark text behind sections
+  (function addParallaxWatermarks() {
+    var watermarks = [
+      { sel: '#statement', text: 'VALIDATE' },
+      { sel: '#bring', text: 'ENGINEER' },
+      { sel: '#story', text: 'OBSERVE' },
+      { sel: '#featured', text: 'BUILD' },
+      { sel: '#work', text: 'SHIP' },
+      { sel: '#skills-matrix', text: 'SKILLS' },
+      { sel: '#contact', text: 'CONNECT' }
+    ];
+    watermarks.forEach(function(w) {
+      var section = document.querySelector(w.sel);
+      if (!section) return;
+      section.style.position = 'relative';
+      section.style.overflow = 'hidden';
+      var mark = document.createElement('div');
+      mark.textContent = w.text;
+      mark.setAttribute('aria-hidden', 'true');
+      mark.style.cssText = 'position:absolute;top:50%;left:-5%;font-family:var(--fh);font-size:clamp(6rem,18vw,14rem);font-weight:800;color:var(--text);opacity:0.018;pointer-events:none;white-space:nowrap;z-index:0;letter-spacing:-0.03em;text-transform:uppercase;transform:translateY(-50%);will-change:transform;user-select:none;';
+      section.insertBefore(mark, section.firstChild);
+      gsap.to(mark, {
+        x: '10%',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.2
+        }
+      });
+    });
+  })();
+
   // Section labels — letter stagger (subtle typewriter feel)
   document.querySelectorAll('.section-label').forEach(label => {
     const text = label.textContent;
@@ -7362,6 +7492,22 @@
       });
       item.addEventListener('mouseleave', () => {
         gsap.to(item, { rotateY: 0, rotateX: 0, duration: 0.5, ease: 'elastic.out(1, 0.6)', overwrite: 'auto' });
+      });
+    });
+  }
+
+  // Work card spotlight effect — radial glow follows cursor
+  if (window.matchMedia('(pointer: fine)').matches) {
+    document.querySelectorAll('.work-visual').forEach(function(vis) {
+      var spot = document.createElement('div');
+      spot.className = 'card-spotlight';
+      vis.appendChild(spot);
+      vis.addEventListener('mousemove', function(e) {
+        var rect = vis.getBoundingClientRect();
+        var x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
+        var y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
+        spot.style.setProperty('--spot-x', x + '%');
+        spot.style.setProperty('--spot-y', y + '%');
       });
     });
   }
@@ -7477,7 +7623,7 @@
     }
   });
 
-  /* SCROLL PROGRESS BAR */
+  /* SCROLL PROGRESS BAR with trailing dot */
   const scrollProgress = document.getElementById('scrollProgress');
   window.addEventListener('scroll', () => {
     const scrollTop = window.scrollY;
@@ -7485,6 +7631,11 @@
     const scrollPercent = (scrollTop / docHeight) * 100;
     scrollProgress.style.width = scrollPercent + '%';
     scrollProgress.setAttribute('aria-valuenow', Math.round(scrollPercent));
+    if (scrollPercent > 1) {
+      scrollProgress.classList.add('active');
+    } else {
+      scrollProgress.classList.remove('active');
+    }
   }, { passive: true });
 
   /* TAB TITLE CHANGE — hooks them back */
@@ -8722,6 +8873,305 @@
     hint.addEventListener('click', openCmd);
     nav.appendChild(hint);
   })();
+})();
+</script>
+
+<!-- CURSOR PARTICLE TRAIL -->
+<script>
+(function cursorTrail() {
+  if (window.matchMedia('(pointer: coarse)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var particles = [];
+  var maxParticles = 20;
+  var mouseX = 0, mouseY = 0;
+  var colors = ['#C67B2E', '#D4A233', '#B84A3C', '#156967'];
+
+  document.addEventListener('mousemove', function(e) {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    spawnParticle();
+  });
+
+  function spawnParticle() {
+    if (particles.length >= maxParticles) return;
+    var p = document.createElement('div');
+    p.style.cssText = 'position:fixed;pointer-events:none;z-index:9996;border-radius:50%;will-change:transform,opacity;';
+    var size = Math.random() * 4 + 2;
+    var color = colors[Math.floor(Math.random() * colors.length)];
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    p.style.background = color;
+    p.style.boxShadow = '0 0 ' + (size * 2) + 'px ' + color;
+    p.style.left = mouseX + 'px';
+    p.style.top = mouseY + 'px';
+    document.body.appendChild(p);
+
+    var vx = (Math.random() - 0.5) * 2;
+    var vy = (Math.random() - 0.5) * 2 - 1;
+    var life = 0;
+    var maxLife = 30 + Math.random() * 20;
+    particles.push({ el: p, vx: vx, vy: vy, life: life, maxLife: maxLife, x: mouseX, y: mouseY });
+  }
+
+  function animateParticles() {
+    for (var i = particles.length - 1; i >= 0; i--) {
+      var pa = particles[i];
+      pa.life++;
+      pa.x += pa.vx;
+      pa.y += pa.vy;
+      pa.vy += 0.02; // gravity
+      var progress = pa.life / pa.maxLife;
+      pa.el.style.transform = 'translate(' + (pa.x - parseFloat(pa.el.style.left)) + 'px,' + (pa.y - parseFloat(pa.el.style.top)) + 'px) scale(' + (1 - progress) + ')';
+      pa.el.style.opacity = 1 - progress;
+      if (pa.life >= pa.maxLife) {
+        pa.el.remove();
+        particles.splice(i, 1);
+      }
+    }
+    requestAnimationFrame(animateParticles);
+  }
+  requestAnimationFrame(animateParticles);
+})();
+</script>
+
+<!-- 3D DNA HELIX + MOLECULAR NETWORK -->
+<script>
+(function init3DHero() {
+  if (typeof THREE === 'undefined' || window.matchMedia('(pointer: coarse)').matches) return;
+  var canvas = document.getElementById('hero3D');
+  if (!canvas) return;
+
+  var scene = new THREE.Scene();
+  var heroEl = document.getElementById('hero');
+  var w = heroEl.offsetWidth;
+  var h = heroEl.offsetHeight;
+
+  var camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 100);
+  camera.position.set(0, 0, 14);
+
+  var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+  renderer.setSize(w, h);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  // Color palette matching the site
+  var amberColor = new THREE.Color(0xC67B2E);
+  var coralColor = new THREE.Color(0xB84A3C);
+  var tealColor = new THREE.Color(0x156967);
+  var goldColor = new THREE.Color(0xD4A233);
+
+  // === DNA DOUBLE HELIX ===
+  var helixGroup = new THREE.Group();
+  scene.add(helixGroup);
+
+  var helixPoints = 80;
+  var helixRadius = 1.8;
+  var helixHeight = 16;
+  var helixTurns = 3;
+
+  // Create helix strands as points
+  var strand1Geo = new THREE.BufferGeometry();
+  var strand2Geo = new THREE.BufferGeometry();
+  var strand1Pos = new Float32Array(helixPoints * 3);
+  var strand2Pos = new Float32Array(helixPoints * 3);
+
+  for (var i = 0; i < helixPoints; i++) {
+    var t = i / helixPoints;
+    var angle = t * Math.PI * 2 * helixTurns;
+    var y = (t - 0.5) * helixHeight;
+
+    strand1Pos[i * 3] = Math.cos(angle) * helixRadius;
+    strand1Pos[i * 3 + 1] = y;
+    strand1Pos[i * 3 + 2] = Math.sin(angle) * helixRadius;
+
+    strand2Pos[i * 3] = Math.cos(angle + Math.PI) * helixRadius;
+    strand2Pos[i * 3 + 1] = y;
+    strand2Pos[i * 3 + 2] = Math.sin(angle + Math.PI) * helixRadius;
+  }
+
+  strand1Geo.setAttribute('position', new THREE.BufferAttribute(strand1Pos, 3));
+  strand2Geo.setAttribute('position', new THREE.BufferAttribute(strand2Pos, 3));
+
+  var strandMat1 = new THREE.PointsMaterial({ color: amberColor, size: 0.08, transparent: true, opacity: 0.7 });
+  var strandMat2 = new THREE.PointsMaterial({ color: tealColor, size: 0.08, transparent: true, opacity: 0.7 });
+  helixGroup.add(new THREE.Points(strand1Geo, strandMat1));
+  helixGroup.add(new THREE.Points(strand2Geo, strandMat2));
+
+  // Base pair rungs connecting strands
+  var rungInterval = 4;
+  for (var i = 0; i < helixPoints; i += rungInterval) {
+    var t = i / helixPoints;
+    var angle = t * Math.PI * 2 * helixTurns;
+    var y = (t - 0.5) * helixHeight;
+
+    var x1 = Math.cos(angle) * helixRadius;
+    var z1 = Math.sin(angle) * helixRadius;
+    var x2 = Math.cos(angle + Math.PI) * helixRadius;
+    var z2 = Math.sin(angle + Math.PI) * helixRadius;
+
+    var rungGeo = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(x1, y, z1),
+      new THREE.Vector3(0, y, 0),
+      new THREE.Vector3(x2, y, z2)
+    ]);
+    var rungMat = new THREE.LineBasicMaterial({
+      color: i % 8 === 0 ? coralColor : goldColor,
+      transparent: true,
+      opacity: 0.25
+    });
+    helixGroup.add(new THREE.Line(rungGeo, rungMat));
+  }
+
+  // Strand connection lines (backbone)
+  var line1Geo = new THREE.BufferGeometry();
+  line1Geo.setAttribute('position', new THREE.BufferAttribute(strand1Pos.slice(), 3));
+  var line2Geo = new THREE.BufferGeometry();
+  line2Geo.setAttribute('position', new THREE.BufferAttribute(strand2Pos.slice(), 3));
+  var lineMat1 = new THREE.LineBasicMaterial({ color: amberColor, transparent: true, opacity: 0.2 });
+  var lineMat2 = new THREE.LineBasicMaterial({ color: tealColor, transparent: true, opacity: 0.2 });
+  helixGroup.add(new THREE.Line(line1Geo, lineMat1));
+  helixGroup.add(new THREE.Line(line2Geo, lineMat2));
+
+  helixGroup.position.set(4, 0, -2);
+  helixGroup.rotation.z = 0.3;
+
+  // === FLOATING MOLECULAR NODES ===
+  var nodeCount = 40;
+  var nodeGeo = new THREE.BufferGeometry();
+  var nodePos = new Float32Array(nodeCount * 3);
+  var nodeColors = new Float32Array(nodeCount * 3);
+  var nodeVelocities = [];
+  var palette = [amberColor, tealColor, coralColor, goldColor];
+
+  for (var i = 0; i < nodeCount; i++) {
+    nodePos[i * 3] = (Math.random() - 0.5) * 20;
+    nodePos[i * 3 + 1] = (Math.random() - 0.5) * 14;
+    nodePos[i * 3 + 2] = (Math.random() - 0.5) * 10 - 3;
+    nodeVelocities.push({
+      x: (Math.random() - 0.5) * 0.003,
+      y: (Math.random() - 0.5) * 0.003,
+      z: (Math.random() - 0.5) * 0.002
+    });
+    var c = palette[Math.floor(Math.random() * palette.length)];
+    nodeColors[i * 3] = c.r;
+    nodeColors[i * 3 + 1] = c.g;
+    nodeColors[i * 3 + 2] = c.b;
+  }
+  nodeGeo.setAttribute('position', new THREE.BufferAttribute(nodePos, 3));
+  nodeGeo.setAttribute('color', new THREE.BufferAttribute(nodeColors, 3));
+  var nodeMat = new THREE.PointsMaterial({
+    size: 0.12,
+    transparent: true,
+    opacity: 0.5,
+    vertexColors: true
+  });
+  var nodes = new THREE.Points(nodeGeo, nodeMat);
+  scene.add(nodes);
+
+  // === MOLECULAR BONDS (connecting nearby nodes) ===
+  var bondGroup = new THREE.Group();
+  scene.add(bondGroup);
+  var bondThreshold = 4;
+
+  function updateBonds() {
+    while (bondGroup.children.length) {
+      var child = bondGroup.children[0];
+      child.geometry.dispose();
+      child.material.dispose();
+      bondGroup.remove(child);
+    }
+    var pos = nodeGeo.attributes.position.array;
+    for (var i = 0; i < nodeCount; i++) {
+      for (var j = i + 1; j < nodeCount; j++) {
+        var dx = pos[i * 3] - pos[j * 3];
+        var dy = pos[i * 3 + 1] - pos[j * 3 + 1];
+        var dz = pos[i * 3 + 2] - pos[j * 3 + 2];
+        var dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+        if (dist < bondThreshold) {
+          var g = new THREE.BufferGeometry().setFromPoints([
+            new THREE.Vector3(pos[i * 3], pos[i * 3 + 1], pos[i * 3 + 2]),
+            new THREE.Vector3(pos[j * 3], pos[j * 3 + 1], pos[j * 3 + 2])
+          ]);
+          var m = new THREE.LineBasicMaterial({
+            color: amberColor,
+            transparent: true,
+            opacity: 0.08 * (1 - dist / bondThreshold)
+          });
+          bondGroup.add(new THREE.Line(g, m));
+        }
+      }
+    }
+  }
+
+  // Mouse tracking for parallax
+  var mouseX = 0, mouseY = 0;
+  document.addEventListener('mousemove', function(e) {
+    mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+    mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+  });
+
+  var clock = new THREE.Clock();
+  var frameCount = 0;
+
+  function animate() {
+    requestAnimationFrame(animate);
+    var elapsed = clock.getElapsedTime();
+
+    // Rotate helix slowly
+    helixGroup.rotation.y = elapsed * 0.15;
+
+    // Mouse parallax on camera
+    camera.position.x += (mouseX * 1.5 - camera.position.x) * 0.02;
+    camera.position.y += (-mouseY * 0.8 - camera.position.y) * 0.02;
+    camera.lookAt(2, 0, 0);
+
+    // Animate floating nodes
+    var pos = nodeGeo.attributes.position.array;
+    for (var i = 0; i < nodeCount; i++) {
+      pos[i * 3] += nodeVelocities[i].x;
+      pos[i * 3 + 1] += nodeVelocities[i].y;
+      pos[i * 3 + 2] += nodeVelocities[i].z;
+      // Boundary wrapping
+      if (Math.abs(pos[i * 3]) > 10) nodeVelocities[i].x *= -1;
+      if (Math.abs(pos[i * 3 + 1]) > 7) nodeVelocities[i].y *= -1;
+      if (Math.abs(pos[i * 3 + 2]) > 8) nodeVelocities[i].z *= -1;
+    }
+    nodeGeo.attributes.position.needsUpdate = true;
+
+    // Update bonds every 30 frames (performance)
+    frameCount++;
+    if (frameCount % 30 === 0) updateBonds();
+
+    renderer.render(scene, camera);
+  }
+
+  // Resize handler
+  window.addEventListener('resize', function() {
+    w = heroEl.offsetWidth;
+    h = heroEl.offsetHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+  });
+
+  // Start after loader finishes
+  setTimeout(function() {
+    canvas.classList.add('active');
+    animate();
+    updateBonds();
+  }, 3800);
+
+  // Fade out on scroll past hero
+  var hero3dFaded = false;
+  window.addEventListener('scroll', function() {
+    if (!hero3dFaded && window.scrollY > h * 0.7) {
+      canvas.style.opacity = '0';
+      hero3dFaded = true;
+    } else if (hero3dFaded && window.scrollY < h * 0.5) {
+      canvas.style.opacity = '1';
+      hero3dFaded = false;
+    }
+  }, { passive: true });
 })();
 </script>
 
