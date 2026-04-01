@@ -134,6 +134,22 @@
       --fm: 'JetBrains Mono', monospace;
 
       --ease: cubic-bezier(.16,1,.3,1);
+
+      /* Layout tokens */
+      --nav-height: 80px;
+      --nav-height-scrolled: 60px;
+
+      /* Shadow tokens */
+      --shadow-amber-sm: 0 4px 16px rgba(198,123,46,0.2);
+      --shadow-amber-md: 0 8px 24px rgba(198,123,46,0.3);
+      --shadow-amber-lg: 0 12px 32px rgba(198,123,46,0.4);
+      --shadow-card: 0 2px 8px rgba(0,0,0,0.04);
+      --shadow-card-hover: 0 8px 24px rgba(0,0,0,0.08);
+      --shadow-nav: 0 2px 20px rgba(0,0,0,0.06);
+
+      /* Terminal palette */
+      --terminal-green: #4AEE7D;
+      --terminal-gold: #FFD700;
     }
 
     /* DARK MODE — responds to OS preference OR manual toggle */
@@ -202,7 +218,7 @@
     }
 
     section {
-      scroll-margin-top: 80px;
+      scroll-margin-top: var(--nav-height);
     }
 
     /* SCROLL PROGRESS BAR */
@@ -543,7 +559,7 @@
       transform: translateX(-5px);
     }
     .loader-boot-line .ok {
-      color: #4AEE7D;
+      color: var(--terminal-green);
       font-weight: 600;
     }
     .loader-boot-line .fail {
@@ -607,7 +623,7 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 80px;
+      height: var(--nav-height);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -621,8 +637,8 @@
     }
 
     nav.scrolled {
-      height: 60px;
-      box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+      height: var(--nav-height-scrolled);
+      box-shadow: var(--shadow-nav);
     }
 
     @media (prefers-color-scheme: dark) {
@@ -1036,13 +1052,13 @@
     .cta-btn.primary {
       background: linear-gradient(135deg, var(--amber), var(--coral));
       color: white;
-      box-shadow: 0 4px 16px rgba(198,123,46,0.2);
+      box-shadow: var(--shadow-amber-sm);
     }
 
     .cta-btn.primary:hover {
       background: linear-gradient(135deg, var(--amber-light), var(--coral));
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(198,123,46,0.3);
+      box-shadow: var(--shadow-amber-md);
     }
 
     .cta-btn.secondary {
@@ -1158,7 +1174,7 @@
       padding: 2rem;
       font-family: var(--fm);
       font-size: 13px;
-      color: #4AEE7D;
+      color: var(--terminal-green);
       overflow: hidden;
       position: relative;
       min-height: 350px;
@@ -1177,11 +1193,11 @@
     }
 
     .terminal-prompt {
-      color: #FFD700;
+      color: var(--terminal-gold);
     }
 
     .terminal-output {
-      color: #4AEE7D;
+      color: var(--terminal-green);
     }
 
     .terminal-box {
@@ -1557,7 +1573,7 @@
       border: none;
       border-radius: 100px;
       white-space: nowrap;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      box-shadow: var(--shadow-card);
       transition: all 0.25s ease;
     }
 
@@ -2238,7 +2254,7 @@
     .bring-card:hover {
       border-color: var(--coral);
       transform: translateY(-3px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      box-shadow: var(--shadow-card-hover);
       background: var(--bg-warm);
     }
 
@@ -2314,7 +2330,7 @@
     }
     .cta-btn.primary:focus-visible {
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(198,123,46,0.3);
+      box-shadow: var(--shadow-amber-md);
       outline: 2px solid white;
       outline-offset: 2px;
     }
@@ -2359,13 +2375,13 @@
     .bring-card:focus-visible {
       border-color: var(--coral);
       transform: translateY(-3px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      box-shadow: var(--shadow-card-hover);
       outline: 2px solid var(--coral);
       outline-offset: 2px;
     }
     .form-submit:focus-visible {
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(198,123,46,0.3);
+      box-shadow: var(--shadow-amber-md);
       outline: 2px solid white;
       outline-offset: 2px;
     }
@@ -2551,7 +2567,7 @@
 
     .form-submit:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(198,123,46,0.3);
+      box-shadow: var(--shadow-amber-md);
     }
 
     .form-submit:hover::before {
@@ -2719,7 +2735,7 @@
       content: '';
       position: absolute;
       inset: 3px;
-      border: 1px solid rgba(198,123,46,0.12);
+      border: 1px solid var(--amber-glow);
       border-radius: 10px;
       pointer-events: none;
     }
