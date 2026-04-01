@@ -597,6 +597,90 @@
       .scroll-section-label { display: none; }
     }
 
+    /* HERO GRADIENT BORDER BOTTOM — animated shimmer line */
+    #hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--amber), var(--coral), var(--teal), var(--gold), transparent);
+      background-size: 200% 100%;
+      animation: hero-border-shimmer 4s linear infinite;
+    }
+    @keyframes hero-border-shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    /* WORK CARD HOVER OVERLAY — glassmorphic quick stats */
+    .work-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 9, 8, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
+      z-index: 5;
+      border-radius: inherit;
+    }
+    .work-card:hover .work-card-overlay {
+      opacity: 1;
+    }
+    .work-card-overlay-stat {
+      text-align: center;
+    }
+    .work-card-overlay-stat .stat-value {
+      font-family: var(--fh);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--amber);
+      line-height: 1;
+    }
+    .work-card-overlay-stat .stat-label {
+      font-family: var(--fm);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--cream);
+      opacity: 0.7;
+      margin-top: 4px;
+    }
+    .work-card-overlay-cta {
+      font-family: var(--fh);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--cream);
+      padding: 8px 24px;
+      border: 1px solid var(--amber);
+      border-radius: 100px;
+      background: rgba(198, 123, 46, 0.15);
+      margin-top: 0.5rem;
+      letter-spacing: 0.03em;
+    }
+    @media (pointer: coarse) {
+      .work-card-overlay { display: none; }
+    }
+
+    /* NAV PROGRESS BAR — thin line under nav showing scroll progress */
+    .nav-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--amber), var(--coral));
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
     /* ACHIEVEMENT PARTICLES — float up when passing milestones */
     .achievement-particle {
       position: fixed;
@@ -2273,6 +2357,7 @@
       background: var(--bg2);
       min-width: 0;
       overflow: hidden;
+      position: relative;
     }
 
     .work-item:nth-child(odd) .work-card {
@@ -4767,6 +4852,7 @@
       <span></span>
     </button>
   </div>
+  <div class="nav-progress" id="navProgress" aria-hidden="true"></div>
 </nav>
 </header>
 
@@ -9985,6 +10071,139 @@
 
     observer.observe(cell);
   });
+})();
+</script>
+
+<!-- WORK CARD HOVER OVERLAYS — inject glassmorphic stats -->
+<script>
+(function workCardOverlays() {
+  if (window.matchMedia('(pointer: coarse)').matches) return;
+
+  var overlayData = {
+    'PhotoCull AI': { stats: [{ value: '2,754', label: 'Lines of Code' }, { value: '10', label: 'Quality Dimensions' }, { value: '92%', label: 'Accuracy' }], cta: 'View Case Study' },
+    'Pneumothorax Air Leak Monitor': { stats: [{ value: '94%', label: 'Sensitivity' }, { value: 'FDA', label: 'Design Controls' }, { value: '30min', label: 'Faster Detection' }], cta: 'View Case Study' },
+    'EMG Fatigue Detection': { stats: [{ value: '92%', label: 'Accuracy' }, { value: '4', label: 'Classification States' }, { value: 'RT', label: 'Real-Time Processing' }], cta: 'View Case Study' },
+    'Fall Risk Assessment': { stats: [{ value: '85%', label: 'Prediction Accuracy' }, { value: '3', label: 'Sensor Modalities' }, { value: 'ML', label: 'Random Forest Model' }], cta: 'View Case Study' },
+    'PhysioRep': { stats: [{ value: 'PWA', label: 'Progressive Web App' }, { value: '30+', label: 'Exercises' }, { value: '0', label: 'Dependencies' }], cta: 'View Case Study' }
+  };
+
+  document.querySelectorAll('.work-card').forEach(function(card) {
+    var h3 = card.querySelector('h3');
+    if (!h3) return;
+    var title = h3.textContent.trim();
+    var data = overlayData[title];
+    if (!data) return;
+
+    var overlay = document.createElement('div');
+    overlay.className = 'work-card-overlay';
+    overlay.setAttribute('aria-hidden', 'true');
+
+    var html = '';
+    data.stats.forEach(function(s) {
+      html += '<div class="work-card-overlay-stat"><div class="stat-value">' + s.value + '</div><div class="stat-label">' + s.label + '</div></div>';
+    });
+    html += '<div class="work-card-overlay-cta">' + data.cta + '</div>';
+    overlay.innerHTML = html;
+
+    card.appendChild(overlay);
+  });
+})();
+</script>
+
+<!-- NAV PROGRESS BAR — updates with scroll -->
+<script>
+(function navProgressBar() {
+  var bar = document.getElementById('navProgress');
+  if (!bar) return;
+
+  window.addEventListener('scroll', function() {
+    var scrollTop = window.scrollY;
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var progress = (scrollTop / docHeight) * 100;
+    bar.style.width = progress + '%';
+  }, { passive: true });
+})();
+</script>
+
+<!-- DYNAMIC FAVICON — changes color accent based on section -->
+<script>
+(function dynamicFavicon() {
+  var colors = {
+    hero: '#C67B2E',
+    statement: '#156967',
+    featured: '#D4A233',
+    work: '#B84A3C',
+    'skills-matrix': '#156967',
+    contact: '#C67B2E'
+  };
+
+  var canvas = document.createElement('canvas');
+  canvas.width = 32;
+  canvas.height = 32;
+  var ctx = canvas.getContext('2d');
+  var link = document.querySelector('link[rel="icon"][type="image/svg+xml"]');
+  if (!link) return;
+
+  var currentColor = '';
+
+  function setFavicon(color) {
+    if (color === currentColor) return;
+    currentColor = color;
+
+    ctx.clearRect(0, 0, 32, 32);
+
+    // Draw hexagon
+    ctx.beginPath();
+    for (var i = 0; i < 6; i++) {
+      var angle = (Math.PI / 3) * i - Math.PI / 2;
+      var x = 16 + 14 * Math.cos(angle);
+      var y = 16 + 14 * Math.sin(angle);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.fillStyle = '#0A0908';
+    ctx.fill();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Draw J
+    ctx.fillStyle = color;
+    ctx.font = 'bold 16px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('J', 16, 17);
+
+    // Create favicon link
+    var newLink = document.createElement('link');
+    newLink.rel = 'icon';
+    newLink.type = 'image/png';
+    newLink.href = canvas.toDataURL('image/png');
+
+    var existing = document.querySelector('link[rel="icon"][type="image/png"][sizes="32x32"]');
+    if (existing) existing.parentNode.removeChild(existing);
+    document.head.appendChild(newLink);
+  }
+
+  var sections = Object.keys(colors);
+
+  window.addEventListener('scroll', function() {
+    var scrollY = window.scrollY + window.innerHeight * 0.3;
+    var active = 'hero';
+
+    for (var i = sections.length - 1; i >= 0; i--) {
+      var el = document.getElementById(sections[i]);
+      if (el && scrollY >= el.offsetTop) {
+        active = sections[i];
+        break;
+      }
+    }
+    setFavicon(colors[active]);
+  }, { passive: true });
+
+  // Initial
+  setFavicon(colors.hero);
 })();
 </script>
 
