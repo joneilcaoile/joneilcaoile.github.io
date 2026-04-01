@@ -524,6 +524,36 @@
     }
     @media print { body::after { display: none; } }
 
+    /* CIRCUIT DIVIDERS between sections */
+    .circuit-divider {
+      width: 100%;
+      height: 40px;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+    .circuit-divider svg {
+      width: 100%;
+      height: 100%;
+    }
+    .circuit-line {
+      stroke-dasharray: 1200;
+      stroke-dashoffset: 1200;
+      transition: stroke-dashoffset 2s ease;
+    }
+    .circuit-divider.drawn .circuit-line { stroke-dashoffset: 0; }
+    .circuit-node {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .circuit-divider.drawn .circuit-node { opacity: 0.3; }
+    .circuit-branch {
+      stroke-dasharray: 200;
+      stroke-dashoffset: 200;
+      transition: stroke-dashoffset 1.5s ease 0.5s;
+    }
+    .circuit-divider.drawn .circuit-branch { stroke-dashoffset: 0; }
+
     /* PAGE TRANSITION OVERLAY — smooth exit when navigating */
     .page-transition {
       position: fixed;
@@ -1285,6 +1315,12 @@
     .headshot-frame:hover .headshot-img {
       filter: saturate(1.1) contrast(1.08);
     }
+    .headshot-frame:hover .headshot-ring {
+      animation-duration: 3s;
+    }
+    .headshot-frame:hover .headshot-glow {
+      opacity: 1.5;
+    }
 
     /* Headshot ambient glow */
     .headshot-glow {
@@ -1334,13 +1370,20 @@
       position: relative;
       min-height: 350px;
       line-height: 1.8;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 40px rgba(74,238,125,0.03);
       transform-style: preserve-3d;
-      transition: transform 0.6s ease;
+      transition: transform 0.6s ease, box-shadow 0.6s ease;
+      animation: terminal-glow 4s ease-in-out infinite;
+    }
+
+    @keyframes terminal-glow {
+      0%, 100% { box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 40px rgba(74,238,125,0.03); }
+      50% { box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 60px rgba(74,238,125,0.06), 0 0 100px rgba(74,238,125,0.02); }
     }
 
     .terminal:hover {
       transform: rotateX(5deg) rotateY(-8deg);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.4), 0 0 60px rgba(74,238,125,0.08);
     }
 
     .terminal-line {
@@ -1354,6 +1397,17 @@
     .terminal-output {
       color: var(--terminal-green);
     }
+
+    .terminal-blink {
+      color: var(--terminal-green);
+      animation: term-blink 1s step-end infinite;
+      font-size: 12px;
+    }
+    @keyframes term-blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+    .terminal-typed { white-space: pre; }
 
     .terminal-box {
       border: 1px solid rgba(74, 238, 125, 0.4);
@@ -4506,6 +4560,8 @@
       <div class="terminal-line"><span class="terminal-output">TOOLS BUILT</span></div>
       <div class="terminal-line"><span class="terminal-output">↳ UseTrace (HFE observation tool)</span></div>
       <div class="terminal-line"><span class="terminal-output">↳ PhotoCull AI (image classification)</span></div>
+      <div class="terminal-line"></div>
+      <div class="terminal-line" id="terminalTyping"><span class="terminal-prompt">$</span> <span class="terminal-output terminal-typed" id="terminalTyped"></span><span class="terminal-blink">█</span></div>
     </div>
   </div>
   <div class="scroll-indicator" data-scroll-to="#statement">
@@ -4513,6 +4569,19 @@
     <div class="scroll-dot"></div>
   </div>
 </section>
+
+<!-- SVG CIRCUIT DIVIDER -->
+<div class="circuit-divider" aria-hidden="true">
+  <svg viewBox="0 0 1200 40" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path class="circuit-line" d="M0 20 Q300 5 600 20 Q900 35 1200 20" stroke="var(--amber)" stroke-width="1" opacity="0.15"/>
+    <circle class="circuit-node" cx="200" cy="14" r="3" fill="var(--amber)" opacity="0.3"/>
+    <circle class="circuit-node" cx="600" cy="20" r="4" fill="var(--coral)" opacity="0.25"/>
+    <circle class="circuit-node" cx="1000" cy="26" r="3" fill="var(--teal)" opacity="0.3"/>
+    <path class="circuit-branch" d="M200 14 L200 4 L280 4" stroke="var(--amber)" stroke-width="0.8" opacity="0.1" stroke-dasharray="4 3"/>
+    <path class="circuit-branch" d="M600 20 L600 36 L520 36" stroke="var(--coral)" stroke-width="0.8" opacity="0.1" stroke-dasharray="4 3"/>
+    <path class="circuit-branch" d="M1000 26 L1000 10 L1080 10" stroke="var(--teal)" stroke-width="0.8" opacity="0.1" stroke-dasharray="4 3"/>
+  </svg>
+</div>
 
 <!-- CREDENTIALS MARQUEE -->
 <section id="credentials">
@@ -4726,6 +4795,15 @@
     <p>See the full methodology and results in each case study below.</p>
   </div>
 </section>
+
+<!-- SVG CIRCUIT DIVIDER -->
+<div class="circuit-divider" aria-hidden="true">
+  <svg viewBox="0 0 1200 40" preserveAspectRatio="none" fill="none">
+    <path class="circuit-line" d="M0 30 Q200 10 400 25 Q600 40 800 15 Q1000 -5 1200 20" stroke="var(--teal)" stroke-width="1" opacity="0.12"/>
+    <circle class="circuit-node" cx="400" cy="25" r="3" fill="var(--teal)" opacity="0.25"/>
+    <circle class="circuit-node" cx="800" cy="15" r="4" fill="var(--amber)" opacity="0.2"/>
+  </svg>
+</div>
 
 <!-- OTHER WORK — ZIGZAG EDITORIAL -->
 <section id="work" class="bridge-dark-to-light">
@@ -5344,6 +5422,16 @@
 </section>
 
 <div class="section-rule"></div>
+
+<!-- SVG CIRCUIT DIVIDER -->
+<div class="circuit-divider" aria-hidden="true">
+  <svg viewBox="0 0 1200 40" preserveAspectRatio="none" fill="none">
+    <path class="circuit-line" d="M0 10 Q150 35 300 20 Q600 -5 900 25 Q1050 35 1200 15" stroke="var(--coral)" stroke-width="1" opacity="0.12"/>
+    <circle class="circuit-node" cx="300" cy="20" r="3" fill="var(--coral)" opacity="0.25"/>
+    <circle class="circuit-node" cx="900" cy="25" r="3" fill="var(--gold)" opacity="0.2"/>
+    <path class="circuit-branch" d="M300 20 L300 5 L380 5" stroke="var(--coral)" stroke-width="0.8" opacity="0.08" stroke-dasharray="4 3"/>
+  </svg>
+</div>
 
 <!-- CONTACT -->
 <section id="contact" class="bridge-light-to-dark">
@@ -6753,6 +6841,28 @@
   });
   gsap.from('.scroll-indicator', { duration: 0.5, autoAlpha: 0, y: -10, ease: 'power2.out', delay: 4.7 });
 
+  // Terminal live typing — types out a status message after boot
+  (function terminalType() {
+    var el = document.getElementById('terminalTyped');
+    if (!el) return;
+    var messages = [
+      'status --all',
+      'echo "Ready for SoCal medtech"',
+      'cat portfolio.json | jq .projects',
+      'grep -r "hire me" ./resume',
+    ];
+    var msg = messages[Math.floor(Math.random() * messages.length)];
+    var i = 0;
+    function type() {
+      if (i < msg.length) {
+        el.textContent += msg[i];
+        i++;
+        setTimeout(type, 50 + Math.random() * 50);
+      }
+    }
+    setTimeout(type, 5500); // Start after all boot lines visible
+  })();
+
   // Hero floating particles (ember/dust motes)
   (function() {
     const canvas = document.getElementById('heroParticles');
@@ -7049,6 +7159,17 @@
       ease: 'power3.out',
       scrollTrigger: { trigger: section, start: 'top 85%', once: true }
     });
+  });
+
+  // Circuit dividers — draw on scroll
+  document.querySelectorAll('.circuit-divider').forEach(function(div) {
+    var obs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        div.classList.add('drawn');
+        obs.disconnect();
+      }
+    }, { threshold: 0.3 });
+    obs.observe(div);
   });
 
   // Credentials marquee entrance
