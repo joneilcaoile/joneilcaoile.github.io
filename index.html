@@ -12852,5 +12852,136 @@
 })();
 </script>
 
+<!-- SVG line-draw on architecture diagrams and work visuals -->
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  document.querySelectorAll('.draw-path').forEach(function(path){
+    var len=path.getTotalLength?path.getTotalLength():0;
+    if(!len){
+      /* For rect/line/polyline, estimate */
+      if(path.tagName==='rect'){var w=parseFloat(path.getAttribute('width'))||0;var h=parseFloat(path.getAttribute('height'))||0;len=2*(w+h);}
+      else if(path.tagName==='line'){var x1=parseFloat(path.getAttribute('x1'))||0;var y1=parseFloat(path.getAttribute('y1'))||0;var x2=parseFloat(path.getAttribute('x2'))||0;var y2=parseFloat(path.getAttribute('y2'))||0;len=Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));}
+      else if(path.tagName==='polyline'){len=200;}
+    }
+    if(len>0){
+      path.style.strokeDasharray=len;
+      path.style.strokeDashoffset=len;
+      path.style.transition='stroke-dashoffset 1.2s cubic-bezier(0.16,1,0.3,1)';
+    }
+  });
+  document.querySelectorAll('[data-draw]').forEach(function(wrap){
+    var drawn=false;
+    var obs=new IntersectionObserver(function(entries){
+      if(entries[0].isIntersecting&&!drawn){
+        drawn=true;
+        wrap.querySelectorAll('.draw-path').forEach(function(p,i){
+          setTimeout(function(){p.style.strokeDashoffset='0';},i*80);
+        });
+        obs.disconnect();
+      }
+    },{threshold:0.3});
+    obs.observe(wrap);
+  });
+})();
+</script>
+
+<!-- Keyboard shortcut legend (? key) -->
+<script>
+(function(){
+  var visible=false;
+  var overlay=document.createElement('div');
+  overlay.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:99999;display:none;align-items:center;justify-content:center;';
+  var card=document.createElement('div');
+  card.style.cssText='background:var(--bg-dark,#0F0E0C);border:1px solid rgba(217,119,6,0.2);border-radius:12px;padding:2rem 2.5rem;max-width:420px;width:90%;color:#F5F3EE;font-family:var(--font-body);';
+  card.innerHTML='<h3 style="font-family:var(--font-head);margin-bottom:1.2rem;color:var(--amber);font-size:1.1rem;">Keyboard Shortcuts</h3>'+
+    '<div style="display:grid;grid-template-columns:auto 1fr;gap:0.5rem 1rem;font-size:0.85rem;font-family:var(--font-mono);">'+
+    '<kbd style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;">Ctrl+K</kbd><span style="color:rgba(245,243,238,0.7);">Command palette</span>'+
+    '<kbd style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;">Ctrl+Shift+M</kbd><span style="color:rgba(245,243,238,0.7);">Matrix rain</span>'+
+    '<kbd style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;">Ctrl+Shift+S</kbd><span style="color:rgba(245,243,238,0.7);">Sound toggle</span>'+
+    '<kbd style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;">\u2191 \u2191 \u2193 \u2193 \u2190 \u2192 \u2190 \u2192 B A</kbd><span style="color:rgba(245,243,238,0.7);">Konami code</span>'+
+    '<kbd style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;">iddqd</kbd><span style="color:rgba(245,243,238,0.7);">God mode</span>'+
+    '<kbd style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;">hire</kbd><span style="color:rgba(245,243,238,0.7);">Jump to contact</span>'+
+    '<kbd style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;">?</kbd><span style="color:rgba(245,243,238,0.7);">This legend</span>'+
+    '</div>'+
+    '<p style="margin-top:1rem;font-size:0.75rem;color:rgba(245,243,238,0.4);text-align:center;">Press Esc or ? to close</p>';
+  overlay.appendChild(card);
+  document.body.appendChild(overlay);
+
+  function toggle(){
+    visible=!visible;
+    overlay.style.display=visible?'flex':'none';
+  }
+  document.addEventListener('keydown',function(e){
+    if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
+    if(e.key==='?'){e.preventDefault();toggle();}
+    if(e.key==='Escape'&&visible)toggle();
+  });
+  overlay.addEventListener('click',function(e){if(e.target===overlay)toggle();});
+})();
+</script>
+
+<!-- Skill matrix column highlight on project header hover -->
+<script>
+(function(){
+  if(matchMedia('(pointer:coarse)').matches)return;
+  var headers=document.querySelectorAll('.matrix-project-header');
+  var rows=document.querySelectorAll('.matrix-row');
+  headers.forEach(function(h,colIdx){
+    h.addEventListener('mouseenter',function(){
+      rows.forEach(function(row){
+        var cells=row.querySelectorAll('.matrix-cell');
+        if(cells[colIdx]){
+          cells[colIdx].style.background='rgba(217,119,6,0.08)';
+          cells[colIdx].style.transition='background 0.2s ease';
+        }
+      });
+    });
+    h.addEventListener('mouseleave',function(){
+      rows.forEach(function(row){
+        var cells=row.querySelectorAll('.matrix-cell');
+        if(cells[colIdx])cells[colIdx].style.background='';
+      });
+    });
+  });
+})();
+</script>
+
+<!-- Hero gradient mesh animation -->
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var hero=document.getElementById('hero');
+  if(!hero)return;
+  var mesh=document.createElement('div');
+  mesh.setAttribute('aria-hidden','true');
+  mesh.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.03;background:radial-gradient(ellipse at 20% 50%,var(--amber),transparent 50%),radial-gradient(ellipse at 80% 30%,var(--coral,#E05C4A),transparent 50%),radial-gradient(ellipse at 50% 80%,var(--gold,#C89B3C),transparent 50%);background-size:100% 100%;animation:meshShift 15s ease-in-out infinite alternate;';
+  hero.style.position=hero.style.position||'relative';
+  hero.insertBefore(mesh,hero.firstChild);
+  if(!document.getElementById('meshShiftStyle')){
+    var s=document.createElement('style');
+    s.id='meshShiftStyle';
+    s.textContent='@keyframes meshShift{0%{background-position:0% 0%,100% 0%,50% 100%}50%{background-position:30% 20%,70% 50%,20% 60%}100%{background-position:60% 40%,40% 80%,80% 20%}}';
+    document.head.appendChild(s);
+  }
+})();
+</script>
+
+<!-- Smooth scroll indicator bounce at hero -->
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var indicator=document.querySelector('.scroll-indicator');
+  if(!indicator)return;
+  indicator.style.animation='indicatorBounce 2s cubic-bezier(0.36,0.07,0.19,0.97) infinite';
+  if(!document.getElementById('indicatorBounceStyle')){
+    var s=document.createElement('style');
+    s.id='indicatorBounceStyle';
+    s.textContent='@keyframes indicatorBounce{0%,20%,50%,80%,100%{transform:translateY(0)}40%{transform:translateY(-8px)}60%{transform:translateY(-4px)}}';
+    document.head.appendChild(s);
+  }
+})();
+</script>
+
 </body>
 </html>
