@@ -8559,7 +8559,10 @@
     { group: 'Actions', icon: '📄', label: 'Download Resume', desc: 'PDF download', action: function() { var a = document.createElement('a'); a.href = 'Joneil_Caoile_Resume.pdf'; a.download = ''; a.click(); } },
     { group: 'Actions', icon: '📧', label: 'Copy Email', desc: 'joneilcaoile@gmail.com', action: function() { navigator.clipboard.writeText('joneilcaoile@gmail.com'); } },
     { group: 'Links', icon: '💼', label: 'LinkedIn', desc: 'Professional profile', action: function() { window.open('https://linkedin.com/in/joneilcaoile', '_blank'); } },
-    { group: 'Links', icon: '🐙', label: 'GitHub', desc: 'Code repositories', action: function() { window.open('https://github.com/joneilcaoile', '_blank'); } }
+    { group: 'Links', icon: '🐙', label: 'GitHub', desc: 'Code repositories', action: function() { window.open('https://github.com/joneilcaoile', '_blank'); } },
+    { group: 'Actions', icon: '🖨️', label: 'Print Portfolio', desc: 'Printer-friendly version', action: function() { window.print(); } },
+    { group: 'Navigate', icon: '🔬', label: 'Skills Matrix', desc: 'Projects vs skills grid', action: function() { gsap.to(window, {duration: 0.8, scrollTo: '#skills-matrix', ease: 'power2.inOut'}); } },
+    { group: 'Navigate', icon: '🤝', label: 'What I Bring', desc: 'Key competencies', action: function() { gsap.to(window, {duration: 0.8, scrollTo: '#bring', ease: 'power2.inOut'}); } }
   ];
 
   function renderCmdResults(query) {
