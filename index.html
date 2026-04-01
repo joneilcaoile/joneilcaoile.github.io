@@ -1053,10 +1053,17 @@
       font-weight: 700;
       line-height: 1;
       margin: 0.5rem 0 1.5rem;
-      background: linear-gradient(135deg, var(--amber) 0%, var(--coral) 50%, var(--gold) 100%);
+      background: linear-gradient(135deg, var(--amber) 0%, var(--coral) 30%, var(--gold) 60%, var(--amber) 100%);
+      background-size: 200% 200%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      animation: gradient-shift 6s ease-in-out infinite;
+    }
+
+    @keyframes gradient-shift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
 
     .hero-roles {
@@ -2418,7 +2425,7 @@
     }
 
     .form-submit {
-      background: var(--amber);
+      background: linear-gradient(135deg, var(--amber), var(--coral));
       color: white;
       font-weight: 600;
       padding: 0.875rem 1.75rem;
@@ -2428,11 +2435,33 @@
       border: none;
       font-size: 15px;
       align-self: flex-start;
+      position: relative;
+      overflow: hidden;
+      min-height: 44px;
+    }
+
+    .form-submit::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--amber-light), var(--amber));
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
     .form-submit:hover {
-      background: var(--amber-light);
       transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(198,123,46,0.3);
+    }
+
+    .form-submit:hover::before {
+      opacity: 1;
+    }
+
+    .form-submit span,
+    .form-submit {
+      position: relative;
+      z-index: 1;
     }
 
     .copy-email-btn {
@@ -7095,6 +7124,24 @@
       });
       card.addEventListener('mouseleave', () => {
         gsap.to(card, { rotateY: 0, rotateX: 0, duration: 0.4, ease: 'elastic.out(1, 0.5)', overwrite: 'auto' });
+      });
+    });
+
+    // Work cards — subtle 3D tilt on hover
+    document.querySelectorAll('.work-item').forEach(item => {
+      item.style.transformStyle = 'preserve-3d';
+      item.addEventListener('mousemove', e => {
+        const rect = item.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        gsap.to(item, {
+          rotateY: x * 4, rotateX: -y * 4,
+          transformPerspective: 1200,
+          duration: 0.4, ease: 'power2.out', overwrite: 'auto'
+        });
+      });
+      item.addEventListener('mouseleave', () => {
+        gsap.to(item, { rotateY: 0, rotateX: 0, duration: 0.5, ease: 'elastic.out(1, 0.6)', overwrite: 'auto' });
       });
     });
   }
