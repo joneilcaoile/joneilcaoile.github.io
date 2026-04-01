@@ -597,6 +597,98 @@
       .scroll-section-label { display: none; }
     }
 
+    /* GLITCH HOVER on hero name */
+    .hero-name {
+      position: relative;
+    }
+    .hero-name:hover .glitch-layer {
+      display: block;
+    }
+    .glitch-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      pointer-events: none;
+    }
+    .glitch-layer::before,
+    .glitch-layer::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      font: inherit;
+      overflow: hidden;
+    }
+    .glitch-layer::before {
+      color: var(--coral);
+      animation: glitch-1 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+      clip-path: inset(20% 0 60% 0);
+    }
+    .glitch-layer::after {
+      color: var(--teal);
+      animation: glitch-2 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite reverse;
+      clip-path: inset(60% 0 10% 0);
+    }
+    @keyframes glitch-1 {
+      0% { transform: translate(0); }
+      20% { transform: translate(-3px, 1px); }
+      40% { transform: translate(3px, -1px); }
+      60% { transform: translate(-2px, 2px); }
+      80% { transform: translate(2px, -2px); }
+      100% { transform: translate(0); }
+    }
+    @keyframes glitch-2 {
+      0% { transform: translate(0); }
+      20% { transform: translate(2px, -1px); }
+      40% { transform: translate(-2px, 1px); }
+      60% { transform: translate(3px, -2px); }
+      80% { transform: translate(-3px, 2px); }
+      100% { transform: translate(0); }
+    }
+
+    /* ANIMATED SECTION LABELS — typewriter reveal */
+    .section-label {
+      overflow: hidden;
+    }
+    .section-label.typed {
+      border-right: 2px solid var(--amber);
+      animation: label-blink 0.8s step-end infinite;
+      white-space: nowrap;
+      width: 0;
+      display: inline-block;
+    }
+    .section-label.typed.done {
+      border-right-color: transparent;
+      animation: none;
+    }
+    @keyframes label-blink {
+      50% { border-color: transparent; }
+    }
+
+    /* SVG WAVE DIVIDER — organic morphing shape */
+    .wave-divider {
+      width: 100%;
+      height: 40px;
+      overflow: hidden;
+      position: relative;
+    }
+    .wave-divider svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .wave-path {
+      fill: none;
+      stroke: var(--amber);
+      stroke-width: 1;
+      opacity: 0.12;
+    }
+
     /* HERO GRADIENT BORDER BOTTOM — animated shimmer line */
     #hero::after {
       content: '';
@@ -2794,6 +2886,9 @@
       .ambient-wash { display: none !important; }
       .achievement-particle { display: none !important; }
       .scroll-section-label { display: none !important; }
+      .glitch-layer { display: none !important; }
+      .hero-name:hover .glitch-layer { display: none !important; }
+      #hero::after { animation: none !important; }
     }
 
     /* CUSTOM CURSOR — context-aware dot + ring */
@@ -4868,7 +4963,7 @@
     <div class="status-badge">Currently building UseTrace HFE</div>
     <div class="status-badge available">Available May 2026 · SoCal</div>
     <p class="hero-tag">Biomedical Engineer</p>
-    <h1 class="hero-name">Joneil Caoile</h1>
+    <h1 class="hero-name">Joneil Caoile<span class="glitch-layer" data-text="Joneil Caoile" aria-hidden="true"></span></h1>
     <p class="hero-desc">Two years watching devices fail patients. Now I test them, validate them, and build tools so they don't.</p>
     <p class="hero-targets">Targeting validation, applications, R&amp;D, and human factors roles in SoCal medtech.</p>
     <p class="hero-roles">
@@ -10070,6 +10165,75 @@
     }, { threshold: 0.5 });
 
     observer.observe(cell);
+  });
+})();
+</script>
+
+<!-- SECTION LABEL TYPEWRITER — animate section labels on scroll -->
+<script>
+(function sectionLabelTyper() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var labels = document.querySelectorAll('.section-label');
+  labels.forEach(function(label) {
+    var text = label.textContent;
+    var typed = false;
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && !typed) {
+          typed = true;
+          label.textContent = '';
+          label.classList.add('typed');
+          label.style.width = '0';
+
+          var i = 0;
+          function typeChar() {
+            if (i < text.length) {
+              label.textContent += text[i];
+              i++;
+              setTimeout(typeChar, 40 + Math.random() * 30);
+            } else {
+              label.classList.add('done');
+              label.style.width = '';
+            }
+          }
+          typeChar();
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.5 });
+
+    observer.observe(label);
+  });
+})();
+</script>
+
+<!-- JOURNEY NODE STAGGER — animate journey nodes with depth -->
+<script>
+(function journeyStagger() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (typeof gsap === 'undefined') return;
+
+  var nodes = document.querySelectorAll('.journey-node');
+  nodes.forEach(function(node, i) {
+    gsap.set(node, { autoAlpha: 0, x: i % 2 === 0 ? -30 : 30, y: 20 });
+
+    ScrollTrigger.create({
+      trigger: node,
+      start: 'top 85%',
+      once: true,
+      onEnter: function() {
+        gsap.to(node, {
+          autoAlpha: 1,
+          x: 0,
+          y: 0,
+          duration: 0.8,
+          delay: (i % 3) * 0.15,
+          ease: 'power3.out'
+        });
+      }
+    });
   });
 })();
 </script>
