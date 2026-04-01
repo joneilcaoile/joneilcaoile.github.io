@@ -14000,5 +14000,103 @@
 })();
 </script>
 
+<!-- Animated gradient border on hero section bottom -->
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var hero=document.getElementById('hero');
+  if(!hero)return;
+  var border=document.createElement('div');
+  border.setAttribute('aria-hidden','true');
+  border.style.cssText='position:absolute;bottom:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--amber),var(--coral,#E05C4A),var(--amber),transparent);background-size:200% 100%;animation:borderSweep 4s linear infinite;z-index:2;';
+  hero.style.position=hero.style.position||'relative';
+  hero.appendChild(border);
+  if(!document.getElementById('borderSweepStyle')){
+    var s=document.createElement('style');
+    s.id='borderSweepStyle';
+    s.textContent='@keyframes borderSweep{0%{background-position:200% 0}100%{background-position:-200% 0}}';
+    document.head.appendChild(s);
+  }
+})();
+</script>
+
+<!-- Smooth link preview indicator on external links -->
+<script>
+(function(){
+  if(matchMedia('(pointer:coarse)').matches)return;
+  document.querySelectorAll('a[target="_blank"]').forEach(function(a){
+    if(a.querySelector('.external-indicator'))return;
+    var icon=document.createElement('span');
+    icon.className='external-indicator';
+    icon.textContent=' \u2197';
+    icon.style.cssText='font-size:0.7em;opacity:0;transition:opacity 0.2s ease;vertical-align:super;';
+    a.appendChild(icon);
+    a.addEventListener('mouseenter',function(){icon.style.opacity='0.6';});
+    a.addEventListener('mouseleave',function(){icon.style.opacity='0';});
+  });
+})();
+</script>
+
+<!-- Reading time estimate in hero -->
+<script>
+(function(){
+  var main=document.querySelector('main');
+  if(!main)return;
+  var text=main.textContent||'';
+  var words=text.trim().split(/\s+/).length;
+  var minutes=Math.ceil(words/250);
+  var badge=document.querySelector('.status-badge');
+  if(!badge)return;
+  var readTime=document.createElement('span');
+  readTime.textContent=' \u00B7 ~'+minutes+' min read';
+  readTime.style.cssText='opacity:0.6;font-size:0.85em;';
+  badge.appendChild(readTime);
+})();
+</script>
+
+<!-- Smooth theme transition on all elements when toggling dark mode -->
+<script>
+(function(){
+  var toggle=document.querySelector('.dark-mode-toggle, .theme-toggle, [data-theme-toggle]');
+  if(!toggle)return;
+  toggle.addEventListener('click',function(){
+    document.body.style.transition='background 0.5s ease, color 0.5s ease';
+    document.querySelectorAll('*').forEach(function(el){
+      var cs=getComputedStyle(el);
+      if(cs.backgroundColor!=='rgba(0, 0, 0, 0)'&&cs.backgroundColor!=='transparent'){
+        el.style.transition=(el.style.transition?el.style.transition+',':'')+'background 0.5s ease, color 0.5s ease, border-color 0.5s ease';
+      }
+    });
+    setTimeout(function(){
+      document.body.style.transition='';
+    },600);
+  });
+})();
+</script>
+
+<!-- Welcome back message for returning visitors (sessionStorage) -->
+<script>
+(function(){
+  try{
+    var key='jc-visited';
+    var visited=sessionStorage.getItem(key);
+    if(visited){
+      /* Subtle welcome back in terminal */
+      var termResp=document.getElementById('terminalResponses');
+      if(termResp){
+        setTimeout(function(){
+          var line=document.createElement('div');
+          line.className='terminal-response';
+          line.style.cssText='font-family:var(--font-mono);font-size:0.75rem;color:var(--amber);opacity:0.6;padding:2px 0;';
+          line.textContent='> Welcome back. You\'ve been here before.';
+          termResp.appendChild(line);
+        },5000);
+      }
+    }
+    sessionStorage.setItem(key,'1');
+  }catch(e){}
+})();
+</script>
+
 </body>
 </html>
