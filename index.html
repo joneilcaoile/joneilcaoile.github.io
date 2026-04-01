@@ -699,6 +699,21 @@
       50% { border-color: transparent; }
     }
 
+    /* IDLE AMBIENT — after 30s of no interaction, gentle animations appear */
+    body.idle-ambient .headshot-ring {
+      animation-duration: 4s;
+    }
+    body.idle-ambient .featured-card[data-rarity="legendary"] {
+      animation-duration: 3s;
+    }
+    body.idle-ambient .circuit-node {
+      animation: idle-pulse 3s ease-in-out infinite;
+    }
+    @keyframes idle-pulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.7; }
+    }
+
     /* SCROLL SNAPPING INDICATOR — small dots showing scroll position within section */
     .section-progress-dots {
       position: fixed;
@@ -10859,6 +10874,56 @@
 
     observer.observe(cell);
   });
+})();
+</script>
+
+<!-- PAGE IDLE AMBIENT ANIMATION — after 30s of no interaction, subtle ambient animations activate -->
+<script>
+(function idleAmbient() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var idleTimer;
+  var isIdle = false;
+
+  function resetIdle() {
+    if (isIdle) {
+      document.body.classList.remove('idle-ambient');
+      isIdle = false;
+    }
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(function() {
+      isIdle = true;
+      document.body.classList.add('idle-ambient');
+    }, 30000);
+  }
+
+  document.addEventListener('mousemove', resetIdle, { passive: true });
+  document.addEventListener('scroll', resetIdle, { passive: true });
+  document.addEventListener('keydown', resetIdle, { passive: true });
+  resetIdle();
+})();
+</script>
+
+<!-- TIME-AWARE GREETING — updates based on time of day -->
+<script>
+(function timeAwareElements() {
+  var hour = new Date().getHours();
+  var greeting;
+  if (hour < 6) greeting = 'Burning the midnight oil?';
+  else if (hour < 12) greeting = 'Good morning.';
+  else if (hour < 17) greeting = 'Good afternoon.';
+  else if (hour < 21) greeting = 'Good evening.';
+  else greeting = 'Night owl mode.';
+
+  // Update the terminal prompt with time-aware message
+  var terminalResponses = document.getElementById('terminalResponses');
+  if (terminalResponses) {
+    var greetLine = document.createElement('div');
+    greetLine.className = 'terminal-response';
+    greetLine.textContent = '// ' + greeting + ' Welcome to my portfolio.';
+    greetLine.style.opacity = '0.5';
+    terminalResponses.appendChild(greetLine);
+  }
 })();
 </script>
 
