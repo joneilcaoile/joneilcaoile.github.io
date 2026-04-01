@@ -8054,8 +8054,10 @@
     var frame = 0;
     var totalFrames = 20;
     var revealed = 0;
+    var done = false;
 
     function step() {
+      if (done) return;
       var output = '';
       for (var i = 0; i < target.length; i++) {
         if (target[i] === ' ') { output += ' '; continue; }
@@ -8073,12 +8075,15 @@
       if (revealed < target.length || frame < totalFrames + target.length) {
         requestAnimationFrame(step);
       } else {
+        done = true;
         el.textContent = target;
       }
     }
 
     // Trigger after loader finishes (approx 3.5s)
     setTimeout(step, 3600);
+    // Failsafe: if rAF was throttled (background tab), force resolve after 6s
+    setTimeout(function() { if (!done) { done = true; el.textContent = target; } }, 6000);
   })();
 
   /* ═══════════════════════════════════════════════════
