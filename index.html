@@ -13584,5 +13584,112 @@
 })();
 </script>
 
+<!-- Animated border on contact form on scroll -->
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var form=document.querySelector('.contact-form');
+  if(!form)return;
+  var obs=new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting){
+      form.style.transition='border-color 0.6s ease, box-shadow 0.6s ease';
+      form.style.borderColor='rgba(217,119,6,0.3)';
+      form.style.boxShadow='0 0 30px rgba(217,119,6,0.05)';
+      obs.disconnect();
+    }
+  },{threshold:0.3});
+  obs.observe(form);
+})();
+</script>
+
+<!-- Parallax on headshot based on mouse position -->
+<script>
+(function(){
+  if(matchMedia('(pointer:coarse)').matches||matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var headshot=document.querySelector('.story-headshot');
+  if(!headshot)return;
+  var parent=headshot.closest('section')||headshot.parentElement;
+  parent.addEventListener('mousemove',function(e){
+    var rect=parent.getBoundingClientRect();
+    var x=(e.clientX-rect.left)/rect.width-0.5;
+    var y=(e.clientY-rect.top)/rect.height-0.5;
+    headshot.style.transform='perspective(400px) rotateY('+x*8+'deg) rotateX('+(-y*5)+'deg) scale(1.02)';
+    headshot.style.transition='transform 0.1s ease';
+  });
+  parent.addEventListener('mouseleave',function(){
+    headshot.style.transform='';
+    headshot.style.transition='transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94)';
+  });
+})();
+</script>
+
+<!-- Smart email copy with visual feedback -->
+<script>
+(function(){
+  var btn=document.getElementById('copyEmailBtn');
+  if(!btn)return;
+  btn.addEventListener('click',function(){
+    navigator.clipboard&&navigator.clipboard.writeText('joneilcaoile@gmail.com').then(function(){
+      var orig=btn.textContent;
+      btn.textContent='\u2713 Copied!';
+      btn.style.background='var(--amber)';
+      btn.style.color='#fff';
+      btn.style.transition='background 0.2s, color 0.2s';
+      setTimeout(function(){
+        btn.textContent=orig;
+        btn.style.background='';
+        btn.style.color='';
+      },2000);
+    });
+  });
+})();
+</script>
+
+<!-- Scroll-driven opacity on hero elements (fade as you scroll) -->
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var hero=document.getElementById('hero');
+  if(!hero)return;
+  var els=hero.querySelectorAll('.hero-name, .hero-desc, .hero-cta, .status-badge');
+  window.addEventListener('scroll',function(){
+    var heroH=hero.offsetHeight;
+    if(heroH===0)return;
+    var progress=Math.min(1,window.scrollY/(heroH*0.6));
+    els.forEach(function(el){
+      el.style.opacity=Math.max(0,1-progress*1.5);
+      el.style.transform='translateY('+progress*30+'px)';
+    });
+  },{passive:true});
+})();
+</script>
+
+<!-- Accessibility: announce section changes to screen readers -->
+<script>
+(function(){
+  var announcer=document.createElement('div');
+  announcer.setAttribute('aria-live','polite');
+  announcer.setAttribute('aria-atomic','true');
+  announcer.className='sr-only';
+  announcer.style.cssText='position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;';
+  document.body.appendChild(announcer);
+
+  var lastAnnounced='';
+  var sectionNames={hero:'Top',statement:'Mission Statement',story:'About Joneil',featured:'Featured Project',work:'Projects',toolkit:'Skills',journey:'Journey','skills-matrix':'Skill Matrix',contact:'Contact'};
+  var sections=document.querySelectorAll('section[id]');
+
+  window.addEventListener('scroll',function(){
+    var current='hero';
+    sections.forEach(function(s){
+      if(window.scrollY>=s.offsetTop-300)current=s.id;
+    });
+    if(current!==lastAnnounced){
+      lastAnnounced=current;
+      announcer.textContent='Now viewing: '+(sectionNames[current]||current);
+    }
+  },{passive:true});
+})();
+</script>
+
 </body>
 </html>
