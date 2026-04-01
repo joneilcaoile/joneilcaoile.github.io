@@ -2002,7 +2002,21 @@
       color: var(--amber);
       transition: color 0.2s ease, letter-spacing 0.2s ease;
       position: relative;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .read-time {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--text-muted);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .work-link:hover .read-time {
+      opacity: 1;
     }
 
     .work-link::after {
@@ -4556,7 +4570,7 @@
           <div class="work-evidence">2,754 lines · ML model trained with differential evolution + 5-fold cross-validation</div>
           <div class="work-tech"><span>JavaScript</span> · <span>TensorFlow.js</span> · <span>Client-side ML</span> · <span>Single-file app</span> · <span>Open source</span></div>
           <div class="work-links">
-            <a href="case-photocull.html" class="work-link">Case Study →</a>
+            <a href="case-photocull.html" class="work-link">Case Study → <span class="read-time">5 min read</span></a>
             <a href="https://github.com/joneilcaoile/photocull-ai" class="work-link">GitHub →</a>
             <a href="https://joneilcaoile.github.io/photocull-ai/photo-culler.html" class="work-link">Live Demo →</a>
           </div>
@@ -4600,7 +4614,7 @@
           <div class="work-evidence">3-person team · Gas/pressure sensors · Microcontroller-based · Currently in bench prototype phase</div>
           <div class="work-tech"><span>Sensor fusion</span> · <span>Signal processing</span> · <span>ISO 14971</span> · <span>FDA Design Controls</span></div>
           <div class="work-links">
-            <a href="case-pneumothorax.html" class="work-link">Case Study →</a>
+            <a href="case-pneumothorax.html" class="work-link">Case Study → <span class="read-time">5 min read</span></a>
           </div>
         </div>
       </div>
@@ -4650,7 +4664,7 @@
           <div class="work-evidence">4-8 Hz tremor band filtering · Full Python simulation (NumPy/SciPy) · Pneumatic actuation concept</div>
           <div class="work-tech"><span>Biomedical instrumentation</span> · <span>EMG signal processing</span> · <span>Control systems</span> · <span>Python</span></div>
           <div class="work-links">
-            <a href="case-emg.html" class="work-link">Case Study →</a>
+            <a href="case-emg.html" class="work-link">Case Study → <span class="read-time">2 min read</span></a>
           </div>
         </div>
       </div>
@@ -4705,7 +4719,7 @@
           <div class="work-evidence">77-patient dataset · Krippendorff's Alpha reliability analysis · scikit-learn classification · Motion capture (OptiTrack)</div>
           <div class="work-tech"><span>Python</span> · <span>scikit-learn</span> · <span>Statistical analysis</span> · <span>Jupyter</span></div>
           <div class="work-links">
-            <a href="case-fall.html" class="work-link">Case Study →</a>
+            <a href="case-fall.html" class="work-link">Case Study → <span class="read-time">5 min read</span></a>
           </div>
         </div>
       </div>
@@ -4757,6 +4771,7 @@
           <div class="work-evidence">Single-file PWA · MoveNet pose estimation · v1.0 deployed · Real user feedback collected</div>
           <div class="work-tech"><span>JavaScript</span> · <span>TensorFlow.js</span> · <span>MoveNet</span> · <span>PWA</span> · <span>Service Workers</span></div>
           <div class="work-links">
+            <a href="case-physiorep.html" class="work-link">Case Study → <span class="read-time">12 min read</span></a>
             <a href="https://joneilcaoile.github.io/physiorep/" class="work-link">Live Demo →</a>
             <a href="https://github.com/joneilcaoile/physiorep" class="work-link">GitHub →</a>
           </div>
