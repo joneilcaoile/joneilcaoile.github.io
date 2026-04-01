@@ -1233,6 +1233,12 @@
   })();
   /* Dynamic footer year */
   (function(){ var el = document.querySelector('.footer-year'); if (el) el.textContent = new Date().getFullYear(); })();
+  /* Tab title easter egg */
+  document.addEventListener('visibilitychange', function() {
+    document.title = document.hidden
+      ? 'Come back! The fall data misses you.'
+      : 'Fall Study Reliability Tool | Case Study | Joneil Caoile';
+  });
   </script>
 </body>
 </html>
