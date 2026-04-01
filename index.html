@@ -2592,6 +2592,39 @@
       line-height: 1.8;
     }
 
+    /* CALLOUT BLOCKS — field-tested, HFE process */
+    .callout {
+      padding: 1.5rem;
+      background: linear-gradient(135deg, rgba(168,90,4,0.12) 0%, rgba(168,90,4,0.08) 100%);
+      border-left: 4px solid var(--amber);
+      border-radius: 0.4rem;
+    }
+    .callout-label {
+      font-family: var(--fm);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--amber);
+      margin-bottom: 0.8rem;
+    }
+    .callout p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--text);
+      margin: 0;
+    }
+    .callout p + p {
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      color: var(--text-light);
+    }
+    .callout-section {
+      margin: 2.5rem 0;
+    }
+    .callout-section .callout {
+      padding: 2rem;
+    }
+
     .contact-form {
       display: flex;
       flex-direction: column;
@@ -3449,6 +3482,23 @@
       color: var(--text-muted);
       font-size: 12px;
       font-family: var(--fm);
+    }
+    .footer-tagline {
+      margin-top: 1rem;
+      font-size: 0.75rem;
+      color: var(--text-light);
+      opacity: 0.7;
+    }
+    .footer-meta {
+      margin-top: 0.4rem;
+      font-size: 0.65rem;
+      color: var(--text-light);
+      opacity: 0.4;
+      font-family: var(--fm);
+      letter-spacing: 0.03em;
+    }
+    .footer-source {
+      opacity: 0.5;
     }
 
     /* XP HUD */
@@ -4792,20 +4842,20 @@
       </a>
     </div>
         <!-- FIELD-TESTED CALLOUT -->
-      <div style="margin:2rem 0;padding:1.5rem;background:linear-gradient(135deg, rgba(168,90,4,0.12) 0%, rgba(168,90,4,0.08) 100%);border-left:4px solid var(--amber,#A85A04);border-radius:0.4rem;">
-        <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.8rem;">Field-Tested</div>
-        <p style="font-size:1rem;line-height:1.6;color:var(--text-default);margin:0;">UseTrace launched to 4 medical device companies. Within the first month, 50+ HFE engineers adopted it. When one team reported that observation categorization was too slow on older laptops, I profiled the React render pipeline, found unoptimized re-renders, and shipped a fix in v2.1 that improved speed 3.2x. That's the cycle I bring to every project: ship, listen, fix, ship again.</p>
+      <div class="callout" style="margin:2rem 0;">
+        <div class="callout-label">Field-Tested</div>
+        <p>UseTrace launched to 4 medical device companies. Within the first month, 50+ HFE engineers adopted it. When one team reported that observation categorization was too slow on older laptops, I profiled the React render pipeline, found unoptimized re-renders, and shipped a fix in v2.1 that improved speed 3.2x. That's the cycle I bring to every project: ship, listen, fix, ship again.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- HFE METHODOLOGY CALLOUT -->
-<section class="container" style="margin:2.5rem 0;">
-  <div style="padding:2rem;background:linear-gradient(135deg, rgba(168,90,4,0.12) 0%, rgba(168,90,4,0.08) 100%);border-left:4px solid var(--amber,#A85A04);border-radius:0.4rem;">
-    <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:1rem;">HFE Process</div>
-    <p style="font-size:1rem;line-height:1.6;color:var(--text-default);margin:0 0 1rem 0;">My HFE process follows IEC 62366-1 from use specification through summative evaluation. Every project starts with intended users and use environment, then builds task analysis, identifies use errors, and validates through formative testing with real participants. This isn't optional documentation. It catches what untested design misses.</p>
-    <p style="font-size:0.95rem;line-height:1.5;color:var(--text-light);margin:0;">See the full methodology and results in each case study below.</p>
+<section class="container callout-section">
+  <div class="callout">
+    <div class="callout-label">HFE Process</div>
+    <p>My HFE process follows IEC 62366-1 from use specification through summative evaluation. Every project starts with intended users and use environment, then builds task analysis, identifies use errors, and validates through formative testing with real participants. This isn't optional documentation. It catches what untested design misses.</p>
+    <p>See the full methodology and results in each case study below.</p>
   </div>
 </section>
 
@@ -5529,11 +5579,11 @@
     <span class="footer-links">
       <a href="https://linkedin.com/in/joneilcaoile" target="_blank" rel="noopener">LinkedIn</a>
       <a href="https://github.com/joneilcaoile" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://github.com/joneilcaoile/joneilcaoile.github.io" target="_blank" rel="noopener" style="opacity:0.5;" title="View the source code for this portfolio">Source</a>
+      <a href="https://github.com/joneilcaoile/joneilcaoile.github.io" target="_blank" rel="noopener" class="footer-source" title="View the source code for this portfolio">Source</a>
     </span>
   </div>
-  <div style="margin-top:1rem;font-size:0.75rem;color:var(--text-light);opacity:0.7;">No frameworks. No build tools. No tracking scripts. Just HTML, CSS, and JavaScript.</div>
-  <div style="margin-top:0.4rem;font-size:0.65rem;color:var(--text-light);opacity:0.4;font-family:var(--fm);letter-spacing:0.03em;" id="footerMeta">
+  <div class="footer-tagline">No frameworks. No build tools. No tracking scripts. Just HTML, CSS, and JavaScript.</div>
+  <div class="footer-meta" id="footerMeta">
     <span id="footerLineCount"></span> lines of hand-crafted code
   </div>
 </footer>
