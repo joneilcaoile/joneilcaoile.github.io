@@ -8168,6 +8168,25 @@
     });
   })();
 
+  /* MAGNETIC CTA BUTTONS */
+  (function magneticButtons() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    var btns = document.querySelectorAll('.cta-btn, .form-submit, .scroll-top');
+    btns.forEach(function(btn) {
+      var strength = 0.3;
+      btn.addEventListener('mousemove', function(e) {
+        var rect = btn.getBoundingClientRect();
+        var x = e.clientX - rect.left - rect.width / 2;
+        var y = e.clientY - rect.top - rect.height / 2;
+        gsap.to(btn, { x: x * strength, y: y * strength, duration: 0.3, ease: 'power2.out' });
+      });
+      btn.addEventListener('mouseleave', function() {
+        gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.4)' });
+      });
+    });
+  })();
+
   /* FOOTER LINE COUNT */
   (function footerLineCount() {
     var el = document.getElementById('footerLineCount');
