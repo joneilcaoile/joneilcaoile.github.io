@@ -689,8 +689,16 @@
     }
 
     .nav-links a:hover::after,
+    .nav-links a:focus-visible::after,
     .nav-links a.nav-active::after {
       width: 100%;
+    }
+
+    .nav-links a:focus-visible {
+      color: var(--amber);
+      outline: 2px solid var(--amber);
+      outline-offset: 4px;
+      border-radius: 2px;
     }
 
     .nav-links a.nav-active {
@@ -2549,6 +2557,20 @@
     .form-group textarea {
       resize: vertical;
       min-height: 120px;
+    }
+
+    /* Validation: only show after user interaction */
+    .form-group input.touched:invalid,
+    .form-group textarea.touched:invalid {
+      border-color: var(--coral);
+    }
+    .form-group input.touched:invalid:focus,
+    .form-group textarea.touched:invalid:focus {
+      box-shadow: 0 0 0 3px rgba(184,74,60,0.15), 0 0 20px rgba(184,74,60,0.08);
+    }
+    .form-group input.touched:valid,
+    .form-group textarea.touched:valid {
+      border-color: var(--green);
     }
 
     .form-submit {
@@ -7377,6 +7399,11 @@
       scrollTrigger: { trigger: td, start: 'top 85%', once: true },
       onUpdate: () => { td.textContent = Math.round(obj.val) + suffix; }
     });
+  });
+
+  /* FORM VALIDATION — mark fields as touched on blur */
+  document.querySelectorAll('#contactForm input, #contactForm textarea').forEach(function(field) {
+    field.addEventListener('blur', function() { this.classList.add('touched'); });
   });
 
   /* CONTACT FORM — async submit with feedback */
