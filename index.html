@@ -699,6 +699,45 @@
       50% { border-color: transparent; }
     }
 
+    /* SECTION ENTRANCE CLIP — cinematic reveal from edges */
+    .bridge-light-to-dark,
+    .bridge-dark-to-light {
+      position: relative;
+    }
+
+    /* WORK TECH TAG HOVER — pill bounce effect */
+    .work-tech span {
+      transition: transform 0.2s ease, color 0.2s ease, background 0.2s ease;
+      display: inline-block;
+    }
+    .work-tech span:hover {
+      transform: translateY(-2px);
+      color: var(--amber);
+    }
+
+    /* FEATURED TECH TAG HOVER */
+    .featured-tech span {
+      transition: color 0.2s ease;
+      cursor: default;
+    }
+    .featured-tech span:hover {
+      color: var(--gold);
+    }
+
+    /* JOURNEY SPRITE GLOW — on hover, sprites get a golden aura */
+    .journey-node:hover .journey-sprite,
+    .journey-future:hover .journey-sprite {
+      filter: drop-shadow(0 0 8px rgba(198, 123, 46, 0.6));
+    }
+    .journey-sprite {
+      transition: filter 0.3s ease;
+    }
+
+    /* CONTACT ORB PARALLAX — orbs react to mouse position */
+    .contact-orb {
+      transition: transform 0.1s linear;
+    }
+
     /* HOVER CARD GLOW BORDER — dynamic border that follows mouse position */
     .bring-card {
       position: relative;
@@ -10735,6 +10774,66 @@
     }, { threshold: 0.5 });
 
     observer.observe(cell);
+  });
+})();
+</script>
+
+<!-- CONTACT SECTION MOUSE PARALLAX — orbs follow cursor -->
+<script>
+(function contactMouseParallax() {
+  if (window.matchMedia('(pointer: coarse)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var contact = document.getElementById('contact');
+  if (!contact) return;
+
+  var orbs = contact.querySelectorAll('.contact-orb');
+  if (!orbs.length) return;
+
+  contact.addEventListener('mousemove', function(e) {
+    var rect = contact.getBoundingClientRect();
+    var x = (e.clientX - rect.left) / rect.width - 0.5;
+    var y = (e.clientY - rect.top) / rect.height - 0.5;
+
+    orbs.forEach(function(orb, i) {
+      var depth = 0.02 + i * 0.01;
+      var tx = x * depth * 100;
+      var ty = y * depth * 100;
+      orb.style.transform = 'translate(' + tx + 'px, ' + ty + 'px)';
+    });
+  });
+})();
+</script>
+
+<!-- TOOLKIT SECTION — animate credential items on scroll -->
+<script>
+(function toolkitStagger() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (typeof gsap === 'undefined') return;
+
+  var toolkit = document.getElementById('toolkit');
+  if (!toolkit) return;
+
+  var items = toolkit.querySelectorAll('.toolkit-item, .toolkit-stat');
+  if (!items.length) return;
+
+  items.forEach(function(item, i) {
+    gsap.set(item, { autoAlpha: 0, y: 15 });
+
+    ScrollTrigger.create({
+      trigger: item,
+      start: 'top 90%',
+      once: true,
+      onEnter: function() {
+        gsap.to(item, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.5,
+          delay: i * 0.05,
+          ease: 'power2.out'
+        });
+      }
+    });
   });
 })();
 </script>
