@@ -2555,6 +2555,25 @@
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
+      position: relative;
+      padding: 2rem;
+      border-radius: 12px;
+      background: var(--dark3);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .contact-form::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 13px;
+      background: linear-gradient(135deg, var(--amber), var(--coral), var(--gold), var(--teal));
+      opacity: 0;
+      z-index: -1;
+      transition: opacity 0.4s ease;
+    }
+    .contact-form:focus-within::before {
+      opacity: 0.4;
+      filter: blur(8px);
     }
 
     .form-group {
