@@ -6865,7 +6865,10 @@
         }
       });
       navLinksAll.forEach(a => {
-        a.classList.toggle('nav-active', a.getAttribute('href') === current);
+        var isActive = a.getAttribute('href') === current;
+        a.classList.toggle('nav-active', isActive);
+        if (isActive) { a.setAttribute('aria-current', 'true'); }
+        else { a.removeAttribute('aria-current'); }
       });
     }
 
