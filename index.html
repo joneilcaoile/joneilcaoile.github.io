@@ -699,6 +699,36 @@
       50% { border-color: transparent; }
     }
 
+    /* HOVER CARD GLOW BORDER — dynamic border that follows mouse position */
+    .bring-card {
+      position: relative;
+    }
+    .bring-card .card-glow {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bring-card:hover .card-glow {
+      opacity: 1;
+    }
+
+    /* SECTION NUMBER — large watermark number behind section label */
+    .section-label {
+      position: relative;
+    }
+
+    /* CREDENTIAL BADGE GLOW — pulse on the marquee credential items */
+    .marquee-item svg {
+      transition: filter 0.3s ease;
+    }
+    .marquee-item:hover svg {
+      filter: drop-shadow(0 0 6px rgba(198, 123, 46, 0.5));
+    }
+
     /* SMOOTH FOCUS TRANSITIONS — focus rings transition in smoothly */
     *:focus-visible {
       transition: outline-offset 0.2s ease;
@@ -10705,6 +10735,42 @@
     }, { threshold: 0.5 });
 
     observer.observe(cell);
+  });
+})();
+</script>
+
+<!-- BRING CARD MOUSE GLOW — radial gradient follows mouse on bring cards -->
+<script>
+(function bringCardGlow() {
+  if (window.matchMedia('(pointer: coarse)').matches) return;
+
+  var cards = document.querySelectorAll('.bring-card');
+  cards.forEach(function(card) {
+    var glow = document.createElement('div');
+    glow.className = 'card-glow';
+    card.appendChild(glow);
+
+    card.addEventListener('mousemove', function(e) {
+      var rect = card.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
+      glow.style.background = 'radial-gradient(300px circle at ' + x + 'px ' + y + 'px, rgba(198, 123, 46, 0.08), transparent 60%)';
+    });
+  });
+})();
+</script>
+
+<!-- ENHANCED CREDENTIAL MARQUEE INTERACTION — pause on hover focus area -->
+<script>
+(function marqueeInteraction() {
+  var marquee = document.getElementById('marquee');
+  if (!marquee) return;
+
+  marquee.addEventListener('mouseenter', function() {
+    marquee.style.animationPlayState = 'paused';
+  });
+  marquee.addEventListener('mouseleave', function() {
+    marquee.style.animationPlayState = 'running';
   });
 })();
 </script>
