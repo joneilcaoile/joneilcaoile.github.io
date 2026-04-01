@@ -5518,7 +5518,31 @@
     }
   }
 
-  animateLoader();
+  // Try to run loader animation; if GSAP hasn't loaded yet, skip gracefully
+  try {
+    if (typeof gsap !== 'undefined') {
+      animateLoader();
+    } else {
+      throw new Error('GSAP not loaded');
+    }
+  } catch (e) {
+    // GSAP failed or isn't loaded — immediately show the page
+    var ldr = document.getElementById('loader');
+    if (ldr) { ldr.style.opacity = '0'; ldr.style.visibility = 'hidden'; ldr.style.pointerEvents = 'none'; }
+    document.body.classList.add('loaded');
+  }
+
+  // Ultimate safety net: if loader is STILL visible after 6s, force-remove it
+  // This runs even if animateLoader() threw an error
+  setTimeout(function() {
+    var ldr = document.getElementById('loader');
+    if (ldr && getComputedStyle(ldr).opacity > 0.1) {
+      ldr.style.opacity = '0';
+      ldr.style.visibility = 'hidden';
+      ldr.style.pointerEvents = 'none';
+      document.body.classList.add('loaded');
+    }
+  }, 6000);
 
   /* CURSOR */
   const cursor = document.getElementById('cursor');
