@@ -757,6 +757,40 @@
       color: var(--text-light);
     }
 
+    /* ===== CASE NAV ===== */
+    .case-nav {
+      border-top: 1px solid rgba(0,0,0,0.08);
+      padding: 2.5rem clamp(1.5rem, 5vw, 3rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .case-nav-link {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .case-nav-link:hover { opacity: 0.7; }
+    .case-nav-dir {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+    .case-nav-name {
+      font-family: var(--font-head);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .case-nav-link.right { text-align: right; }
+
     /* ===== MEDIA QUERIES ===== */
     @media (max-width: 768px) {
       .metric-grid { grid-template-columns: repeat(2, 1fr); }
@@ -796,7 +830,7 @@
   <div id="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
 
   <!-- Back nav -->
-  <nav class="back-nav">
+  <nav class="back-nav" aria-label="Case study navigation">
     <a href="index.html" class="back-link">
       <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
       Back to portfolio
@@ -1004,6 +1038,18 @@
         </a>
       </div>
     </section>
+
+    <!-- ===== CASE NAV ===== -->
+    <nav class="case-nav" aria-label="Adjacent case studies">
+      <a href="case-emg.html" class="case-nav-link">
+        <span class="case-nav-dir">Previous</span>
+        <span class="case-nav-name">EMG Tremor Cuff</span>
+      </a>
+      <a href="case-usetrace.html" class="case-nav-link right">
+        <span class="case-nav-dir">Next</span>
+        <span class="case-nav-name">UseTrace HFE</span>
+      </a>
+    </nav>
 
     <!-- CTA -->
     <section class="cta-section">
