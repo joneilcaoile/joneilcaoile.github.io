@@ -212,7 +212,7 @@
       padding: 0.35rem 0.75rem;
       border: 1px solid rgba(0,0,0,0.12);
       border-radius: var(--radius-sm);
-      transition: all 0.2s;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
       letter-spacing: 0.05em;
     }
     .github-link:hover {
@@ -685,7 +685,7 @@
       font-size: 0.9rem;
       font-weight: 600;
       text-decoration: none;
-      transition: all 0.2s;
+      transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
       cursor: pointer;
       border: none;
     }
@@ -856,7 +856,7 @@
       z-index: 800;
       opacity: 0;
       pointer-events: none;
-      transition: all 0.3s ease;
+      transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
     .scroll-top.visible { opacity: 1; pointer-events: auto; }
