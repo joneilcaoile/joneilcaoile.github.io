@@ -670,6 +670,72 @@
       50% { border-color: transparent; }
     }
 
+    /* BUTTON RIPPLE EFFECT */
+    .ripple-container {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      border-radius: inherit;
+    }
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(0);
+      animation: ripple-expand 0.6s ease-out forwards;
+      pointer-events: none;
+    }
+    @keyframes ripple-expand {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    /* WORK VISUAL PARALLAX — subtle depth shift on scroll */
+    .work-visual {
+      transition: transform 0.1s linear;
+    }
+
+    /* FLOATING LABEL on form inputs */
+    .form-group {
+      position: relative;
+    }
+    .form-input:focus + .form-float-label,
+    .form-input:not(:placeholder-shown) + .form-float-label {
+      transform: translateY(-28px) scale(0.85);
+      color: var(--amber);
+    }
+    .form-float-label {
+      position: absolute;
+      left: 16px;
+      top: 14px;
+      font-family: var(--fm);
+      font-size: 13px;
+      color: var(--text-faint);
+      pointer-events: none;
+      transition: transform 0.2s ease, color 0.2s ease;
+      transform-origin: left;
+    }
+
+    /* PULSING DOT on "Available" badge */
+    .status-badge.available::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4AF626;
+      margin-right: 6px;
+      animation: pulse-dot 2s ease-in-out infinite;
+      vertical-align: middle;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(74, 246, 38, 0.4); }
+      50% { box-shadow: 0 0 0 6px rgba(74, 246, 38, 0); }
+    }
+
     /* SVG WAVE DIVIDER — organic morphing shape */
     .wave-divider {
       width: 100%;
@@ -10166,6 +10232,68 @@
 
     observer.observe(cell);
   });
+})();
+</script>
+
+<!-- BUTTON RIPPLE EFFECT — material-style click feedback -->
+<script>
+(function buttonRipple() {
+  var buttons = document.querySelectorAll('.cta-btn, .form-submit, .nav-resume-btn, .featured-link');
+
+  buttons.forEach(function(btn) {
+    btn.style.position = 'relative';
+    btn.style.overflow = 'hidden';
+
+    btn.addEventListener('click', function(e) {
+      var rect = btn.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
+
+      var ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      var size = Math.max(rect.width, rect.height) * 2;
+      ripple.style.width = size + 'px';
+      ripple.style.height = size + 'px';
+      ripple.style.left = (x - size / 2) + 'px';
+      ripple.style.top = (y - size / 2) + 'px';
+
+      // Ensure container exists
+      var container = btn.querySelector('.ripple-container');
+      if (!container) {
+        container = document.createElement('span');
+        container.className = 'ripple-container';
+        btn.appendChild(container);
+      }
+      container.appendChild(ripple);
+
+      setTimeout(function() { ripple.remove(); }, 600);
+    });
+  });
+})();
+</script>
+
+<!-- WORK VISUAL SCROLL PARALLAX — subtle depth shift -->
+<script>
+(function workVisualParallax() {
+  if (window.matchMedia('(pointer: coarse)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var visuals = document.querySelectorAll('.work-visual');
+  if (!visuals.length) return;
+
+  function update() {
+    var scrollY = window.scrollY;
+    visuals.forEach(function(v) {
+      var rect = v.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        var center = rect.top + rect.height / 2;
+        var offset = (center - window.innerHeight / 2) * 0.04;
+        v.style.transform = 'translateY(' + offset + 'px)';
+      }
+    });
+    requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
 })();
 </script>
 
