@@ -2565,6 +2565,24 @@
       .section-rule { transform: scaleX(1) !important; transition: none !important; }
     }
 
+    /* HIGH CONTRAST MODE */
+    @media (prefers-contrast: more) {
+      :root {
+        --border: rgba(0,0,0,0.3);
+        --text-muted: #555;
+      }
+      .bring-card, .featured-card, .work-card, .journey-node, .personal-item {
+        border-width: 2px;
+      }
+      .cta-btn.primary {
+        border: 2px solid currentColor;
+      }
+      .dot-nav-item {
+        border: 1px solid var(--text-muted);
+      }
+      body::after { display: none; } /* Remove grain overlay */
+    }
+
     /* CONTACT */
     #contact {
       background: linear-gradient(to bottom, var(--bg) 0%, var(--dark2) 80px, var(--dark2) 100%);
