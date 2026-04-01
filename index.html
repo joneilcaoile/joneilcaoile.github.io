@@ -782,6 +782,35 @@
       gap: 0.75rem;
     }
 
+    .nav-search-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      font-family: var(--fm);
+      font-size: 11px;
+      color: var(--text-muted);
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      white-space: nowrap;
+    }
+    .nav-search-btn:hover {
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+    .nav-search-btn kbd {
+      font-family: var(--fm);
+      font-size: 10px;
+      padding: 1px 4px;
+      border-radius: 3px;
+      background: rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+      color: var(--text-faint);
+    }
+
     .nav-resume-btn {
       display: inline-flex;
       align-items: center;
@@ -909,7 +938,7 @@
         display: flex;
       }
 
-      .nav-resume-btn {
+      .nav-resume-btn, .nav-search-btn {
         display: none;
       }
 
@@ -2055,10 +2084,16 @@
       border-left-color: var(--amber) !important;
       border-right-color: var(--amber) !important;
     }
+    .work-item:hover .work-card[data-rarity="epic"] {
+      box-shadow: inset 0 0 40px rgba(198,123,46,0.06), 0 0 20px rgba(198,123,46,0.08);
+    }
 
     .work-card[data-rarity="rare"] {
       border-left-color: var(--coral) !important;
       border-right-color: var(--coral) !important;
+    }
+    .work-item:hover .work-card[data-rarity="rare"] {
+      box-shadow: inset 0 0 40px rgba(184,74,60,0.06), 0 0 20px rgba(184,74,60,0.08);
     }
 
     .work-card-label {
@@ -2097,7 +2132,16 @@
     .work-tech span {
       color: var(--amber);
       font-weight: 500;
+      display: inline-block;
+      transition: transform 0.3s ease, opacity 0.3s ease;
     }
+    .work-item:hover .work-tech span {
+      transform: translateY(-1px);
+    }
+    .work-item:hover .work-tech span:nth-child(2) { transition-delay: 0.03s; }
+    .work-item:hover .work-tech span:nth-child(3) { transition-delay: 0.06s; }
+    .work-item:hover .work-tech span:nth-child(4) { transition-delay: 0.09s; }
+    .work-item:hover .work-tech span:nth-child(5) { transition-delay: 0.12s; }
 
     .work-links {
       display: flex;
@@ -4299,6 +4343,10 @@
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nav-actions">
+    <button class="nav-search-btn" id="navSearchBtn" aria-label="Search (Ctrl+K)" title="Search (Ctrl+K)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <kbd>&#8984;K</kbd>
+    </button>
     <a href="Joneil_Caoile_Resume.pdf" download class="nav-resume-btn" aria-label="Download resume">Resume ↓</a>
     <button class="theme-toggle" id="darkModeToggle" aria-label="Toggle dark mode">☀</button>
     <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
@@ -4763,7 +4811,7 @@
             <div class="work-visual-sub">Patients in dataset</div>
           </div>
         </div>
-        <div class="work-card">
+        <div class="work-card" data-rarity="rare">
           <div class="work-card-label">Clinical / ML</div>
           <h3>Fall Risk in Older Adults: ML Study</h3>
           <p>Clinical research analyzing gait biomechanics to predict fall risk. Built a Python pipeline from scratch to clean Qualtrics data, compute reliability metrics, and run classification models.</p>
@@ -8490,6 +8538,8 @@
 
   cmdInput.addEventListener('input', function() { renderCmdResults(this.value); });
   cmdBackdrop.addEventListener('click', function(e) { if (e.target === cmdBackdrop) closeCmd(); });
+  var navSearchBtn = document.getElementById('navSearchBtn');
+  if (navSearchBtn) navSearchBtn.addEventListener('click', openCmd);
   cmdResults.addEventListener('click', function(e) {
     var item = e.target.closest('.cmd-item');
     if (item) { cmdActiveIndex = parseInt(item.dataset.index); selectCmd(); }
