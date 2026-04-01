@@ -4376,7 +4376,7 @@
 <div class="cursor-glow" id="cursorGlow"></div>
 
 <!-- SCROLL PROGRESS -->
-<div class="scroll-progress" id="scrollProgress"></div>
+<div class="scroll-progress" id="scrollProgress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
 
 <!-- FLOATING MEDTECH PARTICLES -->
 <div class="bg-particles" id="bgParticles"></div>
@@ -7594,6 +7594,7 @@
     const docHeight = document.body.scrollHeight - window.innerHeight;
     const scrollPercent = (scrollTop / docHeight) * 100;
     scrollProgress.style.width = scrollPercent + '%';
+    scrollProgress.setAttribute('aria-valuenow', Math.round(scrollPercent));
   }, { passive: true });
 
   /* TAB TITLE CHANGE — hooks them back */
