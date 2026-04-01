@@ -4405,8 +4405,8 @@
       <span class="role-typing" id="roleTyping">biomedical engineer</span><span class="role-cursor" aria-hidden="true"></span>
     </p>
     <div class="hero-ctas">
-      <button class="cta-btn primary" onclick="gsap.to(window,{duration:0.8,scrollTo:'#featured',ease:'power2.inOut'})">View device projects</button>
-      <button class="cta-btn secondary" onclick="gsap.to(window,{duration:0.8,scrollTo:'#contact',ease:'power2.inOut'})">Get in touch</button>
+      <button class="cta-btn primary" data-scroll-to="#featured">View device projects</button>
+      <button class="cta-btn secondary" data-scroll-to="#contact">Get in touch</button>
       <a href="Joneil_Caoile_Resume.pdf" download class="cta-btn secondary">Resume ↓</a>
     </div>
   </div>
@@ -4440,7 +4440,7 @@
       <div class="terminal-line"><span class="terminal-output">↳ PhotoCull AI (image classification)</span></div>
     </div>
   </div>
-  <div class="scroll-indicator" onclick="gsap.to(window,{duration:0.8,scrollTo:'#statement',ease:'power2.inOut'})">
+  <div class="scroll-indicator" data-scroll-to="#statement">
     <span>Scroll to explore</span>
     <div class="scroll-dot"></div>
   </div>
@@ -7451,6 +7451,15 @@
   const marquee = document.getElementById('marquee');
   const marqueeItems = marquee.innerHTML;
   marquee.innerHTML += marqueeItems;
+
+  /* DATA-SCROLL-TO — delegated smooth scroll handler */
+  document.addEventListener('click', function(e) {
+    var el = e.target.closest('[data-scroll-to]');
+    if (el) {
+      e.preventDefault();
+      gsap.to(window, { duration: 0.8, scrollTo: el.dataset.scrollTo, ease: 'power2.inOut' });
+    }
+  });
 
   /* SCROLL PROGRESS BAR */
   const scrollProgress = document.getElementById('scrollProgress');
