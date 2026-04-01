@@ -490,6 +490,11 @@
       font-size: 20px;
     }
 
+    /* GPU HINTS — frequently animated elements */
+    .scroll-progress { will-change: width; }
+    nav { will-change: height, box-shadow; }
+    .featured-card, .work-visual, .bring-card { will-change: transform; }
+
     /* GRAIN TEXTURE — subtle editorial noise overlay */
     body::after {
       content: '';
