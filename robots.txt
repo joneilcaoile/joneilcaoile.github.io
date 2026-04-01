@@ -6,5 +6,7 @@ Disallow: /index-v1-backup.html
 Disallow: /index-v2.html
 Disallow: /index-v3.html
 Disallow: /index-v4.html
+Disallow: /hfe-sample.html
+Disallow: /pixel-team.html
 
 Sitemap: https://joneilcaoile.github.io/sitemap.xml
