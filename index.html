@@ -7313,11 +7313,13 @@
     if (h2 && !section.id.match(/hero|featured/)) {
       gsap.from(h2, {
         scrollTrigger: { trigger: section, start: 'top 82%', once: true },
-        duration: 0.6,
+        duration: 0.7,
         autoAlpha: 0,
-        y: 20,
-        ease: 'power2.out',
-        delay: 0.1
+        y: 25,
+        clipPath: 'inset(0 0 100% 0)',
+        ease: 'power3.out',
+        delay: 0.1,
+        clearProps: 'clipPath'
       });
     }
   });
