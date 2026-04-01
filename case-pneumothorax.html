@@ -802,6 +802,30 @@
       color: rgba(245,243,238,0.9);
       font-weight: 500;
     }
+    .scroll-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--dark);
+      border: 1px solid rgba(198,123,46,0.3);
+      color: #C67B2E;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 800;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .scroll-top.visible { opacity: 1; pointer-events: auto; }
+    .scroll-top:hover { background: #C67B2E; color: #1C1915; transform: translateY(-2px); }
+    @media print { .scroll-top { display: none !important; } }
   </style>
 </head>
 <body>
@@ -1151,6 +1175,8 @@
 
   </main>
 
+  <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">&uarr;</button>
+
   <footer>
     <p>Joneil Caoile · M.S. Biomedical Engineering · Stevens Institute of Technology · <a href="https://joneilcaoile.github.io">joneilcaoile.github.io</a></p>
   </footer>
@@ -1255,6 +1281,18 @@
         setTimeout(() => hint.remove(), 400);
       }, 3000);
     });
+  </script>
+
+  <script>
+(function(){
+  var btn = document.getElementById('scrollTop');
+  window.addEventListener('scroll', function() {
+    btn.classList.toggle('visible', window.scrollY > 600);
+  }, {passive:true});
+  btn.addEventListener('click', function() {
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+})();
   </script>
 </body>
 </html>

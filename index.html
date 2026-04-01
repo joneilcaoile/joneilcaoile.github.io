@@ -3539,6 +3539,211 @@
       }
     }
 
+    /* COMMAND PALETTE */
+    .cmd-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .cmd-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .cmd-palette {
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-10px);
+      width: min(560px, 90vw);
+      background: var(--dark2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+      z-index: 10000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      overflow: hidden;
+      font-family: var(--fb);
+    }
+    .cmd-backdrop.open .cmd-palette {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+    .cmd-input-wrap {
+      display: flex;
+      align-items: center;
+      padding: 1rem 1.25rem;
+      gap: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .cmd-input-wrap svg { flex-shrink: 0; color: var(--text-light); }
+    .cmd-input {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-size: 16px;
+      font-family: var(--fb);
+    }
+    .cmd-input::placeholder { color: var(--text-light); opacity: 0.6; }
+    .cmd-kbd {
+      font-family: var(--fm);
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.08);
+      color: var(--text-light);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .cmd-results {
+      max-height: 320px;
+      overflow-y: auto;
+      padding: 0.5rem;
+    }
+    .cmd-results::-webkit-scrollbar { width: 6px; }
+    .cmd-results::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    .cmd-group-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-light);
+      opacity: 0.6;
+      padding: 0.5rem 0.75rem 0.25rem;
+    }
+    .cmd-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.75rem;
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--text);
+      font-size: 14px;
+      transition: background 0.1s;
+    }
+    .cmd-item:hover, .cmd-item.active {
+      background: rgba(198, 123, 46, 0.15);
+    }
+    .cmd-item.active { outline: 2px solid var(--amber); outline-offset: -2px; }
+    .cmd-item-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.05);
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .cmd-item-text { flex: 1; }
+    .cmd-item-label { font-weight: 500; }
+    .cmd-item-desc { font-size: 12px; color: var(--text-light); opacity: 0.7; margin-top: 1px; }
+    .cmd-item-shortcut { font-family: var(--fm); font-size: 11px; color: var(--text-light); opacity: 0.5; }
+    .cmd-empty { text-align: center; padding: 2rem; color: var(--text-light); opacity: 0.6; font-size: 14px; }
+    .cmd-footer {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.6rem 1.25rem;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text-light);
+      opacity: 0.5;
+    }
+    .cmd-footer kbd {
+      font-family: var(--fm);
+      padding: 1px 4px;
+      border-radius: 3px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* SECTION DOT NAV */
+    .dot-nav {
+      position: fixed;
+      right: 1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 900;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .dot-nav.visible { opacity: 1; }
+    .dot-nav-item {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--border);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    .dot-nav-item:hover, .dot-nav-item.active {
+      background: var(--amber);
+      transform: scale(1.4);
+    }
+    .dot-nav-item::before {
+      content: attr(data-label);
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--dark3);
+      color: var(--text);
+      font-family: var(--fm);
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .dot-nav-item:hover::before { opacity: 1; }
+
+    /* SCROLL TO TOP */
+    .scroll-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      color: var(--amber);
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 800;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .scroll-top.visible { opacity: 1; pointer-events: auto; }
+    .scroll-top:hover { background: var(--amber); color: var(--dark); transform: translateY(-2px); }
+
+    @media (max-width: 768px) {
+      .dot-nav { display: none; }
+      .scroll-top { bottom: 5rem; right: 1rem; }
+      .cmd-palette { top: 10%; }
+    }
+
     /* PRINT STYLES — recruiter-friendly printing */
     @media print {
       * { animation: none !important; transition: none !important; }
@@ -3546,7 +3751,7 @@
       .scroll-indicator, .critter-gear, .critter-sprite, .xp-hud, .rpg-overlay,
       .milestone-badge, .particle, .skip-nav, .evo-overlay, .hero-particles,
       .hero-gradient-mesh, .cursor-glow, .terminal-scanline, .loader, footer .footer-links,
-      #personalContent { display: none !important; }
+      #personalContent, .cmd-backdrop, .dot-nav, .scroll-top { display: none !important; }
       body { background: white !important; color: #222 !important; font-size: 11pt; }
       section { break-inside: avoid; page-break-inside: avoid; }
       .work-visual { display: none; }
@@ -4917,6 +5122,39 @@
   </div>
 </section>
 </main>
+
+<!-- COMMAND PALETTE -->
+<div class="cmd-backdrop" id="cmdBackdrop">
+  <div class="cmd-palette" role="dialog" aria-label="Command palette">
+    <div class="cmd-input-wrap">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="cmd-input" id="cmdInput" type="text" placeholder="Search projects, jump to section..." autocomplete="off" spellcheck="false">
+      <span class="cmd-kbd">esc</span>
+    </div>
+    <div class="cmd-results" id="cmdResults"></div>
+    <div class="cmd-footer">
+      <span><kbd>&uarr;</kbd><kbd>&darr;</kbd> navigate</span>
+      <span><kbd>&#9166;</kbd> select</span>
+      <span><kbd>esc</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION DOT NAV -->
+<div class="dot-nav" id="dotNav" aria-label="Section navigation">
+  <div class="dot-nav-item" data-section="hero" data-label="Top"></div>
+  <div class="dot-nav-item" data-section="statement" data-label="Statement"></div>
+  <div class="dot-nav-item" data-section="story" data-label="About"></div>
+  <div class="dot-nav-item" data-section="featured" data-label="Featured"></div>
+  <div class="dot-nav-item" data-section="work" data-label="Projects"></div>
+  <div class="dot-nav-item" data-section="toolkit" data-label="Skills"></div>
+  <div class="dot-nav-item" data-section="journey" data-label="Journey"></div>
+  <div class="dot-nav-item" data-section="skills-matrix" data-label="Matrix"></div>
+  <div class="dot-nav-item" data-section="contact" data-label="Contact"></div>
+</div>
+
+<!-- SCROLL TO TOP -->
+<button class="scroll-top" id="scrollTop" aria-label="Scroll to top">&uarr;</button>
 
 <!-- FOOTER -->
 <footer>
@@ -7648,6 +7886,258 @@
   } else {
     initSkillsMatrix();
   }
+</script>
+
+<script>
+(function() {
+  /* ═══════════════════════════════════════════════════
+     COMMAND PALETTE (Ctrl+K / Cmd+K)
+     ═══════════════════════════════════════════════════ */
+  const cmdBackdrop = document.getElementById('cmdBackdrop');
+  const cmdInput = document.getElementById('cmdInput');
+  const cmdResults = document.getElementById('cmdResults');
+  let cmdActiveIndex = 0;
+  let cmdItems = [];
+
+  const cmdCommands = [
+    { group: 'Navigate', icon: '🏠', label: 'Go to Top', desc: 'Hero section', action: function() { gsap.to(window, {duration: 0.8, scrollTo: '#hero', ease: 'power2.inOut'}); } },
+    { group: 'Navigate', icon: '📝', label: 'About Me', desc: 'Story and background', action: function() { gsap.to(window, {duration: 0.8, scrollTo: '#story', ease: 'power2.inOut'}); } },
+    { group: 'Navigate', icon: '⚗️', label: 'Projects', desc: 'All project cards', action: function() { gsap.to(window, {duration: 0.8, scrollTo: '#work', ease: 'power2.inOut'}); } },
+    { group: 'Navigate', icon: '🧰', label: 'Skills & Toolkit', desc: 'Technical skills', action: function() { gsap.to(window, {duration: 0.8, scrollTo: '#toolkit', ease: 'power2.inOut'}); } },
+    { group: 'Navigate', icon: '🗺️', label: 'Journey', desc: 'Education and timeline', action: function() { gsap.to(window, {duration: 0.8, scrollTo: '#journey', ease: 'power2.inOut'}); } },
+    { group: 'Navigate', icon: '✉️', label: 'Contact', desc: 'Get in touch', action: function() { gsap.to(window, {duration: 0.8, scrollTo: '#contact', ease: 'power2.inOut'}); } },
+    { group: 'Projects', icon: '🫁', label: 'Pneumothorax Air Leak Monitor', desc: 'Capstone project case study', action: function() { window.location.href = 'case-pneumothorax.html'; } },
+    { group: 'Projects', icon: '📋', label: 'UseTrace HFE Platform', desc: 'Human factors observation tool', action: function() { window.location.href = 'case-usetrace.html'; } },
+    { group: 'Projects', icon: '📸', label: 'PhotoCull AI', desc: 'ML photo curation tool', action: function() { window.location.href = 'case-photocull.html'; } },
+    { group: 'Projects', icon: '💪', label: 'EMG Tremor Detection', desc: 'Signal processing system', action: function() { window.location.href = 'case-emg.html'; } },
+    { group: 'Projects', icon: '🦶', label: 'Fall Risk Assessment', desc: 'Clinical risk scoring tool', action: function() { window.location.href = 'case-fall.html'; } },
+    { group: 'Projects', icon: '🏋️', label: 'PhysioRep PWA', desc: 'Exercise rehab progressive web app', action: function() { window.location.href = 'case-physiorep.html'; } },
+    { group: 'Actions', icon: '🌙', label: 'Toggle Dark Mode', desc: 'Switch theme', action: function() { document.getElementById('darkModeToggle').click(); } },
+    { group: 'Actions', icon: '📄', label: 'Download Resume', desc: 'PDF download', action: function() { var a = document.createElement('a'); a.href = 'Joneil_Caoile_Resume.pdf'; a.download = ''; a.click(); } },
+    { group: 'Actions', icon: '📧', label: 'Copy Email', desc: 'joneilcaoile@gmail.com', action: function() { navigator.clipboard.writeText('joneilcaoile@gmail.com'); } },
+    { group: 'Links', icon: '💼', label: 'LinkedIn', desc: 'Professional profile', action: function() { window.open('https://linkedin.com/in/joneilcaoile', '_blank'); } },
+    { group: 'Links', icon: '🐙', label: 'GitHub', desc: 'Code repositories', action: function() { window.open('https://github.com/joneilcaoile', '_blank'); } }
+  ];
+
+  function renderCmdResults(query) {
+    var q = query.toLowerCase().trim();
+    var filtered = q ? cmdCommands.filter(function(c) {
+      return c.label.toLowerCase().includes(q) || c.desc.toLowerCase().includes(q) || c.group.toLowerCase().includes(q);
+    }) : cmdCommands;
+
+    if (filtered.length === 0) {
+      cmdResults.innerHTML = '<div class="cmd-empty">No results for "' + query + '"</div>';
+      cmdItems = [];
+      return;
+    }
+
+    var html = '';
+    var currentGroup = '';
+    filtered.forEach(function(c, i) {
+      if (c.group !== currentGroup) {
+        currentGroup = c.group;
+        html += '<div class="cmd-group-label">' + currentGroup + '</div>';
+      }
+      html += '<div class="cmd-item' + (i === 0 ? ' active' : '') + '" data-index="' + i + '">'
+        + '<div class="cmd-item-icon">' + c.icon + '</div>'
+        + '<div class="cmd-item-text"><div class="cmd-item-label">' + c.label + '</div>'
+        + '<div class="cmd-item-desc">' + c.desc + '</div></div></div>';
+    });
+    cmdResults.innerHTML = html;
+    cmdItems = filtered;
+    cmdActiveIndex = 0;
+  }
+
+  function openCmd() {
+    cmdBackdrop.classList.add('open');
+    cmdInput.value = '';
+    renderCmdResults('');
+    setTimeout(function() { cmdInput.focus(); }, 50);
+  }
+  function closeCmd() {
+    cmdBackdrop.classList.remove('open');
+  }
+  function selectCmd() {
+    if (cmdItems[cmdActiveIndex]) {
+      closeCmd();
+      cmdItems[cmdActiveIndex].action();
+    }
+  }
+  function updateActive(newIndex) {
+    var els = cmdResults.querySelectorAll('.cmd-item');
+    if (els[cmdActiveIndex]) els[cmdActiveIndex].classList.remove('active');
+    cmdActiveIndex = Math.max(0, Math.min(newIndex, els.length - 1));
+    if (els[cmdActiveIndex]) {
+      els[cmdActiveIndex].classList.add('active');
+      els[cmdActiveIndex].scrollIntoView({ block: 'nearest' });
+    }
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      cmdBackdrop.classList.contains('open') ? closeCmd() : openCmd();
+    }
+    if (!cmdBackdrop.classList.contains('open')) return;
+    if (e.key === 'Escape') { closeCmd(); e.preventDefault(); }
+    if (e.key === 'ArrowDown') { updateActive(cmdActiveIndex + 1); e.preventDefault(); }
+    if (e.key === 'ArrowUp') { updateActive(cmdActiveIndex - 1); e.preventDefault(); }
+    if (e.key === 'Enter') { selectCmd(); e.preventDefault(); }
+  });
+
+  cmdInput.addEventListener('input', function() { renderCmdResults(this.value); });
+  cmdBackdrop.addEventListener('click', function(e) { if (e.target === cmdBackdrop) closeCmd(); });
+  cmdResults.addEventListener('click', function(e) {
+    var item = e.target.closest('.cmd-item');
+    if (item) { cmdActiveIndex = parseInt(item.dataset.index); selectCmd(); }
+  });
+  cmdResults.addEventListener('mousemove', function(e) {
+    var item = e.target.closest('.cmd-item');
+    if (item) updateActive(parseInt(item.dataset.index));
+  });
+
+  /* ═══════════════════════════════════════════════════
+     SECTION DOT NAVIGATOR
+     ═══════════════════════════════════════════════════ */
+  var dotNav = document.getElementById('dotNav');
+  var dotItems = dotNav.querySelectorAll('.dot-nav-item');
+  var dotSections = [];
+  dotItems.forEach(function(d) {
+    var s = document.getElementById(d.dataset.section);
+    if (s) dotSections.push({ el: s, dot: d });
+    d.addEventListener('click', function() {
+      gsap.to(window, { duration: 0.8, scrollTo: '#' + d.dataset.section, ease: 'power2.inOut' });
+    });
+  });
+
+  function updateDotNav() {
+    var scrollY = window.scrollY + window.innerHeight / 3;
+    var activeDot = null;
+    dotSections.forEach(function(s) {
+      if (scrollY >= s.el.offsetTop) activeDot = s.dot;
+    });
+    dotItems.forEach(function(d) { d.classList.remove('active'); });
+    if (activeDot) activeDot.classList.add('active');
+
+    // Show dot nav after scrolling past hero
+    if (window.scrollY > 300) {
+      dotNav.classList.add('visible');
+    } else {
+      dotNav.classList.remove('visible');
+    }
+  }
+  window.addEventListener('scroll', updateDotNav, { passive: true });
+
+  /* ═══════════════════════════════════════════════════
+     SCROLL TO TOP BUTTON
+     ═══════════════════════════════════════════════════ */
+  var scrollTopBtn = document.getElementById('scrollTop');
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 800) {
+      scrollTopBtn.classList.add('visible');
+    } else {
+      scrollTopBtn.classList.remove('visible');
+    }
+  }, { passive: true });
+  scrollTopBtn.addEventListener('click', function() {
+    gsap.to(window, { duration: 0.8, scrollTo: 0, ease: 'power2.inOut' });
+  });
+
+  /* ═══════════════════════════════════════════════════
+     HERO NAME TEXT SCRAMBLE EFFECT
+     ═══════════════════════════════════════════════════ */
+  (function textScramble() {
+    var el = document.querySelector('.hero-name');
+    if (!el) return;
+    var target = el.textContent;
+    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%';
+    var frame = 0;
+    var totalFrames = 20;
+    var revealed = 0;
+
+    function step() {
+      var output = '';
+      for (var i = 0; i < target.length; i++) {
+        if (target[i] === ' ') { output += ' '; continue; }
+        if (i < revealed) {
+          output += target[i];
+        } else {
+          output += chars[Math.floor(Math.random() * chars.length)];
+        }
+      }
+      el.textContent = output;
+      frame++;
+
+      if (frame % 2 === 0 && revealed < target.length) revealed++;
+
+      if (revealed < target.length || frame < totalFrames + target.length) {
+        requestAnimationFrame(step);
+      } else {
+        el.textContent = target;
+      }
+    }
+
+    // Trigger after loader finishes (approx 3.5s)
+    setTimeout(step, 3600);
+  })();
+
+  /* ═══════════════════════════════════════════════════
+     KONAMI CODE EASTER EGG
+     ═══════════════════════════════════════════════════ */
+  (function konamiEgg() {
+    var sequence = [38,38,40,40,37,39,37,39,66,65]; // up up down down left right left right b a
+    var pos = 0;
+    var eggTriggered = false;
+
+    document.addEventListener('keydown', function(e) {
+      if (eggTriggered) return;
+      if (e.keyCode === sequence[pos]) {
+        pos++;
+        if (pos === sequence.length) {
+          eggTriggered = true;
+          showEasterEgg();
+        }
+      } else {
+        pos = 0;
+      }
+    });
+
+    function showEasterEgg() {
+      var overlay = document.createElement('div');
+      overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:99999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem;cursor:pointer;';
+      overlay.innerHTML = '<div style="font-size:64px;animation:eggBounce 0.6s ease infinite alternate;">🎮</div>'
+        + '<div style="font-family:var(--fm);color:var(--gold);font-size:24px;font-weight:700;letter-spacing:0.05em;">KONAMI CODE ACTIVATED</div>'
+        + '<div style="font-family:var(--fm);color:var(--amber);font-size:14px;max-width:400px;text-align:center;line-height:1.6;">'
+        + 'You found the secret. Yes, I put a Konami code in my portfolio. '
+        + 'Yes, I test medical devices for a living. These two things are not in conflict.</div>'
+        + '<div style="font-family:var(--fm);color:var(--text-light);font-size:12px;margin-top:1rem;opacity:0.5;">click anywhere to close</div>'
+        + '<style>@keyframes eggBounce{0%{transform:scale(1) rotate(-5deg)}100%{transform:scale(1.2) rotate(5deg)}}</style>';
+      overlay.addEventListener('click', function() { overlay.remove(); });
+      document.body.appendChild(overlay);
+
+      // XP bonus
+      if (typeof updateXP === 'function') { updateXP(200); showXPHud(); }
+    }
+  })();
+
+  /* ═══════════════════════════════════════════════════
+     KEYBOARD SHORTCUT HINT IN NAV
+     ═══════════════════════════════════════════════════ */
+  (function addCmdKHint() {
+    var nav = document.querySelector('header nav .nav-links');
+    if (!nav) return;
+    var hint = document.createElement('button');
+    hint.className = 'cmd-k-hint';
+    hint.setAttribute('aria-label', 'Open command palette');
+    hint.style.cssText = 'display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:6px;padding:4px 10px;color:var(--text-light);font-family:var(--fm);font-size:12px;cursor:pointer;transition:all 0.2s;margin-left:0.5rem;';
+    hint.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>'
+      + '<span style="opacity:0.7;">' + (navigator.platform.includes('Mac') ? '⌘' : 'Ctrl+') + 'K</span>';
+    hint.addEventListener('click', openCmd);
+    hint.addEventListener('mouseenter', function() { this.style.borderColor = 'var(--amber)'; this.style.color = 'var(--amber)'; });
+    hint.addEventListener('mouseleave', function() { this.style.borderColor = 'var(--border)'; this.style.color = 'var(--text-light)'; });
+    nav.appendChild(hint);
+  })();
+})();
 </script>
 
 </body>
