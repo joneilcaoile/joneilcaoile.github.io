@@ -938,6 +938,11 @@
       50% { opacity: 0.4; }
     }
 
+    .status-badge.available::before {
+      background: #2D5A3D;
+      box-shadow: 0 0 6px rgba(45,90,61,0.5);
+    }
+
     .hero-tag {
       font-family: var(--fm);
       font-size: 12px;
@@ -1665,7 +1670,8 @@
       transition: none;
     }
 
-    .featured-card:hover .card-shine {
+    .featured-card:hover .card-shine,
+    .featured-card .card-shine.auto-shine {
       animation: card-shine-sweep 0.8s ease-out forwards;
     }
 
@@ -2427,6 +2433,11 @@
 
     .form-submit:hover::before {
       opacity: 1;
+    }
+
+    @keyframes submit-pulse {
+      0%, 100% { box-shadow: none; }
+      50% { box-shadow: 0 0 20px rgba(198,123,46,0.4), 0 0 40px rgba(198,123,46,0.15); }
     }
 
     .form-submit span,
@@ -4243,7 +4254,7 @@
   <canvas class="hero-particles" id="heroParticles"></canvas>
   <div class="hero-left">
     <div class="status-badge">Currently building UseTrace HFE</div>
-    <div class="status-badge" style="background: var(--dark3); color: var(--gold);">Available May 2026 · SoCal</div>
+    <div class="status-badge available" style="background: var(--dark3); color: var(--gold);">Available May 2026 · SoCal</div>
     <p class="hero-tag">Biomedical Engineer</p>
     <h1 class="hero-name">Joneil Caoile</h1>
     <p class="hero-desc">Two years watching devices fail patients. Now I test them, validate them, and build tools so they don't.</p>
@@ -7966,6 +7977,23 @@
     });
   })();
 
+  /* SUBMIT BUTTON ATTENTION PULSE */
+  (function submitPulse() {
+    var btn = document.getElementById('formSubmit');
+    if (!btn) return;
+    var obs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        obs.disconnect();
+        // Delayed subtle pulse
+        setTimeout(function() {
+          btn.style.animation = 'submit-pulse 1.5s ease';
+          btn.addEventListener('animationend', function() { btn.style.animation = ''; }, { once: true });
+        }, 1500);
+      }
+    }, { threshold: 0.5 });
+    obs.observe(btn);
+  })();
+
   /* FOOTER LINE COUNT */
   (function footerLineCount() {
     var el = document.getElementById('footerLineCount');
@@ -8004,6 +8032,22 @@
       });
     }, { threshold: 0.2 });
     cards.forEach(function(c) { obs.observe(c); });
+  })();
+
+  /* FEATURED CARD AUTO-SHINE */
+  (function autoShine() {
+    var shine = document.querySelector('.featured-card .card-shine');
+    if (!shine) return;
+    var obs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        obs.disconnect();
+        setInterval(function() {
+          shine.classList.add('auto-shine');
+          setTimeout(function() { shine.classList.remove('auto-shine'); }, 900);
+        }, 8000);
+      }
+    }, { threshold: 0.3 });
+    obs.observe(shine.closest('.featured-card'));
   })();
 
   /* ANIMATED STAT COUNTERS in spec table */
