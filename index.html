@@ -4533,7 +4533,7 @@
 <canvas id="cursorTrail" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9997;"></canvas>
 
 <!-- CRITTER PET -->
-<div class="critter-container" id="critterContainer" title="Portfolio Pet. Click to earn XP!">
+<div class="critter-container" id="critterContainer" title="Portfolio Pet. Click to earn XP!" role="complementary" aria-label="Interactive pixel pet">
   <button class="critter-gear" id="critterGear" aria-label="Pet settings">&#9881;</button>
   <div class="critter-settings" id="critterSettings">
     <div class="csetting-label">Drag me anywhere!</div>
@@ -4580,9 +4580,9 @@
 </div>
 
 <!-- RPG OVERLAY -->
-<div class="rpg-overlay" id="rpgOverlay">
+<div class="rpg-overlay" id="rpgOverlay" role="dialog" aria-modal="true" aria-label="RPG character stats">
   <div class="rpg-card">
-    <button class="rpg-close" id="rpgClose">&times;</button>
+    <button class="rpg-close" id="rpgClose" aria-label="Close stats">&times;</button>
     <div class="rpg-card-title" role="heading" aria-level="2">PROFILE STATS</div>
     <div class="rpg-stat">
       <span class="rpg-stat-label">CLASS</span>
@@ -6694,19 +6694,27 @@
   const rpgOverlay = document.getElementById('rpgOverlay');
   const rpgClose = document.getElementById('rpgClose');
 
+  var rpgPrevFocus = null;
   function activateRPGOverlay() {
+    rpgPrevFocus = document.activeElement;
     rpgOverlay.classList.add('active');
+    rpgClose.focus();
     showToast('KONAMI CODE ACTIVATED • Profile stats unlocked', 3000);
   }
 
-  rpgClose.addEventListener('click', () => {
+  function closeRPGOverlay() {
     rpgOverlay.classList.remove('active');
-  });
+    if (rpgPrevFocus) { rpgPrevFocus.focus(); rpgPrevFocus = null; }
+  }
+
+  rpgClose.addEventListener('click', closeRPGOverlay);
 
   rpgOverlay.addEventListener('click', (e) => {
-    if (e.target === rpgOverlay) {
-      rpgOverlay.classList.remove('active');
-    }
+    if (e.target === rpgOverlay) closeRPGOverlay();
+  });
+
+  rpgOverlay.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeRPGOverlay();
   });
 
   /* TOAST */
