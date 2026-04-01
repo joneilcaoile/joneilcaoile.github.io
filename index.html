@@ -670,6 +670,70 @@
       50% { border-color: transparent; }
     }
 
+    /* HEADSHOT LENS FLARE — hover effect */
+    .headshot-frame::after {
+      content: '';
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle, rgba(212, 162, 51, 0.5) 0%, transparent 70%);
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+      top: 10%;
+      right: 10%;
+      z-index: 5;
+    }
+    .headshot-frame:hover::after {
+      opacity: 1;
+      animation: lens-drift 3s ease-in-out infinite;
+    }
+    @keyframes lens-drift {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(8px, -5px); }
+      50% { transform: translate(-3px, 8px); }
+      75% { transform: translate(-6px, -3px); }
+    }
+
+    /* PERSONAL ITEM ICON HOVER — bounce + color shift */
+    .personal-icon {
+      transition: transform 0.3s ease;
+    }
+    .personal-item:hover .personal-icon {
+      transform: scale(1.15) rotate(-5deg);
+    }
+
+    /* READING PROGRESS TEXT — shows estimated read progress */
+    .reading-progress-text {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      font-family: var(--fm);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      z-index: 999;
+    }
+    .reading-progress-text.visible {
+      opacity: 0.6;
+    }
+    @media (max-width: 768px) {
+      .reading-progress-text { display: none; }
+    }
+
+    /* SMOOTH SECTION TRANSITIONS — color fading between zones */
+    .bridge-light-to-dark {
+      transition: background 0.5s ease;
+    }
+    .bridge-dark-to-light {
+      transition: background 0.5s ease;
+    }
+
     /* FOOTER WAVE — animated SVG wave above footer */
     .footer-wave {
       position: relative;
@@ -3012,6 +3076,8 @@
       .hero-name:hover .glitch-layer { display: none !important; }
       #hero::after { animation: none !important; }
       .footer-wave svg { animation: none !important; }
+      .headshot-frame::after { display: none !important; }
+      .reading-progress-text { display: none !important; }
     }
 
     /* CUSTOM CURSOR — context-aware dot + ring */
@@ -4903,6 +4969,7 @@
 <div class="cursor-ring" id="cursorRing"></div>
 <div class="ambient-wash" id="ambientWash"></div>
 <div class="scroll-section-label" id="scrollSectionLabel" aria-hidden="true"></div>
+<div class="reading-progress-text" id="readingProgress" aria-hidden="true"></div>
 <a href="#statement" class="skip-link">Skip to content</a>
 
 <!-- LOADER — Grand Boot Sequence -->
@@ -10299,6 +10366,55 @@
     }, { threshold: 0.5 });
 
     observer.observe(cell);
+  });
+})();
+</script>
+
+<!-- READING PROGRESS — shows scroll percentage in corner -->
+<script>
+(function readingProgress() {
+  var el = document.getElementById('readingProgress');
+  if (!el) return;
+
+  window.addEventListener('scroll', function() {
+    var scrollTop = window.scrollY;
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var progress = Math.round((scrollTop / docHeight) * 100);
+
+    if (scrollTop > 300) {
+      el.textContent = progress + '% read';
+      el.classList.add('visible');
+    } else {
+      el.classList.remove('visible');
+    }
+  }, { passive: true });
+})();
+</script>
+
+<!-- PERSONAL ITEMS STAGGERED REVEAL -->
+<script>
+(function personalStagger() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (typeof gsap === 'undefined') return;
+
+  var items = document.querySelectorAll('.personal-item');
+  items.forEach(function(item, i) {
+    gsap.set(item, { autoAlpha: 0, y: 20 });
+
+    ScrollTrigger.create({
+      trigger: item,
+      start: 'top 90%',
+      once: true,
+      onEnter: function() {
+        gsap.to(item, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.6,
+          delay: i * 0.08,
+          ease: 'power2.out'
+        });
+      }
+    });
   });
 })();
 </script>
