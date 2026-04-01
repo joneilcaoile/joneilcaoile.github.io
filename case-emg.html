@@ -1293,7 +1293,7 @@
       ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
     }
     resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('resize', resizeCanvas, { passive: true });
 
     let showFiltered = true;
     let animationPhase = 0;
