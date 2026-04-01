@@ -8790,45 +8790,6 @@
   })();
 
   /* ═══════════════════════════════════════════════════
-     KONAMI CODE EASTER EGG
-     ═══════════════════════════════════════════════════ */
-  (function konamiEgg() {
-    var sequence = [38,38,40,40,37,39,37,39,66,65]; // up up down down left right left right b a
-    var pos = 0;
-    var eggTriggered = false;
-
-    document.addEventListener('keydown', function(e) {
-      if (eggTriggered) return;
-      if (e.keyCode === sequence[pos]) {
-        pos++;
-        if (pos === sequence.length) {
-          eggTriggered = true;
-          showEasterEgg();
-        }
-      } else {
-        pos = 0;
-      }
-    });
-
-    function showEasterEgg() {
-      var overlay = document.createElement('div');
-      overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:99999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem;cursor:pointer;';
-      overlay.innerHTML = '<div style="font-size:64px;animation:eggBounce 0.6s ease infinite alternate;">🎮</div>'
-        + '<div style="font-family:var(--fm);color:var(--gold);font-size:24px;font-weight:700;letter-spacing:0.05em;">KONAMI CODE ACTIVATED</div>'
-        + '<div style="font-family:var(--fm);color:var(--amber);font-size:14px;max-width:400px;text-align:center;line-height:1.6;">'
-        + 'You found the secret. Yes, I put a Konami code in my portfolio. '
-        + 'Yes, I test medical devices for a living. These two things are not in conflict.</div>'
-        + '<div style="font-family:var(--fm);color:var(--text-light);font-size:12px;margin-top:1rem;opacity:0.5;">click anywhere to close</div>'
-        + '<style>@keyframes eggBounce{0%{transform:scale(1) rotate(-5deg)}100%{transform:scale(1.2) rotate(5deg)}}</style>';
-      overlay.addEventListener('click', function() { overlay.remove(); });
-      document.body.appendChild(overlay);
-
-      // XP bonus
-      if (typeof updateXP === 'function') { updateXP(200); showXPHud(); }
-    }
-  })();
-
-  /* ═══════════════════════════════════════════════════
      NAV SHRINK ON SCROLL
      ═══════════════════════════════════════════════════ */
   (function navShrink() {
