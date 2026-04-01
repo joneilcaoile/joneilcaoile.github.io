@@ -13892,5 +13892,113 @@
 })();
 </script>
 
+<!-- Scroll velocity visual feedback (faster scroll = more motion blur) -->
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var lastY=0;var lastTime=Date.now();
+  var main=document.querySelector('main');
+  if(!main)return;
+  window.addEventListener('scroll',function(){
+    var now=Date.now();
+    var dt=now-lastTime;
+    if(dt===0)return;
+    var velocity=Math.abs(window.scrollY-lastY)/dt;
+    var blur=Math.min(1.5,velocity*0.3);
+    if(blur>0.3){
+      main.style.filter='blur('+blur+'px)';
+      main.style.transition='filter 0.05s';
+    }
+    lastY=window.scrollY;
+    lastTime=now;
+    clearTimeout(main._blurTimer);
+    main._blurTimer=setTimeout(function(){
+      main.style.filter='';
+      main.style.transition='filter 0.2s ease';
+    },50);
+  },{passive:true});
+})();
+</script>
+
+<!-- Animated stats counter in footer -->
+<script>
+(function(){
+  var lineCount=document.getElementById('footerLineCount');
+  if(!lineCount)return;
+  var target=13900;
+  lineCount.textContent='0';
+  var counted=false;
+  var obs=new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting&&!counted){
+      counted=true;
+      var start=null;
+      function anim(ts){
+        if(!start)start=ts;
+        var p=Math.min(1,(ts-start)/2000);
+        var eased=1-Math.pow(1-p,3);
+        lineCount.textContent=Math.floor(eased*target).toLocaleString();
+        if(p<1)requestAnimationFrame(anim);
+      }
+      requestAnimationFrame(anim);
+      obs.disconnect();
+    }
+  },{threshold:0.5});
+  obs.observe(lineCount);
+})();
+</script>
+
+<!-- Hover glow ring on journey nodes -->
+<script>
+(function(){
+  if(matchMedia('(pointer:coarse)').matches)return;
+  document.querySelectorAll('.journey-node').forEach(function(node){
+    node.addEventListener('mouseenter',function(){
+      node.style.boxShadow='0 0 20px rgba(217,119,6,0.15), 0 0 40px rgba(217,119,6,0.05)';
+      node.style.transition='box-shadow 0.3s ease';
+    });
+    node.addEventListener('mouseleave',function(){
+      node.style.boxShadow='';
+    });
+  });
+})();
+</script>
+
+<!-- Smooth number ticker on bring card stats -->
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  document.querySelectorAll('.bring-tag, .work-evidence').forEach(function(el){
+    var text=el.textContent;
+    var nums=text.match(/\d[\d,]*/g);
+    if(!nums)return;
+    var done=false;
+    var obs=new IntersectionObserver(function(entries){
+      if(entries[0].isIntersecting&&!done){
+        done=true;
+        nums.forEach(function(numStr){
+          var target=parseInt(numStr.replace(/,/g,''));
+          if(isNaN(target)||target<10)return;
+          var startTime=null;
+          var regex=new RegExp(numStr.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));
+          function anim(ts){
+            if(!startTime)startTime=ts;
+            var p=Math.min(1,(ts-startTime)/1000);
+            var eased=1-Math.pow(1-p,3);
+            var current=Math.floor(eased*target);
+            el.textContent=el.textContent.replace(regex,current.toLocaleString());
+            if(p<1)requestAnimationFrame(anim);
+            else el.textContent=el.textContent.replace(regex,target.toLocaleString());
+          }
+          el.textContent=el.textContent.replace(regex,'0');
+          requestAnimationFrame(anim);
+        });
+        obs.disconnect();
+      }
+    },{threshold:0.3});
+    obs.observe(el);
+  });
+})();
+</script>
+
 </body>
 </html>
