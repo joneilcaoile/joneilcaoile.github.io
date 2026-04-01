@@ -240,6 +240,8 @@
       scroll-margin-top: var(--nav-height);
     }
 
+    .text-center { text-align: center; }
+
     /* SCROLL PROGRESS BAR */
     .scroll-progress {
       position: fixed;
@@ -3501,6 +3503,28 @@
       opacity: 0.5;
     }
 
+    /* CONTACT INFO LINKS */
+    .contact-info {
+      margin-top: 1.5rem;
+      font-family: var(--fm);
+      font-size: 14px;
+      color: var(--cream);
+      opacity: 0.85;
+      line-height: 2;
+    }
+    .contact-info a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .contact-info a:hover {
+      text-decoration: underline;
+    }
+    .contact-info-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
     /* XP HUD */
     .xp-hud {
       position: fixed;
@@ -4870,7 +4894,7 @@
       <div class="work-item">
         <div class="work-visual vis-photocull">
           <div class="work-visual-bg"></div>
-          <div style="text-align:center;">
+          <div class="text-center">
             <div class="work-visual-svg" data-draw>
               <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <!-- Photo stack: 3 photos being evaluated -->
@@ -4933,7 +4957,7 @@
       <div class="work-item">
         <div class="work-visual vis-pneumo">
           <div class="work-visual-bg"></div>
-          <div style="text-align:center;">
+          <div class="text-center">
             <div class="work-visual-svg" data-draw>
               <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <!-- Lungs outline -->
@@ -4975,7 +4999,7 @@
       <div class="work-item">
         <div class="work-visual vis-emg">
           <div class="work-visual-bg"></div>
-          <div style="text-align:center;">
+          <div class="text-center">
             <div class="work-visual-svg" data-draw>
               <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <!-- TOP: Raw EMG with tremor (shaky, irregular) -->
@@ -5025,7 +5049,7 @@
       <div class="work-item">
         <div class="work-visual vis-fall">
           <div class="work-visual-bg"></div>
-          <div style="text-align:center;">
+          <div class="text-center">
             <div class="work-visual-svg" data-draw>
               <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <!-- Stick figure in walking gait -->
@@ -5080,7 +5104,7 @@
       <div class="work-item">
         <div class="work-visual vis-physiorep">
           <div class="work-visual-bg"></div>
-          <div style="text-align:center;">
+          <div class="text-center">
             <div class="work-visual-svg" data-draw>
               <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <!-- Person in squat pose -->
@@ -5506,15 +5530,15 @@
       <div class="contact-left">
         <h2>Available May 2026. Let's talk about what I can build for your team.</h2>
         <p>Device testing, usability studies, regulatory submissions, tools that help your team move faster. If your team builds devices that reach patients, that's where I want to be. SoCal preferred, remote works. Strong opinions about test protocols, decent taste in coffee.</p>
-        <div style="margin-top:1.5rem;font-family:var(--fm);font-size:14px;color:var(--cream);opacity:0.85;line-height:2;">
-          <div style="display:flex;align-items:center;gap:0.5rem;">
-            <a href="mailto:joneilcaoile@gmail.com" style="color:var(--gold);text-decoration:none;">joneilcaoile@gmail.com</a>
+        <div class="contact-info">
+          <div class="contact-info-row">
+            <a href="mailto:joneilcaoile@gmail.com">joneilcaoile@gmail.com</a>
             <button id="copyEmailBtn" class="copy-email-btn" title="Copy email to clipboard" aria-label="Copy email address">Copy</button>
           </div>
-          <a href="tel:+14244219173" style="color:var(--gold);text-decoration:none;">(424) 421-9173</a><br>
-          <a href="https://linkedin.com/in/joneilcaoile" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none;">LinkedIn ↗</a>
+          <a href="tel:+14244219173">(424) 421-9173</a><br>
+          <a href="https://linkedin.com/in/joneilcaoile" target="_blank" rel="noopener">LinkedIn ↗</a>
           &nbsp;&nbsp;
-          <a href="https://github.com/joneilcaoile" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none;">GitHub ↗</a>
+          <a href="https://github.com/joneilcaoile" target="_blank" rel="noopener">GitHub ↗</a>
         </div>
       </div>
       <form class="contact-form" id="contactForm" action="https://formspree.io/f/mjgaznkg" method="POST">
