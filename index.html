@@ -566,6 +566,79 @@
     }
     .page-transition.active { opacity: 1; pointer-events: all; }
 
+    /* SCROLL SECTION LABEL — floating pill that shows current section */
+    .scroll-section-label {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: var(--dark3);
+      color: var(--cream);
+      font-family: var(--fm);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(198, 123, 46, 0.2);
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+      white-space: nowrap;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .scroll-section-label.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    @media (max-width: 768px) {
+      .scroll-section-label { display: none; }
+    }
+
+    /* ACHIEVEMENT PARTICLES — float up when passing milestones */
+    .achievement-particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      font-size: 14px;
+      font-family: var(--fm);
+      color: var(--gold);
+      text-shadow: 0 0 8px rgba(212, 162, 51, 0.5);
+      animation: float-up 2s ease-out forwards;
+      white-space: nowrap;
+    }
+    @keyframes float-up {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      50% { opacity: 0.8; transform: translateY(-40px) scale(1.1); }
+      100% { opacity: 0; transform: translateY(-100px) scale(0.8); }
+    }
+
+    /* INTERACTIVE TERMINAL — command input styling */
+    .terminal-input-line {
+      display: flex;
+      align-items: center;
+      margin-top: 4px;
+    }
+    .terminal-input {
+      background: transparent;
+      border: none;
+      color: var(--terminal-green, #4AF626);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      outline: none;
+      flex: 1;
+      caret-color: var(--terminal-green, #4AF626);
+    }
+    .terminal-response {
+      color: var(--terminal-gold, #D4A233);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      opacity: 0.8;
+      margin-top: 2px;
+    }
+
     /* PAGE LOAD STATE — content hidden until loader finishes */
     main, nav, footer {
       opacity: 0;
@@ -2634,6 +2707,8 @@
       .hero-name:hover { letter-spacing: inherit !important; }
       .cursor-dot, .cursor-ring { display: none !important; }
       .ambient-wash { display: none !important; }
+      .achievement-particle { display: none !important; }
+      .scroll-section-label { display: none !important; }
     }
 
     /* CUSTOM CURSOR — context-aware dot + ring */
@@ -4524,6 +4599,7 @@
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 <div class="ambient-wash" id="ambientWash"></div>
+<div class="scroll-section-label" id="scrollSectionLabel" aria-hidden="true"></div>
 <a href="#statement" class="skip-link">Skip to content</a>
 
 <!-- LOADER — Grand Boot Sequence -->
@@ -4748,6 +4824,11 @@
       <div class="terminal-line"><span class="terminal-output">↳ PhotoCull AI (image classification)</span></div>
       <div class="terminal-line"></div>
       <div class="terminal-line" id="terminalTyping"><span class="terminal-prompt">$</span> <span class="terminal-output terminal-typed" id="terminalTyped"></span><span class="terminal-blink">█</span></div>
+      <div class="terminal-input-line">
+        <span class="terminal-prompt">$</span>&nbsp;
+        <input class="terminal-input" id="terminalInput" type="text" placeholder="try: help, skills, contact, projects" autocomplete="off" spellcheck="false" aria-label="Interactive terminal input">
+      </div>
+      <div id="terminalResponses"></div>
     </div>
   </div>
   <div class="scroll-indicator" data-scroll-to="#statement">
@@ -9904,6 +9985,218 @@
 
     observer.observe(cell);
   });
+})();
+</script>
+
+<!-- SCROLL SECTION LABEL — floating pill showing current section -->
+<script>
+(function scrollSectionLabel() {
+  var label = document.getElementById('scrollSectionLabel');
+  if (!label) return;
+
+  var sections = [
+    { id: 'hero', name: 'Home' },
+    { id: 'statement', name: 'About' },
+    { id: 'bring', name: 'What I Bring' },
+    { id: 'story', name: 'My Story' },
+    { id: 'featured', name: 'Featured Project' },
+    { id: 'work', name: 'Case Studies' },
+    { id: 'toolkit', name: 'Toolkit' },
+    { id: 'journey', name: 'Career Journey' },
+    { id: 'personal', name: 'Off the Clock' },
+    { id: 'skills-matrix', name: 'Skills Map' },
+    { id: 'contact', name: 'Contact' }
+  ];
+
+  var current = '';
+  var hideTimer = null;
+
+  window.addEventListener('scroll', function() {
+    var scrollY = window.scrollY + window.innerHeight * 0.3;
+    var found = '';
+
+    for (var i = sections.length - 1; i >= 0; i--) {
+      var el = document.getElementById(sections[i].id);
+      if (el && scrollY >= el.offsetTop) {
+        found = sections[i].name;
+        break;
+      }
+    }
+
+    if (found && found !== current) {
+      current = found;
+      label.textContent = found;
+      label.classList.add('visible');
+
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(function() {
+        label.classList.remove('visible');
+      }, 2000);
+    }
+  }, { passive: true });
+})();
+</script>
+
+<!-- INTERACTIVE TERMINAL — responds to typed commands -->
+<script>
+(function interactiveTerminal() {
+  var input = document.getElementById('terminalInput');
+  var responses = document.getElementById('terminalResponses');
+  if (!input || !responses) return;
+
+  var commands = {
+    help: 'Available: help, skills, projects, contact, education, tools, hire, clear, sudo',
+    skills: 'Python · MATLAB · Signal Processing · Machine Learning · Computer Vision · FDA Design Controls · IEC 62366-1 · React · Firebase',
+    projects: 'UseTrace HFE · PhotoCull AI · Pneumothorax Air Leak Monitor · EMG Fatigue Detection · Fall Risk Assessment · PhysioRep PWA',
+    contact: 'joneilcaoile@gmail.com · linkedin.com/in/joneilcaoile · github.com/joneilcaoile',
+    education: 'M.S. Biomedical Engineering, Stevens Institute of Technology (May 2026)',
+    tools: 'Python, MATLAB, React, Firebase, Figma, Git, Selenium, TensorFlow, scikit-learn',
+    hire: 'Available May 2026 for SoCal medtech roles. Validation, Applications, R&D, Human Factors.',
+    clear: '__CLEAR__',
+    sudo: 'Nice try. Access denied.',
+    'sudo rm -rf /': 'Absolutely not.',
+    ls: 'UseTrace/  PhotoCull/  Pneumothorax/  EMG/  FallRisk/  PhysioRep/',
+    whoami: 'joneil-caoile — biomedical engineer, device tester, tool builder',
+    pwd: '/home/joneil/portfolio',
+    date: new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
+    echo: 'echo what?',
+    cat: 'Try: cat resume.pdf (just kidding, download it from the nav bar)',
+    ping: 'PONG! 64 bytes from joneilcaoile.github.io: time=0.42ms',
+    'neofetch': '  BME @ Stevens  |  OS: Portfolio v3.0  |  Shell: vanilla JS  |  Theme: amber-dark'
+  };
+
+  input.addEventListener('keydown', function(e) {
+    if (e.key !== 'Enter') return;
+    var cmd = input.value.trim().toLowerCase();
+    if (!cmd) return;
+
+    input.value = '';
+
+    if (cmd === 'clear') {
+      responses.innerHTML = '';
+      return;
+    }
+
+    // Add command echo
+    var cmdLine = document.createElement('div');
+    cmdLine.className = 'terminal-line';
+    cmdLine.innerHTML = '<span class="terminal-prompt">$</span> <span class="terminal-output">' + cmd + '</span>';
+    responses.appendChild(cmdLine);
+
+    // Add response
+    var resp = commands[cmd] || 'Command not found: ' + cmd + '. Type "help" for available commands.';
+    var respLine = document.createElement('div');
+    respLine.className = 'terminal-response';
+    respLine.textContent = resp;
+    responses.appendChild(respLine);
+
+    // Auto-scroll terminal
+    var terminal = input.closest('.terminal');
+    if (terminal) terminal.scrollTop = terminal.scrollHeight;
+
+    // Cap terminal output
+    while (responses.children.length > 20) {
+      responses.removeChild(responses.firstChild);
+    }
+  });
+})();
+</script>
+
+<!-- ACHIEVEMENT PARTICLES — float up when scrolling past sections -->
+<script>
+(function achievementParticles() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var milestones = [
+    { id: 'featured', text: '+250 XP · Featured Project' },
+    { id: 'work', text: '+500 XP · Case Studies' },
+    { id: 'skills-matrix', text: '+100 XP · Skills Map' },
+    { id: 'journey', text: '+150 XP · Career Journey' },
+    { id: 'contact', text: '+50 XP · Contact Zone' }
+  ];
+
+  var triggered = {};
+
+  milestones.forEach(function(m) {
+    var el = document.getElementById(m.id);
+    if (!el) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && !triggered[m.id]) {
+          triggered[m.id] = true;
+
+          // Spawn 3 particles with staggered delay
+          for (var i = 0; i < 3; i++) {
+            (function(delay) {
+              setTimeout(function() {
+                var p = document.createElement('div');
+                p.className = 'achievement-particle';
+                p.textContent = m.text;
+                p.style.left = (30 + Math.random() * 40) + '%';
+                p.style.top = (entry.boundingClientRect.top + window.scrollY - window.scrollY + 100) + 'px';
+                p.style.fontSize = (12 + Math.random() * 4) + 'px';
+                document.body.appendChild(p);
+                setTimeout(function() { p.remove(); }, 2200);
+              }, delay);
+            })(i * 300);
+          }
+        }
+      });
+    }, { threshold: 0.3 });
+
+    observer.observe(el);
+  });
+})();
+</script>
+
+<!-- STAGGERED REVEAL with perspective depth for bring-cards -->
+<script>
+(function staggeredBringCards() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (typeof gsap === 'undefined') return;
+
+  var cards = document.querySelectorAll('.bring-card');
+  if (!cards.length) return;
+
+  cards.forEach(function(card, i) {
+    gsap.set(card, { autoAlpha: 0, y: 40, rotateX: -8, transformPerspective: 800 });
+
+    ScrollTrigger.create({
+      trigger: card,
+      start: 'top 90%',
+      once: true,
+      onEnter: function() {
+        gsap.to(card, {
+          autoAlpha: 1,
+          y: 0,
+          rotateX: 0,
+          duration: 0.7,
+          delay: i * 0.1,
+          ease: 'power3.out'
+        });
+      }
+    });
+  });
+})();
+</script>
+
+<!-- TYPING EFFECT on hero-targets text -->
+<script>
+(function heroTargetGlow() {
+  var targets = document.querySelector('.hero-targets');
+  if (!targets) return;
+
+  // Add a subtle glow pulse to keywords
+  var keywords = ['validation', 'applications', 'R&D', 'human factors'];
+  var html = targets.innerHTML;
+
+  keywords.forEach(function(kw) {
+    var regex = new RegExp('(' + kw + ')', 'gi');
+    html = html.replace(regex, '<span style="color:var(--amber);text-shadow:0 0 12px rgba(198,123,46,0.3)">$1</span>');
+  });
+
+  targets.innerHTML = html;
 })();
 </script>
 
