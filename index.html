@@ -670,6 +670,57 @@
       50% { border-color: transparent; }
     }
 
+    /* FLOATING CTA — appears after scrolling past 60% */
+    .floating-cta {
+      position: fixed;
+      bottom: 100px;
+      right: 24px;
+      z-index: 998;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      pointer-events: none;
+    }
+    .floating-cta.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .floating-cta a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--amber);
+      color: #0A0908;
+      font-family: var(--fh);
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 100px;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(198, 123, 46, 0.4);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+      letter-spacing: 0.02em;
+    }
+    .floating-cta a:hover {
+      box-shadow: 0 6px 30px rgba(198, 123, 46, 0.6);
+      transform: translateY(-2px);
+    }
+    .floating-cta-pulse {
+      width: 8px; height: 8px;
+      background: #4AF626;
+      border-radius: 50%;
+      animation: cta-pulse 2s ease-in-out infinite;
+    }
+    @keyframes cta-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(74, 246, 38, 0.4); }
+      50% { box-shadow: 0 0 0 4px rgba(74, 246, 38, 0); }
+    }
+    @media (max-width: 768px) {
+      .floating-cta { bottom: 80px; right: 16px; }
+      .floating-cta a { font-size: 12px; padding: 8px 16px; }
+    }
+
     /* WORK LINK ANIMATED ARROW — slides on hover */
     .work-link {
       position: relative;
@@ -5013,6 +5064,9 @@
 <div class="ambient-wash" id="ambientWash"></div>
 <div class="scroll-section-label" id="scrollSectionLabel" aria-hidden="true"></div>
 <div class="reading-progress-text" id="readingProgress" aria-hidden="true"></div>
+<div class="floating-cta" id="floatingCta">
+  <a href="#contact"><span class="floating-cta-pulse"></span> Available May 2026</a>
+</div>
 <a href="#statement" class="skip-link">Skip to content</a>
 
 <!-- LOADER — Grand Boot Sequence -->
@@ -10410,6 +10464,30 @@
 
     observer.observe(cell);
   });
+})();
+</script>
+
+<!-- FLOATING CTA — appears after 60% scroll -->
+<script>
+(function floatingCta() {
+  var cta = document.getElementById('floatingCta');
+  if (!cta) return;
+
+  window.addEventListener('scroll', function() {
+    var scrollTop = window.scrollY;
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var progress = scrollTop / docHeight;
+
+    // Show after 30%, hide near contact section
+    var contactEl = document.getElementById('contact');
+    var nearContact = contactEl && (contactEl.getBoundingClientRect().top < window.innerHeight);
+
+    if (progress > 0.3 && !nearContact) {
+      cta.classList.add('visible');
+    } else {
+      cta.classList.remove('visible');
+    }
+  }, { passive: true });
 })();
 </script>
 
