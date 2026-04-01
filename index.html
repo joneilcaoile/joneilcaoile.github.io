@@ -2175,16 +2175,6 @@
       font-size: 1.1rem;
     }
 
-    /* TIMELINE */
-    #timeline {
-      position: relative;
-    }
-
-    #timeline h2 {
-      margin-bottom: 3rem;
-    }
-
-
 
 
     /* HERO TARGETS */
@@ -4128,32 +4118,17 @@
         grid-template-columns: 1fr;
       }
 
-      .timeline {
-        padding-left: 3.5rem;
-      }
-
-      .timeline::before {
-        left: 12px;
-      }
-
-      .timeline-sprite {
-        width: 45px;
-        height: 58px;
-        left: -48px;
-      }
-
-      .timeline-sprite-label {
-        display: none;
-      }
     }
   </style>
   <noscript>
     <style>
       .loader { display: none !important; }
       main, nav, footer { opacity: 1 !important; }
+      .r { opacity: 1 !important; transform: none !important; }
       .cursor, .cursor-glow, #cursorTrail { display: none !important; }
       .dot.filled { opacity: 1 !important; }
       .section-rule { transform: scaleX(1) !important; }
+      .scroll-top { display: none !important; }
     </style>
   </noscript>
 </head>
@@ -5633,7 +5608,7 @@
     trailCtx.scale(devicePixelRatio, devicePixelRatio);
   }
   resizeTrailCanvas();
-  window.addEventListener('resize', resizeTrailCanvas);
+  window.addEventListener('resize', resizeTrailCanvas, { passive: true });
 
   // Only enable trail on fine pointer devices
   const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
@@ -6629,7 +6604,7 @@
       ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
     }
     resize();
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', resize, { passive: true });
 
     function createParticle() {
       return {
@@ -6715,7 +6690,7 @@
       canvas.style.height = hero.offsetHeight + 'px';
     }
     resize();
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', resize, { passive: true });
 
     hero.addEventListener('mousemove', (e) => {
       const rect = hero.getBoundingClientRect();
