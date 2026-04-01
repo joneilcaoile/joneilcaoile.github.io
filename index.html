@@ -301,7 +301,6 @@
       position: fixed;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) scale(0.5);
       background: var(--dark3);
       border: 2px solid var(--gold);
       border-radius: 12px;
@@ -311,6 +310,7 @@
       color: var(--gold);
       z-index: 2001;
       pointer-events: none;
+      display: none;
       opacity: 0;
       text-align: center;
       box-shadow: 0 0 40px rgba(212, 162, 51, 0.3), 0 0 80px rgba(212, 162, 51, 0.1);
@@ -3124,10 +3124,12 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.3s ease;
+      transform: translateY(10px);
     }
 
     .xp-hud.active {
       opacity: 1;
+      transform: translateY(0);
     }
 
     .xp-hud-title {
@@ -6921,15 +6923,20 @@
     milestoneAnimating = true;
     const text = milestoneQueue.shift();
     milestoneText.textContent = text;
-    gsap.timeline()
-      .set(milestoneBadge, { display: 'block', opacity: 0, scale: 0.5 })
+    /* Kill any stuck animations on this element first */
+    gsap.killTweensOf(milestoneBadge);
+    const tl = gsap.timeline({
+      onComplete: function() { clearTimeout(failsafe); hideBadge(); }
+    });
+    function hideBadge() {
+      gsap.set(milestoneBadge, { display: 'none', opacity: 0 });
+      showNextMilestone();
+    }
+    /* Failsafe: force-hide after 3s no matter what */
+    const failsafe = setTimeout(function() { tl.kill(); hideBadge(); }, 3000);
+    tl.set(milestoneBadge, { display: 'block', opacity: 0, xPercent: -50, yPercent: -50, scale: 0.5 })
       .to(milestoneBadge, { duration: 0.5, opacity: 1, scale: 1, ease: 'back.out(1.7)' })
-      .to(milestoneBadge, { duration: 0.3, opacity: 0, scale: 0.8, ease: 'power2.in', delay: 0.8,
-        onComplete: () => {
-          gsap.set(milestoneBadge, { display: 'none' });
-          showNextMilestone();
-        }
-      });
+      .to(milestoneBadge, { duration: 0.3, opacity: 0, scale: 0.8, ease: 'power2.in', delay: 0.8 });
   }
 
   window.addEventListener('scroll', () => {
