@@ -71,6 +71,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Instrument+Sans:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 
   <style>
@@ -2059,11 +2060,28 @@
       font-weight: 600;
       color: var(--amber);
       transition: color 0.2s ease, letter-spacing 0.2s ease;
+      position: relative;
+      display: inline-block;
+    }
+
+    .work-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: var(--coral);
+      transition: width 0.3s var(--ease);
     }
 
     .work-link:hover {
       color: var(--coral);
       letter-spacing: 0.02em;
+    }
+
+    .work-link:hover::after {
+      width: 100%;
     }
 
     @media (max-width: 768px) {
@@ -3734,7 +3752,7 @@
       top: 50%;
       transform: translateY(-50%);
       background: var(--dark3);
-      color: var(--text);
+      color: var(--cream);
       font-family: var(--fm);
       font-size: 11px;
       padding: 3px 8px;
@@ -3774,7 +3792,12 @@
     @media (max-width: 768px) {
       .dot-nav { display: none; }
       .scroll-top { bottom: 5rem; right: 1rem; }
-      .cmd-palette { top: 10%; }
+      .cmd-palette { top: 10%; max-height: 80vh; overflow-y: auto; }
+      .featured-card { padding: 1.5rem 1.25rem; }
+      .featured-diagram { margin: 1.5rem 0; padding: 1rem 0.75rem; overflow-x: auto; }
+      .featured-diagram svg { min-width: 0; }
+      .cta-btn { min-height: 44px; padding: 0.85rem 1.75rem; }
+      .critter-container { bottom: 5rem; right: 0.5rem; transform: scale(0.75); transform-origin: bottom right; }
     }
 
     /* PRINT STYLES — recruiter-friendly printing */
@@ -5217,9 +5240,9 @@
   </a>
 </nav>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js" integrity="sha384-RVPQwTb0fPz9kI8s5GwAq1Qioto9fnEQt1aKGSQSm8xV6+DIdBSgcCShoHqfKnhv" crossorigin="anonymous"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js" integrity="sha384-RVPQwTb0fPz9kI8s5GwAq1Qioto9fnEQt1aKGSQSm8xV6+DIdBSgcCShoHqfKnhv" crossorigin="anonymous"></script>
 
 <script>
   /* HAMBURGER MENU */
