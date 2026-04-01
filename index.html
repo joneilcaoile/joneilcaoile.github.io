@@ -12709,5 +12709,148 @@
 })();
 </script>
 
+<!-- Section label text scramble decode -->
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var chars='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjklmnpqrstuvwxyz0123456789!@#$%';
+  document.querySelectorAll('.section-label').forEach(function(el){
+    var original=el.textContent;
+    var decoded=false;
+    var obs=new IntersectionObserver(function(entries){
+      if(entries[0].isIntersecting&&!decoded){
+        decoded=true;
+        var iterations=0;
+        var maxIterations=original.length*3;
+        var interval=setInterval(function(){
+          el.textContent=original.split('').map(function(c,i){
+            if(c===' '||c==='/')return c;
+            if(iterations/3>i)return original[i];
+            return chars[Math.floor(Math.random()*chars.length)];
+          }).join('');
+          iterations++;
+          if(iterations>=maxIterations){clearInterval(interval);el.textContent=original;}
+        },30);
+        obs.disconnect();
+      }
+    },{threshold:0.5});
+    obs.observe(el);
+  });
+})();
+</script>
+
+<!-- Ambient floating particles in dark sections -->
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  document.querySelectorAll('.bridge-light-to-dark, .bridge-dark-to-light').forEach(function(sec){
+    if(sec.querySelector('.ambient-particles'))return;
+    var container=document.createElement('div');
+    container.className='ambient-particles';
+    container.setAttribute('aria-hidden','true');
+    container.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;pointer-events:none;z-index:0;';
+    sec.style.position='relative';
+    for(var i=0;i<8;i++){
+      var dot=document.createElement('span');
+      var size=2+Math.random()*3;
+      dot.style.cssText='position:absolute;width:'+size+'px;height:'+size+'px;border-radius:50%;background:var(--amber);opacity:'+(0.05+Math.random()*0.1)+';left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;animation:ambientFloat '+(8+Math.random()*12)+'s ease-in-out infinite alternate;animation-delay:-'+Math.random()*10+'s;';
+      container.appendChild(dot);
+    }
+    sec.appendChild(container);
+  });
+  if(!document.getElementById('ambientFloatStyle')){
+    var s=document.createElement('style');
+    s.id='ambientFloatStyle';
+    s.textContent='@keyframes ambientFloat{0%{transform:translateY(0) translateX(0)}50%{transform:translateY(-20px) translateX(10px)}100%{transform:translateY(10px) translateX(-15px)}}';
+    document.head.appendChild(s);
+  }
+})();
+</script>
+
+<!-- Skills matrix coverage counter -->
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var matrix=document.getElementById('skills-matrix');
+  if(!matrix)return;
+  var filled=matrix.querySelectorAll('.dot.filled').length;
+  var total=matrix.querySelectorAll('.dot').length;
+  if(total===0)return;
+  var pct=Math.round(filled/total*100);
+
+  var badge=document.createElement('div');
+  badge.style.cssText='text-align:center;margin-top:1.5rem;font-family:var(--font-mono);font-size:0.85rem;color:var(--text-muted);opacity:0;transition:opacity 0.6s ease;';
+  badge.innerHTML='<span style="color:var(--amber);font-weight:600;font-size:1.1rem;" id="coveragePct">0</span>% skill coverage across all projects';
+  var table=matrix.querySelector('.skills-matrix-wrapper')||matrix.querySelector('table');
+  if(table&&table.parentNode)table.parentNode.insertBefore(badge,table.nextSibling);
+  else matrix.appendChild(badge);
+
+  var counted=false;
+  var obs=new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting&&!counted){
+      counted=true;
+      badge.style.opacity='1';
+      var el=document.getElementById('coveragePct');
+      if(!el)return;
+      var current=0;
+      var dur=1500;
+      var start=null;
+      function anim(ts){
+        if(!start)start=ts;
+        var p=Math.min(1,(ts-start)/dur);
+        var eased=1-Math.pow(1-p,3);
+        el.textContent=Math.floor(eased*pct);
+        if(p<1)requestAnimationFrame(anim);
+        else el.textContent=pct;
+      }
+      requestAnimationFrame(anim);
+      obs.disconnect();
+    }
+  },{threshold:0.3});
+  obs.observe(matrix);
+})();
+</script>
+
+<!-- CTA button text swap on hover -->
+<script>
+(function(){
+  if(matchMedia('(pointer:coarse)').matches)return;
+  var ctaBtns=document.querySelectorAll('.cta-btn');
+  ctaBtns.forEach(function(btn){
+    var original=btn.textContent.trim();
+    var alt=original.includes('Case Study')?'Read the story \u2192':original.includes('GitHub')?'See the code \u2192':original.includes('Demo')?'Try it now \u2192':'Let\'s go \u2192';
+    btn.addEventListener('mouseenter',function(){
+      btn.style.transition='opacity 0.15s ease';
+      btn.style.opacity='0';
+      setTimeout(function(){btn.textContent=alt;btn.style.opacity='1';},150);
+    });
+    btn.addEventListener('mouseleave',function(){
+      btn.style.opacity='0';
+      setTimeout(function(){btn.textContent=original;btn.style.opacity='1';},150);
+    });
+  });
+})();
+</script>
+
+<!-- Dynamic page title with scroll section -->
+<script>
+(function(){
+  var sections=document.querySelectorAll('section[id]');
+  var base='Joneil Caoile | Biomedical Engineer';
+  var names={hero:base,statement:'Mission',story:'About',featured:'UseTrace HFE',work:'Projects',toolkit:'Skills',journey:'Journey','skills-matrix':'Skill Matrix',contact:'Contact'};
+  var last='';
+  window.addEventListener('scroll',function(){
+    var current='hero';
+    sections.forEach(function(s){
+      if(window.scrollY>=s.offsetTop-200)current=s.id;
+    });
+    if(current!==last){
+      last=current;
+      document.title=current==='hero'?base:(names[current]||current)+' | Joneil Caoile';
+    }
+  },{passive:true});
+})();
+</script>
+
 </body>
 </html>
