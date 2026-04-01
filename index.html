@@ -764,6 +764,24 @@
       color: var(--amber);
     }
 
+    .cmd-k-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 10px;
+      color: var(--text-light);
+      font-family: var(--fm);
+      font-size: 12px;
+      cursor: pointer;
+      transition: border-color 0.2s ease, color 0.2s ease;
+      margin-left: 0.5rem;
+    }
+    .cmd-k-hint:hover { border-color: var(--amber); color: var(--amber); }
+    .cmd-k-hint span { opacity: 0.7; }
+
     .nav-actions {
       display: flex;
       align-items: center;
@@ -6517,7 +6535,7 @@
       updateXP(50);
       showXPHud();
     }
-  });
+  }, { passive: true });
 
   /* PET SYSTEM — animation loop + settings panel */
   const critterGear = document.getElementById('critterGear');
@@ -8997,12 +9015,9 @@
     var hint = document.createElement('button');
     hint.className = 'cmd-k-hint';
     hint.setAttribute('aria-label', 'Open command palette');
-    hint.style.cssText = 'display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:6px;padding:4px 10px;color:var(--text-light);font-family:var(--fm);font-size:12px;cursor:pointer;transition:all 0.2s;margin-left:0.5rem;';
     hint.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>'
-      + '<span style="opacity:0.7;">' + (navigator.platform.includes('Mac') ? '⌘' : 'Ctrl+') + 'K</span>';
+      + '<span>' + (navigator.platform.includes('Mac') ? '⌘' : 'Ctrl+') + 'K</span>';
     hint.addEventListener('click', openCmd);
-    hint.addEventListener('mouseenter', function() { this.style.borderColor = 'var(--amber)'; this.style.color = 'var(--amber)'; });
-    hint.addEventListener('mouseleave', function() { this.style.borderColor = 'var(--border)'; this.style.color = 'var(--text-light)'; });
     nav.appendChild(hint);
   })();
 })();
