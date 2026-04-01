@@ -720,33 +720,43 @@
     .btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 4px; }
 
     /* ===== CASE STUDY NAV ===== */
-    .cs-nav {
+    .case-nav {
+      border-top: 1px solid rgba(0,0,0,0.08);
+      padding: 2.5rem clamp(1.5rem, 5vw, 3rem);
       display: flex;
+      justify-content: space-between;
+      align-items: center;
       gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      padding: 2rem clamp(1.5rem, 5vw, 3rem);
-      background: var(--bg);
-      border-top: 1px solid rgba(0,0,0,0.06);
+      max-width: 900px;
+      margin: 0 auto;
     }
 
-    .cs-nav-link {
-      font-family: var(--font-head);
-      font-size: 0.88rem;
-      font-weight: 500;
-      color: var(--text-muted);
+    .case-nav-link {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
       text-decoration: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: var(--radius-sm);
-      transition: background 0.2s, color 0.2s;
+      transition: opacity 0.2s;
     }
 
-    .cs-nav-link:hover {
-      background: var(--bg-warm);
-      color: var(--amber);
+    .case-nav-link:hover { opacity: 0.7; }
+
+    .case-nav-dir {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-light);
     }
 
-    .cs-nav-link:focus-visible { outline: 2px solid var(--amber); outline-offset: 4px; }
+    .case-nav-name {
+      font-family: var(--font-head);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .case-nav-link.right { text-align: right; }
 
     /* ===== KEYBOARD NAVIGATION HINT ===== */
     .keyboard-hint {
@@ -1136,9 +1146,15 @@
     </section>
 
     <!-- Case study navigation -->
-    <nav class="cs-nav" aria-label="Project navigation">
-      <a href="index.html#project" class="cs-nav-link">← All Projects</a>
-      <a href="case-photocull.html" class="cs-nav-link">Next: PhotoCull AI →</a>
+    <nav class="case-nav" aria-label="Adjacent case studies">
+      <a class="case-nav-link" href="case-fall.html">
+        <span class="case-nav-dir">← Previous</span>
+        <span class="case-nav-name">FALL Monitor</span>
+      </a>
+      <a class="case-nav-link right" href="case-photocull.html">
+        <span class="case-nav-dir">Next →</span>
+        <span class="case-nav-name">PhotoCull AI</span>
+      </a>
     </nav>
 
   </main>

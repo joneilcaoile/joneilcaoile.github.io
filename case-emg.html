@@ -200,14 +200,6 @@
     .back-link:hover { color: var(--amber); }
     .back-link:focus-visible { outline: 2px solid var(--amber); outline-offset: 4px; border-radius: 4px; }
 
-    .back-nav-right {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--text-light);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
     .github-link {
       font-family: var(--font-mono);
       font-size: 0.75rem;
@@ -253,12 +245,6 @@
     .section {
       padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 3rem);
       max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .section-wide {
-      padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 3rem);
-      max-width: 1100px;
       margin: 0 auto;
     }
 
@@ -351,15 +337,6 @@
     }
 
     /* ===== SECTION HEADINGS ===== */
-    .section-label {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--amber);
-      margin-bottom: 0.75rem;
-    }
-
     .section-title {
       font-family: var(--font-head);
       font-size: clamp(1.6rem, 3vw, 2.2rem);
@@ -429,7 +406,6 @@
       color: #F5F3EE;
     }
 
-    .dark-section .section-label { color: var(--amber-mid); }
     .dark-section .section-title { color: #F5F3EE; }
     .dark-section .prose { color: rgba(245,243,238,0.7); }
     .dark-section .prose strong { color: #F5F3EE; }
@@ -584,24 +560,6 @@
       border: 1px solid rgba(217,119,6,0.25);
     }
 
-    .tech-note {
-      margin-top: 1.5rem;
-    }
-
-    .tech-note-title {
-      font-family: var(--font-head);
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #F5F3EE;
-      margin-bottom: 0.5rem;
-    }
-
-    .tech-note p {
-      font-size: 0.9rem;
-      color: rgba(245,243,238,0.65);
-      line-height: 1.75;
-    }
-
     /* ===== LEARNINGS SECTION ===== */
     .learnings-section {
       background: var(--bg-dark);
@@ -699,14 +657,8 @@
     }
 
     @keyframes hint-fade {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     @media (max-width: 640px) {
