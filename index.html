@@ -5236,7 +5236,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="container">
-    &copy; <script>document.write(new Date().getFullYear())</script> Joneil Caoile. Built with too much coffee.
+    &copy; <script>document.write(new Date().getFullYear())</script> Joneil Caoile. <span id="coffeeText" style="cursor:pointer;" title="Click me">Built with too much coffee.</span>
     <span class="footer-links">
       <a href="https://linkedin.com/in/joneilcaoile" target="_blank" rel="noopener">LinkedIn</a>
       <a href="https://github.com/joneilcaoile" target="_blank" rel="noopener">GitHub</a>
@@ -6264,7 +6264,13 @@
 
   navBrand.addEventListener('click', () => {
     titleIndex = (titleIndex + 1) % titles.length;
-    navBrand.textContent = titles[titleIndex];
+    var target = titles[titleIndex];
+    navBrand.style.transition = 'opacity 0.15s ease';
+    navBrand.style.opacity = '0';
+    setTimeout(function() {
+      navBrand.textContent = target;
+      navBrand.style.opacity = '1';
+    }, 150);
     spawnParticle(window.innerWidth / 2, 40);
   });
 
@@ -7994,6 +8000,32 @@
       }
     }, { threshold: 0.5 });
     obs.observe(btn);
+  })();
+
+  /* COFFEE COUNTER EASTER EGG */
+  (function coffeeCounter() {
+    var el = document.getElementById('coffeeText');
+    if (!el) return;
+    var coffees = 0;
+    var messages = [
+      'Built with too much coffee.',
+      'Built with way too much coffee. (1 cup)',
+      'The caffeine is showing. (2 cups)',
+      'Send help. (3 cups)',
+      'This is fine. (4 cups)',
+      'I can hear colors. (5 cups)',
+      'UNLIMITED POWER. (6 cups)',
+      'ZZzzzz... (crashed)',
+      'Rebooting...',
+      'Built with too much coffee.'
+    ];
+    el.addEventListener('click', function() {
+      coffees = (coffees + 1) % messages.length;
+      el.textContent = messages[coffees];
+      if (typeof updateXP === 'function' && coffees > 0 && coffees < 8) {
+        updateXP(5);
+      }
+    });
   })();
 
   /* FOOTER LINE COUNT */
