@@ -1498,6 +1498,28 @@
     #credentials {
       overflow: hidden;
       padding: 60px 0;
+      position: relative;
+    }
+
+    #credentials::before,
+    #credentials::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 80px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    #credentials::before {
+      left: 0;
+      background: linear-gradient(to right, var(--bg), transparent);
+    }
+
+    #credentials::after {
+      right: 0;
+      background: linear-gradient(to left, var(--bg), transparent);
     }
 
     .marquee-wrapper {
@@ -1535,10 +1557,6 @@
     @keyframes scroll-left {
       0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
-    }
-
-    .marquee-wrapper {
-      animation-duration: 40s;
     }
 
     /* STORY */
@@ -4366,11 +4384,8 @@
     <div class="story-headshot">
       <picture>
         <source srcset="headshot.webp" type="image/webp">
-        <picture>
-          <source srcset="headshot.webp" type="image/webp">
-          <source srcset="headshot-600.jpg" type="image/jpeg">
-          <img src="headshot-600.jpg" alt="Joneil Caoile, biomedical engineer" width="600" height="899" loading="lazy">
-        </picture>
+        <source srcset="headshot-600.jpg" type="image/jpeg">
+        <img src="headshot-600.jpg" alt="Joneil Caoile, biomedical engineer" width="600" height="899" loading="lazy">
       </picture>
     </div>
   </div>
@@ -6461,6 +6476,15 @@
   gsap.from('.hero-roles', { duration: 0.5, autoAlpha: 0, ease: 'power2.out', delay: 4.3 });
   gsap.from('.hero-ctas .cta-btn', { duration: 0.5, autoAlpha: 0, y: 15, stagger: 0.12, ease: 'power2.out', delay: 4.4 });
   gsap.from('.terminal', { duration: 1, autoAlpha: 0, x: 40, scale: 0.97, ease: 'power2.out', delay: 3.8 });
+  // Terminal lines staggered reveal (boot-up feel)
+  gsap.from('.terminal .terminal-line, .terminal .terminal-box', {
+    duration: 0.15,
+    autoAlpha: 0,
+    x: -8,
+    stagger: 0.08,
+    ease: 'power1.out',
+    delay: 4.2
+  });
   gsap.from('.scroll-indicator', { duration: 0.5, autoAlpha: 0, y: -10, ease: 'power2.out', delay: 4.7 });
 
   // Hero floating particles (ember/dust motes)
