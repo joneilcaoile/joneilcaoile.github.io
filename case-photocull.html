@@ -164,6 +164,10 @@
       justify-content: space-between;
     }
 
+    .back-nav.scrolled {
+      box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+    }
+
     .back-link {
       font-family: var(--font-head);
       font-size: 0.85rem;
@@ -1399,6 +1403,17 @@
     window.scrollTo({top:0, behavior:'smooth'});
   });
 })();
+  </script>
+
+  <script>
+  // Nav shadow on scroll
+  (function() {
+    var nav = document.querySelector('.back-nav');
+    if (!nav) return;
+    window.addEventListener('scroll', function() {
+      nav.classList.toggle('scrolled', window.scrollY > 50);
+    }, { passive: true });
+  })();
   </script>
 </body>
 </html>
