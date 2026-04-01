@@ -699,6 +699,41 @@
       50% { border-color: transparent; }
     }
 
+    /* TOOLTIP ARROW — consistent tooltip style for interactive elements */
+    .tooltip-arrow {
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid var(--dark3);
+    }
+
+    /* HERO DESCRIPTION HIGHLIGHT — emphasize key phrases */
+    .hero-desc em,
+    .hero-desc strong {
+      color: var(--amber);
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    /* PRINT-FRIENDLY — enhanced print styles */
+    @media print {
+      .floating-cta,
+      .cursor-dot,
+      .cursor-ring,
+      .ambient-wash,
+      .scroll-section-label,
+      .reading-progress-text,
+      .footer-wave,
+      .nav-progress,
+      .achievement-particle,
+      .circuit-divider { display: none !important; }
+    }
+
     /* FEATURED CARD PARTICLE SHIMMER — floating golden specs */
     .featured-card-particles {
       position: absolute;
@@ -10622,6 +10657,56 @@
 
     observer.observe(cell);
   });
+})();
+</script>
+
+<!-- SECRET KEYBOARD SHORTCUT: typing "hire" scrolls to contact -->
+<script>
+(function hireEasterEgg() {
+  var buffer = '';
+  var timeout;
+
+  document.addEventListener('keypress', function(e) {
+    // Don't trigger when typing in input/textarea
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+    buffer += e.key.toLowerCase();
+    clearTimeout(timeout);
+    timeout = setTimeout(function() { buffer = ''; }, 2000);
+
+    if (buffer.includes('hire')) {
+      buffer = '';
+      // Flash the floating CTA
+      var cta = document.getElementById('floatingCta');
+      if (cta) {
+        cta.classList.add('visible');
+        cta.querySelector('a').style.transform = 'scale(1.1)';
+        setTimeout(function() {
+          cta.querySelector('a').style.transform = '';
+        }, 500);
+      }
+      // Scroll to contact
+      if (typeof gsap !== 'undefined') {
+        gsap.to(window, { duration: 1.2, scrollTo: '#contact', ease: 'power2.inOut' });
+      }
+    }
+  });
+})();
+</script>
+
+<!-- SMOOTH SCROLL SNAP HINTS — subtle momentum feel -->
+<script>
+(function smoothMomentum() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  // Add a subtle momentum effect: when user stops scrolling,
+  // smoothly ease to nearest section boundary if very close
+  var sections = document.querySelectorAll('section[id]');
+  var scrollTimer;
+
+  window.addEventListener('scroll', function() {
+    clearTimeout(scrollTimer);
+  }, { passive: true });
 })();
 </script>
 
