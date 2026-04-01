@@ -13369,5 +13369,104 @@
 })();
 </script>
 
+<!-- Staggered dark section content reveal with clip-path -->
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  document.querySelectorAll('.dark-section, .bridge-light-to-dark').forEach(function(sec){
+    var children=sec.querySelectorAll('h2, h3, p, .prose, .featured-diagram, .work-item, .bring-card');
+    children.forEach(function(child,i){
+      child.style.opacity='0';
+      child.style.transform='translateY(20px)';
+      var obs=new IntersectionObserver(function(entries){
+        if(entries[0].isIntersecting){
+          setTimeout(function(){
+            child.style.transition='opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1)';
+            child.style.opacity='1';
+            child.style.transform='translateY(0)';
+          },i*80);
+          obs.disconnect();
+        }
+      },{threshold:0.1});
+      obs.observe(child);
+    });
+  });
+})();
+</script>
+
+<!-- Smooth color accent shift based on time of day -->
+<script>
+(function(){
+  var hour=new Date().getHours();
+  var root=document.documentElement;
+  /* Dawn (5-8): warm gold, Day (9-16): standard amber, Evening (17-20): warm coral, Night (21-4): deep amber */
+  if(hour>=5&&hour<8){
+    root.style.setProperty('--amber','#E5A000');
+    root.style.setProperty('--coral','#F0784E');
+  } else if(hour>=17&&hour<20){
+    root.style.setProperty('--amber','#CF6D1E');
+    root.style.setProperty('--coral','#D94438');
+  } else if(hour>=21||hour<5){
+    root.style.setProperty('--amber','#B8620A');
+    root.style.setProperty('--gold','#A88030');
+  }
+  /* Default: standard amber (no override needed) */
+})();
+</script>
+
+<!-- Smooth scale on work card visual SVGs when hovered -->
+<script>
+(function(){
+  if(matchMedia('(pointer:coarse)').matches)return;
+  document.querySelectorAll('.work-visual svg').forEach(function(svg){
+    svg.style.transition='transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94)';
+    var parent=svg.closest('.work-visual');
+    if(!parent)return;
+    parent.addEventListener('mouseenter',function(){svg.style.transform='scale(1.05) rotate(-1deg)';});
+    parent.addEventListener('mouseleave',function(){svg.style.transform='';});
+  });
+})();
+</script>
+
+<!-- Auto-detect high contrast mode and add indicator -->
+<script>
+(function(){
+  if(matchMedia('(forced-colors: active)').matches){
+    var badge=document.createElement('div');
+    badge.textContent='High Contrast Mode Active';
+    badge.style.cssText='position:fixed;bottom:10px;left:10px;padding:4px 10px;background:Canvas;color:CanvasText;border:1px solid CanvasText;font-size:11px;font-family:var(--font-mono);z-index:99999;border-radius:4px;';
+    document.body.appendChild(badge);
+    setTimeout(function(){badge.style.opacity='0';badge.style.transition='opacity 0.5s';setTimeout(function(){badge.remove();},500);},5000);
+  }
+})();
+</script>
+
+<!-- Smooth scroll snap hint: brief bounce when reaching section boundaries -->
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var lastScroll=0;var threshold=5;var cooldown=false;
+  window.addEventListener('scroll',function(){
+    if(cooldown)return;
+    var delta=Math.abs(window.scrollY-lastScroll);
+    lastScroll=window.scrollY;
+    /* If user scrolls very slowly near a section boundary, give a subtle visual cue */
+    if(delta<threshold){
+      var sections=document.querySelectorAll('section[id]');
+      sections.forEach(function(sec){
+        var top=sec.offsetTop;
+        var diff=Math.abs(window.scrollY-top);
+        if(diff<50&&diff>5){
+          sec.style.transition='box-shadow 0.3s ease';
+          sec.style.boxShadow='inset 0 2px 0 0 rgba(217,119,6,0.1)';
+          cooldown=true;
+          setTimeout(function(){sec.style.boxShadow='';cooldown=false;},600);
+        }
+      });
+    }
+  },{passive:true});
+})();
+</script>
+
 </body>
 </html>
