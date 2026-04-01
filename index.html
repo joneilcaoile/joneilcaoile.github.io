@@ -8664,7 +8664,7 @@
     hint.className = 'cmd-k-hint';
     hint.setAttribute('aria-label', 'Open command palette');
     hint.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>'
-      + '<span>' + (navigator.platform.includes('Mac') ? '⌘' : 'Ctrl+') + 'K</span>';
+      + '<span>' + (/Mac|iPhone|iPad/.test(navigator.userAgentData?.platform || navigator.platform || '') ? '⌘' : 'Ctrl+') + 'K</span>';
     hint.addEventListener('click', openCmd);
     nav.appendChild(hint);
   })();
