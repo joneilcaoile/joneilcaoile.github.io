@@ -1514,10 +1514,10 @@
   })();
   /* Dynamic footer year */
   (function(){ var el = document.querySelector('.footer-year'); if (el) el.textContent = new Date().getFullYear(); })();
-  /* Tab title easter egg */
-  document.addEventListener('visibilitychange', function() {
+  // Tab title easter egg
+  document.addEventListener('visibilitychange', () => {
     document.title = document.hidden
-      ? 'Come back! The tremor data needs you.'
+      ? '⚡ Come back! The tremor data needs you.'
       : "Parkinson's Tremor-Suppression EMG Cuff | Case Study | Joneil Caoile";
   });
   </script>
