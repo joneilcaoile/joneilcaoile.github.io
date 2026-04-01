@@ -2626,6 +2626,12 @@
       nav.scrolled { height: var(--nav-height) !important; }
       .story-headshot { transform: none !important; }
       .section-rule { transform: scaleX(1) !important; transition: none !important; }
+      .hero-3d, .cursor-glow { display: none !important; }
+      .terminal { animation: none !important; }
+      .circuit-divider .circuit-line { stroke-dashoffset: 0 !important; }
+      .page-transition { transition: none !important; }
+      .scroll-progress::after { display: none !important; }
+      .hero-name:hover { letter-spacing: inherit !important; }
     }
 
     /* HIGH CONTRAST MODE */
@@ -6850,6 +6856,7 @@
 
   // Ambient floating orbs in contact section
   (function contactOrbs() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var contact = document.getElementById('contact');
     if (!contact) return;
     contact.style.position = 'relative';
@@ -6902,6 +6909,7 @@
 
   // Heartbeat monitor line at bottom of terminal
   (function terminalHeartbeat() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var terminal = document.querySelector('.terminal');
     if (!terminal) return;
     var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -7633,6 +7641,7 @@
 
   // Scroll velocity skew on section headings
   (function scrollVelocitySkew() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var prevScroll = window.scrollY;
     var velocity = 0;
     var headings = document.querySelectorAll('section h2');
@@ -7654,6 +7663,7 @@
 
   // Large parallax watermark text behind sections
   (function addParallaxWatermarks() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var watermarks = [
       { sel: '#statement', text: 'VALIDATE' },
       { sel: '#bring', text: 'ENGINEER' },
@@ -9253,7 +9263,7 @@
 <!-- 3D DNA HELIX + MOLECULAR NETWORK -->
 <script>
 (function init3DHero() {
-  if (typeof THREE === 'undefined' || window.matchMedia('(pointer: coarse)').matches) return;
+  if (typeof THREE === 'undefined' || window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var canvas = document.getElementById('hero3D');
   if (!canvas) return;
 
