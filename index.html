@@ -699,6 +699,49 @@
       50% { border-color: transparent; }
     }
 
+    /* SMOOTH IMAGE LOAD — fade in images when loaded */
+    img {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    img.loaded, img[src=""] {
+      opacity: 1;
+    }
+    /* Override for critical images that should show immediately */
+    .headshot-img, .hero-img {
+      opacity: 1;
+    }
+
+    /* DARK MODE GLOW — in dark mode, add subtle amber glow to key elements */
+    .dark-mode .featured-card[data-rarity="legendary"] {
+      box-shadow: inset 0 0 30px rgba(212, 162, 51, 0.08), 0 0 40px rgba(212, 162, 51, 0.06), 0 0 80px rgba(212, 162, 51, 0.03);
+    }
+    .dark-mode .cta-btn.primary {
+      box-shadow: 0 0 20px rgba(198, 123, 46, 0.3);
+    }
+
+    /* LINK HOVER UNDERLINE ANIMATION — grows from left */
+    .bring-proof a,
+    .callout a {
+      position: relative;
+      display: inline;
+    }
+    .bring-proof a::after,
+    .callout a::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--amber);
+      transition: width 0.3s ease;
+    }
+    .bring-proof a:hover::after,
+    .callout a:hover::after {
+      width: 100%;
+    }
+
     /* SECTION ENTRANCE CLIP — cinematic reveal from edges */
     .bridge-light-to-dark,
     .bridge-dark-to-light {
@@ -10775,6 +10818,27 @@
 
     observer.observe(cell);
   });
+})();
+</script>
+
+<!-- SMOOTH IMAGE LOAD — fade in images when they finish loading -->
+<script>
+(function smoothImageLoad() {
+  var images = document.querySelectorAll('img:not(.headshot-img)');
+  images.forEach(function(img) {
+    if (img.complete) {
+      img.classList.add('loaded');
+    } else {
+      img.addEventListener('load', function() {
+        img.classList.add('loaded');
+      });
+      // Fallback: ensure image shows after 3s even if load event missed
+      setTimeout(function() { img.classList.add('loaded'); }, 3000);
+    }
+  });
+  // Ensure headshot always visible
+  var headshot = document.querySelector('.headshot-img');
+  if (headshot) headshot.classList.add('loaded');
 })();
 </script>
 
