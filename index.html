@@ -13691,5 +13691,112 @@
 })();
 </script>
 
+<!-- Magnetic CTA buttons with elastic snap-back -->
+<script>
+(function(){
+  if(matchMedia('(pointer:coarse)').matches)return;
+  document.querySelectorAll('.cta-btn, .form-submit').forEach(function(btn){
+    btn.addEventListener('mousemove',function(e){
+      var rect=btn.getBoundingClientRect();
+      var x=e.clientX-rect.left-rect.width/2;
+      var y=e.clientY-rect.top-rect.height/2;
+      btn.style.transform='translate('+x*0.15+'px,'+y*0.25+'px) scale(1.02)';
+      btn.style.transition='transform 0.1s ease';
+    });
+    btn.addEventListener('mouseleave',function(){
+      btn.style.transform='';
+      btn.style.transition='transform 0.5s cubic-bezier(0.34,1.56,0.64,1)';
+    });
+  });
+})();
+</script>
+
+<!-- Animated gradient underline on hovered work links -->
+<script>
+(function(){
+  if(matchMedia('(pointer:coarse)').matches)return;
+  document.querySelectorAll('.work-link').forEach(function(link){
+    link.style.backgroundImage='linear-gradient(90deg, var(--amber), var(--coral, #E05C4A), var(--amber))';
+    link.style.backgroundSize='200% 2px';
+    link.style.backgroundRepeat='no-repeat';
+    link.style.backgroundPosition='0 100%';
+    link.style.transition='background-position 0.4s ease';
+    link.addEventListener('mouseenter',function(){link.style.backgroundPosition='100% 100%';});
+    link.addEventListener('mouseleave',function(){link.style.backgroundPosition='0 100%';});
+  });
+})();
+</script>
+
+<!-- Easter egg: konami code plays victory sound -->
+<script>
+(function(){
+  /* Already has konami code elsewhere, add a visual reward */
+  var konamiSeq=[38,38,40,40,37,39,37,39,66,65];
+  var konamiIdx=0;
+  document.addEventListener('keydown',function(e){
+    if(e.keyCode===konamiSeq[konamiIdx]){
+      konamiIdx++;
+      if(konamiIdx===konamiSeq.length){
+        konamiIdx=0;
+        /* Fireworks burst */
+        if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+        for(var burst=0;burst<3;burst++){
+          setTimeout(function(){
+            var cx=0.2+Math.random()*0.6;
+            var cy=0.2+Math.random()*0.4;
+            for(var i=0;i<20;i++){
+              var p=document.createElement('span');
+              var colors=['#D97706','#E05C4A','#C89B3C','#60A5FA','#34D399','#A78BFA','#F472B6'];
+              p.style.cssText='position:fixed;width:5px;height:5px;border-radius:50%;pointer-events:none;z-index:99999;background:'+colors[i%colors.length]+';left:'+(cx*100)+'%;top:'+(cy*100)+'%;';
+              document.body.appendChild(p);
+              var angle=(i/20)*Math.PI*2;
+              var dist=60+Math.random()*120;
+              var dx=Math.cos(angle)*dist;
+              var dy=Math.sin(angle)*dist;
+              p.animate([
+                {transform:'translate(0,0) scale(1)',opacity:1},
+                {transform:'translate('+dx+'px,'+(dy+40)+'px) scale(0)',opacity:0}
+              ],{duration:1000+Math.random()*500,easing:'cubic-bezier(0.16,1,0.3,1)'});
+              (function(el){setTimeout(function(){el.remove();},1600);})(p);
+            }
+          },burst*400);
+        }
+      }
+    } else {
+      konamiIdx=0;
+    }
+  });
+})();
+</script>
+
+<!-- Section-aware ambient color temperature -->
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var sections=document.querySelectorAll('section[id]');
+  var temps={hero:'0deg',statement:'0deg',story:'5deg',featured:'-5deg',work:'3deg',toolkit:'-3deg',journey:'5deg','skills-matrix':'0deg',contact:'-2deg'};
+  var root=document.documentElement;
+  window.addEventListener('scroll',function(){
+    var current='hero';
+    sections.forEach(function(s){
+      if(window.scrollY>=s.offsetTop-window.innerHeight/2)current=s.id;
+    });
+    var temp=temps[current]||'0deg';
+    root.style.filter='hue-rotate('+temp+')';
+    root.style.transition='filter 1s ease';
+  },{passive:true});
+})();
+</script>
+
+<!-- Tooltip showing keyboard shortcut on CTA buttons -->
+<script>
+(function(){
+  if(matchMedia('(pointer:coarse)').matches)return;
+  var ctaBtn=document.querySelector('.hero-cta .cta-btn, a[href="#contact"].cta-btn');
+  if(!ctaBtn)return;
+  ctaBtn.setAttribute('title','Tip: Type "hire" to jump here instantly');
+})();
+</script>
+
 </body>
 </html>
