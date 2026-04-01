@@ -363,30 +363,70 @@
         pointer-events: none;
         z-index: 9998;
         transform: translate(calc(var(--cursor-x) * 1px - 50%), calc(var(--cursor-y) * 1px - 50%));
-        transition: border-color 0.2s ease;
+        transition: border-color 0.3s ease, border-radius 0.4s ease, width 0.3s ease, height 0.3s ease;
       }
 
       .cursor::after {
         content: '';
         position: absolute;
-        width: 8px;
-        height: 8px;
+        width: 6px;
+        height: 6px;
         background: var(--amber);
         border-radius: 50%;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        transition: all 0.3s ease;
       }
 
       .cursor.hover {
         border-color: var(--coral);
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
       }
 
       .cursor.hover::after {
         background: var(--coral);
-        width: 12px;
-        height: 12px;
+        width: 10px;
+        height: 10px;
+        border-radius: 3px;
       }
+
+      /* Cursor morphs on different sections */
+      .cursor.shape-diamond {
+        border-radius: 4px;
+        transform: translate(calc(var(--cursor-x) * 1px - 50%), calc(var(--cursor-y) * 1px - 50%)) rotate(45deg);
+        width: 24px;
+        height: 24px;
+      }
+      .cursor.shape-diamond::after { border-radius: 2px; }
+
+      .cursor.shape-hex {
+        border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+        width: 36px;
+        height: 36px;
+      }
+
+      .cursor.shape-cross {
+        border-radius: 50%;
+        width: 28px;
+        height: 28px;
+        border-style: dashed;
+      }
+
+      .cursor.shape-triangle {
+        width: 0;
+        height: 0;
+        border: none;
+        border-left: 14px solid transparent;
+        border-right: 14px solid transparent;
+        border-bottom: 24px solid var(--amber);
+        background: none;
+        border-radius: 0;
+        opacity: 0.6;
+      }
+      .cursor.shape-triangle::after { display: none; }
 
       .cursor-spotlight {
         position: fixed;
@@ -488,8 +528,8 @@
       text-align: left;
       line-height: 1.8;
       min-width: 340px;
-      height: 120px;
-      overflow: hidden;
+      max-width: 90vw;
+      padding: 0 1rem;
     }
     .loader-boot-line {
       opacity: 0;
@@ -1883,9 +1923,9 @@
     }
     .work-visual.vis-photocull .work-visual-bg {
       background:
-        radial-gradient(ellipse at 50% 30%, rgba(196,181,253,0.12), transparent 60%),
+        radial-gradient(ellipse at 50% 30%, rgba(196,181,253,0.08), transparent 60%),
         url('img/photocull-preview.jpg') center/cover no-repeat;
-      opacity: 0.35;
+      opacity: 0.55;
     }
 
     .work-visual.vis-pneumo {
@@ -1894,10 +1934,8 @@
       border: 1px solid rgba(147,197,253,0.1);
     }
     .work-visual.vis-pneumo .work-visual-bg {
-      background:
-        radial-gradient(ellipse at 40% 35%, rgba(147,197,253,0.14), transparent 55%),
-        url('img/pneumothorax-preview.jpg') center/cover no-repeat;
-      opacity: 0.35;
+      background: radial-gradient(ellipse at 40% 35%, rgba(147,197,253,0.14), transparent 55%);
+      opacity: 0.5;
     }
 
     .work-visual.vis-emg {
@@ -1906,10 +1944,8 @@
       border: 1px solid rgba(252,165,165,0.1);
     }
     .work-visual.vis-emg .work-visual-bg {
-      background:
-        radial-gradient(ellipse at 50% 40%, rgba(252,165,165,0.1), transparent 55%),
-        url('img/emg-cuff-preview.jpg') center/cover no-repeat;
-      opacity: 0.35;
+      background: radial-gradient(ellipse at 50% 40%, rgba(252,165,165,0.1), transparent 55%);
+      opacity: 0.5;
     }
 
     .work-visual.vis-fall {
@@ -1918,10 +1954,8 @@
       border: 1px solid rgba(134,239,172,0.1);
     }
     .work-visual.vis-fall .work-visual-bg {
-      background:
-        radial-gradient(ellipse at 45% 35%, rgba(134,239,172,0.1), transparent 55%),
-        url('img/fall-study-preview.jpg') center/cover no-repeat;
-      opacity: 0.35;
+      background: radial-gradient(ellipse at 45% 35%, rgba(134,239,172,0.1), transparent 55%);
+      opacity: 0.5;
     }
 
     .work-visual.vis-physiorep {
@@ -1931,9 +1965,9 @@
     }
     .work-visual.vis-physiorep .work-visual-bg {
       background:
-        radial-gradient(ellipse at 50% 40%, rgba(252,211,77,0.1), transparent 55%),
+        radial-gradient(ellipse at 50% 40%, rgba(252,211,77,0.08), transparent 55%),
         url('img/physiorep-preview.jpg') center/cover no-repeat;
-      opacity: 0.35;
+      opacity: 0.55;
     }
 
     .work-card {
@@ -5416,6 +5450,45 @@
       cursor.classList.remove('hover');
     }
   });
+
+  /* CURSOR SHAPE MORPHING — changes shape per section */
+  (function() {
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+    var shapeMap = {
+      'hero': '',
+      'statement': 'shape-diamond',
+      'bring': 'shape-diamond',
+      'story': 'shape-hex',
+      'featured': 'shape-cross',
+      'work': 'shape-cross',
+      'toolkit': 'shape-diamond',
+      'journey': 'shape-hex',
+      'skills-matrix': 'shape-cross',
+      'contact': ''
+    };
+    var allShapes = ['shape-diamond', 'shape-hex', 'shape-cross', 'shape-triangle'];
+    var currentShape = '';
+
+    function updateCursorShape() {
+      var scrollY = window.scrollY + window.innerHeight / 2;
+      var newShape = '';
+      var sections = Object.keys(shapeMap);
+      for (var i = sections.length - 1; i >= 0; i--) {
+        var el = document.getElementById(sections[i]);
+        if (el && scrollY >= el.offsetTop) {
+          newShape = shapeMap[sections[i]];
+          break;
+        }
+      }
+      if (newShape !== currentShape) {
+        allShapes.forEach(function(s) { cursor.classList.remove(s); });
+        if (newShape) cursor.classList.add(newShape);
+        currentShape = newShape;
+      }
+    }
+    window.addEventListener('scroll', updateCursorShape, { passive: true });
+    updateCursorShape();
+  })();
 
   /* CURSOR TRAIL — canvas-based for performance */
   const trailCanvas = document.getElementById('cursorTrail');
