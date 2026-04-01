@@ -10303,6 +10303,157 @@
 })();
 </script>
 
+<!-- STATEMENT TEXT WORD-BY-WORD REVEAL -->
+<script>
+(function statementReveal() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (typeof gsap === 'undefined') return;
+
+  var quote = document.querySelector('.statement-quote p');
+  if (!quote) return;
+
+  // Wrap each word in a span
+  var html = quote.innerHTML;
+  // Split on spaces but preserve tags like <em>
+  var words = html.split(/(\s+)/);
+  var wrapped = words.map(function(w) {
+    if (w.trim() === '') return w;
+    // Don't wrap HTML tags
+    if (w.startsWith('<') || w.endsWith('>')) return w;
+    return '<span class="reveal-word" style="display:inline-block;opacity:0;transform:translateY(8px)">' + w + '</span>';
+  }).join('');
+  quote.innerHTML = wrapped;
+
+  var wordEls = quote.querySelectorAll('.reveal-word');
+  if (!wordEls.length) return;
+
+  ScrollTrigger.create({
+    trigger: quote,
+    start: 'top 75%',
+    once: true,
+    onEnter: function() {
+      gsap.to(wordEls, {
+        opacity: 1,
+        y: 0,
+        duration: 0.4,
+        stagger: 0.02,
+        ease: 'power2.out'
+      });
+    }
+  });
+})();
+</script>
+
+<!-- HERO MOUSE SPOTLIGHT — gradient follows cursor in hero -->
+<script>
+(function heroSpotlight() {
+  if (window.matchMedia('(pointer: coarse)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var hero = document.getElementById('hero');
+  if (!hero) return;
+
+  hero.addEventListener('mousemove', function(e) {
+    var rect = hero.getBoundingClientRect();
+    var x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
+    var y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
+    hero.style.background = 'radial-gradient(circle 400px at ' + x + '% ' + y + '%, rgba(198,123,46,0.06), transparent 70%)';
+  });
+
+  hero.addEventListener('mouseleave', function() {
+    hero.style.background = '';
+  });
+})();
+</script>
+
+<!-- CASE STUDY LINK TOOLTIP PREVIEW — shows mini preview on hover -->
+<script>
+(function casePreview() {
+  if (window.matchMedia('(pointer: coarse)').matches) return;
+
+  var previews = {
+    'case-usetrace.html': { title: 'UseTrace HFE', desc: 'AI-powered observation classification for IEC 62366-1', color: '#D4A233' },
+    'case-photocull.html': { title: 'PhotoCull AI', desc: 'Client-side ML photo quality scoring in 2,754 lines', color: '#C67B2E' },
+    'case-pneumothorax.html': { title: 'Pneumothorax Monitor', desc: 'Real-time air leak detection with acoustic sensors', color: '#B84A3C' },
+    'case-emg.html': { title: 'EMG Fatigue Detection', desc: 'Wearable EMG cuff with real-time signal processing', color: '#156967' },
+    'case-fall.html': { title: 'Fall Risk Assessment', desc: 'Motion capture + ML pipeline for fall prediction', color: '#C67B2E' },
+    'case-physiorep.html': { title: 'PhysioRep PWA', desc: 'Progressive web app for physical therapy tracking', color: '#156967' }
+  };
+
+  var tooltip = document.createElement('div');
+  tooltip.style.cssText = 'position:fixed;background:#0A0908;border:1px solid rgba(198,123,46,0.3);border-radius:8px;padding:12px 16px;z-index:10002;pointer-events:none;opacity:0;transition:opacity 0.2s ease;max-width:260px;font-family:var(--fb);box-shadow:0 8px 30px rgba(0,0,0,0.4);';
+  document.body.appendChild(tooltip);
+
+  document.addEventListener('mouseover', function(e) {
+    var link = e.target.closest('a[href$=".html"]');
+    if (!link) { tooltip.style.opacity = '0'; return; }
+
+    var href = link.getAttribute('href');
+    var data = previews[href];
+    if (!data) { tooltip.style.opacity = '0'; return; }
+
+    tooltip.innerHTML = '<div style="font-size:13px;font-weight:600;color:' + data.color + ';margin-bottom:4px">' + data.title + '</div><div style="font-size:11px;color:#FAFAF8;opacity:0.7">' + data.desc + '</div>';
+    tooltip.style.opacity = '1';
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (tooltip.style.opacity === '0') return;
+    tooltip.style.left = (e.clientX + 16) + 'px';
+    tooltip.style.top = (e.clientY + 16) + 'px';
+  });
+
+  document.addEventListener('mouseout', function(e) {
+    if (!e.target.closest('a[href$=".html"]')) {
+      tooltip.style.opacity = '0';
+    }
+  });
+})();
+</script>
+
+<!-- ANIMATED STAT COUNTERS — counts up numbers in the about spec table -->
+<script>
+(function statCounters() {
+  var tds = document.querySelectorAll('#statement .spec-table td');
+  if (!tds.length) return;
+
+  tds.forEach(function(td) {
+    var text = td.textContent.trim();
+    var match = text.match(/^(\d+)\+?$/);
+    if (!match) return;
+
+    var target = parseInt(match[0]);
+    var suffix = text.includes('+') ? '+' : '';
+    var observed = false;
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && !observed) {
+          observed = true;
+          var start = 0;
+          var duration = 1500;
+          var startTime = null;
+
+          function count(timestamp) {
+            if (!startTime) startTime = timestamp;
+            var progress = Math.min((timestamp - startTime) / duration, 1);
+            var ease = 1 - Math.pow(1 - progress, 3);
+            var current = Math.round(target * ease);
+            td.textContent = current + suffix;
+
+            if (progress < 1) requestAnimationFrame(count);
+            else td.textContent = target + suffix;
+          }
+          requestAnimationFrame(count);
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.5 });
+
+    observer.observe(td);
+  });
+})();
+</script>
+
 <!-- NAV BRAND COLOR SHIFT — gradient on scroll -->
 <script>
 (function navBrandShift() {
