@@ -8249,6 +8249,24 @@
     });
   })();
 
+  /* 3D TILT ON WORK CARD VISUALS */
+  (function workCardTilt() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    document.querySelectorAll('.work-visual').forEach(function(card) {
+      card.style.transformStyle = 'preserve-3d';
+      card.addEventListener('mousemove', function(e) {
+        var rect = card.getBoundingClientRect();
+        var x = (e.clientX - rect.left) / rect.width - 0.5;
+        var y = (e.clientY - rect.top) / rect.height - 0.5;
+        gsap.to(card, { rotateY: x * 8, rotateX: y * -8, duration: 0.3, ease: 'power2.out' });
+      });
+      card.addEventListener('mouseleave', function() {
+        gsap.to(card, { rotateY: 0, rotateX: 0, scale: 1, duration: 0.5, ease: 'elastic.out(1, 0.5)' });
+      });
+    });
+  })();
+
   /* MAGNETIC CTA BUTTONS */
   (function magneticButtons() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
