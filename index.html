@@ -1078,6 +1078,21 @@
       font-weight: 600;
     }
 
+    .role-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.2em;
+      background: var(--amber);
+      margin-left: 2px;
+      vertical-align: text-bottom;
+      animation: cursor-blink 0.7s step-end infinite;
+    }
+
+    @keyframes cursor-blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
     .hero-desc {
       font-size: 1.1rem;
       color: var(--text-secondary);
@@ -2254,6 +2269,23 @@
       border-radius: 0 8px 8px 0;
       transition: all 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
       box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      position: relative;
+    }
+
+    .bring-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -3px;
+      width: 3px;
+      height: 0;
+      background: linear-gradient(to bottom, var(--amber), var(--coral));
+      border-radius: 2px 0 0 2px;
+      transition: height 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+
+    .bring-card.in-view::after {
+      height: 100%;
     }
     .bring-card:hover {
       border-color: var(--coral);
@@ -2417,6 +2449,12 @@
       outline: none;
       border-color: var(--amber);
       background: var(--dark3);
+      box-shadow: 0 0 0 3px rgba(198,123,46,0.15), 0 0 20px rgba(198,123,46,0.08);
+    }
+
+    .form-group input:focus ~ label,
+    .form-group textarea:focus ~ label {
+      color: var(--amber);
     }
 
     .form-group textarea {
@@ -3919,6 +3957,16 @@
         color: var(--amber);
       }
 
+      .mobile-nav a.section-active .mobile-nav-icon {
+        transform: scale(1.15);
+        transition: transform 0.2s ease;
+      }
+
+      .mobile-nav a.section-active .mobile-nav-label {
+        color: var(--amber);
+        font-weight: 700;
+      }
+
       /* Add bottom padding for content to not be hidden behind mobile nav */
       footer {
         padding-bottom: calc(4rem + env(safe-area-inset-bottom));
@@ -4268,7 +4316,7 @@
     <p class="hero-desc">Two years watching devices fail patients. Now I test them, validate them, and build tools so they don't.</p>
     <p class="hero-targets">Targeting validation, applications, R&amp;D, and human factors roles in SoCal medtech.</p>
     <p class="hero-roles">
-      <span class="role-typing" id="roleTyping">biomedical engineer</span>
+      <span class="role-typing" id="roleTyping">biomedical engineer</span><span class="role-cursor" aria-hidden="true"></span>
     </p>
     <div class="hero-ctas">
       <button class="cta-btn primary" onclick="gsap.to(window,{duration:0.8,scrollTo:'#featured',ease:'power2.inOut'})">View device projects</button>
@@ -5248,10 +5296,14 @@
     <span class="footer-links">
       <a href="https://linkedin.com/in/joneilcaoile" target="_blank" rel="noopener">LinkedIn</a>
       <a href="https://github.com/joneilcaoile" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/joneilcaoile/joneilcaoile.github.io" target="_blank" rel="noopener" style="opacity:0.5;" title="View the source code for this portfolio">Source</a>
     </span>
   </div>
-<div style="margin-top:1rem;font-size:0.75rem;color:var(--text-light);opacity:0.7;">This portfolio loads in under 1.5 seconds on 3G. No frameworks, no build tools, no tracking scripts. Lighthouse Performance: 95+. Accessibility: 100.</div>
-  </footer>
+  <div style="margin-top:1rem;font-size:0.75rem;color:var(--text-light);opacity:0.7;">No frameworks. No build tools. No tracking scripts. Just HTML, CSS, and JavaScript.</div>
+  <div style="margin-top:0.4rem;font-size:0.65rem;color:var(--text-light);opacity:0.4;font-family:var(--fm);letter-spacing:0.03em;" id="footerMeta">
+    <span id="footerLineCount"></span> lines of hand-crafted code
+  </div>
+</footer>
 
 <!-- MOBILE BOTTOM NAV -->
 <nav class="mobile-nav" aria-label="Mobile navigation">
@@ -6209,23 +6261,55 @@
     });
   });
 
-  /* ROLE TYPING */
+  /* ROLE TYPING — typewriter effect */
   const roleTyping = document.getElementById('roleTyping');
   const roles = ['biomedical engineer', 'device tester', 'usability nerd', 'ai builder', 'clinical observer', 'fujifilm shooter', 'gamer', 'warning letter sommelier', 'coffee-powered'];
   let currentRole = 0;
+  let typeTimer = null;
 
-  setInterval(() => {
-    currentRole = (currentRole + 1) % roles.length;
-    gsap.to(roleTyping, {
-      duration: 0.3,
-      autoAlpha: 0,
-      ease: 'power2.inOut',
-      onComplete: () => {
-        roleTyping.textContent = roles[currentRole];
-        gsap.to(roleTyping, { duration: 0.3, autoAlpha: 1, ease: 'power2.inOut' });
+  function typeRole(text, callback) {
+    let i = 0;
+    roleTyping.textContent = '';
+    function tick() {
+      if (i < text.length) {
+        roleTyping.textContent += text[i];
+        i++;
+        typeTimer = setTimeout(tick, 60 + Math.random() * 40);
+      } else if (callback) {
+        callback();
       }
-    });
-  }, 4000);
+    }
+    tick();
+  }
+
+  function eraseRole(callback) {
+    function tick() {
+      var t = roleTyping.textContent;
+      if (t.length > 0) {
+        roleTyping.textContent = t.slice(0, -1);
+        typeTimer = setTimeout(tick, 30);
+      } else if (callback) {
+        callback();
+      }
+    }
+    tick();
+  }
+
+  function cycleRoles() {
+    setTimeout(function() {
+      eraseRole(function() {
+        currentRole = (currentRole + 1) % roles.length;
+        setTimeout(function() {
+          typeRole(roles[currentRole], function() {
+            cycleRoles();
+          });
+        }, 300);
+      });
+    }, 3000);
+  }
+
+  // Start cycling after loader finishes
+  setTimeout(cycleRoles, 5000);
 
   /* NAV BRAND CLICK */
   let titleIndex = 0;
@@ -6840,6 +6924,18 @@
     scale: 0.95,
     ease: 'power2.out',
     delay: 0.2
+  });
+
+  // Story headshot parallax float on scroll
+  gsap.to('.story-headshot', {
+    y: -25,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '#story',
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: 0.8
+    }
   });
 
   // Featured card entrance + internals stagger
@@ -7928,6 +8024,79 @@
     });
   })();
 
+  /* FOOTER LINE COUNT */
+  (function footerLineCount() {
+    var el = document.getElementById('footerLineCount');
+    if (!el) return;
+    // Count the lines of this document
+    var html = document.documentElement.outerHTML;
+    var lines = html.split('\n').length;
+    // Animate the count up
+    var target = lines;
+    var current = 0;
+    var step = Math.ceil(target / 40);
+    function tick() {
+      current = Math.min(current + step, target);
+      el.textContent = current.toLocaleString();
+      if (current < target) requestAnimationFrame(tick);
+    }
+    // Start when footer is visible
+    var obs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        obs.disconnect();
+        tick();
+      }
+    }, { threshold: 0.1 });
+    obs.observe(el.closest('footer') || el);
+  })();
+
+  /* BRING CARD BORDER FILL ON SCROLL */
+  (function bringCardInView() {
+    var cards = document.querySelectorAll('.bring-card');
+    if (!cards.length) return;
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+        }
+      });
+    }, { threshold: 0.2 });
+    cards.forEach(function(c) { obs.observe(c); });
+  })();
+
+  /* ANIMATED STAT COUNTERS in spec table */
+  (function animateStats() {
+    var specTable = document.querySelector('.spec-table');
+    if (!specTable) return;
+    var cells = specTable.querySelectorAll('td');
+    var numCells = [];
+    cells.forEach(function(td) {
+      var match = td.textContent.match(/^(\d+)\+?$/);
+      if (match) {
+        numCells.push({ el: td, target: parseInt(match[1]), suffix: td.textContent.includes('+') ? '+' : '' });
+      }
+    });
+    if (numCells.length === 0) return;
+
+    var obs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        obs.disconnect();
+        numCells.forEach(function(item) {
+          var current = 0;
+          var steps = 30;
+          var increment = Math.ceil(item.target / steps);
+          function tick() {
+            current = Math.min(current + increment, item.target);
+            item.el.textContent = current + item.suffix;
+            if (current < item.target) requestAnimationFrame(tick);
+          }
+          tick();
+        });
+      }
+    }, { threshold: 0.3 });
+    obs.observe(specTable);
+  })();
+
   /* SKILLS MATRIX INTERACTIVITY */
   function initSkillsMatrix() {
     const table = document.querySelector('.skills-matrix');
@@ -8265,6 +8434,32 @@
       // XP bonus
       if (typeof updateXP === 'function') { updateXP(200); showXPHud(); }
     }
+  })();
+
+  /* ═══════════════════════════════════════════════════
+     MOBILE NAV ACTIVE SECTION TRACKING
+     ═══════════════════════════════════════════════════ */
+  (function mobileNavActive() {
+    var mobileLinks = document.querySelectorAll('.mobile-nav a[href^="#"]');
+    if (!mobileLinks.length) return;
+    var sections = [];
+    mobileLinks.forEach(function(link) {
+      var id = link.getAttribute('href').slice(1);
+      var sec = document.getElementById(id);
+      if (sec) sections.push({ el: sec, link: link });
+    });
+
+    function update() {
+      var scrollY = window.scrollY + window.innerHeight / 2;
+      var active = null;
+      sections.forEach(function(s) {
+        if (scrollY >= s.el.offsetTop) active = s.link;
+      });
+      mobileLinks.forEach(function(l) { l.classList.remove('section-active'); });
+      if (active) active.classList.add('section-active');
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    update();
   })();
 
   /* ═══════════════════════════════════════════════════
