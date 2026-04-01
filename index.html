@@ -699,6 +699,55 @@
       50% { border-color: transparent; }
     }
 
+    /* SMOOTH FOCUS TRANSITIONS — focus rings transition in smoothly */
+    *:focus-visible {
+      transition: outline-offset 0.2s ease;
+    }
+
+    /* WORK VISUAL SVG HOVER — draw paths glow on hover */
+    .work-visual:hover .draw-path {
+      stroke: var(--amber);
+      transition: stroke 0.4s ease;
+    }
+
+    /* SPEC TABLE ENHANCED — alternating row subtle color */
+    .spec-table tbody tr:nth-child(even) {
+      background: rgba(198, 123, 46, 0.02);
+    }
+
+    /* HERO ROLES CYCLING — smooth fade between roles */
+    .role-typing {
+      transition: opacity 0.2s ease;
+    }
+
+    /* FOOTER TAGLINE HOVER — subtle color shift */
+    .footer-tagline {
+      transition: color 0.3s ease;
+    }
+    .footer-tagline:hover {
+      color: var(--amber);
+    }
+
+    /* FEATURED LINK — animated arrow */
+    .featured-link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .featured-link:hover {
+      gap: 8px;
+      transition: gap 0.3s ease;
+    }
+
+    /* NAV RESUME BUTTON — subtle glow */
+    .nav-resume-btn {
+      transition: color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .nav-resume-btn:hover {
+      box-shadow: 0 0 12px rgba(198, 123, 46, 0.3);
+    }
+
     /* TOOLTIP ARROW — consistent tooltip style for interactive elements */
     .tooltip-arrow {
       position: absolute;
