@@ -14098,5 +14098,83 @@
 })();
 </script>
 
+<!-- Breathing glow on available badge in header -->
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var badge=document.querySelector('.available-badge, .status-dot');
+  if(!badge)return;
+  badge.style.animation='breathGlow 3s ease-in-out infinite';
+  if(!document.getElementById('breathGlowStyle')){
+    var s=document.createElement('style');
+    s.id='breathGlowStyle';
+    s.textContent='@keyframes breathGlow{0%,100%{box-shadow:0 0 4px rgba(52,211,153,0.3)}50%{box-shadow:0 0 12px rgba(52,211,153,0.6), 0 0 24px rgba(52,211,153,0.2)}}';
+    document.head.appendChild(s);
+  }
+})();
+</script>
+
+<!-- Smooth accordion on learnings/takeaways sections -->
+<script>
+(function(){
+  document.querySelectorAll('.learnings-section h3, .takeaway-title').forEach(function(h){
+    var content=h.nextElementSibling;
+    if(!content)return;
+    h.style.cursor='pointer';
+    h.style.userSelect='none';
+    var expanded=true;
+    h.addEventListener('click',function(){
+      expanded=!expanded;
+      if(expanded){
+        content.style.maxHeight=content.scrollHeight+'px';
+        content.style.opacity='1';
+      } else {
+        content.style.maxHeight='0';
+        content.style.opacity='0';
+        content.style.overflow='hidden';
+      }
+      content.style.transition='max-height 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.3s ease';
+    });
+  });
+})();
+</script>
+
+<!-- Progressive image loading with blur-up effect -->
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  document.querySelectorAll('img[loading="lazy"]:not(.blur-loaded)').forEach(function(img){
+    img.classList.add('blur-loaded');
+    if(img.complete)return;
+    img.style.filter='blur(8px)';
+    img.style.transition='filter 0.6s ease';
+    img.addEventListener('load',function(){
+      img.style.filter='blur(0)';
+    },{once:true});
+  });
+})();
+</script>
+
+<!-- Animated dotted line connecting featured card to work section -->
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var featured=document.getElementById('featured');
+  var work=document.getElementById('work');
+  if(!featured||!work)return;
+  var connector=document.createElement('div');
+  connector.setAttribute('aria-hidden','true');
+  connector.style.cssText='width:2px;margin:0 auto;background:repeating-linear-gradient(to bottom,var(--amber) 0,var(--amber) 4px,transparent 4px,transparent 8px);opacity:0.1;height:0;transition:height 0.8s cubic-bezier(0.16,1,0.3,1);max-height:60px;';
+  featured.parentNode.insertBefore(connector,featured.nextSibling);
+  var obs=new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting){
+      connector.style.height='60px';
+      obs.disconnect();
+    }
+  },{threshold:0.5});
+  obs.observe(connector);
+})();
+</script>
+
 </body>
 </html>
