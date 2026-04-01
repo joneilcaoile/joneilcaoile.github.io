@@ -670,6 +670,49 @@
       50% { border-color: transparent; }
     }
 
+    /* WORK LINK ANIMATED ARROW — slides on hover */
+    .work-link {
+      position: relative;
+      overflow: hidden;
+    }
+    .work-link::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--amber);
+      transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .work-link:hover::before {
+      width: 100%;
+    }
+
+    /* BRING CARD ACCENT — different accent color per card */
+    .bring-card:nth-child(1) .bring-skill-fill { background: linear-gradient(90deg, var(--amber), var(--gold)); }
+    .bring-card:nth-child(2) .bring-skill-fill { background: linear-gradient(90deg, var(--coral), var(--amber)); }
+    .bring-card:nth-child(3) .bring-skill-fill { background: linear-gradient(90deg, var(--teal), #1a8a87); }
+    .bring-card:nth-child(4) .bring-skill-fill { background: linear-gradient(90deg, var(--gold), var(--amber)); }
+
+    /* BRING CARD HOVER ACCENT LINE */
+    .bring-card::before {
+      transition: height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s ease;
+    }
+
+    /* THEME TRANSITION CIRCLE — morphing expand from toggle */
+    .theme-transition-circle {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: scale(0);
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .theme-transition-circle.expanding {
+      transform: scale(1);
+    }
+
     /* HEADSHOT LENS FLARE — hover effect */
     .headshot-frame::after {
       content: '';
@@ -10367,6 +10410,92 @@
 
     observer.observe(cell);
   });
+})();
+</script>
+
+<!-- THEME TOGGLE CIRCLE TRANSITION — expanding circle on theme change -->
+<script>
+(function themeCircle() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var toggle = document.getElementById('darkModeToggle');
+  if (!toggle) return;
+
+  toggle.addEventListener('click', function(e) {
+    var rect = toggle.getBoundingClientRect();
+    var cx = rect.left + rect.width / 2;
+    var cy = rect.top + rect.height / 2;
+
+    // Calculate max radius to cover full viewport
+    var maxDist = Math.max(
+      Math.hypot(cx, cy),
+      Math.hypot(window.innerWidth - cx, cy),
+      Math.hypot(cx, window.innerHeight - cy),
+      Math.hypot(window.innerWidth - cx, window.innerHeight - cy)
+    );
+
+    var circle = document.createElement('div');
+    circle.className = 'theme-transition-circle';
+    var isDark = document.body.classList.contains('dark-mode');
+    circle.style.background = isDark ? '#FAFAF8' : '#0A0908';
+    circle.style.left = (cx - maxDist) + 'px';
+    circle.style.top = (cy - maxDist) + 'px';
+    circle.style.width = (maxDist * 2) + 'px';
+    circle.style.height = (maxDist * 2) + 'px';
+    document.body.appendChild(circle);
+
+    requestAnimationFrame(function() {
+      circle.classList.add('expanding');
+    });
+
+    setTimeout(function() {
+      circle.remove();
+    }, 700);
+  });
+})();
+</script>
+
+<!-- SPEC TABLE ROW HOVER HIGHLIGHT — glowing amber row -->
+<script>
+(function specTableHover() {
+  var tables = document.querySelectorAll('.spec-table');
+  tables.forEach(function(table) {
+    var rows = table.querySelectorAll('tbody tr');
+    rows.forEach(function(row) {
+      row.addEventListener('mouseenter', function() {
+        row.style.background = 'rgba(198, 123, 46, 0.06)';
+        row.style.transition = 'background 0.2s ease';
+      });
+      row.addEventListener('mouseleave', function() {
+        row.style.background = '';
+      });
+    });
+  });
+})();
+</script>
+
+<!-- SUBTLE PARALLAX on section headings (tilt with scroll) -->
+<script>
+(function headingTilt() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (window.matchMedia('(pointer: coarse)').matches) return;
+
+  var headings = document.querySelectorAll('section h2');
+  var lastScroll = 0;
+
+  window.addEventListener('scroll', function() {
+    var velocity = window.scrollY - lastScroll;
+    lastScroll = window.scrollY;
+
+    headings.forEach(function(h) {
+      var rect = h.getBoundingClientRect();
+      if (rect.top > 0 && rect.top < window.innerHeight) {
+        var skew = Math.max(-2, Math.min(2, velocity * 0.15));
+        h.style.transform = 'skewX(' + skew + 'deg)';
+        h.style.transition = 'transform 0.3s ease';
+      }
+    });
+  }, { passive: true });
 })();
 </script>
 
