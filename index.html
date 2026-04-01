@@ -2447,15 +2447,26 @@
       top: 0;
     }
 
-    /* REDUCED MOTION */
+    /* REDUCED MOTION — disable movement, keep color/opacity transitions */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
       }
       .loader { display: none !important; }
+      .marquee-wrapper { animation: none !important; }
+      .scroll-indicator { animation: none !important; display: none; }
+      .headshot-ring { animation: none !important; }
+      .role-cursor { animation: none !important; opacity: 1; }
+      .featured-card:hover { transform: none !important; }
+      .bring-card:hover { transform: none !important; }
+      .cta-btn:hover { transform: none !important; }
+      .form-submit:hover { transform: none !important; }
+      .work-link:hover { letter-spacing: inherit !important; }
+      .marquee-item:hover { transform: none !important; }
+      nav.scrolled { height: var(--nav-height) !important; }
+      .story-headshot { transform: none !important; }
     }
 
     /* CONTACT */
