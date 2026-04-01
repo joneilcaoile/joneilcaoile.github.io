@@ -1179,6 +1179,13 @@
       50% { background-position: 100% 50%; }
     }
 
+    .hero-name:hover {
+      animation-duration: 2s;
+      filter: drop-shadow(0 4px 12px rgba(198,123,46,0.3));
+      letter-spacing: 0.02em;
+      transition: filter 0.3s ease, letter-spacing 0.4s ease;
+    }
+
     .hero-roles {
       font-size: 1.5rem;
       color: var(--text-secondary);
@@ -6840,6 +6847,101 @@
     delay: 4.2
   });
   gsap.from('.scroll-indicator', { duration: 0.5, autoAlpha: 0, y: -10, ease: 'power2.out', delay: 4.7 });
+
+  // Ambient floating orbs in contact section
+  (function contactOrbs() {
+    var contact = document.getElementById('contact');
+    if (!contact) return;
+    contact.style.position = 'relative';
+    var orbColors = ['rgba(198,123,46,0.06)', 'rgba(212,162,51,0.05)', 'rgba(184,74,60,0.04)', 'rgba(21,105,103,0.05)'];
+    for (var i = 0; i < 5; i++) {
+      var orb = document.createElement('div');
+      orb.setAttribute('aria-hidden', 'true');
+      var size = 100 + Math.random() * 200;
+      orb.style.cssText = 'position:absolute;border-radius:50%;pointer-events:none;z-index:0;filter:blur(40px);opacity:0;transition:opacity 1s ease;';
+      orb.style.width = size + 'px';
+      orb.style.height = size + 'px';
+      orb.style.background = orbColors[i % orbColors.length];
+      orb.style.left = (Math.random() * 80 + 10) + '%';
+      orb.style.top = (Math.random() * 80 + 10) + '%';
+      contact.appendChild(orb);
+      // Animate with GSAP
+      gsap.to(orb, {
+        x: 'random(-50, 50)',
+        y: 'random(-40, 40)',
+        duration: 'random(6, 12)',
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        delay: i * 0.5
+      });
+      // Fade in when section visible
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.querySelectorAll('[aria-hidden="true"]').forEach(function(o) {
+              if (o.style.filter && o.style.filter.includes('blur')) o.style.opacity = '1';
+            });
+          }
+        });
+      }, { threshold: 0.2 });
+      obs.observe(contact);
+    }
+  })();
+
+  // Dynamic time-of-day greeting in hero desc
+  (function timeGreeting() {
+    var hour = new Date().getHours();
+    var greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+    var el = document.querySelector('.hero-desc');
+    if (el) {
+      var original = el.textContent;
+      el.setAttribute('title', greeting + '! Thanks for stopping by.');
+    }
+  })();
+
+  // Heartbeat monitor line at bottom of terminal
+  (function terminalHeartbeat() {
+    var terminal = document.querySelector('.terminal');
+    if (!terminal) return;
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 400 40');
+    svg.setAttribute('preserveAspectRatio', 'none');
+    svg.style.cssText = 'position:absolute;bottom:0;left:0;width:100%;height:30px;opacity:0.15;pointer-events:none;';
+    svg.setAttribute('aria-hidden', 'true');
+    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', '#4AEE7D');
+    path.setAttribute('stroke-width', '1.5');
+    path.setAttribute('stroke-linecap', 'round');
+
+    var offset = 0;
+    function buildPath() {
+      var d = 'M';
+      for (var x = 0; x < 400; x += 1) {
+        var xo = x + offset;
+        var y = 20;
+        // Heartbeat spike pattern repeating every 80px
+        var phase = (xo % 80) / 80;
+        if (phase > 0.3 && phase < 0.35) y = 8;
+        else if (phase > 0.35 && phase < 0.4) y = 32;
+        else if (phase > 0.4 && phase < 0.45) y = 14;
+        else if (phase > 0.45 && phase < 0.5) y = 22;
+        d += (x === 0 ? '' : 'L') + x + ' ' + y;
+      }
+      return d;
+    }
+
+    svg.appendChild(path);
+    terminal.appendChild(svg);
+
+    function animate() {
+      offset += 0.8;
+      path.setAttribute('d', buildPath());
+      requestAnimationFrame(animate);
+    }
+    animate();
+  })();
 
   // Terminal live typing — types out a status message after boot
   (function terminalType() {
