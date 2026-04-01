@@ -471,6 +471,20 @@
       font-size: 20px;
     }
 
+    /* PAGE LOAD STATE — content hidden until loader finishes */
+    main, nav, footer {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    body.loaded main,
+    body.loaded nav,
+    body.loaded footer {
+      opacity: 1;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      main, nav, footer { opacity: 1; transition: none; }
+    }
+
     /* LOADER — Grand Boot Sequence */
     .loader {
       position: fixed;
@@ -5616,6 +5630,7 @@
         ease: 'power2.inOut',
         onComplete: () => {
           loader.style.pointerEvents = 'none';
+          document.body.classList.add('loaded');
           ScrollTrigger.refresh(true);
         }
       }, 3.0);
@@ -5626,6 +5641,7 @@
         loader.style.opacity = '0';
         loader.style.visibility = 'hidden';
         loader.style.pointerEvents = 'none';
+        document.body.classList.add('loaded');
         ScrollTrigger.refresh(true);
       }
     }, 5000);
@@ -5639,6 +5655,7 @@
         loader.style.visibility = 'hidden';
         loader.style.pointerEvents = 'none';
         skipBtn.remove();
+        document.body.classList.add('loaded');
         ScrollTrigger.refresh(true);
       });
       // Auto-remove skip button when animation finishes naturally
