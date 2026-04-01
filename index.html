@@ -13798,5 +13798,99 @@
 })();
 </script>
 
+<!-- Smooth perspective shift on entire page based on mouse -->
+<script>
+(function(){
+  if(matchMedia('(pointer:coarse)').matches||matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var body=document.body;
+  document.addEventListener('mousemove',function(e){
+    var x=(e.clientX/window.innerWidth-0.5)*0.5;
+    var y=(e.clientY/window.innerHeight-0.5)*0.3;
+    body.style.transform='perspective(2000px) rotateY('+x+'deg) rotateX('+(-y)+'deg)';
+    body.style.transition='transform 0.3s ease';
+  });
+  document.addEventListener('mouseleave',function(){
+    body.style.transform='';
+  });
+})();
+</script>
+
+<!-- Floating tech stack badges that follow scroll near toolkit section -->
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches||matchMedia('(pointer:coarse)').matches)return;
+  var toolkit=document.getElementById('toolkit');
+  if(!toolkit)return;
+  var techs=['Python','MATLAB','JavaScript','React','SQL','TensorFlow','GSAP','Three.js'];
+  var badges=[];
+  techs.forEach(function(t,i){
+    var b=document.createElement('span');
+    b.textContent=t;
+    b.style.cssText='position:fixed;padding:3px 8px;background:rgba(217,119,6,0.08);color:var(--amber);border:1px solid rgba(217,119,6,0.15);border-radius:12px;font-family:var(--font-mono);font-size:0.6rem;pointer-events:none;z-index:9995;opacity:0;transition:opacity 0.5s ease;white-space:nowrap;';
+    document.body.appendChild(b);
+    badges.push({el:b,x:Math.random(),y:0.1+Math.random()*0.8,speed:0.5+Math.random()});
+  });
+
+  var visible=false;
+  window.addEventListener('scroll',function(){
+    var rect=toolkit.getBoundingClientRect();
+    var inView=rect.top<window.innerHeight&&rect.bottom>0;
+    if(inView&&!visible){
+      visible=true;
+      badges.forEach(function(b,i){
+        setTimeout(function(){
+          b.el.style.opacity='0.4';
+          b.el.style.left=(b.x*window.innerWidth*0.8+window.innerWidth*0.1)+'px';
+          b.el.style.top=(rect.top+b.y*rect.height)+'px';
+        },i*100);
+      });
+    } else if(!inView&&visible){
+      visible=false;
+      badges.forEach(function(b){b.el.style.opacity='0';});
+    }
+    if(visible){
+      badges.forEach(function(b){
+        var offsetY=Math.sin(Date.now()/2000*b.speed)*10;
+        b.el.style.top=(rect.top+b.y*rect.height+offsetY)+'px';
+      });
+    }
+  },{passive:true});
+})();
+</script>
+
+<!-- Double-click to highlight any text section with amber flash -->
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  document.addEventListener('dblclick',function(e){
+    var target=e.target;
+    if(target.tagName==='P'||target.tagName==='LI'||target.tagName==='TD'){
+      target.style.transition='background 0.15s ease';
+      target.style.background='rgba(217,119,6,0.1)';
+      setTimeout(function(){target.style.background='';},800);
+    }
+  });
+})();
+</script>
+
+<!-- Auto dark mode based on system time (override toggle) -->
+<script>
+(function(){
+  /* Just add a subtle indicator of the site's awareness */
+  var hour=new Date().getHours();
+  var isNight=hour>=20||hour<6;
+  var html=document.documentElement;
+  if(isNight&&!html.classList.contains('dark-mode')){
+    /* Don't force it, just add a subtle suggestion */
+    var hint=document.createElement('div');
+    hint.textContent='\uD83C\uDF19 It\'s late. Dark mode might be easier on your eyes.';
+    hint.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);padding:8px 16px;background:rgba(15,14,12,0.9);color:rgba(245,243,238,0.7);font-family:var(--font-mono);font-size:11px;border-radius:20px;z-index:9999;opacity:0;transition:opacity 0.5s ease;pointer-events:none;border:1px solid rgba(217,119,6,0.15);';
+    document.body.appendChild(hint);
+    setTimeout(function(){hint.style.opacity='1';},5000);
+    setTimeout(function(){hint.style.opacity='0';setTimeout(function(){hint.remove();},500);},10000);
+  }
+})();
+</script>
+
 </body>
 </html>
