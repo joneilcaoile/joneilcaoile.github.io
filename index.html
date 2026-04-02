@@ -5506,14 +5506,48 @@
 
     /* GAME START MENU & CHARACTER SELECT */
     /* TEKKEN START MENU */
+    #startMenuOverlay,
+    #startMenuOverlay *,
+    #characterSelectScreen,
+    #characterSelectScreen *,
+    #achievementsPanel,
+    #achievementsPanel * {
+      cursor: default !important;
+    }
+    #startMenuOverlay button,
+    #characterSelectScreen button,
+    #achievementsPanel button,
+    .char-portrait,
+    .char-nav-arrow {
+      cursor: pointer !important;
+    }
+
+    /* Hide everything behind game menus */
+    body.game-menu-active nav,
+    body.game-menu-active .cursor-dot,
+    body.game-menu-active .cursor-ring,
+    body.game-menu-active .cursor-glow,
+    body.game-menu-active #cursorTrail,
+    body.game-menu-active .critter-container,
+    body.game-menu-active .floating-cta,
+    body.game-menu-active .scroll-top,
+    body.game-menu-active .scroll-progress,
+    body.game-menu-active .scroll-section-label,
+    body.game-menu-active .reading-progress-text,
+    body.game-menu-active .ambient-wash,
+    body.game-menu-active #questFloatBtn,
+    body.game-menu-active .dot-nav {
+      display: none !important;
+    }
+
     #startMenuOverlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: radial-gradient(ellipse at center 30%, rgba(198, 123, 46, 0.15), rgba(28, 25, 21, 0.9) 70%);
-      z-index: 10000;
+      background: #0F0D0A;
+      z-index: 100000;
       display: none;
       opacity: 0;
       visibility: hidden;
@@ -5529,6 +5563,7 @@
       pointer-events: auto;
       align-items: center;
       justify-content: center;
+      background: #0F0D0A radial-gradient(ellipse at center 30%, rgba(198, 123, 46, 0.2), transparent 70%);
     }
 
     #startMenuOverlay::after {
@@ -5700,8 +5735,8 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: radial-gradient(ellipse at center, rgba(198, 123, 46, 0.1), rgba(28, 25, 21, 0.95));
-      z-index: 10003;
+      background: #0F0D0A radial-gradient(ellipse at center, rgba(198, 123, 46, 0.12), transparent 70%);
+      z-index: 100001;
       display: none;
       opacity: 0;
       visibility: hidden;
@@ -5938,8 +5973,8 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: radial-gradient(ellipse at center, rgba(198, 123, 46, 0.1), rgba(28, 25, 21, 0.95));
-      z-index: 10003;
+      background: #0F0D0A radial-gradient(ellipse at center, rgba(198, 123, 46, 0.12), transparent 70%);
+      z-index: 100001;
       display: none;
       opacity: 0;
       visibility: hidden;
@@ -6668,7 +6703,7 @@
     </div>
     <p class="start-menu-press">PRESS ENTER TO START</p>
   </div>
-  <div class="start-menu-hint">↑↓ NAVIGATE    ENTER SELECT    CLICK TO CHOOSE</div>
+  <div class="start-menu-hint">↑↓ NAVIGATE &nbsp;&nbsp;│&nbsp;&nbsp; ENTER SELECT &nbsp;&nbsp;│&nbsp;&nbsp; CLICK TO CHOOSE</div>
   <div class="start-menu-version">v15.7 // 15,708 lines // no framework</div>
 </div>
 
@@ -15798,6 +15833,7 @@
     playSound();
     if (action === 'start') {
       ol.classList.remove('active');
+      document.body.classList.remove('game-menu-active');
       xp += 10;
     } else if (action === 'character-select') {
       ol.classList.remove('active');
@@ -15959,6 +15995,7 @@
   function selectChar() {
     playSound();
     cs.classList.remove('active');
+    document.body.classList.remove('game-menu-active');
     xp += 20;
     setTimeout(function() {
       var journey = document.getElementById('journey');
@@ -15969,6 +16006,7 @@
   function backToMenu() {
     cs.classList.remove('active');
     ol.classList.add('active');
+    document.body.classList.add('game-menu-active');
     menuIdx = 1;
     updateMenuSelection();
     playSound();
@@ -16016,6 +16054,7 @@
     var loader = document.getElementById('loader');
     if (loader && getComputedStyle(loader).opacity === '0') {
       ol.classList.add('active');
+      document.body.classList.add('game-menu-active');
       clearInterval(loaderCheck);
     }
   }, 100);
@@ -16024,6 +16063,7 @@
   setTimeout(function() {
     if (!ol.classList.contains('active')) {
       ol.classList.add('active');
+      document.body.classList.add('game-menu-active');
       clearInterval(loaderCheck);
     }
   }, 8000);
