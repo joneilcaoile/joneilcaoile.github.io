@@ -5648,8 +5648,117 @@
       .cs-preview { flex: 0; }
       .cs-canvas { width: 120px; height: 156px; }
     }
+    /* ═══ GAME MENU ENTRANCE ANIMATIONS ═══ */
+    .gm-title { opacity: 0; transform: translateY(-30px) scale(0.9); }
+    .gm-sub { opacity: 0; transform: translateY(-20px); }
+    .gm-opt { opacity: 0; transform: translateX(-30px); }
+    .gm-blink { opacity: 0; }
+    .gm-footer, .gm-version { opacity: 0; }
+    #gameMenu.visible.gm-animate .gm-title { animation: gmSlideIn 0.6s 0.1s var(--ease) forwards; }
+    #gameMenu.visible.gm-animate .gm-sub { animation: gmFadeIn 0.5s 0.5s ease forwards; }
+    #gameMenu.visible.gm-animate .gm-opt:nth-child(1) { animation: gmOptIn 0.4s 0.7s var(--ease) forwards; }
+    #gameMenu.visible.gm-animate .gm-opt:nth-child(2) { animation: gmOptIn 0.4s 0.85s var(--ease) forwards; }
+    #gameMenu.visible.gm-animate .gm-opt:nth-child(3) { animation: gmOptIn 0.4s 1.0s var(--ease) forwards; }
+    #gameMenu.visible.gm-animate .gm-blink { animation: gmFadeIn 0.4s 1.3s ease forwards, gmBlink 1.2s 1.7s steps(2) infinite; }
+    #gameMenu.visible.gm-animate .gm-footer,
+    #gameMenu.visible.gm-animate .gm-version { animation: gmFadeIn 0.4s 1.2s ease forwards; }
+    @keyframes gmSlideIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes gmFadeIn { to { opacity: 1; transform: translateY(0); } }
+    @keyframes gmOptIn { to { opacity: 1; transform: translateX(0); } }
+
+    /* ═══ CINEMATIC TRANSITION ═══ */
+    .gm-transition {
+      position: fixed; inset: 0; z-index: 99999;
+      background: #0A0908; pointer-events: none;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .gm-transition-text {
+      font-family: var(--fm); font-size: 0.85rem;
+      letter-spacing: 4px; color: var(--amber); opacity: 0;
+    }
+    .gm-glitch-line {
+      position: absolute; left: 0; right: 0; height: 2px;
+      background: var(--amber); opacity: 0;
+    }
+
+    /* ═══ OPTIONS PANEL ═══ */
+    #optionsPanel {
+      position: fixed; inset: 0; z-index: 100001;
+      background: #0A0908; display: none; flex-direction: column;
+      align-items: center; justify-content: center;
+      height: 100vh; height: 100dvh; overflow: hidden;
+    }
+    #optionsPanel.visible { display: flex; }
+    #optionsPanel::after {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent 0, transparent 2px, rgba(0,0,0,0.1) 2px, rgba(0,0,0,0.1) 4px);
+      pointer-events: none; z-index: 1;
+    }
+    .opt-inner { position: relative; z-index: 2; width: 90%; max-width: 400px; }
+    .opt-heading {
+      font-family: var(--fh); font-weight: 900; font-size: 1.6rem;
+      letter-spacing: 4px; color: var(--amber); margin-bottom: 40px;
+      text-shadow: 0 0 30px rgba(198,123,46,0.3);
+    }
+    .opt-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .opt-label { font-family: var(--fm); font-size: 0.85rem; letter-spacing: 1px; color: rgba(255,255,255,0.7); }
+    .opt-toggle {
+      font-family: var(--fm); font-size: 0.8rem; letter-spacing: 1px;
+      padding: 6px 16px; border: 1px solid rgba(198,123,46,0.3);
+      background: none; color: var(--amber); cursor: pointer;
+      transition: all 0.15s;
+    }
+    .opt-toggle.on { background: rgba(198,123,46,0.2); border-color: var(--amber); }
+    .opt-toggle:hover { background: rgba(198,123,46,0.15); }
+    .opt-back-row { margin-top: 40px; }
+
+    /* ═══ AMBIENT PARTICLES ON MENU ═══ */
+    .gm-particles {
+      position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+    }
+    .gm-particle {
+      position: absolute; width: 2px; height: 2px;
+      background: var(--amber); border-radius: 50%; opacity: 0;
+      animation: gmFloat linear infinite;
+    }
+    @keyframes gmFloat {
+      0% { opacity: 0; transform: translateY(0); }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% { opacity: 0; transform: translateY(-100vh); }
+    }
+
+    /* ═══ CHARACTER SELECT ENHANCEMENTS ═══ */
+    .cs-portrait:not(.active):hover {
+      opacity: 0.8; border-color: rgba(198,123,46,0.5);
+      box-shadow: 0 0 8px rgba(198,123,46,0.2);
+    }
+    .cs-canvas { transition: border-color 0.3s; }
+    .cs-charname { transition: color 0.3s; }
+
+    /* ═══ LOADING PROGRESS ═══ */
+    .gm-load-bar {
+      position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%);
+      width: 200px; height: 3px; background: rgba(255,255,255,0.05);
+      border-radius: 2px; overflow: hidden; z-index: 2;
+    }
+    .gm-load-fill {
+      height: 100%; width: 0%; background: var(--amber);
+      border-radius: 2px; transition: width 0.3s ease;
+    }
+    .gm-load-text {
+      position: absolute; bottom: 58px; left: 50%; transform: translateX(-50%);
+      font-family: var(--fm); font-size: 0.6rem; letter-spacing: 2px;
+      color: rgba(198,123,46,0.5); z-index: 2;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .gm-blink { animation: none; opacity: 0.5; }
+      .gm-title, .gm-sub, .gm-opt, .gm-footer, .gm-version { opacity: 1; transform: none; animation: none !important; }
+      .gm-particle { animation: none; display: none; }
     }
 
   </style>
@@ -5680,6 +5789,7 @@
 
 <!-- ═══ GAME START MENU ═══ -->
 <div id="gameMenu" role="dialog" aria-label="Start menu">
+  <div class="gm-particles" id="gmParticles"></div>
   <div class="gm-inner">
     <h1 class="gm-title">JONEIL CAOILE</h1>
     <p class="gm-sub">BIOMEDICAL ENGINEER</p>
@@ -5697,7 +5807,33 @@
     <span>│</span>
     <span>CLICK TO CHOOSE</span>
   </div>
-  <div class="gm-version">v14.2 // 14,179 lines // no framework</div>
+  <div class="gm-version">v15.0 // 14,500+ lines // no framework</div>
+</div>
+
+<!-- ═══ OPTIONS PANEL ═══ -->
+<div id="optionsPanel" role="dialog" aria-label="Options">
+  <div class="opt-inner">
+    <h2 class="opt-heading">OPTIONS</h2>
+    <div class="opt-row">
+      <span class="opt-label">SOUND</span>
+      <button class="opt-toggle on" id="optSound">ON</button>
+    </div>
+    <div class="opt-row">
+      <span class="opt-label">THEME</span>
+      <button class="opt-toggle" id="optTheme">DARK</button>
+    </div>
+    <div class="opt-row">
+      <span class="opt-label">PARTICLES</span>
+      <button class="opt-toggle on" id="optParticles">ON</button>
+    </div>
+    <div class="opt-row">
+      <span class="opt-label">CRT SCANLINES</span>
+      <button class="opt-toggle on" id="optCRT">ON</button>
+    </div>
+    <div class="opt-back-row">
+      <button class="cs-btn" id="optBackBtn">BACK</button>
+    </div>
+  </div>
 </div>
 
 <!-- ═══ CHARACTER SELECT ═══ -->
@@ -14382,6 +14518,22 @@
   var cs = document.getElementById('charSelect');
   if (!menu || !cs) return;
 
+  /* ── State ── */
+  var soundOn = true;
+  var particlesOn = true;
+  var crtOn = false;
+  var menuIdx = 0;
+  var charIdx = 0;
+  var opts = menu.querySelectorAll('.gm-opt');
+  var animFrame = 0;
+
+  /* ── Section map for character select → scroll ── */
+  var SECTION_MAP = {
+    kid: 'journey', prospector: 'journey', clinical: 'journey',
+    duck: 'journey', acolyte: 'work', sage: 'work',
+    blacksmith: 'work', creator: 'work'
+  };
+
   // Character data
   var ROSTER = [
     { key:'kid', role:'ORIGINS', name:'SoCal Kid', title:'Cerritos, CA', period:'1998 - 2017',
@@ -14418,13 +14570,9 @@
       skills:['Usability','Human Factors','User Research','Design Thinking'] }
   ];
 
-  var menuIdx = 0;
-  var charIdx = 0;
-  var opts = menu.querySelectorAll('.gm-opt');
-  var animFrame = 0;
-
-  // Sound
+  /* ── Sound ── */
   function beep(freq){
+    if (!soundOn) return;
     try {
       var a = new (window.AudioContext||window.webkitAudioContext)();
       var o = a.createOscillator();
@@ -14438,7 +14586,138 @@
     } catch(e){}
   }
 
-  // ── START MENU ──
+  function confirmBeep(){
+    if (!soundOn) return;
+    try {
+      var a = new (window.AudioContext||window.webkitAudioContext)();
+      var o1 = a.createOscillator(), g1 = a.createGain();
+      o1.connect(g1); g1.connect(a.destination);
+      o1.frequency.value = 523; o1.type = 'square';
+      g1.gain.setValueAtTime(0.12, a.currentTime);
+      g1.gain.exponentialRampToValueAtTime(0.001, a.currentTime + 0.1);
+      o1.start(a.currentTime); o1.stop(a.currentTime + 0.1);
+      var o2 = a.createOscillator(), g2 = a.createGain();
+      o2.connect(g2); g2.connect(a.destination);
+      o2.frequency.value = 784; o2.type = 'square';
+      g2.gain.setValueAtTime(0.12, a.currentTime + 0.12);
+      g2.gain.exponentialRampToValueAtTime(0.001, a.currentTime + 0.25);
+      o2.start(a.currentTime + 0.12); o2.stop(a.currentTime + 0.25);
+    } catch(e){}
+  }
+
+  /* ── Ambient Particles ── */
+  function spawnParticles(){
+    var container = document.getElementById('gmParticles');
+    if (!container) return;
+    container.innerHTML = '';
+    if (!particlesOn) return;
+    for (var i = 0; i < 30; i++){
+      var p = document.createElement('div');
+      p.className = 'gm-particle';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.top = Math.random() * 100 + '%';
+      p.style.width = p.style.height = (1 + Math.random() * 3) + 'px';
+      p.style.animationDelay = (Math.random() * 6) + 's';
+      p.style.animationDuration = (4 + Math.random() * 6) + 's';
+      p.style.opacity = (0.15 + Math.random() * 0.35);
+      container.appendChild(p);
+    }
+  }
+
+  /* ── Cinematic Transition ── */
+  function cinematicEnter(callback){
+    var overlay = document.createElement('div');
+    overlay.className = 'gm-transition';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:100003;background:#0A0908;display:flex;align-items:center;justify-content:center;flex-direction:column;';
+
+    /* Glitch lines */
+    for (var i = 0; i < 5; i++){
+      var gl = document.createElement('div');
+      gl.className = 'gm-glitch-line';
+      gl.style.top = (Math.random() * 100) + '%';
+      gl.style.animationDelay = (Math.random() * 0.3) + 's';
+      overlay.appendChild(gl);
+    }
+
+    /* Text */
+    var txt = document.createElement('div');
+    txt.className = 'gm-transition-text';
+    txt.textContent = 'LOADING PORTFOLIO...';
+    overlay.appendChild(txt);
+
+    /* Progress bar */
+    var bar = document.createElement('div');
+    bar.className = 'gm-load-bar';
+    bar.innerHTML = '<div class="gm-load-fill"></div>';
+    overlay.appendChild(bar);
+
+    document.body.appendChild(overlay);
+
+    /* Animate fill */
+    requestAnimationFrame(function(){
+      var fill = bar.querySelector('.gm-load-fill');
+      if (fill) fill.style.width = '100%';
+    });
+
+    confirmBeep();
+
+    setTimeout(function(){
+      overlay.style.opacity = '0';
+      overlay.style.transition = 'opacity 0.4s ease';
+      setTimeout(function(){
+        overlay.remove();
+        if (callback) callback();
+      }, 400);
+    }, 1200);
+  }
+
+  /* ── Options Panel ── */
+  var optPanel = document.getElementById('optionsPanel');
+  function openOptions(){
+    if (optPanel) {
+      optPanel.style.display = 'flex';
+      updateOptToggles();
+    }
+  }
+  function closeOptions(){
+    if (optPanel) optPanel.style.display = 'none';
+  }
+  function updateOptToggles(){
+    var toggles = optPanel ? optPanel.querySelectorAll('.opt-toggle') : [];
+    toggles.forEach(function(t){
+      var key = t.dataset.key;
+      var on = false;
+      if (key === 'sound') on = soundOn;
+      else if (key === 'theme') on = document.documentElement.getAttribute('data-theme') === 'light';
+      else if (key === 'particles') on = particlesOn;
+      else if (key === 'crt') on = crtOn;
+      t.textContent = on ? 'ON' : 'OFF';
+      t.style.color = on ? '#C67B2E' : '#888';
+    });
+  }
+  if (optPanel){
+    optPanel.querySelectorAll('.opt-toggle').forEach(function(t){
+      t.addEventListener('click', function(){
+        var key = t.dataset.key;
+        beep(520);
+        if (key === 'sound') soundOn = !soundOn;
+        else if (key === 'theme') {
+          var html = document.documentElement;
+          html.setAttribute('data-theme', html.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
+        }
+        else if (key === 'particles') { particlesOn = !particlesOn; spawnParticles(); }
+        else if (key === 'crt') {
+          crtOn = !crtOn;
+          menu.classList.toggle('gm-crt', crtOn);
+        }
+        updateOptToggles();
+      });
+    });
+    var optBack = optPanel.querySelector('.opt-back');
+    if (optBack) optBack.addEventListener('click', function(){ beep(330); closeOptions(); });
+  }
+
+  /* ── START MENU ── */
   function updateMenu(){
     opts.forEach(function(o,i){
       o.setAttribute('aria-selected', i === menuIdx ? 'true' : 'false');
@@ -14448,8 +14727,10 @@
   function doAction(action){
     beep(660);
     if (action === 'start') {
-      menu.classList.remove('visible');
-      document.body.classList.remove('gm-active');
+      cinematicEnter(function(){
+        menu.classList.remove('visible');
+        document.body.classList.remove('gm-active');
+      });
     } else if (action === 'charselect') {
       menu.classList.remove('visible');
       cs.classList.add('visible');
@@ -14458,9 +14739,7 @@
       updateChar();
       startCharAnim();
     } else if (action === 'options') {
-      // Simple: just start the site (options is a fun extra, not blocking)
-      menu.classList.remove('visible');
-      document.body.classList.remove('gm-active');
+      openOptions();
     }
   }
 
@@ -14476,6 +14755,7 @@
   // Keyboard
   document.addEventListener('keydown', function(e){
     if (!menu.classList.contains('visible')) return;
+    if (optPanel && optPanel.style.display === 'flex') return;
     if (e.key === 'ArrowDown' || e.key === 's') {
       menuIdx = (menuIdx + 1) % opts.length;
       updateMenu(); beep(440); e.preventDefault();
@@ -14488,7 +14768,7 @@
     }
   });
 
-  // ── CHARACTER SELECT ──
+  /* ── CHARACTER SELECT ── */
   var csCanvas = document.getElementById('csCanvas');
   var csCtx = csCanvas ? csCanvas.getContext('2d') : null;
   var charAnimId = null;
@@ -14503,7 +14783,6 @@
       c.title = ch.name;
       var ctx = c.getContext('2d');
       ctx.imageSmoothingEnabled = false;
-      // Draw small portrait
       if (typeof CHARS !== 'undefined' && CHARS[ch.key]) {
         ctx.save(); ctx.scale(2, 2); CHARS[ch.key](ctx, 0, false, 0); ctx.restore();
       }
@@ -14525,7 +14804,6 @@
     document.getElementById('csPeriod').textContent = ch.period;
     document.getElementById('csDesc').textContent = ch.desc;
 
-    // Stats
     var statsEl = document.getElementById('csStats');
     statsEl.innerHTML = '';
     for (var s in ch.stats) {
@@ -14536,7 +14814,6 @@
         '<div class="cs-stat-pct">' + ch.stats[s] + '%</div>';
       statsEl.appendChild(row);
     }
-    // Animate stat bars in
     setTimeout(function(){
       statsEl.querySelectorAll('.cs-stat-fill').forEach(function(fill, i){
         var keys = Object.keys(ch.stats);
@@ -14544,7 +14821,6 @@
       });
     }, 50);
 
-    // Skills
     var skillsEl = document.getElementById('csSkills');
     skillsEl.innerHTML = '';
     ch.skills.forEach(function(sk){
@@ -14554,7 +14830,6 @@
       skillsEl.appendChild(tag);
     });
 
-    // Update portrait highlights
     document.querySelectorAll('.cs-portrait').forEach(function(p, i){
       p.classList.toggle('active', i === charIdx);
     });
@@ -14580,6 +14855,18 @@
     draw();
   }
 
+  function selectCharAndEnter(){
+    var ch = ROSTER[charIdx];
+    confirmBeep();
+    cinematicEnter(function(){
+      cs.classList.remove('visible');
+      document.body.classList.remove('gm-active');
+      var targetId = SECTION_MAP[ch.key] || 'journey';
+      var target = document.getElementById(targetId);
+      if (target) setTimeout(function(){ target.scrollIntoView({behavior:'smooth'}); }, 200);
+    });
+  }
+
   // Char select keyboard
   document.addEventListener('keydown', function(e){
     if (!cs.classList.contains('visible')) return;
@@ -14590,11 +14877,7 @@
       charIdx = (charIdx - 1 + ROSTER.length) % ROSTER.length;
       updateChar(); buildPortraits(); beep(520); e.preventDefault();
     } else if (e.key === 'Enter') {
-      beep(660);
-      cs.classList.remove('visible');
-      document.body.classList.remove('gm-active');
-      var journey = document.getElementById('journey');
-      if (journey) setTimeout(function(){ journey.scrollIntoView({behavior:'smooth'}); }, 200);
+      selectCharAndEnter();
       e.preventDefault();
     } else if (e.key === 'Escape') {
       cs.classList.remove('visible');
@@ -14605,11 +14888,7 @@
 
   // Button handlers
   document.getElementById('csSelectBtn').addEventListener('click', function(){
-    beep(660);
-    cs.classList.remove('visible');
-    document.body.classList.remove('gm-active');
-    var journey = document.getElementById('journey');
-    if (journey) setTimeout(function(){ journey.scrollIntoView({behavior:'smooth'}); }, 200);
+    selectCharAndEnter();
   });
   document.getElementById('csBackBtn').addEventListener('click', function(){
     cs.classList.remove('visible');
@@ -14617,11 +14896,13 @@
     beep(330);
   });
 
-  // ── SHOW MENU AFTER LOADER ──
+  /* ── SHOW MENU AFTER LOADER ── */
   function showGameMenu(){
     document.body.classList.add('gm-active');
     menu.classList.add('visible');
+    menu.classList.add('gm-animate');
     updateMenu();
+    spawnParticles();
   }
 
   // Poll for loader completion
