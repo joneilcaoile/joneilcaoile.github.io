@@ -5816,19 +5816,19 @@
     <h2 class="opt-heading">OPTIONS</h2>
     <div class="opt-row">
       <span class="opt-label">SOUND</span>
-      <button class="opt-toggle on" id="optSound">ON</button>
+      <button class="opt-toggle on" id="optSound" data-key="sound">ON</button>
     </div>
     <div class="opt-row">
       <span class="opt-label">THEME</span>
-      <button class="opt-toggle" id="optTheme">DARK</button>
+      <button class="opt-toggle" id="optTheme" data-key="theme">DARK</button>
     </div>
     <div class="opt-row">
       <span class="opt-label">PARTICLES</span>
-      <button class="opt-toggle on" id="optParticles">ON</button>
+      <button class="opt-toggle on" id="optParticles" data-key="particles">ON</button>
     </div>
     <div class="opt-row">
       <span class="opt-label">CRT SCANLINES</span>
-      <button class="opt-toggle on" id="optCRT">ON</button>
+      <button class="opt-toggle on" id="optCRT" data-key="crt">OFF</button>
     </div>
     <div class="opt-back-row">
       <button class="cs-btn" id="optBackBtn">BACK</button>
@@ -14713,7 +14713,7 @@
         updateOptToggles();
       });
     });
-    var optBack = optPanel.querySelector('.opt-back');
+    var optBack = document.getElementById('optBackBtn');
     if (optBack) optBack.addEventListener('click', function(){ beep(330); closeOptions(); });
   }
 
