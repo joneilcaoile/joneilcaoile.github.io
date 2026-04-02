@@ -5755,10 +5755,96 @@
       color: rgba(198,123,46,0.5); z-index: 2;
     }
 
+    /* ═══ CRT SCANLINES ═══ */
+    .gm-crt::after {
+      content: ''; position: fixed; inset: 0; z-index: 100001;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px, transparent 2px,
+        rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px
+      );
+    }
+    .gm-crt { text-shadow: 0 0 2px rgba(198,123,46,0.3); }
+
+    /* ═══ VS FLASH (character select → enter) ═══ */
+    .gm-vs-flash {
+      position: fixed; inset: 0; z-index: 100004;
+      background: #C67B2E; opacity: 0;
+      pointer-events: none;
+      animation: gmVsFlash 0.6s ease-out forwards;
+    }
+    @keyframes gmVsFlash {
+      0% { opacity: 0; }
+      15% { opacity: 0.9; }
+      100% { opacity: 0; }
+    }
+
+    /* ═══ CHARACTER SELECT HOVER GLOW ═══ */
+    .cs-portrait.active {
+      box-shadow: 0 0 12px rgba(198,123,46,0.6), 0 0 24px rgba(198,123,46,0.2);
+    }
+    .cs-canvas {
+      box-shadow: 0 0 20px rgba(198,123,46,0.15);
+    }
+
+    /* ═══ MENU OPTION HOVER ENERGY ═══ */
+    .gm-opt::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(198,123,46,0.05), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.4s ease;
+    }
+    .gm-opt[aria-selected="true"]::before {
+      transform: translateX(0);
+      animation: gmSweep 2s ease-in-out infinite;
+    }
+    @keyframes gmSweep {
+      0%, 100% { transform: translateX(-100%); }
+      50% { transform: translateX(100%); }
+    }
+
+    /* ═══ CINEMATIC TRANSITION ENHANCEMENTS ═══ */
+    .gm-transition-text {
+      font-family: var(--fm, 'JetBrains Mono', monospace);
+      font-size: 0.9rem; letter-spacing: 4px; color: var(--amber, #C67B2E);
+      text-transform: uppercase; margin-bottom: 24px;
+      animation: gmFlicker 0.15s steps(2) 3;
+    }
+    @keyframes gmFlicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .gm-glitch-line {
+      position: absolute; left: 0; width: 100%;
+      height: 2px; background: rgba(198,123,46,0.4);
+      animation: gmGlitchSlide 0.4s ease-out forwards;
+    }
+    @keyframes gmGlitchSlide {
+      0% { transform: translateX(-100%); opacity: 1; }
+      60% { transform: translateX(30%); opacity: 0.6; }
+      100% { transform: translateX(100%); opacity: 0; }
+    }
+
+    /* ═══ PORTRAIT ROW SLIDE-IN ═══ */
+    #csPortraits {
+      animation: gmSlideIn 0.4s var(--ease, cubic-bezier(.16,1,.3,1)) both;
+    }
+
+    /* ═══ CHARACTER NAME GLITCH ═══ */
+    .cs-charname {
+      position: relative;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .gm-blink { animation: none; opacity: 0.5; }
       .gm-title, .gm-sub, .gm-opt, .gm-footer, .gm-version { opacity: 1; transform: none; animation: none !important; }
       .gm-particle { animation: none; display: none; }
+      .gm-crt::after { display: none; }
+      .gm-vs-flash { animation: none; display: none; }
+      .gm-opt::before { animation: none; }
+      .gm-glitch-line { animation: none; }
+      .gm-transition-text { animation: none; }
     }
 
   </style>
@@ -14803,7 +14889,9 @@
 
   function updateChar(){
     var ch = ROSTER[charIdx];
-    document.getElementById('csCharname').textContent = ch.name;
+    var nameEl = document.getElementById('csCharname');
+    nameEl.textContent = ch.name;
+    glitchName(nameEl);
     document.getElementById('csRole').textContent = ch.role;
     document.getElementById('csTitle').textContent = ch.title;
     document.getElementById('csPeriod').textContent = ch.period;
@@ -14863,13 +14951,36 @@
   function selectCharAndEnter(){
     var ch = ROSTER[charIdx];
     confirmBeep();
-    cinematicEnter(function(){
-      cs.classList.remove('visible');
-      document.body.classList.remove('gm-active');
-      var targetId = SECTION_MAP[ch.key] || 'journey';
-      var target = document.getElementById(targetId);
-      if (target) setTimeout(function(){ target.scrollIntoView({behavior:'smooth'}); }, 200);
-    });
+    /* VS flash */
+    var flash = document.createElement('div');
+    flash.className = 'gm-vs-flash';
+    document.body.appendChild(flash);
+    setTimeout(function(){ flash.remove(); }, 700);
+    /* Cinematic after flash peak */
+    setTimeout(function(){
+      cinematicEnter(function(){
+        cs.classList.remove('visible');
+        document.body.classList.remove('gm-active');
+        var targetId = SECTION_MAP[ch.key] || 'journey';
+        var target = document.getElementById(targetId);
+        if (target) setTimeout(function(){ target.scrollIntoView({behavior:'smooth'}); }, 200);
+      });
+    }, 200);
+  }
+
+  /* Character name glitch on switch */
+  function glitchName(el){
+    if (!el || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var original = el.textContent;
+    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%';
+    var steps = 0;
+    var id = setInterval(function(){
+      el.textContent = original.split('').map(function(c, i){
+        return i < steps ? original[i] : chars[Math.floor(Math.random() * chars.length)];
+      }).join('');
+      steps++;
+      if (steps > original.length) { el.textContent = original; clearInterval(id); }
+    }, 30);
   }
 
   // Char select keyboard
