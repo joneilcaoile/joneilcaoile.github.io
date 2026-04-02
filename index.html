@@ -14688,7 +14688,12 @@
       var key = t.dataset.key;
       var on = false;
       if (key === 'sound') on = soundOn;
-      else if (key === 'theme') on = document.documentElement.getAttribute('data-theme') === 'light';
+      else if (key === 'theme') {
+        var isLight = document.documentElement.getAttribute('data-theme') === 'light';
+        t.textContent = isLight ? 'LIGHT' : 'DARK';
+        t.style.color = '#C67B2E';
+        return;
+      }
       else if (key === 'particles') on = particlesOn;
       else if (key === 'crt') on = crtOn;
       t.textContent = on ? 'ON' : 'OFF';
