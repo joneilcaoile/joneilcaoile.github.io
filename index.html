@@ -5504,1128 +5504,150 @@
 
     }
 
-    /* GAME START MENU & CHARACTER SELECT */
-    /* TEKKEN START MENU */
-    #startMenuOverlay,
-    #startMenuOverlay *,
-    #characterSelectScreen,
-    #characterSelectScreen *,
-    #achievementsPanel,
-    #achievementsPanel * {
-      cursor: default !important;
-    }
-    #startMenuOverlay button,
-    #characterSelectScreen button,
-    #achievementsPanel button,
-    .char-portrait,
-    .char-nav-arrow {
-      cursor: pointer !important;
-    }
-
-    /* Hide everything behind game menus */
-    body.game-menu-active nav,
-    body.game-menu-active .cursor-dot,
-    body.game-menu-active .cursor-ring,
-    body.game-menu-active .cursor-glow,
-    body.game-menu-active #cursorTrail,
-    body.game-menu-active .critter-container,
-    body.game-menu-active .floating-cta,
-    body.game-menu-active .scroll-top,
-    body.game-menu-active .scroll-progress,
-    body.game-menu-active .scroll-section-label,
-    body.game-menu-active .reading-progress-text,
-    body.game-menu-active .ambient-wash,
-    body.game-menu-active #questFloatBtn,
-    body.game-menu-active .dot-nav {
-      display: none !important;
-    }
-
-    #startMenuOverlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #0F0D0A;
-      z-index: 100000;
-      display: none;
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
-      overflow: hidden;
-    }
-
-    #startMenuOverlay.active {
-      display: flex;
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-      align-items: center;
-      justify-content: center;
-      background: #0F0D0A radial-gradient(ellipse at center 30%, rgba(198, 123, 46, 0.2), transparent 70%);
-    }
-
-    #startMenuOverlay::after {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background:
-        repeating-linear-gradient(0deg, rgba(0,0,0,0.08) 0, rgba(0,0,0,0.08) 1px, transparent 1px, transparent 2px),
-        repeating-linear-gradient(90deg, rgba(0,0,0,0.03) 0, rgba(0,0,0,0.03) 1px, transparent 1px, transparent 2px);
-      pointer-events: none;
-      z-index: 10001;
-      animation: noiseShift 0.5s steps(2) infinite;
-    }
-
-    @keyframes noiseShift {
-      0%, 100% { opacity: 0.02; }
-      50% { opacity: 0.04; }
-    }
-
-    .start-menu-container {
-      position: relative;
-      z-index: 10002;
-      text-align: center;
-      width: 90%;
-      max-width: 600px;
-    }
-
-    .start-menu-title {
-      font-family: var(--fh);
-      font-size: clamp(3rem, 8vw, 5rem);
-      font-weight: 900;
-      letter-spacing: 4px;
-      color: var(--amber);
-      margin: 0 0 8px 0;
-      text-shadow:
-        0 0 30px rgba(198, 123, 46, 0.6),
-        0 0 60px rgba(198, 123, 46, 0.3);
-      animation: titleGlow 3s ease-in-out infinite;
-    }
-
-    @keyframes titleGlow {
-      0%, 100% { text-shadow: 0 0 30px rgba(198, 123, 46, 0.6), 0 0 60px rgba(198, 123, 46, 0.3); }
-      50% { text-shadow: 0 0 40px rgba(198, 123, 46, 0.8), 0 0 80px rgba(198, 123, 46, 0.5); }
-    }
-
-    .start-menu-subtitle {
-      font-family: var(--fm);
-      font-size: 0.95rem;
-      letter-spacing: 3px;
-      color: rgba(255, 255, 255, 0.7);
-      margin: 0 0 80px 0;
-      animation: subtitleFade 0.8s ease 0.3s both;
-    }
-
-    @keyframes subtitleFade {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .start-menu-options {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      margin-bottom: 60px;
-      text-align: left;
-      max-width: 300px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .menu-option {
-      padding: 16px 24px;
-      background: transparent;
-      border: none;
-      color: rgba(255, 255, 255, 0.6);
-      font-family: var(--fm);
-      font-size: 1.1rem;
-      letter-spacing: 2px;
-      cursor: pointer;
-      position: relative;
-      transition: color 0.2s ease;
-      font-weight: 500;
-    }
-
-    .menu-option::before {
-      content: '►';
-      position: absolute;
-      left: 0;
-      opacity: 0;
-      transition: opacity 0.2s ease, transform 0.2s ease;
-      transform: scaleX(0.8);
-    }
-
-    .menu-option.selected {
-      color: #FFF;
-    }
-
-    .menu-option.selected::before {
-      opacity: 1;
-      transform: scaleX(1);
-    }
-
-    .menu-option-highlight {
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 100%;
-      background: linear-gradient(to right, rgba(198, 123, 46, 0.5), rgba(198, 123, 46, 0.2), transparent);
-      pointer-events: none;
-      z-index: -1;
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .menu-option.selected + .menu-option-highlight,
-    .menu-option.selected .menu-option-highlight {
-      transform: scaleX(1);
-    }
-
-    .start-menu-press {
-      font-family: var(--fm);
-      font-size: 0.8rem;
-      letter-spacing: 1px;
-      color: rgba(255, 255, 255, 0.4);
-      animation: pressBlink 1.2s steps(2, end) infinite;
-      margin-top: 40px;
-    }
-
-    @keyframes pressBlink {
-      0%, 49% { opacity: 1; }
-      50%, 100% { opacity: 0.3; }
-    }
-
-    .start-menu-hint {
-      position: fixed;
-      bottom: 20px;
-      left: 0;
-      right: 0;
-      text-align: center;
-      font-family: var(--fm);
-      font-size: 0.75rem;
-      letter-spacing: 2px;
-      color: rgba(198, 123, 46, 0.6);
-      pointer-events: none;
-      z-index: 10002;
-    }
-
-    .start-menu-version {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      font-family: var(--fm);
-      font-size: 0.65rem;
-      letter-spacing: 1px;
-      color: rgba(198, 123, 46, 0.4);
-      pointer-events: none;
-      z-index: 10002;
-    }
-
-    /* CHARACTER SELECT */
-    #characterSelectScreen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #0F0D0A radial-gradient(ellipse at center, rgba(198, 123, 46, 0.12), transparent 70%);
-      z-index: 100001;
-      display: none;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.4s ease, visibility 0.4s ease;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #characterSelectScreen.active {
-      display: flex;
-      opacity: 1;
-      visibility: visible;
-    }
-
-    #characterSelectScreen::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: repeating-linear-gradient(0deg, rgba(0,0,0,0.08) 0, rgba(0,0,0,0.08) 1px, transparent 1px, transparent 2px);
-      pointer-events: none;
-      z-index: 10004;
-    }
-
-    .char-select-container {
-      position: relative;
-      z-index: 10005;
-      width: 95%;
-      max-width: 1100px;
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-    }
-
-    .char-portraits-row {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-      padding: 20px;
-      background: rgba(0,0,0,0.4);
-      border-radius: 4px;
-    }
-
-    .char-portrait {
-      width: 70px;
-      height: 90px;
-      border: 2px solid rgba(198, 123, 46, 0.4);
-      background: rgba(0,0,0,0.5);
-      cursor: pointer;
-      transition: all 0.2s ease;
-      border-radius: 2px;
-    }
-
-    .char-portrait.active {
-      border-color: var(--amber);
-      box-shadow: 0 0 20px rgba(198, 123, 46, 0.6);
-      transform: scale(1.1);
-    }
-
-    .char-select-main {
-      display: flex;
-      gap: 40px;
-      align-items: flex-start;
-    }
-
-    .char-select-preview {
-      flex: 0 0 280px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    #charSelectCanvas {
-      width: 200px;
-      height: 260px;
-      background: rgba(0,0,0,0.6);
-      border: 2px solid rgba(198, 123, 46, 0.5);
-      image-rendering: pixelated;
-      image-rendering: crisp-edges;
-      margin-bottom: 20px;
-    }
-
-    .char-select-info {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .char-info-role {
-      font-family: var(--fm);
-      font-size: 0.75rem;
-      color: var(--amber);
-      letter-spacing: 2px;
-      margin: 0 0 6px 0;
-    }
-
-    .char-info-name {
-      font-family: var(--fh);
-      font-size: 2rem;
-      font-weight: 900;
-      color: #FFF;
-      margin: 0 0 12px 0;
-      letter-spacing: 2px;
-    }
-
-    .char-info-title {
-      font-family: var(--fm);
-      font-size: 1rem;
-      color: rgba(255, 255, 255, 0.8);
-      margin: 0 0 2px 0;
-    }
-
-    .char-info-period {
-      font-family: var(--fm);
-      font-size: 0.85rem;
-      color: rgba(198, 123, 46, 0.7);
-      margin: 0 0 20px 0;
-    }
-
-    .char-info-desc {
-      font-family: var(--fm);
-      font-size: 0.95rem;
-      line-height: 1.6;
-      color: rgba(255, 255, 255, 0.7);
-      margin: 0 0 25px 0;
-    }
-
-    .char-stats {
-      margin-bottom: 25px;
-    }
-
-    .char-stat-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 10px;
-    }
-
-    .char-stat-label {
-      font-family: var(--fm);
-      font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.6);
-      width: 90px;
-      flex-shrink: 0;
-      letter-spacing: 1px;
-    }
-
-    .char-stat-bar {
-      flex: 1;
-      height: 5px;
-      background: rgba(0,0,0,0.5);
-      border: 1px solid rgba(198, 123, 46, 0.3);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .char-stat-fill {
-      height: 100%;
-      background: linear-gradient(to right, var(--amber), #FFB84D);
-      width: 0;
-      transition: width 0.5s ease;
-    }
-
-    .char-stat-percent {
-      font-family: var(--fm);
-      font-size: 0.7rem;
-      color: rgba(198, 123, 46, 0.8);
-      width: 30px;
-      text-align: right;
-      flex-shrink: 0;
-    }
-
-    .char-skills {
-      margin-bottom: 25px;
-    }
-
-    .char-skills-label {
-      font-family: var(--fm);
-      font-size: 0.75rem;
-      color: rgba(198, 123, 46, 0.7);
-      letter-spacing: 2px;
-      margin-bottom: 10px;
-    }
-
-    .char-skill-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .char-skill-tag {
-      font-family: var(--fm);
-      font-size: 0.75rem;
-      padding: 5px 10px;
-      border: 1px solid rgba(198, 123, 46, 0.4);
-      color: rgba(198, 123, 46, 0.9);
-      background: rgba(198, 123, 46, 0.1);
-      letter-spacing: 0.5px;
-    }
-
-    .char-select-buttons {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      margin-top: 40px;
-    }
-
-    .char-select-btn {
-      padding: 12px 32px;
-      border: 2px solid var(--amber);
-      background: transparent;
-      color: var(--amber);
-      font-family: var(--fm);
-      font-size: 0.95rem;
-      letter-spacing: 2px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-weight: 600;
-    }
-
-    .char-select-btn:hover {
-      background: rgba(198, 123, 46, 0.2);
-      color: #FFB84D;
-      box-shadow: 0 0 15px rgba(198, 123, 46, 0.4);
-    }
-
-    /* ACHIEVEMENTS */
-    #achievementsPanel {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #0F0D0A radial-gradient(ellipse at center, rgba(198, 123, 46, 0.12), transparent 70%);
-      z-index: 100001;
-      display: none;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.4s ease, visibility 0.4s ease;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #achievementsPanel.active {
-      display: flex;
-      opacity: 1;
-      visibility: visible;
-    }
-
-    #achievementsPanel::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: repeating-linear-gradient(0deg, rgba(0,0,0,0.08) 0, rgba(0,0,0,0.08) 1px, transparent 1px, transparent 2px);
-      pointer-events: none;
-      z-index: 10004;
-    }
-
-    .achievements-container {
-      position: relative;
-      z-index: 10005;
-      width: 90%;
-      max-width: 550px;
-      padding: 40px;
-      background: rgba(28, 25, 21, 0.95);
-      border: 2px solid var(--amber);
-      box-shadow: 0 0 40px rgba(198, 123, 46, 0.3);
-    }
-
-    .achievements-title {
-      font-family: var(--fh);
-      font-size: 2.2rem;
-      font-weight: 900;
-      color: var(--amber);
-      margin: 0 0 10px 0;
-      letter-spacing: 3px;
-      text-shadow: 0 0 20px rgba(198, 123, 46, 0.4);
-    }
-
-    .xp-display {
-      font-family: var(--fm);
-      font-size: 1.1rem;
-      color: #FFB84D;
-      margin-bottom: 30px;
-      letter-spacing: 1px;
-    }
-
-    .achievements-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 30px;
-      max-height: 300px;
-      overflow-y: auto;
-      padding-right: 8px;
-    }
-
-    .achievements-list::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .achievements-list::-webkit-scrollbar-thumb {
-      background: rgba(198, 123, 46, 0.4);
-    }
-
-    .achievement-item {
-      padding: 12px;
-      border: 1px solid rgba(198, 123, 46, 0.2);
-      background: rgba(0,0,0,0.3);
-      color: rgba(255, 255, 255, 0.6);
-      font-family: var(--fm);
-      font-size: 0.9rem;
-      line-height: 1.4;
-    }
-
-    .achievement-item.unlocked {
-      border-color: var(--amber);
-      background: rgba(198, 123, 46, 0.15);
-      color: #FFB84D;
-    }
-
-    .achievement-item.locked {
-      opacity: 0.5;
-    }
-
-    .achievements-back-btn {
-      width: 100%;
-      padding: 12px;
-      border: 2px solid var(--amber);
-      background: transparent;
-      color: var(--amber);
-      font-family: var(--fm);
-      font-size: 0.95rem;
-      letter-spacing: 2px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-weight: 600;
-    }
-
-    .achievements-back-btn:hover {
-      background: rgba(198, 123, 46, 0.2);
-      color: #FFB84D;
-      box-shadow: 0 0 15px rgba(198, 123, 46, 0.4);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      #startMenuOverlay, #characterSelectScreen, #achievementsPanel,
-      .start-menu-title, .menu-option, .char-select-btn,
-      .menu-option-highlight {
-        animation: none !important;
-        transition: none !important;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      #startMenuOverlay,
-      #characterSelectScreen,
-      #achievementsPanel,
-      .start-menu-title,
-      .start-menu-subtitle,
-      .menu-option,
-      .char-stat-fill,
-      .start-menu-press {
-        animation: none !important;
-        transition: none !important;
-      }
-    }
-
-    @media (pointer: coarse) {
-      .char-nav-arrow {
-        font-size: 2rem;
-        padding: 10px 15px;
-      }
-
-      .menu-option {
-        padding: 16px 24px;
-        font-size: 1.1rem;
-      }
-
-      .char-select-container {
-        flex-direction: column;
-        max-width: 90vw;
-        height: auto;
-        max-height: 90vh;
-      }
-
-      .char-select-left {
-        border-right: none;
-        border-bottom: 1px solid rgba(198, 123, 46, 0.3);
-        flex: 0 0 auto;
-      }
-
-      .char-select-right {
-        flex: 1 1 auto;
-      }
-    }
-
-    /* CINEMATIC TRANSITIONS & SPLIT-TEXT ANIMATIONS */
-    @keyframes char-cascade {
-      0% { opacity: 0; transform: translateY(-20px) rotateZ(var(--rotation, 0deg)) scale(0.8); }
-      50% { opacity: 0.6; }
-      100% { opacity: 1; transform: translateY(0) rotateZ(0deg) scale(1); }
-    }
-    @keyframes char-wave {
-      0% { opacity: 0; filter: blur(8px); transform: translateY(10px); }
-      100% { opacity: 1; filter: blur(0); transform: translateY(0); }
-    }
-    @keyframes word-reveal {
-      0% { opacity: 0; filter: blur(6px); }
-      100% { opacity: 1; filter: blur(0); }
-    }
-    @keyframes bring-card-expand {
-      0% { scaleY: 0; scaleX: 0.3; opacity: 0; }
-      50% { scaleY: 1; scaleX: 0.3; }
-      100% { scaleY: 1; scaleX: 1; opacity: 1; }
-    }
-    @keyframes work-card-cascade {
-      0% { opacity: 0; transform: translateX(var(--offset, -30px)) rotateZ(var(--tilt, -5deg)); }
-      100% { opacity: 1; transform: translateX(0) rotateZ(0deg); }
-    }
-    @keyframes horizontal-wipe {
-      0% { background-position: -100% 0; }
-      100% { background-position: 100% 0; }
-    }
-    @keyframes curtain-open {
-      0% { clip-path: inset(0 0 0 0); }
-      100% { clip-path: inset(0 100% 0 0); }
-    }
-    .char-cascade-span { display: inline-block; will-change: transform, opacity; }
-    .char-cascade-span.active { animation: char-cascade 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
-    .split-char { display: inline-block; will-change: transform, opacity, filter; }
-    .split-char.wave-enter { animation: char-wave 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
-    .split-word { display: inline-block; will-change: opacity, filter; margin-right: 0.25em; }
-    .split-word.reveal { animation: word-reveal 0.4s ease-out forwards; }
-    .bring-card.expand { animation: bring-card-expand 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; transform-origin: center; }
-    .work-card.cascade { animation: work-card-cascade 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
-    .section-wipe { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; pointer-events: none; z-index: 98; background: linear-gradient(90deg, transparent 0%, var(--amber) 25%, var(--amber) 75%, transparent 100%); background-size: 200% 100%; background-position: -100% 0; }
-    .section-wipe.active { animation: horizontal-wipe 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-    .curtain-panel { position: fixed; top: 0; height: 100vh; width: 50%; background: linear-gradient(90deg, var(--amber), var(--coral)); z-index: 97; pointer-events: none; clip-path: inset(0 0 0 0); }
-    .curtain-left { left: 0; }
-    .curtain-right { right: 0; background: linear-gradient(-90deg, var(--amber), var(--coral)); }
-    .curtain-panel.open { animation: curtain-open 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-    .curtain-left.open { animation: curtain-open 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards reverse; }
-    @media (prefers-reduced-motion: reduce) {
-      .char-cascade-span.active, .split-char.wave-enter, .split-word.reveal, .bring-card.expand, .work-card.cascade, .section-wipe.active { animation: none !important; }
-      .char-cascade-span.active, .split-char.wave-enter, .split-word.reveal, .bring-card.expand, .work-card.cascade { opacity: 1; transform: none; filter: none; }
-    }
-
-    /* ===== QUEST LOG GAMIFIED NAVIGATION ===== */
-    #questFloatBtn {
-      position: fixed;
-      bottom: 120px;
-      right: 20px;
-      width: 56px;
-      height: 56px;
-      background: linear-gradient(135deg, var(--amber), var(--gold));
-      border: 2px solid var(--dark);
-      border-radius: 8px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-      font-size: 28px;
-      font-weight: bold;
-      box-shadow: 0 4px 12px rgba(198, 123, 46, 0.4);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      opacity: 1;
-      visibility: visible;
-    }
-
-    #questFloatBtn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(198, 123, 46, 0.6);
-    }
-
-    #questFloatBtn.bounce {
-      animation: quest-bounce 0.6s ease-out;
-    }
-
-    @keyframes quest-bounce {
-      0% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-8px) scale(1.05); }
-      100% { transform: translateY(0) scale(1); }
-    }
-
-    #questFloatBtn::after {
-      content: '';
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      width: 8px;
-      height: 8px;
-      background: var(--coral);
-      border-radius: 50%;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    #questFloatBtn.new-quest::after {
-      opacity: 1;
-      animation: quest-pulse 1.5s ease-in-out infinite;
-    }
-
-    @keyframes quest-pulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.2); opacity: 0.7; }
-    }
-
-    #questLogPanel {
-      position: fixed;
-      bottom: 180px;
-      right: 20px;
-      width: 320px;
-      max-height: 600px;
-      background: linear-gradient(135deg, #F5E6D3 0%, #ECDCC8 100%);
-      border: 3px solid var(--dark);
-      border-radius: 8px;
-      padding: 16px;
-      z-index: 1000;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(10px);
-      transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.3);
-      overflow-y: auto;
-      max-width: calc(100vw - 40px);
-    }
-
-    #questLogPanel.open {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    #questLogPanel::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: repeating-linear-gradient(
-        90deg,
-        transparent,
-        transparent 2px,
-        rgba(198, 123, 46, 0.02) 2px,
-        rgba(198, 123, 46, 0.02) 4px
-      );
-      pointer-events: none;
-      border-radius: 5px;
-    }
-
-    .quest-header {
-      position: relative;
-      z-index: 1;
-      margin-bottom: 16px;
-      border-bottom: 2px solid var(--dark);
-      padding-bottom: 8px;
-    }
-
-    .quest-title {
-      font-family: var(--fm);
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--dark);
-      margin: 0;
-      letter-spacing: 1px;
-    }
-
-    .quest-xp-badge {
-      position: relative;
-      z-index: 1;
-      display: inline-block;
-      background: var(--amber);
-      color: var(--dark);
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      margin-top: 8px;
-      border: 1px solid var(--dark);
-    }
-
-    .quest-list {
-      position: relative;
-      z-index: 1;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .quest-item {
-      display: flex;
-      gap: 12px;
-      padding: 10px;
-      margin-bottom: 8px;
-      background: rgba(255, 255, 255, 0.6);
-      border: 1px solid rgba(198, 123, 46, 0.3);
-      border-radius: 6px;
-      transition: all 0.2s ease;
-    }
-
-    .quest-item:hover {
-      background: rgba(255, 255, 255, 0.85);
-      transform: translateX(2px);
-    }
-
-    .quest-item.completed {
-      opacity: 0.65;
-    }
-
-    .quest-item.completed .quest-item-title {
-      text-decoration: line-through;
-      color: #999;
-    }
-
-    .quest-icon {
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-
-    .quest-item.completed .quest-icon::after {
-      content: '✓';
-      position: absolute;
-      font-size: 16px;
-      color: var(--gold);
-      font-weight: bold;
-    }
-
-    .quest-details {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .quest-item-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--dark);
-      margin: 0 0 4px 0;
-      transition: all 0.2s ease;
-    }
-
-    .quest-progress {
-      width: 100%;
-      height: 6px;
-      background: rgba(198, 123, 46, 0.2);
-      border-radius: 3px;
-      overflow: hidden;
-      border: 1px solid rgba(198, 123, 46, 0.3);
-    }
-
-    .quest-progress-bar {
-      height: 100%;
-      background: linear-gradient(90deg, var(--amber), var(--gold));
-      width: 0%;
-      transition: width 0.3s ease;
-    }
-
-    .quest-item-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 6px;
-      font-size: 11px;
-      color: #666;
-    }
-
-    .quest-xp-reward {
-      background: var(--amber);
-      color: var(--dark);
-      padding: 2px 6px;
-      border-radius: 3px;
-      font-weight: 600;
-      font-size: 10px;
-    }
-
-    #questLogPanel::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    #questLogPanel::-webkit-scrollbar-track {
-      background: rgba(198, 123, 46, 0.1);
-      border-radius: 4px;
-    }
-
-    #questLogPanel::-webkit-scrollbar-thumb {
-      background: var(--amber);
-      border-radius: 4px;
-    }
-
-    #questLogPanel::-webkit-scrollbar-thumb:hover {
-      background: var(--coral);
-    }
-
-    /* ===== WORK CARD GAME ITEM ENHANCEMENTS ===== */
-    .work-item {
-      position: relative;
-    }
-
-    .work-card {
-      position: relative;
-    }
-
-    .work-card::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      border-radius: 8px;
-      pointer-events: none;
-      transition: all 0.3s ease;
-      opacity: 0;
-      z-index: -1;
-    }
-
-    .work-card[data-rarity="legendary"]::after {
-      border: 2px solid var(--gold);
-      box-shadow: 0 0 20px rgba(212, 162, 51, 0.4), inset 0 0 10px rgba(212, 162, 51, 0.1);
-    }
-
-    .work-card[data-rarity="epic"]::after {
-      border: 2px solid var(--coral);
-      box-shadow: 0 0 16px rgba(184, 74, 60, 0.3);
-    }
-
-    .work-card[data-rarity="rare"]::after {
-      border: 2px solid var(--teal);
-      box-shadow: 0 0 12px rgba(21, 105, 103, 0.25);
-    }
-
-    .work-card[data-rarity="common"]::after {
-      border: 1px solid var(--amber);
-      box-shadow: 0 0 8px rgba(198, 123, 46, 0.2);
-    }
-
-    .work-item:hover .work-card::after {
-      opacity: 1;
-    }
-
-    .work-card-collected {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      width: 24px;
-      height: 24px;
-      background: var(--gold);
-      border: 2px solid var(--dark);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      font-weight: bold;
-      opacity: 0;
-      transform: scale(0);
-      transition: all 0.3s ease;
-      z-index: 10;
-    }
-
-    .work-card.collected .work-card-collected {
-      opacity: 1;
-      transform: scale(1);
-      animation: quest-bounce 0.4s ease-out;
-    }
-
-    .work-card-tooltip {
-      position: absolute;
-      bottom: 100%;
-      left: 50%;
-      transform: translateX(-50%) translateY(-8px);
-      background: var(--dark);
-      color: white;
-      padding: 12px 16px;
-      border-radius: 6px;
-      margin-bottom: 8px;
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      transition: all 0.2s ease;
-      z-index: 100;
-      white-space: nowrap;
-      border: 1px solid var(--amber);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-      font-size: 12px;
-    }
-
-    .work-card-tooltip::after {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 50%;
+    /* ═══ GAME START MENU (Tekken-style) ═══ */
+    #gameMenu {
+      position: fixed; inset: 0; z-index: 100000;
+      background: #0A0908;
+      display: none; flex-direction: column;
+      align-items: center; justify-content: center;
+    }
+    #gameMenu.visible { display: flex; }
+    #gameMenu, #gameMenu *, #charSelect, #charSelect * { cursor: default !important; }
+    #gameMenu button, #charSelect button, .cs-portrait { cursor: pointer !important; }
+    #gameMenu::before {
+      content: ''; position: absolute; top: 15%; left: 50%;
       transform: translateX(-50%);
-      width: 8px;
-      height: 8px;
-      background: var(--dark);
-      border-right: 1px solid var(--amber);
-      border-bottom: 1px solid var(--amber);
+      width: 600px; height: 400px;
+      background: radial-gradient(ellipse, rgba(198,123,46,0.18) 0%, transparent 70%);
+      pointer-events: none;
     }
-
-    .work-item:hover .work-card-tooltip {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(-50%) translateY(0);
+    #gameMenu::after {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent 0, transparent 2px, rgba(0,0,0,0.12) 2px, rgba(0,0,0,0.12) 4px);
+      pointer-events: none; z-index: 1;
     }
-
-    .work-card-stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 8px;
-      padding-top: 8px;
-      border-top: 1px solid rgba(198, 123, 46, 0.3);
+    .gm-inner { position: relative; z-index: 2; text-align: center; width: 90%; max-width: 500px; }
+    .gm-title {
+      font-family: var(--fh); font-weight: 900;
+      font-size: clamp(2.8rem, 8vw, 4.5rem);
+      letter-spacing: 6px; color: var(--amber);
+      text-shadow: 0 0 40px rgba(198,123,46,0.5), 0 0 80px rgba(198,123,46,0.2);
+      margin: 0 0 6px; line-height: 1;
     }
-
-    .work-card-stat {
-      font-size: 11px;
+    .gm-sub {
+      font-family: var(--fm); font-size: 0.85rem;
+      letter-spacing: 4px; color: rgba(255,255,255,0.5);
+      margin: 0 0 60px;
     }
-
-    .work-card-stat-label {
-      color: var(--amber);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+    .gm-options { display: flex; flex-direction: column; text-align: left; margin: 0 auto 40px; max-width: 320px; }
+    .gm-opt {
+      padding: 14px 20px 14px 36px;
+      background: none; border: none;
+      color: rgba(255,255,255,0.45);
+      font-family: var(--fm); font-size: 1.05rem;
+      letter-spacing: 2px; position: relative;
+      transition: color 0.15s ease, background 0.15s ease;
+      text-align: left;
     }
-
-    .work-card-stat-value {
-      color: white;
-      font-weight: 700;
+    .gm-opt::before {
+      content: '▸'; position: absolute; left: 12px;
+      color: var(--amber); opacity: 0; transition: opacity 0.15s ease;
     }
-
-    .work-card-rarity-badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 3px;
-      font-size: 10px;
-      font-weight: 600;
-      text-transform: uppercase;
-      margin-top: 6px;
-      letter-spacing: 0.5px;
+    .gm-opt[aria-selected="true"] {
+      color: #fff;
+      background: linear-gradient(90deg, rgba(198,123,46,0.35) 0%, rgba(198,123,46,0.08) 70%, transparent);
     }
-
-    .work-card[data-rarity="legendary"] .work-card-rarity-badge {
-      background: var(--gold);
-      color: var(--dark);
+    .gm-opt[aria-selected="true"]::before { opacity: 1; }
+    .gm-opt:hover { color: rgba(255,255,255,0.8); }
+    .gm-blink {
+      font-family: var(--fm); font-size: 0.75rem;
+      letter-spacing: 1px; color: rgba(255,255,255,0.3);
+      animation: gmBlink 1.2s steps(2) infinite;
     }
-
-    .work-card[data-rarity="epic"] .work-card-rarity-badge {
-      background: var(--coral);
-      color: white;
+    @keyframes gmBlink { 0%,49%{opacity:1} 50%,100%{opacity:0.2} }
+    .gm-footer {
+      position: fixed; bottom: 16px; left: 0; right: 0;
+      display: flex; justify-content: center; gap: 32px;
+      font-family: var(--fm); font-size: 0.7rem;
+      letter-spacing: 2px; color: rgba(198,123,46,0.5); z-index: 100001;
     }
-
-    .work-card[data-rarity="rare"] .work-card-rarity-badge {
-      background: var(--teal);
-      color: white;
+    .gm-version {
+      position: fixed; bottom: 16px; right: 24px;
+      font-family: var(--fm); font-size: 0.65rem;
+      color: rgba(255,255,255,0.2); z-index: 100001;
     }
+    body.gm-active nav, body.gm-active .cursor-dot, body.gm-active .cursor-ring,
+    body.gm-active .cursor-glow, body.gm-active #cursorTrail,
+    body.gm-active .critter-container, body.gm-active .floating-cta,
+    body.gm-active .scroll-top, body.gm-active .scroll-progress,
+    body.gm-active .scroll-section-label, body.gm-active .reading-progress-text,
+    body.gm-active .ambient-wash, body.gm-active .dot-nav { display: none !important; }
 
-    .work-card[data-rarity="common"] .work-card-rarity-badge {
-      background: var(--amber);
-      color: var(--dark);
+    /* ═══ CHARACTER SELECT ═══ */
+    #charSelect {
+      position: fixed; inset: 0; z-index: 100002;
+      background: #0A0908; display: none; flex-direction: column;
     }
-
-    @media (pointer: coarse) {
-      #questFloatBtn, #questLogPanel {
-        display: none;
-      }
+    #charSelect.visible { display: flex; }
+    #charSelect::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(198,123,46,0.1), transparent 60%);
+      pointer-events: none;
     }
-
+    #charSelect::after {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent 0, transparent 2px, rgba(0,0,0,0.1) 2px, rgba(0,0,0,0.1) 4px);
+      pointer-events: none; z-index: 1;
+    }
+    .cs-portraits {
+      display: flex; justify-content: center; gap: 8px;
+      padding: 20px 16px 12px; position: relative; z-index: 2;
+    }
+    .cs-portrait {
+      width: 56px; height: 56px; border: 2px solid rgba(198,123,46,0.2);
+      background: rgba(255,255,255,0.03); border-radius: 4px;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      image-rendering: pixelated;
+    }
+    .cs-portrait.active {
+      border-color: var(--amber); transform: scale(1.12);
+      box-shadow: 0 0 16px rgba(198,123,46,0.4);
+    }
+    .cs-portrait:not(.active) { opacity: 0.5; }
+    .cs-main {
+      flex: 1; display: flex; align-items: center;
+      padding: 0 40px; gap: 40px; position: relative; z-index: 2;
+      max-width: 900px; margin: 0 auto; width: 100%;
+    }
+    .cs-preview { flex: 0 0 220px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .cs-canvas {
+      width: 180px; height: 234px; image-rendering: pixelated;
+      border: 2px solid rgba(198,123,46,0.15); background: rgba(255,255,255,0.02);
+    }
+    .cs-charname { font-family: var(--fh); font-size: 1.1rem; color: var(--amber); letter-spacing: 2px; font-weight: 700; }
+    .cs-info { flex: 1; min-width: 0; }
+    .cs-role { font-family: var(--fm); font-size: 0.75rem; letter-spacing: 3px; color: var(--amber); margin-bottom: 4px; }
+    .cs-title { font-family: var(--fh); font-size: 1.4rem; color: #fff; font-weight: 700; margin-bottom: 2px; }
+    .cs-period { font-family: var(--fm); font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-bottom: 12px; }
+    .cs-desc { font-family: var(--fb); font-size: 0.9rem; color: rgba(255,255,255,0.65); line-height: 1.5; margin-bottom: 20px; }
+    .cs-stat { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+    .cs-stat-label { font-family: var(--fm); font-size: 0.65rem; letter-spacing: 1px; color: rgba(255,255,255,0.5); width: 80px; text-align: right; }
+    .cs-stat-bar { flex: 1; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; }
+    .cs-stat-fill { height: 100%; background: var(--amber); border-radius: 3px; transition: width 0.4s var(--ease); }
+    .cs-stat-pct { font-family: var(--fm); font-size: 0.65rem; color: rgba(255,255,255,0.4); width: 32px; }
+    .cs-skills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+    .cs-skill { font-family: var(--fm); font-size: 0.65rem; padding: 3px 8px; background: rgba(198,123,46,0.12); border: 1px solid rgba(198,123,46,0.2); color: var(--amber); border-radius: 3px; }
+    .cs-bottom { padding: 16px 40px 20px; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 2; }
+    .cs-btn { font-family: var(--fm); font-size: 0.85rem; letter-spacing: 2px; padding: 10px 28px; border: 1px solid var(--amber); background: none; color: var(--amber); transition: all 0.15s ease; }
+    .cs-btn:hover { background: rgba(198,123,46,0.15); color: #fff; }
+    .cs-hints { font-family: var(--fm); font-size: 0.7rem; color: rgba(198,123,46,0.5); letter-spacing: 2px; }
+    @media (max-width: 700px) {
+      .cs-main { flex-direction: column; padding: 0 20px; gap: 20px; }
+      .cs-preview { flex: 0; }
+      .cs-canvas { width: 120px; height: 156px; }
+    }
     @media (prefers-reduced-motion: reduce) {
-      #questFloatBtn.bounce,
-      .quest-item,
-      .work-card::after,
-      .work-card-collected {
-        animation: none !important;
-        transition: none !important;
-      }
+      .gm-blink { animation: none; opacity: 0.5; }
     }
 
   </style>
@@ -6653,6 +5675,54 @@
 </div>
 <canvas class="matrix-canvas" id="matrixCanvas" aria-hidden="true"></canvas>
 <a href="#statement" class="skip-link">Skip to content</a>
+
+<!-- ═══ GAME START MENU ═══ -->
+<div id="gameMenu" role="dialog" aria-label="Start menu">
+  <div class="gm-inner">
+    <h1 class="gm-title">JONEIL CAOILE</h1>
+    <p class="gm-sub">BIOMEDICAL ENGINEER</p>
+    <div class="gm-options" role="menu">
+      <button class="gm-opt" role="menuitem" aria-selected="true" data-action="start">ARCADE MODE</button>
+      <button class="gm-opt" role="menuitem" aria-selected="false" data-action="charselect">CHARACTER SELECT</button>
+      <button class="gm-opt" role="menuitem" aria-selected="false" data-action="options">OPTIONS</button>
+    </div>
+    <p class="gm-blink">PRESS ENTER TO START</p>
+  </div>
+  <div class="gm-footer">
+    <span>↑↓ NAVIGATE</span>
+    <span>│</span>
+    <span>ENTER SELECT</span>
+    <span>│</span>
+    <span>CLICK TO CHOOSE</span>
+  </div>
+  <div class="gm-version">v14.2 // 14,179 lines // no framework</div>
+</div>
+
+<!-- ═══ CHARACTER SELECT ═══ -->
+<div id="charSelect" role="dialog" aria-label="Character select">
+  <div class="cs-portraits" id="csPortraits"></div>
+  <div class="cs-main">
+    <div class="cs-preview">
+      <canvas class="cs-canvas" id="csCanvas" width="180" height="234"></canvas>
+      <div class="cs-charname" id="csCharname"></div>
+    </div>
+    <div class="cs-info">
+      <div class="cs-role" id="csRole"></div>
+      <div class="cs-title" id="csTitle"></div>
+      <div class="cs-period" id="csPeriod"></div>
+      <p class="cs-desc" id="csDesc"></p>
+      <div id="csStats"></div>
+      <div class="cs-skills" id="csSkills"></div>
+    </div>
+  </div>
+  <div class="cs-bottom">
+    <div>
+      <button class="cs-btn" id="csSelectBtn">SELECT</button>
+      <button class="cs-btn" id="csBackBtn" style="margin-left:12px">BACK</button>
+    </div>
+    <div class="cs-hints">← → CYCLE │ ENTER SELECT │ ESC BACK</div>
+  </div>
+</div>
 
 <!-- LOADER — Grand Boot Sequence -->
 <div class="loader" id="loader">
@@ -6686,65 +5756,6 @@
     </div>
   </div>
   <button class="skip-intro" id="skipIntro" aria-label="Skip intro animation">Skip intro ▸</button>
-</div>
-
-<!-- TEKKEN START MENU -->
-<div id="startMenuOverlay" role="dialog" aria-label="Game start menu">
-  <div class="start-menu-container">
-    <h1 class="start-menu-title">JONEIL CAOILE</h1>
-    <p class="start-menu-subtitle">BIOMEDICAL ENGINEER</p>
-    <div class="start-menu-options">
-      <button class="menu-option selected" data-action="start" tabindex="0">ARCADE MODE</button>
-      <div class="menu-option-highlight"></div>
-      <button class="menu-option" data-action="character-select" tabindex="0">CHARACTER SELECT</button>
-      <div class="menu-option-highlight"></div>
-      <button class="menu-option" data-action="achievements" tabindex="0">OPTIONS</button>
-      <div class="menu-option-highlight"></div>
-    </div>
-    <p class="start-menu-press">PRESS ENTER TO START</p>
-  </div>
-  <div class="start-menu-hint">↑↓ NAVIGATE &nbsp;&nbsp;│&nbsp;&nbsp; ENTER SELECT &nbsp;&nbsp;│&nbsp;&nbsp; CLICK TO CHOOSE</div>
-  <div class="start-menu-version">v15.7 // 15,708 lines // no framework</div>
-</div>
-
-<!-- CHARACTER SELECT SCREEN -->
-<div id="characterSelectScreen" role="dialog" aria-label="Character select">
-  <div class="char-select-container">
-    <div class="char-portraits-row" id="charPortraitsRow"></div>
-    <div class="char-select-main">
-      <div class="char-select-preview">
-        <canvas id="charSelectCanvas" width="120" height="156"></canvas>
-      </div>
-      <div class="char-select-info">
-        <div class="char-info-role" id="charInfoRole"></div>
-        <h2 class="char-info-name" id="charInfoName"></h2>
-        <div class="char-info-title" id="charInfoTitle"></div>
-        <div class="char-info-period" id="charInfoPeriod"></div>
-        <p class="char-info-desc" id="charInfoDesc"></p>
-        <div class="char-stats" id="charStats"></div>
-        <div class="char-skills">
-          <div class="char-skills-label">SKILLS</div>
-          <div class="char-skill-tags" id="charSkillTags"></div>
-        </div>
-      </div>
-    </div>
-    <div class="char-select-buttons">
-      <button class="char-select-btn" id="charSelectBtn" tabindex="0">SELECT</button>
-      <button class="char-select-btn" id="charBackBtn" tabindex="0">BACK</button>
-    </div>
-  </div>
-  <div class="start-menu-hint">← → TO CYCLE    ENTER SELECT    ESC BACK</div>
-</div>
-
-<!-- ACHIEVEMENTS PANEL -->
-<div id="achievementsPanel" role="dialog" aria-label="Achievements">
-  <div class="achievements-container">
-    <h2 class="achievements-title">ACHIEVEMENTS</h2>
-    <div class="xp-display">XP: <span id="xpTotal">0</span></div>
-    <div class="achievements-list" id="achievementsList"></div>
-    <button class="achievements-back-btn" id="achievementsBackBtn" tabindex="0">BACK</button>
-  </div>
-  <div class="start-menu-hint">ESC OR BACKSPACE TO RETURN</div>
 </div>
 
 <!-- CURSOR GLOW -->
@@ -7934,17 +6945,6 @@
   <a class="dot-nav-item" href="#journey" data-section="journey" data-label="Journey" aria-label="Jump to journey"></a>
   <a class="dot-nav-item" href="#skills-matrix" data-section="skills-matrix" data-label="Matrix" aria-label="Jump to skills matrix"></a>
   <a class="dot-nav-item" href="#contact" data-section="contact" data-label="Contact" aria-label="Jump to contact"></a>
-</div>
-
-<!-- QUEST LOG PANEL -->
-<button id="questFloatBtn" aria-label="Open quest log" title="Open quest log">📜</button>
-
-<div id="questLogPanel" role="complementary" aria-label="Quest log">
-  <div class="quest-header">
-    <h3 class="quest-title">QUEST LOG</h3>
-    <div class="quest-xp-badge" id="totalXpBadge">XP: 0</div>
-  </div>
-  <ul class="quest-list" id="questList"></ul>
 </div>
 
 <!-- SCROLL TO TOP -->
@@ -13234,7 +12234,7 @@
 })();
 </script>
 
-<!-- 3D INTERACTIVE PARTICLE GALAXY -->
+<!-- 3D DNA HELIX + MOLECULAR NETWORK -->
 <script>
 (function init3DHero() {
   if (typeof THREE === 'undefined' || window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -13247,120 +12247,204 @@
   var h = heroEl.offsetHeight;
 
   var camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 100);
-  camera.position.set(0, 0, 18);
+  camera.position.set(0, 0, 14);
 
   var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
   renderer.setSize(w, h);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-  // Color palette
-  var colors = [0xC67B2E, 0xB84A3C, 0x156967, 0xD4A233];
-  var colorObjs = colors.map(function(c) { return new THREE.Color(c); });
+  // Color palette matching the site
+  var amberColor = new THREE.Color(0xC67B2E);
+  var coralColor = new THREE.Color(0xB84A3C);
+  var tealColor = new THREE.Color(0x156967);
+  var goldColor = new THREE.Color(0xD4A233);
 
-  // === PARTICLE GALAXY ===
-  var particleCount = 2500;
-  var galaxyGeo = new THREE.BufferGeometry();
-  var positions = new Float32Array(particleCount * 3);
-  var colors_ = new Float32Array(particleCount * 3);
-  var sizes = new Float32Array(particleCount);
-  var originalPositions = new Float32Array(particleCount * 3);
-  var velocities = [];
+  // === DNA DOUBLE HELIX ===
+  var helixGroup = new THREE.Group();
+  scene.add(helixGroup);
 
-  for (var i = 0; i < particleCount; i++) {
-    var angle = Math.random() * Math.PI * 2;
-    var radius = Math.random() * 8;
-    var x = Math.cos(angle) * radius;
-    var y = (Math.random() - 0.5) * 4 * (1 - radius / 8);
-    var z = Math.sin(angle) * radius * (0.3 + Math.random() * 0.7);
+  var helixPoints = 80;
+  var helixRadius = 1.8;
+  var helixHeight = 16;
+  var helixTurns = 3;
 
-    positions[i * 3] = x;
-    positions[i * 3 + 1] = y;
-    positions[i * 3 + 2] = z;
+  // Create helix strands as points
+  var strand1Geo = new THREE.BufferGeometry();
+  var strand2Geo = new THREE.BufferGeometry();
+  var strand1Pos = new Float32Array(helixPoints * 3);
+  var strand2Pos = new Float32Array(helixPoints * 3);
 
-    originalPositions[i * 3] = x;
-    originalPositions[i * 3 + 1] = y;
-    originalPositions[i * 3 + 2] = z;
+  for (var i = 0; i < helixPoints; i++) {
+    var t = i / helixPoints;
+    var angle = t * Math.PI * 2 * helixTurns;
+    var y = (t - 0.5) * helixHeight;
 
-    var col = colorObjs[Math.floor(Math.random() * colorObjs.length)];
-    colors_[i * 3] = col.r;
-    colors_[i * 3 + 1] = col.g;
-    colors_[i * 3 + 2] = col.b;
+    strand1Pos[i * 3] = Math.cos(angle) * helixRadius;
+    strand1Pos[i * 3 + 1] = y;
+    strand1Pos[i * 3 + 2] = Math.sin(angle) * helixRadius;
 
-    sizes[i] = 1 + Math.random() * 3;
-
-    velocities.push({
-      x: (Math.random() - 0.5) * 0.006,
-      y: (Math.random() - 0.5) * 0.006,
-      z: (Math.random() - 0.5) * 0.004
-    });
+    strand2Pos[i * 3] = Math.cos(angle + Math.PI) * helixRadius;
+    strand2Pos[i * 3 + 1] = y;
+    strand2Pos[i * 3 + 2] = Math.sin(angle + Math.PI) * helixRadius;
   }
 
-  galaxyGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  galaxyGeo.setAttribute('color', new THREE.BufferAttribute(colors_, 3));
-  galaxyGeo.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+  strand1Geo.setAttribute('position', new THREE.BufferAttribute(strand1Pos, 3));
+  strand2Geo.setAttribute('position', new THREE.BufferAttribute(strand2Pos, 3));
 
-  var galaxyMat = new THREE.PointsMaterial({
-    size: 0.08,
-    vertexColors: true,
+  var strandMat1 = new THREE.PointsMaterial({ color: amberColor, size: 0.08, transparent: true, opacity: 0.7 });
+  var strandMat2 = new THREE.PointsMaterial({ color: tealColor, size: 0.08, transparent: true, opacity: 0.7 });
+  helixGroup.add(new THREE.Points(strand1Geo, strandMat1));
+  helixGroup.add(new THREE.Points(strand2Geo, strandMat2));
+
+  // Base pair rungs connecting strands
+  var rungInterval = 4;
+  for (var i = 0; i < helixPoints; i += rungInterval) {
+    var t = i / helixPoints;
+    var angle = t * Math.PI * 2 * helixTurns;
+    var y = (t - 0.5) * helixHeight;
+
+    var x1 = Math.cos(angle) * helixRadius;
+    var z1 = Math.sin(angle) * helixRadius;
+    var x2 = Math.cos(angle + Math.PI) * helixRadius;
+    var z2 = Math.sin(angle + Math.PI) * helixRadius;
+
+    var rungGeo = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(x1, y, z1),
+      new THREE.Vector3(0, y, 0),
+      new THREE.Vector3(x2, y, z2)
+    ]);
+    var rungMat = new THREE.LineBasicMaterial({
+      color: i % 8 === 0 ? coralColor : goldColor,
+      transparent: true,
+      opacity: 0.25
+    });
+    helixGroup.add(new THREE.Line(rungGeo, rungMat));
+  }
+
+  // Strand connection lines (backbone)
+  var line1Geo = new THREE.BufferGeometry();
+  line1Geo.setAttribute('position', new THREE.BufferAttribute(strand1Pos.slice(), 3));
+  var line2Geo = new THREE.BufferGeometry();
+  line2Geo.setAttribute('position', new THREE.BufferAttribute(strand2Pos.slice(), 3));
+  var lineMat1 = new THREE.LineBasicMaterial({ color: amberColor, transparent: true, opacity: 0.2 });
+  var lineMat2 = new THREE.LineBasicMaterial({ color: tealColor, transparent: true, opacity: 0.2 });
+  helixGroup.add(new THREE.Line(line1Geo, lineMat1));
+  helixGroup.add(new THREE.Line(line2Geo, lineMat2));
+
+  helixGroup.position.set(4, 0, -2);
+  helixGroup.rotation.z = 0.3;
+
+  // === FLOATING MOLECULAR NODES ===
+  var nodeCount = 40;
+  var nodeGeo = new THREE.BufferGeometry();
+  var nodePos = new Float32Array(nodeCount * 3);
+  var nodeColors = new Float32Array(nodeCount * 3);
+  var nodeVelocities = [];
+  var palette = [amberColor, tealColor, coralColor, goldColor];
+
+  for (var i = 0; i < nodeCount; i++) {
+    nodePos[i * 3] = (Math.random() - 0.5) * 20;
+    nodePos[i * 3 + 1] = (Math.random() - 0.5) * 14;
+    nodePos[i * 3 + 2] = (Math.random() - 0.5) * 10 - 3;
+    nodeVelocities.push({
+      x: (Math.random() - 0.5) * 0.003,
+      y: (Math.random() - 0.5) * 0.003,
+      z: (Math.random() - 0.5) * 0.002
+    });
+    var c = palette[Math.floor(Math.random() * palette.length)];
+    nodeColors[i * 3] = c.r;
+    nodeColors[i * 3 + 1] = c.g;
+    nodeColors[i * 3 + 2] = c.b;
+  }
+  nodeGeo.setAttribute('position', new THREE.BufferAttribute(nodePos, 3));
+  nodeGeo.setAttribute('color', new THREE.BufferAttribute(nodeColors, 3));
+  var nodeMat = new THREE.PointsMaterial({
+    size: 0.12,
     transparent: true,
-    opacity: 0.8,
-    sizeAttenuation: true
+    opacity: 0.5,
+    vertexColors: true
   });
+  var nodes = new THREE.Points(nodeGeo, nodeMat);
+  scene.add(nodes);
 
-  var galaxy = new THREE.Points(galaxyGeo, galaxyMat);
-  scene.add(galaxy);
+  // === MOLECULAR BONDS (connecting nearby nodes) ===
+  var bondGroup = new THREE.Group();
+  scene.add(bondGroup);
+  var bondThreshold = 4;
 
-  // Mouse interaction
+  function updateBonds() {
+    while (bondGroup.children.length) {
+      var child = bondGroup.children[0];
+      child.geometry.dispose();
+      child.material.dispose();
+      bondGroup.remove(child);
+    }
+    var pos = nodeGeo.attributes.position.array;
+    for (var i = 0; i < nodeCount; i++) {
+      for (var j = i + 1; j < nodeCount; j++) {
+        var dx = pos[i * 3] - pos[j * 3];
+        var dy = pos[i * 3 + 1] - pos[j * 3 + 1];
+        var dz = pos[i * 3 + 2] - pos[j * 3 + 2];
+        var dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+        if (dist < bondThreshold) {
+          var g = new THREE.BufferGeometry().setFromPoints([
+            new THREE.Vector3(pos[i * 3], pos[i * 3 + 1], pos[i * 3 + 2]),
+            new THREE.Vector3(pos[j * 3], pos[j * 3 + 1], pos[j * 3 + 2])
+          ]);
+          var m = new THREE.LineBasicMaterial({
+            color: amberColor,
+            transparent: true,
+            opacity: 0.08 * (1 - dist / bondThreshold)
+          });
+          bondGroup.add(new THREE.Line(g, m));
+        }
+      }
+    }
+  }
+
+  // Mouse tracking for parallax
   var mouseX = 0, mouseY = 0;
-  var forceX = 0, forceY = 0;
-
   document.addEventListener('mousemove', function(e) {
     mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
     mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
   });
 
   var clock = new THREE.Clock();
+  var frameCount = 0;
 
   function animate() {
     requestAnimationFrame(animate);
     var elapsed = clock.getElapsedTime();
-    var pos = galaxyGeo.attributes.position.array;
 
-    forceX += (mouseX - forceX) * 0.05;
-    forceY += (-mouseY - forceY) * 0.05;
+    // Rotate helix slowly
+    helixGroup.rotation.y = elapsed * 0.15;
 
-    for (var i = 0; i < particleCount; i++) {
-      var origX = originalPositions[i * 3];
-      var origY = originalPositions[i * 3 + 1];
-      var origZ = originalPositions[i * 3 + 2];
+    // Mouse parallax on camera
+    camera.position.x += (mouseX * 1.5 - camera.position.x) * 0.02;
+    camera.position.y += (-mouseY * 0.8 - camera.position.y) * 0.02;
+    camera.lookAt(2, 0, 0);
 
-      var dx = mouseX * window.innerWidth * 0.02 - origX;
-      var dy = -mouseY * window.innerHeight * 0.02 - origY;
-      var dist = Math.sqrt(dx * dx + dy * dy);
-      var pushDist = 3;
-
-      if (dist < pushDist) {
-        var angle = Math.atan2(dy, dx);
-        var force = (1 - dist / pushDist) * 0.15;
-        pos[i * 3] += Math.cos(angle) * force;
-        pos[i * 3 + 1] += Math.sin(angle) * force;
-      }
-
-      pos[i * 3] += (origX - pos[i * 3]) * 0.02;
-      pos[i * 3 + 1] += (origY - pos[i * 3 + 1]) * 0.02;
-      pos[i * 3 + 2] += (origZ - pos[i * 3 + 2]) * 0.02;
+    // Animate floating nodes
+    var pos = nodeGeo.attributes.position.array;
+    for (var i = 0; i < nodeCount; i++) {
+      pos[i * 3] += nodeVelocities[i].x;
+      pos[i * 3 + 1] += nodeVelocities[i].y;
+      pos[i * 3 + 2] += nodeVelocities[i].z;
+      // Boundary wrapping
+      if (Math.abs(pos[i * 3]) > 10) nodeVelocities[i].x *= -1;
+      if (Math.abs(pos[i * 3 + 1]) > 7) nodeVelocities[i].y *= -1;
+      if (Math.abs(pos[i * 3 + 2]) > 8) nodeVelocities[i].z *= -1;
     }
+    nodeGeo.attributes.position.needsUpdate = true;
 
-    galaxyGeo.attributes.position.needsUpdate = true;
-    galaxy.rotation.y = elapsed * 0.05;
-
-    camera.position.x += (forceX * 2 - camera.position.x) * 0.03;
-    camera.position.y += (forceY * 2 - camera.position.y) * 0.03;
-    camera.lookAt(0, 0, 0);
+    // Update bonds every 30 frames (performance)
+    frameCount++;
+    if (frameCount % 30 === 0) updateBonds();
 
     renderer.render(scene, camera);
   }
 
+  // Resize handler
   window.addEventListener('resize', function() {
     w = heroEl.offsetWidth;
     h = heroEl.offsetHeight;
@@ -13369,11 +12453,14 @@
     renderer.setSize(w, h);
   });
 
+  // Start after loader finishes
   setTimeout(function() {
     canvas.classList.add('active');
     animate();
+    updateBonds();
   }, 3800);
 
+  // Fade out on scroll past hero
   var hero3dFaded = false;
   window.addEventListener('scroll', function() {
     if (!hero3dFaded && window.scrollY > h * 0.7) {
@@ -15284,794 +14371,283 @@
 })();
 </script>
 
-<!-- Hero name character cascade with decryption effect -->
+<!-- ═══ GAME MENU LOGIC ═══ -->
 <script>
 (function(){
-  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
-  var heroName=document.querySelector('.hero-name');
-  if(!heroName)return;
-  var text=heroName.textContent.trim();
-  heroName.textContent='';
-  var chars=text.split('').map(function(char){
-    var span=document.createElement('span');
-    span.className='char-cascade-span';
-    span.textContent=char;
-    span.style.setProperty('--rotation',(Math.random()-0.5)*40+'deg');
-    heroName.appendChild(span);
-    return span;
-  });
-  var randomChars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%';
-  function showDecrypt(){
-    chars.forEach(function(span,idx){
-      var delay=Math.random()*0.2;
-      setTimeout(function(){
-        var startChars=Math.random()*2+1;
-        var iterations=0;
-        var interval=setInterval(function(){
-          span.textContent=randomChars[Math.floor(Math.random()*randomChars.length)];
-          iterations++;
-          if(iterations>startChars){
-            span.textContent=text[idx];
-            clearInterval(interval);
-            span.classList.add('active');
-          }
-        },60);
-      },delay*1000);
-    });
-  }
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',showDecrypt);
-  }else{
-    setTimeout(showDecrypt,200);
-  }
-})();
-</script>
-
-<!-- Section h2 headings: split-text wave animation -->
-<script>
-(function(){
-  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
-  var headings=document.querySelectorAll('h2');
-  if(!headings.length)return;
-  headings.forEach(function(h2){
-    if(h2.closest('.loader'))return;
-    var text=h2.textContent;
-    h2.textContent='';
-    var chars=text.split('').map(function(char){
-      var span=document.createElement('span');
-      span.className='split-char';
-      span.textContent=char;
-      h2.appendChild(span);
-      return span;
-    });
-    var obs=new IntersectionObserver(function(entries){
-      if(entries[0].isIntersecting){
-        chars.forEach(function(span,idx){
-          var delay=(idx*0.03)+'s';
-          var waveOffset=Math.sin(idx*0.3)*8;
-          span.style.animation='char-wave 0.5s cubic-bezier(0.34,1.56,0.64,1) '+delay+' forwards';
-          obs.unobserve(h2);
-        });
-      }
-    },{threshold:0.5});
-    obs.observe(h2);
-  });
-})();
-</script>
-
-<!-- Statement quote: word reveal on scroll -->
-<script>
-(function(){
-  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
-  var statement=document.querySelector('#statement .statement-text, #statement blockquote, .statement-quote');
-  if(!statement)return;
-  var text=statement.textContent;
-  statement.textContent='';
-  var words=text.split(/\s+/).map(function(word){
-    var span=document.createElement('span');
-    span.className='split-word';
-    span.textContent=word;
-    statement.appendChild(span);
-    return span;
-  });
-  var scrollHandler=function(){
-    var rect=statement.getBoundingClientRect();
-    var progress=Math.max(0,Math.min(1,(window.innerHeight-rect.top)/(window.innerHeight+rect.height)));
-    var revealCount=Math.floor(progress*words.length);
-    words.forEach(function(word,idx){
-      if(idx<revealCount){
-        word.style.animation='word-reveal 0.4s ease-out forwards';
-        word.style.opacity='1';
-        word.style.filter='blur(0)';
-      }else{
-        word.style.opacity='0';
-        word.style.filter='blur(6px)';
-      }
-    });
-  };
-  window.addEventListener('scroll',scrollHandler,{passive:true});
-  scrollHandler();
-})();
-</script>
-
-<!-- Bring cards: expansion animation on scroll -->
-<script>
-(function(){
-  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
-  var cards=document.querySelectorAll('.bring-card, [class*="bring-card"]');
-  if(!cards.length)return;
-  cards.forEach(function(card,idx){
-    card.style.transformOrigin='center';
-    var obs=new IntersectionObserver(function(entries){
-      if(entries[0].isIntersecting){
-        setTimeout(function(){
-          card.classList.add('expand');
-        },idx*100);
-        obs.unobserve(card);
-      }
-    },{threshold:0.1});
-    obs.observe(card);
-  });
-})();
-</script>
-
-<!-- Work cards: cascade entrance from alternating sides -->
-<script>
-(function(){
-  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
-  var grid=document.querySelector('.work-grid, [class*="work-grid"], [id*="work"] > div');
-  if(!grid)return;
-  var cards=grid.querySelectorAll('.work-card, [class*="work-card"], .card, [class*="card"]');
-  if(!cards.length)return;
-  cards.forEach(function(card,idx){
-    var isOdd=idx%2===0;
-    card.style.setProperty('--offset',isOdd?'-30px':'30px');
-    card.style.setProperty('--tilt',isOdd?'-5deg':'5deg');
-    var obs=new IntersectionObserver(function(entries){
-      if(entries[0].isIntersecting){
-        setTimeout(function(){
-          card.classList.add('cascade');
-        },idx*80);
-        obs.unobserve(card);
-      }
-    },{threshold:0.05});
-    obs.observe(card);
-  });
-})();
-</script>
-
-<!-- Cinematic horizontal wipe transition (statement to bring) -->
-<script>
-(function(){
-  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
-  var statement=document.getElementById('statement');
-  var bring=document.getElementById('bring');
-  if(!statement||!bring)return;
-  var wipe=document.createElement('div');
-  wipe.className='section-wipe';
-  wipe.setAttribute('aria-hidden','true');
-  document.body.appendChild(wipe);
-  var triggerPoint=(statement.offsetTop+statement.offsetHeight);
-  var scrollHandler=function(){
-    var scrollPos=window.scrollY+window.innerHeight;
-    if(scrollPos>=triggerPoint&&scrollPos<triggerPoint+window.innerHeight*0.5){
-      wipe.classList.add('active');
-      setTimeout(function(){
-        wipe.classList.remove('active');
-      },800);
-      window.removeEventListener('scroll',scrollHandler);
-    }
-  };
-  window.addEventListener('scroll',scrollHandler,{passive:true});
-})();
-</script>
-
-<!-- Curtain reveal transition (story to featured) -->
-<script>
-(function(){
-  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
-  var story=document.getElementById('story');
-  var featured=document.getElementById('featured');
-  if(!story||!featured)return;
-  var leftCurtain=document.createElement('div');
-  leftCurtain.className='curtain-panel curtain-left';
-  leftCurtain.setAttribute('aria-hidden','true');
-  var rightCurtain=document.createElement('div');
-  rightCurtain.className='curtain-panel curtain-right';
-  rightCurtain.setAttribute('aria-hidden','true');
-  document.body.appendChild(leftCurtain);
-  document.body.appendChild(rightCurtain);
-  var triggerPoint=(story.offsetTop+story.offsetHeight);
-  var scrollHandler=function(){
-    var scrollPos=window.scrollY+window.innerHeight;
-    if(scrollPos>=triggerPoint&&scrollPos<triggerPoint+window.innerHeight*0.5){
-      leftCurtain.classList.add('open');
-      rightCurtain.classList.add('open');
-      setTimeout(function(){
-        leftCurtain.style.display='none';
-        rightCurtain.style.display='none';
-      },700);
-      window.removeEventListener('scroll',scrollHandler);
-    }
-  };
-  window.addEventListener('scroll',scrollHandler,{passive:true});
-})();
-</script>
-
-<!-- QUEST LOG SYSTEM -->
-<script>
-(function initQuestLog(){
-  if(window.matchMedia('(pointer: coarse)').matches||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  var btn=document.getElementById('questFloatBtn');
-  var panel=document.getElementById('questLogPanel');
-  var list=document.getElementById('questList');
-  var xpBadge=document.getElementById('totalXpBadge');
-  if(!btn||!panel||!list)return;
-
-  var quests={
-    main:{icon:'🗺️',title:'Explore Joneil\'s Portfolio',max:11,xp:500},
-    caseStudies:{icon:'📖',title:'Visit All Case Studies',max:6,xp:300},
-    easterEggs:{icon:'🎉',title:'Find 3 Easter Eggs',max:3,xp:250},
-    devTools:{icon:'⚙️',title:'Read the Source Code',max:1,xp:100},
-    nightExplorer:{icon:'🌙',title:'Night Explorer',max:1,xp:150},
-    speedReader:{icon:'⚡',title:'Speed Reader',max:1,xp:200},
-    curious:{icon:'🧠',title:'Curious Mind',max:5,xp:150}
-  };
-
-  var state={
-    totalXp:0,
-    sectionsVisited:new Set(),
-    caseStudiesCollected:new Set(),
-    easterEggsFound:new Set(),
-    devToolsOpened:false,
-    startTime:Date.now(),
-    interactionsCount:0
-  };
-
-  function loadState(){
-    var saved=sessionStorage.getItem('questState');
-    if(saved){
-      try{
-        var parsed=JSON.parse(saved);
-        state.totalXp=parsed.totalXp||0;
-        state.sectionsVisited=new Set(parsed.sectionsVisited||[]);
-        state.caseStudiesCollected=new Set(parsed.caseStudiesCollected||[]);
-        state.easterEggsFound=new Set(parsed.easterEggsFound||[]);
-        state.devToolsOpened=parsed.devToolsOpened||false;
-        state.startTime=parsed.startTime||Date.now();
-        state.interactionsCount=parsed.interactionsCount||0;
-      }catch(e){}
-    }
-  }
-
-  function saveState(){
-    sessionStorage.setItem('questState',JSON.stringify({
-      totalXp:state.totalXp,
-      sectionsVisited:Array.from(state.sectionsVisited),
-      caseStudiesCollected:Array.from(state.caseStudiesCollected),
-      easterEggsFound:Array.from(state.easterEggsFound),
-      devToolsOpened:state.devToolsOpened,
-      startTime:state.startTime,
-      interactionsCount:state.interactionsCount
-    }));
-  }
-
-  function getQuestProgress(questKey){
-    switch(questKey){
-      case 'main':return Math.min(state.sectionsVisited.size,quests.main.max);
-      case 'caseStudies':return Math.min(state.caseStudiesCollected.size,quests.caseStudies.max);
-      case 'easterEggs':return Math.min(state.easterEggsFound.size,quests.easterEggs.max);
-      case 'devTools':return state.devToolsOpened?1:0;
-      case 'nightExplorer':return new Date().getHours()<6||new Date().getHours()>=22?1:0;
-      case 'speedReader':return(Date.now()-state.startTime)<60000?1:0;
-      case 'curious':return Math.min(state.interactionsCount,quests.curious.max);
-      default:return 0;
-    }
-  }
-
-  function isQuestComplete(questKey){
-    return getQuestProgress(questKey)===quests[questKey].max;
-  }
-
-  function renderQuests(){
-    list.innerHTML='';
-    var totalXpDisplay=0;
-    Object.keys(quests).forEach(function(questKey){
-      var quest=quests[questKey];
-      var progress=getQuestProgress(questKey);
-      var isComplete=progress===quest.max;
-      var li=document.createElement('li');
-      li.className='quest-item'+(isComplete?' completed':'');
-      var progressPercent=(progress/quest.max)*100;
-      li.innerHTML='\
-        <div class="quest-icon">'+quest.icon+'</div>\
-        <div class="quest-details">\
-          <div class="quest-item-title">'+quest.title+'</div>\
-          <div class="quest-progress">\
-            <div class="quest-progress-bar" style="width:'+progressPercent+'%"></div>\
-          </div>\
-          <div class="quest-item-meta">\
-            <span>'+progress+' / '+quest.max+'</span>\
-            <span class="quest-xp-reward">+'+quest.xp+' XP</span>\
-          </div>\
-        </div>';
-      list.appendChild(li);
-      if(isComplete)totalXpDisplay+=quest.xp;
-    });
-    state.totalXp=totalXpDisplay;
-    xpBadge.textContent='XP: '+state.totalXp;
-    saveState();
-  }
-
-  btn.addEventListener('click',function(){
-    panel.classList.toggle('open');
-  });
-
-  document.addEventListener('keydown',function(e){
-    if(e.key==='Escape'&&panel.classList.contains('open')){
-      panel.classList.remove('open');
-    }
-  });
-
-  var sections=['hero','credentials','statement','bring','story','featured','work','skills-matrix','journey','personal','contact'];
-  var observer=new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      if(entry.isIntersecting){
-        var id=entry.target.id;
-        if(!state.sectionsVisited.has(id)){
-          state.sectionsVisited.add(id);
-          btn.classList.add('bounce');
-          setTimeout(function(){btn.classList.remove('bounce');},600);
-          renderQuests();
-        }
-      }
-    });
-  },{threshold:0.3});
-
-  sections.forEach(function(id){
-    var el=document.getElementById(id);
-    if(el)observer.observe(el);
-  });
-
-  document.querySelectorAll('a[href^="case-"]').forEach(function(link){
-    link.addEventListener('click',function(e){
-      var href=link.getAttribute('href');
-      var projectName=href.replace('case-','').replace('.html','');
-      if(!state.caseStudiesCollected.has(projectName)){
-        state.caseStudiesCollected.add(projectName);
-        var card=link.closest('.work-card');
-        if(card){
-          card.classList.add('collected');
-          var collected=document.createElement('div');
-          collected.className='work-card-collected';
-          collected.textContent='✓';
-          card.appendChild(collected);
-        }
-        btn.classList.add('bounce');
-        setTimeout(function(){btn.classList.remove('bounce');},600);
-        renderQuests();
-      }
-    });
-  });
-
-  window.addEventListener('keydown',function(e){
-    if(e.ctrlKey&&e.shiftKey&&e.key==='D'){
-      e.preventDefault();
-      if(!state.devToolsOpened){
-        state.devToolsOpened=true;
-        btn.classList.add('bounce');
-        setTimeout(function(){btn.classList.remove('bounce');},600);
-        renderQuests();
-      }
-    }
-  });
-
-  window.addEventListener('keydown',function(e){
-    if(e.key==='Enter'){
-      if(document.activeElement.tagName==='BUTTON'||document.activeElement.tagName==='A'){
-        state.interactionsCount++;
-        renderQuests();
-      }
-    }
-  });
-
-  document.addEventListener('click',function(e){
-    if(e.target.closest('[data-draw],.critter-container,.command-palette-input,.sound-toggle,button,a')){
-      state.interactionsCount++;
-      renderQuests();
-    }
-  });
-
-  document.addEventListener('easter-egg-found',function(e){
-    var eggName=e.detail||'egg';
-    if(!state.easterEggsFound.has(eggName)){
-      state.easterEggsFound.add(eggName);
-      btn.classList.add('bounce');
-      setTimeout(function(){btn.classList.remove('bounce');},600);
-      renderQuests();
-    }
-  });
-
-  loadState();
-  renderQuests();
-})();
-</script>
-
-<!-- TEKKEN GAME MENU SYSTEM -->
-<script>
-(function() {
   'use strict';
-
-  // Prefers reduced motion? Skip animations
-  if (matchMedia('(prefers-reduced-motion:reduce)').matches) {
-    var o = document.getElementById('startMenuOverlay');
-    if (o) o.style.display = 'none';
-    return;
-  }
+  var menu = document.getElementById('gameMenu');
+  var cs = document.getElementById('charSelect');
+  if (!menu || !cs) return;
 
   // Character data
-  var CHAR_DATA = {
-    kid: {
-      role: 'SoCal Kid',
-      name: 'Where It Started',
-      title: 'Cerritos, CA',
-      period: '1998–2017',
-      desc: 'Grew up in Carson and Torrance, SoCal. Basketball, Filipino household, first taste of design through gaming. The roots that shaped everything.',
-      stats: { Clinical: 0, Engineering: 10, Research: 5, Design: 15, Leadership: 20 },
-      skills: ['Basketball', 'Gaming', 'Design Curiosity', 'Filipino Heritage']
-    },
-    prospector: {
-      role: 'Prospector',
-      name: '49ers',
-      title: 'Kinesiology',
-      period: '2017–2020',
-      desc: 'Cal State Long Beach. Learned how the body moves, how patients recover, where devices fall short. The bridge between biology and engineering.',
-      stats: { Clinical: 30, Engineering: 25, Research: 40, Design: 20, Leadership: 35 },
-      skills: ['Kinesiology', 'Anatomy', 'Rehabilitation', 'Observation']
-    },
-    clinical: {
-      role: 'Clinical Observer',
-      name: '400+ Hours',
-      title: 'Physical Therapy Clinics',
-      period: '2020–2024',
-      desc: 'Watched devices fail patients. Saw firsthand what works and what doesn\'t. Decided to fix it from the engineering side.',
-      stats: { Clinical: 75, Engineering: 15, Research: 50, Design: 30, Leadership: 40 },
-      skills: ['Clinical Insight', 'Problem Identification', 'User Empathy', 'Device Analysis']
-    },
-    duck: {
-      role: 'Duck',
-      name: 'Stevens Institute',
-      title: 'M.S. Biomedical Engineering',
-      period: '2024–2026',
-      desc: 'Design verification, usability evaluation, regulatory strategy. Built 3 device projects. Where clinical insight meets engineering rigor.',
-      stats: { Clinical: 80, Engineering: 85, Research: 70, Design: 65, Leadership: 60 },
-      skills: ['Design Verification', 'Usability Testing', 'Regulatory Strategy', 'Device Design']
-    },
-    acolyte: {
-      role: 'Acolyte',
-      name: 'Validation Engineer',
-      title: 'First Path',
-      period: 'May 2026+',
-      desc: 'Mastering device validation and quality assurance. Bridging design intent with regulatory reality. The careful engineer path.',
-      stats: { Clinical: 85, Engineering: 95, Research: 60, Design: 50, Leadership: 70 },
-      skills: ['Validation', 'QA', 'Regulatory', 'Testing', 'Risk Analysis']
-    },
-    sage: {
-      role: 'Sage',
-      name: 'Applications Engineer',
-      title: 'Second Path',
-      period: 'May 2026+',
-      desc: 'Deep technical support and customer solutions. Understanding user needs, solving complex problems. The bridge-builder path.',
-      stats: { Clinical: 90, Engineering: 80, Research: 75, Design: 85, Leadership: 80 },
-      skills: ['Application Support', 'Customer Engineering', 'Problem-Solving', 'Training']
-    },
-    blacksmith: {
-      role: 'Blacksmith',
-      name: 'R&D Engineer',
-      title: 'Third Path',
-      period: 'May 2026+',
-      desc: 'Building and improving devices. Prototyping, testing, iteration. The hands-on innovation path.',
-      stats: { Clinical: 70, Engineering: 95, Research: 90, Design: 60, Leadership: 65 },
-      skills: ['Device Design', 'Prototyping', 'Testing', 'Engineering', 'Innovation']
-    },
-    creator: {
-      role: 'Creator',
-      name: 'Human Factors Engineer',
-      title: 'Fourth Path',
-      period: 'May 2026+',
-      desc: 'Designing with users. Usability, human factors, clinical workflows. The people-centered path.',
-      stats: { Clinical: 85, Engineering: 75, Research: 80, Design: 95, Leadership: 75 },
-      skills: ['Usability', 'Human Factors', 'User Research', 'Design Thinking', 'Empathy']
-    }
-  };
-
-  var ORDER = ['kid', 'prospector', 'clinical', 'duck', 'acolyte', 'sage', 'blacksmith', 'creator'];
-  var charIdx = 0, xp = 0;
-  var ol = document.getElementById('startMenuOverlay');
-  var cs = document.getElementById('characterSelectScreen');
-  var ap = document.getElementById('achievementsPanel');
-  var mo = document.querySelectorAll('.menu-option');
-  var menuIdx = 0;
-
-  if (!ol || !cs || !ap) return;
-
-  var achievements = [
-    { id: 'first-visit', name: 'First Visit', desc: 'Start the game', unlocked: true },
-    { id: 'all-sections', name: 'Read All Sections', desc: 'Visit every section on the portfolio', unlocked: false },
-    { id: 'easter-egg', name: 'Easter Egg Hunter', desc: 'Find a hidden easter egg', unlocked: false },
-    { id: 'night-owl', name: 'Night Owl', desc: 'Visit late at night', unlocked: false },
-    { id: 'all-characters', name: 'Character Master', desc: 'View all characters', unlocked: false }
+  var ROSTER = [
+    { key:'kid', role:'ORIGINS', name:'SoCal Kid', title:'Cerritos, CA', period:'1998 - 2017',
+      desc:'Grew up in Carson and Torrance. Basketball, Filipino household, first taste of design through gaming.',
+      stats:{Clinical:0,Engineering:10,Research:5,Design:15,Leadership:20},
+      skills:['Basketball','Gaming','Design Curiosity'] },
+    { key:'prospector', role:'UNDERGRAD', name:'Prospector', title:'Cal State Long Beach', period:'2017 - 2020',
+      desc:'B.S. Kinesiology. Learned how the body moves, how patients recover, where devices fall short.',
+      stats:{Clinical:30,Engineering:25,Research:40,Design:20,Leadership:35},
+      skills:['Kinesiology','Anatomy','Rehabilitation'] },
+    { key:'clinical', role:'FIELD WORK', name:'Clinical Observer', title:'Physical Therapy Clinics', period:'2020 - 2024',
+      desc:'400+ hours watching devices fail patients. Decided to fix it from the engineering side.',
+      stats:{Clinical:75,Engineering:15,Research:50,Design:30,Leadership:40},
+      skills:['Clinical Insight','User Empathy','Device Analysis'] },
+    { key:'duck', role:'GRADUATE', name:'Duck', title:'Stevens Institute of Technology', period:'2024 - 2026',
+      desc:'M.S. Biomedical Engineering. Design verification, usability evaluation, regulatory strategy. Built 3 device projects.',
+      stats:{Clinical:80,Engineering:85,Research:70,Design:65,Leadership:60},
+      skills:['Design Verification','Usability Testing','Regulatory','Device Design'] },
+    { key:'acolyte', role:'PATH 1', name:'Acolyte', title:'Validation Engineer', period:'May 2026+',
+      desc:'Mastering device validation and quality assurance. Bridging design intent with regulatory reality.',
+      stats:{Clinical:85,Engineering:95,Research:60,Design:50,Leadership:70},
+      skills:['Validation','QA','Regulatory','Risk Analysis'] },
+    { key:'sage', role:'PATH 2', name:'Sage', title:'Applications Engineer', period:'May 2026+',
+      desc:'Deep technical support and customer solutions. Understanding user needs, solving complex problems.',
+      stats:{Clinical:90,Engineering:80,Research:75,Design:85,Leadership:80},
+      skills:['App Support','Customer Engineering','Training'] },
+    { key:'blacksmith', role:'PATH 3', name:'Blacksmith', title:'R&D Engineer', period:'May 2026+',
+      desc:'Building and improving devices. Prototyping, testing, iteration. The hands-on innovation path.',
+      stats:{Clinical:70,Engineering:95,Research:90,Design:60,Leadership:65},
+      skills:['Device Design','Prototyping','Testing','Innovation'] },
+    { key:'creator', role:'PATH 4', name:'Creator', title:'Human Factors Engineer', period:'May 2026+',
+      desc:'Designing with users. Usability, human factors, clinical workflows. The people-centered path.',
+      stats:{Clinical:85,Engineering:75,Research:80,Design:95,Leadership:75},
+      skills:['Usability','Human Factors','User Research','Design Thinking'] }
   ];
 
-  // Sound effect
-  function playSound() {
+  var menuIdx = 0;
+  var charIdx = 0;
+  var opts = menu.querySelectorAll('.gm-opt');
+  var animFrame = 0;
+
+  // Sound
+  function beep(freq){
     try {
-      var ctx = new (window.AudioContext || window.webkitAudioContext)();
-      var now = ctx.currentTime;
-      var osc = ctx.createOscillator();
-      var gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.frequency.value = 523;
-      osc.type = 'square';
-      gain.gain.setValueAtTime(0.3, now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
-      osc.start(now);
-      osc.stop(now + 0.1);
-    } catch (e) {}
+      var a = new (window.AudioContext||window.webkitAudioContext)();
+      var o = a.createOscillator();
+      var g = a.createGain();
+      o.connect(g); g.connect(a.destination);
+      o.frequency.value = freq || 520;
+      o.type = 'square';
+      g.gain.setValueAtTime(0.15, a.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, a.currentTime + 0.08);
+      o.start(a.currentTime); o.stop(a.currentTime + 0.08);
+    } catch(e){}
   }
 
-  // Update start menu selection
-  function updateMenuSelection() {
-    mo.forEach(function(o, i) {
-      o.classList.toggle('selected', i === menuIdx);
+  // ── START MENU ──
+  function updateMenu(){
+    opts.forEach(function(o,i){
+      o.setAttribute('aria-selected', i === menuIdx ? 'true' : 'false');
     });
   }
 
-  // Handle menu action
-  function handleMenuAction(action) {
-    playSound();
+  function doAction(action){
+    beep(660);
     if (action === 'start') {
-      ol.classList.remove('active');
-      document.body.classList.remove('game-menu-active');
-      xp += 10;
-    } else if (action === 'character-select') {
-      ol.classList.remove('active');
-      cs.classList.add('active');
+      menu.classList.remove('visible');
+      document.body.classList.remove('gm-active');
+    } else if (action === 'charselect') {
+      menu.classList.remove('visible');
+      cs.classList.add('visible');
       charIdx = 0;
-      updateCharacter();
-      drawCharacterPortraits();
-    } else if (action === 'achievements') {
-      ol.classList.remove('active');
-      ap.classList.add('active');
-      refreshAchievements();
+      buildPortraits();
+      updateChar();
+      startCharAnim();
+    } else if (action === 'options') {
+      // Simple: just start the site (options is a fun extra, not blocking)
+      menu.classList.remove('visible');
+      document.body.classList.remove('gm-active');
     }
   }
 
-  // Start menu keyboard
-  document.addEventListener('keydown', function(e) {
-    if (!ol.classList.contains('active')) return;
-    if (e.key === 'ArrowDown') {
-      menuIdx = (menuIdx + 1) % mo.length;
-      updateMenuSelection();
-      e.preventDefault();
-    } else if (e.key === 'ArrowUp') {
-      menuIdx = (menuIdx - 1 + mo.length) % mo.length;
-      updateMenuSelection();
-      e.preventDefault();
-    } else if (e.key === 'Enter') {
-      handleMenuAction(mo[menuIdx].dataset.action);
-      e.preventDefault();
-    }
-  });
-
-  // Start menu clicks
-  mo.forEach(function(o) {
-    o.addEventListener('click', function() {
-      menuIdx = Array.from(mo).indexOf(o);
-      updateMenuSelection();
-      handleMenuAction(o.dataset.action);
+  // Click handlers
+  opts.forEach(function(o, i){
+    o.addEventListener('click', function(){
+      menuIdx = i;
+      updateMenu();
+      doAction(o.dataset.action);
     });
   });
 
-  // Draw character portrait canvas (small 20x26)
-  function drawPortrait(charKey, canvas) {
-    var ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.imageSmoothingEnabled = false;
-    if (typeof CHARS !== 'undefined' && CHARS[charKey]) {
-      ctx.save();
-      ctx.scale(3, 3);
-      ctx.translate(3, 3);
-      CHARS[charKey](ctx, 0, false, 0);
-      ctx.restore();
+  // Keyboard
+  document.addEventListener('keydown', function(e){
+    if (!menu.classList.contains('visible')) return;
+    if (e.key === 'ArrowDown' || e.key === 's') {
+      menuIdx = (menuIdx + 1) % opts.length;
+      updateMenu(); beep(440); e.preventDefault();
+    } else if (e.key === 'ArrowUp' || e.key === 'w') {
+      menuIdx = (menuIdx - 1 + opts.length) % opts.length;
+      updateMenu(); beep(440); e.preventDefault();
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      doAction(opts[menuIdx].dataset.action);
+      e.preventDefault();
     }
-  }
+  });
 
-  // Draw all character portrait thumbnails
-  function drawCharacterPortraits() {
-    var row = document.getElementById('charPortraitsRow');
+  // ── CHARACTER SELECT ──
+  var csCanvas = document.getElementById('csCanvas');
+  var csCtx = csCanvas ? csCanvas.getContext('2d') : null;
+  var charAnimId = null;
+
+  function buildPortraits(){
+    var row = document.getElementById('csPortraits');
     row.innerHTML = '';
-    ORDER.forEach(function(charKey, i) {
-      var canvas = document.createElement('canvas');
-      canvas.width = 20;
-      canvas.height = 26;
-      canvas.className = 'char-portrait' + (i === charIdx ? ' active' : '');
-      drawPortrait(charKey, canvas);
-      canvas.addEventListener('click', function() {
+    ROSTER.forEach(function(ch, i){
+      var c = document.createElement('canvas');
+      c.width = 40; c.height = 52;
+      c.className = 'cs-portrait' + (i === charIdx ? ' active' : '');
+      c.title = ch.name;
+      var ctx = c.getContext('2d');
+      ctx.imageSmoothingEnabled = false;
+      // Draw small portrait
+      if (typeof CHARS !== 'undefined' && CHARS[ch.key]) {
+        ctx.save(); ctx.scale(2, 2); CHARS[ch.key](ctx, 0, false, 0); ctx.restore();
+      }
+      c.addEventListener('click', function(){
         charIdx = i;
-        updateCharacter();
-        updatePortraitSelection();
+        updateChar();
+        buildPortraits();
+        beep(520);
       });
-      row.appendChild(canvas);
+      row.appendChild(c);
     });
   }
 
-  // Update portrait selection highlight
-  function updatePortraitSelection() {
-    var portraits = document.querySelectorAll('.char-portrait');
-    portraits.forEach(function(p, i) {
+  function updateChar(){
+    var ch = ROSTER[charIdx];
+    document.getElementById('csCharname').textContent = ch.name;
+    document.getElementById('csRole').textContent = ch.role;
+    document.getElementById('csTitle').textContent = ch.title;
+    document.getElementById('csPeriod').textContent = ch.period;
+    document.getElementById('csDesc').textContent = ch.desc;
+
+    // Stats
+    var statsEl = document.getElementById('csStats');
+    statsEl.innerHTML = '';
+    for (var s in ch.stats) {
+      var row = document.createElement('div');
+      row.className = 'cs-stat';
+      row.innerHTML = '<div class="cs-stat-label">' + s + '</div>' +
+        '<div class="cs-stat-bar"><div class="cs-stat-fill" style="width:0%"></div></div>' +
+        '<div class="cs-stat-pct">' + ch.stats[s] + '%</div>';
+      statsEl.appendChild(row);
+    }
+    // Animate stat bars in
+    setTimeout(function(){
+      statsEl.querySelectorAll('.cs-stat-fill').forEach(function(fill, i){
+        var keys = Object.keys(ch.stats);
+        fill.style.width = ch.stats[keys[i]] + '%';
+      });
+    }, 50);
+
+    // Skills
+    var skillsEl = document.getElementById('csSkills');
+    skillsEl.innerHTML = '';
+    ch.skills.forEach(function(sk){
+      var tag = document.createElement('span');
+      tag.className = 'cs-skill';
+      tag.textContent = sk;
+      skillsEl.appendChild(tag);
+    });
+
+    // Update portrait highlights
+    document.querySelectorAll('.cs-portrait').forEach(function(p, i){
       p.classList.toggle('active', i === charIdx);
     });
   }
 
-  // Update character info panel
-  function updateCharacter() {
-    var key = ORDER[charIdx];
-    var data = CHAR_DATA[key];
-
-    document.getElementById('charInfoRole').textContent = data.role;
-    document.getElementById('charInfoName').textContent = data.name;
-    document.getElementById('charInfoTitle').textContent = data.title;
-    document.getElementById('charInfoPeriod').textContent = data.period;
-    document.getElementById('charInfoDesc').textContent = data.desc;
-
-    // Stats
-    var statsHtml = '';
-    for (var stat in data.stats) {
-      var val = data.stats[stat];
-      statsHtml += '<div class="char-stat-row"><div class="char-stat-label">' + stat + '</div><div class="char-stat-bar"><div class="char-stat-fill" style="width:' + val + '%"></div></div><div class="char-stat-percent">' + val + '%</div></div>';
+  function startCharAnim(){
+    if (charAnimId) cancelAnimationFrame(charAnimId);
+    function draw(){
+      if (!cs.classList.contains('visible')) return;
+      var ch = ROSTER[charIdx];
+      if (csCtx && typeof CHARS !== 'undefined' && CHARS[ch.key]) {
+        csCtx.clearRect(0, 0, csCanvas.width, csCanvas.height);
+        csCtx.imageSmoothingEnabled = false;
+        csCtx.save();
+        csCtx.scale(9, 9);
+        var bob = Math.round(Math.sin(animFrame * 0.06) * 0.8);
+        CHARS[ch.key](csCtx, bob, true, animFrame);
+        csCtx.restore();
+      }
+      animFrame++;
+      charAnimId = requestAnimationFrame(draw);
     }
-    document.getElementById('charStats').innerHTML = statsHtml;
-
-    // Skills
-    var skillsHtml = '';
-    data.skills.forEach(function(skill) {
-      skillsHtml += '<div class="char-skill-tag">' + skill + '</div>';
-    });
-    document.getElementById('charSkillTags').innerHTML = skillsHtml;
-
-    // Draw large preview
-    drawCharacterPreview(key);
+    draw();
   }
 
-  function drawCharacterPreview(charKey) {
-    var canvas = document.getElementById('charSelectCanvas');
-    var ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.imageSmoothingEnabled = false;
-    if (typeof CHARS !== 'undefined' && CHARS[charKey]) {
-      ctx.save();
-      ctx.scale(6, 6);
-      ctx.translate(10, 13);
-      CHARS[charKey](ctx, 0, false, 0);
-      ctx.restore();
-    }
-  }
-
-  // Character select navigation
-  function nextChar() {
-    charIdx = (charIdx + 1) % ORDER.length;
-    updateCharacter();
-    updatePortraitSelection();
-    playSound();
-  }
-
-  function prevChar() {
-    charIdx = (charIdx - 1 + ORDER.length) % ORDER.length;
-    updateCharacter();
-    updatePortraitSelection();
-    playSound();
-  }
-
-  // Character select keyboard
-  document.addEventListener('keydown', function(e) {
-    if (!cs.classList.contains('active')) return;
-    if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
-      nextChar();
-      e.preventDefault();
-    } else if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
-      prevChar();
-      e.preventDefault();
+  // Char select keyboard
+  document.addEventListener('keydown', function(e){
+    if (!cs.classList.contains('visible')) return;
+    if (e.key === 'ArrowRight' || e.key === 'd') {
+      charIdx = (charIdx + 1) % ROSTER.length;
+      updateChar(); buildPortraits(); beep(520); e.preventDefault();
+    } else if (e.key === 'ArrowLeft' || e.key === 'a') {
+      charIdx = (charIdx - 1 + ROSTER.length) % ROSTER.length;
+      updateChar(); buildPortraits(); beep(520); e.preventDefault();
     } else if (e.key === 'Enter') {
-      selectChar();
+      beep(660);
+      cs.classList.remove('visible');
+      document.body.classList.remove('gm-active');
+      var journey = document.getElementById('journey');
+      if (journey) setTimeout(function(){ journey.scrollIntoView({behavior:'smooth'}); }, 200);
       e.preventDefault();
     } else if (e.key === 'Escape') {
-      backToMenu();
-      e.preventDefault();
+      cs.classList.remove('visible');
+      menu.classList.add('visible');
+      beep(330); e.preventDefault();
     }
   });
 
-  function selectChar() {
-    playSound();
-    cs.classList.remove('active');
-    document.body.classList.remove('game-menu-active');
-    xp += 20;
-    setTimeout(function() {
-      var journey = document.getElementById('journey');
-      if (journey) journey.scrollIntoView({ behavior: 'smooth' });
-    }, 300);
-  }
-
-  function backToMenu() {
-    cs.classList.remove('active');
-    ol.classList.add('active');
-    document.body.classList.add('game-menu-active');
-    menuIdx = 1;
-    updateMenuSelection();
-    playSound();
-  }
-
-  var charSelectBtn = document.getElementById('charSelectBtn');
-  var charBackBtn = document.getElementById('charBackBtn');
-  if (charSelectBtn) charSelectBtn.addEventListener('click', selectChar);
-  if (charBackBtn) charBackBtn.addEventListener('click', backToMenu);
-
-  // Achievements
-  function refreshAchievements() {
-    var list = document.getElementById('achievementsList');
-    list.innerHTML = '';
-    achievements.forEach(function(ach) {
-      var div = document.createElement('div');
-      div.className = 'achievement-item' + (ach.unlocked ? ' unlocked' : ' locked');
-      div.innerHTML = '<strong>' + (ach.unlocked ? '✓ ' : '') + ach.name + '</strong><br/>' + ach.desc;
-      list.appendChild(div);
-    });
-    document.getElementById('xpTotal').textContent = xp;
-  }
-
-  function backToMenuFromAchievements() {
-    ap.classList.remove('active');
-    ol.classList.add('active');
-    menuIdx = 2;
-    updateMenuSelection();
-    playSound();
-  }
-
-  var achBackBtn = document.getElementById('achievementsBackBtn');
-  if (achBackBtn) achBackBtn.addEventListener('click', backToMenuFromAchievements);
-
-  document.addEventListener('keydown', function(e) {
-    if (!ap.classList.contains('active')) return;
-    if (e.key === 'Escape' || e.key === 'Backspace') {
-      backToMenuFromAchievements();
-      e.preventDefault();
-    }
+  // Button handlers
+  document.getElementById('csSelectBtn').addEventListener('click', function(){
+    beep(660);
+    cs.classList.remove('visible');
+    document.body.classList.remove('gm-active');
+    var journey = document.getElementById('journey');
+    if (journey) setTimeout(function(){ journey.scrollIntoView({behavior:'smooth'}); }, 200);
+  });
+  document.getElementById('csBackBtn').addEventListener('click', function(){
+    cs.classList.remove('visible');
+    menu.classList.add('visible');
+    beep(330);
   });
 
-  // Wait for loader to finish, then show start menu
-  var loaderCheck = setInterval(function() {
+  // ── SHOW MENU AFTER LOADER ──
+  function showGameMenu(){
+    document.body.classList.add('gm-active');
+    menu.classList.add('visible');
+    updateMenu();
+  }
+
+  // Poll for loader completion
+  var pollId = setInterval(function(){
     var loader = document.getElementById('loader');
-    if (loader && getComputedStyle(loader).opacity === '0') {
-      ol.classList.add('active');
-      document.body.classList.add('game-menu-active');
-      clearInterval(loaderCheck);
+    if (!loader) { showGameMenu(); clearInterval(pollId); return; }
+    var op = parseFloat(getComputedStyle(loader).opacity);
+    if (op < 0.1) {
+      showGameMenu();
+      clearInterval(pollId);
     }
-  }, 100);
+  }, 150);
 
-  // Fallback: show after 8 seconds anyway
-  setTimeout(function() {
-    if (!ol.classList.contains('active')) {
-      ol.classList.add('active');
-      document.body.classList.add('game-menu-active');
-      clearInterval(loaderCheck);
+  // Fallback: show after 6s no matter what
+  setTimeout(function(){
+    if (!menu.classList.contains('visible')) {
+      showGameMenu();
+      clearInterval(pollId);
     }
-  }, 8000);
+  }, 6000);
 
-  updateMenuSelection();
+  // Reduced motion: skip menu entirely
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    clearInterval(pollId);
+    menu.style.display = 'none';
+    cs.style.display = 'none';
+  }
 })();
 </script>
-
 
 </body>
 </html>
