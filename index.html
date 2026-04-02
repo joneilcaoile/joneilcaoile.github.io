@@ -5505,139 +5505,152 @@
     }
 
     /* GAME START MENU & CHARACTER SELECT */
+    /* TEKKEN START MENU */
     #startMenuOverlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: var(--dark);
+      background: radial-gradient(ellipse at center 30%, rgba(198, 123, 46, 0.15), rgba(28, 25, 21, 0.9) 70%);
       z-index: 10000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-      transition: opacity 0.4s ease, visibility 0.4s ease;
-    }
-
-    #startMenuOverlay.hidden {
+      display: none;
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+      overflow: hidden;
     }
 
-    /* CRT Scanlines overlay */
-    #startMenuOverlay::before {
+    #startMenuOverlay.active {
+      display: flex;
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #startMenuOverlay::after {
       content: '';
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: repeating-linear-gradient(
-        to bottom,
-        transparent 0,
-        transparent 2px,
-        rgba(0, 0, 0, 0.15) 2px,
-        rgba(0, 0, 0, 0.15) 4px
-      );
+      background:
+        repeating-linear-gradient(0deg, rgba(0,0,0,0.08) 0, rgba(0,0,0,0.08) 1px, transparent 1px, transparent 2px),
+        repeating-linear-gradient(90deg, rgba(0,0,0,0.03) 0, rgba(0,0,0,0.03) 1px, transparent 1px, transparent 2px);
       pointer-events: none;
       z-index: 10001;
+      animation: noiseShift 0.5s steps(2) infinite;
     }
 
-    /* Start menu container */
+    @keyframes noiseShift {
+      0%, 100% { opacity: 0.02; }
+      50% { opacity: 0.04; }
+    }
+
     .start-menu-container {
       position: relative;
       z-index: 10002;
       text-align: center;
+      width: 90%;
       max-width: 600px;
-      padding: 60px 40px;
-      border: 2px solid var(--amber);
-      background: linear-gradient(135deg, rgba(28, 25, 21, 0.95) 0%, rgba(40, 35, 28, 0.95) 100%);
-      box-shadow: 0 0 40px rgba(198, 123, 46, 0.3), inset 0 0 20px rgba(198, 123, 46, 0.1);
     }
 
     .start-menu-title {
       font-family: var(--fh);
-      font-size: 3rem;
+      font-size: clamp(3rem, 8vw, 5rem);
       font-weight: 900;
-      letter-spacing: 3px;
+      letter-spacing: 4px;
       color: var(--amber);
-      margin: 0 0 10px 0;
-      text-shadow: 0 0 20px rgba(198, 123, 46, 0.5);
-      animation: titleFlicker 0.3s ease;
+      margin: 0 0 8px 0;
+      text-shadow:
+        0 0 30px rgba(198, 123, 46, 0.6),
+        0 0 60px rgba(198, 123, 46, 0.3);
+      animation: titleGlow 3s ease-in-out infinite;
     }
 
-    @keyframes titleFlicker {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.8; }
+    @keyframes titleGlow {
+      0%, 100% { text-shadow: 0 0 30px rgba(198, 123, 46, 0.6), 0 0 60px rgba(198, 123, 46, 0.3); }
+      50% { text-shadow: 0 0 40px rgba(198, 123, 46, 0.8), 0 0 80px rgba(198, 123, 46, 0.5); }
     }
 
     .start-menu-subtitle {
       font-family: var(--fm);
-      font-size: 1rem;
-      letter-spacing: 2px;
-      color: rgba(255, 255, 255, 0.6);
-      margin: 0 0 50px 0;
-      animation: subtitleType 0.8s ease forwards;
-      overflow: hidden;
+      font-size: 0.95rem;
+      letter-spacing: 3px;
+      color: rgba(255, 255, 255, 0.7);
+      margin: 0 0 80px 0;
+      animation: subtitleFade 0.8s ease 0.3s both;
     }
 
-    @keyframes subtitleType {
-      from { width: 0; opacity: 0; }
-      to { width: 100%; opacity: 1; }
+    @keyframes subtitleFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .start-menu-options {
+      position: relative;
       display: flex;
       flex-direction: column;
-      gap: 15px;
-      margin-bottom: 40px;
+      gap: 0;
+      margin-bottom: 60px;
+      text-align: left;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .menu-option {
-      padding: 12px 24px;
-      border: 1px solid var(--amber);
+      padding: 16px 24px;
       background: transparent;
-      color: var(--amber);
+      border: none;
+      color: rgba(255, 255, 255, 0.6);
       font-family: var(--fm);
-      font-size: 0.95rem;
-      letter-spacing: 1px;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
       cursor: pointer;
-      transition: all 0.2s ease;
       position: relative;
-      overflow: hidden;
+      transition: color 0.2s ease;
+      font-weight: 500;
     }
 
     .menu-option::before {
-      content: '';
+      content: '►';
       position: absolute;
       left: 0;
-      top: 0;
-      height: 100%;
-      width: 0;
-      background: rgba(198, 123, 46, 0.2);
-      transition: width 0.2s ease;
-      z-index: -1;
-    }
-
-    .menu-option:hover {
-      color: var(--dark);
-      text-shadow: 0 0 10px rgba(198, 123, 46, 0.8);
-      border-color: #FFB84D;
-      background: rgba(198, 123, 46, 0.3);
-    }
-
-    .menu-option:hover::before {
-      width: 100%;
+      opacity: 0;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      transform: scaleX(0.8);
     }
 
     .menu-option.selected {
-      background: rgba(198, 123, 46, 0.4);
-      box-shadow: inset 0 0 15px rgba(198, 123, 46, 0.4);
-      color: #FFB84D;
+      color: #FFF;
+    }
+
+    .menu-option.selected::before {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+
+    .menu-option-highlight {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 100%;
+      background: linear-gradient(to right, rgba(198, 123, 46, 0.5), rgba(198, 123, 46, 0.2), transparent);
+      pointer-events: none;
+      z-index: -1;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .menu-option.selected + .menu-option-highlight,
+    .menu-option.selected .menu-option-highlight {
+      transform: scaleX(1);
     }
 
     .start-menu-press {
@@ -5645,7 +5658,8 @@
       font-size: 0.8rem;
       letter-spacing: 1px;
       color: rgba(255, 255, 255, 0.4);
-      animation: pressBlink 1s infinite;
+      animation: pressBlink 1.2s steps(2, end) infinite;
+      margin-top: 40px;
     }
 
     @keyframes pressBlink {
@@ -5653,27 +5667,53 @@
       50%, 100% { opacity: 0.3; }
     }
 
-    /* Character select screen */
+    .start-menu-hint {
+      position: fixed;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-family: var(--fm);
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      color: rgba(198, 123, 46, 0.6);
+      pointer-events: none;
+      z-index: 10002;
+    }
+
+    .start-menu-version {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      font-family: var(--fm);
+      font-size: 0.65rem;
+      letter-spacing: 1px;
+      color: rgba(198, 123, 46, 0.4);
+      pointer-events: none;
+      z-index: 10002;
+    }
+
+    /* CHARACTER SELECT */
     #characterSelectScreen {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: var(--dark);
+      background: radial-gradient(ellipse at center, rgba(198, 123, 46, 0.1), rgba(28, 25, 21, 0.95));
       z-index: 10003;
       display: none;
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.4s ease, visibility 0.4s ease;
+      align-items: center;
+      justify-content: center;
     }
 
     #characterSelectScreen.active {
       display: flex;
       opacity: 1;
       visibility: visible;
-      align-items: center;
-      justify-content: center;
     }
 
     #characterSelectScreen::before {
@@ -5683,13 +5723,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: repeating-linear-gradient(
-        to bottom,
-        transparent 0,
-        transparent 2px,
-        rgba(0, 0, 0, 0.15) 2px,
-        rgba(0, 0, 0, 0.15) 4px
-      );
+      background: repeating-linear-gradient(0deg, rgba(0,0,0,0.08) 0, rgba(0,0,0,0.08) 1px, transparent 1px, transparent 2px);
       pointer-events: none;
       z-index: 10004;
     }
@@ -5697,127 +5731,104 @@
     .char-select-container {
       position: relative;
       z-index: 10005;
-      width: 90%;
-      max-width: 1000px;
-      height: 80vh;
-      max-height: 600px;
-      background: linear-gradient(135deg, rgba(28, 25, 21, 0.98) 0%, rgba(40, 35, 28, 0.98) 100%);
-      border: 2px solid var(--amber);
-      box-shadow: 0 0 40px rgba(198, 123, 46, 0.3);
+      width: 95%;
+      max-width: 1100px;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
+      gap: 30px;
     }
 
-    .char-select-left {
-      flex: 0 0 40%;
+    .char-portraits-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 20px;
+      background: rgba(0,0,0,0.4);
+      border-radius: 4px;
+    }
+
+    .char-portrait {
+      width: 70px;
+      height: 90px;
+      border: 2px solid rgba(198, 123, 46, 0.4);
+      background: rgba(0,0,0,0.5);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border-radius: 2px;
+    }
+
+    .char-portrait.active {
+      border-color: var(--amber);
+      box-shadow: 0 0 20px rgba(198, 123, 46, 0.6);
+      transform: scale(1.1);
+    }
+
+    .char-select-main {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+    }
+
+    .char-select-preview {
+      flex: 0 0 280px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 30px;
-      border-right: 1px solid rgba(198, 123, 46, 0.3);
-      position: relative;
     }
 
-    .char-select-canvas-container {
-      width: 180px;
-      height: 220px;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(198, 123, 46, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      position: relative;
-    }
-
-    .char-select-canvas {
+    #charSelectCanvas {
+      width: 200px;
+      height: 260px;
+      background: rgba(0,0,0,0.6);
+      border: 2px solid rgba(198, 123, 46, 0.5);
       image-rendering: pixelated;
       image-rendering: crisp-edges;
+      margin-bottom: 20px;
     }
 
-    .char-select-pedestal {
-      position: absolute;
-      bottom: 10px;
-      width: 100px;
-      height: 8px;
-      background: linear-gradient(to right, transparent, var(--amber), transparent);
-      opacity: 0.6;
-      border-bottom: 1px solid var(--amber);
-    }
-
-    .char-nav-hint {
-      font-family: var(--fm);
-      font-size: 0.75rem;
-      color: rgba(198, 123, 46, 0.6);
-      margin-top: 15px;
-      letter-spacing: 1px;
-    }
-
-    .char-select-right {
-      flex: 0 0 60%;
+    .char-select-info {
+      flex: 1;
       display: flex;
       flex-direction: column;
-      padding: 30px 40px;
-      overflow-y: auto;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(198, 123, 46, 0.4) transparent;
-    }
-
-    .char-select-right::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .char-select-right::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .char-select-right::-webkit-scrollbar-thumb {
-      background: rgba(198, 123, 46, 0.4);
-      border-radius: 3px;
-    }
-
-    .char-info-header {
-      margin-bottom: 25px;
-      min-height: 80px;
     }
 
     .char-info-role {
       font-family: var(--fm);
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: var(--amber);
       letter-spacing: 2px;
-      margin: 0 0 5px 0;
+      margin: 0 0 6px 0;
     }
 
     .char-info-name {
       font-family: var(--fh);
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #FFB84D;
-      margin: 0 0 10px 0;
-      letter-spacing: 1px;
+      font-size: 2rem;
+      font-weight: 900;
+      color: #FFF;
+      margin: 0 0 12px 0;
+      letter-spacing: 2px;
     }
 
     .char-info-title {
       font-family: var(--fm);
-      font-size: 0.95rem;
-      color: rgba(255, 255, 255, 0.7);
-      margin: 0 0 8px 0;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin: 0 0 2px 0;
     }
 
     .char-info-period {
       font-family: var(--fm);
       font-size: 0.85rem;
       color: rgba(198, 123, 46, 0.7);
-      margin: 0 0 15px 0;
+      margin: 0 0 20px 0;
     }
 
     .char-info-desc {
       font-family: var(--fm);
-      font-size: 0.9rem;
-      line-height: 1.5;
-      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.7);
       margin: 0 0 25px 0;
     }
 
@@ -5828,22 +5839,23 @@
     .char-stat-row {
       display: flex;
       align-items: center;
-      margin-bottom: 12px;
+      gap: 12px;
+      margin-bottom: 10px;
     }
 
     .char-stat-label {
       font-family: var(--fm);
       font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.5);
-      width: 80px;
+      color: rgba(255, 255, 255, 0.6);
+      width: 90px;
       flex-shrink: 0;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
     }
 
     .char-stat-bar {
       flex: 1;
-      height: 6px;
-      background: rgba(0, 0, 0, 0.5);
+      height: 5px;
+      background: rgba(0,0,0,0.5);
       border: 1px solid rgba(198, 123, 46, 0.3);
       position: relative;
       overflow: hidden;
@@ -5853,16 +5865,16 @@
       height: 100%;
       background: linear-gradient(to right, var(--amber), #FFB84D);
       width: 0;
-      transition: width 0.4s ease;
+      transition: width 0.5s ease;
     }
 
     .char-stat-percent {
       font-family: var(--fm);
       font-size: 0.7rem;
       color: rgba(198, 123, 46, 0.8);
-      margin-left: 8px;
-      width: 35px;
+      width: 30px;
       text-align: right;
+      flex-shrink: 0;
     }
 
     .char-skills {
@@ -5873,99 +5885,73 @@
       font-family: var(--fm);
       font-size: 0.75rem;
       color: rgba(198, 123, 46, 0.7);
-      letter-spacing: 1px;
-      margin-bottom: 8px;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
     }
 
     .char-skill-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 8px;
     }
 
     .char-skill-tag {
       font-family: var(--fm);
-      font-size: 0.7rem;
-      padding: 4px 8px;
+      font-size: 0.75rem;
+      padding: 5px 10px;
       border: 1px solid rgba(198, 123, 46, 0.4);
-      color: rgba(198, 123, 46, 0.8);
+      color: rgba(198, 123, 46, 0.9);
       background: rgba(198, 123, 46, 0.1);
       letter-spacing: 0.5px;
     }
 
-    .char-select-nav-arrows {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 100%;
+    .char-select-buttons {
       display: flex;
-      justify-content: space-between;
-      padding: 0 15px;
-      pointer-events: none;
-      z-index: 10006;
-    }
-
-    .char-nav-arrow {
-      font-family: var(--fm);
-      font-size: 1.5rem;
-      color: rgba(198, 123, 46, 0.5);
-      pointer-events: auto;
-      cursor: pointer;
-      transition: color 0.2s ease;
-      user-select: none;
-    }
-
-    .char-nav-arrow:hover {
-      color: var(--amber);
-    }
-
-    .char-select-footer {
-      display: flex;
-      gap: 15px;
+      gap: 20px;
       justify-content: center;
-      padding: 20px;
-      border-top: 1px solid rgba(198, 123, 46, 0.2);
-      margin-top: auto;
+      margin-top: 40px;
     }
 
     .char-select-btn {
-      padding: 10px 20px;
-      border: 1px solid var(--amber);
+      padding: 12px 32px;
+      border: 2px solid var(--amber);
       background: transparent;
       color: var(--amber);
       font-family: var(--fm);
-      font-size: 0.85rem;
-      letter-spacing: 1px;
+      font-size: 0.95rem;
+      letter-spacing: 2px;
       cursor: pointer;
       transition: all 0.2s ease;
+      font-weight: 600;
     }
 
     .char-select-btn:hover {
       background: rgba(198, 123, 46, 0.2);
       color: #FFB84D;
+      box-shadow: 0 0 15px rgba(198, 123, 46, 0.4);
     }
 
-    /* Achievements panel */
+    /* ACHIEVEMENTS */
     #achievementsPanel {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: var(--dark);
+      background: radial-gradient(ellipse at center, rgba(198, 123, 46, 0.1), rgba(28, 25, 21, 0.95));
       z-index: 10003;
       display: none;
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.4s ease, visibility 0.4s ease;
+      align-items: center;
+      justify-content: center;
     }
 
     #achievementsPanel.active {
       display: flex;
       opacity: 1;
       visibility: visible;
-      align-items: center;
-      justify-content: center;
     }
 
     #achievementsPanel::before {
@@ -5975,55 +5961,71 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: repeating-linear-gradient(
-        to bottom,
-        transparent 0,
-        transparent 2px,
-        rgba(0, 0, 0, 0.15) 2px,
-        rgba(0, 0, 0, 0.15) 4px
-      );
+      background: repeating-linear-gradient(0deg, rgba(0,0,0,0.08) 0, rgba(0,0,0,0.08) 1px, transparent 1px, transparent 2px);
       pointer-events: none;
+      z-index: 10004;
     }
 
     .achievements-container {
       position: relative;
       z-index: 10005;
-      text-align: center;
-      max-width: 500px;
+      width: 90%;
+      max-width: 550px;
       padding: 40px;
+      background: rgba(28, 25, 21, 0.95);
       border: 2px solid var(--amber);
-      background: linear-gradient(135deg, rgba(28, 25, 21, 0.95) 0%, rgba(40, 35, 28, 0.95) 100%);
       box-shadow: 0 0 40px rgba(198, 123, 46, 0.3);
     }
 
     .achievements-title {
       font-family: var(--fh);
-      font-size: 2rem;
-      font-weight: 700;
+      font-size: 2.2rem;
+      font-weight: 900;
       color: var(--amber);
-      margin: 0 0 30px 0;
+      margin: 0 0 10px 0;
+      letter-spacing: 3px;
+      text-shadow: 0 0 20px rgba(198, 123, 46, 0.4);
+    }
+
+    .xp-display {
+      font-family: var(--fm);
+      font-size: 1.1rem;
+      color: #FFB84D;
+      margin-bottom: 30px;
+      letter-spacing: 1px;
     }
 
     .achievements-list {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 12px;
       margin-bottom: 30px;
+      max-height: 300px;
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+
+    .achievements-list::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .achievements-list::-webkit-scrollbar-thumb {
+      background: rgba(198, 123, 46, 0.4);
     }
 
     .achievement-item {
       padding: 12px;
-      border: 1px solid rgba(198, 123, 46, 0.3);
-      background: rgba(198, 123, 46, 0.1);
-      color: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(198, 123, 46, 0.2);
+      background: rgba(0,0,0,0.3);
+      color: rgba(255, 255, 255, 0.6);
       font-family: var(--fm);
       font-size: 0.9rem;
-      text-align: left;
+      line-height: 1.4;
     }
 
     .achievement-item.unlocked {
       border-color: var(--amber);
-      background: rgba(198, 123, 46, 0.2);
+      background: rgba(198, 123, 46, 0.15);
       color: #FFB84D;
     }
 
@@ -6031,29 +6033,33 @@
       opacity: 0.5;
     }
 
-    .xp-display {
-      font-family: var(--fm);
-      font-size: 1.2rem;
-      color: var(--amber);
-      margin-bottom: 20px;
-      letter-spacing: 1px;
-    }
-
     .achievements-back-btn {
-      padding: 10px 20px;
-      border: 1px solid var(--amber);
+      width: 100%;
+      padding: 12px;
+      border: 2px solid var(--amber);
       background: transparent;
       color: var(--amber);
       font-family: var(--fm);
-      font-size: 0.85rem;
-      letter-spacing: 1px;
+      font-size: 0.95rem;
+      letter-spacing: 2px;
       cursor: pointer;
       transition: all 0.2s ease;
+      font-weight: 600;
     }
 
     .achievements-back-btn:hover {
       background: rgba(198, 123, 46, 0.2);
       color: #FFB84D;
+      box-shadow: 0 0 15px rgba(198, 123, 46, 0.4);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #startMenuOverlay, #characterSelectScreen, #achievementsPanel,
+      .start-menu-title, .menu-option, .char-select-btn,
+      .menu-option-highlight {
+        animation: none !important;
+        transition: none !important;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -6647,53 +6653,52 @@
   <button class="skip-intro" id="skipIntro" aria-label="Skip intro animation">Skip intro ▸</button>
 </div>
 
-<!-- GAME START MENU OVERLAY -->
+<!-- TEKKEN START MENU -->
 <div id="startMenuOverlay" role="dialog" aria-label="Game start menu">
   <div class="start-menu-container">
     <h1 class="start-menu-title">JONEIL CAOILE</h1>
     <p class="start-menu-subtitle">BIOMEDICAL ENGINEER</p>
     <div class="start-menu-options">
-      <button class="menu-option selected" data-action="start">► START</button>
-      <button class="menu-option" data-action="character-select">► CHARACTER SELECT</button>
-      <button class="menu-option" data-action="achievements">► ACHIEVEMENTS</button>
+      <button class="menu-option selected" data-action="start" tabindex="0">ARCADE MODE</button>
+      <div class="menu-option-highlight"></div>
+      <button class="menu-option" data-action="character-select" tabindex="0">CHARACTER SELECT</button>
+      <div class="menu-option-highlight"></div>
+      <button class="menu-option" data-action="achievements" tabindex="0">OPTIONS</button>
+      <div class="menu-option-highlight"></div>
     </div>
-    <p class="start-menu-press">PRESS START OR ARROW KEYS TO SELECT</p>
+    <p class="start-menu-press">PRESS ENTER TO START</p>
   </div>
+  <div class="start-menu-hint">↑↓ NAVIGATE    ENTER SELECT    CLICK TO CHOOSE</div>
+  <div class="start-menu-version">v15.7 // 15,708 lines // no framework</div>
 </div>
 
 <!-- CHARACTER SELECT SCREEN -->
 <div id="characterSelectScreen" role="dialog" aria-label="Character select">
   <div class="char-select-container">
-    <div class="char-select-left">
-      <div class="char-select-canvas-container">
-        <canvas id="charSelectCanvas" class="char-select-canvas" width="120" height="156"></canvas>
-        <div class="char-select-pedestal"></div>
+    <div class="char-portraits-row" id="charPortraitsRow"></div>
+    <div class="char-select-main">
+      <div class="char-select-preview">
+        <canvas id="charSelectCanvas" width="120" height="156"></canvas>
       </div>
-      <div class="char-nav-hint">← → OR A/D TO CYCLE</div>
-    </div>
-    <div class="char-select-nav-arrows">
-      <span class="char-nav-arrow" id="charNavLeft" role="button" tabindex="0" aria-label="Previous character">◀</span>
-      <span class="char-nav-arrow" id="charNavRight" role="button" tabindex="0" aria-label="Next character">▶</span>
-    </div>
-    <div class="char-select-right">
-      <div class="char-info-header">
+      <div class="char-select-info">
         <div class="char-info-role" id="charInfoRole"></div>
         <h2 class="char-info-name" id="charInfoName"></h2>
         <div class="char-info-title" id="charInfoTitle"></div>
         <div class="char-info-period" id="charInfoPeriod"></div>
-      </div>
-      <p class="char-info-desc" id="charInfoDesc"></p>
-      <div class="char-stats" id="charStats"></div>
-      <div class="char-skills">
-        <div class="char-skills-label">SKILLS</div>
-        <div class="char-skill-tags" id="charSkillTags"></div>
-      </div>
-      <div class="char-select-footer">
-        <button class="char-select-btn" id="charSelectBtn">SELECT</button>
-        <button class="char-select-btn" id="charBackBtn">BACK</button>
+        <p class="char-info-desc" id="charInfoDesc"></p>
+        <div class="char-stats" id="charStats"></div>
+        <div class="char-skills">
+          <div class="char-skills-label">SKILLS</div>
+          <div class="char-skill-tags" id="charSkillTags"></div>
+        </div>
       </div>
     </div>
+    <div class="char-select-buttons">
+      <button class="char-select-btn" id="charSelectBtn" tabindex="0">SELECT</button>
+      <button class="char-select-btn" id="charBackBtn" tabindex="0">BACK</button>
+    </div>
   </div>
+  <div class="start-menu-hint">← → TO CYCLE    ENTER SELECT    ESC BACK</div>
 </div>
 
 <!-- ACHIEVEMENTS PANEL -->
@@ -6702,8 +6707,9 @@
     <h2 class="achievements-title">ACHIEVEMENTS</h2>
     <div class="xp-display">XP: <span id="xpTotal">0</span></div>
     <div class="achievements-list" id="achievementsList"></div>
-    <button class="achievements-back-btn" id="achievementsBackBtn">BACK</button>
+    <button class="achievements-back-btn" id="achievementsBackBtn" tabindex="0">BACK</button>
   </div>
+  <div class="start-menu-hint">ESC OR BACKSPACE TO RETURN</div>
 </div>
 
 <!-- CURSOR GLOW -->
@@ -15656,50 +15662,373 @@
 })();
 </script>
 
-<!-- GAME START MENU AND CHARACTER SELECT -->
+<!-- TEKKEN GAME MENU SYSTEM -->
 <script>
-(function(){
+(function() {
   'use strict';
-  if(matchMedia('(prefers-reduced-motion:reduce)').matches){
-    var o=document.getElementById('startMenuOverlay');
-    if(o)o.style.display='none';
+
+  // Prefers reduced motion? Skip animations
+  if (matchMedia('(prefers-reduced-motion:reduce)').matches) {
+    var o = document.getElementById('startMenuOverlay');
+    if (o) o.style.display = 'none';
     return;
   }
-  var CHAR_DATA={kid:{role:'SoCal Kid',name:'Where It Started',title:'Cerritos, CA',period:'1998–2017',desc:'Grew up in Carson and Torrance, SoCal. Basketball, Filipino household, first taste of design through gaming. The roots that shaped everything.',stats:{Clinical:0,Engineering:10,Research:5,Design:15,Leadership:20},skills:['Basketball','Gaming','Design Curiosity','Filipino Heritage']},prospector:{role:'Prospector',name:'49ers',title:'Kinesiology',period:'2017–2020',desc:'Cal State Long Beach. Learned how the body moves, how patients recover, where devices fall short. The bridge between biology and engineering.',stats:{Clinical:30,Engineering:25,Research:40,Design:20,Leadership:35},skills:['Kinesiology','Anatomy','Rehabilitation','Observation']},clinical:{role:'Clinical Observer',name:'400+ Hours',title:'Physical Therapy Clinics',period:'2020–2024',desc:'Watched devices fail patients. Saw firsthand what works and what doesn\'t. Decided to fix it from the engineering side.',stats:{Clinical:75,Engineering:15,Research:50,Design:30,Leadership:40},skills:['Clinical Insight','Problem Identification','User Empathy','Device Analysis']},duck:{role:'Duck',name:'Stevens Institute',title:'M.S. Biomedical Engineering',period:'2024–2026',desc:'Design verification, usability evaluation, regulatory strategy. Built 3 device projects. Where clinical insight meets engineering rigor.',stats:{Clinical:80,Engineering:85,Research:70,Design:65,Leadership:60},skills:['Design Verification','Usability Testing','Regulatory Strategy','Device Design']},acolyte:{role:'Acolyte',name:'Validation Engineer',title:'First Path',period:'May 2026+',desc:'Mastering device validation and quality assurance. Bridging design intent with regulatory reality. The careful engineer path.',stats:{Clinical:85,Engineering:95,Research:60,Design:50,Leadership:70},skills:['Validation','QA','Regulatory','Testing','Risk Analysis']},sage:{role:'Sage',name:'Applications Engineer',title:'Second Path',period:'May 2026+',desc:'Deep technical support and customer solutions. Understanding user needs, solving complex problems. The bridge-builder path.',stats:{Clinical:90,Engineering:80,Research:75,Design:85,Leadership:80},skills:['Application Support','Customer Engineering','Problem-Solving','Training']},blacksmith:{role:'Blacksmith',name:'R&D Engineer',title:'Third Path',period:'May 2026+',desc:'Building and improving devices. Prototyping, testing, iteration. The hands-on innovation path.',stats:{Clinical:70,Engineering:95,Research:90,Design:60,Leadership:65},skills:['Device Design','Prototyping','Testing','Engineering','Innovation']},creator:{role:'Creator',name:'Human Factors Engineer',title:'Fourth Path',period:'May 2026+',desc:'Designing with users. Usability, human factors, clinical workflows. The people-centered path.',stats:{Clinical:85,Engineering:75,Research:80,Design:95,Leadership:75},skills:['Usability','Human Factors','User Research','Design Thinking','Empathy']}};
-  var ORDER=['kid','prospector','clinical','duck','acolyte','sage','blacksmith','creator'];
-  var idx=0,xp=0;
-  var ol=document.getElementById('startMenuOverlay');
-  var cs=document.getElementById('characterSelectScreen');
-  var ap=document.getElementById('achievementsPanel');
-  var mo=document.querySelectorAll('.menu-option');
-  var mi=0;
-  if(!ol||!cs||!ap)return;
-  var ach=[{id:'first-visit',name:'First Visit',desc:'Start the game',unlocked:true},{id:'all-sections',name:'Read All Sections',desc:'Visit every section on the portfolio',unlocked:false},{id:'easter-egg',name:'Easter Egg Hunter',desc:'Find a hidden easter egg',unlocked:false},{id:'night-owl',name:'Night Owl',desc:'Visit late at night',unlocked:false},{id:'all-characters',name:'Character Master',desc:'View all characters',unlocked:false}];
-  function ps(){try{var a=new(window.AudioContext||window.webkitAudioContext)();var b=a.currentTime;var c=a.createOscillator();var d=a.createGain();c.connect(d);d.connect(a.destination);c.frequency.value=523;c.type='square';d.gain.setValueAtTime(0.3,b);d.gain.exponentialRampToValueAtTime(0.01,b+0.1);c.start(b);c.stop(b+0.1);}catch(e){}}
-  function ums(){mo.forEach(function(o,i){o.classList.toggle('selected',i===mi);});}
-  function hma(a){ps();if(a==='start'){ol.classList.add('hidden');xp+=10;}else if(a==='character-select'){ol.classList.add('hidden');cs.classList.add('active');idx=0;ucd();}else if(a==='achievements'){ol.classList.add('hidden');ap.classList.add('active');ra();}}
-  document.addEventListener('keydown',function(e){if(ol.classList.contains('hidden'))return;if(e.key==='ArrowDown'||e.key==='s'||e.key==='S'){mi=(mi+1)%mo.length;ums();e.preventDefault();}else if(e.key==='ArrowUp'||e.key==='w'||e.key==='W'){mi=(mi-1+mo.length)%mo.length;ums();e.preventDefault();}else if(e.key==='Enter'||e.key===' '){hma(mo[mi].dataset.action);e.preventDefault();}});
-  mo.forEach(function(o){o.addEventListener('click',function(){mi=Array.from(mo).indexOf(o);ums();hma(o.dataset.action);});});
-  function ucd(){var k=ORDER[idx];var i=CHAR_DATA[k];document.getElementById('charInfoRole').textContent=i.role;document.getElementById('charInfoName').textContent=i.name;document.getElementById('charInfoTitle').textContent=i.title;document.getElementById('charInfoPeriod').textContent=i.period;document.getElementById('charInfoDesc').textContent=i.desc;var s='';for(var t in i.stats){var p=i.stats[t];s+='<div class="char-stat-row"><div class="char-stat-label">'+t+'</div><div class="char-stat-bar"><div class="char-stat-fill" style="width:'+p+'%"></div></div><div class="char-stat-percent">'+p+'%</div></div>';}document.getElementById('charStats').innerHTML=s;var sk='';i.skills.forEach(function(x){sk+='<div class="char-skill-tag">'+x+'</div>';});document.getElementById('charSkillTags').innerHTML=sk;dco(k);}
-  function dco(k){var c=document.getElementById('charSelectCanvas');var x=c.getContext('2d');x.clearRect(0,0,c.width,c.height);x.imageSmoothingEnabled=false;if(typeof CHARS!=='undefined'&&CHARS[k]){x.save();x.scale(6,6);x.translate(10,13);CHARS[k](x,0,false,0);x.restore();}}
-  function nc(){idx=(idx+1)%ORDER.length;ucd();ps();}
-  function pc(){idx=(idx-1+ORDER.length)%ORDER.length;ucd();ps();}
-  var cnr=document.getElementById('charNavRight');var cnl=document.getElementById('charNavLeft');
-  if(cnr)cnr.addEventListener('click',nc);
-  if(cnl)cnl.addEventListener('click',pc);
-  document.addEventListener('keydown',function(e){if(!cs.classList.contains('active'))return;if(e.key==='ArrowRight'||e.key==='d'||e.key==='D'){nc();e.preventDefault();}else if(e.key==='ArrowLeft'||e.key==='a'||e.key==='A'){pc();e.preventDefault();}else if(e.key==='Enter'){sc();e.preventDefault();}else if(e.key==='Escape'){bc();e.preventDefault();}});
-  function sc(){ps();cs.classList.remove('active');xp+=20;setTimeout(function(){var j=document.getElementById('journey');if(j)j.scrollIntoView({behavior:'smooth'});},300);}
-  function bc(){cs.classList.remove('active');ol.classList.remove('hidden');mi=1;ums();ps();}
-  var csb=document.getElementById('charSelectBtn');var cbb=document.getElementById('charBackBtn');
-  if(csb)csb.addEventListener('click',sc);
-  if(cbb)cbb.addEventListener('click',bc);
-  function ra(){var l=document.getElementById('achievementsList');l.innerHTML='';ach.forEach(function(a){var d=document.createElement('div');d.className='achievement-item'+(a.unlocked?' unlocked':' locked');d.innerHTML='<strong>'+(a.unlocked?'✓ ':'')+a.name+'</strong><br/>'+a.desc;l.appendChild(d);});document.getElementById('xpTotal').textContent=xp;}
-  function ba(){ap.classList.remove('active');ol.classList.remove('hidden');mi=2;ums();ps();}
-  var abb=document.getElementById('achievementsBackBtn');if(abb)abb.addEventListener('click',ba);
-  document.addEventListener('keydown',function(e){if(!ap.classList.contains('active'))return;if(e.key==='Escape'||e.key==='Backspace'){ba();e.preventDefault();}});
-  var chk=setInterval(function(){var l=document.getElementById('loader');if(l&&getComputedStyle(l).opacity==='0'){ol.classList.remove('hidden');clearInterval(chk);}},100);
-  setTimeout(function(){ol.classList.remove('hidden');clearInterval(chk);},8000);
-  ums();
+
+  // Character data
+  var CHAR_DATA = {
+    kid: {
+      role: 'SoCal Kid',
+      name: 'Where It Started',
+      title: 'Cerritos, CA',
+      period: '1998–2017',
+      desc: 'Grew up in Carson and Torrance, SoCal. Basketball, Filipino household, first taste of design through gaming. The roots that shaped everything.',
+      stats: { Clinical: 0, Engineering: 10, Research: 5, Design: 15, Leadership: 20 },
+      skills: ['Basketball', 'Gaming', 'Design Curiosity', 'Filipino Heritage']
+    },
+    prospector: {
+      role: 'Prospector',
+      name: '49ers',
+      title: 'Kinesiology',
+      period: '2017–2020',
+      desc: 'Cal State Long Beach. Learned how the body moves, how patients recover, where devices fall short. The bridge between biology and engineering.',
+      stats: { Clinical: 30, Engineering: 25, Research: 40, Design: 20, Leadership: 35 },
+      skills: ['Kinesiology', 'Anatomy', 'Rehabilitation', 'Observation']
+    },
+    clinical: {
+      role: 'Clinical Observer',
+      name: '400+ Hours',
+      title: 'Physical Therapy Clinics',
+      period: '2020–2024',
+      desc: 'Watched devices fail patients. Saw firsthand what works and what doesn\'t. Decided to fix it from the engineering side.',
+      stats: { Clinical: 75, Engineering: 15, Research: 50, Design: 30, Leadership: 40 },
+      skills: ['Clinical Insight', 'Problem Identification', 'User Empathy', 'Device Analysis']
+    },
+    duck: {
+      role: 'Duck',
+      name: 'Stevens Institute',
+      title: 'M.S. Biomedical Engineering',
+      period: '2024–2026',
+      desc: 'Design verification, usability evaluation, regulatory strategy. Built 3 device projects. Where clinical insight meets engineering rigor.',
+      stats: { Clinical: 80, Engineering: 85, Research: 70, Design: 65, Leadership: 60 },
+      skills: ['Design Verification', 'Usability Testing', 'Regulatory Strategy', 'Device Design']
+    },
+    acolyte: {
+      role: 'Acolyte',
+      name: 'Validation Engineer',
+      title: 'First Path',
+      period: 'May 2026+',
+      desc: 'Mastering device validation and quality assurance. Bridging design intent with regulatory reality. The careful engineer path.',
+      stats: { Clinical: 85, Engineering: 95, Research: 60, Design: 50, Leadership: 70 },
+      skills: ['Validation', 'QA', 'Regulatory', 'Testing', 'Risk Analysis']
+    },
+    sage: {
+      role: 'Sage',
+      name: 'Applications Engineer',
+      title: 'Second Path',
+      period: 'May 2026+',
+      desc: 'Deep technical support and customer solutions. Understanding user needs, solving complex problems. The bridge-builder path.',
+      stats: { Clinical: 90, Engineering: 80, Research: 75, Design: 85, Leadership: 80 },
+      skills: ['Application Support', 'Customer Engineering', 'Problem-Solving', 'Training']
+    },
+    blacksmith: {
+      role: 'Blacksmith',
+      name: 'R&D Engineer',
+      title: 'Third Path',
+      period: 'May 2026+',
+      desc: 'Building and improving devices. Prototyping, testing, iteration. The hands-on innovation path.',
+      stats: { Clinical: 70, Engineering: 95, Research: 90, Design: 60, Leadership: 65 },
+      skills: ['Device Design', 'Prototyping', 'Testing', 'Engineering', 'Innovation']
+    },
+    creator: {
+      role: 'Creator',
+      name: 'Human Factors Engineer',
+      title: 'Fourth Path',
+      period: 'May 2026+',
+      desc: 'Designing with users. Usability, human factors, clinical workflows. The people-centered path.',
+      stats: { Clinical: 85, Engineering: 75, Research: 80, Design: 95, Leadership: 75 },
+      skills: ['Usability', 'Human Factors', 'User Research', 'Design Thinking', 'Empathy']
+    }
+  };
+
+  var ORDER = ['kid', 'prospector', 'clinical', 'duck', 'acolyte', 'sage', 'blacksmith', 'creator'];
+  var charIdx = 0, xp = 0;
+  var ol = document.getElementById('startMenuOverlay');
+  var cs = document.getElementById('characterSelectScreen');
+  var ap = document.getElementById('achievementsPanel');
+  var mo = document.querySelectorAll('.menu-option');
+  var menuIdx = 0;
+
+  if (!ol || !cs || !ap) return;
+
+  var achievements = [
+    { id: 'first-visit', name: 'First Visit', desc: 'Start the game', unlocked: true },
+    { id: 'all-sections', name: 'Read All Sections', desc: 'Visit every section on the portfolio', unlocked: false },
+    { id: 'easter-egg', name: 'Easter Egg Hunter', desc: 'Find a hidden easter egg', unlocked: false },
+    { id: 'night-owl', name: 'Night Owl', desc: 'Visit late at night', unlocked: false },
+    { id: 'all-characters', name: 'Character Master', desc: 'View all characters', unlocked: false }
+  ];
+
+  // Sound effect
+  function playSound() {
+    try {
+      var ctx = new (window.AudioContext || window.webkitAudioContext)();
+      var now = ctx.currentTime;
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.frequency.value = 523;
+      osc.type = 'square';
+      gain.gain.setValueAtTime(0.3, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+      osc.start(now);
+      osc.stop(now + 0.1);
+    } catch (e) {}
+  }
+
+  // Update start menu selection
+  function updateMenuSelection() {
+    mo.forEach(function(o, i) {
+      o.classList.toggle('selected', i === menuIdx);
+    });
+  }
+
+  // Handle menu action
+  function handleMenuAction(action) {
+    playSound();
+    if (action === 'start') {
+      ol.classList.remove('active');
+      xp += 10;
+    } else if (action === 'character-select') {
+      ol.classList.remove('active');
+      cs.classList.add('active');
+      charIdx = 0;
+      updateCharacter();
+      drawCharacterPortraits();
+    } else if (action === 'achievements') {
+      ol.classList.remove('active');
+      ap.classList.add('active');
+      refreshAchievements();
+    }
+  }
+
+  // Start menu keyboard
+  document.addEventListener('keydown', function(e) {
+    if (!ol.classList.contains('active')) return;
+    if (e.key === 'ArrowDown') {
+      menuIdx = (menuIdx + 1) % mo.length;
+      updateMenuSelection();
+      e.preventDefault();
+    } else if (e.key === 'ArrowUp') {
+      menuIdx = (menuIdx - 1 + mo.length) % mo.length;
+      updateMenuSelection();
+      e.preventDefault();
+    } else if (e.key === 'Enter') {
+      handleMenuAction(mo[menuIdx].dataset.action);
+      e.preventDefault();
+    }
+  });
+
+  // Start menu clicks
+  mo.forEach(function(o) {
+    o.addEventListener('click', function() {
+      menuIdx = Array.from(mo).indexOf(o);
+      updateMenuSelection();
+      handleMenuAction(o.dataset.action);
+    });
+  });
+
+  // Draw character portrait canvas (small 20x26)
+  function drawPortrait(charKey, canvas) {
+    var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.imageSmoothingEnabled = false;
+    if (typeof CHARS !== 'undefined' && CHARS[charKey]) {
+      ctx.save();
+      ctx.scale(3, 3);
+      ctx.translate(3, 3);
+      CHARS[charKey](ctx, 0, false, 0);
+      ctx.restore();
+    }
+  }
+
+  // Draw all character portrait thumbnails
+  function drawCharacterPortraits() {
+    var row = document.getElementById('charPortraitsRow');
+    row.innerHTML = '';
+    ORDER.forEach(function(charKey, i) {
+      var canvas = document.createElement('canvas');
+      canvas.width = 20;
+      canvas.height = 26;
+      canvas.className = 'char-portrait' + (i === charIdx ? ' active' : '');
+      drawPortrait(charKey, canvas);
+      canvas.addEventListener('click', function() {
+        charIdx = i;
+        updateCharacter();
+        updatePortraitSelection();
+      });
+      row.appendChild(canvas);
+    });
+  }
+
+  // Update portrait selection highlight
+  function updatePortraitSelection() {
+    var portraits = document.querySelectorAll('.char-portrait');
+    portraits.forEach(function(p, i) {
+      p.classList.toggle('active', i === charIdx);
+    });
+  }
+
+  // Update character info panel
+  function updateCharacter() {
+    var key = ORDER[charIdx];
+    var data = CHAR_DATA[key];
+
+    document.getElementById('charInfoRole').textContent = data.role;
+    document.getElementById('charInfoName').textContent = data.name;
+    document.getElementById('charInfoTitle').textContent = data.title;
+    document.getElementById('charInfoPeriod').textContent = data.period;
+    document.getElementById('charInfoDesc').textContent = data.desc;
+
+    // Stats
+    var statsHtml = '';
+    for (var stat in data.stats) {
+      var val = data.stats[stat];
+      statsHtml += '<div class="char-stat-row"><div class="char-stat-label">' + stat + '</div><div class="char-stat-bar"><div class="char-stat-fill" style="width:' + val + '%"></div></div><div class="char-stat-percent">' + val + '%</div></div>';
+    }
+    document.getElementById('charStats').innerHTML = statsHtml;
+
+    // Skills
+    var skillsHtml = '';
+    data.skills.forEach(function(skill) {
+      skillsHtml += '<div class="char-skill-tag">' + skill + '</div>';
+    });
+    document.getElementById('charSkillTags').innerHTML = skillsHtml;
+
+    // Draw large preview
+    drawCharacterPreview(key);
+  }
+
+  function drawCharacterPreview(charKey) {
+    var canvas = document.getElementById('charSelectCanvas');
+    var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.imageSmoothingEnabled = false;
+    if (typeof CHARS !== 'undefined' && CHARS[charKey]) {
+      ctx.save();
+      ctx.scale(6, 6);
+      ctx.translate(10, 13);
+      CHARS[charKey](ctx, 0, false, 0);
+      ctx.restore();
+    }
+  }
+
+  // Character select navigation
+  function nextChar() {
+    charIdx = (charIdx + 1) % ORDER.length;
+    updateCharacter();
+    updatePortraitSelection();
+    playSound();
+  }
+
+  function prevChar() {
+    charIdx = (charIdx - 1 + ORDER.length) % ORDER.length;
+    updateCharacter();
+    updatePortraitSelection();
+    playSound();
+  }
+
+  // Character select keyboard
+  document.addEventListener('keydown', function(e) {
+    if (!cs.classList.contains('active')) return;
+    if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
+      nextChar();
+      e.preventDefault();
+    } else if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
+      prevChar();
+      e.preventDefault();
+    } else if (e.key === 'Enter') {
+      selectChar();
+      e.preventDefault();
+    } else if (e.key === 'Escape') {
+      backToMenu();
+      e.preventDefault();
+    }
+  });
+
+  function selectChar() {
+    playSound();
+    cs.classList.remove('active');
+    xp += 20;
+    setTimeout(function() {
+      var journey = document.getElementById('journey');
+      if (journey) journey.scrollIntoView({ behavior: 'smooth' });
+    }, 300);
+  }
+
+  function backToMenu() {
+    cs.classList.remove('active');
+    ol.classList.add('active');
+    menuIdx = 1;
+    updateMenuSelection();
+    playSound();
+  }
+
+  var charSelectBtn = document.getElementById('charSelectBtn');
+  var charBackBtn = document.getElementById('charBackBtn');
+  if (charSelectBtn) charSelectBtn.addEventListener('click', selectChar);
+  if (charBackBtn) charBackBtn.addEventListener('click', backToMenu);
+
+  // Achievements
+  function refreshAchievements() {
+    var list = document.getElementById('achievementsList');
+    list.innerHTML = '';
+    achievements.forEach(function(ach) {
+      var div = document.createElement('div');
+      div.className = 'achievement-item' + (ach.unlocked ? ' unlocked' : ' locked');
+      div.innerHTML = '<strong>' + (ach.unlocked ? '✓ ' : '') + ach.name + '</strong><br/>' + ach.desc;
+      list.appendChild(div);
+    });
+    document.getElementById('xpTotal').textContent = xp;
+  }
+
+  function backToMenuFromAchievements() {
+    ap.classList.remove('active');
+    ol.classList.add('active');
+    menuIdx = 2;
+    updateMenuSelection();
+    playSound();
+  }
+
+  var achBackBtn = document.getElementById('achievementsBackBtn');
+  if (achBackBtn) achBackBtn.addEventListener('click', backToMenuFromAchievements);
+
+  document.addEventListener('keydown', function(e) {
+    if (!ap.classList.contains('active')) return;
+    if (e.key === 'Escape' || e.key === 'Backspace') {
+      backToMenuFromAchievements();
+      e.preventDefault();
+    }
+  });
+
+  // Wait for loader to finish, then show start menu
+  var loaderCheck = setInterval(function() {
+    var loader = document.getElementById('loader');
+    if (loader && getComputedStyle(loader).opacity === '0') {
+      ol.classList.add('active');
+      clearInterval(loaderCheck);
+    }
+  }, 100);
+
+  // Fallback: show after 8 seconds anyway
+  setTimeout(function() {
+    if (!ol.classList.contains('active')) {
+      ol.classList.add('active');
+      clearInterval(loaderCheck);
+    }
+  }, 8000);
+
+  updateMenuSelection();
 })();
 </script>
 
