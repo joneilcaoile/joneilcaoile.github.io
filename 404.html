@@ -255,6 +255,32 @@
   <a href="https://joneilcaoile.github.io">joneilcaoile.github.io</a>
 </div>
 
+<style>
+  .secret-pop { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(15,14,12,0.85); backdrop-filter: blur(8px); z-index: 100; }
+  .secret-pop.on { display: flex; animation: sPop 0.3s ease; }
+  @keyframes sPop { from { opacity: 0; } to { opacity: 1; } }
+  .secret-card { background: #1A1815; border: 1px solid #A85A04; border-radius: 14px; padding: 32px 36px; max-width: 420px; text-align: center; box-shadow: 0 20px 80px rgba(168,90,4,0.3); }
+  .secret-kicker { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: #A85A04; margin-bottom: 14px; }
+  .secret-head { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 600; color: #FAFAF8; margin-bottom: 10px; letter-spacing: -0.01em; }
+  .secret-body { font-size: 13.5px; color: #C4BDB5; line-height: 1.55; margin-bottom: 22px; }
+  .secret-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .secret-link { font-family: 'Inter', sans-serif; font-size: 12.5px; padding: 8px 14px; border-radius: 6px; background: #A85A04; color: #FFF; text-decoration: none; font-weight: 500; }
+  .secret-link.alt { background: transparent; border: 1px solid #A85A04; color: #A85A04; }
+  .secret-link:hover { background: #7A4003; }
+  .secret-hint { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #5A554F; margin-top: 16px; }
+</style>
+<div class="secret-pop" id="secretPop" role="dialog" aria-label="Secret unlocked">
+  <div class="secret-card">
+    <div class="secret-kicker">☍ persistence rewarded</div>
+    <div class="secret-head">You typed the magic word.</div>
+    <div class="secret-body">Most people give up on a 404 page. You didn't. As a reward, here's the page most people never see: three free tools I built for medtech engineers. If one saves you an hour, I'd love to hear about it.</div>
+    <div class="secret-row">
+      <a class="secret-link" href="tools.html">Visit /tools →</a>
+      <a class="secret-link alt" href="mailto:joneilcaoile@gmail.com">Email me</a>
+    </div>
+    <div class="secret-hint">press esc to close</div>
+  </div>
+</div>
 <script>
   var msgs = [
     "// Error: page.find() returned undefined",
@@ -262,7 +288,8 @@
     "The sensor didn't detect a page here.",
     "This endpoint returned null. Try the homepage.",
     "Looks like this URL failed validation.",
-    "No signal detected. Recalibrating..."
+    "No signal detected. Recalibrating...",
+    "Hint: try typing 'hire' — there's a reward."
   ];
   var el = document.getElementById('fun-msg');
   if (el) el.textContent = msgs[Math.floor(Math.random() * msgs.length)];
@@ -272,6 +299,32 @@
       ? "Come back! The portfolio is this way..."
       : "404 | Page Not Found | Joneil Caoile";
   });
+
+  // Secret puzzle: type HIRE to unlock
+  var buffer = '';
+  var secretPop = document.getElementById('secretPop');
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && secretPop.classList.contains('on')) {
+      secretPop.classList.remove('on');
+      return;
+    }
+    if (e.key && e.key.length === 1 && /[a-zA-Z]/.test(e.key)) {
+      buffer = (buffer + e.key.toLowerCase()).slice(-8);
+      if (buffer.endsWith('hire') || buffer.endsWith('joneil')) {
+        secretPop.classList.add('on');
+        buffer = '';
+      }
+    }
+  });
+  secretPop.addEventListener('click', function(e){
+    if (e.target === secretPop) secretPop.classList.remove('on');
+  });
+
+  // Console easter egg
+  try {
+    console.log('%c404 — but not the end of the road.\nType "hire" on this page for a bonus link.\n\n— Joneil · joneilcaoile@gmail.com',
+      'color:#A85A04;font-family:JetBrains Mono,monospace;font-size:12px;line-height:1.6;');
+  } catch(e){}
 </script>
 
 </body>

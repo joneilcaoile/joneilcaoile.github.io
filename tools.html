@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  ╔══════════════════════════════════════════════════════╗
+  ║  Free tools for medtech engineers.                   ║
+  ║  Built because I needed them myself.                 ║
+  ║                                                      ║
+  ║  If these save you time, I'd love to hear about it.  ║
+  ║  joneilcaoile@gmail.com                              ║
+  ╚══════════════════════════════════════════════════════╝
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Medtech Engineer Tools | Joneil Caoile</title>
+  <meta name="description" content="Free interactive tools for medical device engineers: IQ/OQ/PQ sample-size calculator, HFE use-error risk scorer, and air leak detection demo. No signup, no tracking.">
+  <meta name="author" content="Joneil Caoile">
+  <meta name="robots" content="index, follow">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self';">
+  <meta name="theme-color" content="#FAFAF8">
+  <meta name="color-scheme" content="light dark">
+  <meta property="og:title" content="Medtech Engineer Tools | Joneil Caoile">
+  <meta property="og:description" content="Free tools: sample-size calculator, use-error risk scorer, air leak demo. Built by a biomedical engineer for biomedical engineers.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://joneilcaoile.github.io/tools.html">
+  <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://joneilcaoile.github.io/tools.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #FAFAF8;
+      --bg-alt: #F2EFEA;
+      --bg-dark: #0F0E0C;
+      --bg-dark-2: #1A1815;
+      --text: #0F0E0C;
+      --text-muted: #4A4641;
+      --text-faint: #8A857F;
+      --border: #E0DCD5;
+      --amber: #A85A04;
+      --amber-light: #FEF3C7;
+      --amber-dark: #7A4003;
+      --coral: #E05C4A;
+      --gold: #C89B3C;
+      --green: #4A7A3A;
+      --red: #B03020;
+      --font-head: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 2px 8px rgba(15,14,12,0.06);
+      --shadow-lift: 0 8px 32px rgba(15,14,12,0.12);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0F0E0C;
+        --bg-alt: #1A1815;
+        --text: #FAFAF8;
+        --text-muted: #C4BDB5;
+        --text-faint: #8A857F;
+        --border: #2A2824;
+        --amber-light: #3A2810;
+        --shadow: 0 2px 8px rgba(0,0,0,0.4);
+        --shadow-lift: 0 8px 32px rgba(0,0,0,0.6);
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+    /* NAV */
+    nav.topnav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(250,250,248,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    @media (prefers-color-scheme: dark) { nav.topnav { background: rgba(15,14,12,0.92); } }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; max-width: 1100px; margin: 0 auto; }
+    .nav-brand { font-family: var(--font-head); font-weight: 600; font-size: 17px; text-decoration: none; color: var(--text); }
+    .nav-brand:hover { color: var(--amber); }
+    .nav-back { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); text-decoration: none; letter-spacing: 0.05em; text-transform: uppercase; }
+    .nav-back:hover { color: var(--amber); }
+
+    /* HERO */
+    .hero { padding: 96px 0 48px; }
+    .kicker { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--amber); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+    .kicker::before { content: ''; width: 24px; height: 1px; background: var(--amber); }
+    h1 { font-family: var(--font-head); font-size: clamp(36px, 6vw, 64px); font-weight: 600; line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 24px; max-width: 900px; }
+    .lede { font-size: 19px; color: var(--text-muted); max-width: 680px; line-height: 1.55; }
+    .lede strong { color: var(--text); font-weight: 500; }
+
+    .tool-index { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 56px; }
+    .tool-index-card { display: block; padding: 20px 22px; border: 1px solid var(--border); border-radius: var(--radius-sm); text-decoration: none; color: var(--text); transition: all 0.2s ease; background: var(--bg); }
+    .tool-index-card:hover { border-color: var(--amber); transform: translateY(-2px); box-shadow: var(--shadow-lift); }
+    .tool-index-num { font-family: var(--font-mono); font-size: 11px; color: var(--amber); letter-spacing: 0.1em; }
+    .tool-index-title { font-family: var(--font-head); font-weight: 600; font-size: 17px; margin: 6px 0 4px; }
+    .tool-index-desc { font-size: 13px; color: var(--text-muted); line-height: 1.45; }
+
+    /* TOOL SECTIONS */
+    .tool { padding: 80px 0 40px; border-top: 1px solid var(--border); margin-top: 80px; scroll-margin-top: 80px; }
+    .tool-header { margin-bottom: 40px; }
+    .tool-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--amber); margin-bottom: 12px; }
+    .tool h2 { font-family: var(--font-head); font-size: clamp(28px, 4vw, 40px); font-weight: 600; line-height: 1.15; letter-spacing: -0.01em; margin-bottom: 14px; max-width: 800px; }
+    .tool-sub { font-size: 16px; color: var(--text-muted); max-width: 720px; line-height: 1.55; }
+    .tool-why { font-family: var(--font-mono); font-size: 12px; color: var(--text-faint); margin-top: 14px; font-style: italic; }
+
+    /* WIDGET SHELL */
+    .widget { background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; box-shadow: var(--shadow); }
+    .widget-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+    @media (max-width: 768px) { .widget-grid { grid-template-columns: 1fr; gap: 28px; } .widget { padding: 22px; } }
+
+    .widget-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; display: block; }
+
+    /* INPUTS */
+    .input-group { margin-bottom: 22px; }
+    .input-row { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+    .input-label { font-size: 13px; font-weight: 500; color: var(--text); flex: 1; }
+    .input-help { font-size: 12px; color: var(--text-faint); line-height: 1.4; }
+    input[type="number"], input[type="text"], select {
+      font-family: var(--font-mono); font-size: 14px; padding: 10px 12px;
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      background: var(--bg); color: var(--text); width: 100px; text-align: right;
+      transition: border-color 0.15s ease;
+    }
+    input[type="number"]:focus, input[type="text"]:focus, select:focus { outline: none; border-color: var(--amber); box-shadow: 0 0 0 3px rgba(168,90,4,0.12); }
+    select { width: 100%; text-align: left; }
+    input[type="range"] { width: 100%; accent-color: var(--amber); }
+    .range-value { font-family: var(--font-mono); font-size: 14px; color: var(--amber); font-weight: 500; min-width: 60px; text-align: right; }
+
+    /* OUTPUT */
+    .output-block { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px 22px; margin-bottom: 16px; }
+    .output-big { font-family: var(--font-head); font-weight: 600; font-size: 48px; line-height: 1; color: var(--amber); letter-spacing: -0.01em; }
+    .output-big.muted { color: var(--text-faint); font-size: 32px; }
+    .output-unit { font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); margin-left: 6px; }
+    .output-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+    .output-note { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-top: 10px; }
+
+    /* BADGES */
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.05em; }
+    .badge.green { background: rgba(74,122,58,0.12); color: var(--green); }
+    .badge.amber { background: rgba(168,90,4,0.12); color: var(--amber); }
+    .badge.red { background: rgba(176,48,32,0.14); color: var(--red); }
+    .badge.gold { background: rgba(200,155,60,0.14); color: #8B6A20; }
+
+    /* HFE RISK MATRIX */
+    .risk-matrix { display: grid; grid-template-columns: auto repeat(5, 1fr); gap: 2px; font-family: var(--font-mono); font-size: 11px; margin-top: 16px; }
+    .risk-cell { padding: 10px 6px; text-align: center; background: var(--bg); border-radius: 4px; color: var(--text-muted); transition: all 0.2s ease; }
+    .risk-cell.header { background: transparent; color: var(--text-faint); font-weight: 500; }
+    .risk-cell.row-label { text-align: right; padding-right: 10px; background: transparent; color: var(--text-faint); }
+    .risk-cell.low { background: rgba(74,122,58,0.18); color: var(--green); }
+    .risk-cell.med { background: rgba(200,155,60,0.22); color: #8B6A20; }
+    .risk-cell.high { background: rgba(224,92,74,0.22); color: var(--coral); }
+    .risk-cell.crit { background: rgba(176,48,32,0.28); color: var(--red); font-weight: 600; }
+    .risk-cell.active { outline: 2px solid var(--amber); outline-offset: 1px; transform: scale(1.08); z-index: 1; }
+
+    /* AIR LEAK MONITOR */
+    .monitor { background: #0A0908; border: 1px solid #2A2824; border-radius: var(--radius-sm); padding: 24px; color: #E0DCD5; font-family: var(--font-mono); }
+    .monitor-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid #2A2824; }
+    .monitor-title { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #8A857F; }
+    .monitor-status { font-size: 11px; padding: 3px 10px; border-radius: 999px; font-weight: 500; letter-spacing: 0.05em; }
+    .monitor-status.normal { background: rgba(74,122,58,0.25); color: #7DB268; }
+    .monitor-status.warn { background: rgba(200,155,60,0.28); color: #E6C063; animation: pulse 1s ease-in-out infinite; }
+    .monitor-status.alarm { background: rgba(176,48,32,0.35); color: #E87060; animation: pulse 0.6s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.55; } }
+    .monitor-readings { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+    .reading { text-align: center; }
+    .reading-value { font-size: 28px; font-weight: 600; color: #FAFAF8; letter-spacing: -0.01em; }
+    .reading-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #8A857F; margin-top: 4px; }
+    .reading-value.delta { color: #E6C063; }
+    .reading-value.delta.alarm { color: #E87060; }
+    #leakCanvas { width: 100%; height: 140px; background: #050504; border-radius: 4px; display: block; }
+
+    /* BUTTONS */
+    .btn { display: inline-block; font-family: var(--font-body); font-weight: 500; font-size: 13px; padding: 10px 18px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg); color: var(--text); cursor: pointer; transition: all 0.15s ease; text-decoration: none; }
+    .btn:hover { border-color: var(--amber); color: var(--amber); }
+    .btn-primary { background: var(--amber); border-color: var(--amber); color: #FFF; }
+    .btn-primary:hover { background: var(--amber-dark); border-color: var(--amber-dark); color: #FFF; }
+    .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+
+    /* DISCLAIMER */
+    .disclaimer { background: var(--amber-light); border-left: 3px solid var(--amber); padding: 14px 18px; border-radius: 4px; font-size: 13px; color: var(--amber-dark); margin-top: 24px; line-height: 1.5; }
+    @media (prefers-color-scheme: dark) { .disclaimer { color: #E6C063; } }
+
+    /* FOOTER */
+    footer { padding: 80px 0 48px; border-top: 1px solid var(--border); margin-top: 120px; }
+    .footer-cta { font-family: var(--font-head); font-size: 22px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 8px; }
+    .footer-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
+    .footer-links { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--text-muted); }
+    .footer-links a { color: var(--text-muted); text-decoration: none; border-bottom: 1px solid transparent; }
+    .footer-links a:hover { color: var(--amber); border-bottom-color: var(--amber); }
+    .footer-meta { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); margin-top: 32px; letter-spacing: 0.05em; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">Joneil Caoile</a>
+    <a href="/" class="nav-back">← Back to portfolio</a>
+  </div>
+</nav>
+
+<main>
+  <header class="hero">
+    <div class="container">
+      <div class="kicker">Free tools for medtech engineers</div>
+      <h1>Three calculators I built because I needed them, and figured you might too.</h1>
+      <p class="lede">No signup, no tracking, no upsell. Just the math, the logic, and a clear answer. If one of these saves you an hour, that's the whole point. <strong>If you're hiring and you find these useful, I'd love to talk.</strong></p>
+
+      <nav class="tool-index" aria-label="Tool index">
+        <a class="tool-index-card" href="#sample-size">
+          <div class="tool-index-num">01</div>
+          <div class="tool-index-title">Attribute Sample-Size Calculator</div>
+          <div class="tool-index-desc">Defect-rate sampling with confidence and reliability. For IQ/OQ/PQ, incoming inspection, batch release.</div>
+        </a>
+        <a class="tool-index-card" href="#hfe-risk">
+          <div class="tool-index-num">02</div>
+          <div class="tool-index-title">Use-Error Risk Scorer</div>
+          <div class="tool-index-desc">Severity × probability matrix for human factors hazards. Maps to IEC 62366-1 risk priorities.</div>
+        </a>
+        <a class="tool-index-card" href="#air-leak">
+          <div class="tool-index-num">03</div>
+          <div class="tool-index-title">Air Leak Detection Demo</div>
+          <div class="tool-index-desc">Live differential-pressure monitor. Adjust the threshold. Watch the alarm logic fire. From my pneumothorax capstone.</div>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ============================================== -->
+  <!-- TOOL 01: SAMPLE-SIZE CALCULATOR                 -->
+  <!-- ============================================== -->
+  <section class="tool" id="sample-size">
+    <div class="container">
+      <header class="tool-header">
+        <div class="tool-label">Tool 01 / Attribute Sample-Size Calculator</div>
+        <h2>How many units do you need to sample?</h2>
+        <p class="tool-sub">Attribute (pass/fail) sampling for process validation, batch release, incoming inspection. Uses the binomial zero-failure model most commonly seen in medical device validation protocols: how many samples, with zero failures, to demonstrate a given reliability at a given confidence.</p>
+        <p class="tool-why">Built because I kept grabbing the same lookup table and wanted something that showed the math next to it.</p>
+      </header>
+
+      <div class="widget">
+        <div class="widget-grid">
+          <div>
+            <span class="widget-label">Inputs</span>
+
+            <div class="input-group">
+              <div class="input-row">
+                <label class="input-label" for="ss-conf">Confidence level</label>
+                <select id="ss-conf">
+                  <option value="0.80">80%</option>
+                  <option value="0.90">90%</option>
+                  <option value="0.95" selected>95%</option>
+                  <option value="0.99">99%</option>
+                </select>
+              </div>
+              <div class="input-help">How sure do you need to be? 95% is typical for OQ/PQ protocols.</div>
+            </div>
+
+            <div class="input-group">
+              <div class="input-row">
+                <label class="input-label" for="ss-rel">Reliability target</label>
+                <select id="ss-rel">
+                  <option value="0.90">90%</option>
+                  <option value="0.95" selected>95%</option>
+                  <option value="0.99">99%</option>
+                  <option value="0.999">99.9%</option>
+                </select>
+              </div>
+              <div class="input-help">Required proportion of conforming units. 95/95 is the validation default.</div>
+            </div>
+
+            <div class="input-group">
+              <div class="input-row">
+                <label class="input-label" for="ss-fail">Allowable failures</label>
+                <input type="number" id="ss-fail" value="0" min="0" max="5" step="1">
+              </div>
+              <div class="input-help">Zero-failure plans are cheapest on sample size but harsh on batch release. Try 1 or 2 to see the tradeoff.</div>
+            </div>
+          </div>
+
+          <div>
+            <span class="widget-label">Result</span>
+
+            <div class="output-block">
+              <div class="output-label">Minimum sample size</div>
+              <div class="output-big" id="ss-result">59<span class="output-unit">units</span></div>
+              <div class="output-note" id="ss-note">At 95% confidence / 95% reliability with zero failures allowed.</div>
+            </div>
+
+            <div class="output-block">
+              <div class="output-label">The math</div>
+              <div style="font-family: var(--font-mono); font-size: 13px; color: var(--text); line-height: 1.7;" id="ss-math">
+                n ≥ ln(1 − C) / ln(R)<br>
+                n ≥ ln(0.05) / ln(0.95)<br>
+                n ≥ 58.4 → <strong>59</strong>
+              </div>
+              <div class="output-note">Zero-failure form. With allowable failures, solves the binomial inequality iteratively.</div>
+            </div>
+
+            <div class="disclaimer">
+              <strong>Verify before use in a regulated protocol.</strong> This matches standard lookup tables (ANSI Z1.4 / MIL-STD references, Statistical Methods in Medical Research). But your quality system, your protocol, your signature.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- TOOL 02: HFE USE-ERROR RISK SCORER              -->
+  <!-- ============================================== -->
+  <section class="tool" id="hfe-risk">
+    <div class="container">
+      <header class="tool-header">
+        <div class="tool-label">Tool 02 / Use-Error Risk Scorer</div>
+        <h2>Score a use-error hazard against the risk matrix.</h2>
+        <p class="tool-sub">Per IEC 62366-1 and ISO 14971, use-errors get scored on severity and probability of occurrence. This tool lays out a 5×5 matrix, highlights your cell, and tells you the risk priority and the next action (mitigate, validate, accept, or escalate).</p>
+        <p class="tool-why">Built because I spend a lot of time in URRA (use-related risk analysis) tables and wanted something I could show a clinician in 30 seconds.</p>
+      </header>
+
+      <div class="widget">
+        <div class="widget-grid">
+          <div>
+            <span class="widget-label">Inputs</span>
+
+            <div class="input-group">
+              <label class="input-label" for="hfe-hazard">Use-error or hazardous situation</label>
+              <input type="text" id="hfe-hazard" placeholder="e.g., Clinician misreads dose on crowded display" style="width:100%; text-align:left; margin-top:8px;">
+            </div>
+
+            <div class="input-group">
+              <div class="input-row">
+                <label class="input-label" for="hfe-sev">Severity (S)</label>
+                <span class="range-value" id="hfe-sev-val">3 · Serious</span>
+              </div>
+              <input type="range" id="hfe-sev" min="1" max="5" value="3" step="1">
+              <div class="input-help">1 Negligible · 2 Minor · 3 Serious · 4 Critical · 5 Catastrophic</div>
+            </div>
+
+            <div class="input-group">
+              <div class="input-row">
+                <label class="input-label" for="hfe-prob">Probability (P)</label>
+                <span class="range-value" id="hfe-prob-val">3 · Occasional</span>
+              </div>
+              <input type="range" id="hfe-prob" min="1" max="5" value="3" step="1">
+              <div class="input-help">1 Improbable · 2 Remote · 3 Occasional · 4 Probable · 5 Frequent</div>
+            </div>
+          </div>
+
+          <div>
+            <span class="widget-label">Result</span>
+
+            <div class="output-block">
+              <div class="output-label">Risk priority</div>
+              <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+                <div class="output-big" id="hfe-score">9</div>
+                <span class="badge amber" id="hfe-badge" style="font-size:12px; padding:6px 12px;">Medium · Mitigate</span>
+              </div>
+              <div class="output-note" id="hfe-action">Risk is tolerable but should be reduced if reasonably practicable. Apply design controls, interlocks, or labeling before validation.</div>
+            </div>
+
+            <div class="output-block">
+              <div class="output-label">Matrix</div>
+              <div class="risk-matrix" id="hfe-matrix" aria-label="Risk matrix"></div>
+              <div class="output-note">Rows = severity (1 bottom → 5 top). Columns = probability (1 left → 5 right).</div>
+            </div>
+
+            <div class="disclaimer">
+              <strong>This is a teaching tool, not a quality record.</strong> Real URRA tables include hazard ID, task, causal factors, mitigation evidence, and residual risk sign-off. Use this to think, then write it up properly.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- TOOL 03: AIR LEAK MONITOR DEMO                  -->
+  <!-- ============================================== -->
+  <section class="tool" id="air-leak">
+    <div class="container">
+      <header class="tool-header">
+        <div class="tool-label">Tool 03 / Air Leak Detection Demo</div>
+        <h2>Live differential-pressure monitor. Adjust the threshold, watch it alarm.</h2>
+        <p class="tool-sub">A simplified, browser-based version of the detection logic from my pneumothorax air-leak monitor capstone. Two simulated pressure sensors, a differential signal, and a user-adjustable alarm threshold. Try dragging the threshold slider down and watching the alarm catch smaller leaks.</p>
+        <p class="tool-why">Built to show the alarm logic concretely. The real device samples at 50 Hz, has hysteresis, and a debounce timer. This demo keeps the logic honest without the hardware.</p>
+      </header>
+
+      <div class="widget">
+        <div class="widget-grid">
+          <div>
+            <span class="widget-label">Controls</span>
+
+            <div class="input-group">
+              <div class="input-row">
+                <label class="input-label" for="al-leak">Simulated leak rate</label>
+                <span class="range-value" id="al-leak-val">0.8 cmH₂O/s</span>
+              </div>
+              <input type="range" id="al-leak" min="0" max="3" value="0.8" step="0.1">
+              <div class="input-help">Drag to change the simulated pressure differential. 0 = no leak. Clinical leak range is roughly 0.2 – 2.5 cmH₂O/s depending on wound and drainage.</div>
+            </div>
+
+            <div class="input-group">
+              <div class="input-row">
+                <label class="input-label" for="al-thresh">Alarm threshold</label>
+                <span class="range-value" id="al-thresh-val">1.2 cmH₂O/s</span>
+              </div>
+              <input type="range" id="al-thresh" min="0.2" max="3" value="1.2" step="0.1">
+              <div class="input-help">Trigger level for the alarm. Lower = more sensitive (catches smaller leaks, but more false positives).</div>
+            </div>
+
+            <div class="input-group">
+              <div class="input-row">
+                <label class="input-label" for="al-noise">Sensor noise</label>
+                <span class="range-value" id="al-noise-val">0.2 cmH₂O</span>
+              </div>
+              <input type="range" id="al-noise" min="0" max="0.8" value="0.2" step="0.05">
+              <div class="input-help">Sensor RMS noise. Affects how much smoothing (moving average) the alarm needs before it can trigger reliably.</div>
+            </div>
+
+            <div class="btn-row">
+              <button class="btn btn-primary" id="al-inject">Inject sudden leak</button>
+              <button class="btn" id="al-reset">Reset</button>
+            </div>
+          </div>
+
+          <div>
+            <span class="widget-label">Monitor</span>
+            <div class="monitor">
+              <div class="monitor-header">
+                <div class="monitor-title">Pleural drainage monitor · v0.2 demo</div>
+                <div class="monitor-status normal" id="al-status">NORMAL</div>
+              </div>
+              <div class="monitor-readings">
+                <div class="reading">
+                  <div class="reading-value" id="al-p1">−8.4</div>
+                  <div class="reading-label">Chest P₁ (cmH₂O)</div>
+                </div>
+                <div class="reading">
+                  <div class="reading-value" id="al-p2">−8.6</div>
+                  <div class="reading-label">Drain P₂ (cmH₂O)</div>
+                </div>
+                <div class="reading">
+                  <div class="reading-value delta" id="al-dp">0.2</div>
+                  <div class="reading-label">ΔP (cmH₂O/s)</div>
+                </div>
+              </div>
+              <canvas id="leakCanvas" width="500" height="140" aria-label="Pressure trace"></canvas>
+              <div style="font-size:10px; color:#5A554F; margin-top:10px; letter-spacing:0.05em;">60-sec rolling trace · threshold line shown in amber</div>
+            </div>
+
+            <div class="disclaimer" style="margin-top:16px;">
+              <strong>Not a medical device.</strong> This is a simulation of detection logic for demonstration and education. The real monitor requires verified sensors, hardware debouncing, hysteresis, battery backup, and regulatory clearance before it goes anywhere near a patient.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-cta">If one of these saved you an hour, tell me.</div>
+      <div class="footer-sub">I'm Joneil — biomedical engineer, M.S. Stevens Institute, graduating May 2026. Looking for SoCal medtech roles: validation, applications, R&D, human factors.</div>
+      <div class="footer-links">
+        <a href="/">← Portfolio</a>
+        <a href="mailto:joneilcaoile@gmail.com">joneilcaoile@gmail.com</a>
+        <a href="https://linkedin.com/in/joneilcaoile" target="_blank" rel="me noopener">LinkedIn</a>
+        <a href="https://github.com/joneilcaoile" target="_blank" rel="me noopener">GitHub</a>
+      </div>
+      <div class="footer-meta">No tracking. No analytics. No newsletter signup. Three tools, freely given.</div>
+    </div>
+  </footer>
+</main>
+
+<script>
+(function(){
+  'use strict';
+
+  // ============================================
+  // TOOL 01: SAMPLE-SIZE CALCULATOR
+  // ============================================
+  const ssConf = document.getElementById('ss-conf');
+  const ssRel = document.getElementById('ss-rel');
+  const ssFail = document.getElementById('ss-fail');
+  const ssResult = document.getElementById('ss-result');
+  const ssNote = document.getElementById('ss-note');
+  const ssMath = document.getElementById('ss-math');
+
+  // Binomial tail: P(X <= f | n, p=1-R) >= 1 - C  reversed to cumulative.
+  // For zero failures: n >= ln(1-C)/ln(R)
+  // For f > 0: find smallest n such that sum_{k=0}^{f} C(n,k) * (1-R)^k * R^(n-k) <= 1 - C
+  function binomCoef(n, k) {
+    if (k < 0 || k > n) return 0;
+    if (k === 0 || k === n) return 1;
+    k = Math.min(k, n - k);
+    let result = 1;
+    for (let i = 0; i < k; i++) {
+      result = result * (n - i) / (i + 1);
+    }
+    return result;
+  }
+  function cumulativeBinomial(n, f, p) {
+    let sum = 0;
+    for (let k = 0; k <= f; k++) {
+      sum += binomCoef(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k);
+    }
+    return sum;
+  }
+  function sampleSize(C, R, f) {
+    const p = 1 - R;
+    if (f === 0) {
+      return Math.ceil(Math.log(1 - C) / Math.log(R));
+    }
+    // iterate n until cumulativeBinomial(n, f, p) <= 1 - C
+    const target = 1 - C;
+    for (let n = f + 1; n <= 100000; n++) {
+      if (cumulativeBinomial(n, f, p) <= target) return n;
+    }
+    return null;
+  }
+
+  function updateSampleSize() {
+    const C = parseFloat(ssConf.value);
+    const R = parseFloat(ssRel.value);
+    const f = parseInt(ssFail.value) || 0;
+    const n = sampleSize(C, R, f);
+    ssResult.innerHTML = (n === null ? '—' : n.toLocaleString()) + '<span class="output-unit">units</span>';
+    const confPct = (C * 100).toFixed(0);
+    const relPct = (R * 100).toFixed(R >= 0.999 ? 1 : 0);
+    ssNote.textContent = `At ${confPct}% confidence / ${relPct}% reliability with ${f} failure${f === 1 ? '' : 's'} allowed.`;
+    if (f === 0) {
+      const raw = Math.log(1 - C) / Math.log(R);
+      ssMath.innerHTML = `n ≥ ln(1 − C) / ln(R)<br>n ≥ ln(${(1 - C).toFixed(2)}) / ln(${R})<br>n ≥ ${raw.toFixed(1)} → <strong>${n}</strong>`;
+    } else {
+      ssMath.innerHTML = `Binomial cumulative:<br>Σ<sub>k=0..${f}</sub> C(n,k)·(1−R)<sup>k</sup>·R<sup>n−k</sup> ≤ ${(1 - C).toFixed(2)}<br>Solved iteratively → <strong>n = ${n}</strong>`;
+    }
+  }
+  ssConf.addEventListener('change', updateSampleSize);
+  ssRel.addEventListener('change', updateSampleSize);
+  ssFail.addEventListener('input', updateSampleSize);
+  updateSampleSize();
+
+  // ============================================
+  // TOOL 02: HFE RISK SCORER
+  // ============================================
+  const hfeSev = document.getElementById('hfe-sev');
+  const hfeProb = document.getElementById('hfe-prob');
+  const hfeSevVal = document.getElementById('hfe-sev-val');
+  const hfeProbVal = document.getElementById('hfe-prob-val');
+  const hfeScore = document.getElementById('hfe-score');
+  const hfeBadge = document.getElementById('hfe-badge');
+  const hfeAction = document.getElementById('hfe-action');
+  const hfeMatrix = document.getElementById('hfe-matrix');
+
+  const sevLabels = ['', 'Negligible', 'Minor', 'Serious', 'Critical', 'Catastrophic'];
+  const probLabels = ['', 'Improbable', 'Remote', 'Occasional', 'Probable', 'Frequent'];
+
+  function riskClass(s, p) {
+    const score = s * p;
+    if (s >= 4 && p >= 3) return 'crit';
+    if (s >= 5) return 'crit';
+    if (score >= 12) return 'crit';
+    if (score >= 8) return 'high';
+    if (score >= 4) return 'med';
+    return 'low';
+  }
+  function riskMeta(s, p) {
+    const cls = riskClass(s, p);
+    if (cls === 'crit') return { label: 'Critical · Escalate', badge: 'red', action: 'Unacceptable without redesign. Apply hard design controls (forcing functions, interlocks) or eliminate the hazard. Requires risk-benefit justification and management sign-off before release.' };
+    if (cls === 'high') return { label: 'High · Mitigate', badge: 'red', action: 'Must be reduced. Apply design controls first, then alarms and interlocks, then labeling. Summative usability validation with representative users is required.' };
+    if (cls === 'med') return { label: 'Medium · Mitigate', badge: 'amber', action: 'Risk is tolerable but should be reduced if reasonably practicable. Apply design controls, interlocks, or labeling before validation.' };
+    return { label: 'Low · Accept', badge: 'green', action: 'Acceptable as-is. Document the rationale in the risk file; no mitigation required beyond normal design best practices.' };
+  }
+
+  function buildMatrix() {
+    // 5×5 grid: rows = severity (5 top → 1 bottom), cols = probability (1 left → 5 right)
+    // Header row
+    let html = '<div class="risk-cell header"></div>';
+    for (let p = 1; p <= 5; p++) html += `<div class="risk-cell header">P${p}</div>`;
+    for (let s = 5; s >= 1; s--) {
+      html += `<div class="risk-cell row-label">S${s}</div>`;
+      for (let p = 1; p <= 5; p++) {
+        html += `<div class="risk-cell ${riskClass(s, p)}" data-s="${s}" data-p="${p}">${s * p}</div>`;
+      }
+    }
+    hfeMatrix.innerHTML = html;
+  }
+  buildMatrix();
+
+  function updateHFE() {
+    const s = parseInt(hfeSev.value);
+    const p = parseInt(hfeProb.value);
+    hfeSevVal.textContent = `${s} · ${sevLabels[s]}`;
+    hfeProbVal.textContent = `${p} · ${probLabels[p]}`;
+    hfeScore.textContent = s * p;
+    const meta = riskMeta(s, p);
+    hfeBadge.textContent = meta.label;
+    hfeBadge.className = 'badge ' + meta.badge;
+    hfeBadge.style.fontSize = '12px';
+    hfeBadge.style.padding = '6px 12px';
+    hfeAction.textContent = meta.action;
+    // highlight matrix cell
+    hfeMatrix.querySelectorAll('.risk-cell').forEach(c => c.classList.remove('active'));
+    const cell = hfeMatrix.querySelector(`[data-s="${s}"][data-p="${p}"]`);
+    if (cell) cell.classList.add('active');
+  }
+  hfeSev.addEventListener('input', updateHFE);
+  hfeProb.addEventListener('input', updateHFE);
+  updateHFE();
+
+  // ============================================
+  // TOOL 03: AIR LEAK MONITOR
+  // ============================================
+  const alLeak = document.getElementById('al-leak');
+  const alThresh = document.getElementById('al-thresh');
+  const alNoise = document.getElementById('al-noise');
+  const alLeakVal = document.getElementById('al-leak-val');
+  const alThreshVal = document.getElementById('al-thresh-val');
+  const alNoiseVal = document.getElementById('al-noise-val');
+  const alP1 = document.getElementById('al-p1');
+  const alP2 = document.getElementById('al-p2');
+  const alDp = document.getElementById('al-dp');
+  const alStatus = document.getElementById('al-status');
+  const alInject = document.getElementById('al-inject');
+  const alReset = document.getElementById('al-reset');
+  const canvas = document.getElementById('leakCanvas');
+  const ctx = canvas.getContext('2d');
+
+  let history = new Array(200).fill(0);
+  let thresholdLine = 1.2;
+  let injectTime = 0;
+  let injectAmount = 0;
+  let alarmLatch = 0; // debounce counter
+
+  function resizeCanvas() {
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+  }
+  resizeCanvas();
+  window.addEventListener('resize', () => {
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    resizeCanvas();
+  });
+
+  function updateLabels() {
+    alLeakVal.textContent = parseFloat(alLeak.value).toFixed(1) + ' cmH₂O/s';
+    alThreshVal.textContent = parseFloat(alThresh.value).toFixed(1) + ' cmH₂O/s';
+    alNoiseVal.textContent = parseFloat(alNoise.value).toFixed(2) + ' cmH₂O';
+    thresholdLine = parseFloat(alThresh.value);
+  }
+  alLeak.addEventListener('input', updateLabels);
+  alThresh.addEventListener('input', updateLabels);
+  alNoise.addEventListener('input', updateLabels);
+  updateLabels();
+
+  alInject.addEventListener('click', () => {
+    injectTime = 40; // 40 frames of extra leak
+    injectAmount = 1.5;
+  });
+  alReset.addEventListener('click', () => {
+    history = new Array(200).fill(0);
+    injectTime = 0;
+    injectAmount = 0;
+    alarmLatch = 0;
+    alLeak.value = 0.2;
+    alThresh.value = 1.2;
+    alNoise.value = 0.2;
+    updateLabels();
+  });
+
+  // Running average smoother (3-sample)
+  function smooth(arr, n) {
+    if (arr.length < n) return arr[arr.length - 1] || 0;
+    let sum = 0;
+    for (let i = arr.length - n; i < arr.length; i++) sum += arr[i];
+    return sum / n;
+  }
+
+  let reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let t = 0;
+  function frame() {
+    const baseLeak = parseFloat(alLeak.value);
+    const noise = parseFloat(alNoise.value);
+    let leak = baseLeak;
+    if (injectTime > 0) { leak += injectAmount * (injectTime / 40); injectTime--; }
+    const noiseVal = (Math.random() - 0.5) * 2 * noise;
+    const dp = Math.max(0, leak + noiseVal);
+    history.push(dp);
+    if (history.length > 200) history.shift();
+
+    // Sensor values (simulated pleural pressures, negative baseline)
+    const p1 = -8.4 + (Math.random() - 0.5) * noise;
+    const p2 = p1 - dp * 0.15 - (Math.random() - 0.5) * noise * 0.5;
+    alP1.textContent = p1.toFixed(1);
+    alP2.textContent = p2.toFixed(1);
+    alDp.textContent = dp.toFixed(2);
+
+    // Alarm logic with debounce
+    const smoothed = smooth(history, 5);
+    const overThresh = smoothed > thresholdLine;
+    if (overThresh) alarmLatch = Math.min(alarmLatch + 1, 10);
+    else alarmLatch = Math.max(alarmLatch - 1, 0);
+
+    let state = 'normal';
+    if (alarmLatch >= 5) state = 'alarm';
+    else if (smoothed > thresholdLine * 0.75) state = 'warn';
+
+    alStatus.className = 'monitor-status ' + state;
+    alStatus.textContent = state === 'alarm' ? 'LEAK ALARM' : state === 'warn' ? 'ELEVATED' : 'NORMAL';
+    alDp.className = 'reading-value delta' + (state === 'alarm' ? ' alarm' : '');
+
+    // Draw
+    drawTrace();
+
+    if (!reducedMotion) requestAnimationFrame(frame);
+    else setTimeout(frame, 100);
+  }
+
+  function drawTrace() {
+    const w = canvas.getBoundingClientRect().width;
+    const h = canvas.getBoundingClientRect().height;
+    ctx.clearRect(0, 0, w, h);
+
+    // Grid
+    ctx.strokeStyle = '#1A1815';
+    ctx.lineWidth = 1;
+    for (let y = 0; y < h; y += h / 4) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+    }
+
+    // Threshold line
+    const yScale = h / 3.5; // max expected ~3.5 cmH2O/s
+    const thresholdY = h - thresholdLine * yScale;
+    ctx.strokeStyle = '#A85A04';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.moveTo(0, thresholdY); ctx.lineTo(w, thresholdY); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#A85A04';
+    ctx.font = '10px "JetBrains Mono", monospace';
+    ctx.fillText('threshold', 6, thresholdY - 4);
+
+    // Trace
+    const stepX = w / history.length;
+    ctx.strokeStyle = alarmLatch >= 5 ? '#E87060' : alarmLatch > 0 ? '#E6C063' : '#7DB268';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    for (let i = 0; i < history.length; i++) {
+      const x = i * stepX;
+      const y = Math.max(1, h - history[i] * yScale);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  }
+
+  frame();
+
+  // ============================================
+  // CONSOLE EASTER EGG
+  // ============================================
+  const hi = [
+    '%cHey — you opened devtools. Respect.',
+    'color:#A85A04;font-size:14px;font-weight:600;font-family:Space Grotesk,sans-serif;'
+  ];
+  console.log(...hi);
+  console.log('%cI built these tools because I kept needing them.\nIf you\'re hiring a biomedical engineer in SoCal, let\'s talk.\n\n  joneilcaoile@gmail.com\n  https://joneilcaoile.github.io\n', 'color:#4A4641;font-family:Inter,sans-serif;font-size:12px;line-height:1.6;');
+  console.log('%c— Joneil', 'color:#A85A04;font-style:italic;font-family:Inter,sans-serif;');
+})();
+</script>
+
+</body>
+</html>

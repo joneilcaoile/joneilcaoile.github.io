@@ -6153,6 +6153,7 @@
     <li><a href="#story">Story</a></li>
     <li><a href="#featured">Projects</a></li>
     <li><a href="#journey">Journey</a></li>
+    <li><a href="tools.html">Tools</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nav-actions">
@@ -7144,6 +7145,58 @@
 </section>
 
 <div class="section-rule"></div>
+
+<!-- CRITERIA FOR COMPANIES -->
+<section id="criteria" class="container">
+  <p class="section-label">08.5 / My Criteria</p>
+  <h2 style="font-family:var(--fh,'Space Grotesk',sans-serif);font-weight:600;font-size:clamp(28px,4vw,42px);line-height:1.15;letter-spacing:-0.01em;margin-bottom:14px;max-width:780px;">What I'm looking for in a company.</h2>
+  <p style="font-size:16px;color:var(--text-muted,#4A4641);max-width:720px;line-height:1.6;margin-bottom:40px;">Most new grads position themselves as the ones being evaluated. That's half the story. Here's what I'm evaluating on my side, so we both save time.</p>
+
+  <div class="criteria-grid">
+    <div class="criteria-card">
+      <div class="criteria-num">01</div>
+      <div class="criteria-title">The product touches patients.</div>
+      <div class="criteria-desc">Devices, diagnostics, therapeutics. Something a clinician trusts or a patient lives with. SaaS dashboards don't make this list.</div>
+    </div>
+    <div class="criteria-card">
+      <div class="criteria-num">02</div>
+      <div class="criteria-title">Physical testing is part of the job.</div>
+      <div class="criteria-desc">Bench, fixture, protocol, witness signature. AI can draft a document. It can't run a pull test or watch a user fumble a syringe.</div>
+    </div>
+    <div class="criteria-card">
+      <div class="criteria-num">03</div>
+      <div class="criteria-title">Regulated enough to matter.</div>
+      <div class="criteria-desc">FDA 21 CFR 820, ISO 13485, IEC 62366, 14971. Regulation means the work has stakes and the documentation matters.</div>
+    </div>
+    <div class="criteria-card">
+      <div class="criteria-num">04</div>
+      <div class="criteria-title">Engineers have signature authority.</div>
+      <div class="criteria-desc">If a validation engineer can't release a protocol without three rounds of legal, something's broken. I want ownership with real consequences.</div>
+    </div>
+    <div class="criteria-card">
+      <div class="criteria-num">05</div>
+      <div class="criteria-title">SoCal, $80k floor.</div>
+      <div class="criteria-desc">Long Beach to Irvine is the sweet spot. Remote-friendly works. Below $80k I can't justify SoCal rent and the move from Jersey City.</div>
+    </div>
+    <div class="criteria-card">
+      <div class="criteria-num">06</div>
+      <div class="criteria-title">The team tells the truth about tradeoffs.</div>
+      <div class="criteria-desc">Every device has compromises. Teams that can name them in a one-on-one are the ones worth joining. Teams that can't are the ones that get warning letters.</div>
+    </div>
+  </div>
+  <p style="font-family:var(--fm,'JetBrains Mono',monospace);font-size:12px;color:var(--text-faint,#8A857F);margin-top:36px;font-style:italic;max-width:680px;line-height:1.55;">If this list describes your company, my resume is one click away. If it describes half your company and you're working on the other half, I want to hear about that too.</p>
+</section>
+
+<style>
+  #criteria { padding: 96px 0; }
+  .criteria-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .criteria-card { padding: 24px 26px; background: var(--bg-alt, rgba(242,239,234,0.5)); border: 1px solid var(--border, rgba(224,220,213,0.6)); border-radius: 10px; transition: all 0.25s ease; position: relative; }
+  .criteria-card:hover { transform: translateY(-3px); border-color: var(--amber, #A85A04); box-shadow: 0 8px 28px rgba(168,90,4,0.08); }
+  .criteria-num { font-family: var(--fm, 'JetBrains Mono', monospace); font-size: 11px; letter-spacing: 0.15em; color: var(--amber, #A85A04); margin-bottom: 14px; }
+  .criteria-title { font-family: var(--fh, 'Space Grotesk', sans-serif); font-weight: 600; font-size: 17px; line-height: 1.3; margin-bottom: 10px; color: var(--text, #0F0E0C); letter-spacing: -0.01em; }
+  .criteria-desc { font-size: 13.5px; color: var(--text-muted, #4A4641); line-height: 1.55; }
+  @media (max-width: 640px) { #criteria { padding: 72px 0; } .criteria-card { padding: 20px 22px; } }
+</style>
 
 <!-- SVG CIRCUIT DIVIDER -->
 <div class="circuit-divider" aria-hidden="true">
@@ -12359,13 +12412,15 @@
   if (!input || !responses) return;
 
   var commands = {
-    help: 'Available: help, skills, projects, contact, education, tools, hire, clear, sudo',
+    help: 'Available: help, skills, projects, contact, education, stack, tools, hire, criteria, clear, sudo',
     skills: 'Python · MATLAB · Signal Processing · Machine Learning · Computer Vision · FDA Design Controls · IEC 62366-1 · React · Firebase',
     projects: 'UseTrace HFE · PhotoCull AI · Pneumothorax Air Leak Monitor · EMG Fatigue Detection · Fall Risk Assessment · PhysioRep PWA',
     contact: 'joneilcaoile@gmail.com · linkedin.com/in/joneilcaoile · github.com/joneilcaoile',
     education: 'M.S. Biomedical Engineering, Stevens Institute of Technology (May 2026)',
-    tools: 'Python, MATLAB, React, Firebase, Figma, Git, Selenium, TensorFlow, scikit-learn',
-    hire: 'Available May 2026 for SoCal medtech roles. Validation, Applications, R&D, Human Factors.',
+    stack: 'Python, MATLAB, React, Firebase, Figma, Git, Selenium, TensorFlow, scikit-learn',
+    tools: 'Free calculators for medtech engineers → visit /tools.html (sample-size calc, HFE risk scorer, air leak demo)',
+    hire: 'Available May 2026 for SoCal medtech roles. Validation, Applications, R&D, Human Factors. Press R for recruiter mode.',
+    criteria: 'What I want in a company: device touches patients, physical testing, regulated (FDA/ISO 13485/IEC 62366), SoCal, $80K+. See #criteria.',
     clear: '__CLEAR__',
     sudo: 'Nice try. Access denied.',
     'sudo rm -rf /': 'Absolutely not.',
@@ -15151,6 +15206,170 @@
     menu.style.display = 'none';
     cs.style.display = 'none';
   }
+})();
+</script>
+
+<!-- ============================================ -->
+<!-- RECRUITER MODE + CONSOLE EASTER EGG           -->
+<!-- ============================================ -->
+<style>
+  .recruiter-panel {
+    position: fixed; inset: 0; z-index: 10000;
+    display: none; align-items: center; justify-content: center;
+    background: rgba(15,14,12,0.72); backdrop-filter: blur(8px);
+    animation: recrFade 0.2s ease;
+  }
+  .recruiter-panel.open { display: flex; }
+  @keyframes recrFade { from { opacity: 0; } to { opacity: 1; } }
+  .recruiter-card {
+    width: min(620px, calc(100% - 32px));
+    max-height: calc(100vh - 64px); overflow-y: auto;
+    background: #FAFAF8; color: #0F0E0C;
+    border-radius: 14px; padding: 32px 34px;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.4);
+    font-family: 'Inter', sans-serif;
+    animation: recrSlide 0.25s cubic-bezier(.2,.8,.2,1);
+  }
+  @media (prefers-color-scheme: dark) {
+    .recruiter-card { background: #1A1815; color: #FAFAF8; }
+  }
+  @keyframes recrSlide { from { opacity: 0; transform: translateY(8px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  .recruiter-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid rgba(168,90,4,0.2); }
+  .recruiter-kicker { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: #A85A04; }
+  .recruiter-close { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #8A857F; cursor: pointer; background: none; border: 1px solid rgba(138,133,127,0.3); padding: 4px 10px; border-radius: 4px; }
+  .recruiter-close:hover { color: #A85A04; border-color: #A85A04; }
+  .recruiter-name { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 26px; margin-bottom: 4px; letter-spacing: -0.01em; }
+  .recruiter-tag { font-size: 14px; color: #4A4641; margin-bottom: 22px; }
+  @media (prefers-color-scheme: dark) { .recruiter-tag { color: #C4BDB5; } }
+  .recruiter-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; margin-bottom: 22px; }
+  .recruiter-stat { padding: 12px 14px; background: rgba(168,90,4,0.06); border-left: 2px solid #A85A04; border-radius: 4px; }
+  .recruiter-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #8A857F; margin-bottom: 2px; }
+  .recruiter-stat-value { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 15px; color: inherit; }
+  .recruiter-sect-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A857F; margin: 20px 0 10px; }
+  .recruiter-proj { padding: 10px 0; border-bottom: 1px solid rgba(138,133,127,0.15); font-size: 13px; }
+  .recruiter-proj:last-child { border-bottom: none; }
+  .recruiter-proj a { color: inherit; text-decoration: none; font-weight: 500; border-bottom: 1px solid rgba(168,90,4,0.35); }
+  .recruiter-proj a:hover { color: #A85A04; }
+  .recruiter-proj-desc { color: #4A4641; font-size: 12.5px; margin-top: 3px; line-height: 1.45; }
+  @media (prefers-color-scheme: dark) { .recruiter-proj-desc { color: #C4BDB5; } }
+  .recruiter-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+  .recr-btn { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; padding: 10px 16px; border-radius: 6px; border: 1px solid rgba(138,133,127,0.3); background: transparent; color: inherit; cursor: pointer; text-decoration: none; transition: all 0.15s ease; }
+  .recr-btn:hover { border-color: #A85A04; color: #A85A04; }
+  .recr-btn.primary { background: #A85A04; border-color: #A85A04; color: #FFF; }
+  .recr-btn.primary:hover { background: #7A4003; border-color: #7A4003; color: #FFF; }
+  .recruiter-hint { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #8A857F; margin-top: 20px; text-align: center; letter-spacing: 0.05em; }
+  .recruiter-hint kbd { background: rgba(138,133,127,0.15); border: 1px solid rgba(138,133,127,0.3); border-radius: 3px; padding: 1px 6px; font-family: inherit; font-size: 10px; }
+</style>
+
+<div class="recruiter-panel" id="recruiterPanel" role="dialog" aria-modal="true" aria-labelledby="recruiterName" aria-hidden="true">
+  <div class="recruiter-card">
+    <div class="recruiter-head">
+      <span class="recruiter-kicker">Recruiter mode · press R to toggle</span>
+      <button class="recruiter-close" id="recruiterClose" aria-label="Close recruiter mode">ESC</button>
+    </div>
+    <div class="recruiter-name" id="recruiterName">Joneil Caoile</div>
+    <div class="recruiter-tag">M.S. Biomedical Engineer · Stevens Institute · Available May 2026 · SoCal</div>
+
+    <div class="recruiter-stats">
+      <div class="recruiter-stat"><div class="recruiter-stat-label">Graduation</div><div class="recruiter-stat-value">May 2026</div></div>
+      <div class="recruiter-stat"><div class="recruiter-stat-label">Location</div><div class="recruiter-stat-value">Torrance, CA</div></div>
+      <div class="recruiter-stat"><div class="recruiter-stat-label">Salary Floor</div><div class="recruiter-stat-value">$80K+</div></div>
+      <div class="recruiter-stat"><div class="recruiter-stat-label">Target Roles</div><div class="recruiter-stat-value">Validation / HFE / R&amp;D</div></div>
+    </div>
+
+    <div class="recruiter-sect-label">Top Projects</div>
+    <div class="recruiter-proj">
+      <a href="case-pneumothorax.html">Pneumothorax Air Leak Monitor</a>
+      <div class="recruiter-proj-desc">Differential-pressure device for pleural drainage. Capstone. Hardware + alarm logic + regulatory framing.</div>
+    </div>
+    <div class="recruiter-proj">
+      <a href="case-usetrace.html">UseTrace — Usability Study Framework</a>
+      <div class="recruiter-proj-desc">Summative usability protocol tool. IEC 62366-1 aligned. Use-error capture and URRA mapping.</div>
+    </div>
+    <div class="recruiter-proj">
+      <a href="case-emg.html">EMG Signal Classifier</a>
+      <div class="recruiter-proj-desc">Real-time gesture classification from surface EMG. Signal processing + ML + human factors.</div>
+    </div>
+
+    <div class="recruiter-actions">
+      <a class="recr-btn primary" href="Joneil_Caoile_Resume.pdf" download>Download Resume (PDF)</a>
+      <a class="recr-btn" href="mailto:joneilcaoile@gmail.com">Email Me</a>
+      <a class="recr-btn" href="tools.html">See My Free Tools</a>
+      <a class="recr-btn" href="#criteria" onclick="document.getElementById('recruiterPanel').classList.remove('open');document.getElementById('recruiterPanel').setAttribute('aria-hidden','true');document.documentElement.style.overflow='';">My Criteria</a>
+    </div>
+
+    <div class="recruiter-hint">Press <kbd>R</kbd> or <kbd>ESC</kbd> to close. Shortcut works from anywhere on the site.</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  // CONSOLE EASTER EGG
+  try {
+    var s1 = 'color:#A85A04;font-size:14px;font-weight:600;font-family:Space Grotesk,sans-serif;';
+    var s2 = 'color:#4A4641;font-family:Inter,sans-serif;font-size:12px;line-height:1.65;';
+    var s3 = 'color:#A85A04;font-style:italic;font-family:Inter,sans-serif;';
+    console.log('%cHey — you opened devtools. I respect that.', s1);
+    console.log(
+      '%cBiomedical engineer, M.S. Stevens Institute, graduating May 2026.\n' +
+      'Looking for SoCal medtech: validation, applications, R&D, human factors.\n\n' +
+      'Handy things you might want to know:\n' +
+      '  • Press R anywhere on this page for recruiter mode.\n' +
+      '  • /tools has 3 free calculators built for medtech engineers.\n' +
+      '  • No tracking, no analytics, no third-party scripts on this site.\n\n' +
+      '  joneilcaoile@gmail.com\n' +
+      '  https://joneilcaoile.github.io',
+      s2
+    );
+    console.log('%c— Joneil', s3);
+  } catch(e){}
+
+  // RECRUITER MODE
+  var panel = document.getElementById('recruiterPanel');
+  var closeBtn = document.getElementById('recruiterClose');
+  if (!panel) return;
+
+  function openPanel(){
+    panel.classList.add('open');
+    panel.setAttribute('aria-hidden', 'false');
+    document.documentElement.style.overflow = 'hidden';
+  }
+  function closePanel(){
+    panel.classList.remove('open');
+    panel.setAttribute('aria-hidden', 'true');
+    document.documentElement.style.overflow = '';
+  }
+  function isTyping(e){
+    var t = e.target;
+    if (!t || !t.tagName) return false;
+    var tag = t.tagName.toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || tag === 'select') return true;
+    if (t.isContentEditable) return true;
+    return false;
+  }
+
+  document.addEventListener('keydown', function(e){
+    // Don't interfere with modifier combos (Cmd+R, Ctrl+R, etc.)
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (isTyping(e)) return;
+    // Skip if any modal/menu is visible
+    var menuOpen = document.querySelector('#gameMenu.visible, #charSelect.visible, .cmd-backdrop.open, #optionsPanel.visible, #rpgOverlay.visible');
+    if (menuOpen && e.key.toLowerCase() !== 'escape') return;
+
+    if (e.key === 'r' || e.key === 'R') {
+      e.preventDefault();
+      if (panel.classList.contains('open')) closePanel();
+      else openPanel();
+    } else if (e.key === 'Escape' && panel.classList.contains('open')) {
+      e.preventDefault();
+      closePanel();
+    }
+  });
+  closeBtn.addEventListener('click', closePanel);
+  panel.addEventListener('click', function(e){
+    if (e.target === panel) closePanel();
+  });
 })();
 </script>
 

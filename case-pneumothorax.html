@@ -861,7 +861,21 @@
     }
     .scroll-top.visible { opacity: 1; pointer-events: auto; }
     .scroll-top:hover { background: #C67B2E; color: #1C1915; transform: translateY(-2px); }
-    @media print { .scroll-top { display: none !important; } }
+    @media print {
+      .scroll-top, .back-nav, .case-nav, .cta-section, footer, nav { display: none !important; }
+      body { background: #fff !important; color: #000 !important; font-size: 11pt; }
+      .section, .hero, main { background: #fff !important; color: #000 !important; padding: 12pt 0 !important; break-inside: avoid; }
+      .section-title, .section-label, h1, h2, h3 { color: #000 !important; break-after: avoid; }
+      .learning-item { break-inside: avoid; padding: 8pt 0 !important; }
+      .dark-section { background: #fff !important; color: #000 !important; padding: 12pt 0 !important; }
+      .learning-title { color: #000 !important; }
+      .learning-body, p { color: #222 !important; }
+      a { color: #000 !important; text-decoration: underline; }
+      a[href^="http"]::after, a[href^="mailto"]::after { content: " (" attr(href) ")"; font-size: 8pt; color: #555 !important; }
+      img, svg { max-width: 100% !important; page-break-inside: avoid; }
+      .skip-link, #scrollTop, [aria-hidden="true"] { display: none !important; }
+      @page { margin: 1.5cm; }
+    }
     .page-transition { position:fixed; inset:0; z-index:10000; pointer-events:none; background:#1C1915; opacity:0; transition:opacity 0.4s cubic-bezier(0.4,0,0.2,1); }
     .page-transition.active { opacity:1; pointer-events:all; }
 
@@ -1223,6 +1237,56 @@
         </div>
       </section>
     </div>
+
+    <!-- ===== WHAT I GOT WRONG ===== -->
+    <section class="section" aria-labelledby="wrong-heading" style="padding-top: 48px;">
+      <p class="section-label r">Post-Mortem</p>
+      <h2 class="section-title r" id="wrong-heading">What I got wrong.</h2>
+      <p class="r" style="max-width: 720px; color: var(--text-muted, #635B52); margin-bottom: 32px;">Most case studies end on the win. This one doesn't. If you're interviewing me, these are the things I'd want you to ask about.</p>
+
+      <div class="learning-item r">
+        <div class="learning-num">01</div>
+        <div class="learning-title">I picked the sensor before I understood the noise floor.</div>
+        <p class="learning-body">Early in the design I spec'd a pressure transducer based on range and cost, not on the noise characteristics at the small differential pressures this device actually measures. When I wired up the first bench prototype, the sensor's inherent noise was the same order of magnitude as the signal I was trying to detect. I had to add aggressive smoothing to compensate, which introduced latency into the alarm path. The lesson is boring and I now believe it: start the sensor selection from the signal you need to preserve, not from the part's datasheet top-line spec.</p>
+      </div>
+
+      <div class="learning-item r">
+        <div class="learning-num">02</div>
+        <div class="learning-title">I underestimated alarm fatigue.</div>
+        <p class="learning-body">My first alarm logic was a simple threshold: if the differential pressure exceeds a value for 200 ms, alarm. In simulated use, the alarm triggered correctly on real leaks and also triggered on patient coughs, chest-tube repositioning, and ambient pressure swings when a door opened. A clinician who hears a false alarm three times an hour starts ignoring all alarms. I had to rebuild with hysteresis, a rolling-average threshold, and a debounce timer. In hindsight, the IEC 60601-1-8 alarm standard exists specifically to prevent the mistake I made, and I should have read it on day one instead of day sixty.</p>
+      </div>
+
+      <div class="learning-item r">
+        <div class="learning-num">03</div>
+        <div class="learning-title">I didn't talk to a nurse early enough.</div>
+        <p class="learning-body">I spent the first six weeks reading clinical literature and thinking about engineering. When I finally described the device to a nurse with ICU experience, she told me in 90 seconds that the mounting location I'd assumed was wrong, the one-handed operation requirement was real, and the alarm-silence button had to be larger than I'd sketched because gloves. Those three comments reshaped the industrial design and the firmware. None of that would have come out of more literature review. Next project, I'm showing a paper sketch to a clinician before I open CAD.</p>
+      </div>
+    </section>
+
+    <!-- ===== PRE-EMPT THE INTERVIEWER ===== -->
+    <section class="section" aria-labelledby="preempt-heading" style="padding-top: 48px;">
+      <p class="section-label r">Questions You Might Ask</p>
+      <h2 class="section-title r" id="preempt-heading">Answers before the interview.</h2>
+      <p class="r" style="max-width: 720px; color: var(--text-muted, #635B52); margin-bottom: 32px;">If I were screening this portfolio, these are the three questions I'd ask. So here they are, answered.</p>
+
+      <div class="learning-item r">
+        <div class="learning-num">Q1</div>
+        <div class="learning-title">What's the hardest engineering decision you made on this project?</div>
+        <p class="learning-body">Choosing differential pressure over flow-rate detection. Flow was simpler to instrument, simpler to explain, and two existing research devices had already tried it. I spent a week working through why those research devices hadn't matured into products and concluded the signal-to-noise problem was fundamental at clinical leak rates. Differential pressure added complexity in the sensor array and calibration, but gave us a signal that was actually above the noise floor in the operating range we cared about. If I'd picked flow, we'd have a device that worked in a lab and failed in a patient room. I'd make the same call again.</p>
+      </div>
+
+      <div class="learning-item r">
+        <div class="learning-num">Q2</div>
+        <div class="learning-title">Who else deserves credit for this?</div>
+        <p class="learning-body">My capstone advisor, who pushed back on my first concept hard enough that I had to defend it or drop it. I dropped it. A respiratory therapist I interviewed who described, in detail, how clinicians currently estimate air leaks by watching water columns in drainage chambers, which is how I understood the clinical inertia around the existing approach. And the two classmates on my team who built out the enclosure CAD and the battery subsystem while I focused on signal chain and alarm logic. This was never a solo project.</p>
+      </div>
+
+      <div class="learning-item r">
+        <div class="learning-num">Q3</div>
+        <div class="learning-title">If you had another semester, what would you do differently?</div>
+        <p class="learning-body">I'd run a formative usability study with at least three ICU nurses and a respiratory therapist before finalizing the user interface. Right now the interface decisions are defensible but based on one informal conversation and literature. Summative validation would still require a clinical environment and ethics approval we don't have academic access to, but formative work is cheap and I should have planned it in from week one. Second, I'd instrument the prototype with data logging so every bench test produces a record I can hand to a reviewer. The ad-hoc test notes I kept are fine for a class project and insufficient for a design history file.</p>
+      </div>
+    </section>
 
     <!-- ===== CTA ===== -->
     <div class="cta-section">
