@@ -625,19 +625,7 @@
     }
 
     /* IDLE AMBIENT - after 30s of no interaction, gentle animations appear */
-    body.idle-ambient .headshot-ring {
-      animation-duration: 4s;
-    }
-    body.idle-ambient .featured-card[data-rarity="legendary"] {
-      animation-duration: 3s;
-    }
-    body.idle-ambient .circuit-node {
-      animation: idle-pulse 3s ease-in-out infinite;
-    }
-    @keyframes idle-pulse {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 0.7; }
-    }
+    /* idle-ambient animations removed for clean aesthetic */
 
     /* SCROLL SNAPPING INDICATOR - small dots showing scroll position within section */
     .section-progress-dots {
@@ -1863,33 +1851,7 @@
       overflow: hidden;
     }
 
-    /* 3D DNA helix canvas */
-    .hero-3d {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 1.2s ease;
-    }
-    .hero-3d.active { opacity: 1; }
-
-    /* Floating particle canvas behind hero content */
-    .hero-particles {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    /* Mouse-reactive gradient mesh canvas */
-    .hero-gradient-mesh {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      opacity: 0.5;
-    }
+    /* Hero canvases removed (DNA helix, particles, gradient mesh) */
 
     /* REMOVED: Cursor glow */
 
@@ -2105,11 +2067,7 @@
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
-      animation: headshot-ring-spin 8s linear infinite;
-    }
-
-    @keyframes headshot-ring-spin {
-      to { transform: rotate(360deg); }
+      /* static ring, no spin */
     }
 
     .headshot-inner {
@@ -2134,11 +2092,8 @@
     .headshot-frame:hover .headshot-img {
       filter: saturate(1.1) contrast(1.08);
     }
-    .headshot-frame:hover .headshot-ring {
-      animation-duration: 3s;
-    }
     .headshot-frame:hover .headshot-glow {
-      opacity: 1.5;
+      opacity: 1;
     }
 
     /* Headshot ambient glow */
@@ -2149,12 +2104,7 @@
       background: radial-gradient(circle, rgba(198,123,46,0.12) 0%, transparent 70%);
       z-index: -2;
       pointer-events: none;
-      animation: headshot-pulse 4s ease-in-out infinite alternate;
-    }
-
-    @keyframes headshot-pulse {
-      from { opacity: 0.5; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1.05); }
+      /* static glow, no pulse */
     }
 
     [data-theme="dark"] .headshot-glow {
@@ -2542,11 +2492,7 @@
       background-size: 200% 100%;
       padding: 0.1em 0.3em;
       border-radius: 4px;
-      animation: highlight-sweep 3s ease-in-out infinite;
-    }
-    @keyframes highlight-sweep {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
+      /* static highlight, no sweep */
     }
 
     .spec-table {
@@ -2821,15 +2767,7 @@
       background-origin: border-box;
       background-clip: padding-box, border-box;
       border-color: transparent;
-      animation: rotate-border 6s linear infinite;
-    }
-    @property --border-angle {
-      syntax: '<angle>';
-      initial-value: 0deg;
-      inherits: false;
-    }
-    @keyframes rotate-border {
-      to { --border-angle: 360deg; }
+      /* static gold border, no rotation */
     }
 
     .featured-card[data-rarity="legendary"]::before {
@@ -6056,11 +5994,7 @@
 <main>
 <!-- HERO -->
 <section id="hero" class="container">
-  <!-- 3D DNA helix background -->
-  <canvas class="hero-3d" id="hero3D"></canvas>
-  <!-- Ambient background effects -->
-  <canvas class="hero-gradient-mesh" id="heroGradientMesh"></canvas>
-  <canvas class="hero-particles" id="heroParticles"></canvas>
+  <!-- Hero background (stripped for clean aesthetic) -->
   <div class="hero-left">
     <div class="status-badge">Currently building UseTrace HFE</div>
     <div class="status-badge available">Available May 2026 · SoCal</div>
@@ -7156,7 +7090,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js" integrity="sha384-RVPQwTb0fPz9kI8s5GwAq1Qioto9fnEQt1aKGSQSm8xV6+DIdBSgcCShoHqfKnhv" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" crossorigin="anonymous"></script>
+<!-- Three.js removed (DNA helix stripped) -->
 
 <script>
   /* HAMBURGER MENU */
@@ -11964,245 +11898,10 @@
 })();
 </script>
 
-<!-- 3D DNA HELIX + MOLECULAR NETWORK -->
-<script>
-(function init3DHero() {
-  if (typeof THREE === 'undefined' || window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var canvas = document.getElementById('hero3D');
-  if (!canvas) return;
+<!-- 3D DNA helix removed for clean aesthetic -->
 
-  var scene = new THREE.Scene();
-  var heroEl = document.getElementById('hero');
-  var w = heroEl.offsetWidth;
-  var h = heroEl.offsetHeight;
-
-  var camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 100);
-  camera.position.set(0, 0, 14);
-
-  var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-  renderer.setSize(w, h);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-  // Color palette matching the site
-  var amberColor = new THREE.Color(0xC67B2E);
-  var coralColor = new THREE.Color(0xB84A3C);
-  var tealColor = new THREE.Color(0x156967);
-  var goldColor = new THREE.Color(0xD4A233);
-
-  // === DNA DOUBLE HELIX ===
-  var helixGroup = new THREE.Group();
-  scene.add(helixGroup);
-
-  var helixPoints = 80;
-  var helixRadius = 1.8;
-  var helixHeight = 16;
-  var helixTurns = 3;
-
-  // Create helix strands as points
-  var strand1Geo = new THREE.BufferGeometry();
-  var strand2Geo = new THREE.BufferGeometry();
-  var strand1Pos = new Float32Array(helixPoints * 3);
-  var strand2Pos = new Float32Array(helixPoints * 3);
-
-  for (var i = 0; i < helixPoints; i++) {
-    var t = i / helixPoints;
-    var angle = t * Math.PI * 2 * helixTurns;
-    var y = (t - 0.5) * helixHeight;
-
-    strand1Pos[i * 3] = Math.cos(angle) * helixRadius;
-    strand1Pos[i * 3 + 1] = y;
-    strand1Pos[i * 3 + 2] = Math.sin(angle) * helixRadius;
-
-    strand2Pos[i * 3] = Math.cos(angle + Math.PI) * helixRadius;
-    strand2Pos[i * 3 + 1] = y;
-    strand2Pos[i * 3 + 2] = Math.sin(angle + Math.PI) * helixRadius;
-  }
-
-  strand1Geo.setAttribute('position', new THREE.BufferAttribute(strand1Pos, 3));
-  strand2Geo.setAttribute('position', new THREE.BufferAttribute(strand2Pos, 3));
-
-  var strandMat1 = new THREE.PointsMaterial({ color: amberColor, size: 0.08, transparent: true, opacity: 0.7 });
-  var strandMat2 = new THREE.PointsMaterial({ color: tealColor, size: 0.08, transparent: true, opacity: 0.7 });
-  helixGroup.add(new THREE.Points(strand1Geo, strandMat1));
-  helixGroup.add(new THREE.Points(strand2Geo, strandMat2));
-
-  // Base pair rungs connecting strands
-  var rungInterval = 4;
-  for (var i = 0; i < helixPoints; i += rungInterval) {
-    var t = i / helixPoints;
-    var angle = t * Math.PI * 2 * helixTurns;
-    var y = (t - 0.5) * helixHeight;
-
-    var x1 = Math.cos(angle) * helixRadius;
-    var z1 = Math.sin(angle) * helixRadius;
-    var x2 = Math.cos(angle + Math.PI) * helixRadius;
-    var z2 = Math.sin(angle + Math.PI) * helixRadius;
-
-    var rungGeo = new THREE.BufferGeometry().setFromPoints([
-      new THREE.Vector3(x1, y, z1),
-      new THREE.Vector3(0, y, 0),
-      new THREE.Vector3(x2, y, z2)
-    ]);
-    var rungMat = new THREE.LineBasicMaterial({
-      color: i % 8 === 0 ? coralColor : goldColor,
-      transparent: true,
-      opacity: 0.25
-    });
-    helixGroup.add(new THREE.Line(rungGeo, rungMat));
-  }
-
-  // Strand connection lines (backbone)
-  var line1Geo = new THREE.BufferGeometry();
-  line1Geo.setAttribute('position', new THREE.BufferAttribute(strand1Pos.slice(), 3));
-  var line2Geo = new THREE.BufferGeometry();
-  line2Geo.setAttribute('position', new THREE.BufferAttribute(strand2Pos.slice(), 3));
-  var lineMat1 = new THREE.LineBasicMaterial({ color: amberColor, transparent: true, opacity: 0.2 });
-  var lineMat2 = new THREE.LineBasicMaterial({ color: tealColor, transparent: true, opacity: 0.2 });
-  helixGroup.add(new THREE.Line(line1Geo, lineMat1));
-  helixGroup.add(new THREE.Line(line2Geo, lineMat2));
-
-  helixGroup.position.set(4, 0, -2);
-  helixGroup.rotation.z = 0.3;
-
-  // === FLOATING MOLECULAR NODES ===
-  var nodeCount = 40;
-  var nodeGeo = new THREE.BufferGeometry();
-  var nodePos = new Float32Array(nodeCount * 3);
-  var nodeColors = new Float32Array(nodeCount * 3);
-  var nodeVelocities = [];
-  var palette = [amberColor, tealColor, coralColor, goldColor];
-
-  for (var i = 0; i < nodeCount; i++) {
-    nodePos[i * 3] = (Math.random() - 0.5) * 20;
-    nodePos[i * 3 + 1] = (Math.random() - 0.5) * 14;
-    nodePos[i * 3 + 2] = (Math.random() - 0.5) * 10 - 3;
-    nodeVelocities.push({
-      x: (Math.random() - 0.5) * 0.003,
-      y: (Math.random() - 0.5) * 0.003,
-      z: (Math.random() - 0.5) * 0.002
-    });
-    var c = palette[Math.floor(Math.random() * palette.length)];
-    nodeColors[i * 3] = c.r;
-    nodeColors[i * 3 + 1] = c.g;
-    nodeColors[i * 3 + 2] = c.b;
-  }
-  nodeGeo.setAttribute('position', new THREE.BufferAttribute(nodePos, 3));
-  nodeGeo.setAttribute('color', new THREE.BufferAttribute(nodeColors, 3));
-  var nodeMat = new THREE.PointsMaterial({
-    size: 0.12,
-    transparent: true,
-    opacity: 0.5,
-    vertexColors: true
-  });
-  var nodes = new THREE.Points(nodeGeo, nodeMat);
-  scene.add(nodes);
-
-  // === MOLECULAR BONDS (connecting nearby nodes) ===
-  var bondGroup = new THREE.Group();
-  scene.add(bondGroup);
-  var bondThreshold = 4;
-
-  function updateBonds() {
-    while (bondGroup.children.length) {
-      var child = bondGroup.children[0];
-      child.geometry.dispose();
-      child.material.dispose();
-      bondGroup.remove(child);
-    }
-    var pos = nodeGeo.attributes.position.array;
-    for (var i = 0; i < nodeCount; i++) {
-      for (var j = i + 1; j < nodeCount; j++) {
-        var dx = pos[i * 3] - pos[j * 3];
-        var dy = pos[i * 3 + 1] - pos[j * 3 + 1];
-        var dz = pos[i * 3 + 2] - pos[j * 3 + 2];
-        var dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-        if (dist < bondThreshold) {
-          var g = new THREE.BufferGeometry().setFromPoints([
-            new THREE.Vector3(pos[i * 3], pos[i * 3 + 1], pos[i * 3 + 2]),
-            new THREE.Vector3(pos[j * 3], pos[j * 3 + 1], pos[j * 3 + 2])
-          ]);
-          var m = new THREE.LineBasicMaterial({
-            color: amberColor,
-            transparent: true,
-            opacity: 0.08 * (1 - dist / bondThreshold)
-          });
-          bondGroup.add(new THREE.Line(g, m));
-        }
-      }
-    }
-  }
-
-  // Mouse tracking for parallax
-  var mouseX = 0, mouseY = 0;
-  document.addEventListener('mousemove', function(e) {
-    mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-    mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-  });
-
-  var clock = new THREE.Clock();
-  var frameCount = 0;
-
-  function animate() {
-    requestAnimationFrame(animate);
-    var elapsed = clock.getElapsedTime();
-
-    // Rotate helix slowly
-    helixGroup.rotation.y = elapsed * 0.15;
-
-    // Mouse parallax on camera
-    camera.position.x += (mouseX * 1.5 - camera.position.x) * 0.02;
-    camera.position.y += (-mouseY * 0.8 - camera.position.y) * 0.02;
-    camera.lookAt(2, 0, 0);
-
-    // Animate floating nodes
-    var pos = nodeGeo.attributes.position.array;
-    for (var i = 0; i < nodeCount; i++) {
-      pos[i * 3] += nodeVelocities[i].x;
-      pos[i * 3 + 1] += nodeVelocities[i].y;
-      pos[i * 3 + 2] += nodeVelocities[i].z;
-      // Boundary wrapping
-      if (Math.abs(pos[i * 3]) > 10) nodeVelocities[i].x *= -1;
-      if (Math.abs(pos[i * 3 + 1]) > 7) nodeVelocities[i].y *= -1;
-      if (Math.abs(pos[i * 3 + 2]) > 8) nodeVelocities[i].z *= -1;
-    }
-    nodeGeo.attributes.position.needsUpdate = true;
-
-    // Update bonds every 30 frames (performance)
-    frameCount++;
-    if (frameCount % 30 === 0) updateBonds();
-
-    renderer.render(scene, camera);
-  }
-
-  // Resize handler
-  window.addEventListener('resize', function() {
-    w = heroEl.offsetWidth;
-    h = heroEl.offsetHeight;
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-    renderer.setSize(w, h);
-  });
-
-  // Start after loader finishes
-  setTimeout(function() {
-    canvas.classList.add('active');
-    animate();
-    updateBonds();
-  }, 3800);
-
-  // Fade out on scroll past hero
-  var hero3dFaded = false;
-  window.addEventListener('scroll', function() {
-    if (!hero3dFaded && window.scrollY > h * 0.7) {
-      canvas.style.opacity = '0';
-      hero3dFaded = true;
-    } else if (hero3dFaded && window.scrollY < h * 0.5) {
-      canvas.style.opacity = '1';
-      hero3dFaded = false;
-    }
-  }, { passive: true });
-})();
-</script>
+<!-- Story Timeline scroll-driven animation placeholder -->
+<!-- (Original Three.js DNA helix + molecular network removed) -->
 
 <!-- Story Timeline scroll-driven animation -->
 <script>
@@ -12663,33 +12362,7 @@
 })();
 </script>
 
-<!-- Ambient floating particles in dark sections -->
-<script>
-(function(){
-  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
-  document.querySelectorAll('.bridge-light-to-dark, .bridge-dark-to-light').forEach(function(sec){
-    if(sec.querySelector('.ambient-particles'))return;
-    var container=document.createElement('div');
-    container.className='ambient-particles';
-    container.setAttribute('aria-hidden','true');
-    container.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;pointer-events:none;z-index:0;';
-    sec.style.position='relative';
-    for(var i=0;i<8;i++){
-      var dot=document.createElement('span');
-      var size=2+Math.random()*3;
-      dot.style.cssText='position:absolute;width:'+size+'px;height:'+size+'px;border-radius:50%;background:var(--amber);opacity:'+(0.05+Math.random()*0.1)+';left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;animation:ambientFloat '+(8+Math.random()*12)+'s ease-in-out infinite alternate;animation-delay:-'+Math.random()*10+'s;';
-      container.appendChild(dot);
-    }
-    sec.appendChild(container);
-  });
-  if(!document.getElementById('ambientFloatStyle')){
-    var s=document.createElement('style');
-    s.id='ambientFloatStyle';
-    s.textContent='@keyframes ambientFloat{0%{transform:translateY(0) translateX(0)}50%{transform:translateY(-20px) translateX(10px)}100%{transform:translateY(10px) translateX(-15px)}}';
-    document.head.appendChild(s);
-  }
-})();
-</script>
+<!-- Ambient floating particles removed -->
 
 <!-- Skills matrix coverage counter -->
 <script>
@@ -12871,25 +12544,7 @@
 })();
 </script>
 
-<!-- Hero gradient mesh animation -->
-<script>
-(function(){
-  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
-  var hero=document.getElementById('hero');
-  if(!hero)return;
-  var mesh=document.createElement('div');
-  mesh.setAttribute('aria-hidden','true');
-  mesh.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.03;background:radial-gradient(ellipse at 20% 50%,var(--amber),transparent 50%),radial-gradient(ellipse at 80% 30%,var(--coral,#E05C4A),transparent 50%),radial-gradient(ellipse at 50% 80%,var(--gold,#C89B3C),transparent 50%);background-size:100% 100%;animation:meshShift 15s ease-in-out infinite alternate;';
-  hero.style.position=hero.style.position||'relative';
-  hero.insertBefore(mesh,hero.firstChild);
-  if(!document.getElementById('meshShiftStyle')){
-    var s=document.createElement('style');
-    s.id='meshShiftStyle';
-    s.textContent='@keyframes meshShift{0%{background-position:0% 0%,100% 0%,50% 100%}50%{background-position:30% 20%,70% 50%,20% 60%}100%{background-position:60% 40%,40% 80%,80% 20%}}';
-    document.head.appendChild(s);
-  }
-})();
-</script>
+<!-- Hero gradient mesh removed -->
 
 <!-- Smooth scroll indicator bounce at hero -->
 <script>
@@ -13392,27 +13047,7 @@
 })();
 </script>
 
-<!-- Smooth gradient text on hero subtitle -->
-<script>
-(function(){
-  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
-  var heroDesc=document.querySelector('.hero-desc, .hero-subtitle');
-  if(!heroDesc)return;
-  heroDesc.style.backgroundImage='linear-gradient(90deg, var(--text) 0%, var(--amber) 50%, var(--text) 100%)';
-  heroDesc.style.backgroundSize='200% 100%';
-  heroDesc.style.backgroundClip='text';
-  heroDesc.style.webkitBackgroundClip='text';
-  heroDesc.style.color='transparent';
-  heroDesc.style.webkitTextFillColor='transparent';
-  heroDesc.style.animation='textShimmer 8s ease-in-out infinite';
-  if(!document.getElementById('textShimmerStyle')){
-    var s=document.createElement('style');
-    s.id='textShimmerStyle';
-    s.textContent='@keyframes textShimmer{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}';
-    document.head.appendChild(s);
-  }
-})();
-</script>
+<!-- Text shimmer removed -->
 
 <!-- Work card count badge -->
 <script>
@@ -13924,25 +13559,7 @@
 })();
 </script>
 
-<!-- Animated gradient border on hero section bottom -->
-<script>
-(function(){
-  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
-  var hero=document.getElementById('hero');
-  if(!hero)return;
-  var border=document.createElement('div');
-  border.setAttribute('aria-hidden','true');
-  border.style.cssText='position:absolute;bottom:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--amber),var(--coral,#E05C4A),var(--amber),transparent);background-size:200% 100%;animation:borderSweep 4s linear infinite;z-index:2;';
-  hero.style.position=hero.style.position||'relative';
-  hero.appendChild(border);
-  if(!document.getElementById('borderSweepStyle')){
-    var s=document.createElement('style');
-    s.id='borderSweepStyle';
-    s.textContent='@keyframes borderSweep{0%{background-position:200% 0}100%{background-position:-200% 0}}';
-    document.head.appendChild(s);
-  }
-})();
-</script>
+<!-- Border sweep removed -->
 
 <!-- Smooth link preview indicator on external links -->
 <script>
