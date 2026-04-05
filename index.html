@@ -97,7 +97,7 @@
   <style>
     /* RESET */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: auto; /* smooth removed — conflicts with GSAP ScrollTrigger */ }
+    html { scroll-behavior: auto; /* smooth removed - conflicts with GSAP ScrollTrigger */ }
     body { font-variant-numeric: tabular-nums; }
     img { display: block; max-width: 100%; height: auto; }
     a { color: inherit; text-decoration: none; }
@@ -197,7 +197,7 @@
       --terminal-gold: #FFD700;
     }
 
-    /* DARK MODE — responds to OS preference OR manual toggle */
+    /* DARK MODE - responds to OS preference OR manual toggle */
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme="light"]) {
         --bg: #0F0D0A;
@@ -401,7 +401,7 @@
       color: var(--gold);
     }
 
-    /* FOCUS STYLES — keyboard-only visible ring */
+    /* FOCUS STYLES - keyboard-only visible ring */
     :focus-visible {
       outline: 2px solid var(--amber);
       outline-offset: 3px;
@@ -464,7 +464,7 @@
         border-radius: 3px;
       }
 
-      /* Cursor morphs — creative shapes per section */
+      /* Cursor morphs - creative shapes per section */
       .cursor[class*="shape-"] {
         border: none;
         background: none;
@@ -479,37 +479,37 @@
         display: none;
       }
 
-      /* Stethoscope — story/about section */
+      /* Stethoscope - story/about section */
       .cursor.shape-stethoscope {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D4A853' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M6 3 C6 3 4 5 4 9 C4 14 8 16 12 16 C16 16 20 14 20 9 C20 5 18 3 18 3'/%3E%3Ccircle cx='12' cy='18' r='2.5'/%3E%3Cline x1='12' y1='16' x2='12' y2='15.5'/%3E%3Ccircle cx='4' cy='3' r='1.5' fill='%23D4A853'/%3E%3Ccircle cx='20' cy='3' r='1.5' fill='%23D4A853'/%3E%3C/svg%3E");
       }
 
-      /* Syringe — featured/work section */
+      /* Syringe - featured/work section */
       .cursor.shape-syringe {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D4A853' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M18 2 L22 6 L20 8 L16 4 Z'/%3E%3Cpath d='M16 4 L6 14 L4 20 L10 18 L20 8'/%3E%3Cline x1='9' y1='11' x2='13' y2='15'/%3E%3Cline x1='7' y1='13' x2='11' y2='17'/%3E%3Cline x1='2' y1='22' x2='4' y2='20'/%3E%3C/svg%3E");
       }
 
-      /* Circuit/chip — toolkit section */
+      /* Circuit/chip - toolkit section */
       .cursor.shape-circuit {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D4A853' stroke-width='1.5' stroke-linecap='round'%3E%3Crect x='6' y='6' width='12' height='12' rx='2'/%3E%3Cline x1='9' y1='6' x2='9' y2='2'/%3E%3Cline x1='15' y1='6' x2='15' y2='2'/%3E%3Cline x1='9' y1='18' x2='9' y2='22'/%3E%3Cline x1='15' y1='18' x2='15' y2='22'/%3E%3Cline x1='6' y1='9' x2='2' y2='9'/%3E%3Cline x1='6' y1='15' x2='2' y2='15'/%3E%3Cline x1='18' y1='9' x2='22' y2='9'/%3E%3Cline x1='18' y1='15' x2='22' y2='15'/%3E%3Ccircle cx='12' cy='12' r='2' fill='%23D4A853' opacity='0.6'/%3E%3C/svg%3E");
       }
 
-      /* Heartbeat/pulse — statement section */
+      /* Heartbeat/pulse - statement section */
       .cursor.shape-heartbeat {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D4A853' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='2,12 6,12 8,8 10,16 12,6 14,18 16,10 18,12 22,12'/%3E%3C/svg%3E");
       }
 
-      /* Microscope — journey/education section */
+      /* Microscope - journey/education section */
       .cursor.shape-microscope {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D4A853' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M14 4 L14 2 L10 2 L10 4'/%3E%3Crect x='10' y='4' width='4' height='8' rx='1'/%3E%3Cpath d='M12 12 L12 16'/%3E%3Ccircle cx='12' cy='18' r='2'/%3E%3Cline x1='7' y1='22' x2='17' y2='22'/%3E%3Cline x1='12' y1='20' x2='12' y2='22'/%3E%3Ccircle cx='12' cy='14' r='3' opacity='0.3' fill='%23D4A853'/%3E%3C/svg%3E");
       }
 
-      /* Crosshair/target — skills matrix */
+      /* Crosshair/target - skills matrix */
       .cursor.shape-crosshair {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D4A853' stroke-width='1.2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Cline x1='12' y1='1' x2='12' y2='5'/%3E%3Cline x1='12' y1='19' x2='12' y2='23'/%3E%3Cline x1='1' y1='12' x2='5' y2='12'/%3E%3Cline x1='19' y1='12' x2='23' y2='12'/%3E%3C/svg%3E");
       }
 
-      /* Catheter/tube — bring section */
+      /* Catheter/tube - bring section */
       .cursor.shape-catheter {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D4A853' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M4 20 C4 20 4 12 8 8 C12 4 16 4 18 4'/%3E%3Ccircle cx='20' cy='4' r='2' fill='%23D4A853' opacity='0.5'/%3E%3Cline x1='6' y1='10' x2='10' y2='6' opacity='0.4'/%3E%3Cline x1='4' y1='14' x2='8' y2='10' opacity='0.3'/%3E%3C/svg%3E");
       }
@@ -534,11 +534,11 @@
       font-size: 20px;
     }
 
-    /* GPU HINTS — frequently animated elements */
+    /* GPU HINTS - frequently animated elements */
     nav { will-change: height, box-shadow; }
     .featured-card, .work-visual, .bring-card { will-change: transform; }
 
-    /* GRAIN TEXTURE — subtle editorial noise overlay */
+    /* GRAIN TEXTURE - subtle editorial noise overlay */
     body::after {
       content: '';
       position: fixed;
@@ -583,7 +583,7 @@
     }
     .circuit-divider.drawn .circuit-branch { stroke-dashoffset: 0; }
 
-    /* PAGE TRANSITION OVERLAY — smooth exit when navigating */
+    /* PAGE TRANSITION OVERLAY - smooth exit when navigating */
     .page-transition {
       position: fixed;
       inset: 0;
@@ -595,7 +595,7 @@
     }
     .page-transition.active { opacity: 1; pointer-events: all; }
 
-    /* SCROLL SECTION LABEL — floating pill that shows current section */
+    /* SCROLL SECTION LABEL - floating pill that shows current section */
     .scroll-section-label {
       position: fixed;
       top: 80px;
@@ -680,7 +680,7 @@
       100% { transform: translate(0); }
     }
 
-    /* ANIMATED SECTION LABELS — typewriter reveal */
+    /* ANIMATED SECTION LABELS - typewriter reveal */
     .section-label {
       overflow: hidden;
     }
@@ -699,7 +699,7 @@
       50% { border-color: transparent; }
     }
 
-    /* IDLE AMBIENT — after 30s of no interaction, gentle animations appear */
+    /* IDLE AMBIENT - after 30s of no interaction, gentle animations appear */
     body.idle-ambient .headshot-ring {
       animation-duration: 4s;
     }
@@ -714,7 +714,7 @@
       50% { opacity: 0.7; }
     }
 
-    /* SCROLL SNAPPING INDICATOR — small dots showing scroll position within section */
+    /* SCROLL SNAPPING INDICATOR - small dots showing scroll position within section */
     .section-progress-dots {
       position: fixed;
       right: 8px;
@@ -745,17 +745,17 @@
       .section-progress-dots { display: none; }
     }
 
-    /* SMOOTH GRADIENT ON DARK SECTIONS — subtle depth */
+    /* SMOOTH GRADIENT ON DARK SECTIONS - subtle depth */
     .bridge-light-to-dark {
       background: linear-gradient(to bottom, var(--bg) 0%, var(--dark2) 100px);
     }
 
-    /* HOVER STATE — featured link slides */
+    /* HOVER STATE - featured link slides */
     a:active {
       transform: scale(0.98);
     }
 
-    /* SMOOTH IMAGE LOAD — fade in images when loaded */
+    /* SMOOTH IMAGE LOAD - fade in images when loaded */
     img {
       opacity: 0;
       transition: opacity 0.5s ease;
@@ -768,7 +768,7 @@
       opacity: 1;
     }
 
-    /* DARK MODE GLOW — in dark mode, add subtle amber glow to key elements */
+    /* DARK MODE GLOW - in dark mode, add subtle amber glow to key elements */
     .dark-mode .featured-card[data-rarity="legendary"] {
       box-shadow: inset 0 0 30px rgba(212, 162, 51, 0.08), 0 0 40px rgba(212, 162, 51, 0.06), 0 0 80px rgba(212, 162, 51, 0.03);
     }
@@ -776,7 +776,7 @@
       box-shadow: 0 0 20px rgba(198, 123, 46, 0.3);
     }
 
-    /* LINK HOVER UNDERLINE ANIMATION — grows from left */
+    /* LINK HOVER UNDERLINE ANIMATION - grows from left */
     .bring-proof a,
     .callout a {
       position: relative;
@@ -798,13 +798,13 @@
       width: 100%;
     }
 
-    /* SECTION ENTRANCE CLIP — cinematic reveal from edges */
+    /* SECTION ENTRANCE CLIP - cinematic reveal from edges */
     .bridge-light-to-dark,
     .bridge-dark-to-light {
       position: relative;
     }
 
-    /* WORK TECH TAG HOVER — pill bounce effect */
+    /* WORK TECH TAG HOVER - pill bounce effect */
     .work-tech span {
       transition: transform 0.2s ease, color 0.2s ease, background 0.2s ease;
       display: inline-block;
@@ -823,7 +823,7 @@
       color: var(--gold);
     }
 
-    /* JOURNEY SPRITE GLOW — on hover, sprites get a golden aura */
+    /* JOURNEY SPRITE GLOW - on hover, sprites get a golden aura */
     .journey-node:hover .journey-sprite,
     .journey-future:hover .journey-sprite {
       filter: drop-shadow(0 0 8px rgba(198, 123, 46, 0.6));
@@ -832,12 +832,12 @@
       transition: filter 0.3s ease;
     }
 
-    /* CONTACT ORB PARALLAX — orbs react to mouse position */
+    /* CONTACT ORB PARALLAX - orbs react to mouse position */
     .contact-orb {
       transition: transform 0.1s linear;
     }
 
-    /* HOVER CARD GLOW BORDER — dynamic border that follows mouse position */
+    /* HOVER CARD GLOW BORDER - dynamic border that follows mouse position */
     .bring-card {
       position: relative;
     }
@@ -854,12 +854,12 @@
       opacity: 1;
     }
 
-    /* SECTION NUMBER — large watermark number behind section label */
+    /* SECTION NUMBER - large watermark number behind section label */
     .section-label {
       position: relative;
     }
 
-    /* CREDENTIAL BADGE GLOW — pulse on the marquee credential items */
+    /* CREDENTIAL BADGE GLOW - pulse on the marquee credential items */
     .marquee-item svg {
       transition: filter 0.3s ease;
     }
@@ -867,28 +867,28 @@
       filter: drop-shadow(0 0 6px rgba(198, 123, 46, 0.5));
     }
 
-    /* SMOOTH FOCUS TRANSITIONS — focus rings transition in smoothly */
+    /* SMOOTH FOCUS TRANSITIONS - focus rings transition in smoothly */
     *:focus-visible {
       transition: outline-offset 0.2s ease;
     }
 
-    /* WORK VISUAL SVG HOVER — draw paths glow on hover */
+    /* WORK VISUAL SVG HOVER - draw paths glow on hover */
     .work-visual:hover .draw-path {
       stroke: var(--amber);
       transition: stroke 0.4s ease;
     }
 
-    /* SPEC TABLE ENHANCED — alternating row subtle color */
+    /* SPEC TABLE ENHANCED - alternating row subtle color */
     .spec-table tbody tr:nth-child(even) {
       background: rgba(198, 123, 46, 0.02);
     }
 
-    /* HERO ROLES CYCLING — smooth fade between roles */
+    /* HERO ROLES CYCLING - smooth fade between roles */
     .role-typing {
       transition: opacity 0.2s ease;
     }
 
-    /* FOOTER TAGLINE HOVER — subtle color shift */
+    /* FOOTER TAGLINE HOVER - subtle color shift */
     .footer-tagline {
       transition: color 0.3s ease;
     }
@@ -896,7 +896,7 @@
       color: var(--amber);
     }
 
-    /* FEATURED LINK — animated arrow */
+    /* FEATURED LINK - animated arrow */
     .featured-link {
       position: relative;
       display: inline-flex;
@@ -908,7 +908,7 @@
       transition: gap 0.3s ease;
     }
 
-    /* NAV RESUME BUTTON — subtle glow */
+    /* NAV RESUME BUTTON - subtle glow */
     .nav-resume-btn {
       transition: color 0.2s ease, box-shadow 0.2s ease;
     }
@@ -916,7 +916,7 @@
       box-shadow: 0 0 12px rgba(198, 123, 46, 0.3);
     }
 
-    /* TOOLTIP ARROW — consistent tooltip style for interactive elements */
+    /* TOOLTIP ARROW - consistent tooltip style for interactive elements */
     .tooltip-arrow {
       position: absolute;
       bottom: -5px;
@@ -929,7 +929,7 @@
       border-top: 5px solid var(--dark3);
     }
 
-    /* HERO DESCRIPTION HIGHLIGHT — emphasize key phrases */
+    /* HERO DESCRIPTION HIGHLIGHT - emphasize key phrases */
     .hero-desc em,
     .hero-desc strong {
       color: var(--amber);
@@ -937,7 +937,18 @@
       font-weight: 600;
     }
 
-    /* PRINT-FRIENDLY — enhanced print styles */
+    /* VIEW TRANSITION API - smooth cross-document page transitions */
+    @view-transition { navigation: auto; }
+    ::view-transition-old(root) {
+      animation: 0.3s cubic-bezier(0.4, 0, 0.2, 1) both fade-out;
+    }
+    ::view-transition-new(root) {
+      animation: 0.3s cubic-bezier(0.4, 0, 0.2, 1) both fade-in;
+    }
+    @keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+    /* PRINT-FRIENDLY - enhanced print styles */
     @media print {
       .floating-cta,
       .cursor-dot,
@@ -951,7 +962,7 @@
       .circuit-divider { display: none !important; }
     }
 
-    /* FEATURED CARD PARTICLE SHIMMER — floating golden specs */
+    /* FEATURED CARD PARTICLE SHIMMER - floating golden specs */
     .featured-card-particles {
       position: absolute;
       inset: 0;
@@ -974,7 +985,7 @@
       80% { opacity: 0.3; transform: translateY(-40px) scale(0.5); }
     }
 
-    /* WORK EVIDENCE — subtle highlight on hover */
+    /* WORK EVIDENCE - subtle highlight on hover */
     .work-evidence {
       transition: color 0.2s ease, border-color 0.2s ease;
     }
@@ -983,7 +994,7 @@
       border-color: var(--amber);
     }
 
-    /* SCROLL INDICATOR — enhanced pulse animation */
+    /* SCROLL INDICATOR - enhanced pulse animation */
     .scroll-indicator {
       position: relative;
     }
@@ -994,7 +1005,7 @@
       letter-spacing: 0.08em;
     }
 
-    /* CALLOUT SECTION — amber hover accent */
+    /* CALLOUT SECTION - amber hover accent */
     .callout {
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
@@ -1003,7 +1014,7 @@
       box-shadow: inset 0 0 30px rgba(198, 123, 46, 0.03);
     }
 
-    /* MARQUEE ITEM HOVER — elastic bounce */
+    /* MARQUEE ITEM HOVER - elastic bounce */
     .marquee-item {
       transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease;
     }
@@ -1012,7 +1023,7 @@
       color: var(--amber);
     }
 
-    /* HERO CTA SHIMMER — moving shine on primary button */
+    /* HERO CTA SHIMMER - moving shine on primary button */
     .cta-btn.primary {
       position: relative;
       overflow: hidden;
@@ -1032,7 +1043,7 @@
       50% { left: 150%; }
     }
 
-    /* TERMINAL SCANLINE — enhanced retro CRT effect */
+    /* TERMINAL SCANLINE - enhanced retro CRT effect */
     .terminal::before {
       content: '';
       position: absolute;
@@ -1049,7 +1060,7 @@
       border-radius: inherit;
     }
 
-    /* CONTACT FORM INPUT GLOW — individual field focus glow */
+    /* CONTACT FORM INPUT GLOW - individual field focus glow */
     .form-input:focus,
     .form-textarea:focus {
       border-color: var(--amber);
@@ -1065,7 +1076,7 @@
       box-shadow: 0 8px 30px rgba(0,0,0,0.1);
     }
 
-    /* FLOATING CTA — appears after scrolling past 60% */
+    /* FLOATING CTA - appears after scrolling past 60% */
     .floating-cta {
       position: fixed;
       bottom: 100px;
@@ -1116,7 +1127,7 @@
       .floating-cta a { font-size: 12px; padding: 8px 16px; }
     }
 
-    /* WORK LINK ANIMATED ARROW — slides on hover */
+    /* WORK LINK ANIMATED ARROW - slides on hover */
     .work-link {
       position: relative;
       overflow: hidden;
@@ -1135,7 +1146,7 @@
       width: 100%;
     }
 
-    /* BRING CARD ACCENT — different accent color per card */
+    /* BRING CARD ACCENT - different accent color per card */
     .bring-card:nth-child(1) .bring-skill-fill { background: linear-gradient(90deg, var(--amber), var(--gold)); }
     .bring-card:nth-child(2) .bring-skill-fill { background: linear-gradient(90deg, var(--coral), var(--amber)); }
     .bring-card:nth-child(3) .bring-skill-fill { background: linear-gradient(90deg, var(--teal), #1a8a87); }
@@ -1146,7 +1157,7 @@
       transition: height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s ease;
     }
 
-    /* THEME TRANSITION CIRCLE — morphing expand from toggle */
+    /* THEME TRANSITION CIRCLE - morphing expand from toggle */
     .theme-transition-circle {
       position: fixed;
       border-radius: 50%;
@@ -1159,7 +1170,7 @@
       transform: scale(1);
     }
 
-    /* HEADSHOT LENS FLARE — hover effect */
+    /* HEADSHOT LENS FLARE - hover effect */
     .headshot-frame::after {
       content: '';
       position: absolute;
@@ -1185,7 +1196,7 @@
       75% { transform: translate(-6px, -3px); }
     }
 
-    /* PERSONAL ITEM ICON HOVER — bounce + color shift */
+    /* PERSONAL ITEM ICON HOVER - bounce + color shift */
     .personal-icon {
       transition: transform 0.3s ease;
     }
@@ -1193,7 +1204,7 @@
       transform: scale(1.15) rotate(-5deg);
     }
 
-    /* READING PROGRESS TEXT — shows estimated read progress */
+    /* READING PROGRESS TEXT - shows estimated read progress */
     .reading-progress-text {
       position: fixed;
       bottom: 20px;
@@ -1215,7 +1226,7 @@
       .reading-progress-text { display: none; }
     }
 
-    /* SMOOTH SECTION TRANSITIONS — color fading between zones */
+    /* SMOOTH SECTION TRANSITIONS - color fading between zones */
     .bridge-light-to-dark {
       transition: background 0.5s ease;
     }
@@ -1223,7 +1234,7 @@
       transition: background 0.5s ease;
     }
 
-    /* FOOTER WAVE — animated SVG wave above footer */
+    /* FOOTER WAVE - animated SVG wave above footer */
     .footer-wave {
       position: relative;
       width: 100%;
@@ -1246,7 +1257,7 @@
       fill: var(--dark);
     }
 
-    /* NAV BRAND GRADIENT — shifts color on scroll */
+    /* NAV BRAND GRADIENT - shifts color on scroll */
     .nav-brand {
       background: linear-gradient(90deg, var(--text), var(--text));
       background-clip: text;
@@ -1260,7 +1271,7 @@
       -webkit-background-clip: text;
     }
 
-    /* SKILL BAR — animated horizontal progress bars in bring cards */
+    /* SKILL BAR - animated horizontal progress bars in bring cards */
     .bring-skill-bar {
       height: 3px;
       background: var(--border-light);
@@ -1302,7 +1313,7 @@
       }
     }
 
-    /* WORK VISUAL PARALLAX — subtle depth shift on scroll */
+    /* WORK VISUAL PARALLAX - subtle depth shift on scroll */
     .work-visual {
       transition: transform 0.1s linear;
     }
@@ -1345,7 +1356,7 @@
       50% { box-shadow: 0 0 0 6px rgba(74, 246, 38, 0); }
     }
 
-    /* SVG WAVE DIVIDER — organic morphing shape */
+    /* SVG WAVE DIVIDER - organic morphing shape */
     .wave-divider {
       width: 100%;
       height: 40px;
@@ -1364,7 +1375,7 @@
       opacity: 0.12;
     }
 
-    /* HERO GRADIENT BORDER BOTTOM — animated shimmer line */
+    /* HERO GRADIENT BORDER BOTTOM - animated shimmer line */
     #hero::after {
       content: '';
       position: absolute;
@@ -1381,7 +1392,7 @@
       100% { background-position: 200% 0; }
     }
 
-    /* WORK CARD HOVER OVERLAY — glassmorphic quick stats */
+    /* WORK CARD HOVER OVERLAY - glassmorphic quick stats */
     .work-card-overlay {
       position: absolute;
       inset: 0;
@@ -1437,7 +1448,7 @@
       .work-card-overlay { display: none; }
     }
 
-    /* NAV PROGRESS BAR — thin line under nav showing scroll progress */
+    /* NAV PROGRESS BAR - thin line under nav showing scroll progress */
     .nav-progress {
       position: absolute;
       bottom: 0;
@@ -1448,7 +1459,7 @@
       transition: width 0.1s linear;
     }
 
-    /* ACHIEVEMENT PARTICLES — float up when passing milestones */
+    /* ACHIEVEMENT PARTICLES - float up when passing milestones */
     .achievement-particle {
       position: fixed;
       pointer-events: none;
@@ -1466,7 +1477,7 @@
       100% { opacity: 0; transform: translateY(-100px) scale(0.8); }
     }
 
-    /* INTERACTIVE TERMINAL — command input styling */
+    /* INTERACTIVE TERMINAL - command input styling */
     .terminal-input-line {
       display: flex;
       align-items: center;
@@ -1490,7 +1501,7 @@
       margin-top: 2px;
     }
 
-    /* PAGE LOAD STATE — content hidden until loader finishes */
+    /* PAGE LOAD STATE - content hidden until loader finishes */
     main, nav, footer {
       opacity: 0;
       transition: opacity 0.5s ease;
@@ -1504,7 +1515,7 @@
       main, nav, footer { opacity: 1; transition: none; }
     }
 
-    /* LOADER — Grand Boot Sequence */
+    /* LOADER - Grand Boot Sequence */
     .loader {
       position: fixed;
       inset: 0;
@@ -1547,7 +1558,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       gap: 1.5rem;
+      width: 100%;
     }
 
     .loader-hex {
@@ -1977,7 +1990,7 @@
       opacity: 0.5;
     }
 
-    /* Cursor glow — follows mouse across hero */
+    /* Cursor glow - follows mouse across hero */
     .cursor-glow {
       position: fixed;
       width: 400px;
@@ -2273,7 +2286,7 @@
       background: radial-gradient(circle, rgba(198,123,46,0.18) 0%, transparent 70%);
     }
 
-    /* === CINEMATIC PAGE ENTRANCE — desaturated overlay that fades out === */
+    /* === CINEMATIC PAGE ENTRANCE - desaturated overlay that fades out === */
     /* Uses an overlay instead of body filter to avoid breaking position:fixed elements */
     .cinema-overlay {
       position: fixed;
@@ -2611,7 +2624,7 @@
       }
     }
 
-    /* BRIDGE GRADIENTS — transitions confined to padding zones for text readability */
+    /* BRIDGE GRADIENTS - transitions confined to padding zones for text readability */
     .bridge-light-to-dark {
       background: linear-gradient(to bottom, var(--bg) 0%, var(--bg) calc(100% - 80px), var(--dark2) 100%);
       position: relative;
@@ -3026,7 +3039,7 @@
       gap: 0.75rem;
     }
 
-    /* OTHER WORK — ZIGZAG EDITORIAL */
+    /* OTHER WORK - ZIGZAG EDITORIAL */
     #work {
       position: relative;
       padding-top: 80px;
@@ -3122,7 +3135,7 @@
       text-shadow: 0 1px 4px rgba(0,0,0,0.4);
     }
 
-    /* Visual panel themes — 3D depth with vignette + glow */
+    /* Visual panel themes - 3D depth with vignette + glow */
     .work-visual.vis-photocull {
       background: linear-gradient(160deg, #251a35 0%, #1a1228 40%, #2d1f3d 100%);
       color: #c4b5fd;
@@ -3234,7 +3247,7 @@
     }
 
     .work-card h3 {
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
       color: var(--text);
       font-size: clamp(1.4rem, 3vw, 1.75rem);
     }
@@ -3242,14 +3255,14 @@
     .work-card p {
       color: var(--text-secondary);
       line-height: 1.7;
-      margin: 0.75rem 0;
+      margin: 1rem 0 1.25rem;
     }
 
     .work-tech {
       font-family: var(--fm);
       font-size: 13px;
       color: var(--text-muted);
-      margin: 1.25rem 0;
+      margin: 1.5rem 0;
     }
 
     .work-tech span {
@@ -3369,8 +3382,8 @@
     .bring-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      margin-top: 1rem;
+      gap: 1.5rem;
+      margin-top: 2rem;
     }
 
     .bring-card {
@@ -3466,7 +3479,7 @@
       color: var(--amber);
     }
 
-    /* FOCUS-VISIBLE STATES — keyboard accessibility */
+    /* FOCUS-VISIBLE STATES - keyboard accessibility */
     .skip-intro:focus-visible {
       color: rgba(198,123,46,0.9);
       border-color: rgba(198,123,46,0.5);
@@ -3592,7 +3605,7 @@
       top: 0;
     }
 
-    /* REDUCED MOTION — disable movement, keep color/opacity transitions */
+    /* REDUCED MOTION - disable movement, keep color/opacity transitions */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -3633,7 +3646,7 @@
       .floating-cta { display: none !important; }
     }
 
-    /* CUSTOM CURSOR — context-aware dot + ring */
+    /* CUSTOM CURSOR - context-aware dot + ring */
     .cursor-dot {
       position: fixed;
       top: 0; left: 0;
@@ -3696,7 +3709,7 @@
       .cursor-dot, .cursor-ring { display: none !important; }
     }
 
-    /* MAGNETIC NAV — pulled toward cursor */
+    /* MAGNETIC NAV - pulled toward cursor */
     .nav-links a {
       display: inline-block;
       transition: color 0.2s ease, transform 0.15s ease;
@@ -3775,7 +3788,7 @@
       .radar-label { font-size: 9px; }
     }
 
-    /* TEXT SCRAMBLE — glitch reveal on headings */
+    /* TEXT SCRAMBLE - glitch reveal on headings */
     .scramble-char {
       display: inline-block;
       transition: opacity 0.05s;
@@ -3784,7 +3797,7 @@
       color: var(--amber);
     }
 
-    /* AMBIENT COLOR WASH — subtle background glow that shifts per section */
+    /* AMBIENT COLOR WASH - subtle background glow that shifts per section */
     .ambient-wash {
       position: fixed;
       top: 0;
@@ -3866,7 +3879,7 @@
       line-height: 1.8;
     }
 
-    /* CALLOUT BLOCKS — field-tested, HFE process */
+    /* CALLOUT BLOCKS - field-tested, HFE process */
     .callout {
       padding: 1.5rem;
       background: linear-gradient(135deg, rgba(168,90,4,0.12) 0%, rgba(168,90,4,0.08) 100%);
@@ -4075,7 +4088,7 @@
       content: ' ✓';
     }
 
-    /* OFF THE CLOCK — personal section */
+    /* OFF THE CLOCK - personal section */
     #personal {
       padding: 60px 0 40px;
     }
@@ -4292,7 +4305,7 @@
       max-width: 120px;
     }
 
-    /* Major nodes (CSULB, Stevens) — bigger with description */
+    /* Major nodes (CSULB, Stevens) - bigger with description */
     .journey-node-major {
       max-width: 180px;
       padding: 1rem 0.9rem;
@@ -4305,7 +4318,7 @@
       background: rgba(198,123,46,0.06);
     }
 
-    /* Waypoint marker (clinical observation) — DIAMOND DECISION NODE */
+    /* Waypoint marker (clinical observation) - DIAMOND DECISION NODE */
     /* Uses clip-path instead of transform:rotate because GSAP controls transforms */
     .journey-waypoint {
       position: relative;
@@ -4654,8 +4667,8 @@
     /* CRITTER PET */
     .critter-container {
       position: fixed;
-      bottom: 1rem;
-      right: 1rem;
+      bottom: 5.5rem;
+      right: 2rem;
       z-index: 499;
       cursor: grab;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -5029,7 +5042,7 @@
       }
     }
 
-    /* COMMAND PALETTE — always dark regardless of theme */
+    /* COMMAND PALETTE - always dark regardless of theme */
     .cmd-backdrop {
       position: fixed;
       inset: 0;
@@ -5243,10 +5256,10 @@
       .featured-diagram { margin: 1.5rem 0; padding: 1rem 0.75rem; overflow-x: auto; }
       .featured-diagram svg { min-width: 0; }
       .cta-btn { min-height: 44px; padding: 0.85rem 1.75rem; }
-      .critter-container { bottom: 5rem; right: 0.5rem; transform: scale(0.75); transform-origin: bottom right; }
+      .critter-container { bottom: 7rem; right: 0.5rem; transform: scale(0.75); transform-origin: bottom right; }
     }
 
-    /* PRINT STYLES — recruiter-friendly printing */
+    /* PRINT STYLES - recruiter-friendly printing */
     @media print {
       * { animation: none !important; transition: none !important; }
       nav, .mobile-nav, .hamburger, .dark-mode-toggle, .cursor, .cursor-spotlight,
@@ -5789,13 +5802,14 @@
     }
 
     /* ═══ MENU OPTION HOVER ENERGY ═══ */
-    .gm-opt::before {
+    .gm-opt::after {
       content: ''; position: absolute; inset: 0;
       background: linear-gradient(90deg, transparent, rgba(198,123,46,0.05), transparent);
       transform: translateX(-100%);
       transition: transform 0.4s ease;
+      z-index: -1;
     }
-    .gm-opt[aria-selected="true"]::before {
+    .gm-opt[aria-selected="true"]::after {
       transform: translateX(0);
       animation: gmSweep 2s ease-in-out infinite;
     }
@@ -5894,7 +5908,7 @@
       .gm-particle { animation: none; display: none; }
       .gm-crt::after { display: none; }
       .gm-vs-flash { animation: none; display: none; }
-      .gm-opt::before { animation: none; }
+      .gm-opt::after { animation: none; }
       .gm-glitch-line { animation: none; }
       .gm-transition-text { animation: none; }
       .gm-announcer-text { animation: none; display: none; }
@@ -5932,10 +5946,10 @@
 <div id="gameMenu" role="dialog" aria-label="Start menu">
   <div class="gm-particles" id="gmParticles"></div>
   <div class="gm-inner">
-    <h1 class="gm-title">JONEIL CAOILE</h1>
+    <div class="gm-title" role="heading" aria-level="2">JONEIL CAOILE</div>
     <p class="gm-sub">BIOMEDICAL ENGINEER</p>
     <div class="gm-options" role="menu">
-      <button class="gm-opt" role="menuitem" aria-selected="true" data-action="start">ARCADE MODE</button>
+      <button class="gm-opt" role="menuitem" aria-selected="true" data-action="start">START</button>
       <button class="gm-opt" role="menuitem" aria-selected="false" data-action="charselect">CHARACTER SELECT</button>
       <button class="gm-opt" role="menuitem" aria-selected="false" data-action="options">OPTIONS</button>
     </div>
@@ -5969,7 +5983,7 @@
     </div>
     <div class="opt-row">
       <span class="opt-label">CRT SCANLINES</span>
-      <button class="opt-toggle on" id="optCRT" data-key="crt">OFF</button>
+      <button class="opt-toggle" id="optCRT" data-key="crt">OFF</button>
     </div>
     <div class="opt-back-row">
       <button class="cs-btn" id="optBackBtn">BACK</button>
@@ -6003,7 +6017,7 @@
   </div>
 </div>
 
-<!-- LOADER — Grand Boot Sequence -->
+<!-- LOADER - Grand Boot Sequence -->
 <div class="loader" id="loader">
   <div class="loader-grid" id="loaderGrid"></div>
   <svg class="loader-circuits" id="loaderCircuits" preserveAspectRatio="none"></svg>
@@ -6027,11 +6041,11 @@
     </div>
     <div class="loader-boot" id="loaderBoot">
       <div class="loader-boot-line">[sys] Initializing engineer profile...</div>
-      <div class="loader-boot-line">[edu] M.S. Biomedical Engineering — Stevens <span class="ok">LOADED</span></div>
+      <div class="loader-boot-line">[edu] M.S. Biomedical Engineering - Stevens <span class="ok">LOADED</span></div>
       <div class="loader-boot-line">[exp] 400+ clinical observation hours <span class="ok">VERIFIED</span></div>
       <div class="loader-boot-line">[hfe] IEC 62366-1 human factors framework <span class="ok">ACTIVE</span></div>
       <div class="loader-boot-line">[dev] UseTrace HFE + PhotoCull AI <span class="ok">DEPLOYED</span></div>
-      <div class="loader-boot-line">[loc] SoCal medtech — validation / R&amp;D / HF <span class="ok">READY</span></div>
+      <div class="loader-boot-line">[loc] SoCal medtech - validation / R&amp;D / HF <span class="ok">READY</span></div>
     </div>
   </div>
   <button class="skip-intro" id="skipIntro" aria-label="Skip intro animation">Skip intro ▸</button>
@@ -6512,7 +6526,7 @@
   </svg>
 </div>
 
-<!-- OTHER WORK — ZIGZAG EDITORIAL -->
+<!-- OTHER WORK - ZIGZAG EDITORIAL -->
 <section id="work" class="bridge-dark-to-light">
   <div class="container">
     <p class="section-label">05 / More Work</p>
@@ -6526,34 +6540,17 @@
           <div class="text-center">
             <div class="work-visual-svg" data-draw aria-hidden="true">
               <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Grid of 9 photos (3x3 contact sheet) -->
-                <rect x="8" y="8" width="30" height="22" rx="1.5" stroke="currentColor" stroke-width="1.2" opacity="0.25" class="draw-path"/>
-                <rect x="44" y="8" width="30" height="22" rx="1.5" stroke="currentColor" stroke-width="1.2" opacity="0.25" class="draw-path"/>
-                <rect x="80" y="8" width="30" height="22" rx="1.5" stroke="currentColor" stroke-width="1.5" opacity="0.7" class="draw-path"/>
-                <rect x="8" y="36" width="30" height="22" rx="1.5" stroke="currentColor" stroke-width="1.5" opacity="0.7" class="draw-path"/>
-                <rect x="44" y="36" width="30" height="22" rx="1.5" stroke="currentColor" stroke-width="1.2" opacity="0.25" class="draw-path"/>
-                <rect x="80" y="36" width="30" height="22" rx="1.5" stroke="currentColor" stroke-width="1.5" opacity="0.7" class="draw-path"/>
-                <!-- Reject marks on blurry ones -->
-                <line x1="15" y1="14" x2="31" y2="24" stroke="currentColor" stroke-width="1.2" opacity="0.35" stroke-linecap="round"/>
-                <line x1="31" y1="14" x2="15" y2="24" stroke="currentColor" stroke-width="1.2" opacity="0.35" stroke-linecap="round"/>
-                <line x1="51" y1="14" x2="67" y2="24" stroke="currentColor" stroke-width="1.2" opacity="0.35" stroke-linecap="round"/>
-                <line x1="67" y1="14" x2="51" y2="24" stroke="currentColor" stroke-width="1.2" opacity="0.35" stroke-linecap="round"/>
-                <line x1="51" y1="42" x2="67" y2="52" stroke="currentColor" stroke-width="1.2" opacity="0.35" stroke-linecap="round"/>
-                <line x1="67" y1="42" x2="51" y2="52" stroke="currentColor" stroke-width="1.2" opacity="0.35" stroke-linecap="round"/>
-                <!-- Keep checks on sharp ones -->
-                <polyline points="90,18 94,22 102,14" stroke="currentColor" stroke-width="1.8" opacity="0.7" stroke-linecap="round" stroke-linejoin="round" class="draw-path"/>
-                <polyline points="18,46 22,50 30,42" stroke="currentColor" stroke-width="1.8" opacity="0.7" stroke-linecap="round" stroke-linejoin="round" class="draw-path"/>
-                <polyline points="90,46 94,50 102,42" stroke="currentColor" stroke-width="1.8" opacity="0.7" stroke-linecap="round" stroke-linejoin="round" class="draw-path"/>
-                <!-- Scoring bar chart (compact) -->
-                <line x1="8" y1="108" x2="110" y2="108" stroke="currentColor" stroke-width="0.8" opacity="0.2"/>
-                <rect x="14" y="90" width="6" height="18" rx="1" fill="currentColor" opacity="0.12"/>
-                <rect x="26" y="84" width="6" height="24" rx="1" fill="currentColor" opacity="0.18"/>
-                <rect x="38" y="78" width="6" height="30" rx="1" fill="currentColor" opacity="0.28"/>
-                <rect x="50" y="72" width="6" height="36" rx="1" fill="currentColor" opacity="0.45"/>
-                <rect x="62" y="72" width="6" height="36" rx="1" fill="currentColor" opacity="0.45"/>
-                <rect x="74" y="78" width="6" height="30" rx="1" fill="currentColor" opacity="0.28"/>
-                <rect x="86" y="84" width="6" height="24" rx="1" fill="currentColor" opacity="0.18"/>
-                <rect x="98" y="90" width="6" height="18" rx="1" fill="currentColor" opacity="0.12"/>
+                <!-- Minimal: one photo with a quality gauge -->
+                <rect x="20" y="12" width="50" height="38" rx="3" stroke="currentColor" stroke-width="1.8" opacity="0.5" class="draw-path"/>
+                <circle cx="38" cy="28" r="6" stroke="currentColor" stroke-width="1" opacity="0.25"/>
+                <path d="M52 36 L58 24 L64 32" stroke="currentColor" stroke-width="1" opacity="0.25" stroke-linecap="round" stroke-linejoin="round"/>
+                <!-- Score bar -->
+                <rect x="78" y="16" width="6" height="30" rx="3" stroke="currentColor" stroke-width="1.2" opacity="0.3" class="draw-path"/>
+                <rect x="78" y="28" width="6" height="18" rx="3" fill="currentColor" opacity="0.5" class="draw-path"/>
+                <!-- Check mark -->
+                <polyline points="34,68 44,78 60,58" stroke="currentColor" stroke-width="2.5" opacity="0.6" stroke-linecap="round" stroke-linejoin="round" class="draw-path"/>
+                <!-- Simple label -->
+                <text x="60" y="102" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="7" opacity="0.3">SCORE: 87</text>
               </svg>
             </div>
             <div class="work-visual-sub">Drag, drop, and score your photos</div>
@@ -6580,23 +6577,16 @@
           <div class="text-center">
             <div class="work-visual-svg" data-draw aria-hidden="true">
               <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Anatomical lung outlines (clean, clinical) -->
-                <path d="M60 18 C60 18 46 24 40 38 C34 52 32 72 38 82 C44 92 52 88 56 78 L60 68" stroke="currentColor" stroke-width="1.5" class="draw-path" opacity="0.5"/>
-                <path d="M60 18 C60 18 74 24 80 38 C86 52 88 72 82 82 C76 92 68 88 64 78 L60 68" stroke="currentColor" stroke-width="1.5" class="draw-path" opacity="0.5"/>
-                <!-- Trachea -->
-                <path d="M57 8 L57 18 M63 8 L63 18" stroke="currentColor" stroke-width="1.2" class="draw-path" opacity="0.5"/>
-                <line x1="57" y1="8" x2="63" y2="8" stroke="currentColor" stroke-width="1.2" opacity="0.5"/>
-                <!-- Chest tube line entering right lung -->
-                <path d="M96 42 L82 48 L76 54" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" class="draw-path" opacity="0.8"/>
-                <!-- Sensor module (clean rectangle) -->
-                <rect x="88" y="34" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.5" class="draw-path" opacity="0.7"/>
-                <circle cx="93" cy="40" r="1.5" fill="currentColor" opacity="0.5"/>
-                <circle cx="97" cy="40" r="1" fill="currentColor" opacity="0.35"/>
-                <circle cx="101" cy="40" r="1" fill="currentColor" opacity="0.35"/>
-                <!-- Pressure waveform (clinical monitor style) -->
-                <rect x="10" y="88" width="100" height="28" rx="2" stroke="currentColor" stroke-width="1" opacity="0.2" class="draw-path"/>
-                <polyline points="14,104 22,104 26,96 30,108 34,92 38,110 42,98 48,104 54,104 58,96 62,108 66,94 70,106 74,100 80,104 86,104 92,98 96,104 104,104" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.6" class="draw-path"/>
-                <text x="14" y="94" fill="currentColor" font-family="var(--fm)" font-size="5" opacity="0.35">PRESSURE</text>
+                <!-- Minimal: single lung silhouette with sensor dot -->
+                <path d="M60 20 C60 20 42 28 36 48 C30 68 32 82 42 90 C50 96 56 88 60 76 C64 88 70 96 78 90 C88 82 90 68 84 48 C78 28 60 20 60 20Z" stroke="currentColor" stroke-width="1.8" class="draw-path" opacity="0.4"/>
+                <!-- Sensor indicator -->
+                <circle cx="76" cy="52" r="4" stroke="currentColor" stroke-width="1.5" opacity="0.6" class="draw-path"/>
+                <circle cx="76" cy="52" r="1.5" fill="currentColor" opacity="0.5"/>
+                <!-- Pulse rings -->
+                <circle cx="76" cy="52" r="8" stroke="currentColor" stroke-width="0.8" opacity="0.2" stroke-dasharray="2,2" class="draw-path"/>
+                <circle cx="76" cy="52" r="13" stroke="currentColor" stroke-width="0.5" opacity="0.1" stroke-dasharray="2,3" class="draw-path"/>
+                <!-- Simple waveform below -->
+                <polyline points="24,104 36,104 42,96 48,108 54,94 60,106 66,98 72,104 84,104 96,104" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4" class="draw-path"/>
               </svg>
             </div>
             <div class="work-visual-sub">0 commercial equivalents</div>
@@ -6621,22 +6611,19 @@
           <div class="text-center">
             <div class="work-visual-svg" data-draw aria-hidden="true">
               <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Signal display panel -->
-                <rect x="6" y="4" width="108" height="44" rx="2" stroke="currentColor" stroke-width="1" opacity="0.2" class="draw-path"/>
-                <text x="10" y="12" fill="currentColor" font-family="var(--fm)" font-size="5" opacity="0.35">RAW EMG</text>
-                <!-- Raw tremor signal (noisy, irregular) -->
-                <polyline points="10,28 16,28 19,20 22,36 25,18 28,34 31,22 34,32 37,24 40,34 43,18 46,30 50,28 56,28 59,20 62,36 65,16 68,32 71,22 74,30 77,24 80,34 83,18 86,28 92,28 95,22 98,32 101,24 106,28" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.55" class="draw-path"/>
-                <!-- Processing block -->
-                <rect x="32" y="54" width="56" height="16" rx="3" stroke="currentColor" stroke-width="1.2" opacity="0.5" class="draw-path"/>
-                <text x="60" y="64" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="6" opacity="0.45">4-8 Hz BANDPASS</text>
-                <!-- Arrows in/out -->
-                <path d="M60 48 L60 54" stroke="currentColor" stroke-width="1" opacity="0.3"/>
-                <path d="M60 70 L60 76" stroke="currentColor" stroke-width="1" opacity="0.3"/>
-                <!-- Clean output panel -->
-                <rect x="6" y="76" width="108" height="40" rx="2" stroke="currentColor" stroke-width="1" opacity="0.2" class="draw-path"/>
-                <text x="10" y="84" fill="currentColor" font-family="var(--fm)" font-size="5" opacity="0.35">VOLUNTARY</text>
-                <!-- Clean filtered signal (smooth, intentional) -->
-                <polyline points="10,100 20,100 30,94 40,100 52,100 62,94 72,100 82,100 92,94 102,100" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7" class="draw-path"/>
+                <!-- Minimal: forearm silhouette with signal -->
+                <rect x="30" y="30" width="60" height="20" rx="10" stroke="currentColor" stroke-width="1.8" opacity="0.3" class="draw-path"/>
+                <!-- Electrode dots -->
+                <circle cx="48" cy="40" r="2.5" fill="currentColor" opacity="0.5" class="draw-path"/>
+                <circle cx="60" cy="40" r="2.5" fill="currentColor" opacity="0.5" class="draw-path"/>
+                <circle cx="72" cy="40" r="2.5" fill="currentColor" opacity="0.5" class="draw-path"/>
+                <!-- Signal: noisy tremor (top) -->
+                <polyline points="16,72 24,72 28,66 32,78 36,64 40,76 44,68 48,74 52,66 56,76 60,64 64,72 68,68 72,76 76,66 80,74 84,72 92,72 100,72" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.25" class="draw-path"/>
+                <!-- Signal: clean voluntary (bottom, bolder) -->
+                <polyline points="16,92 32,92 42,86 52,92 68,92 78,86 88,92 100,92" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.6" class="draw-path"/>
+                <!-- Arrow between signals -->
+                <path d="M60 76 L60 84" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+                <path d="M57 81 L60 84 L63 81" stroke="currentColor" stroke-width="1" opacity="0.3" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
             <div class="work-visual-sub">Detect tremor, preserve intent</div>
@@ -6661,34 +6648,24 @@
           <div class="text-center">
             <div class="work-visual-svg" data-draw aria-hidden="true">
               <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Scatter plot frame (clinical data visualization) -->
-                <line x1="16" y1="8" x2="16" y2="80" stroke="currentColor" stroke-width="1" opacity="0.25" class="draw-path"/>
-                <line x1="16" y1="80" x2="110" y2="80" stroke="currentColor" stroke-width="1" opacity="0.25" class="draw-path"/>
-                <!-- Axis labels -->
-                <text x="60" y="90" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="5" opacity="0.3">GAIT VELOCITY</text>
-                <!-- Data points (two clusters: fall risk vs normal) -->
-                <!-- Low risk cluster (bottom-right) -->
-                <circle cx="70" cy="58" r="2.5" fill="currentColor" opacity="0.2"/>
-                <circle cx="78" cy="52" r="2.5" fill="currentColor" opacity="0.2"/>
-                <circle cx="84" cy="60" r="2.5" fill="currentColor" opacity="0.2"/>
-                <circle cx="76" cy="64" r="2.5" fill="currentColor" opacity="0.2"/>
-                <circle cx="90" cy="54" r="2.5" fill="currentColor" opacity="0.2"/>
-                <circle cx="82" cy="48" r="2.5" fill="currentColor" opacity="0.2"/>
-                <circle cx="96" cy="58" r="2.5" fill="currentColor" opacity="0.2"/>
-                <circle cx="88" cy="66" r="2.5" fill="currentColor" opacity="0.2"/>
-                <!-- High risk cluster (top-left, highlighted) -->
-                <circle cx="28" cy="22" r="2.5" fill="currentColor" opacity="0.55"/>
-                <circle cx="36" cy="28" r="2.5" fill="currentColor" opacity="0.55"/>
-                <circle cx="32" cy="16" r="2.5" fill="currentColor" opacity="0.55"/>
-                <circle cx="42" cy="24" r="2.5" fill="currentColor" opacity="0.55"/>
-                <circle cx="38" cy="34" r="2.5" fill="currentColor" opacity="0.55"/>
-                <circle cx="26" cy="32" r="2.5" fill="currentColor" opacity="0.55"/>
-                <circle cx="46" cy="18" r="2.5" fill="currentColor" opacity="0.55"/>
-                <!-- Decision boundary (dashed diagonal) -->
-                <line x1="22" y1="72" x2="100" y2="14" stroke="currentColor" stroke-width="1" stroke-dasharray="4,3" opacity="0.3" class="draw-path"/>
-                <!-- Patient count -->
-                <text x="60" y="105" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="18" font-weight="600" class="counter-num" data-target="77" opacity="0.7">0</text>
-                <text x="60" y="116" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="6" opacity="0.4">patients analyzed</text>
+                <!-- Minimal: stick figure with motion trail and risk indicator -->
+                <!-- Walking figure -->
+                <circle cx="50" cy="24" r="5" stroke="currentColor" stroke-width="1.5" opacity="0.5" class="draw-path"/>
+                <line x1="50" y1="29" x2="50" y2="52" stroke="currentColor" stroke-width="1.5" opacity="0.5" class="draw-path"/>
+                <line x1="50" y1="36" x2="40" y2="44" stroke="currentColor" stroke-width="1.3" opacity="0.4" class="draw-path"/>
+                <line x1="50" y1="36" x2="60" y2="44" stroke="currentColor" stroke-width="1.3" opacity="0.4" class="draw-path"/>
+                <line x1="50" y1="52" x2="42" y2="66" stroke="currentColor" stroke-width="1.5" opacity="0.5" class="draw-path"/>
+                <line x1="50" y1="52" x2="58" y2="66" stroke="currentColor" stroke-width="1.5" opacity="0.5" class="draw-path"/>
+                <!-- Motion trail dots -->
+                <circle cx="30" cy="40" r="1.5" fill="currentColor" opacity="0.1"/>
+                <circle cx="34" cy="38" r="1.5" fill="currentColor" opacity="0.15"/>
+                <circle cx="38" cy="36" r="1.5" fill="currentColor" opacity="0.2"/>
+                <!-- Risk gauge -->
+                <path d="M30 96 A30 30 0 0 1 90 96" stroke="currentColor" stroke-width="2" opacity="0.2" class="draw-path"/>
+                <path d="M30 96 A30 30 0 0 1 60 66" stroke="currentColor" stroke-width="2.5" opacity="0.5" class="draw-path"/>
+                <!-- Gauge needle -->
+                <line x1="60" y1="96" x2="48" y2="78" stroke="currentColor" stroke-width="1.5" opacity="0.6" stroke-linecap="round"/>
+                <circle cx="60" cy="96" r="2" fill="currentColor" opacity="0.5"/>
               </svg>
             </div>
             <div class="work-visual-sub">Patients in dataset</div>
@@ -6713,36 +6690,22 @@
           <div class="text-center">
             <div class="work-visual-svg" data-draw aria-hidden="true">
               <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Phone frame (the PWA runs on a phone) -->
-                <rect x="28" y="4" width="44" height="78" rx="6" stroke="currentColor" stroke-width="1.5" class="draw-path" opacity="0.4"/>
-                <line x1="28" y1="14" x2="72" y2="14" stroke="currentColor" stroke-width="0.8" opacity="0.15"/>
-                <line x1="28" y1="72" x2="72" y2="72" stroke="currentColor" stroke-width="0.8" opacity="0.15"/>
-                <!-- Pose skeleton inside phone (minimal, clean) -->
-                <circle cx="50" cy="26" r="3" stroke="currentColor" stroke-width="1.2" class="draw-path" opacity="0.6"/>
-                <line x1="50" y1="29" x2="50" y2="42" stroke="currentColor" stroke-width="1.2" class="draw-path" opacity="0.6"/>
-                <line x1="50" y1="33" x2="42" y2="37" stroke="currentColor" stroke-width="1" class="draw-path" opacity="0.5"/>
-                <line x1="50" y1="33" x2="58" y2="37" stroke="currentColor" stroke-width="1" class="draw-path" opacity="0.5"/>
-                <line x1="50" y1="42" x2="44" y2="52" stroke="currentColor" stroke-width="1.2" class="draw-path" opacity="0.6"/>
-                <line x1="50" y1="42" x2="56" y2="52" stroke="currentColor" stroke-width="1.2" class="draw-path" opacity="0.6"/>
-                <line x1="44" y1="52" x2="43" y2="62" stroke="currentColor" stroke-width="1.2" class="draw-path" opacity="0.6"/>
-                <line x1="56" y1="52" x2="57" y2="62" stroke="currentColor" stroke-width="1.2" class="draw-path" opacity="0.6"/>
-                <!-- Joint dots -->
-                <circle cx="50" cy="33" r="1.5" fill="currentColor" opacity="0.4"/>
-                <circle cx="50" cy="42" r="1.5" fill="currentColor" opacity="0.4"/>
-                <circle cx="44" cy="52" r="1.5" fill="currentColor" opacity="0.4"/>
-                <circle cx="56" cy="52" r="1.5" fill="currentColor" opacity="0.4"/>
-                <!-- Knee angle arc -->
-                <path d="M48 47 A 6 6 0 0 1 44 54" stroke="currentColor" stroke-width="0.8" stroke-dasharray="2,1.5" class="draw-path" opacity="0.45"/>
-                <!-- Camera lens indicator (top of phone) -->
-                <circle cx="50" cy="9" r="2" stroke="currentColor" stroke-width="0.8" opacity="0.25"/>
-                <!-- Rep counter / progress bar at bottom of phone screen -->
-                <rect x="34" y="66" width="32" height="3" rx="1.5" stroke="currentColor" stroke-width="0.6" opacity="0.25"/>
-                <rect x="34" y="66" width="20" height="3" rx="1.5" fill="currentColor" opacity="0.3"/>
-                <!-- Confidence metrics (below phone) -->
-                <text x="60" y="96" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="6" opacity="0.35">POSE CONFIDENCE</text>
-                <rect x="20" y="100" width="80" height="4" rx="2" stroke="currentColor" stroke-width="0.8" opacity="0.2"/>
-                <rect x="20" y="100" width="68" height="4" rx="2" fill="currentColor" opacity="0.25"/>
-                <text x="104" y="105" fill="currentColor" font-family="var(--fm)" font-size="6" opacity="0.4">85%</text>
+                <!-- Minimal: phone outline with pose figure -->
+                <rect x="32" y="8" width="40" height="72" rx="6" stroke="currentColor" stroke-width="1.8" opacity="0.35" class="draw-path"/>
+                <!-- Pose skeleton (simple, bold) -->
+                <circle cx="52" cy="28" r="4" stroke="currentColor" stroke-width="1.5" opacity="0.6" class="draw-path"/>
+                <line x1="52" y1="32" x2="52" y2="48" stroke="currentColor" stroke-width="1.5" opacity="0.5" class="draw-path"/>
+                <line x1="52" y1="38" x2="44" y2="44" stroke="currentColor" stroke-width="1.3" opacity="0.4" class="draw-path"/>
+                <line x1="52" y1="38" x2="60" y2="44" stroke="currentColor" stroke-width="1.3" opacity="0.4" class="draw-path"/>
+                <line x1="52" y1="48" x2="46" y2="60" stroke="currentColor" stroke-width="1.5" opacity="0.5" class="draw-path"/>
+                <line x1="52" y1="48" x2="58" y2="60" stroke="currentColor" stroke-width="1.5" opacity="0.5" class="draw-path"/>
+                <!-- Joint highlights -->
+                <circle cx="52" cy="48" r="2" fill="currentColor" opacity="0.4"/>
+                <circle cx="46" cy="60" r="2" fill="currentColor" opacity="0.4"/>
+                <!-- Angle arc at knee -->
+                <path d="M50 53 A5 5 0 0 0 47 57" stroke="currentColor" stroke-width="1.2" opacity="0.5" class="draw-path"/>
+                <!-- Rep counter -->
+                <text x="52" y="100" text-anchor="middle" fill="currentColor" font-family="var(--fm)" font-size="10" font-weight="600" opacity="0.5">3 / 10</text>
               </svg>
             </div>
             <div class="work-visual-sub">Real-time pose coaching</div>
@@ -6836,7 +6799,7 @@
 
     <div class="journey-connector"></div>
 
-    <!-- Clinical Observation Waypoint — Diamond decision node -->
+    <!-- Clinical Observation Waypoint - Diamond decision node -->
     <div class="journey-waypoint">
       <div class="journey-waypoint-dot"></div>
       <div class="journey-waypoint-content">
@@ -6850,7 +6813,7 @@
 
     <!-- Graduate School -->
     <div class="journey-node journey-node-major journey-node-current" data-jclass="duck" data-side="right">
-      <canvas class="journey-sprite" data-jclass="duck" width="20" height="26"></canvas>
+      <canvas class="journey-sprite" data-jclass="duck" width="20" height="30"></canvas>
       <div class="journey-node-school">Stevens Institute</div>
       <div class="journey-node-mascot">Ducks</div>
       <div class="journey-node-year">2024–2026</div>
@@ -7189,12 +7152,12 @@
 
 <style>
   #criteria { padding: 96px 0; }
-  .criteria-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-  .criteria-card { padding: 24px 26px; background: var(--bg-alt, rgba(242,239,234,0.5)); border: 1px solid var(--border, rgba(224,220,213,0.6)); border-radius: 10px; transition: all 0.25s ease; position: relative; }
-  .criteria-card:hover { transform: translateY(-3px); border-color: var(--amber, #A85A04); box-shadow: 0 8px 28px rgba(168,90,4,0.08); }
-  .criteria-num { font-family: var(--fm, 'JetBrains Mono', monospace); font-size: 11px; letter-spacing: 0.15em; color: var(--amber, #A85A04); margin-bottom: 14px; }
-  .criteria-title { font-family: var(--fh, 'Space Grotesk', sans-serif); font-weight: 600; font-size: 17px; line-height: 1.3; margin-bottom: 10px; color: var(--text, #0F0E0C); letter-spacing: -0.01em; }
-  .criteria-desc { font-size: 13.5px; color: var(--text-muted, #4A4641); line-height: 1.55; }
+  .criteria-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+  .criteria-card { padding: 28px 28px; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; transition: all 0.25s ease; position: relative; }
+  .criteria-card:hover { transform: translateY(-3px); border-color: var(--amber); box-shadow: 0 8px 28px rgba(198,123,46,0.1); }
+  .criteria-num { font-family: var(--fm, 'JetBrains Mono', monospace); font-size: 11px; letter-spacing: 0.15em; color: var(--amber); margin-bottom: 14px; }
+  .criteria-title { font-family: var(--fh, 'Space Grotesk', sans-serif); font-weight: 600; font-size: 17px; line-height: 1.3; margin-bottom: 10px; color: var(--text); letter-spacing: -0.01em; }
+  .criteria-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
   @media (max-width: 640px) { #criteria { padding: 72px 0; } .criteria-card { padding: 20px 22px; } }
 </style>
 
@@ -7324,10 +7287,10 @@
   </a>
 </nav>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js" integrity="sha384-RVPQwTb0fPz9kI8s5GwAq1Qioto9fnEQt1aKGSQSm8xV6+DIdBSgcCShoHqfKnhv" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js" integrity="sha384-RVPQwTb0fPz9kI8s5GwAq1Qioto9fnEQt1aKGSQSm8xV6+DIdBSgcCShoHqfKnhv" crossorigin="anonymous"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" crossorigin="anonymous"></script>
 
 <script>
   /* HAMBURGER MENU */
@@ -7347,7 +7310,7 @@
     });
   });
 
-  /* SMOOTH SCROLL FOR NAV LINKS — uses GSAP ScrollToPlugin for consistency */
+  /* SMOOTH SCROLL FOR NAV LINKS - uses GSAP ScrollToPlugin for consistency */
   document.querySelectorAll('.nav-links a[href^="#"], .mobile-nav a[href^="#"]').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
@@ -7409,7 +7372,7 @@
     });
   }
 
-  /* LOADER — Grand Boot Sequence */
+  /* LOADER - Grand Boot Sequence */
   function animateLoader() {
     const loader = document.getElementById('loader');
     const grid = document.getElementById('loaderGrid');
@@ -7446,7 +7409,7 @@
     const circuitLines = circuitsSvg.querySelectorAll('line');
     const circuitDots = circuitsSvg.querySelectorAll('circle');
 
-    // Hex draw animation — get total perimeter length
+    // Hex draw animation - get total perimeter length
     const hexPerimeter = hexOuter.getTotalLength ? hexOuter.getTotalLength() : 360;
     gsap.set(hexOuter, { strokeDasharray: hexPerimeter, strokeDashoffset: hexPerimeter });
 
@@ -7532,7 +7495,7 @@
     }
   }
 
-  // GSAP loads via defer — it runs after parsing but before DOMContentLoaded.
+  // GSAP loads via defer - it runs after parsing but before DOMContentLoaded.
   // This inline script runs during parsing, so GSAP may not exist yet.
   // Wait for DOMContentLoaded to guarantee defer scripts have executed.
   if (typeof gsap !== 'undefined') {
@@ -7542,7 +7505,7 @@
       if (typeof gsap !== 'undefined') {
         animateLoader();
       } else {
-        // GSAP truly failed to load — show the page immediately
+        // GSAP truly failed to load - show the page immediately
         var ldr = document.getElementById('loader');
         if (ldr) { ldr.style.opacity = '0'; ldr.style.visibility = 'hidden'; ldr.style.pointerEvents = 'none'; }
         document.body.classList.add('loaded');
@@ -7593,7 +7556,7 @@
     }
   });
 
-  /* CURSOR SHAPE MORPHING — changes shape per section */
+  /* CURSOR SHAPE MORPHING - changes shape per section */
   (function() {
     if (!window.matchMedia('(pointer: fine)').matches) return;
     var shapeMap = {
@@ -7632,7 +7595,7 @@
     updateCursorShape();
   })();
 
-  /* CURSOR TRAIL — canvas-based for performance */
+  /* CURSOR TRAIL - canvas-based for performance */
   const trailCanvas = document.getElementById('cursorTrail');
   const trailCtx = trailCanvas.getContext('2d');
   const trail = [];
@@ -7732,7 +7695,7 @@
     spawnParticle(e.clientX, e.clientY);
   });
 
-  /* XP + CRITTER SYSTEM — Max XP: 2,026 (graduation year) */
+  /* XP + CRITTER SYSTEM - Max XP: 2,026 (graduation year) */
   /* Level = Joneil's current age, calculated from June 11, 1998 */
   const MAX_XP = 2026;
   const BIRTHDAY = new Date(1998, 5, 11); // June 11, 1998
@@ -7760,7 +7723,7 @@
   // Try to load saved XP
   try { const saved = localStorage.getItem('jc-xp2'); if (saved) xp = Math.min(parseInt(saved, 10) || 0, MAX_XP); } catch(e) {}
 
-  // Evolution stages — slime crew
+  // Evolution stages - slime crew
   const STAGES = [
     { name: 'Egg',        minXP: 0,    draw: drawEgg },
     { name: 'Slimeling',  minXP: 100,  draw: drawSlimeling },
@@ -7769,7 +7732,7 @@
     { name: 'King Slime', minXP: 1200, draw: drawKingSlime }
   ];
 
-  // Slime palette — brighter, cuter colors
+  // Slime palette - brighter, cuter colors
   const SL='#7BBFFF',SD='#5A9FE8',SL2='#B8DFFF'; // baby blue
   const WH='#FFFFFF',BK='#2A2040',PK='#FFB0C0';   // base
   const YL='#FFE558',GO='#FFC830',GL='#D0F0FF';   // gold/sparkle
@@ -8135,7 +8098,7 @@
     if (currentStage === -1) refreshMiniHistory(naturalStage);
     currentStage = naturalStage;
 
-    // Update label — animation loop handles actual canvas rendering
+    // Update label - animation loop handles actual canvas rendering
     const show = (displayOverride >= 0 && displayOverride <= naturalStage) ? displayOverride : naturalStage;
     critterLabel.textContent = STAGES[show].name;
   }
@@ -8190,7 +8153,7 @@
     }
   }, { passive: true });
 
-  /* PET SYSTEM — animation loop + settings panel */
+  /* PET SYSTEM - animation loop + settings panel */
   const critterGear = document.getElementById('critterGear');
   const critterSettings = document.getElementById('critterSettings');
   let displayOverride = -1;   // -1 = natural stage, 0-4 = user-selected
@@ -8205,7 +8168,7 @@
   xpText.textContent = xp.toLocaleString() + ' / 2,026 XP';
   xpTitle.textContent = 'LVL ' + getAge() + ' · Medtech Engineer';
 
-  // Main animation loop — runs forever at ~12fps
+  // Main animation loop - runs forever at ~12fps
   setInterval(() => {
     const naturalStage = getStage();
     const show = (displayOverride >= 0 && displayOverride <= naturalStage) ? displayOverride : naturalStage;
@@ -8299,7 +8262,7 @@
     });
   });
 
-  /* ROLE TYPING — typewriter effect */
+  /* ROLE TYPING - typewriter effect */
   const roleTyping = document.getElementById('roleTyping');
   const roles = ['biomedical engineer', 'device tester', 'usability nerd', 'ai builder', 'clinical observer', 'fujifilm shooter', 'gamer', 'warning letter sommelier', 'coffee-powered'];
   let currentRole = 0;
@@ -8516,7 +8479,7 @@
     setTimeout(() => cinemaOverlay.remove(), 1400);
   }, 2800);
 
-  // Hero entrance — staggered reveal after loader finishes (~3.4s)
+  // Hero entrance - staggered reveal after loader finishes (~3.4s)
   gsap.from('.status-badge', { duration: 0.6, autoAlpha: 0, y: 15, stagger: 0.15, ease: 'power2.out', delay: 3.4 });
   gsap.from('.hero-tag', { duration: 0.5, autoAlpha: 0, x: -15, ease: 'power2.out', delay: 3.6 });
 
@@ -8568,7 +8531,7 @@
     }
   });
 
-  // Hero name — decode/scramble reveal (terminal hacker aesthetic)
+  // Hero name - decode/scramble reveal (terminal hacker aesthetic)
   (function() {
     const nameEl = document.querySelector('.hero-name');
     if (!nameEl) return;
@@ -8720,7 +8683,7 @@
     animate();
   })();
 
-  // Terminal live typing — types out a status message after boot
+  // Terminal live typing - types out a status message after boot
   (function terminalType() {
     var el = document.getElementById('terminalTyped');
     if (!el) return;
@@ -8828,7 +8791,7 @@
     heroObs.observe(hero);
   })();
 
-  // Animated gradient mesh — mouse-reactive flowing background
+  // Animated gradient mesh - mouse-reactive flowing background
   (function() {
     const canvas = document.getElementById('heroGradientMesh');
     if (!canvas) return;
@@ -8903,7 +8866,7 @@
     meshObs.observe(hero);
   })();
 
-  // Cursor glow — soft ambient glow follows mouse (desktop only)
+  // Cursor glow - soft ambient glow follows mouse (desktop only)
   (function() {
     if (!window.matchMedia('(pointer: fine)').matches) return;
     const glow = document.getElementById('cursorGlow');
@@ -8919,7 +8882,7 @@
     hero.addEventListener('mouseleave', () => { glow.style.opacity = '0'; });
   })();
 
-  // Hero parallax — text layers move at different speeds on mouse
+  // Hero parallax - text layers move at different speeds on mouse
   (function() {
     if (!window.matchMedia('(pointer: fine)').matches) return;
     const hero = document.getElementById('hero');
@@ -8953,7 +8916,7 @@
     });
   })();
 
-  // Hero scroll fade — hero content fades and shifts up as you scroll away
+  // Hero scroll fade - hero content fades and shifts up as you scroll away
   gsap.to('#hero .hero-left', {
     y: -60,
     opacity: 0.2,
@@ -8977,7 +8940,7 @@
     }
   });
 
-  // === NAV SCROLL SPY — highlights active section in nav ===
+  // === NAV SCROLL SPY - highlights active section in nav ===
   (function() {
     const navLinksAll = document.querySelectorAll('.nav-links a[href^="#"]');
     const sectionIds = Array.from(navLinksAll).map(a => a.getAttribute('href'));
@@ -9009,7 +8972,7 @@
     updateActiveNav();
   })();
 
-  // === MAGNETIC BUTTONS — CTAs subtly pull toward cursor ===
+  // === MAGNETIC BUTTONS - CTAs subtly pull toward cursor ===
   (function() {
     if (!window.matchMedia('(pointer: fine)').matches) return;
     document.querySelectorAll('.cta-btn').forEach(btn => {
@@ -9040,7 +9003,7 @@
     });
   });
 
-  // Circuit dividers — draw on scroll
+  // Circuit dividers - draw on scroll
   document.querySelectorAll('.circuit-divider').forEach(function(div) {
     var obs = new IntersectionObserver(function(entries) {
       if (entries[0].isIntersecting) {
@@ -9069,7 +9032,7 @@
     ease: 'power2.out'
   });
 
-  // Statement table — header then rows stagger
+  // Statement table - header then rows stagger
   gsap.from('#statement .spec-table thead', {
     scrollTrigger: {
       trigger: '#statement .spec-table',
@@ -9188,7 +9151,7 @@
     ease: 'power2.out'
   });
 
-  // Work items — staggered visual + card entrance for editorial feel
+  // Work items - staggered visual + card entrance for editorial feel
   document.querySelectorAll('.work-item').forEach((item, i) => {
     const visual = item.querySelector('.work-visual');
     const card = item.querySelector('.work-card');
@@ -9246,7 +9209,7 @@
     });
   });
 
-  // Journey tree — past nodes stagger in alternating from their sides
+  // Journey tree - past nodes stagger in alternating from their sides
   gsap.from('.journey-node[data-side="left"]', {
     scrollTrigger: { trigger: '#journey', start: 'top 80%', once: true },
     duration: 0.7, autoAlpha: 0, x: -30, stagger: 0.2, ease: 'power2.out'
@@ -9281,7 +9244,7 @@
     delay: 0.15
   });
 
-  // Toolkit table — header then rows stagger
+  // Toolkit table - header then rows stagger
   gsap.from('#toolkit .spec-table thead', {
     scrollTrigger: {
       trigger: '#toolkit .spec-table',
@@ -9307,7 +9270,7 @@
     delay: 0.2
   });
 
-  // Section headings — consistent entrance across all sections
+  // Section headings - consistent entrance across all sections
   document.querySelectorAll('section').forEach(section => {
     const label = section.querySelector('.section-label');
     const h2 = section.querySelector('h2');
@@ -9373,7 +9336,7 @@
 
   // ═══ ENHANCED ANIMATIONS ═══
 
-  // Work card hover — subtle scale + shadow lift (desktop only)
+  // Work card hover - subtle scale + shadow lift (desktop only)
   if (window.matchMedia('(pointer: fine)').matches) {
     document.querySelectorAll('.work-item').forEach(item => {
       item.addEventListener('mouseenter', () => {
@@ -9385,7 +9348,7 @@
     });
   }
 
-  // Journey SVG branch paths — line-draw animation on scroll
+  // Journey SVG branch paths - line-draw animation on scroll
   document.querySelectorAll('.journey-branch-svg path').forEach(path => {
     const length = path.getTotalLength ? path.getTotalLength() : 200;
     gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
@@ -9397,7 +9360,7 @@
     });
   });
 
-  // Journey connector lines — grow downward on scroll
+  // Journey connector lines - grow downward on scroll
   document.querySelectorAll('.journey-connector').forEach(conn => {
     gsap.from(conn, {
       scaleY: 0,
@@ -9465,7 +9428,7 @@
     });
   })();
 
-  // Section labels — letter stagger (subtle typewriter feel)
+  // Section labels - letter stagger (subtle typewriter feel)
   document.querySelectorAll('.section-label').forEach(label => {
     const text = label.textContent;
     label.innerHTML = text.split('').map(ch =>
@@ -9480,7 +9443,7 @@
     gsap.set(label, { visibility: 'visible', opacity: 1 });
   });
 
-  // Bring cards — 3D tilt on hover (desktop only)
+  // Bring cards - 3D tilt on hover (desktop only)
   if (window.matchMedia('(pointer: fine)').matches) {
     document.querySelectorAll('.bring-card').forEach(card => {
       card.style.transformStyle = 'preserve-3d';
@@ -9500,7 +9463,7 @@
       });
     });
 
-    // Work cards — subtle 3D tilt on hover
+    // Work cards - subtle 3D tilt on hover
     document.querySelectorAll('.work-item').forEach(item => {
       item.style.transformStyle = 'preserve-3d';
       item.addEventListener('mousemove', e => {
@@ -9519,7 +9482,7 @@
     });
   }
 
-  // Work cards — staggered alternating entrance from left/right
+  // Work cards - staggered alternating entrance from left/right
   document.querySelectorAll('.work-item').forEach(function(item, index) {
     var isEven = index % 2 === 1;
     var visual = item.querySelector('.work-visual');
@@ -9545,7 +9508,7 @@
     }
   });
 
-  // Work card spotlight effect — radial glow follows cursor
+  // Work card spotlight effect - radial glow follows cursor
   if (window.matchMedia('(pointer: fine)').matches) {
     document.querySelectorAll('.work-visual').forEach(function(vis) {
       var spot = document.createElement('div');
@@ -9561,7 +9524,7 @@
     });
   }
 
-  // Featured card spec table rows — count-up reveal for numbers
+  // Featured card spec table rows - count-up reveal for numbers
   document.querySelectorAll('#featured .spec-table td').forEach(td => {
     const text = td.textContent.trim();
     const match = text.match(/^(\d+)/);
@@ -9586,12 +9549,12 @@
     });
   });
 
-  /* FORM VALIDATION — mark fields as touched on blur */
+  /* FORM VALIDATION - mark fields as touched on blur */
   document.querySelectorAll('#contactForm input, #contactForm textarea').forEach(function(field) {
     field.addEventListener('blur', function() { this.classList.add('touched'); });
   });
 
-  /* CONTACT FORM — async submit with feedback */
+  /* CONTACT FORM - async submit with feedback */
   const contactForm = document.getElementById('contactForm');
   const formSubmit = document.getElementById('formSubmit');
   const formStatus = document.getElementById('formStatus');
@@ -9663,7 +9626,7 @@
   const marqueeItems = marquee.innerHTML;
   marquee.innerHTML += marqueeItems;
 
-  /* DATA-SCROLL-TO — delegated smooth scroll handler */
+  /* DATA-SCROLL-TO - delegated smooth scroll handler */
   document.addEventListener('click', function(e) {
     var el = e.target.closest('[data-scroll-to]');
     if (el) {
@@ -9700,7 +9663,7 @@
     }
   }, { passive: true });
 
-  /* TAB TITLE CHANGE — hooks them back */
+  /* TAB TITLE CHANGE - hooks them back */
   const originalTitle = document.title;
   const awayTitles = ['Come back...', 'Still building devices over here', 'Miss you already', 'The portfolio misses you'];
   let awayInterval;
@@ -9771,7 +9734,7 @@
     });
   }, { passive: true });
 
-  /* FLOATING MEDTECH PARTICLES — ambient background depth */
+  /* FLOATING MEDTECH PARTICLES - ambient background depth */
   (function() {
     const container = document.getElementById('bgParticles');
     const particleCount = 15;
@@ -9832,7 +9795,7 @@
     });
   });
 
-  /* ANIMATED COUNTER — numbers in SVGs count up on scroll */
+  /* ANIMATED COUNTER - numbers in SVGs count up on scroll */
   document.querySelectorAll('.counter-num').forEach(el => {
     const target = parseInt(el.dataset.target) || 0;
     ScrollTrigger.create({
@@ -9859,7 +9822,7 @@
   (function() {
     var W = 20, H = 26;
 
-    /* Palette — RO inspired with shading pairs */
+    /* Palette - RO inspired with shading pairs */
     var SK = '#FFD5B8', SK2 = '#E8BC9A';       /* skin + shadow */
     var OL = '#2C2620';                          /* outline / eyes */
     var HR = '#4A3728', HR2 = '#3A2718';         /* hair + darker */
@@ -9890,7 +9853,7 @@
       /* face */
       px(c,6,4+y,8,3,SK);
       px(c,6,7+y,8,1,SK2);
-      /* eyes — white + pupil */
+      /* eyes - white + pupil */
       px(c,7,5+y,2,2,WH);   /* left eye white */
       px(c,11,5+y,2,2,WH);  /* right eye white */
       px(c,8,5+y,1,2,OL);   /* left pupil */
@@ -9943,7 +9906,7 @@
       px(c,16,12+y+jumpY,1,3,MT);
       px(c,16,11+y+jumpY,1,1,BR);  /* handle */
       if(hov){
-        /* excited sword raise — arm goes up, knife swings overhead */
+        /* excited sword raise - arm goes up, knife swings overhead */
         var swingAngle = Math.sin(f * 0.3) * 3;
         var kx = Math.round(15 + swingAngle);
         var ky = Math.round(6 + jumpY + y + Math.abs(swingAngle));
@@ -10190,7 +10153,7 @@
       }
     }
 
-    /* ── LIFE STAGE SPRITES (Journey Tree — past history) ───── */
+    /* ── LIFE STAGE SPRITES (Journey Tree - past history) ───── */
 
     /* --- KID: SoCal youth, t-shirt + shorts, basketball --- */
     function drawKid(c,y,hov,f){
@@ -10306,41 +10269,42 @@
       }
     }
 
-    /* --- DUCK: Stevens Institute — cute duck with scarf --- */
+    /* --- DUCK: Stevens Institute - cute duck with scarf --- */
     function drawDuck(c,y,hov,f){
       shadow(c);
+      var dy=2; /* extra top padding so head doesn't clip */
       var bob=hov?Math.round(Math.sin(f*0.18)*-2):0;
       /* body (white, round) */
-      px(c,6,5+y+bob,8,10,WH); px(c,5,6+y+bob,10,8,WH);
-      px(c,7,5+y+bob,6,1,WH2); px(c,6,14+y+bob,8,1,WH2);
+      px(c,6,5+dy+y+bob,8,10,WH); px(c,5,6+dy+y+bob,10,8,WH);
+      px(c,7,5+dy+y+bob,6,1,WH2); px(c,6,14+dy+y+bob,8,1,WH2);
       /* head (sitting on body) */
-      px(c,7,3+y+bob,6,3,WH);
+      px(c,7,3+dy+y+bob,6,3,WH);
       /* eyes */
-      px(c,8,3+y+bob,1,1,OL); px(c,12,3+y+bob,1,1,OL);
+      px(c,8,3+dy+y+bob,1,1,OL); px(c,12,3+dy+y+bob,1,1,OL);
       /* bill (orange) */
-      px(c,9,5+y+bob,2,2,'#FF9933');
-      px(c,11,5+y+bob,2,1,'#FF8811');
+      px(c,9,5+dy+y+bob,2,2,'#FF9933');
+      px(c,11,5+dy+y+bob,2,1,'#FF8811');
       /* red scarf (Stevens colors) */
-      px(c,5,7+y+bob,1,2,'#D94A4A'); px(c,6,6+y+bob,1,1,'#D94A4A');
-      px(c,13,7+y+bob,1,2,'#D94A4A'); px(c,14,6+y+bob,1,1,'#D94A4A');
+      px(c,5,7+dy+y+bob,1,2,'#D94A4A'); px(c,6,6+dy+y+bob,1,1,'#D94A4A');
+      px(c,13,7+dy+y+bob,1,2,'#D94A4A'); px(c,14,6+dy+y+bob,1,1,'#D94A4A');
       /* feet (orange) */
-      px(c,8,15+y+bob,1,2,'#FF9933'); px(c,11,15+y+bob,1,2,'#FF9933');
+      px(c,8,15+dy+y+bob,1,2,'#FF9933'); px(c,11,15+dy+y+bob,1,2,'#FF9933');
       /* wing flap animation on hover */
       if(hov){
         var wingPhase=Math.round(Math.sin(f*0.25));
         if(wingPhase>0){
           /* right wing up */
-          px(c,14,8+y+bob,2,4,WH2);
+          px(c,14,8+dy+y+bob,2,4,WH2);
         }else{
           /* left wing up */
-          px(c,2,8+y+bob,2,4,WH2);
+          px(c,2,8+dy+y+bob,2,4,WH2);
         }
       }
     }
 
     var CHARS={novice:drawNovice,acolyte:drawAcolyte,sage:drawSage,blacksmith:drawBlacksmith,creator:drawCreator,kid:drawKid,kinesio:drawKinesio,clinical:drawClinical,lifegrad:drawLifeGrad,prospector:drawProspector,duck:drawDuck};
     window.CHARS=CHARS;
-    var NAMES={novice:'Novice',acolyte:'Acolyte',sage:'Sage',blacksmith:'Blacksmith',creator:'Creator',kid:'SoCal Kid',kinesio:'Kinesiology',clinical:'Clinical Obs.',lifegrad:'M.S. BME',prospector:'49er',duck:'Duck'};
+    var NAMES={novice:'Novice',acolyte:'Acolyte',sage:'Sage',blacksmith:'Blacksmith',creator:'Creator',kid:'SoCal Kid',kinesio:'Kinesiology',clinical:'Field Analyst',lifegrad:'M.S. BME',prospector:'49er',duck:'Duck'};
 
     /* --- JOURNEY SPRITES --- */
     document.querySelectorAll('.journey-sprite[data-jclass]').forEach(function(canvas){
@@ -10939,7 +10903,7 @@
 })();
 </script>
 
-<!-- PAGE TRANSITION — smooth exit animation on internal navigation -->
+<!-- PAGE TRANSITION - smooth exit animation on internal navigation -->
 <script>
 (function pageTransitions() {
   var overlay = document.getElementById('pageTransition');
@@ -11030,7 +10994,7 @@
 })();
 </script>
 
-<!-- CUSTOM CURSOR — context-aware dot + ring -->
+<!-- CUSTOM CURSOR - context-aware dot + ring -->
 <script>
 (function customCursor() {
   if (window.matchMedia('(pointer: coarse)').matches) return;
@@ -11281,7 +11245,7 @@
 })();
 </script>
 
-<!-- AMBIENT COLOR WASH — shifts hue per section -->
+<!-- AMBIENT COLOR WASH - shifts hue per section -->
 <script>
 (function ambientWash() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -11488,7 +11452,7 @@
 })();
 </script>
 
-<!-- PAGE IDLE AMBIENT ANIMATION — after 30s of no interaction, subtle ambient animations activate -->
+<!-- PAGE IDLE AMBIENT ANIMATION - after 30s of no interaction, subtle ambient animations activate -->
 <script>
 (function idleAmbient() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -11515,7 +11479,7 @@
 })();
 </script>
 
-<!-- TIME-AWARE GREETING — updates based on time of day -->
+<!-- TIME-AWARE GREETING - updates based on time of day -->
 <script>
 (function timeAwareElements() {
   var hour = new Date().getHours();
@@ -11538,7 +11502,7 @@
 })();
 </script>
 
-<!-- SMOOTH IMAGE LOAD — fade in images when they finish loading -->
+<!-- SMOOTH IMAGE LOAD - fade in images when they finish loading -->
 <script>
 (function smoothImageLoad() {
   var images = document.querySelectorAll('img:not(.headshot-img)');
@@ -11559,7 +11523,7 @@
 })();
 </script>
 
-<!-- CONTACT SECTION MOUSE PARALLAX — orbs follow cursor -->
+<!-- CONTACT SECTION MOUSE PARALLAX - orbs follow cursor -->
 <script>
 (function contactMouseParallax() {
   if (window.matchMedia('(pointer: coarse)').matches) return;
@@ -11586,7 +11550,7 @@
 })();
 </script>
 
-<!-- TOOLKIT SECTION — animate credential items on scroll -->
+<!-- TOOLKIT SECTION - animate credential items on scroll -->
 <script>
 (function toolkitStagger() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -11619,7 +11583,7 @@
 })();
 </script>
 
-<!-- BRING CARD MOUSE GLOW — radial gradient follows mouse on bring cards -->
+<!-- BRING CARD MOUSE GLOW - radial gradient follows mouse on bring cards -->
 <script>
 (function bringCardGlow() {
   if (window.matchMedia('(pointer: coarse)').matches) return;
@@ -11640,7 +11604,7 @@
 })();
 </script>
 
-<!-- ENHANCED CREDENTIAL MARQUEE INTERACTION — pause on hover focus area -->
+<!-- ENHANCED CREDENTIAL MARQUEE INTERACTION - pause on hover focus area -->
 <script>
 (function marqueeInteraction() {
   var marquee = document.getElementById('marquee');
@@ -11689,7 +11653,7 @@
 })();
 </script>
 
-<!-- SMOOTH SCROLL SNAP HINTS — subtle momentum feel -->
+<!-- SMOOTH SCROLL SNAP HINTS - subtle momentum feel -->
 <script>
 (function smoothMomentum() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -11705,7 +11669,7 @@
 })();
 </script>
 
-<!-- FEATURED CARD FLOATING PARTICLES — golden specs -->
+<!-- FEATURED CARD FLOATING PARTICLES - golden specs -->
 <script>
 (function featuredParticles() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -11730,7 +11694,7 @@
 })();
 </script>
 
-<!-- FLOATING CTA — appears after 60% scroll -->
+<!-- FLOATING CTA - appears after 60% scroll -->
 <script>
 (function floatingCta() {
   var cta = document.getElementById('floatingCta');
@@ -11754,7 +11718,7 @@
 })();
 </script>
 
-<!-- THEME TOGGLE CIRCLE TRANSITION — expanding circle on theme change -->
+<!-- THEME TOGGLE CIRCLE TRANSITION - expanding circle on theme change -->
 <script>
 (function themeCircle() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -11796,7 +11760,7 @@
 })();
 </script>
 
-<!-- SPEC TABLE ROW HOVER HIGHLIGHT — glowing amber row -->
+<!-- SPEC TABLE ROW HOVER HIGHLIGHT - glowing amber row -->
 <script>
 (function specTableHover() {
   var tables = document.querySelectorAll('.spec-table');
@@ -11840,7 +11804,7 @@
 })();
 </script>
 
-<!-- READING PROGRESS — shows scroll percentage in corner -->
+<!-- READING PROGRESS - shows scroll percentage in corner -->
 <script>
 (function readingProgress() {
   var el = document.getElementById('readingProgress');
@@ -11930,7 +11894,7 @@
 })();
 </script>
 
-<!-- HERO MOUSE SPOTLIGHT — gradient follows cursor in hero -->
+<!-- HERO MOUSE SPOTLIGHT - gradient follows cursor in hero -->
 <script>
 (function heroSpotlight() {
   if (window.matchMedia('(pointer: coarse)').matches) return;
@@ -11952,7 +11916,7 @@
 })();
 </script>
 
-<!-- CASE STUDY LINK TOOLTIP PREVIEW — shows mini preview on hover -->
+<!-- CASE STUDY LINK TOOLTIP PREVIEW - shows mini preview on hover -->
 <script>
 (function casePreview() {
   if (window.matchMedia('(pointer: coarse)').matches) return;
@@ -11996,7 +11960,7 @@
 })();
 </script>
 
-<!-- ANIMATED STAT COUNTERS — counts up numbers in the about spec table -->
+<!-- ANIMATED STAT COUNTERS - counts up numbers in the about spec table -->
 <script>
 (function statCounters() {
   var tds = document.querySelectorAll('#statement .spec-table td');
@@ -12040,7 +12004,7 @@
 })();
 </script>
 
-<!-- NAV BRAND COLOR SHIFT — gradient on scroll -->
+<!-- NAV BRAND COLOR SHIFT - gradient on scroll -->
 <script>
 (function navBrandShift() {
   var brand = document.getElementById('navBrand');
@@ -12056,7 +12020,7 @@
 })();
 </script>
 
-<!-- FEATURED CARD 3D ENTRANCE — perspective scroll reveal -->
+<!-- FEATURED CARD 3D ENTRANCE - perspective scroll reveal -->
 <script>
 (function featuredCard3D() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -12091,7 +12055,7 @@
 })();
 </script>
 
-<!-- BUTTON RIPPLE EFFECT — material-style click feedback -->
+<!-- BUTTON RIPPLE EFFECT - material-style click feedback -->
 <script>
 (function buttonRipple() {
   var buttons = document.querySelectorAll('.cta-btn, .form-submit, .nav-resume-btn, .featured-link');
@@ -12128,7 +12092,7 @@
 })();
 </script>
 
-<!-- WORK VISUAL SCROLL PARALLAX — subtle depth shift -->
+<!-- WORK VISUAL SCROLL PARALLAX - subtle depth shift -->
 <script>
 (function workVisualParallax() {
   if (window.matchMedia('(pointer: coarse)').matches) return;
@@ -12153,7 +12117,7 @@
 })();
 </script>
 
-<!-- SECTION LABEL TYPEWRITER — animate section labels on scroll -->
+<!-- SECTION LABEL TYPEWRITER - animate section labels on scroll -->
 <script>
 (function sectionLabelTyper() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -12193,7 +12157,7 @@
 })();
 </script>
 
-<!-- JOURNEY NODE STAGGER — animate journey nodes with depth -->
+<!-- JOURNEY NODE STAGGER - animate journey nodes with depth -->
 <script>
 (function journeyStagger() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -12222,7 +12186,7 @@
 })();
 </script>
 
-<!-- WORK CARD HOVER OVERLAYS — inject glassmorphic stats -->
+<!-- WORK CARD HOVER OVERLAYS - inject glassmorphic stats -->
 <script>
 (function workCardOverlays() {
   if (window.matchMedia('(pointer: coarse)').matches) return;
@@ -12258,7 +12222,7 @@
 })();
 </script>
 
-<!-- NAV PROGRESS BAR — updates with scroll -->
+<!-- NAV PROGRESS BAR - updates with scroll -->
 <script>
 (function navProgressBar() {
   var bar = document.getElementById('navProgress');
@@ -12273,7 +12237,7 @@
 })();
 </script>
 
-<!-- DYNAMIC FAVICON — changes color accent based on section -->
+<!-- DYNAMIC FAVICON - changes color accent based on section -->
 <script>
 (function dynamicFavicon() {
   var colors = {
@@ -12355,7 +12319,7 @@
 })();
 </script>
 
-<!-- SCROLL SECTION LABEL — floating pill showing current section -->
+<!-- SCROLL SECTION LABEL - floating pill showing current section -->
 <script>
 (function scrollSectionLabel() {
   var label = document.getElementById('scrollSectionLabel');
@@ -12404,7 +12368,7 @@
 })();
 </script>
 
-<!-- INTERACTIVE TERMINAL — responds to typed commands -->
+<!-- INTERACTIVE TERMINAL - responds to typed commands -->
 <script>
 (function interactiveTerminal() {
   var input = document.getElementById('terminalInput');
@@ -12412,7 +12376,7 @@
   if (!input || !responses) return;
 
   var commands = {
-    help: 'Available: help, skills, projects, contact, education, stack, tools, hire, criteria, clear, sudo',
+    help: 'Available: help, skills, projects, contact, education, stack, tools, hire, criteria, arcade, clear, sudo',
     skills: 'Python · MATLAB · Signal Processing · Machine Learning · Computer Vision · FDA Design Controls · IEC 62366-1 · React · Firebase',
     projects: 'UseTrace HFE · PhotoCull AI · Pneumothorax Air Leak Monitor · EMG Fatigue Detection · Fall Risk Assessment · PhysioRep PWA',
     contact: 'joneilcaoile@gmail.com · linkedin.com/in/joneilcaoile · github.com/joneilcaoile',
@@ -12421,11 +12385,12 @@
     tools: 'Free calculators for medtech engineers → visit /tools.html (sample-size calc, HFE risk scorer, air leak demo)',
     hire: 'Available May 2026 for SoCal medtech roles. Validation, Applications, R&D, Human Factors. Press R for recruiter mode.',
     criteria: 'What I want in a company: device touches patients, physical testing, regulated (FDA/ISO 13485/IEC 62366), SoCal, $80K+. See #criteria.',
+    arcade: '__ARCADE__',
     clear: '__CLEAR__',
     sudo: 'Nice try. Access denied.',
     'sudo rm -rf /': 'Absolutely not.',
     ls: 'UseTrace/  PhotoCull/  Pneumothorax/  EMG/  FallRisk/  PhysioRep/',
-    whoami: 'joneil-caoile — biomedical engineer, device tester, tool builder',
+    whoami: 'joneil-caoile - biomedical engineer, device tester, tool builder',
     pwd: '/home/joneil/portfolio',
     date: new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
     echo: 'echo what?',
@@ -12443,6 +12408,10 @@
 
     if (cmd === 'clear') {
       responses.innerHTML = '';
+      return;
+    }
+    if (cmd === 'arcade') {
+      if (typeof window.showGameMenu === 'function') window.showGameMenu();
       return;
     }
 
@@ -12471,7 +12440,7 @@
 })();
 </script>
 
-<!-- ACHIEVEMENT PARTICLES — float up when scrolling past sections -->
+<!-- ACHIEVEMENT PARTICLES - float up when scrolling past sections -->
 <script>
 (function achievementParticles() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -14732,7 +14701,7 @@
 
   // Character data
   var ROSTER = [
-    { key:'kid', role:'ORIGINS', name:'SoCal Kid', title:'Cerritos, CA', period:'1998 - 2017',
+    { key:'kid', role:'ORIGINS', name:'SoCal Kid', title:'Carson / Torrance, CA', period:'1998 - 2017',
       desc:'Grew up in Carson and Torrance. Basketball, Filipino household, first taste of design through gaming.',
       stats:{Clinical:0,Engineering:10,Research:5,Design:15,Leadership:20},
       skills:['Basketball','Gaming','Design Curiosity'] },
@@ -14740,7 +14709,7 @@
       desc:'B.S. Kinesiology. Learned how the body moves, how patients recover, where devices fall short.',
       stats:{Clinical:30,Engineering:25,Research:40,Design:20,Leadership:35},
       skills:['Kinesiology','Anatomy','Rehabilitation'] },
-    { key:'clinical', role:'FIELD WORK', name:'Clinical Observer', title:'Physical Therapy Clinics', period:'2020 - 2024',
+    { key:'clinical', role:'FIELD WORK', name:'Field Analyst', title:'Physical Therapy Clinics', period:'2020 - 2024',
       desc:'400+ hours watching devices fail patients. Decided to fix it from the engineering side.',
       stats:{Clinical:75,Engineering:15,Research:50,Design:30,Leadership:40},
       skills:['Clinical Insight','User Empathy','Device Analysis'] },
@@ -15172,7 +15141,7 @@
     beep(330);
   });
 
-  /* ── SHOW MENU AFTER LOADER ── */
+  /* ── SHOW MENU (opt-in, not auto) ── */
   function showGameMenu(){
     document.body.classList.add('gm-active');
     menu.classList.add('visible');
@@ -15181,31 +15150,11 @@
     spawnParticles();
   }
 
-  // Poll for loader completion
-  var pollId = setInterval(function(){
-    var loader = document.getElementById('loader');
-    if (!loader) { showGameMenu(); clearInterval(pollId); return; }
-    var op = parseFloat(getComputedStyle(loader).opacity);
-    if (op < 0.1) {
-      showGameMenu();
-      clearInterval(pollId);
-    }
-  }, 150);
+  // Expose for external triggers (Konami code, terminal command, etc.)
+  window.showGameMenu = showGameMenu;
 
-  // Fallback: show after 6s no matter what
-  setTimeout(function(){
-    if (!menu.classList.contains('visible')) {
-      showGameMenu();
-      clearInterval(pollId);
-    }
-  }, 6000);
-
-  // Reduced motion: skip menu entirely
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    clearInterval(pollId);
-    menu.style.display = 'none';
-    cs.style.display = 'none';
-  }
+  // Do NOT auto-show the game menu. Portfolio content loads normally.
+  // The menu is accessible via Konami code or typing "arcade" in the terminal.
 })();
 </script>
 
@@ -15283,7 +15232,7 @@
       <div class="recruiter-proj-desc">Differential-pressure device for pleural drainage. Capstone. Hardware + alarm logic + regulatory framing.</div>
     </div>
     <div class="recruiter-proj">
-      <a href="case-usetrace.html">UseTrace — Usability Study Framework</a>
+      <a href="case-usetrace.html">UseTrace - Usability Study Framework</a>
       <div class="recruiter-proj-desc">Summative usability protocol tool. IEC 62366-1 aligned. Use-error capture and URRA mapping.</div>
     </div>
     <div class="recruiter-proj">
@@ -15310,7 +15259,7 @@
     var s1 = 'color:#A85A04;font-size:14px;font-weight:600;font-family:Space Grotesk,sans-serif;';
     var s2 = 'color:#4A4641;font-family:Inter,sans-serif;font-size:12px;line-height:1.65;';
     var s3 = 'color:#A85A04;font-style:italic;font-family:Inter,sans-serif;';
-    console.log('%cHey — you opened devtools. I respect that.', s1);
+    console.log('%cHey - you opened devtools. I respect that.', s1);
     console.log(
       '%cBiomedical engineer, M.S. Stevens Institute, graduating May 2026.\n' +
       'Looking for SoCal medtech: validation, applications, R&D, human factors.\n\n' +
@@ -15322,7 +15271,7 @@
       '  https://joneilcaoile.github.io',
       s2
     );
-    console.log('%c— Joneil', s3);
+    console.log('%c- Joneil', s3);
   } catch(e){}
 
   // RECRUITER MODE

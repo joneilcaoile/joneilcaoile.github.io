@@ -1,51 +1,56 @@
 <!DOCTYPE html>
-<!--
-  ╔══════════════════════════════════════════════════════╗
-  ║  Hey, you're reading the source. Nice.              ║
-  ║                                                      ║
-  ║  Built by Joneil Caoile                              ║
-  ║  M.S. Biomedical Engineering, Stevens Institute      ║
-  ║                                                      ║
-  ║  No frameworks. No build tools. No tracking.         ║
-  ║  Just HTML, CSS, and JavaScript.                     ║
-  ║                                                      ║
-  ║  Looking for someone who writes clean code            ║
-  ║  and validates medical devices?                      ║
-  ║  joneilcaoile@gmail.com                              ║
-  ╚══════════════════════════════════════════════════════╝
--->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>The Team | Joneil Caoile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
   <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Meet the team behind the portfolio: Joneil the engineer and Claude the AI partner.">
   <meta name="author" content="Joneil Caoile">
-  <meta name="description" content="Meet the team behind Joneil Caoile's portfolio and projects: Joneil, Claude, and Chet the cat.">
   <meta property="og:title" content="The Team | Joneil Caoile">
-  <meta property="og:description" content="Meet the team behind the portfolio and projects.">
+  <meta property="og:description" content="Pixel art team page. Joneil plus Claude.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://joneilcaoile.github.io/pixel-team.html">
-  <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.jpg">
-  <link rel="canonical" href="https://joneilcaoile.github.io/pixel-team.html">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self';">
+  <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Team | Joneil Caoile">
+  <meta name="twitter:description" content="Pixel art team page. Joneil plus Claude.">
+  <meta name="twitter:image" content="https://joneilcaoile.github.io/og-preview.png">
+  <meta name="theme-color" content="#FAFAF8">
   <meta name="color-scheme" content="light dark">
+  <link rel="canonical" href="https://joneilcaoile.github.io/pixel-team.html">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta name="theme-color" content="#0F0E0C">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="manifest" href="/site.webmanifest">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; frame-src 'none'; object-src 'none'; base-uri 'self';">
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
+
+  <title>The Team | Joneil Caoile</title>
 
   <style>
+    /* VIEW TRANSITION API - smooth cross-document page transitions */
+    @view-transition { navigation: auto; }
+    ::view-transition-old(root) {
+      animation: 0.3s cubic-bezier(0.4, 0, 0.2, 1) both fade-out;
+    }
+    ::view-transition-new(root) {
+      animation: 0.3s cubic-bezier(0.4, 0, 0.2, 1) both fade-in;
+    }
+    @keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
     :root {
       --bg: #FAFAF8;
       --bg-warm: #F5F3EE;

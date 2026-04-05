@@ -95,6 +95,17 @@
   </script>
 
   <style>
+    /* VIEW TRANSITION API - smooth cross-document page transitions */
+    @view-transition { navigation: auto; }
+    ::view-transition-old(root) {
+      animation: 0.3s cubic-bezier(0.4, 0, 0.2, 1) both fade-out;
+    }
+    ::view-transition-new(root) {
+      animation: 0.3s cubic-bezier(0.4, 0, 0.2, 1) both fade-in;
+    }
+    @keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
     /* ===== DESIGN SYSTEM (warm light theme) ===== */
     :root {
       --bg: #FAFAF8;
@@ -779,7 +790,6 @@
     }
     .scroll-top.visible { opacity: 1; pointer-events: auto; }
     .scroll-top:hover { background: #C67B2E; color: #1C1915; transform: translateY(-2px); }
-    @media print { .scroll-top { display: none !important; } }
     .page-transition { position:fixed; inset:0; z-index:10000; pointer-events:none; background:#1C1915; opacity:0; transition:opacity 0.4s cubic-bezier(0.4,0,0.2,1); }
     .page-transition.active { opacity:1; pointer-events:all; }
 
@@ -824,6 +834,89 @@
 
     /* ===== NAV PROGRESS ===== */
     .nav-progress { position:fixed; top:0; left:0; height:3px; background:linear-gradient(90deg, var(--amber), var(--gold, #C89B3C), var(--amber)); z-index:10002; width:0; transition:width 0.1s linear; pointer-events:none; }
+
+    /* SECTION INDICATOR - floating dot nav showing current section */
+    .section-indicator {
+      position: fixed;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 900;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+    .section-indicator.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .section-indicator-dot {
+      position: relative;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(198, 123, 46, 0.2);
+      border: 1.5px solid rgba(198, 123, 46, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .section-indicator-dot.active {
+      background: var(--amber, #C67B2E);
+      border-color: var(--amber, #C67B2E);
+      transform: scale(1.3);
+      box-shadow: 0 0 8px rgba(198, 123, 46, 0.4);
+    }
+    .section-indicator-dot:hover {
+      background: rgba(198, 123, 46, 0.5);
+      transform: scale(1.2);
+    }
+    .section-indicator-label {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--dark, #1C1915);
+      color: var(--light, #F5F3EE);
+      font-family: var(--font-mono, 'JetBrains Mono', monospace);
+      font-size: 0.65rem;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      border-radius: 4px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      border: 1px solid rgba(198, 123, 46, 0.2);
+    }
+    .section-indicator-dot:hover .section-indicator-label {
+      opacity: 1;
+    }
+    @media (max-width: 1100px) { .section-indicator { display: none !important; } }
+    @media (prefers-reduced-motion: reduce) { .section-indicator-dot { transition: none; } }
+    @media print { .section-indicator { display: none !important; } }
+    @media print {
+      nav, .back-nav, .scroll-top, .reading-progress, #reading-progress,
+      .cursor-dot, .cursor-ring, .nav-progress, .page-transition,
+      .floating-cta, button, .demo-container, .demo-controls,
+      canvas, .scroll-indicator { display: none !important; }
+      body { background: white !important; color: #1a1a1a !important; }
+      .dark-section { background: #f5f5f5 !important; color: #1a1a1a !important; }
+      .dark-section * { color: #1a1a1a !important; }
+      .section-title, h1, h2, h3 { color: #1a1a1a !important; }
+      .hero { min-height: auto !important; padding: 2rem 0 !important; }
+      a { color: #1a1a1a !important; text-decoration: underline !important; }
+      a[href]::after { content: " (" attr(href) ")"; font-size: 0.8em; color: #666; }
+      a[href^="#"]::after, a[href^="javascript"]::after { content: none; }
+      .section { padding: 1.5rem 0 !important; }
+      .learning-item { break-inside: avoid; }
+      .case-nav { border-top: 1px solid #ccc; padding-top: 1rem; }
+      .cta-section { background: none !important; border-top: 1px solid #ccc; padding: 1.5rem 0 !important; }
+      .metric-card, .std-card, .arch-node { border: 1px solid #ccc !important; background: white !important; }
+      .metric-card *, .std-card *, .arch-node * { color: #1a1a1a !important; }
+    }
   </style>
   <noscript><style>.r { opacity: 1 !important; transform: none !important; } .scroll-top { display: none !important; }</style></noscript>
 </head>
@@ -863,7 +956,6 @@
         <div class="meta-item">
           <span class="meta-label">Role</span>
           <span>Developer & data analyst</span>
-        </div>
         <div class="meta-item">
           <span class="meta-label">Timeline</span>
           <span>Sep – Dec 2024</span>
@@ -875,6 +967,10 @@
         <div class="meta-item">
           <span class="meta-label">Standard</span>
           <span>Krippendorff's Alpha · ICC</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Read time</span>
+          <span>10 min</span>
         </div>
       </div>
     </section>
@@ -952,19 +1048,19 @@
 
       <div class="standards">
         <div class="std-card">
-          <h4>Krippendorff's Alpha</h4>
+          <h3>Krippendorff's Alpha</h3>
           <p>Measures agreement for ordinal and nominal data. Minimum 0.667 for exploratory research, 0.80+ for regulatory and clinical use.</p>
         </div>
         <div class="std-card">
-          <h4>Intraclass Correlation (ICC)</h4>
+          <h3>Intraclass Correlation (ICC)</h3>
           <p>Assesses consistency of continuous ratings. Complements Krippendorff's for interval-scale assessments.</p>
         </div>
         <div class="std-card">
-          <h4>Rater Calibration</h4>
+          <h3>Rater Calibration</h3>
           <p>Multiple clinicians must be trained to apply the same standards. Low reliability often signals training gaps, not flawed items.</p>
         </div>
         <div class="std-card">
-          <h4>COSMIN Guidelines</h4>
+          <h3>COSMIN Guidelines</h3>
           <p>Standards for evaluating the quality of outcome measurement instruments in medical research and practice.</p>
         </div>
       </div>
@@ -977,11 +1073,11 @@
 
       <div class="metric-grid">
         <div class="metric-card">
-          <div class="metric-value">0.667<span class="metric-unit">+</span></div>
+          <div class="metric-value"><span data-count-to="0.667" data-count-decimals="3">0.667</span><span class="metric-unit">+</span></div>
           <div class="metric-label">minimum acceptable Krippendorff's Alpha</div>
         </div>
         <div class="metric-card">
-          <div class="metric-value">0.80</div>
+          <div class="metric-value"><span data-count-to="0.80" data-count-decimals="2">0.80</span></div>
           <div class="metric-label">target inter-rater reliability</div>
         </div>
         <div class="metric-card">
@@ -1032,6 +1128,56 @@
       <p class="prose"><strong>Data quality is upstream of analysis.</strong> The first version failed silently on malformed ratings, out-of-range values, missing data, and misaligned columns. Now every input gets validated hard. Garbage in equals garbage out, so I catch it before the Krippendorff's computation.</p>
       <p class="prose"><strong>Reliability is a conversation, not a report.</strong> Researchers don't just need numbers. They need to understand which items failed and why. Low alpha might mean the item is poorly worded, the raters need more training, or the construct itself is ambiguous. A good dashboard flags the item and prompts the right questions.</p>
       <p class="prose" style="padding: 1.75rem; background: rgba(217,119,6,0.08); border-left: 3px solid #D97706; border-radius: 8px; margin: 1.5rem 0;"><strong>Researchers don't have 3 weeks to wait for reliability feedback.</strong> They have IRB deadlines, grant reporting cycles, and data collection windows that close whether the instrument is ready or not. One Stevens research team discovered their fall risk assessment had problematic inter-rater agreement (alpha = 0.58) only after collecting 200 responses. Without the tool, they would have spent 3 weeks manually recoding and retraining raters. With it, they identified the 3 problematic items in under a minute, revised the wording in one afternoon, and were back on schedule the next day.</p>
+    </section>
+
+    <!-- ===== WHAT I GOT WRONG ===== -->
+    <section class="section" aria-labelledby="wrong-heading" style="padding-top: 48px;">
+      <p class="section-label r">Post-Mortem</p>
+      <h2 class="section-title r" id="wrong-heading">What I got wrong.</h2>
+      <p class="r" style="max-width: 720px; color: var(--text-muted, #635B52); margin-bottom: 32px;">This tool worked for the research team that used it. But I made decisions early on that limited how far it could go.</p>
+
+      <div class="learning-item r">
+        <div class="learning-num">01</div>
+        <div class="learning-title">I assumed all rater disagreement meant the item was bad.</div>
+        <p class="learning-body">When Krippendorff's Alpha came back low for an item, I flagged it as "unreliable" and recommended revision. That's the obvious interpretation. But after talking with the research team, I learned that some items have legitimately ambiguous cases where reasonable clinicians disagree. A patient who scores 2 or 3 on a 5-point fall risk scale might genuinely be on the boundary. Low alpha for those items doesn't mean the item is broken. It means the construct is fuzzy at that range. The tool should have distinguished between "raters disagree because the item is poorly worded" and "raters disagree because the patient is genuinely borderline." I treated all disagreement the same, and that oversimplification led to recommendations that would have removed clinically useful items.</p>
+      </div>
+
+      <div class="learning-item r">
+        <div class="learning-num">02</div>
+        <div class="learning-title">I built the pipeline for Qualtrics and only Qualtrics.</div>
+        <p class="learning-body">The ETL layer expects Qualtrics CSV exports with specific column naming conventions. When a second Stevens research group wanted to use the tool with REDCap data, I couldn't accommodate them without rewriting the data ingestion. I'd hardcoded the Qualtrics format assumptions throughout the pipeline instead of building an abstraction layer that could accept different input schemas. The fix would have been straightforward: define a canonical internal format and write adapters per source system. I didn't do that because I was building for one team and one deadline. That shortcut means every new data source requires code changes instead of configuration.</p>
+      </div>
+
+      <div class="learning-item r">
+        <div class="learning-num">03</div>
+        <div class="learning-title">I didn't plan for longitudinal use.</div>
+        <p class="learning-body">The tool computes reliability on a snapshot of data. Run it once, get a report. But the research team's actual workflow is iterative: they collect responses, check reliability, revise items, retrain raters, and collect more responses. They wanted to see how reliability changed over time for each item. The SQLite database stores everything, so the data is there, but I never built the comparison view. Showing "alpha was 0.58 last month and is 0.74 now after rater retraining" would have been the most valuable feature for the team's workflow, and I didn't build it because I was thinking about the tool as a one-shot analysis, not a longitudinal instrument.</p>
+      </div>
+    </section>
+
+    <!-- ===== PRE-EMPT THE INTERVIEWER ===== -->
+    <section class="section" aria-labelledby="preempt-heading" style="padding-top: 48px;">
+      <p class="section-label r">Questions You Might Ask</p>
+      <h2 class="section-title r" id="preempt-heading">Answers before the interview.</h2>
+      <p class="r" style="max-width: 720px; color: var(--text-muted, #635B52); margin-bottom: 32px;">If I were screening this portfolio, these are the three questions I'd ask. So here they are, answered.</p>
+
+      <div class="learning-item r">
+        <div class="learning-num">Q1</div>
+        <div class="learning-title">Why Krippendorff's Alpha instead of Cohen's Kappa or ICC?</div>
+        <p class="learning-body">Cohen's Kappa only works for two raters and nominal data. This study had variable numbers of raters (2 to 4 per item) and ordinal scales (1 through 5 Likert). ICC handles continuous data well but doesn't account for ordinal structure correctly. Krippendorff's Alpha handles any number of raters, works with ordinal data, and accounts for missing values gracefully. It's also the metric recommended by COSMIN guidelines for evaluating outcome measurement instruments, which is exactly what this research was doing. The choice wasn't arbitrary. It was the statistically appropriate metric for the data structure.</p>
+      </div>
+
+      <div class="learning-item r">
+        <div class="learning-num">Q2</div>
+        <div class="learning-title">Would this hold up in a regulatory submission?</div>
+        <p class="learning-body">For a clinical research tool used internally by a research team, regulatory submission isn't the relevant bar. But the methodology would hold up to scrutiny. Krippendorff's Alpha is widely cited in clinical research literature, the computation is implemented from first principles with full auditability, and the SQLite database provides a complete audit trail of every input and output. If this were part of a clinical investigation used to support a device submission, the tool's output would need to be validated per 21 CFR Part 11 (electronic records) and the computation would need formal software verification. The current implementation doesn't meet those standards, but the architecture was designed with that upgrade path in mind.</p>
+      </div>
+
+      <div class="learning-item r">
+        <div class="learning-num">Q3</div>
+        <div class="learning-title">What would you add with another semester?</div>
+        <p class="learning-body">The longitudinal comparison view is the clear first priority. Researchers need to see how reliability changes over time as they revise items and retrain raters. The data already exists in the database. It just needs a front-end. Second, I'd build adapters for REDCap and Google Forms, since those are the other two platforms Stevens research teams commonly use. Third, I'd add a rater performance view that shows which specific rater is the outlier on low-agreement items. Right now the tool says "this item has low reliability" but not "Rater 3 consistently disagrees with Raters 1, 2, and 4 on this item." That distinction matters for targeted rater retraining instead of retraining everyone.</p>
+      </div>
     </section>
 
     <!-- Project navigation -->
@@ -1329,6 +1475,91 @@
       r.style.width=r.style.height=Math.max(rect.width,rect.height)+'px';
       r.style.marginLeft=r.style.marginTop='-'+Math.max(rect.width,rect.height)/2+'px';
       btn.appendChild(r);setTimeout(function(){r.remove();},600);
+    });
+  });
+})();
+</script>
+
+<script>
+/* SECTION INDICATOR - auto-generated floating dot nav */
+(function() {
+  if (window.matchMedia('(max-width: 1100px)').matches) return;
+  var sections = [];
+  var sectionNames = {
+    'problem': 'Problem', 'arch': 'Architecture', 'standards': 'Standards',
+    'scope': 'Scope', 'tech': 'Tech Stack', 'learnings': 'Learnings',
+    'wrong': 'Post-Mortem', 'preempt': 'Interview Q&A',
+    'need': 'Problem', 'validation': 'Validation', 'results': 'Results',
+    'metrics': 'Metrics', 'approach': 'Approach', 'features': 'Features'
+  };
+  document.querySelectorAll('section[aria-labelledby]').forEach(function(sec) {
+    var id = sec.getAttribute('aria-labelledby') || '';
+    var key = id.replace('-heading', '').replace('-results', '');
+    if (sectionNames[key] || key) {
+      sections.push({ el: sec, name: sectionNames[key] || key.charAt(0).toUpperCase() + key.slice(1), id: id });
+    }
+  });
+  if (sections.length < 3) return;
+
+  var nav = document.createElement('nav');
+  nav.className = 'section-indicator';
+  nav.setAttribute('aria-label', 'Section navigation');
+  sections.forEach(function(s, i) {
+    var dot = document.createElement('button');
+    dot.className = 'section-indicator-dot';
+    dot.setAttribute('aria-label', 'Jump to ' + s.name);
+    dot.dataset.index = i;
+    var label = document.createElement('span');
+    label.className = 'section-indicator-label';
+    label.textContent = s.name;
+    dot.appendChild(label);
+    dot.addEventListener('click', function() {
+      s.el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    nav.appendChild(dot);
+  });
+  document.body.appendChild(nav);
+
+  var dots = nav.querySelectorAll('.section-indicator-dot');
+  var ticking = false;
+  function updateIndicator() {
+    var scrollY = window.scrollY + window.innerHeight * 0.35;
+    var active = 0;
+    sections.forEach(function(s, i) {
+      if (s.el.offsetTop <= scrollY) active = i;
+    });
+    dots.forEach(function(d, i) { d.classList.toggle('active', i === active); });
+    nav.classList.toggle('visible', window.scrollY > 400);
+    ticking = false;
+  }
+  window.addEventListener('scroll', function() {
+    if (!ticking) { requestAnimationFrame(updateIndicator); ticking = true; }
+  }, { passive: true });
+  updateIndicator();
+})();
+</script>
+<script>
+/* ANIMATED METRIC COUNTERS - numbers count up on scroll */
+(function() {
+  var counters = document.querySelectorAll('[data-count-to]');
+  if (!counters.length || typeof gsap === 'undefined') return;
+  counters.forEach(function(el) {
+    var target = parseFloat(el.dataset.countTo);
+    var decimals = parseInt(el.dataset.countDecimals) || 0;
+    ScrollTrigger.create({
+      trigger: el.closest('.metric-grid') || el,
+      start: 'top 85%',
+      once: true,
+      onEnter: function() {
+        gsap.to({ val: 0 }, {
+          val: target,
+          duration: 1.8,
+          ease: 'power2.out',
+          onUpdate: function() {
+            el.textContent = this.targets()[0].val.toFixed(decimals);
+          }
+        });
+      }
     });
   });
 })();

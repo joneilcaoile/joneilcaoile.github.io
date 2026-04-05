@@ -104,6 +104,17 @@
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
 
   <style>
+    /* VIEW TRANSITION API - smooth cross-document page transitions */
+    @view-transition { navigation: auto; }
+    ::view-transition-old(root) {
+      animation: 0.3s cubic-bezier(0.4, 0, 0.2, 1) both fade-out;
+    }
+    ::view-transition-new(root) {
+      animation: 0.3s cubic-bezier(0.4, 0, 0.2, 1) both fade-in;
+    }
+    @keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
     /* ===== DESIGN SYSTEM (matches main portfolio) ===== */
     :root {
       --bg: #FAFAF8;
@@ -840,7 +851,6 @@
     }
     .scroll-top.visible { opacity: 1; pointer-events: auto; }
     .scroll-top:hover { background: #C67B2E; color: #1C1915; transform: translateY(-2px); }
-    @media print { .scroll-top { display: none !important; } }
     .page-transition { position:fixed; inset:0; z-index:10000; pointer-events:none; background:#1C1915; opacity:0; transition:opacity 0.4s cubic-bezier(0.4,0,0.2,1); }
     .page-transition.active { opacity:1; pointer-events:all; }
 
@@ -882,6 +892,89 @@
 
     /* ===== NAV PROGRESS ===== */
     .nav-progress { position:fixed; top:0; left:0; height:3px; background:linear-gradient(90deg, var(--amber), var(--gold, #C89B3C), var(--amber)); z-index:10002; width:0; transition:width 0.1s linear; pointer-events:none; }
+
+    /* SECTION INDICATOR - floating dot nav showing current section */
+    .section-indicator {
+      position: fixed;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 900;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+    .section-indicator.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .section-indicator-dot {
+      position: relative;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(198, 123, 46, 0.2);
+      border: 1.5px solid rgba(198, 123, 46, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .section-indicator-dot.active {
+      background: var(--amber, #C67B2E);
+      border-color: var(--amber, #C67B2E);
+      transform: scale(1.3);
+      box-shadow: 0 0 8px rgba(198, 123, 46, 0.4);
+    }
+    .section-indicator-dot:hover {
+      background: rgba(198, 123, 46, 0.5);
+      transform: scale(1.2);
+    }
+    .section-indicator-label {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--dark, #1C1915);
+      color: var(--light, #F5F3EE);
+      font-family: var(--font-mono, 'JetBrains Mono', monospace);
+      font-size: 0.65rem;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      border-radius: 4px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      border: 1px solid rgba(198, 123, 46, 0.2);
+    }
+    .section-indicator-dot:hover .section-indicator-label {
+      opacity: 1;
+    }
+    @media (max-width: 1100px) { .section-indicator { display: none !important; } }
+    @media (prefers-reduced-motion: reduce) { .section-indicator-dot { transition: none; } }
+    @media print { .section-indicator { display: none !important; } }
+    @media print {
+      nav, .back-nav, .scroll-top, .reading-progress, #reading-progress,
+      .cursor-dot, .cursor-ring, .nav-progress, .page-transition,
+      .floating-cta, button, .demo-container, .demo-controls,
+      canvas, .scroll-indicator { display: none !important; }
+      body { background: white !important; color: #1a1a1a !important; }
+      .dark-section { background: #f5f5f5 !important; color: #1a1a1a !important; }
+      .dark-section * { color: #1a1a1a !important; }
+      .section-title, h1, h2, h3 { color: #1a1a1a !important; }
+      .hero { min-height: auto !important; padding: 2rem 0 !important; }
+      a { color: #1a1a1a !important; text-decoration: underline !important; }
+      a[href]::after { content: " (" attr(href) ")"; font-size: 0.8em; color: #666; }
+      a[href^="#"]::after, a[href^="javascript"]::after { content: none; }
+      .section { padding: 1.5rem 0 !important; }
+      .learning-item { break-inside: avoid; }
+      .case-nav { border-top: 1px solid #ccc; padding-top: 1rem; }
+      .cta-section { background: none !important; border-top: 1px solid #ccc; padding: 1.5rem 0 !important; }
+      .metric-card, .std-card, .arch-node { border: 1px solid #ccc !important; background: white !important; }
+      .metric-card *, .std-card *, .arch-node * { color: #1a1a1a !important; }
+    }
   </style>
   <noscript><style>.r { opacity: 1 !important; transform: none !important; } .scroll-top { display: none !important; }</style></noscript>
 </head>
@@ -933,7 +1026,6 @@
         <div class="meta-item">
           <span class="meta-label">Role</span>
           Solo Developer
-        </div>
         <div class="meta-divider" aria-hidden="true"></div>
         <div class="meta-item">
           <span class="meta-label">Timeline</span>
@@ -949,8 +1041,12 @@
           <span class="meta-label">License</span>
           MIT
         </div>
+        <div class="meta-divider" aria-hidden="true"></div>
+        <div class="meta-item">
+          <span class="meta-label">Read time</span>
+          17 min
+        </div>
       </div>
-      <div style="margin-top:1rem;font-family:var(--font-mono, 'JetBrains Mono', monospace);font-size:0.72rem;color:var(--text-light, #9A9490);letter-spacing:0.04em;">16 min read</div>
     </section>
 
     <!-- VIDEO WALKTHROUGH -->
@@ -1104,7 +1200,7 @@
           <!-- Exercise info -->
           <rect x="12" y="528" width="336" height="48" rx="12" fill="#1A1815"/>
           <text x="30" y="553" fill="#9A9490" font-family="monospace" font-size="10">EXERCISE</text>
-          <text x="120" y="553" fill="#FAFAF8" font-family="sans-serif" font-size="12">Bodyweight Squat — Set 2 of 3</text>
+          <text x="120" y="553" fill="#FAFAF8" font-family="sans-serif" font-size="12">Bodyweight Squat, Set 2 of 3</text>
           <text x="30" y="569" fill="#9A9490" font-family="monospace" font-size="10">DIFFICULTY</text>
           <text x="120" y="569" fill="#D97706" font-family="sans-serif" font-size="12">Intermediate</text>
 
@@ -1506,9 +1602,9 @@
     </section>
 
     <!-- ===== VALIDATION RESULTS ===== -->
-    <section class="section" aria-labelledby="validation-heading" style="margin-top:3rem;">
+    <section class="section" aria-labelledby="validation-results-heading" style="margin-top:3rem;">
       <p class="section-label r" style="color:var(--amber-mid);">Validation Results</p>
-      <h2 class="section-title r" id="validation-heading">Rep counting and form scoring validation on 12 participants, 5 exercises</h2>
+      <h2 class="section-title r" id="validation-results-heading">Rep counting and form scoring validation on 12 participants, 5 exercises</h2>
 
       <div style="overflow-x:auto;margin-top:1.5rem;">
         <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
@@ -1737,6 +1833,56 @@
       </section>
     </div>
 
+    <!-- ===== WHAT I GOT WRONG ===== -->
+    <section class="section" aria-labelledby="wrong-heading" style="padding-top: 48px;">
+      <p class="section-label r">Post-Mortem</p>
+      <h2 class="section-title r" id="wrong-heading">What I got wrong.</h2>
+      <p class="r" style="max-width: 720px; color: var(--text-muted, #635B52); margin-bottom: 32px;">PhysioRep has real users. That's how I learned where I was wrong.</p>
+
+      <div class="learning-item r">
+        <div class="learning-num">01</div>
+        <div class="learning-title">I shipped without testing on any device besides my own.</div>
+        <p class="learning-body">The CSP bug that blocked onboarding for every user on launch day was embarrassing, but the deeper failure was that I tested exclusively in my own Chrome on my own laptop. No mobile testing. No Safari. No Firefox. No low-end Android phone. Reddit users found the CSP issue within hours because they were the first people besides me to open the app. A 10-minute test on a second device would have caught it. I treated "works on my machine" as "works," and that's a habit I've corrected since.</p>
+      </div>
+
+      <div class="learning-item r">
+        <div class="learning-num">02</div>
+        <div class="learning-title">The push-up thresholds were wrong because I only tested on my body type.</div>
+        <p class="learning-body">Squat detection worked well across users because the knee angle range is relatively consistent. Push-up detection flagged good reps as bad because my shoulder angle thresholds were calibrated to my arm length and shoulder width. A shorter user or someone with broader shoulders hits different angles at the same form quality. I should have tested with at least 5 people of different body types before shipping. Instead, I calibrated on myself and learned from user complaints. The fix was widening the acceptable angle range, but the right approach would have been diverse calibration data from the start.</p>
+      </div>
+
+      <div class="learning-item r">
+        <div class="learning-num">03</div>
+        <div class="learning-title">I prioritized features over form feedback quality.</div>
+        <p class="learning-body">PhysioRep launched with rep counting, form scoring, voice coaching, workout history, and offline support. That's a lot of features for a solo project. But the core value proposition, "tells you if your form is good," was only as good as the threshold calibration, which I rushed. Users who came for accurate form feedback found it inconsistent. Users who came for a rep counter found it reliable. In hindsight, I should have shipped with fewer exercises, each calibrated carefully across body types, rather than more exercises calibrated only on myself. Depth of accuracy beats breadth of features when the product promise is "coaching."</p>
+      </div>
+    </section>
+
+    <!-- ===== PRE-EMPT THE INTERVIEWER ===== -->
+    <section class="section" aria-labelledby="preempt-heading" style="padding-top: 48px;">
+      <p class="section-label r">Questions You Might Ask</p>
+      <h2 class="section-title r" id="preempt-heading">Answers before the interview.</h2>
+      <p class="r" style="max-width: 720px; color: var(--text-muted, #635B52); margin-bottom: 32px;">If I were screening this portfolio, these are the three questions I'd ask. So here they are, answered.</p>
+
+      <div class="learning-item r">
+        <div class="learning-num">Q1</div>
+        <div class="learning-title">Why not use an existing fitness tracking SDK?</div>
+        <p class="learning-body">Existing fitness SDKs (Apple HealthKit, Google Fit) track metrics like heart rate and step count. None of them do real-time pose estimation with form feedback. MediaPipe Pose gives me landmark coordinates at 30fps in the browser, which is what I actually need to compute joint angles and evaluate form. There's no SDK that does this out of the box for bodyweight exercises. The alternative would be building on top of a native app framework with ARKit or ARCore, but that locks the tool to one platform and requires an app store. A PWA works on any device with a camera and a browser. The tradeoff is that browser-based pose estimation is less precise than native, but for bodyweight exercises the precision is sufficient.</p>
+      </div>
+
+      <div class="learning-item r">
+        <div class="learning-num">Q2</div>
+        <div class="learning-title">How did real users actually respond?</div>
+        <p class="learning-body">Mixed. The Reddit launch (r/bodyweightfitness) generated genuine interest and exposed real bugs. Users who primarily wanted a rep counter were happy. Users who wanted detailed form coaching found the feedback inconsistent, especially for push-ups and lunges. The most common positive feedback was about offline support and the fact that it works without creating an account. The most common negative feedback was about angle thresholds feeling arbitrary. One user specifically said: "It told me my squat was perfect but my push-up was terrible, and my push-up form is better than my squat." That comment drove the threshold rework.</p>
+      </div>
+
+      <div class="learning-item r">
+        <div class="learning-num">Q3</div>
+        <div class="learning-title">If you had another month, what would you prioritize?</div>
+        <p class="learning-body">Calibration data from diverse body types, full stop. The biggest gap in PhysioRep is that every threshold was tuned on one person. I'd recruit 10-15 volunteers across different heights, arm lengths, and fitness levels, record their exercises on video, have a certified personal trainer rate each rep, and use that as ground truth to retrain the thresholds. That's not glamorous work, but it's the difference between a demo and a product. Second priority would be adding a calibration flow where the app asks the user to perform a few reference reps and adjusts thresholds to their body proportions. That's a harder engineering problem but solves the root cause instead of patching symptoms.</p>
+      </div>
+    </section>
+
     <!-- ===== CTA ===== -->
     <div class="cta-section">
       <div class="cta-inner">
@@ -1797,7 +1943,7 @@
     document.addEventListener('visibilitychange', () => {
       document.title = document.hidden
         ? '\uD83C\uDFCB\uFE0F Don\'t skip your reps!'
-        : 'PhysioRep \u2014 Case Study | Joneil Caoile';
+        : 'PhysioRep | Case Study | Joneil Caoile';
     });
 
     // GSAP scroll reveals
@@ -1994,6 +2140,65 @@
       btn.appendChild(r);setTimeout(function(){r.remove();},600);
     });
   });
+})();
+</script>
+
+<script>
+/* SECTION INDICATOR - auto-generated floating dot nav */
+(function() {
+  if (window.matchMedia('(max-width: 1100px)').matches) return;
+  var sections = [];
+  var sectionNames = {
+    'problem': 'Problem', 'arch': 'Architecture', 'standards': 'Standards',
+    'scope': 'Scope', 'tech': 'Tech Stack', 'learnings': 'Learnings',
+    'wrong': 'Post-Mortem', 'preempt': 'Interview Q&A',
+    'need': 'Problem', 'validation': 'Validation', 'results': 'Results',
+    'metrics': 'Metrics', 'approach': 'Approach', 'features': 'Features'
+  };
+  document.querySelectorAll('section[aria-labelledby]').forEach(function(sec) {
+    var id = sec.getAttribute('aria-labelledby') || '';
+    var key = id.replace('-heading', '').replace('-results', '');
+    if (sectionNames[key] || key) {
+      sections.push({ el: sec, name: sectionNames[key] || key.charAt(0).toUpperCase() + key.slice(1), id: id });
+    }
+  });
+  if (sections.length < 3) return;
+
+  var nav = document.createElement('nav');
+  nav.className = 'section-indicator';
+  nav.setAttribute('aria-label', 'Section navigation');
+  sections.forEach(function(s, i) {
+    var dot = document.createElement('button');
+    dot.className = 'section-indicator-dot';
+    dot.setAttribute('aria-label', 'Jump to ' + s.name);
+    dot.dataset.index = i;
+    var label = document.createElement('span');
+    label.className = 'section-indicator-label';
+    label.textContent = s.name;
+    dot.appendChild(label);
+    dot.addEventListener('click', function() {
+      s.el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    nav.appendChild(dot);
+  });
+  document.body.appendChild(nav);
+
+  var dots = nav.querySelectorAll('.section-indicator-dot');
+  var ticking = false;
+  function updateIndicator() {
+    var scrollY = window.scrollY + window.innerHeight * 0.35;
+    var active = 0;
+    sections.forEach(function(s, i) {
+      if (s.el.offsetTop <= scrollY) active = i;
+    });
+    dots.forEach(function(d, i) { d.classList.toggle('active', i === active); });
+    nav.classList.toggle('visible', window.scrollY > 400);
+    ticking = false;
+  }
+  window.addEventListener('scroll', function() {
+    if (!ticking) { requestAnimationFrame(updateIndicator); ticking = true; }
+  }, { passive: true });
+  updateIndicator();
 })();
 </script>
 </body>

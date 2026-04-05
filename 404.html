@@ -37,6 +37,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <style>
+    /* VIEW TRANSITION API - smooth cross-document page transitions */
+    @view-transition { navigation: auto; }
+    ::view-transition-old(root) {
+      animation: 0.3s cubic-bezier(0.4, 0, 0.2, 1) both fade-out;
+    }
+    ::view-transition-new(root) {
+      animation: 0.3s cubic-bezier(0.4, 0, 0.2, 1) both fade-in;
+    }
+    @keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
     :root {
       --bg-dark: #0F0E0C;
       --bg-dark-2: #1A1815;
@@ -284,12 +295,12 @@
 <script>
   var msgs = [
     "// Error: page.find() returned undefined",
-    "STATUS: 404 — File not found, confidence not lost.",
+    "STATUS: 404. File not found, confidence not lost.",
     "The sensor didn't detect a page here.",
     "This endpoint returned null. Try the homepage.",
     "Looks like this URL failed validation.",
     "No signal detected. Recalibrating...",
-    "Hint: try typing 'hire' — there's a reward."
+    "Hint: try typing 'hire' for a reward."
   ];
   var el = document.getElementById('fun-msg');
   if (el) el.textContent = msgs[Math.floor(Math.random() * msgs.length)];
@@ -322,7 +333,7 @@
 
   // Console easter egg
   try {
-    console.log('%c404 — but not the end of the road.\nType "hire" on this page for a bonus link.\n\n— Joneil · joneilcaoile@gmail.com',
+    console.log('%c404. Not the end of the road.\nType "hire" on this page for a bonus link.\n\nJoneil · joneilcaoile@gmail.com',
       'color:#A85A04;font-family:JetBrains Mono,monospace;font-size:12px;line-height:1.6;');
   } catch(e){}
 </script>

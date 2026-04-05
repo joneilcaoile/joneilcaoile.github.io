@@ -23,7 +23,7 @@
   <meta name="author" content="Joneil Caoile">
   <meta name="keywords" content="pneumothorax, air leak monitor, medical device design, ventilator, capstone project, biomedical engineering, Stevens Institute, FDA, Joneil Caoile">
   <meta property="og:title" content="Pneumothorax Air Leak Monitor | Case Study | Joneil Caoile">
-  <meta property="og:description" content="A device concept that estimates pulmonary air leak severity by comparing ventilator-delivered tidal volume with chest tube outflow — built as a bench-level prototype with no existing commercial equivalent.">
+  <meta property="og:description" content="A device concept that estimates pulmonary air leak severity by comparing ventilator-delivered tidal volume with chest tube outflow. Built as a bench-level prototype with no existing commercial equivalent.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://joneilcaoile.github.io/case-pneumothorax.html">
   <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.png">
@@ -97,6 +97,17 @@
   </script>
 
   <style>
+    /* VIEW TRANSITION API - smooth cross-document page transitions */
+    @view-transition { navigation: auto; }
+    ::view-transition-old(root) {
+      animation: 0.3s cubic-bezier(0.4, 0, 0.2, 1) both fade-out;
+    }
+    ::view-transition-new(root) {
+      animation: 0.3s cubic-bezier(0.4, 0, 0.2, 1) both fade-in;
+    }
+    @keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
     /* ===== DESIGN SYSTEM (matches main portfolio) ===== */
     :root {
       --bg: #FAFAF8;
@@ -248,7 +259,7 @@
       margin: 0 auto;
     }
 
-    /* Reveal class — initial state set by GSAP JS, not CSS */
+    /* Reveal class - initial state set by GSAP JS, not CSS */
     .r { }
 
     /* ===== HERO ===== */
@@ -917,6 +928,89 @@
 
     /* ===== NAV PROGRESS ===== */
     .nav-progress { position:fixed; top:0; left:0; height:3px; background:linear-gradient(90deg, var(--amber), var(--gold, #C89B3C), var(--amber)); z-index:10002; width:0; transition:width 0.1s linear; pointer-events:none; }
+    @media print {
+      nav, .back-nav, .scroll-top, .reading-progress, #reading-progress,
+      .cursor-dot, .cursor-ring, .nav-progress, .page-transition,
+      .floating-cta, button, .demo-container, .demo-controls,
+      canvas, .scroll-indicator { display: none !important; }
+      body { background: white !important; color: #1a1a1a !important; }
+      .dark-section { background: #f5f5f5 !important; color: #1a1a1a !important; }
+      .dark-section * { color: #1a1a1a !important; }
+      .section-title, h1, h2, h3 { color: #1a1a1a !important; }
+      .hero { min-height: auto !important; padding: 2rem 0 !important; }
+      a { color: #1a1a1a !important; text-decoration: underline !important; }
+      a[href]::after { content: " (" attr(href) ")"; font-size: 0.8em; color: #666; }
+      a[href^="#"]::after, a[href^="javascript"]::after { content: none; }
+      .section { padding: 1.5rem 0 !important; }
+      .learning-item { break-inside: avoid; }
+      .case-nav { border-top: 1px solid #ccc; padding-top: 1rem; }
+      .cta-section { background: none !important; border-top: 1px solid #ccc; padding: 1.5rem 0 !important; }
+      .metric-card, .std-card, .arch-node { border: 1px solid #ccc !important; background: white !important; }
+      .metric-card *, .std-card *, .arch-node * { color: #1a1a1a !important; }
+      .section-indicator { display: none !important; }
+    }
+
+    /* SECTION INDICATOR - floating dot nav showing current section */
+    .section-indicator {
+      position: fixed;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 900;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+    .section-indicator.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .section-indicator-dot {
+      position: relative;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(198, 123, 46, 0.2);
+      border: 1.5px solid rgba(198, 123, 46, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .section-indicator-dot.active {
+      background: var(--amber, #C67B2E);
+      border-color: var(--amber, #C67B2E);
+      transform: scale(1.3);
+      box-shadow: 0 0 8px rgba(198, 123, 46, 0.4);
+    }
+    .section-indicator-dot:hover {
+      background: rgba(198, 123, 46, 0.5);
+      transform: scale(1.2);
+    }
+    .section-indicator-label {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--dark, #1C1915);
+      color: var(--light, #F5F3EE);
+      font-family: var(--font-mono, 'JetBrains Mono', monospace);
+      font-size: 0.65rem;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      border-radius: 4px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      border: 1px solid rgba(198, 123, 46, 0.2);
+    }
+    .section-indicator-dot:hover .section-indicator-label {
+      opacity: 1;
+    }
+    @media (max-width: 1100px) { .section-indicator { display: none !important; } }
+    @media (prefers-reduced-motion: reduce) { .section-indicator-dot { transition: none; } }
   </style>
   <noscript><style>.r { opacity: 1 !important; transform: none !important; } .scroll-top { display: none !important; }</style></noscript>
 </head>
@@ -955,14 +1049,13 @@
       </h1>
 
       <p class="hero-desc r">
-        A ventilator-integrated device prototype that continuously estimates pulmonary air leak severity by comparing delivered tidal volume with chest tube outflow — giving clinicians an objective number where today they make a visual guess.
+        A ventilator-integrated device prototype that continuously estimates pulmonary air leak severity by comparing delivered tidal volume with chest tube outflow. Gives clinicians an objective number where today they make a visual guess.
       </p>
 
       <div class="meta-row r">
         <div class="meta-item">
           <span class="meta-label">Role</span>
           Concept Lead (3-person team)
-        </div>
         <div class="meta-divider" aria-hidden="true"></div>
         <div class="meta-item">
           <span class="meta-label">Timeline</span>
@@ -978,6 +1071,11 @@
           <span class="meta-label">Institution</span>
           Stevens Institute of Technology
         </div>
+        <div class="meta-divider" aria-hidden="true"></div>
+        <div class="meta-item">
+          <span class="meta-label">Read time</span>
+          10 min
+        </div>
       </div>
     </section>
 
@@ -991,7 +1089,7 @@
       </p>
 
       <p class="prose r">
-        There's no standardized, objective measurement. No device on the market measures pulmonary air leak severity continuously and quantitatively. <strong>Patients stay on chest tubes longer than necessary</strong> because there's no clear data-driven threshold to trigger a weaning decision — which means more hospital days, more infection risk, and more discomfort for no clinical benefit.
+        There's no standardized, objective measurement. No device on the market measures pulmonary air leak severity continuously and quantitatively. <strong>Patients stay on chest tubes longer than necessary</strong> because there's no clear data-driven threshold to trigger a weaning decision. This means more hospital days, more infection risk, and more discomfort for no clinical benefit.
       </p>
 
       <div class="ps-grid">
@@ -1003,7 +1101,7 @@
         <div class="ps-card solution r">
           <div class="ps-card-label">Our approach</div>
           <div class="ps-card-title">Continuous, quantified leak severity</div>
-          <p>By comparing ventilator-delivered tidal volume with measured chest tube outflow, we can compute a leak differential — a real number that can be trended over time and used as a weaning trigger.</p>
+          <p>By comparing ventilator-delivered tidal volume with measured chest tube outflow, we can compute a leak differential: a real number that can be trended over time and used as a weaning trigger.</p>
         </div>
       </div>
     </section>
@@ -1062,17 +1160,17 @@
 
           <div class="tech-note r">
             <div class="tech-note-title">Comparative measurement over absolute measurement</div>
-            <p>We don't need to know the exact air leak volume — we need to know how much of what the ventilator sent didn't stay in the lungs. A differential approach is more robust to sensor drift and calibration variance than trying to measure absolute outflow, and it maps directly to the clinical question: how much is leaking?</p>
+            <p>We don't need to know the exact air leak volume. We need to know how much of what the ventilator sent didn't stay in the lungs. A differential approach is more robust to sensor drift and calibration variance than trying to measure absolute outflow, and it maps directly to the clinical question: how much is leaking?</p>
           </div>
 
           <div class="tech-note r" style="margin-top:1.25rem;">
-            <div class="tech-note-title">Bench prototype scope — by design</div>
-            <p>BME 565 is a device design course, not a clinical trial. We scoped the prototype to demonstrate the sensing principle and computation without attempting patient contact. A bench-level prototype that proves the measurement concept is the appropriate deliverable at this stage — the right next step would be animal model validation, not human use.</p>
+            <div class="tech-note-title">Bench prototype scope: by design</div>
+            <p>BME 565 is a device design course, not a clinical trial. We scoped the prototype to demonstrate the sensing principle and computation without attempting patient contact. A bench-level prototype that proves the measurement concept is the appropriate deliverable at this stage. The right next step would be animal model validation, not human use.</p>
           </div>
 
           <div class="tech-note r" style="margin-top:1.25rem;">
             <div class="tech-note-title">Simulated-use workflow first</div>
-            <p>Before touching hardware, I designed the simulated-use workflow — the sequence of steps a clinician would follow to set up, use, and interpret the device. Starting from use first rather than specs first kept the design anchored to what the user actually needs, not just what we could build.</p>
+            <p>Before touching hardware, I designed the simulated-use workflow: the sequence of steps a clinician would follow to set up, use, and interpret the device. Starting from use first rather than specs first kept the design anchored to what the user actually needs, not just what we could build.</p>
           </div>
         </div>
       </section>
@@ -1085,21 +1183,21 @@
         <h2 class="section-title r" id="standards-heading">Designed with the regulatory path in mind</h2>
 
         <p class="prose r">
-          BME 565 teaches device design as a regulated practice, not just engineering. The concepts and frameworks below were part of the course curriculum and informed how we approached the design process — from risk management to use specification.
+          BME 565 teaches device design as a regulated practice, not just engineering. The concepts and frameworks below were part of the course curriculum and informed how we approached the design process: from risk management to use specification.
         </p>
 
         <div class="standards r">
           <div class="std-card">
-            <h4>ISO 14971:2019</h4>
-            <p>Risk management for medical devices. Risk identification and mitigation thinking — failure modes, hazardous situations, and acceptable risk criteria — shaped the design from the start, not as a compliance layer tacked on at the end.</p>
+            <h3>ISO 14971:2019</h3>
+            <p>Risk management for medical devices. Risk identification and mitigation thinking: failure modes, hazardous situations, and acceptable risk criteria shaped the design from the start, not as a compliance layer tacked on at the end.</p>
           </div>
           <div class="std-card">
-            <h4>IEC 62366-1:2015</h4>
-            <p>Usability engineering for medical devices. The simulated-use workflow I designed follows the use specification structure from IEC 62366-1 — intended users, use environment, task analysis, use errors that could harm.</p>
+            <h3>IEC 62366-1:2015</h3>
+            <p>Usability engineering for medical devices. The simulated-use workflow I designed follows the use specification structure from IEC 62366-1: intended users, use environment, task analysis, use errors that could harm.</p>
           </div>
           <div class="std-card">
-            <h4>21 CFR Part 820</h4>
-            <p>FDA Quality System Regulation for medical device design controls. Design inputs, outputs, verification, and validation planning — concepts that frame how a prototype like this would eventually move through a formal development process.</p>
+            <h3>21 CFR Part 820</h3>
+            <p>FDA Quality System Regulation for medical device design controls. Design inputs, outputs, verification, and validation planning are concepts that frame how a prototype like this would eventually move through a formal development process.</p>
           </div>
         </div>
       </section>
@@ -1112,11 +1210,11 @@
         <h2 class="section-title r" id="scope-heading">Where we are</h2>
 
         <div class="inprogress-callout r">
-          <div class="inprogress-callout-label">Note — In Progress</div>
+          <div class="inprogress-callout-label">Note: In Progress</div>
           <p>This project completes in May 2026 with prototype testing and a final presentation. The scope below reflects the design and development phase. Test results and outcomes will be added when available.</p>
         </div>
 
-        <!-- Scope — verified facts only, no fabricated metrics -->
+        <!-- Scope - verified facts only, no fabricated metrics -->
         <div class="scope-grid">
           <div class="scope-card r">
             <div class="scope-value">3</div>
@@ -1163,7 +1261,7 @@
 
         <div class="tech-note r" style="margin-top:1.25rem;">
           <div class="tech-note-title">CAD and form factor planning</div>
-          <p>Form factor matters for a bedside ICU device. The enclosure needs to be cleanable, mountable to a ventilator pole or bed rail, and interpretable at a glance by a nurse who's managing multiple patients. Early CAD work focused on those constraints before finalizing the sensing architecture — because a technically correct sensor in an unusable housing doesn't get adopted.</p>
+          <p>Form factor matters for a bedside ICU device. The enclosure needs to be cleanable, mountable to a ventilator pole or bed rail, and interpretable at a glance by a nurse who's managing multiple patients. Early CAD work focused on those constraints before finalizing the sensing architecture. A technically correct sensor in an unusable housing doesn't get adopted.</p>
         </div>
 
         <div class="tech-note r" style="margin-top:1.5rem;">
@@ -1221,19 +1319,19 @@
         <div class="learning-item r">
           <div class="learning-num">01</div>
           <div class="learning-title">The literature review changed what we thought we were building.</div>
-          <p class="learning-body">Before I touched any hardware or CAD, I spent time in the literature on air leak monitoring methods — existing research, tried approaches, why they didn't become commercial products. That review moved us away from our first-pass concept (simple flow meter at the chest tube) toward the differential approach. The hard design decisions got easier once we understood why no one had solved this with a simpler method.</p>
+          <p class="learning-body">Before I touched any hardware or CAD, I spent time in the literature on air leak monitoring methods: existing research, tried approaches, why they didn't become commercial products. That review moved us away from our first-pass concept (simple flow meter at the chest tube) toward the differential approach. The hard design decisions got easier once we understood why no one had solved this with a simpler method.</p>
         </div>
 
         <div class="learning-item r">
           <div class="learning-num">02</div>
           <div class="learning-title">Starting from use specification, not engineering specs, keeps a device design honest.</div>
-          <p class="learning-body">The instinct in an engineering course is to start with what you can build and work backward to a use case. I pushed us to define the simulated-use workflow first: who uses this, in what environment, under what time pressure, with what prior training? That kept us from designing a device that would work in a lab but not in an ICU. The use specification flagged constraints — alarm management, cleanability, one-handed operation — that would never appear in a component-level spec.</p>
+          <p class="learning-body">The instinct in an engineering course is to start with what you can build and work backward to a use case. I pushed us to define the simulated-use workflow first: who uses this, in what environment, under what time pressure, with what prior training? That kept us from designing a device that would work in a lab but not in an ICU. The use specification flagged constraints: alarm management, cleanability, one-handed operation. These would never appear in a component-level spec.</p>
         </div>
 
         <div class="learning-item r">
           <div class="learning-num">03</div>
           <div class="learning-title">Risk management isn't a document you write at the end.</div>
-          <p class="learning-body">Working through ISO 14971 risk analysis during the design phase — not after — caught at least two design choices that could have created hazardous situations. Sensor failure modes, alarm conditions, and edge cases in the differential computation aren't obvious until you ask the question: what happens if this fails, and who gets hurt? Running that analysis early changed the design, not just the documentation.</p>
+          <p class="learning-body">Working through ISO 14971 risk analysis during the design phase, not after, caught at least two design choices that could have created hazardous situations. Sensor failure modes, alarm conditions, and edge cases in the differential computation aren't obvious until you ask the question: what happens if this fails, and who gets hurt? Running that analysis early changed the design, not just the documentation.</p>
         </div>
       </section>
     </div>
@@ -1343,8 +1441,8 @@
     // Tab title easter egg
     document.addEventListener('visibilitychange', () => {
       document.title = document.hidden
-        ? '🫁 Come back! — Pneumothorax Monitor'
-        : 'Pneumothorax Air Leak Monitor — Case Study | Joneil Caoile';
+        ? '🫁 Come back! - Pneumothorax Monitor'
+        : 'Pneumothorax Air Leak Monitor - Case Study | Joneil Caoile';
     });
 
     // GSAP scroll reveals
@@ -1362,7 +1460,7 @@
       // Set initial hidden state via GSAP (not CSS)
       gsap.set('.r', { opacity: 0, y: 28 });
 
-      // Hero elements entrance — animate to natural position
+      // Hero elements entrance - animate to natural position
       gsap.to('.hero .r', {
         opacity: 1,
         y: 0,
@@ -1372,7 +1470,7 @@
         delay: 0.15
       });
 
-      // All other .r elements — reveal on scroll
+      // All other .r elements - reveal on scroll
       gsap.utils.toArray('.r:not(.hero .r)').forEach(el => {
         gsap.to(el, {
           scrollTrigger: {
@@ -1545,6 +1643,64 @@
       btn.appendChild(r);setTimeout(function(){r.remove();},600);
     });
   });
+})();
+</script>
+<script>
+/* SECTION INDICATOR - auto-generated floating dot nav */
+(function() {
+  if (window.matchMedia('(max-width: 1100px)').matches) return;
+  var sections = [];
+  var sectionNames = {
+    'problem': 'Problem', 'arch': 'Architecture', 'standards': 'Standards',
+    'scope': 'Scope', 'tech': 'Tech Stack', 'learnings': 'Learnings',
+    'wrong': 'Post-Mortem', 'preempt': 'Interview Q&A',
+    'need': 'Problem', 'validation': 'Validation', 'results': 'Results',
+    'metrics': 'Metrics', 'approach': 'Approach', 'features': 'Features'
+  };
+  document.querySelectorAll('section[aria-labelledby]').forEach(function(sec) {
+    var id = sec.getAttribute('aria-labelledby') || '';
+    var key = id.replace('-heading', '');
+    if (sectionNames[key] || key) {
+      sections.push({ el: sec, name: sectionNames[key] || key.charAt(0).toUpperCase() + key.slice(1), id: id });
+    }
+  });
+  if (sections.length < 3) return;
+
+  var nav = document.createElement('nav');
+  nav.className = 'section-indicator';
+  nav.setAttribute('aria-label', 'Section navigation');
+  sections.forEach(function(s, i) {
+    var dot = document.createElement('button');
+    dot.className = 'section-indicator-dot';
+    dot.setAttribute('aria-label', 'Jump to ' + s.name);
+    dot.dataset.index = i;
+    var label = document.createElement('span');
+    label.className = 'section-indicator-label';
+    label.textContent = s.name;
+    dot.appendChild(label);
+    dot.addEventListener('click', function() {
+      s.el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    nav.appendChild(dot);
+  });
+  document.body.appendChild(nav);
+
+  var dots = nav.querySelectorAll('.section-indicator-dot');
+  var ticking = false;
+  function updateIndicator() {
+    var scrollY = window.scrollY + window.innerHeight * 0.35;
+    var active = 0;
+    sections.forEach(function(s, i) {
+      if (s.el.offsetTop <= scrollY) active = i;
+    });
+    dots.forEach(function(d, i) { d.classList.toggle('active', i === active); });
+    nav.classList.toggle('visible', window.scrollY > 400);
+    ticking = false;
+  }
+  window.addEventListener('scroll', function() {
+    if (!ticking) { requestAnimationFrame(updateIndicator); ticking = true; }
+  }, { passive: true });
+  updateIndicator();
 })();
 </script>
 </body>

@@ -23,7 +23,7 @@
   <meta name="author" content="Joneil Caoile">
   <meta name="keywords" content="human factors engineering, IEC 62366, usability testing, medical device, HFE documentation, AI automation, use error analysis, Joneil Caoile">
   <meta property="og:title" content="UseTrace HFE | Case Study | Joneil Caoile">
-  <meta property="og:description" content="AI-powered tool that automates HFE documentation workflows — task analysis, use error categorization, and simulated-use protocol generation.">
+  <meta property="og:description" content="AI-powered tool that automates HFE documentation workflows: task analysis, use error categorization, and simulated-use protocol generation.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://joneilcaoile.github.io/case-usetrace.html">
   <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.png">
@@ -97,6 +97,17 @@
   </script>
 
   <style>
+    /* VIEW TRANSITION API - smooth cross-document page transitions */
+    @view-transition { navigation: auto; }
+    ::view-transition-old(root) {
+      animation: 0.3s cubic-bezier(0.4, 0, 0.2, 1) both fade-out;
+    }
+    ::view-transition-new(root) {
+      animation: 0.3s cubic-bezier(0.4, 0, 0.2, 1) both fade-in;
+    }
+    @keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
     /* ===== DESIGN SYSTEM (matches main portfolio) ===== */
     :root {
       --bg: #FAFAF8;
@@ -235,7 +246,7 @@
       margin: 0 auto;
     }
 
-    /* Reveal class for GSAP — initial state set by JS, not CSS */
+    /* Reveal class for GSAP - initial state set by JS, not CSS */
     .r { }
 
     /* ===== HERO ===== */
@@ -832,7 +843,6 @@
     }
     .scroll-top.visible { opacity: 1; pointer-events: auto; }
     .scroll-top:hover { background: #C67B2E; color: #1C1915; transform: translateY(-2px); }
-    @media print { .scroll-top { display: none !important; } }
     .page-transition { position:fixed; inset:0; z-index:10000; pointer-events:none; background:#1C1915; opacity:0; transition:opacity 0.4s cubic-bezier(0.4,0,0.2,1); }
     .page-transition.active { opacity:1; pointer-events:all; }
 
@@ -874,6 +884,89 @@
 
     /* ===== NAV PROGRESS ===== */
     .nav-progress { position:fixed; top:0; left:0; height:3px; background:linear-gradient(90deg, var(--amber), var(--gold, #C89B3C), var(--amber)); z-index:10002; width:0; transition:width 0.1s linear; pointer-events:none; }
+
+    /* SECTION INDICATOR - floating dot nav showing current section */
+    .section-indicator {
+      position: fixed;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 900;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+    .section-indicator.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .section-indicator-dot {
+      position: relative;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(198, 123, 46, 0.2);
+      border: 1.5px solid rgba(198, 123, 46, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .section-indicator-dot.active {
+      background: var(--amber, #C67B2E);
+      border-color: var(--amber, #C67B2E);
+      transform: scale(1.3);
+      box-shadow: 0 0 8px rgba(198, 123, 46, 0.4);
+    }
+    .section-indicator-dot:hover {
+      background: rgba(198, 123, 46, 0.5);
+      transform: scale(1.2);
+    }
+    .section-indicator-label {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--dark, #1C1915);
+      color: var(--light, #F5F3EE);
+      font-family: var(--font-mono, 'JetBrains Mono', monospace);
+      font-size: 0.65rem;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      border-radius: 4px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      border: 1px solid rgba(198, 123, 46, 0.2);
+    }
+    .section-indicator-dot:hover .section-indicator-label {
+      opacity: 1;
+    }
+    @media (max-width: 1100px) { .section-indicator { display: none !important; } }
+    @media (prefers-reduced-motion: reduce) { .section-indicator-dot { transition: none; } }
+    @media print { .section-indicator { display: none !important; } }
+    @media print {
+      nav, .back-nav, .scroll-top, .reading-progress, #reading-progress,
+      .cursor-dot, .cursor-ring, .nav-progress, .page-transition,
+      .floating-cta, button, .demo-container, .demo-controls,
+      canvas, .scroll-indicator { display: none !important; }
+      body { background: white !important; color: #1a1a1a !important; }
+      .dark-section { background: #f5f5f5 !important; color: #1a1a1a !important; }
+      .dark-section * { color: #1a1a1a !important; }
+      .section-title, h1, h2, h3 { color: #1a1a1a !important; }
+      .hero { min-height: auto !important; padding: 2rem 0 !important; }
+      a { color: #1a1a1a !important; text-decoration: underline !important; }
+      a[href]::after { content: " (" attr(href) ")"; font-size: 0.8em; color: #666; }
+      a[href^="#"]::after, a[href^="javascript"]::after { content: none; }
+      .section { padding: 1.5rem 0 !important; }
+      .learning-item { break-inside: avoid; }
+      .case-nav { border-top: 1px solid #ccc; padding-top: 1rem; }
+      .cta-section { background: none !important; border-top: 1px solid #ccc; padding: 1.5rem 0 !important; }
+      .metric-card, .std-card, .arch-node { border: 1px solid #ccc !important; background: white !important; }
+      .metric-card *, .std-card *, .arch-node * { color: #1a1a1a !important; }
+    }
   </style>
   <noscript><style>.r { opacity: 1 !important; transform: none !important; } .scroll-top { display: none !important; }</style></noscript>
 </head>
@@ -908,7 +1001,7 @@
       </h1>
       <p class="hero-desc r">
         AI-powered automation for Human Factors Engineering documentation in medical device development.
-        Turns weeks of manual HFE workflow formatting into hours — task analysis tables, use error
+        Turns weeks of manual HFE workflow formatting into hours: task analysis tables, use error
         categorization, risk-use traceability, and simulated-use protocol generation.
       </p>
       <div class="hero-meta r">
@@ -929,6 +1022,10 @@
           <span class="meta-value">Private (on request)</span>
         </div>
       </div>
+        <div class="meta-item">
+          <span class="meta-label">Read time</span>
+          <span class="meta-value">8 min</span>
+        </div>
     </div>
 
     <div class="divider"></div>
@@ -941,11 +1038,11 @@
         Every medical device going through FDA 510(k) or PMA review must pass a Human Factors
         Engineering evaluation under IEC 62366-1. The process requires safety engineers to manually
         construct task analysis tables, categorize use errors, trace hazards to tasks, and format
-        simulated-use study protocols — all typically done by hand in Excel or Word.
+        simulated-use study protocols. All typically done by hand in Excel or Word.
       </p>
       <p class="s-body r" style="margin-top: 1rem;">
-        This isn't a niche edge case. Every device that touches a clinician's hands — infusion pumps,
-        surgical robots, diagnostic equipment, monitoring systems — goes through this process.
+        This isn't a niche edge case. Every device that touches a clinician's hands: infusion pumps,
+        surgical robots, diagnostic equipment, monitoring systems. Goes through this process.
         The documentation bottleneck directly slows the path from prototype to submission.
       </p>
 
@@ -955,7 +1052,7 @@
           <div class="ps-head">The Status Quo</div>
           <p class="ps-text">
             Safety engineers spend weeks manually formatting task analyses, categorizing use errors,
-            and building traceability matrices — work that's repetitive, error-prone, and
+            and building traceability matrices. Work that's repetitive, error-prone, and
             consistently underestimated in project timelines.
           </p>
         </div>
@@ -963,7 +1060,7 @@
           <span class="ps-icon" aria-hidden="true">⚡</span>
           <div class="ps-head">The Opportunity</div>
           <p class="ps-text">
-            The structure of HFE documentation is highly predictable — IEC 62366-1 and FDA guidance
+            The structure of HFE documentation is highly predictable. IEC 62366-1 and FDA guidance
             define exactly what's needed. That structure is automatable. The engineer's judgment
             about device-specific risk remains human-led.
           </p>
@@ -985,7 +1082,7 @@
         <h2 class="s-title r" id="arch-heading">Automation Pipeline</h2>
         <p class="s-body r">
           UseTrace takes structured device and use scenario inputs and outputs complete,
-          submission-ready HFE document components — reducing manual effort while keeping
+          submission-ready HFE document components. Reducing manual effort while keeping
           the safety engineer in control of all substantive decisions.
         </p>
 
@@ -1016,15 +1113,15 @@
 
         <div class="decisions">
           <div class="decision-card r">
-            <h4>Why structured templates over free-form generation</h4>
+            <h3>Why structured templates over free-form generation</h3>
             <p>FDA reviewers are trained to expect specific table formats and field names. Free-form generation that deviates from established patterns creates review friction. UseTrace targets the formatting problem, not the content judgment problem.</p>
           </div>
           <div class="decision-card r">
-            <h4>Why keep the engineer in the loop</h4>
+            <h3>Why keep the engineer in the loop</h3>
             <p>Use error categorization and risk severity decisions require device-specific knowledge and contextual judgment. Automating those judgments would produce documentation that can't survive an FDA audit. UseTrace accelerates structure, not substance.</p>
           </div>
           <div class="decision-card r">
-            <h4>Why start with literature, not code</h4>
+            <h3>Why start with literature, not code</h3>
             <p>The project began with a systematic literature review of IEC 62366-1, FDA HFE guidance, and existing tooling gaps. Building on a documented foundation means every design decision can be traced back to a regulatory or research rationale.</p>
           </div>
         </div>
@@ -1042,21 +1139,21 @@
       <h2 class="s-title r" id="standards-heading">Standards Foundation</h2>
       <p class="s-body r">
         UseTrace is grounded in the specific regulatory framework that governs HFE submissions.
-        These aren't aspirational references — the tool's output templates were designed to
+        These aren't aspirational references. The tool's output templates were designed to
         align directly with what FDA reviewers expect to see.
       </p>
       <div class="standards">
         <div class="std-card r">
-          <h4>IEC 62366-1:2015</h4>
+          <h3>IEC 62366-1:2015</h3>
           <p>The primary international standard for medical device usability engineering. Defines the Use Specification, task analysis requirements, use error analysis, and summative evaluation criteria that UseTrace targets.</p>
         </div>
         <div class="std-card r">
-          <h4>FDA HFE Guidance (2016)</h4>
+          <h3>FDA HFE Guidance (2016)</h3>
           <p>FDA's "Applying Human Factors and Usability Engineering to Medical Devices" guidance. Defines what must be in a Human Factors Engineering Report and what evidence is required for 510(k) and PMA submissions.</p>
         </div>
         <div class="std-card r">
-          <h4>ISO 14971:2019</h4>
-          <p>Risk management standard for medical devices. Informs how use-related hazards and risk-use traceability are structured in UseTrace's output — connecting HFE analysis to the broader risk management file.</p>
+          <h3>ISO 14971:2019</h3>
+          <p>Risk management standard for medical devices. Informs how use-related hazards and risk-use traceability are structured in UseTrace's output, connecting HFE analysis to the broader risk management file.</p>
         </div>
       </div>
       <div class="callout-card r" style="margin-top: 2rem; background: var(--bg-dark); color: var(--bg); padding: 1.75rem 2rem; border-radius: var(--radius-sm); border-top: 3px solid var(--amber);">
@@ -1072,7 +1169,7 @@
       <p class="s-label r">Project Scope</p>
       <h2 class="s-title r" id="scope-heading">What Was Built</h2>
       <p class="s-body r">
-        UseTrace is a research prototype — currently functional and under active development.
+        UseTrace is a research prototype. Currently functional and under active development.
         The codebase includes the automation engine, test suite, and the full documentation
         package required to position it for real-world HFE team evaluation.
       </p>
@@ -1115,12 +1212,12 @@
       </div>
       <div class="tech-notes">
         <div class="tech-note r">
-          <h4>Why Python</h4>
+          <h3>Why Python</h3>
           <p>Python's ecosystem for document parsing, text analysis, and structured data output is well-suited to the HFE documentation problem. The script-first approach makes it easy for safety engineers to run on their own machines without requiring a web deployment.</p>
         </div>
         <div class="tech-note r">
-          <h4>Inter-rater Reliability (Krippendorff's Alpha)</h4>
-          <p>Use error categorization involves judgment calls. To make UseTrace's classification outputs defensible in regulatory contexts, inter-rater reliability metrics were incorporated into the evaluation methodology — the same approach FDA expects in summative study reports.</p>
+          <h3>Inter-rater Reliability (Krippendorff's Alpha)</h3>
+          <p>Use error categorization involves judgment calls. To make UseTrace's classification outputs defensible in regulatory contexts, inter-rater reliability metrics were incorporated into the evaluation methodology. The same approach FDA expects in summative study reports.</p>
         </div>
       </div>
     </section>
@@ -1132,24 +1229,24 @@
         <h2 class="s-title r" id="learnings-heading">What I Learned</h2>
 
         <div class="learning-item r">
-          <h4>The real bottleneck isn't what engineers think it is</h4>
+          <h3>The real bottleneck isn't what engineers think it is</h3>
           <p>
             Talking to people in HFE consulting and reading FDA warning letters made it clear:
-            the documentation delays aren't from lack of knowing what to write — they're from
+            the documentation delays aren't from lack of knowing what to write. They're from
             the formatting and traceability grunt work. Once I understood that, the scope of
             UseTrace became much cleaner. Automate the scaffolding. Let the engineer do the thinking.
           </p>
         </div>
         <div class="learning-item r" style="background: var(--amber-light); padding: 1.5rem; border-radius: var(--radius-sm); border-left: 4px solid var(--amber);">
-          <h4 style="font-style: italic; color: var(--amber);">The one moment that changed the direction</h4>
+          <h3 style="font-style: italic; color: var(--amber);">The one moment that changed the direction</h3>
           <p style="font-style: italic; color: var(--text-muted);">
             I watched an HFE engineer spend 3 hours reformatting a risk analysis table because Word kept breaking the cell borders. That's not engineering. That's suffering. When I showed the same engineer UseTrace's auto-formatted output, she said: "This would have saved me an entire week on my last 510(k)." That reaction told me more about product-market fit than any survey could.
           </p>
         </div>
         <div class="learning-item r">
-          <h4>Regulatory documents are more useful than they look</h4>
+          <h3>Regulatory documents are more useful than they look</h3>
           <p>
-            IEC 62366-1 and the FDA HFE guidance aren't vague policy statements — they're
+            IEC 62366-1 and the FDA HFE guidance aren't vague policy statements. They're
             essentially detailed specifications for what a compliant document looks like. Once I
             treated them as design requirements rather than compliance overhead, building to them
             became much more straightforward. Every design decision in UseTrace has a standard
@@ -1157,14 +1254,58 @@
           </p>
         </div>
         <div class="learning-item r">
-          <h4>Starting with literature review before code is the right call in regulated domains</h4>
+          <h3>Starting with literature review before code is the right call in regulated domains</h3>
           <p>
             In a regulated space, shipping something that doesn't align with existing guidance
-            isn't just a product mistake — it can cause harm. Doing the literature review first
+            isn't just a product mistake. It can cause harm. Doing the literature review first
             forced clarity on what UseTrace should and shouldn't try to automate. It also made
             the pitch document far more credible because every claim had a citation behind it.
           </p>
         </div>
+      </div>
+    </section>
+
+    <!-- ===== WHAT I GOT WRONG ===== -->
+    <section class="section" aria-labelledby="wrong-heading" style="padding-top: 48px;">
+      <p class="s-label r">Post-Mortem</p>
+      <h2 class="s-title r" id="wrong-heading">What I got wrong.</h2>
+      <p class="r" style="max-width: 720px; color: var(--text-muted); margin-bottom: 32px;">UseTrace solves a real workflow problem. But I made assumptions about the domain that someone with more HFE field experience wouldn't have made.</p>
+
+      <div class="learning-item r">
+        <h3>I treated IEC 62366-1 as a spec without talking to people who actually submit 510(k)s.</h3>
+        <p>I read the standard. I read FDA guidance documents. I built UseTrace's taxonomy and output format based on what the documents say compliant HFE documentation should look like. But I didn't talk to anyone who has actually submitted a 510(k) with HFE deliverables until the tool was mostly built. When I finally showed it to an HFE consultant, she pointed out that FDA reviewers care about specific narrative structures and cross-reference patterns that aren't in the standard itself. They're institutional knowledge. My document templates were technically correct but structured in a way that would require manual reorganization before submission. That feedback came too late to change the architecture cheaply.</p>
+      </div>
+
+      <div class="learning-item r">
+        <h3>I overestimated how much HFE engineers want automation.</h3>
+        <p>My pitch was: "UseTrace automates the scaffolding so you can focus on the thinking." That assumes HFE engineers view scaffolding as waste. Some do. But several I spoke with after building the tool said they actually use the manual formatting process as a review step. They catch errors in the use error categorization while they're formatting the table. Automating that away removed a quality check they relied on. The better design would be to generate the scaffold and then present it for human review with inline editing, not to produce a "finished" document that skips the review step.</p>
+      </div>
+
+      <div class="learning-item r">
+        <h3>I built for one regulatory pathway and assumed it would generalize.</h3>
+        <p>UseTrace was designed around FDA 510(k) HFE requirements. When I started looking at EU MDR requirements (IEC 62366-1 Annex C, the European Essential Requirements), the document structure expectations are different enough that UseTrace's templates don't transfer cleanly. The taxonomy is the same, but the output format, the required narratives, and the cross-referencing to Essential Requirements need significant rework. I should have designed the template system as configurable from the start, with regulatory pathway as a parameter, instead of hardcoding the FDA format.</p>
+      </div>
+    </section>
+
+    <!-- ===== PRE-EMPT THE INTERVIEWER ===== -->
+    <section class="section" aria-labelledby="preempt-heading" style="padding-top: 48px;">
+      <p class="s-label r">Questions You Might Ask</p>
+      <h2 class="s-title r" id="preempt-heading">Answers before the interview.</h2>
+      <p class="r" style="max-width: 720px; color: var(--text-muted); margin-bottom: 32px;">If I were screening this portfolio, these are the three questions I'd ask. So here they are, answered.</p>
+
+      <div class="learning-item r">
+        <h3>Q1: Why build this as a tool instead of a consulting service?</h3>
+        <p>Because the bottleneck isn't expertise. It's formatting and traceability. HFE engineers already know how to categorize use errors and write task analyses. What eats their time is reformatting tables, maintaining cross-references between use specifications and risk analyses, and producing documents that match FDA's expected structure. A tool that handles the mechanical parts lets the engineer spend time on the judgment calls: is this use error critical? Does this mitigation actually reduce risk? You can't automate judgment. You can automate the document structure around it.</p>
+      </div>
+
+      <div class="learning-item r">
+        <h3>Q2: How do you know FDA reviewers would accept UseTrace's output?</h3>
+        <p>I don't have direct FDA feedback. What I have is alignment with the FDA HFE Guidance (2016), IEC 62366-1:2015, and the document structures I've seen in published 510(k) summaries that include HFE sections. The taxonomy (use errors, use scenarios, critical tasks) follows the standard directly. The gap, as I noted in the post-mortem, is in the narrative conventions that FDA reviewers expect but that aren't codified in the standard. The honest answer is: UseTrace produces a strong first draft that a regulatory affairs team would still need to review and adjust before submission. It's not a replacement for regulatory expertise. It's a starting point that saves hours of formatting.</p>
+      </div>
+
+      <div class="learning-item r">
+        <h3>Q3: What would you do differently with another semester?</h3>
+        <p>Two things. First, I'd partner with a regulatory affairs professional or HFE consultant from week one, not as a user tester, but as a co-designer. The institutional knowledge about what FDA reviewers actually look for can't be extracted from reading guidance documents. It has to come from someone who has been through the submission process. Second, I'd make the template system pathway-configurable from the start: FDA 510(k), FDA De Novo, EU MDR, and Health Canada. The underlying HFE methodology is the same across regulatory bodies, but the document expectations differ. Building that abstraction layer early would make UseTrace genuinely useful internationally, not just for US submissions.</p>
       </div>
     </section>
 
@@ -1219,8 +1360,8 @@
     // Tab title easter egg
     document.addEventListener('visibilitychange', () => {
       document.title = document.hidden
-        ? '👋 Come back! — UseTrace HFE'
-        : 'UseTrace HFE — Case Study | Joneil Caoile';
+        ? '👋 Come back! - UseTrace HFE'
+        : 'UseTrace HFE - Case Study | Joneil Caoile';
     });
 
     // GSAP scroll reveals
@@ -1238,7 +1379,7 @@
       // Set initial hidden state via GSAP (not CSS)
       gsap.set('.r', { opacity: 0, y: 28 });
 
-      // Hero elements entrance — animate to natural position
+      // Hero elements entrance - animate to natural position
       gsap.to('.hero .r', {
         opacity: 1,
         y: 0,
@@ -1248,7 +1389,7 @@
         delay: 0.15
       });
 
-      // All other .r elements — reveal on scroll
+      // All other .r elements - reveal on scroll
       gsap.utils.toArray('.r:not(.hero .r)').forEach(el => {
         gsap.to(el, {
           scrollTrigger: {
@@ -1422,6 +1563,65 @@
       btn.appendChild(r);setTimeout(function(){r.remove();},600);
     });
   });
+})();
+</script>
+
+<script>
+/* SECTION INDICATOR - auto-generated floating dot nav */
+(function() {
+  if (window.matchMedia('(max-width: 1100px)').matches) return;
+  var sections = [];
+  var sectionNames = {
+    'problem': 'Problem', 'arch': 'Architecture', 'standards': 'Standards',
+    'scope': 'Scope', 'tech': 'Tech Stack', 'learnings': 'Learnings',
+    'wrong': 'Post-Mortem', 'preempt': 'Interview Q&A',
+    'need': 'Problem', 'validation': 'Validation', 'results': 'Results',
+    'metrics': 'Metrics', 'approach': 'Approach', 'features': 'Features'
+  };
+  document.querySelectorAll('section[aria-labelledby]').forEach(function(sec) {
+    var id = sec.getAttribute('aria-labelledby') || '';
+    var key = id.replace('-heading', '').replace('-results', '');
+    if (sectionNames[key] || key) {
+      sections.push({ el: sec, name: sectionNames[key] || key.charAt(0).toUpperCase() + key.slice(1), id: id });
+    }
+  });
+  if (sections.length < 3) return;
+
+  var nav = document.createElement('nav');
+  nav.className = 'section-indicator';
+  nav.setAttribute('aria-label', 'Section navigation');
+  sections.forEach(function(s, i) {
+    var dot = document.createElement('button');
+    dot.className = 'section-indicator-dot';
+    dot.setAttribute('aria-label', 'Jump to ' + s.name);
+    dot.dataset.index = i;
+    var label = document.createElement('span');
+    label.className = 'section-indicator-label';
+    label.textContent = s.name;
+    dot.appendChild(label);
+    dot.addEventListener('click', function() {
+      s.el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    nav.appendChild(dot);
+  });
+  document.body.appendChild(nav);
+
+  var dots = nav.querySelectorAll('.section-indicator-dot');
+  var ticking = false;
+  function updateIndicator() {
+    var scrollY = window.scrollY + window.innerHeight * 0.35;
+    var active = 0;
+    sections.forEach(function(s, i) {
+      if (s.el.offsetTop <= scrollY) active = i;
+    });
+    dots.forEach(function(d, i) { d.classList.toggle('active', i === active); });
+    nav.classList.toggle('visible', window.scrollY > 400);
+    ticking = false;
+  }
+  window.addEventListener('scroll', function() {
+    if (!ticking) { requestAnimationFrame(updateIndicator); ticking = true; }
+  }, { passive: true });
+  updateIndicator();
 })();
 </script>
 </body>

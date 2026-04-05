@@ -97,6 +97,17 @@
   </script>
 
   <style>
+    /* VIEW TRANSITION API - smooth cross-document page transitions */
+    @view-transition { navigation: auto; }
+    ::view-transition-old(root) {
+      animation: 0.3s cubic-bezier(0.4, 0, 0.2, 1) both fade-out;
+    }
+    ::view-transition-new(root) {
+      animation: 0.3s cubic-bezier(0.4, 0, 0.2, 1) both fade-in;
+    }
+    @keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
     /* ===== DESIGN SYSTEM (matches main portfolio) ===== */
     :root {
       --bg: #FAFAF8;
@@ -248,7 +259,7 @@
       margin: 0 auto;
     }
 
-    /* Reveal class — initial state set by GSAP JS, not CSS */
+    /* Reveal class - initial state set by GSAP JS, not CSS */
     .r { }
 
     /* ===== HERO ===== */
@@ -868,7 +879,6 @@
     }
     .scroll-top.visible { opacity: 1; pointer-events: auto; }
     .scroll-top:hover { background: #C67B2E; color: #1C1915; transform: translateY(-2px); }
-    @media print { .scroll-top { display: none !important; } }
     .page-transition { position:fixed; inset:0; z-index:10000; pointer-events:none; background:#1C1915; opacity:0; transition:opacity 0.4s cubic-bezier(0.4,0,0.2,1); }
     .page-transition.active { opacity:1; pointer-events:all; }
 
@@ -913,6 +923,89 @@
 
     /* ===== NAV PROGRESS ===== */
     .nav-progress { position:fixed; top:0; left:0; height:3px; background:linear-gradient(90deg, var(--amber), var(--gold, #C89B3C), var(--amber)); z-index:10002; width:0; transition:width 0.1s linear; pointer-events:none; }
+
+    /* SECTION INDICATOR - floating dot nav showing current section */
+    .section-indicator {
+      position: fixed;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 900;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+    .section-indicator.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .section-indicator-dot {
+      position: relative;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(198, 123, 46, 0.2);
+      border: 1.5px solid rgba(198, 123, 46, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .section-indicator-dot.active {
+      background: var(--amber, #C67B2E);
+      border-color: var(--amber, #C67B2E);
+      transform: scale(1.3);
+      box-shadow: 0 0 8px rgba(198, 123, 46, 0.4);
+    }
+    .section-indicator-dot:hover {
+      background: rgba(198, 123, 46, 0.5);
+      transform: scale(1.2);
+    }
+    .section-indicator-label {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--dark, #1C1915);
+      color: var(--light, #F5F3EE);
+      font-family: var(--font-mono, 'JetBrains Mono', monospace);
+      font-size: 0.65rem;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      border-radius: 4px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      border: 1px solid rgba(198, 123, 46, 0.2);
+    }
+    .section-indicator-dot:hover .section-indicator-label {
+      opacity: 1;
+    }
+    @media (max-width: 1100px) { .section-indicator { display: none !important; } }
+    @media (prefers-reduced-motion: reduce) { .section-indicator-dot { transition: none; } }
+    @media print { .section-indicator { display: none !important; } }
+    @media print {
+      nav, .back-nav, .scroll-top, .reading-progress, #reading-progress,
+      .cursor-dot, .cursor-ring, .nav-progress, .page-transition,
+      .floating-cta, button, .demo-container, .demo-controls,
+      canvas, .scroll-indicator { display: none !important; }
+      body { background: white !important; color: #1a1a1a !important; }
+      .dark-section { background: #f5f5f5 !important; color: #1a1a1a !important; }
+      .dark-section * { color: #1a1a1a !important; }
+      .section-title, h1, h2, h3 { color: #1a1a1a !important; }
+      .hero { min-height: auto !important; padding: 2rem 0 !important; }
+      a { color: #1a1a1a !important; text-decoration: underline !important; }
+      a[href]::after { content: " (" attr(href) ")"; font-size: 0.8em; color: #666; }
+      a[href^="#"]::after, a[href^="javascript"]::after { content: none; }
+      .section { padding: 1.5rem 0 !important; }
+      .learning-item { break-inside: avoid; }
+      .case-nav { border-top: 1px solid #ccc; padding-top: 1rem; }
+      .cta-section { background: none !important; border-top: 1px solid #ccc; padding: 1.5rem 0 !important; }
+      .metric-card, .std-card, .arch-node { border: 1px solid #ccc !important; background: white !important; }
+      .metric-card *, .std-card *, .arch-node * { color: #1a1a1a !important; }
+    }
   </style>
   <noscript><style>.r { opacity: 1 !important; transform: none !important; } .scroll-top { display: none !important; }</style></noscript>
 </head>
@@ -973,6 +1066,11 @@
         <div class="meta-item">
           <span class="meta-label">Standards</span>
           IEC 60601-1-2, ISO 10993
+        </div>
+        <div class="meta-divider" aria-hidden="true"></div>
+        <div class="meta-item">
+          <span class="meta-label">Read time</span>
+          6 min
         </div>
       </div>
     </section>
@@ -1123,19 +1221,19 @@
 
       <div class="metric-grid">
         <div class="metric-card">
-          <div class="metric-value">4–8<span style="font-size: 0.5em; display: block;">Hz</span></div>
+          <div class="metric-value"><span data-count-prefix="">4</span>–<span data-count-to="8">8</span><span style="font-size: 0.5em; display: block;">Hz</span></div>
           <div class="metric-label">Tremor band targeted</div>
         </div>
         <div class="metric-card">
-          <div class="metric-value">&lt;100<span style="font-size: 0.5em; display: block;">ms</span></div>
+          <div class="metric-value">&lt;<span data-count-to="100">100</span><span style="font-size: 0.5em; display: block;">ms</span></div>
           <div class="metric-label">Detection latency target</div>
         </div>
         <div class="metric-card">
-          <div class="metric-value">95<span style="font-size: 0.5em; display: block;">%</span></div>
+          <div class="metric-value"><span data-count-to="95">95</span><span style="font-size: 0.5em; display: block;">%</span></div>
           <div class="metric-label">Simulated sensitivity</div>
         </div>
         <div class="metric-card">
-          <div class="metric-value">6</div>
+          <div class="metric-value"><span data-count-to="6">6</span></div>
           <div class="metric-label">Filter order (Butterworth)</div>
         </div>
       </div>
@@ -1187,6 +1285,56 @@
         <div class="learning-num">03</div>
         <h3 class="learning-title">Regulatory thinking must start early</h3>
         <p class="learning-body">EMC, biocompatibility, and design controls are not afterthoughts. Building regulatory awareness into the signal processing design (choosing components with certified datasheets, documenting filter design rationale) streamlines later validation.</p>
+      </div>
+    </section>
+
+    <!-- ===== WHAT I GOT WRONG ===== -->
+    <section class="section" aria-labelledby="wrong-heading" style="padding-top: 48px;">
+      <p class="section-label r">Post-Mortem</p>
+      <h2 class="section-title r" id="wrong-heading">What I got wrong.</h2>
+      <p class="r" style="max-width: 720px; color: var(--text-muted, #635B52); margin-bottom: 32px;">The simulation worked. But that doesn't mean every decision along the way was right.</p>
+
+      <div class="learning-item r">
+        <div class="learning-num">01</div>
+        <div class="learning-title">I tuned the filter on clean synthetic data and called it validated.</div>
+        <p class="learning-body">The 6th-order Butterworth performed beautifully on my generated tremor signals: clean sinusoids plus Gaussian noise. When I later tested with publicly available EMG datasets that included real motion artifacts, the filter's performance dropped noticeably. Real forearm EMG during daily activities contains bursts of voluntary muscle activation that overlap the tremor band. My simulation didn't model that overlap, so the detection thresholds I'd tuned were too aggressive. I should have incorporated published EMG datasets from the start, not after the pipeline was "done."</p>
+      </div>
+
+      <div class="learning-item r">
+        <div class="learning-num">02</div>
+        <div class="learning-title">I ignored the suppression side of the system for too long.</div>
+        <p class="learning-body">The project was framed as "tremor detection and suppression," but I spent 90% of the time on detection. The suppression trigger was a binary output: detected or not. I never modeled what happens downstream. How fast does the pneumatic actuator respond? What happens if the detection is right but the suppression fires 200 ms late? Those questions matter for clinical viability, and I treated them as someone else's problem. In a real device program, the detection and actuation teams would need to co-design the latency budget from day one.</p>
+      </div>
+
+      <div class="learning-item r">
+        <div class="learning-num">03</div>
+        <div class="learning-title">I didn't quantify false positive cost.</div>
+        <p class="learning-body">My metrics were sensitivity and specificity, reported as percentages. I never asked: what does a false positive actually do to the patient? If the cuff fires suppression during voluntary movement, it fights the patient's own muscles. That's not just annoying. It could cause injury or erode trust in the device within days. The cost of a false positive is categorically different from the cost of a false negative, and my evaluation framework treated them as symmetric. A clinical engineer would have caught that immediately.</p>
+      </div>
+    </section>
+
+    <!-- ===== PRE-EMPT THE INTERVIEWER ===== -->
+    <section class="section" aria-labelledby="preempt-heading" style="padding-top: 48px;">
+      <p class="section-label r">Questions You Might Ask</p>
+      <h2 class="section-title r" id="preempt-heading">Answers before the interview.</h2>
+      <p class="r" style="max-width: 720px; color: var(--text-muted, #635B52); margin-bottom: 32px;">If I were screening this portfolio, these are the three questions I'd ask. So here they are, answered.</p>
+
+      <div class="learning-item r">
+        <div class="learning-num">Q1</div>
+        <div class="learning-title">Why simulation instead of building the hardware first?</div>
+        <p class="learning-body">Because the signal processing pipeline is the highest-risk subsystem. If the filter design can't isolate tremor from noise at the frequencies we care about, no amount of good hardware saves the project. A week of Python modeling told us the detection approach was viable before we spent money on electrodes, ADCs, and PCB fabrication. The simulation also let us iterate on filter order, feature sets, and detection thresholds at a pace that hardware prototyping can't match. The tradeoff is that simulation can't catch everything (see "What I got wrong" above), but it de-risked the most expensive failure mode.</p>
+      </div>
+
+      <div class="learning-item r">
+        <div class="learning-num">Q2</div>
+        <div class="learning-title">How would this hold up with real patient data?</div>
+        <p class="learning-body">It wouldn't, not without significant rework. The simulation uses synthetic tremor signals that model the frequency content but not the variability of real Parkinsonian tremor. Real patients show intermittent tremor, variable amplitude, and co-occurring voluntary movement. The multi-feature detection approach (RMS + spectral power + coherence) is designed to handle that, but the thresholds would need recalibration on clinical recordings. If I continued this project, the next step would be validating against the PhysioNet Parkinson's tremor dataset before touching hardware.</p>
+      </div>
+
+      <div class="learning-item r">
+        <div class="learning-num">Q3</div>
+        <div class="learning-title">What would you do differently with another semester?</div>
+        <p class="learning-body">Three things. First, validate against real EMG data from published datasets on day one, not after the pipeline is built. Second, model the full closed-loop system including suppression actuator dynamics, because detection latency and actuation latency are coupled. Third, bring in a clinician or movement disorder specialist early to pressure-test whether the detection sensitivity targets actually matter for patient quality of life. The 95% sensitivity target I set was an engineering number, not a clinical one. A neurologist might tell me 80% sensitivity with zero false positives during voluntary movement is more valuable than 95% sensitivity with occasional misfires.</p>
       </div>
     </section>
 
@@ -1662,6 +1810,92 @@
       r.style.width=r.style.height=Math.max(rect.width,rect.height)+'px';
       r.style.marginLeft=r.style.marginTop='-'+Math.max(rect.width,rect.height)/2+'px';
       btn.appendChild(r);setTimeout(function(){r.remove();},600);
+    });
+  });
+})();
+</script>
+
+<script>
+/* SECTION INDICATOR - auto-generated floating dot nav */
+(function() {
+  if (window.matchMedia('(max-width: 1100px)').matches) return;
+  var sections = [];
+  var sectionNames = {
+    'problem': 'Problem', 'arch': 'Architecture', 'standards': 'Standards',
+    'scope': 'Scope', 'tech': 'Tech Stack', 'learnings': 'Learnings',
+    'wrong': 'Post-Mortem', 'preempt': 'Interview Q&A',
+    'need': 'Problem', 'validation': 'Validation', 'results': 'Results',
+    'metrics': 'Metrics', 'approach': 'Approach', 'features': 'Features'
+  };
+  document.querySelectorAll('section[aria-labelledby]').forEach(function(sec) {
+    var id = sec.getAttribute('aria-labelledby') || '';
+    var key = id.replace('-heading', '').replace('-results', '');
+    if (sectionNames[key] || key) {
+      sections.push({ el: sec, name: sectionNames[key] || key.charAt(0).toUpperCase() + key.slice(1), id: id });
+    }
+  });
+  if (sections.length < 3) return;
+
+  var nav = document.createElement('nav');
+  nav.className = 'section-indicator';
+  nav.setAttribute('aria-label', 'Section navigation');
+  sections.forEach(function(s, i) {
+    var dot = document.createElement('button');
+    dot.className = 'section-indicator-dot';
+    dot.setAttribute('aria-label', 'Jump to ' + s.name);
+    dot.dataset.index = i;
+    var label = document.createElement('span');
+    label.className = 'section-indicator-label';
+    label.textContent = s.name;
+    dot.appendChild(label);
+    dot.addEventListener('click', function() {
+      s.el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    nav.appendChild(dot);
+  });
+  document.body.appendChild(nav);
+
+  var dots = nav.querySelectorAll('.section-indicator-dot');
+  var ticking = false;
+  function updateIndicator() {
+    var scrollY = window.scrollY + window.innerHeight * 0.35;
+    var active = 0;
+    sections.forEach(function(s, i) {
+      if (s.el.offsetTop <= scrollY) active = i;
+    });
+    dots.forEach(function(d, i) { d.classList.toggle('active', i === active); });
+    nav.classList.toggle('visible', window.scrollY > 400);
+    ticking = false;
+  }
+  window.addEventListener('scroll', function() {
+    if (!ticking) { requestAnimationFrame(updateIndicator); ticking = true; }
+  }, { passive: true });
+  updateIndicator();
+})();
+</script>
+<script>
+/* ANIMATED METRIC COUNTERS - numbers count up on scroll */
+(function() {
+  var counters = document.querySelectorAll('[data-count-to]');
+  if (!counters.length || typeof gsap === 'undefined') return;
+  counters.forEach(function(el) {
+    var target = parseFloat(el.dataset.countTo);
+    var isDecimal = target % 1 !== 0;
+    ScrollTrigger.create({
+      trigger: el.closest('.metric-grid') || el,
+      start: 'top 85%',
+      once: true,
+      onEnter: function() {
+        gsap.fromTo(el, { textContent: 0 }, {
+          textContent: target,
+          duration: 1.5,
+          ease: 'power2.out',
+          snap: { textContent: isDecimal ? 0.001 : 1 },
+          onUpdate: function() {
+            el.textContent = isDecimal ? parseFloat(el.textContent).toFixed(3) : Math.round(parseFloat(el.textContent));
+          }
+        });
+      }
     });
   });
 })();
