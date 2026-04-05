@@ -2730,10 +2730,8 @@
       background-image: linear-gradient(var(--dark3), var(--dark3)), conic-gradient(from var(--border-angle), var(--amber) 0%, transparent 30%, var(--coral) 50%, transparent 70%, var(--amber) 100%);
       background-origin: border-box;
       background-clip: padding-box, border-box;
-      animation: rotateBorder 6s linear infinite;
+      /* rotating border removed for clean aesthetic */
     }
-    @keyframes rotateBorder { to { --border-angle: 360deg; } }
-    @media (prefers-reduced-motion:reduce) { .featured-card { animation:none; border-color: rgba(217,119,6,0.2); background-image:none; } }
 
     .featured-card:hover {
       transform: translateY(-4px);
