@@ -10802,48 +10802,7 @@
     gsap.to(window, { duration: 0.8, scrollTo: 0, ease: 'power2.inOut' });
   });
 
-  /* ═══════════════════════════════════════════════════
-     HERO NAME TEXT SCRAMBLE EFFECT
-     ═══════════════════════════════════════════════════ */
-  (function textScramble() {
-    var el = document.querySelector('.hero-name');
-    if (!el) return;
-    var target = el.textContent;
-    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%';
-    var frame = 0;
-    var totalFrames = 20;
-    var revealed = 0;
-    var done = false;
-
-    function step() {
-      if (done) return;
-      var output = '';
-      for (var i = 0; i < target.length; i++) {
-        if (target[i] === ' ') { output += ' '; continue; }
-        if (i < revealed) {
-          output += target[i];
-        } else {
-          output += chars[Math.floor(Math.random() * chars.length)];
-        }
-      }
-      el.textContent = output;
-      frame++;
-
-      if (frame % 2 === 0 && revealed < target.length) revealed++;
-
-      if (revealed < target.length || frame < totalFrames + target.length) {
-        requestAnimationFrame(step);
-      } else {
-        done = true;
-        el.textContent = target;
-      }
-    }
-
-    // Trigger after loader finishes (approx 3.5s)
-    setTimeout(step, 3600);
-    // Failsafe: if rAF was throttled (background tab), force resolve after 6s
-    setTimeout(function() { if (!done) { done = true; el.textContent = target; } }, 6000);
-  })();
+  /* HERO NAME TEXT SCRAMBLE — removed duplicate (kept the one in GSAP ANIMATIONS block) */
 
   /* ═══════════════════════════════════════════════════
      NAV SHRINK ON SCROLL
@@ -11050,21 +11009,33 @@
     }
   });
 
-  // Hide default cursor on body
-  document.documentElement.style.cursor = 'none';
-  document.querySelectorAll('a, button, input, textarea, select, .cta-btn').forEach(function(el) {
-    el.style.cursor = 'none';
-  });
+  // Hide default cursor globally via CSS (catches dynamic elements too)
+  var cursorStyle = document.createElement('style');
+  cursorStyle.textContent = 'html, html * { cursor: none !important; }';
+  document.head.appendChild(cursorStyle);
+
+  // Track cursor visibility state
+  var cursorVisible = true;
 
   // Hide custom cursor when leaving window
   document.addEventListener('mouseleave', function() {
+    cursorVisible = false;
     dot.style.opacity = '0';
     ring.style.opacity = '0';
   });
   document.addEventListener('mouseenter', function() {
+    cursorVisible = true;
     dot.style.opacity = '1';
     ring.style.opacity = '0.5';
   });
+  // Fallback: mousemove always ensures cursor is visible while in viewport
+  document.addEventListener('mousemove', function() {
+    if (!cursorVisible) {
+      cursorVisible = true;
+      dot.style.opacity = '1';
+      ring.style.opacity = '0.5';
+    }
+  }, { passive: true });
 })();
 </script>
 
