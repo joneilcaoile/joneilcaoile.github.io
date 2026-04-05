@@ -6171,10 +6171,7 @@
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nav-actions">
-    <button class="nav-search-btn" id="navSearchBtn" aria-label="Search (Ctrl+K)" title="Search (Ctrl+K)">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <kbd>&#8984;K</kbd>
-    </button>
+    <!-- Search button injected by JS (cmd-k-hint) to detect Mac vs Windows shortcut -->
     <a href="Joneil_Caoile_Resume.pdf" download class="nav-resume-btn" aria-label="Download resume">Resume ↓</a>
     <button class="theme-toggle" id="darkModeToggle" aria-label="Toggle dark mode">☀</button>
     <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
@@ -7462,6 +7459,8 @@
           loader.style.pointerEvents = 'none';
           document.body.classList.add('loaded');
           ScrollTrigger.refresh(true);
+          // Show game start menu after loader finishes
+          if (typeof window.showGameMenu === 'function') window.showGameMenu();
         }
       }, 3.0);
 
@@ -7473,6 +7472,7 @@
         loader.style.pointerEvents = 'none';
         document.body.classList.add('loaded');
         ScrollTrigger.refresh(true);
+        if (typeof window.showGameMenu === 'function') window.showGameMenu();
       }
     }, 5000);
 
@@ -7487,6 +7487,7 @@
         skipBtn.remove();
         document.body.classList.add('loaded');
         ScrollTrigger.refresh(true);
+        if (typeof window.showGameMenu === 'function') window.showGameMenu();
       });
       // Auto-remove skip button when animation finishes naturally
       tl.eventCallback('onComplete', () => {
@@ -7509,6 +7510,8 @@
         var ldr = document.getElementById('loader');
         if (ldr) { ldr.style.opacity = '0'; ldr.style.visibility = 'hidden'; ldr.style.pointerEvents = 'none'; }
         document.body.classList.add('loaded');
+        // Still show game menu even without GSAP
+        setTimeout(function() { if (typeof window.showGameMenu === 'function') window.showGameMenu(); }, 100);
       }
     }, { once: true });
   }
