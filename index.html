@@ -5994,7 +5994,7 @@
 <section id="hero" class="container">
   <!-- Hero background (stripped for clean aesthetic) -->
   <div class="hero-left">
-    <div class="status-badge">Currently building UseTrace HFE</div>
+    <div class="status-badge">M.S. Biomedical Engineering · Stevens 2026</div>
     <div class="status-badge available">Available May 2026 · SoCal</div>
     <p class="hero-tag">Biomedical Engineer</p>
     <h1 class="hero-name">Joneil Caoile<span class="glitch-layer" data-text="Joneil Caoile" aria-hidden="true"></span></h1>
@@ -7260,8 +7260,6 @@
           loader.style.pointerEvents = 'none';
           document.body.classList.add('loaded');
           ScrollTrigger.refresh(true);
-          // Show game start menu after loader finishes
-          if (typeof window.showGameMenu === 'function') window.showGameMenu();
         }
       }, 3.0);
 
@@ -7273,7 +7271,6 @@
         loader.style.pointerEvents = 'none';
         document.body.classList.add('loaded');
         ScrollTrigger.refresh(true);
-        if (typeof window.showGameMenu === 'function') window.showGameMenu();
       }
     }, 5000);
 
@@ -7288,7 +7285,6 @@
         skipBtn.remove();
         document.body.classList.add('loaded');
         ScrollTrigger.refresh(true);
-        if (typeof window.showGameMenu === 'function') window.showGameMenu();
       });
       // Auto-remove skip button when animation finishes naturally
       tl.eventCallback('onComplete', () => {
@@ -7311,8 +7307,6 @@
         var ldr = document.getElementById('loader');
         if (ldr) { ldr.style.opacity = '0'; ldr.style.visibility = 'hidden'; ldr.style.pointerEvents = 'none'; }
         document.body.classList.add('loaded');
-        // Still show game menu even without GSAP
-        setTimeout(function() { if (typeof window.showGameMenu === 'function') window.showGameMenu(); }, 100);
       }
     }, { once: true });
   }
@@ -10383,16 +10377,22 @@
     setTimeout(function() { window.location.href = href; }, 400);
   });
 
-  // Fade in on page load (if navigated via transition)
+  // Fade in on page load (if navigated via transition from a case study)
   if (performance.getEntriesByType && performance.getEntriesByType('navigation')[0]) {
     var navType = performance.getEntriesByType('navigation')[0].type;
-    if (navType === 'navigate' || navType === 'back_forward') {
+    if (navType === 'back_forward') {
+      // Only use the overlay fade for back/forward navigation (returning from case studies)
       overlay.style.opacity = '1';
       overlay.style.transition = 'none';
+      // Double rAF to avoid background-tab throttling dropping the fade
       requestAnimationFrame(function() {
-        overlay.style.transition = 'opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-        overlay.style.opacity = '0';
+        requestAnimationFrame(function() {
+          overlay.style.transition = 'opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+          overlay.style.opacity = '0';
+        });
       });
+      // Safety: force overlay hidden after 1s regardless
+      setTimeout(function() { overlay.style.opacity = '0'; }, 1000);
     }
   }
 })();
