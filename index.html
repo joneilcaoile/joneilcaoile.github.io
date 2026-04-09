@@ -1800,18 +1800,6 @@ footer {
   transition: opacity 0.3s;
 }
 
-.critter-container {
-  width: 48px; height: 48px;
-  display: flex; align-items: center; justify-content: center;
-  cursor: grab;
-  background: rgba(15,14,12,0.06);
-  border-radius: 8px;
-}
-
-.critter-container canvas {
-  image-rendering: pixelated;
-}
-
 .xp-info { display: flex; flex-direction: column; gap: 4px; }
 
 .xp-title {
@@ -1838,6 +1826,41 @@ footer {
   font-family: var(--font-mono);
   font-size: 10px;
   color: var(--text-muted);
+}
+
+/* ═══════════════════════════════════════
+   FLOATING PET
+   ═══════════════════════════════════════ */
+.floating-pet {
+  position: fixed;
+  z-index: 100;
+  pointer-events: none;
+  transition: none;
+  image-rendering: pixelated;
+}
+
+.floating-pet canvas {
+  display: block;
+  image-rendering: pixelated;
+}
+
+.pet-name {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--amber);
+  text-align: center;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+  margin-top: 2px;
+  opacity: 0.8;
+}
+
+@media (max-width: 900px) {
+  .floating-pet { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-pet { display: none; }
 }
 
 /* ═══════════════════════════════════════
@@ -2023,102 +2046,86 @@ footer {
 }
 
 /* Red Potion Sprite - 8x10 pixels (32x40 real px) */
-.sprite-potion {
+/* Flask Sprite - Erlenmeyer flask (BME/lab) */
+.sprite-flask {
   width: 4px;
   height: 4px;
   box-shadow:
-    /* Bottle cap - row 1 */
-    4px 0 #C67B2E, 8px 0 #C67B2E,
-    /* Bottle cap - row 2 */
-    4px 4px #C67B2E, 8px 4px #C67B2E,
-    /* Bottle neck */
-    4px 8px #D4A233, 8px 8px #D4A233,
-    /* Bottle body - row 1 */
-    0 12px #D4A233, 4px 12px #E84C3D, 8px 12px #E84C3D, 12px 12px #D4A233,
-    /* Bottle body - row 2 */
-    0 16px #D4A233, 4px 16px #F85A4D, 8px 16px #F85A4D, 12px 16px #D4A233,
-    /* Bottle body - row 3 */
-    0 20px #D4A233, 4px 20px #E84C3D, 8px 20px #E84C3D, 12px 20px #D4A233,
-    /* Bottle bottom */
-    4px 24px #C67B2E, 8px 24px #C67B2E,
-    /* Glow/shine */
-    12px 12px #FFCCAA, 12px 16px #FFCCAA;
-  transform: scale(1);
+    /* Neck */
+    8px 0 #B0C4DE, 12px 0 #B0C4DE,
+    8px 4px #87CEEB, 12px 4px #87CEEB,
+    /* Neck flare */
+    4px 8px #B0C4DE, 8px 8px #87CEEB, 12px 8px #87CEEB, 16px 8px #B0C4DE,
+    /* Body widens */
+    0 12px #B0C4DE, 4px 12px #87CEEB, 8px 12px #ADD8E6, 12px 12px #87CEEB, 16px 12px #B0C4DE, 20px 12px #B0C4DE,
+    /* Liquid - blue-green */
+    0 16px #B0C4DE, 4px 16px #4ECDC4, 8px 16px #45B7AA, 12px 16px #4ECDC4, 16px 16px #45B7AA, 20px 16px #B0C4DE,
+    0 20px #B0C4DE, 4px 20px #45B7AA, 8px 20px #4ECDC4, 12px 20px #45B7AA, 16px 20px #4ECDC4, 20px 20px #B0C4DE,
+    /* Base */
+    0 24px #8FA8C8, 4px 24px #8FA8C8, 8px 24px #8FA8C8, 12px 24px #8FA8C8, 16px 24px #8FA8C8, 20px 24px #8FA8C8,
+    /* Shine */
+    4px 4px #E8F4F8;
   image-rendering: pixelated;
 }
 
-/* Sword Sprite - 12x8 pixels (48x32 real px) */
-.sprite-sword {
+/* Probe Sprite - Test probe/multimeter (V&V) */
+.sprite-probe {
   width: 4px;
   height: 4px;
   box-shadow:
-    /* Blade - top */
-    12px 0 #C0C0C0, 16px 0 #C0C0C0,
-    /* Blade - row 2 */
-    8px 4px #D4D4D4, 12px 4px #FFFFFF, 16px 4px #FFFFFF, 20px 4px #D4D4D4,
-    /* Blade - row 3 */
-    4px 8px #B0B0B0, 8px 8px #E8E8E8, 12px 8px #FFFFFF, 16px 8px #E8E8E8, 20px 8px #B0B0B0,
-    /* Cross guard - row 1 */
-    4px 12px #8B4513, 8px 12px #8B4513, 12px 12px #C67B2E, 16px 12px #8B4513, 20px 12px #8B4513,
-    /* Handle - row 1 */
-    8px 16px #654321, 12px 16px #654321, 16px 16px #654321,
-    /* Handle - row 2 */
-    8px 20px #654321, 12px 20px #7A5230, 16px 20px #654321,
-    /* Pommel */
-    12px 24px #C67B2E, 12px 28px #A05020;
-  transform: scale(1);
+    /* Tip */
+    8px 0 #C0C0C0, 12px 0 #E0E0E0,
+    /* Shaft */
+    8px 4px #FFD700, 12px 4px #FFD700,
+    8px 8px #DAA520, 12px 8px #DAA520,
+    /* Body */
+    4px 12px #333, 8px 12px #444, 12px 12px #444, 16px 12px #333,
+    4px 16px #333, 8px 16px #C67B2E, 12px 16px #C67B2E, 16px 16px #333,
+    4px 20px #333, 8px 20px #444, 12px 20px #444, 16px 20px #333,
+    /* Wire */
+    8px 24px #E84C3D, 12px 24px #E84C3D,
+    8px 28px #E84C3D;
   image-rendering: pixelated;
 }
 
-/* Treasure Chest - 14x12 pixels (56x48 real px) */
-.sprite-chest {
+/* Device Sprite - Medical device/monitor */
+.sprite-device {
   width: 4px;
   height: 4px;
   box-shadow:
-    /* Lid - top */
-    8px 0 #8B4513, 12px 0 #8B4513, 16px 0 #8B4513,
-    /* Lid - arc row 1 */
-    4px 4px #654321, 8px 4px #D4A233, 12px 4px #FFD700, 16px 4px #D4A233, 20px 4px #654321,
-    /* Lid - arc row 2 */
-    4px 8px #8B4513, 8px 8px #D4A233, 12px 8px #FFD700, 16px 8px #D4A233, 20px 8px #8B4513,
-    /* Lock */
-    12px 12px #C0C0C0, 12px 16px #C0C0C0,
-    /* Body - row 1 */
-    0 20px #654321, 4px 20px #654321, 8px 20px #654321, 12px 20px #654321, 16px 20px #654321, 20px 20px #654321, 24px 20px #654321,
-    /* Body - row 2 */
-    0 24px #8B4513, 4px 24px #D4A233, 8px 24px #D4A233, 12px 24px #D4A233, 16px 24px #D4A233, 20px 24px #D4A233, 24px 24px #8B4513,
-    /* Body - row 3 */
-    0 28px #8B4513, 4px 28px #654321, 8px 28px #654321, 12px 28px #654321, 16px 28px #654321, 20px 28px #654321, 24px 28px #8B4513,
-    /* Feet */
-    4px 32px #3D2817, 20px 32px #3D2817;
-  transform: scale(1);
+    /* Screen top */
+    4px 0 #2C3E50, 8px 0 #2C3E50, 12px 0 #2C3E50, 16px 0 #2C3E50, 20px 0 #2C3E50,
+    /* Screen */
+    4px 4px #2C3E50, 8px 4px #1a1a2e, 12px 4px #1a1a2e, 16px 4px #1a1a2e, 20px 4px #2C3E50,
+    4px 8px #2C3E50, 8px 8px #4ECDC4, 12px 8px #1a1a2e, 16px 8px #4ECDC4, 20px 8px #2C3E50,
+    4px 12px #2C3E50, 8px 12px #1a1a2e, 12px 12px #4ECDC4, 16px 12px #1a1a2e, 20px 12px #2C3E50,
+    /* Screen bottom */
+    4px 16px #2C3E50, 8px 16px #2C3E50, 12px 16px #2C3E50, 16px 16px #2C3E50, 20px 16px #2C3E50,
+    /* Body */
+    0 20px #3D5A80, 4px 20px #3D5A80, 8px 20px #3D5A80, 12px 20px #4CAF50, 16px 20px #3D5A80, 20px 20px #3D5A80, 24px 20px #3D5A80,
+    0 24px #3D5A80, 4px 24px #3D5A80, 8px 24px #3D5A80, 12px 24px #3D5A80, 16px 24px #3D5A80, 20px 24px #3D5A80, 24px 24px #3D5A80,
+    /* Stand */
+    8px 28px #555, 12px 28px #555, 16px 28px #555;
   image-rendering: pixelated;
 }
 
-/* Scroll Sprite - 10x14 pixels (40x56 real px) */
-.sprite-scroll {
+/* Report Sprite - Document with checkmark (regulatory) */
+.sprite-report {
   width: 4px;
   height: 4px;
   box-shadow:
-    /* Top roll */
-    4px 0 #8B4513, 8px 0 #8B4513, 12px 0 #8B4513,
-    /* Roll edge */
-    4px 4px #654321, 8px 4px #654321, 12px 4px #654321,
-    /* Paper - row 1 */
-    0 8px #F5F0E8, 4px 8px #FFFEF5, 8px 8px #FFFEF5, 12px 8px #FFFEF5, 16px 8px #F5F0E8,
-    /* Paper - row 2 */
-    0 12px #F5F0E8, 4px 12px #E8DCC8, 8px 12px #FFFEF5, 12px 12px #E8DCC8, 16px 12px #F5F0E8,
-    /* Paper - row 3 */
-    0 16px #F5F0E8, 4px 16px #FFFEF5, 8px 16px #FFFEF5, 12px 16px #FFFEF5, 16px 16px #F5F0E8,
-    /* Paper - row 4 */
-    0 20px #F5F0E8, 4px 20px #E8DCC8, 8px 20px #FFFEF5, 12px 20px #E8DCC8, 16px 20px #F5F0E8,
-    /* Paper - row 5 */
-    0 24px #F5F0E8, 4px 24px #FFFEF5, 8px 24px #FFFEF5, 12px 24px #FFFEF5, 16px 24px #F5F0E8,
-    /* Bottom roll */
-    4px 28px #8B4513, 8px 28px #8B4513, 12px 28px #8B4513,
-    /* Roll edge */
-    4px 32px #654321, 8px 32px #654321, 12px 32px #654321;
-  transform: scale(1);
+    /* Page top + fold */
+    0 0 #F5F0E8, 4px 0 #F5F0E8, 8px 0 #F5F0E8, 12px 0 #D4C9B0,
+    0 4px #F5F0E8, 4px 4px #F5F0E8, 8px 4px #F5F0E8, 12px 4px #F5F0E8, 16px 4px #F5F0E8,
+    /* Text lines */
+    0 8px #F5F0E8, 4px 8px #999, 8px 8px #999, 12px 8px #999, 16px 8px #F5F0E8,
+    0 12px #F5F0E8, 4px 12px #999, 8px 12px #999, 12px 12px #F5F0E8, 16px 12px #F5F0E8,
+    0 16px #F5F0E8, 4px 16px #999, 8px 16px #999, 12px 16px #999, 16px 16px #F5F0E8,
+    /* Checkmark */
+    0 20px #F5F0E8, 4px 20px #F5F0E8, 8px 20px #F5F0E8, 12px 20px #4CAF50, 16px 20px #F5F0E8,
+    0 24px #F5F0E8, 4px 24px #F5F0E8, 8px 24px #4CAF50, 12px 24px #F5F0E8, 16px 24px #F5F0E8,
+    /* Page bottom */
+    0 28px #E8DCC8, 4px 28px #E8DCC8, 8px 28px #E8DCC8, 12px 28px #E8DCC8, 16px 28px #E8DCC8;
   image-rendering: pixelated;
 }
 
@@ -2593,7 +2600,7 @@ footer {
 /* ============================================
    GENERAL POLISH
    ============================================ */
-.sprite-novice, .sprite-potion, .sprite-sword, .sprite-chest, .sprite-scroll, .sprite-sparkle, .hit-spark {
+.sprite-novice, .sprite-flask, .sprite-probe, .sprite-device, .sprite-report, .sprite-sparkle, .hit-spark {
   image-rendering: pixelated;
 }
 
@@ -2899,7 +2906,7 @@ footer {
         <div class="hero-ctas">
           <a href="#featured" class="btn btn--primary">View device projects</a>
           <a href="#contact" class="btn btn--secondary">Get in touch</a>
-          <a href="Joneil_Caoile_Resume.pdf" class="btn btn--ghost" download>Resume ↓</a>
+          <a href="Joneil_Caoile_Resume.pdf" class="btn btn--ghost" target="_blank" rel="noopener">Resume</a>
         </div>
       </div>
       <div class="hero-right">
@@ -2986,7 +2993,7 @@ footer {
   </div>
 </section>
 
-<div class="pixel-divider" aria-hidden="true"><div class="pixel-divider-line"></div><div class="sprite-sword pixel-divider-sprite"></div><div class="pixel-divider-line"></div></div>
+<div class="pixel-divider" aria-hidden="true"><div class="pixel-divider-line"></div><div class="sprite-probe pixel-divider-sprite"></div><div class="pixel-divider-line"></div></div>
 <!-- ═══════════════════════ BRING ═══════════════════════ -->
 <section id="bring">
   <div class="container">
@@ -3062,57 +3069,57 @@ footer {
   </div>
 </section>
 
-<div class="pixel-divider" aria-hidden="true"><div class="pixel-divider-line"></div><div class="sprite-sword pixel-divider-sprite"></div><div class="pixel-divider-line"></div></div>
+<div class="pixel-divider" aria-hidden="true"><div class="pixel-divider-line"></div><div class="sprite-probe pixel-divider-sprite"></div><div class="pixel-divider-line"></div></div>
 <!-- ═══════════════════════ FEATURED PROJECT ═══════════════════════ -->
 <section id="featured">
   <div class="container">
     <p class="section-label r">04 / Featured Project</p>
     <div class="featured-card r">
       <div class="featured-badge">★ LEGENDARY</div>
-      <h3>UseTrace HFE</h3>
+      <h3>Pneumothorax Air Leak Monitor</h3>
 
       <div class="arch-flow">
         <div class="arch-node">
-          <div class="arch-node-label">Capture</div>
-          <div class="arch-node-desc">Observations<br><small style="color:var(--text-muted)">Free-text · 200+/session</small></div>
+          <div class="arch-node-label">Sense</div>
+          <div class="arch-node-desc">Dual Flow Sensors<br><small style="color:var(--text-muted)">Ventilator + Chest Tube</small></div>
         </div>
         <span class="arch-arrow">→</span>
         <div class="arch-node">
-          <div class="arch-node-label">AI Classify</div>
-          <div class="arch-node-desc">Multi-label ML<br><small style="color:var(--text-muted)">Severity · Type · Subsystem</small></div>
+          <div class="arch-node-label">Compute</div>
+          <div class="arch-node-desc">Volume Delta<br><small style="color:var(--text-muted)">Tidal vs. Outflow</small></div>
         </div>
         <span class="arch-arrow">→</span>
         <div class="arch-node">
-          <div class="arch-node-label">Output</div>
-          <div class="arch-node-desc">HFE Report<br><small style="color:var(--text-muted)">IEC 62366-1 formatted</small></div>
+          <div class="arch-node-label">Alert</div>
+          <div class="arch-node-desc">Severity Score<br><small style="color:var(--text-muted)">Real-time · Bedside</small></div>
         </div>
       </div>
 
       <div class="featured-problem">
         <h4>Problem</h4>
-        <p>Formative usability studies generate 200+ free-text observations per session. Classifying them under IEC 62366-1 use error categories takes 2-4 weeks with low inter-reviewer consistency. Missed classifications can hide safety signals in HFE reports.</p>
+        <p>After pneumothorax chest tube insertion, clinicians have no quantitative way to assess air leak severity. Current practice relies on subjective bubble observation in water seal chambers, with no trending, no thresholds, and no alarms. Leak resolution or worsening can go undetected for hours.</p>
       </div>
 
       <div class="featured-solution">
         <h4>Solution</h4>
-        <p>Multi-label classification (severity, type, device subsystem) with confidence scores and audit trails. Engineers validate AI-generated drafts instead of coding raw text. Cuts classification time to 3-5 days and maps directly to HFE report deliverables.</p>
+        <p>A bedside monitoring device that compares ventilator-delivered tidal volume with chest tube outflow using dual flow sensors. The volume difference estimates air leak severity in real time, giving clinicians a quantitative trend line and configurable alert thresholds. M.S. capstone project, currently in design control phase.</p>
       </div>
 
       <div class="spec-table" style="margin-top:24px;">
-        <div class="spec-cell"><div class="spec-label">Classification time</div><div class="spec-value">2-4 weeks → 3-5 days</div></div>
-        <div class="spec-cell"><div class="spec-label">Report output</div><div class="spec-value">IEC 62366-1 in minutes</div></div>
-        <div class="spec-cell"><div class="spec-label">Adoption</div><div class="spec-value">50+ engineers, 4 companies</div></div>
-        <div class="spec-cell"><div class="spec-label">Stack</div><div class="spec-value">React · Firebase · Figma</div></div>
+        <div class="spec-cell"><div class="spec-label">Design phase</div><div class="spec-value">Design control (V&V)</div></div>
+        <div class="spec-cell"><div class="spec-label">Key deliverables</div><div class="spec-value">IQ/OQ/PQ protocols</div></div>
+        <div class="spec-cell"><div class="spec-label">Test cases</div><div class="spec-value">14 verification tests</div></div>
+        <div class="spec-cell"><div class="spec-label">Standards</div><div class="spec-value">ISO 14971 · IEC 62304</div></div>
       </div>
 
       <div class="featured-cta">
-        <a href="case-usetrace.html" class="btn btn--primary">Read case study →</a>
+        <a href="case-pneumothorax.html" class="btn btn--primary">Read case study →</a>
       </div>
     </div>
   </div>
 </section>
 
-<div class="pixel-divider" aria-hidden="true"><div class="pixel-divider-line"></div><div class="sprite-chest pixel-divider-sprite"></div><div class="pixel-divider-line"></div></div>
+<div class="pixel-divider" aria-hidden="true"><div class="pixel-divider-line"></div><div class="sprite-device pixel-divider-sprite"></div><div class="pixel-divider-line"></div></div>
 <!-- ═══════════════════════ WORK ═══════════════════════ -->
 <section id="work">
   <div class="container">
@@ -3322,7 +3329,7 @@ footer {
   </div>
 </section>
 
-<div class="pixel-divider" aria-hidden="true"><div class="pixel-divider-line"></div><div class="sprite-scroll pixel-divider-sprite"></div><div class="pixel-divider-line"></div></div>
+<div class="pixel-divider" aria-hidden="true"><div class="pixel-divider-line"></div><div class="sprite-report pixel-divider-sprite"></div><div class="pixel-divider-line"></div></div>
 <!-- ═══════════════════════ JOURNEY ═══════════════════════ -->
 <section id="journey">
   <div class="container">
@@ -3505,7 +3512,7 @@ footer {
   </div>
 </section>
 
-<div class="pixel-divider" aria-hidden="true"><div class="pixel-divider-line"></div><div class="sprite-potion pixel-divider-sprite"></div><div class="pixel-divider-line"></div></div>
+<div class="pixel-divider" aria-hidden="true"><div class="pixel-divider-line"></div><div class="sprite-flask pixel-divider-sprite"></div><div class="pixel-divider-line"></div></div>
 <!-- ═══════════════════════ CONTACT ═══════════════════════ -->
 <section id="contact">
   <div class="container">
@@ -3571,11 +3578,14 @@ footer {
   </div>
 </footer>
 
+<!-- Floating Pet -->
+<div class="floating-pet" id="floatingPet" aria-hidden="true">
+  <canvas id="critterCanvas" width="48" height="48"></canvas>
+  <div class="pet-name" id="petName">Egg</div>
+</div>
+
 <!-- XP HUD -->
 <div class="xp-hud" id="xpHud">
-  <div class="critter-container" id="critterContainer">
-    <canvas id="critterCanvas" width="40" height="40"></canvas>
-  </div>
   <div class="xp-info">
     <div class="xp-title" id="xpTitle">Lv.27 Egg</div>
     <div class="xp-bar"><div class="xp-fill" id="xpFill" style="width:0%"></div></div>
@@ -4226,7 +4236,17 @@ function updateXPDisplay() {
   DOM.xpText.textContent = `${S.xp.toLocaleString()} / ${S.maxXp.toLocaleString()} XP`;
 }
 
-/* Pixel art critter - cute Poring-inspired (Ragnarok Online) */
+/* ─── Floating Pet System ─── */
+const pet = {
+  el: $('#floatingPet'),
+  x: window.innerWidth * 0.7,
+  y: window.innerHeight * 0.5,
+  vx: 0.4 + Math.random() * 0.3,
+  vy: 0.3 + Math.random() * 0.2,
+  bobPhase: 0,
+  frame: 0,
+};
+
 function drawCritter() {
   const canvas = DOM.critterCanvas;
   if (!canvas) return;
@@ -4235,207 +4255,174 @@ function drawCritter() {
   ctx.clearRect(0, 0, w, h);
   ctx.imageSmoothingEnabled = false;
   const stage = getStage(S.xp);
-  const p = 2; /* pixel size for finer detail */
+  const p = 3; /* pixel size */
 
-  /* Center offset */
-  const ox = Math.floor(w / 2) - 12;
-  const oy = 4;
+  /* Update name tag */
+  const nameEl = $('#petName');
+  if (nameEl) nameEl.textContent = stage.name;
 
   if (stage.name === 'Egg') {
-    /* Cute speckled egg with heart */
-    ctx.fillStyle = '#FFE4C4';
-    drawPixelEllipse(ctx, ox + 12, oy + 14, 9, 11, p);
-    /* Shell spots */
-    ctx.fillStyle = '#F8B4B4';
-    ctx.fillRect(ox + 8, oy + 10, p, p);
-    ctx.fillRect(ox + 14, oy + 8, p, p);
-    ctx.fillRect(ox + 18, oy + 14, p, p);
-    ctx.fillRect(ox + 10, oy + 18, p, p);
-    /* Heart on egg */
-    ctx.fillStyle = '#FF7B9C';
-    ctx.fillRect(ox + 10, oy + 12, p, p);
-    ctx.fillRect(ox + 14, oy + 12, p, p);
-    ctx.fillRect(ox + 8, oy + 14, p*3, p);
-    ctx.fillRect(ox + 10, oy + 16, p, p);
-    /* Shadow */
-    ctx.fillStyle = 'rgba(0,0,0,0.12)';
-    drawPixelEllipse(ctx, ox + 12, oy + 26, 10, 2, p);
-
+    /* Cute speckled egg */
+    ctx.fillStyle = '#FFD1DC';
+    fillEllipse(ctx, 24, 26, 10, 13, p);
+    ctx.fillStyle = '#FFB6C1';
+    ctx.fillRect(18, 24, p, p); ctx.fillRect(27, 18, p, p); ctx.fillRect(21, 30, p, p);
+    /* Tiny crack */
+    ctx.fillStyle = '#FFF';
+    ctx.fillRect(24, 15, p, p); ctx.fillRect(27, 16, p, p);
   } else if (stage.name === 'Slimeling') {
-    /* Baby poring - tiny, round, big eyes */
-    ctx.fillStyle = '#FFB3D9';
-    drawPixelEllipse(ctx, ox + 12, oy + 16, 8, 7, p);
+    /* Tiny pink Poring baby */
+    ctx.fillStyle = '#FFB6C1';
+    fillEllipse(ctx, 24, 28, 9, 8, p);
     /* Highlight */
-    ctx.fillStyle = '#FFD4E8';
-    ctx.fillRect(ox + 8, oy + 12, p*2, p*2);
-    /* Eyes - big and sparkly */
-    ctx.fillStyle = '#FFF';
-    ctx.fillRect(ox + 8, oy + 14, p*2, p*2);
-    ctx.fillRect(ox + 14, oy + 14, p*2, p*2);
+    ctx.fillStyle = '#FFD1DC';
+    ctx.fillRect(18, 24, p*2, p);
+    /* Eyes - sparkly dots */
     ctx.fillStyle = '#333';
-    ctx.fillRect(ox + 10, oy + 14, p, p*2);
-    ctx.fillRect(ox + 16, oy + 14, p, p*2);
-    /* Sparkle in eyes */
+    ctx.fillRect(20, 26, 2, 2); ctx.fillRect(28, 26, 2, 2);
+    /* Eye shine */
     ctx.fillStyle = '#FFF';
-    ctx.fillRect(ox + 10, oy + 14, 1, 1);
-    ctx.fillRect(ox + 16, oy + 14, 1, 1);
+    ctx.fillRect(20, 25, 1, 1); ctx.fillRect(28, 25, 1, 1);
     /* Blush */
-    ctx.fillStyle = 'rgba(255,100,100,0.35)';
-    ctx.fillRect(ox + 6, oy + 18, p*2, p);
-    ctx.fillRect(ox + 16, oy + 18, p*2, p);
-    /* Mouth - tiny smile */
-    ctx.fillStyle = '#C06080';
-    ctx.fillRect(ox + 12, oy + 19, p, 1);
-    /* Shadow */
-    ctx.fillStyle = 'rgba(0,0,0,0.1)';
-    drawPixelEllipse(ctx, ox + 12, oy + 24, 8, 2, p);
-
+    ctx.fillStyle = 'rgba(255,100,100,0.4)';
+    ctx.fillRect(16, 29, p, p); ctx.fillRect(30, 29, p, p);
+    /* Leaf antenna */
+    ctx.fillStyle = '#66BB6A';
+    ctx.fillRect(24, 18, p, p); ctx.fillRect(23, 16, p, p); ctx.fillRect(26, 15, p, p);
   } else if (stage.name === 'Slime') {
-    /* Poring - classic pink, happy face, leaf antenna */
-    ctx.fillStyle = '#FF8EC4';
-    drawPixelEllipse(ctx, ox + 12, oy + 16, 10, 9, p);
-    /* Highlight */
-    ctx.fillStyle = '#FFAAD4';
-    ctx.fillRect(ox + 6, oy + 10, p*3, p*2);
+    /* Full Poring - bigger, happier */
+    ctx.fillStyle = '#FF9EBA';
+    fillEllipse(ctx, 24, 26, 12, 11, p);
+    /* Body highlight */
+    ctx.fillStyle = '#FFB6C1';
+    fillEllipse(ctx, 20, 22, 4, 3, p);
     /* Eyes */
     ctx.fillStyle = '#FFF';
-    ctx.fillRect(ox + 6, oy + 14, p*3, p*3);
-    ctx.fillRect(ox + 14, oy + 14, p*3, p*3);
+    ctx.fillRect(17, 24, 4, 4); ctx.fillRect(28, 24, 4, 4);
     ctx.fillStyle = '#222';
-    ctx.fillRect(ox + 8, oy + 15, p*2, p*2);
-    ctx.fillRect(ox + 16, oy + 15, p*2, p*2);
-    /* Sparkle */
+    ctx.fillRect(19, 25, 2, 3); ctx.fillRect(30, 25, 2, 3);
     ctx.fillStyle = '#FFF';
-    ctx.fillRect(ox + 8, oy + 15, p, p);
-    ctx.fillRect(ox + 16, oy + 15, p, p);
-    /* Smile */
-    ctx.fillStyle = '#C06080';
-    ctx.fillRect(ox + 10, oy + 20, p*3, p);
-    ctx.fillRect(ox + 9, oy + 19, p, p);
-    ctx.fillRect(ox + 16, oy + 19, p, p);
-    /* Blush */
-    ctx.fillStyle = 'rgba(255,80,80,0.3)';
-    ctx.fillRect(ox + 4, oy + 18, p*2, p);
-    ctx.fillRect(ox + 18, oy + 18, p*2, p);
-    /* Leaf antenna */
-    ctx.fillStyle = '#5CB85C';
-    ctx.fillRect(ox + 12, oy + 5, p, p*3);
-    ctx.fillRect(ox + 10, oy + 4, p, p*2);
-    ctx.fillRect(ox + 14, oy + 4, p, p*2);
-    ctx.fillRect(ox + 8, oy + 3, p*2, p);
-    /* Shadow */
-    ctx.fillStyle = 'rgba(0,0,0,0.1)';
-    drawPixelEllipse(ctx, ox + 12, oy + 26, 10, 2, p);
-
-  } else if (stage.name === 'Grad Slime') {
-    /* Deviling-like - bigger, wears grad cap, confident */
-    ctx.fillStyle = '#7B68EE';
-    drawPixelEllipse(ctx, ox + 12, oy + 16, 11, 10, p);
-    /* Highlight */
-    ctx.fillStyle = '#9B8BFF';
-    ctx.fillRect(ox + 6, oy + 10, p*3, p*2);
-    /* Eyes - determined */
-    ctx.fillStyle = '#FFF';
-    ctx.fillRect(ox + 6, oy + 14, p*3, p*3);
-    ctx.fillRect(ox + 14, oy + 14, p*3, p*3);
-    ctx.fillStyle = '#111';
-    ctx.fillRect(ox + 8, oy + 15, p*2, p*2);
-    ctx.fillRect(ox + 16, oy + 15, p*2, p*2);
-    ctx.fillStyle = '#FFF';
-    ctx.fillRect(ox + 9, oy + 15, p, p);
-    ctx.fillRect(ox + 17, oy + 15, p, p);
+    ctx.fillRect(18, 24, 1, 1); ctx.fillRect(29, 24, 1, 1);
     /* Happy mouth */
-    ctx.fillStyle = '#6040A0';
-    ctx.fillRect(ox + 10, oy + 20, p*4, p);
-    ctx.fillRect(ox + 9, oy + 19, p, p);
-    ctx.fillRect(ox + 18, oy + 19, p, p);
+    ctx.fillStyle = '#D4566A';
+    ctx.fillRect(22, 32, 2, 1); ctx.fillRect(24, 33, 2, 1); ctx.fillRect(26, 32, 2, 1);
     /* Blush */
-    ctx.fillStyle = 'rgba(255,100,100,0.3)';
-    ctx.fillRect(ox + 4, oy + 18, p*2, p);
-    ctx.fillRect(ox + 18, oy + 18, p*2, p);
+    ctx.fillStyle = 'rgba(255,80,80,0.35)';
+    ctx.fillRect(14, 30, p, p); ctx.fillRect(33, 30, p, p);
+    /* Leaf */
+    ctx.fillStyle = '#4CAF50';
+    ctx.fillRect(24, 14, p, p); ctx.fillRect(22, 12, p, p);
+    ctx.fillRect(25, 11, p, p); ctx.fillRect(27, 13, p, p);
+  } else if (stage.name === 'Grad Slime') {
+    /* Poring with grad cap */
+    ctx.fillStyle = '#FF85A2';
+    fillEllipse(ctx, 24, 28, 13, 12, p);
+    ctx.fillStyle = '#FFB0C4';
+    fillEllipse(ctx, 19, 23, 4, 3, p);
+    /* Eyes */
+    ctx.fillStyle = '#FFF';
+    ctx.fillRect(16, 25, 5, 5); ctx.fillRect(28, 25, 5, 5);
+    ctx.fillStyle = '#222';
+    ctx.fillRect(18, 26, 3, 3); ctx.fillRect(30, 26, 3, 3);
+    ctx.fillStyle = '#FFF';
+    ctx.fillRect(17, 25, 1, 1); ctx.fillRect(29, 25, 1, 1);
+    /* Proud smile */
+    ctx.fillStyle = '#D4566A';
+    ctx.fillRect(21, 34, p, 1); ctx.fillRect(24, 35, p, 1); ctx.fillRect(27, 34, p, 1);
+    /* Blush */
+    ctx.fillStyle = 'rgba(255,80,80,0.35)';
+    ctx.fillRect(13, 32, p, p); ctx.fillRect(34, 32, p, p);
     /* Grad cap */
     ctx.fillStyle = '#333';
-    ctx.fillRect(ox + 2, oy + 5, p*12, p);
-    ctx.fillRect(ox + 6, oy + 3, p*8, p*2);
+    ctx.fillRect(12, 16, 24, p);
+    ctx.fillRect(16, 13, 16, p);
     ctx.fillStyle = '#D4AF37';
-    ctx.fillRect(ox + 14, oy + 2, p, p*3);
-    ctx.fillRect(ox + 16, oy + 4, p, p);
-    /* Shadow */
-    ctx.fillStyle = 'rgba(0,0,0,0.12)';
-    drawPixelEllipse(ctx, ox + 12, oy + 27, 11, 2, p);
-
+    ctx.fillRect(24, 10, 2, p);
+    ctx.fillRect(22, 12, 2, 1);
+    ctx.fillRect(26, 12, 2, 1);
   } else {
-    /* King Poring - golden crown, big sparkly eyes, tiny wings */
+    /* King Slime - Poring with crown + tiny wings */
+    ctx.fillStyle = '#FF6B8A';
+    fillEllipse(ctx, 24, 28, 14, 13, p);
+    ctx.fillStyle = '#FF9EBA';
+    fillEllipse(ctx, 18, 22, 5, 4, p);
+    /* Eyes - bigger, sparklier */
+    ctx.fillStyle = '#FFF';
+    ctx.fillRect(15, 24, 6, 6); ctx.fillRect(28, 24, 6, 6);
+    ctx.fillStyle = '#222';
+    ctx.fillRect(17, 25, 4, 4); ctx.fillRect(30, 25, 4, 4);
+    ctx.fillStyle = '#FFF';
+    ctx.fillRect(16, 24, 2, 2); ctx.fillRect(29, 24, 2, 2);
+    /* Star eyes */
     ctx.fillStyle = '#FFD700';
-    drawPixelEllipse(ctx, ox + 12, oy + 16, 12, 11, p);
-    /* Body color */
-    ctx.fillStyle = '#FFAA00';
-    drawPixelEllipse(ctx, ox + 12, oy + 17, 10, 9, p);
-    /* Highlight */
-    ctx.fillStyle = '#FFE066';
-    ctx.fillRect(ox + 4, oy + 10, p*4, p*3);
-    /* Big sparkly eyes */
-    ctx.fillStyle = '#FFF';
-    ctx.fillRect(ox + 4, oy + 14, p*4, p*4);
-    ctx.fillRect(ox + 14, oy + 14, p*4, p*4);
-    ctx.fillStyle = '#111';
-    ctx.fillRect(ox + 6, oy + 15, p*3, p*3);
-    ctx.fillRect(ox + 16, oy + 15, p*3, p*3);
-    ctx.fillStyle = '#FFF';
-    ctx.fillRect(ox + 7, oy + 15, p, p*2);
-    ctx.fillRect(ox + 17, oy + 15, p, p*2);
-    /* Big happy mouth */
-    ctx.fillStyle = '#CC6600';
-    ctx.fillRect(ox + 8, oy + 22, p*5, p);
-    ctx.fillRect(ox + 7, oy + 21, p, p);
-    ctx.fillRect(ox + 18, oy + 21, p, p);
+    ctx.fillRect(18, 26, 1, 1); ctx.fillRect(31, 26, 1, 1);
+    /* Royal smile */
+    ctx.fillStyle = '#D4566A';
+    ctx.fillRect(20, 34, 2, 1); ctx.fillRect(22, 35, 2, 1);
+    ctx.fillRect(24, 36, 2, 1); ctx.fillRect(26, 35, 2, 1); ctx.fillRect(28, 34, 2, 1);
     /* Blush */
-    ctx.fillStyle = 'rgba(255,50,50,0.25)';
-    ctx.fillRect(ox + 2, oy + 20, p*2, p*2);
-    ctx.fillRect(ox + 20, oy + 20, p*2, p*2);
+    ctx.fillStyle = 'rgba(255,60,60,0.4)';
+    ctx.fillRect(11, 32, 4, p); ctx.fillRect(34, 32, 4, p);
     /* Crown */
-    ctx.fillStyle = '#FF4444';
-    ctx.fillRect(ox + 4, oy + 4, p*10, p*2);
     ctx.fillStyle = '#FFD700';
-    ctx.fillRect(ox + 4, oy + 2, p*2, p*2);
-    ctx.fillRect(ox + 10, oy + 1, p*2, p*3);
-    ctx.fillRect(ox + 18, oy + 2, p*2, p*2);
-    /* Gem on crown */
-    ctx.fillStyle = '#FF0044';
-    ctx.fillRect(ox + 11, oy + 2, p, p);
+    ctx.fillRect(14, 14, 20, p);
+    ctx.fillRect(14, 11, p, p); ctx.fillRect(22, 10, 4, p); ctx.fillRect(32, 11, p, p);
+    ctx.fillStyle = '#FF4444';
+    ctx.fillRect(15, 14, 2, 2); ctx.fillRect(23, 13, 2, 2); ctx.fillRect(31, 14, 2, 2);
     /* Tiny wings */
-    ctx.fillStyle = 'rgba(255,255,255,0.6)';
-    ctx.fillRect(ox - 2, oy + 12, p*2, p*3);
-    ctx.fillRect(ox - 4, oy + 10, p*2, p*2);
-    ctx.fillRect(ox + 24, oy + 12, p*2, p*3);
-    ctx.fillRect(ox + 26, oy + 10, p*2, p*2);
-    /* Shadow */
-    ctx.fillStyle = 'rgba(0,0,0,0.12)';
-    drawPixelEllipse(ctx, ox + 12, oy + 28, 12, 2, p);
+    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+    ctx.fillRect(5, 22, p, p); ctx.fillRect(3, 20, p, p);
+    ctx.fillRect(40, 22, p, p); ctx.fillRect(42, 20, p, p);
   }
 }
 
-function drawPixelEllipse(ctx, cx, cy, rx, ry, px) {
-  for (let y = -ry; y <= ry; y += px) {
-    for (let x = -rx; x <= rx; x += px) {
-      if ((x*x)/(rx*rx) + (y*y)/(ry*ry) <= 1) {
-        ctx.fillRect(cx + x, cy + y, px, px);
-      }
+function fillEllipse(ctx, cx, cy, rx, ry, p) {
+  for (let y = -ry; y <= ry; y += p) {
+    for (let x = -rx; x <= rx; x += p) {
+      if ((x*x)/(rx*rx) + (y*y)/(ry*ry) <= 1) ctx.fillRect(cx+x, cy+y, p, p);
     }
   }
 }
 
-function drawPixelBlob(ctx, x, y, w, h, px) {
-  /* Simple rounded blob */
-  const inset = px;
-  ctx.fillRect(x + inset, y, w - inset * 2, h);
-  ctx.fillRect(x, y + inset, w, h - inset * 2);
-  ctx.fillRect(x + inset, y + inset, w - inset * 2, h - inset * 2);
+/* Floating pet movement */
+function animatePet() {
+  if (!pet.el || S.isMobile || S.reducedMotion) return;
+  pet.bobPhase += 0.03;
+  pet.frame++;
+
+  /* Gentle wander - change direction occasionally */
+  if (pet.frame % 180 === 0) {
+    pet.vx = (Math.random() - 0.5) * 1.2;
+    pet.vy = (Math.random() - 0.5) * 0.8;
+  }
+
+  pet.x += pet.vx;
+  pet.y += pet.vy;
+
+  /* Bounce off viewport edges */
+  const margin = 60;
+  if (pet.x < margin) { pet.x = margin; pet.vx = Math.abs(pet.vx); }
+  if (pet.x > window.innerWidth - margin) { pet.x = window.innerWidth - margin; pet.vx = -Math.abs(pet.vx); }
+  if (pet.y < margin) { pet.y = margin; pet.vy = Math.abs(pet.vy); }
+  if (pet.y > window.innerHeight - margin) { pet.y = window.innerHeight - margin; pet.vy = -Math.abs(pet.vy); }
+
+  /* Bob float */
+  const bob = Math.sin(pet.bobPhase) * 6;
+  /* Squash/stretch on bob */
+  const squash = 1 + Math.sin(pet.bobPhase * 2) * 0.04;
+  const stretch = 1 - Math.sin(pet.bobPhase * 2) * 0.04;
+
+  pet.el.style.left = pet.x + 'px';
+  pet.el.style.top = (pet.y + bob) + 'px';
+  pet.el.style.transform = `translate(-50%, -50%) scaleX(${squash}) scaleY(${stretch})`;
+
+  requestAnimationFrame(animatePet);
 }
 
 /* Initialize XP display */
 updateXPDisplay();
 drawCritter();
+if (!S.isMobile && !S.reducedMotion) animatePet();
 
 /* ═══════════════════════════════════════
    10. TOAST NOTIFICATIONS
