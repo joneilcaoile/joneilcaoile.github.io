@@ -1212,8 +1212,6 @@
   <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">&uarr;</button>
 
   <script>
-    gsap.registerPlugin(ScrollTrigger);
-
     // Reading progress bar using CSS transform for performance
     function updateReadingProgress() {
       const scrollTop = window.scrollY;
@@ -1225,6 +1223,10 @@
     }
     window.addEventListener('scroll', updateReadingProgress, { passive: true });
     updateReadingProgress();
+
+    // GSAP scroll animations - guarded for defer timing
+    if (typeof gsap !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
 
     // Fade in sections
     gsap.utils.toArray('.section, .hero, .cta-section').forEach(el => {
@@ -1310,6 +1312,7 @@
         once: true
       }
     });
+    } // end gsap guard
 
     /* KEYBOARD NAVIGATION */
     const caseStudyNav = {

@@ -1373,7 +1373,12 @@
   </footer>
 
   <script>
-    // GSAP animations
+    // GSAP scroll animations - wait for load to ensure defer scripts are ready
+    window.addEventListener('load', function() {
+    if (typeof gsap === 'undefined') {
+      document.querySelectorAll('.r').forEach(function(el) { el.style.opacity = 1; el.style.transform = 'none'; });
+      return;
+    }
     gsap.registerPlugin(ScrollTrigger);
 
     // Progress bar
@@ -1472,6 +1477,7 @@
         once: true,
       },
     });
+    }); // end window load listener for GSAP
 
     // ===== INTERACTIVE EMG FILTER DEMO =====
     const canvas = document.getElementById('signal-canvas');
