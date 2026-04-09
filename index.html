@@ -54,6 +54,7 @@
   }
   </script>
 </head>
+
 <style>
 /* ═══════════════════════════════════════
    DESIGN TOKENS
@@ -815,7 +816,7 @@ section h2 {
    ═══════════════════════════════════════ */
 .story-grid {
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 1fr;
   gap: 48px;
   align-items: start;
 }
@@ -1925,7 +1926,7 @@ footer {
   .hero-targets { text-align: center; }
 
   .story-grid { grid-template-columns: 1fr; }
-  .story-headshot { position: static; width: 200px; height: 240px; margin: 0 auto 32px; }
+  .story-character { transform: scale(2); margin: 20px auto; }
 
   .contact-grid { grid-template-columns: 1fr; }
 
@@ -1961,7 +1962,816 @@ footer {
   .personal-grid { grid-template-columns: 1fr; }
   .hero-name { font-size: 36px; }
 }
+
+/* ═══════════════════════════════════════
+   GAME-INSPIRED VISUALS
+   ═══════════════════════════════════════ */
+/* ============================================
+   GAME-INSPIRED PORTFOLIO STYLES
+   Ragnarok Online, WoW, Tekken aesthetics
+   ============================================ */
+
+/* ============================================
+   PIXEL ART SPRITES (Box-shadow technique)
+   Each sprite = 1 div, width/height = 4px,
+   box-shadows = pixels (4px each)
+   ============================================ */
+
+/* RO Novice Character - 16x24 pixels (64x96 real px) */
+.sprite-novice {
+  width: 4px;
+  height: 4px;
+  position: relative;
+  box-shadow:
+    /* Head - top */
+    4px 0 #D4A233, 8px 0 #D4A233, 12px 0 #D4A233,
+    /* Head - row 2 */
+    0 4px #D4A233, 4px 4px #E8C555, 8px 4px #E8C555, 12px 4px #D4A233, 16px 4px #D4A233,
+    /* Head - row 3 (face) */
+    0 8px #D4A233, 4px 8px #E8C555, 8px 8px #2A2420, 12px 8px #2A2420, 16px 8px #E8C555, 20px 8px #D4A233,
+    /* Eyes */
+    8px 8px #000, 12px 8px #000,
+    /* Head - row 4 */
+    0 12px #D4A233, 4px 12px #E8C555, 8px 12px #E8C555, 12px 12px #E8C555, 16px 12px #E8C555, 20px 12px #D4A233,
+    /* Neck */
+    4px 16px #D4A233, 8px 16px #D4A233, 12px 16px #D4A233, 16px 16px #D4A233,
+    /* Shirt - row 1 */
+    0 20px #8B5A3C, 4px 20px #8B5A3C, 8px 20px #8B5A3C, 12px 20px #8B5A3C, 16px 20px #8B5A3C, 20px 20px #8B5A3C,
+    /* Shirt - row 2 */
+    0 24px #8B5A3C, 4px 24px #A0634A, 8px 24px #8B5A3C, 12px 24px #8B5A3C, 16px 24px #A0634A, 20px 24px #8B5A3C,
+    /* Shirt - row 3 */
+    0 28px #8B5A3C, 4px 28px #8B5A3C, 8px 28px #8B5A3C, 12px 28px #8B5A3C, 16px 28px #8B5A3C, 20px 28px #8B5A3C,
+    /* Pants - row 1 */
+    0 32px #4A3C34, 4px 32px #4A3C34, 8px 32px #4A3C34, 12px 32px #4A3C34, 16px 32px #4A3C34, 20px 32px #4A3C34,
+    /* Pants - row 2 */
+    0 36px #4A3C34, 4px 36px #4A3C34, 8px 36px #4A3C34, 12px 36px #4A3C34, 16px 36px #4A3C34, 20px 36px #4A3C34,
+    /* Shoes - row 1 */
+    0 40px #2A2420, 4px 40px #2A2420, 8px 40px #2A2420, 12px 40px #2A2420, 16px 40px #2A2420, 20px 40px #2A2420,
+    /* Shoes - row 2 */
+    0 44px #1A1814, 4px 44px #1A1814, 8px 44px #1A1814, 12px 44px #1A1814, 16px 44px #1A1814, 20px 44px #1A1814;
+  transform: scale(1);
+  image-rendering: pixelated;
+}
+
+/* Red Potion Sprite - 8x10 pixels (32x40 real px) */
+.sprite-potion {
+  width: 4px;
+  height: 4px;
+  box-shadow:
+    /* Bottle cap - row 1 */
+    4px 0 #C67B2E, 8px 0 #C67B2E,
+    /* Bottle cap - row 2 */
+    4px 4px #C67B2E, 8px 4px #C67B2E,
+    /* Bottle neck */
+    4px 8px #D4A233, 8px 8px #D4A233,
+    /* Bottle body - row 1 */
+    0 12px #D4A233, 4px 12px #E84C3D, 8px 12px #E84C3D, 12px 12px #D4A233,
+    /* Bottle body - row 2 */
+    0 16px #D4A233, 4px 16px #F85A4D, 8px 16px #F85A4D, 12px 16px #D4A233,
+    /* Bottle body - row 3 */
+    0 20px #D4A233, 4px 20px #E84C3D, 8px 20px #E84C3D, 12px 20px #D4A233,
+    /* Bottle bottom */
+    4px 24px #C67B2E, 8px 24px #C67B2E,
+    /* Glow/shine */
+    12px 12px #FFCCAA, 12px 16px #FFCCAA;
+  transform: scale(1);
+  image-rendering: pixelated;
+}
+
+/* Sword Sprite - 12x8 pixels (48x32 real px) */
+.sprite-sword {
+  width: 4px;
+  height: 4px;
+  box-shadow:
+    /* Blade - top */
+    12px 0 #C0C0C0, 16px 0 #C0C0C0,
+    /* Blade - row 2 */
+    8px 4px #D4D4D4, 12px 4px #FFFFFF, 16px 4px #FFFFFF, 20px 4px #D4D4D4,
+    /* Blade - row 3 */
+    4px 8px #B0B0B0, 8px 8px #E8E8E8, 12px 8px #FFFFFF, 16px 8px #E8E8E8, 20px 8px #B0B0B0,
+    /* Cross guard - row 1 */
+    4px 12px #8B4513, 8px 12px #8B4513, 12px 12px #C67B2E, 16px 12px #8B4513, 20px 12px #8B4513,
+    /* Handle - row 1 */
+    8px 16px #654321, 12px 16px #654321, 16px 16px #654321,
+    /* Handle - row 2 */
+    8px 20px #654321, 12px 20px #7A5230, 16px 20px #654321,
+    /* Pommel */
+    12px 24px #C67B2E, 12px 28px #A05020;
+  transform: scale(1);
+  image-rendering: pixelated;
+}
+
+/* Treasure Chest - 14x12 pixels (56x48 real px) */
+.sprite-chest {
+  width: 4px;
+  height: 4px;
+  box-shadow:
+    /* Lid - top */
+    8px 0 #8B4513, 12px 0 #8B4513, 16px 0 #8B4513,
+    /* Lid - arc row 1 */
+    4px 4px #654321, 8px 4px #D4A233, 12px 4px #FFD700, 16px 4px #D4A233, 20px 4px #654321,
+    /* Lid - arc row 2 */
+    4px 8px #8B4513, 8px 8px #D4A233, 12px 8px #FFD700, 16px 8px #D4A233, 20px 8px #8B4513,
+    /* Lock */
+    12px 12px #C0C0C0, 12px 16px #C0C0C0,
+    /* Body - row 1 */
+    0 20px #654321, 4px 20px #654321, 8px 20px #654321, 12px 20px #654321, 16px 20px #654321, 20px 20px #654321, 24px 20px #654321,
+    /* Body - row 2 */
+    0 24px #8B4513, 4px 24px #D4A233, 8px 24px #D4A233, 12px 24px #D4A233, 16px 24px #D4A233, 20px 24px #D4A233, 24px 24px #8B4513,
+    /* Body - row 3 */
+    0 28px #8B4513, 4px 28px #654321, 8px 28px #654321, 12px 28px #654321, 16px 28px #654321, 20px 28px #654321, 24px 28px #8B4513,
+    /* Feet */
+    4px 32px #3D2817, 20px 32px #3D2817;
+  transform: scale(1);
+  image-rendering: pixelated;
+}
+
+/* Scroll Sprite - 10x14 pixels (40x56 real px) */
+.sprite-scroll {
+  width: 4px;
+  height: 4px;
+  box-shadow:
+    /* Top roll */
+    4px 0 #8B4513, 8px 0 #8B4513, 12px 0 #8B4513,
+    /* Roll edge */
+    4px 4px #654321, 8px 4px #654321, 12px 4px #654321,
+    /* Paper - row 1 */
+    0 8px #F5F0E8, 4px 8px #FFFEF5, 8px 8px #FFFEF5, 12px 8px #FFFEF5, 16px 8px #F5F0E8,
+    /* Paper - row 2 */
+    0 12px #F5F0E8, 4px 12px #E8DCC8, 8px 12px #FFFEF5, 12px 12px #E8DCC8, 16px 12px #F5F0E8,
+    /* Paper - row 3 */
+    0 16px #F5F0E8, 4px 16px #FFFEF5, 8px 16px #FFFEF5, 12px 16px #FFFEF5, 16px 16px #F5F0E8,
+    /* Paper - row 4 */
+    0 20px #F5F0E8, 4px 20px #E8DCC8, 8px 20px #FFFEF5, 12px 20px #E8DCC8, 16px 20px #F5F0E8,
+    /* Paper - row 5 */
+    0 24px #F5F0E8, 4px 24px #FFFEF5, 8px 24px #FFFEF5, 12px 24px #FFFEF5, 16px 24px #F5F0E8,
+    /* Bottom roll */
+    4px 28px #8B4513, 8px 28px #8B4513, 12px 28px #8B4513,
+    /* Roll edge */
+    4px 32px #654321, 8px 32px #654321, 12px 32px #654321;
+  transform: scale(1);
+  image-rendering: pixelated;
+}
+
+/* Sparkle/Star - 6x6 pixels (24x24 real px) */
+.sprite-sparkle {
+  width: 4px;
+  height: 4px;
+  box-shadow:
+    /* Center diamond */
+    8px 8px #FFD700,
+    /* Cross */
+    8px 4px #FFD700, 8px 12px #FFD700, 4px 8px #FFD700, 12px 8px #FFD700,
+    /* Diagonals faint */
+    6px 6px #FFF9E6, 10px 10px #FFF9E6;
+  transform: scale(1);
+  image-rendering: pixelated;
+}
+
+/* ============================================
+   RPG WINDOW FRAMES
+   ============================================ */
+.rpg-frame {
+  background: rgba(15, 14, 12, 0.85);
+  border: 2px solid #C67B2E;
+  box-shadow:
+    inset 0 0 10px rgba(198, 123, 46, 0.3),
+    0 0 15px rgba(198, 123, 46, 0.15);
+  position: relative;
+}
+
+.rpg-frame::before,
+.rpg-frame::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #C67B2E;
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.rpg-frame::before {
+  top: -2px;
+  left: -2px;
+}
+
+.rpg-frame::after {
+  bottom: -2px;
+  right: -2px;
+}
+
+/* ============================================
+   PIXEL DIVIDERS
+   ============================================ */
+.pixel-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 3rem 0;
+  position: relative;
+}
+
+.pixel-divider::before,
+.pixel-divider::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #C67B2E, transparent);
+}
+
+.pixel-divider-sprite {
+  width: 4px;
+  height: 4px;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   FLOATING PIXEL PARTICLES
+   ============================================ */
+@keyframes float-up {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) translateX(var(--tx));
+    opacity: 0;
+  }
+}
+
+@keyframes sparkle-pulse {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.sparkle {
+  position: fixed;
+  pointer-events: none;
+  will-change: transform;
+  --duration: calc(2s + random(1s));
+}
+
+.sparkle.gold {
+  --tx: -10px;
+  --duration: 3s;
+  animation: float-up var(--duration) ease-out forwards, sparkle-pulse 1.5s ease-in-out infinite;
+}
+
+.sparkle.teal {
+  --tx: 10px;
+  --duration: 3.5s;
+  animation: float-up var(--duration) ease-out forwards, sparkle-pulse 1.8s ease-in-out infinite;
+}
+
+.sparkle.amber {
+  --tx: 5px;
+  --duration: 2.8s;
+  animation: float-up var(--duration) ease-out forwards, sparkle-pulse 1.2s ease-in-out infinite;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .sparkle {
+    animation: none !important;
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   RPG STAT BARS (HP/MP Style)
+   ============================================ */
+.stat-bar-container {
+  background: rgba(15, 14, 12, 0.9);
+  border: 2px solid #C67B2E;
+  border-radius: 2px;
+  padding: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.stat-bar-fill {
+  background: linear-gradient(90deg, #156967 0%, #2EABA8 50%, #156967 100%);
+  height: 100%;
+  border-radius: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: shine 2s infinite;
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stat-bar-fill::after {
+    animation: none;
+  }
+}
+
+/* ============================================
+   GAME MENU ENHANCEMENTS
+   ============================================ */
+.game-menu-item {
+  position: relative;
+  padding-left: 12px;
+}
+
+.game-menu-item.selected::before {
+  content: '▶';
+  position: absolute;
+  left: -8px;
+  color: #D4A233;
+  font-size: 10px;
+  animation: pulse-arrow 0.6s ease-in-out infinite;
+}
+
+@keyframes pulse-arrow {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(2px); }
+}
+
+/* Scanline overlay option */
+.scanlines::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+}
+
+/* ============================================
+   RARITY SYSTEM (WoW-inspired)
+   ============================================ */
+.rarity-legendary {
+  border: 2px solid #FFD700;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  animation: shimmer-gold 3s ease-in-out infinite;
+}
+
+@keyframes shimmer-gold {
+  0%, 100% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+  50% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+}
+
+.rarity-epic {
+  border: 2px solid #A335EE;
+  box-shadow: 0 0 8px rgba(163, 53, 238, 0.4);
+  animation: pulse-epic 2s ease-in-out infinite;
+}
+
+@keyframes pulse-epic {
+  0%, 100% { box-shadow: 0 0 8px rgba(163, 53, 238, 0.4); }
+  50% { box-shadow: 0 0 15px rgba(163, 53, 238, 0.7); }
+}
+
+.rarity-rare {
+  border: 2px solid #156967;
+  box-shadow: 0 0 6px rgba(21, 105, 103, 0.4);
+}
+
+.rarity-uncommon {
+  border: 2px solid #1EFF00;
+  box-shadow: 0 0 4px rgba(30, 255, 0, 0.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rarity-legendary {
+    animation: none;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  }
+  .rarity-epic {
+    animation: none;
+    box-shadow: 0 0 8px rgba(163, 53, 238, 0.4);
+  }
+}
+
+/* ============================================
+   XP HUD ENHANCEMENT
+   ============================================ */
+.xp-hud {
+  background: rgba(15, 14, 12, 0.95);
+  border: 2px solid #C67B2E;
+  border-radius: 2px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: #D4A233;
+  position: relative;
+}
+
+.xp-hud::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: #B84A3C;
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
+  border-radius: 1px;
+}
+
+/* ============================================
+   ACHIEVEMENT TOAST
+   ============================================ */
+.achievement-toast {
+  background: rgba(15, 14, 12, 0.95);
+  border: 2px solid #FFD700;
+  border-radius: 0;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: bold;
+  color: #FFD700;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  box-shadow:
+    inset 0 0 8px rgba(255, 215, 0, 0.2),
+    0 0 15px rgba(255, 215, 0, 0.3);
+  animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.achievement-toast::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  box-shadow:
+    4px 0 #FFD700, 8px 0 #FFD700,
+    0 4px #FFD700, 4px 4px #FFF9E6, 8px 4px #FFD700, 12px 4px #FFD700,
+    0 8px #FFD700, 4px 8px #FFD700, 8px 8px #FFD700, 12px 8px #FFD700;
+  flex-shrink: 0;
+}
+
+@keyframes pop-in {
+  0% {
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .achievement-toast {
+    animation: none;
+  }
+}
+
+/* ============================================
+   TEKKEN-INSPIRED HIT SPARK
+   ============================================ */
+@keyframes spark-burst {
+  0% {
+    transform: translate(var(--ox), var(--oy)) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(var(--ox) + var(--sx)), calc(var(--oy) + var(--sy))) scale(0);
+    opacity: 0;
+  }
+}
+
+.hit-spark {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  pointer-events: none;
+  will-change: transform;
+  --ox: 0;
+  --oy: 0;
+  --sx: 30px;
+  --sy: 30px;
+}
+
+.hit-spark.burst {
+  animation: spark-burst 0.5s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hit-spark {
+    animation: none !important;
+  }
+}
+
+/* ============================================
+   FOOTER PIXEL CITYSCAPE
+   ============================================ */
+.pixel-cityscape {
+  width: 100%;
+  height: 80px;
+  margin: 2rem 0 0 0;
+  position: relative;
+  overflow: hidden;
+  opacity: 0.6;
+}
+
+.cityscape-building {
+  position: absolute;
+  bottom: 0;
+  background: linear-gradient(180deg, #4A3C34, #2A2420);
+  border: 1px solid #8B4513;
+}
+
+.cityscape-building.tall-1 {
+  left: 5%;
+  width: 12%;
+  height: 60px;
+  clip-path: polygon(0 100%, 20% 40%, 100% 40%, 100% 100%);
+}
+
+.cityscape-building.tall-2 {
+  left: 25%;
+  width: 10%;
+  height: 50px;
+  clip-path: polygon(0 100%, 30% 50%, 100% 50%, 100% 100%);
+}
+
+.cityscape-building.tall-3 {
+  left: 42%;
+  width: 14%;
+  height: 70px;
+}
+
+.cityscape-building.short-1 {
+  left: 60%;
+  width: 8%;
+  height: 35px;
+}
+
+.cityscape-building.tall-4 {
+  left: 72%;
+  width: 11%;
+  height: 55px;
+  clip-path: polygon(0 100%, 25% 45%, 100% 45%, 100% 100%);
+}
+
+.cityscape-building.short-2 {
+  left: 87%;
+  width: 9%;
+  height: 40px;
+}
+
+/* Palm tree (stylized) */
+.palm-tree {
+  position: absolute;
+  bottom: 0;
+  width: 20px;
+  height: 60px;
+}
+
+.palm-trunk {
+  position: absolute;
+  bottom: 0;
+  left: 8px;
+  width: 4px;
+  height: 40px;
+  background: linear-gradient(90deg, #654321, #8B4513);
+  border: 1px solid #3D2817;
+}
+
+.palm-fronds {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  width: 6px;
+  height: 20px;
+  background: radial-gradient(circle, #2EAA56, #1B6B35);
+  border-radius: 50% 50% 0 0;
+  box-shadow: -12px 2px 0 -8px #2EAA56, 12px 2px 0 -8px #2EAA56;
+}
+
+.palm-tree.left {
+  left: 12%;
+  bottom: 15px;
+}
+
+.palm-tree.right {
+  right: 15%;
+  bottom: 20px;
+}
+
+/* ============================================
+   GENERAL POLISH
+   ============================================ */
+.sprite-novice, .sprite-potion, .sprite-sword, .sprite-chest, .sprite-scroll, .sprite-sparkle, .hit-spark {
+  image-rendering: pixelated;
+}
+
+
+
+/* Hero character positioning */
+.hero-character {
+  position: absolute;
+  bottom: 40px;
+  right: 80px;
+  z-index: 2;
+  animation: idle-bounce 1.5s ease-in-out infinite;
+}
+
+@keyframes idle-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-character { animation: none; }
+}
+
+@media (max-width: 900px) {
+  .hero-character { display: none; }
+}
+
+/* Pixel divider lines */
+.pixel-divider-line {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(198,123,46,0.3), transparent);
+}
+
+/* RPG frame on featured card */
+.featured-card {
+  border: 2px solid rgba(198,123,46,0.4) !important;
+  box-shadow: inset 0 0 20px rgba(198,123,46,0.08), 0 0 30px rgba(198,123,46,0.06) !important;
+}
+
+/* RPG frame corners on featured card */
+.featured-card::before {
+  content: '' !important;
+  position: absolute !important;
+  top: -1px !important;
+  left: -1px !important;
+  width: 10px !important;
+  height: 10px !important;
+  border-top: 2px solid var(--gold) !important;
+  border-left: 2px solid var(--gold) !important;
+  z-index: 2;
+}
+
+.featured-card::after {
+  content: '' !important;
+  position: absolute !important;
+  bottom: -1px !important;
+  right: -1px !important;
+  width: 10px !important;
+  height: 10px !important;
+  border-bottom: 2px solid var(--gold) !important;
+  border-right: 2px solid var(--gold) !important;
+  z-index: 2;
+}
+
+/* RPG frame on terminal */
+.terminal {
+  border: 2px solid rgba(198,123,46,0.3) !important;
+  box-shadow: inset 0 0 15px rgba(198,123,46,0.05), 0 4px 20px rgba(0,0,0,0.3) !important;
+}
+
+/* Game menu arrow on focused item */
+.gm-opt:focus::before,
+.gm-opt:hover::before {
+  content: '▶';
+  position: absolute;
+  left: -20px;
+  color: var(--gold);
+  font-size: 10px;
+  animation: pulse-arrow 0.6s ease-in-out infinite;
+}
+
+.gm-opt {
+  position: relative;
+}
+
+/* Achievement toast upgrade */
+.toast.show {
+  border: 2px solid var(--gold) !important;
+  box-shadow: inset 0 0 8px rgba(212,162,51,0.15), 0 0 20px rgba(212,162,51,0.2) !important;
+}
+
+/* XP HUD pixel border */
+.xp-hud {
+  border: 2px solid rgba(198,123,46,0.5) !important;
+  box-shadow: inset 0 0 8px rgba(198,123,46,0.1) !important;
+}
+
+/* Bring card skill bars - RPG HP bar style */
+.bring-skill-bar {
+  border: 1px solid rgba(198,123,46,0.4) !important;
+  border-radius: 1px !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.bring-skill-bar::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  animation: shine 3s infinite;
+}
+
+/* Sparkle container */
+#sparkle-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  overflow: hidden;
+}
+
+.sparkle-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  pointer-events: none;
+  animation: sparkle-float 3s ease-out forwards;
+}
+
+@keyframes sparkle-float {
+  0% { opacity: 0.8; transform: translateY(0) scale(1); }
+  50% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-80px) translateX(var(--drift, 10px)) scale(0.3); }
+}
+
+
+/* Acolyte sprite for story section */
+.sprite-acolyte {
+  width: 4px; height: 4px;
+  box-shadow:
+    /* Hair */
+    8px 0 #6B4226, 12px 0 #6B4226, 16px 0 #6B4226, 20px 0 #6B4226,
+    4px 4px #6B4226, 8px 4px #8B5A2B, 12px 4px #8B5A2B, 16px 4px #8B5A2B, 20px 4px #6B4226, 24px 4px #6B4226,
+    /* Face */
+    4px 8px #6B4226, 8px 8px #FFDAB9, 12px 8px #FFDAB9, 16px 8px #FFDAB9, 20px 8px #FFDAB9, 24px 8px #6B4226,
+    8px 12px #FFDAB9, 12px 12px #333, 16px 12px #FFDAB9, 20px 12px #333, 24px 12px #FFDAB9,
+    8px 16px #FFDAB9, 12px 16px #FFDAB9, 16px 16px #F4A4A4, 20px 16px #FFDAB9, 24px 16px #FFDAB9,
+    /* Acolyte robes - white with blue trim */
+    4px 20px #E8E8FF, 8px 20px #FFFFFF, 12px 20px #FFFFFF, 16px 20px #4A6FA5, 20px 20px #FFFFFF, 24px 20px #E8E8FF,
+    4px 24px #E8E8FF, 8px 24px #FFFFFF, 12px 24px #4A6FA5, 16px 24px #FFFFFF, 20px 24px #4A6FA5, 24px 24px #E8E8FF,
+    0px 28px #E8E8FF, 4px 28px #FFFFFF, 8px 28px #FFFFFF, 12px 28px #FFFFFF, 16px 28px #FFFFFF, 20px 28px #FFFFFF, 24px 28px #FFFFFF, 28px 28px #E8E8FF,
+    4px 32px #FFFFFF, 8px 32px #FFFFFF, 12px 32px #4A6FA5, 16px 32px #4A6FA5, 20px 32px #FFFFFF, 24px 32px #FFFFFF,
+    /* Legs */
+    8px 36px #FFDAB9, 12px 36px #FFDAB9, 20px 36px #FFDAB9, 24px 36px #FFDAB9,
+    /* Shoes */
+    8px 40px #8B4513, 12px 40px #8B4513, 20px 40px #8B4513, 24px 40px #8B4513;
+  image-rendering: pixelated;
+}
+
+.story-character {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: scale(3);
+  transform-origin: center;
+  margin: 40px auto;
+  width: 40px;
+  height: 60px;
+  animation: character-idle-bounce 1.2s ease-in-out infinite;
+}
+
+.story-character .character-label {
+  text-align: center;
+  font-size: 3px;
+  color: var(--amber);
+  margin-top: 2px;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-character { animation: none; }
+}
+
 </style>
+
 <body>
 <a href="#main" class="skip-nav">Skip to content</a>
 
@@ -2140,6 +2950,7 @@ footer {
   </div>
 </section>
 
+<div class="pixel-divider" aria-hidden="true"><div class="pixel-divider-line"></div><div class="sprite-sword pixel-divider-sprite"></div><div class="pixel-divider-line"></div></div>
 <!-- ═══════════════════════ BRING ═══════════════════════ -->
 <section id="bring">
   <div class="container">
@@ -2184,8 +2995,9 @@ footer {
     <p class="section-label r">03 / Story</p>
     <h2 class="r">Two years in clinics before a single line of code.</h2>
     <div class="story-grid">
-      <div class="story-headshot r">
-        <img src="headshot-600.jpg" alt="Joneil Caoile" width="300" height="360" loading="lazy">
+      <div class="story-character r" aria-hidden="true">
+        <div class="sprite-acolyte"></div>
+        <p class="character-label">Lv.27 Acolyte</p>
       </div>
       <div class="story-text">
         <p class="r"><strong>400+ hours of clinical observation</strong> watching patients interact with medical devices. I saw the disconnect. Engineers designing in isolation, safety reports that missed real-world use patterns, and a review process that hadn't changed in decades.</p>
@@ -2214,6 +3026,7 @@ footer {
   </div>
 </section>
 
+<div class="pixel-divider" aria-hidden="true"><div class="pixel-divider-line"></div><div class="sprite-sword pixel-divider-sprite"></div><div class="pixel-divider-line"></div></div>
 <!-- ═══════════════════════ FEATURED PROJECT ═══════════════════════ -->
 <section id="featured">
   <div class="container">
@@ -2263,6 +3076,7 @@ footer {
   </div>
 </section>
 
+<div class="pixel-divider" aria-hidden="true"><div class="pixel-divider-line"></div><div class="sprite-chest pixel-divider-sprite"></div><div class="pixel-divider-line"></div></div>
 <!-- ═══════════════════════ WORK ═══════════════════════ -->
 <section id="work">
   <div class="container">
@@ -2472,6 +3286,7 @@ footer {
   </div>
 </section>
 
+<div class="pixel-divider" aria-hidden="true"><div class="pixel-divider-line"></div><div class="sprite-scroll pixel-divider-sprite"></div><div class="pixel-divider-line"></div></div>
 <!-- ═══════════════════════ JOURNEY ═══════════════════════ -->
 <section id="journey">
   <div class="container">
@@ -2639,7 +3454,7 @@ footer {
         <div class="criteria-num">05</div>
         <div>
           <h3>SoCal, market-rate comp.</h3>
-          <p>Long Beach to Irvine is the sweet spot. Remote-friendly works. Compensation should reflect an M.S. engineer in a regulated industry in a high-cost market.</p>
+          <p>Long Beach to Irvine is the sweet spot. Remote-friendly works. I expect competitive compensation for an M.S. engineer in this market.</p>
         </div>
       </div>
       <div class="criteria-item r">
@@ -2654,6 +3469,7 @@ footer {
   </div>
 </section>
 
+<div class="pixel-divider" aria-hidden="true"><div class="pixel-divider-line"></div><div class="sprite-potion pixel-divider-sprite"></div><div class="pixel-divider-line"></div></div>
 <!-- ═══════════════════════ CONTACT ═══════════════════════ -->
 <section id="contact">
   <div class="container">
@@ -2689,6 +3505,12 @@ footer {
   </div>
 </section>
 
+
+<!-- Floating sparkles -->
+<div id="sparkle-container" aria-hidden="true"></div>
+
+<!-- Achievement toast container -->
+<div id="achievement-container" style="position:fixed;bottom:20px;right:20px;z-index:1000;" aria-live="polite"></div>
 </main>
 
 <!-- Footer -->
@@ -2700,6 +3522,16 @@ footer {
       <a href="https://github.com/joneilcaoile/joneilcaoile.github.io" target="_blank" rel="noopener">Source</a>
     </div>
     <p class="footer-text">&copy; <script>document.write(new Date().getFullYear())</script> Joneil Caoile. Built with too much coffee. No frameworks. No build tools. Just HTML, CSS, and JavaScript.</p>
+  </div>
+  <div class="pixel-cityscape" aria-hidden="true">
+    <div class="palm-tree left"><div class="palm-fronds"></div><div class="palm-trunk"></div></div>
+    <div class="cityscape-building tall-1"></div>
+    <div class="cityscape-building tall-2"></div>
+    <div class="cityscape-building tall-3"></div>
+    <div class="cityscape-building short-1"></div>
+    <div class="cityscape-building tall-4"></div>
+    <div class="cityscape-building short-2"></div>
+    <div class="palm-tree right"><div class="palm-fronds"></div><div class="palm-trunk"></div></div>
   </div>
 </footer>
 
@@ -2714,6 +3546,7 @@ footer {
     <div class="xp-text" id="xpText">0 / 2,026 XP</div>
   </div>
 </div>
+
 <script>
 /* ═══════════════════════════════════════════════════════════
    JONEIL CAOILE — PORTFOLIO JS (CLEAN REBUILD)
@@ -3349,7 +4182,7 @@ function updateXPDisplay() {
   DOM.xpText.textContent = `${S.xp.toLocaleString()} / ${S.maxXp.toLocaleString()} XP`;
 }
 
-/* Pixel art critter */
+/* Pixel art critter - cute Poring-inspired (Ragnarok Online) */
 function drawCritter() {
   const canvas = DOM.critterCanvas;
   if (!canvas) return;
@@ -3358,67 +4191,183 @@ function drawCritter() {
   ctx.clearRect(0, 0, w, h);
   ctx.imageSmoothingEnabled = false;
   const stage = getStage(S.xp);
-  const px = 4; /* pixel size */
+  const p = 2; /* pixel size for finer detail */
+
+  /* Center offset */
+  const ox = Math.floor(w / 2) - 12;
+  const oy = 4;
 
   if (stage.name === 'Egg') {
-    ctx.fillStyle = '#A8D8A8';
-    drawPixelEllipse(ctx, 12, 10, 8, 10, px);
-    ctx.fillStyle = '#7BC67B';
-    ctx.fillRect(12, 16, px, px);
-    ctx.fillRect(16, 14, px, px);
-    ctx.fillRect(20, 18, px, px);
+    /* Cute speckled egg with heart */
+    ctx.fillStyle = '#FFE4C4';
+    drawPixelEllipse(ctx, ox + 12, oy + 14, 9, 11, p);
+    /* Shell spots */
+    ctx.fillStyle = '#F8B4B4';
+    ctx.fillRect(ox + 8, oy + 10, p, p);
+    ctx.fillRect(ox + 14, oy + 8, p, p);
+    ctx.fillRect(ox + 18, oy + 14, p, p);
+    ctx.fillRect(ox + 10, oy + 18, p, p);
+    /* Heart on egg */
+    ctx.fillStyle = '#FF7B9C';
+    ctx.fillRect(ox + 10, oy + 12, p, p);
+    ctx.fillRect(ox + 14, oy + 12, p, p);
+    ctx.fillRect(ox + 8, oy + 14, p*3, p);
+    ctx.fillRect(ox + 10, oy + 16, p, p);
+    /* Shadow */
+    ctx.fillStyle = 'rgba(0,0,0,0.12)';
+    drawPixelEllipse(ctx, ox + 12, oy + 26, 10, 2, p);
+
   } else if (stage.name === 'Slimeling') {
-    ctx.fillStyle = '#50C878';
-    drawPixelBlob(ctx, 10, 12, 10, 8, px);
-    ctx.fillStyle = '#222';
-    ctx.fillRect(14, 14, 3, 3);
-    ctx.fillRect(22, 14, 3, 3);
+    /* Baby poring - tiny, round, big eyes */
+    ctx.fillStyle = '#FFB3D9';
+    drawPixelEllipse(ctx, ox + 12, oy + 16, 8, 7, p);
+    /* Highlight */
+    ctx.fillStyle = '#FFD4E8';
+    ctx.fillRect(ox + 8, oy + 12, p*2, p*2);
+    /* Eyes - big and sparkly */
+    ctx.fillStyle = '#FFF';
+    ctx.fillRect(ox + 8, oy + 14, p*2, p*2);
+    ctx.fillRect(ox + 14, oy + 14, p*2, p*2);
+    ctx.fillStyle = '#333';
+    ctx.fillRect(ox + 10, oy + 14, p, p*2);
+    ctx.fillRect(ox + 16, oy + 14, p, p*2);
+    /* Sparkle in eyes */
+    ctx.fillStyle = '#FFF';
+    ctx.fillRect(ox + 10, oy + 14, 1, 1);
+    ctx.fillRect(ox + 16, oy + 14, 1, 1);
+    /* Blush */
+    ctx.fillStyle = 'rgba(255,100,100,0.35)';
+    ctx.fillRect(ox + 6, oy + 18, p*2, p);
+    ctx.fillRect(ox + 16, oy + 18, p*2, p);
+    /* Mouth - tiny smile */
+    ctx.fillStyle = '#C06080';
+    ctx.fillRect(ox + 12, oy + 19, p, 1);
+    /* Shadow */
+    ctx.fillStyle = 'rgba(0,0,0,0.1)';
+    drawPixelEllipse(ctx, ox + 12, oy + 24, 8, 2, p);
+
   } else if (stage.name === 'Slime') {
-    ctx.fillStyle = '#3CB371';
-    drawPixelBlob(ctx, 8, 10, 12, 10, px);
+    /* Poring - classic pink, happy face, leaf antenna */
+    ctx.fillStyle = '#FF8EC4';
+    drawPixelEllipse(ctx, ox + 12, oy + 16, 10, 9, p);
+    /* Highlight */
+    ctx.fillStyle = '#FFAAD4';
+    ctx.fillRect(ox + 6, oy + 10, p*3, p*2);
+    /* Eyes */
     ctx.fillStyle = '#FFF';
-    ctx.fillRect(12, 12, 4, 4);
-    ctx.fillRect(22, 12, 4, 4);
+    ctx.fillRect(ox + 6, oy + 14, p*3, p*3);
+    ctx.fillRect(ox + 14, oy + 14, p*3, p*3);
     ctx.fillStyle = '#222';
-    ctx.fillRect(14, 14, 2, 2);
-    ctx.fillRect(24, 14, 2, 2);
-    ctx.fillStyle = '#FF6B6B';
-    ctx.fillRect(16, 20, 6, 2);
+    ctx.fillRect(ox + 8, oy + 15, p*2, p*2);
+    ctx.fillRect(ox + 16, oy + 15, p*2, p*2);
+    /* Sparkle */
+    ctx.fillStyle = '#FFF';
+    ctx.fillRect(ox + 8, oy + 15, p, p);
+    ctx.fillRect(ox + 16, oy + 15, p, p);
+    /* Smile */
+    ctx.fillStyle = '#C06080';
+    ctx.fillRect(ox + 10, oy + 20, p*3, p);
+    ctx.fillRect(ox + 9, oy + 19, p, p);
+    ctx.fillRect(ox + 16, oy + 19, p, p);
+    /* Blush */
+    ctx.fillStyle = 'rgba(255,80,80,0.3)';
+    ctx.fillRect(ox + 4, oy + 18, p*2, p);
+    ctx.fillRect(ox + 18, oy + 18, p*2, p);
+    /* Leaf antenna */
+    ctx.fillStyle = '#5CB85C';
+    ctx.fillRect(ox + 12, oy + 5, p, p*3);
+    ctx.fillRect(ox + 10, oy + 4, p, p*2);
+    ctx.fillRect(ox + 14, oy + 4, p, p*2);
+    ctx.fillRect(ox + 8, oy + 3, p*2, p);
+    /* Shadow */
+    ctx.fillStyle = 'rgba(0,0,0,0.1)';
+    drawPixelEllipse(ctx, ox + 12, oy + 26, 10, 2, p);
+
   } else if (stage.name === 'Grad Slime') {
-    ctx.fillStyle = '#228B22';
-    drawPixelBlob(ctx, 6, 8, 14, 12, px);
+    /* Deviling-like - bigger, wears grad cap, confident */
+    ctx.fillStyle = '#7B68EE';
+    drawPixelEllipse(ctx, ox + 12, oy + 16, 11, 10, p);
+    /* Highlight */
+    ctx.fillStyle = '#9B8BFF';
+    ctx.fillRect(ox + 6, oy + 10, p*3, p*2);
+    /* Eyes - determined */
     ctx.fillStyle = '#FFF';
-    ctx.fillRect(10, 10, 5, 5);
-    ctx.fillRect(22, 10, 5, 5);
-    ctx.fillStyle = '#222';
-    ctx.fillRect(12, 12, 3, 3);
-    ctx.fillRect(24, 12, 3, 3);
+    ctx.fillRect(ox + 6, oy + 14, p*3, p*3);
+    ctx.fillRect(ox + 14, oy + 14, p*3, p*3);
+    ctx.fillStyle = '#111';
+    ctx.fillRect(ox + 8, oy + 15, p*2, p*2);
+    ctx.fillRect(ox + 16, oy + 15, p*2, p*2);
+    ctx.fillStyle = '#FFF';
+    ctx.fillRect(ox + 9, oy + 15, p, p);
+    ctx.fillRect(ox + 17, oy + 15, p, p);
+    /* Happy mouth */
+    ctx.fillStyle = '#6040A0';
+    ctx.fillRect(ox + 10, oy + 20, p*4, p);
+    ctx.fillRect(ox + 9, oy + 19, p, p);
+    ctx.fillRect(ox + 18, oy + 19, p, p);
+    /* Blush */
+    ctx.fillStyle = 'rgba(255,100,100,0.3)';
+    ctx.fillRect(ox + 4, oy + 18, p*2, p);
+    ctx.fillRect(ox + 18, oy + 18, p*2, p);
     /* Grad cap */
     ctx.fillStyle = '#333';
-    ctx.fillRect(6, 4, 26, 3);
-    ctx.fillRect(14, 1, 10, 3);
+    ctx.fillRect(ox + 2, oy + 5, p*12, p);
+    ctx.fillRect(ox + 6, oy + 3, p*8, p*2);
     ctx.fillStyle = '#D4AF37';
-    ctx.fillRect(18, 0, 2, 4);
+    ctx.fillRect(ox + 14, oy + 2, p, p*3);
+    ctx.fillRect(ox + 16, oy + 4, p, p);
+    /* Shadow */
+    ctx.fillStyle = 'rgba(0,0,0,0.12)';
+    drawPixelEllipse(ctx, ox + 12, oy + 27, 11, 2, p);
+
   } else {
-    /* King Slime */
-    ctx.fillStyle = '#006400';
-    drawPixelBlob(ctx, 4, 6, 16, 14, px);
-    ctx.fillStyle = '#FFF';
-    ctx.fillRect(10, 10, 6, 6);
-    ctx.fillRect(22, 10, 6, 6);
-    ctx.fillStyle = '#222';
-    ctx.fillRect(12, 12, 4, 4);
-    ctx.fillRect(24, 12, 4, 4);
-    /* Crown */
+    /* King Poring - golden crown, big sparkly eyes, tiny wings */
     ctx.fillStyle = '#FFD700';
-    ctx.fillRect(8, 2, 22, 3);
-    ctx.fillRect(8, 0, 4, 2);
-    ctx.fillRect(16, 0, 4, 2);
-    ctx.fillRect(26, 0, 4, 2);
+    drawPixelEllipse(ctx, ox + 12, oy + 16, 12, 11, p);
+    /* Body color */
+    ctx.fillStyle = '#FFAA00';
+    drawPixelEllipse(ctx, ox + 12, oy + 17, 10, 9, p);
+    /* Highlight */
+    ctx.fillStyle = '#FFE066';
+    ctx.fillRect(ox + 4, oy + 10, p*4, p*3);
+    /* Big sparkly eyes */
+    ctx.fillStyle = '#FFF';
+    ctx.fillRect(ox + 4, oy + 14, p*4, p*4);
+    ctx.fillRect(ox + 14, oy + 14, p*4, p*4);
+    ctx.fillStyle = '#111';
+    ctx.fillRect(ox + 6, oy + 15, p*3, p*3);
+    ctx.fillRect(ox + 16, oy + 15, p*3, p*3);
+    ctx.fillStyle = '#FFF';
+    ctx.fillRect(ox + 7, oy + 15, p, p*2);
+    ctx.fillRect(ox + 17, oy + 15, p, p*2);
+    /* Big happy mouth */
+    ctx.fillStyle = '#CC6600';
+    ctx.fillRect(ox + 8, oy + 22, p*5, p);
+    ctx.fillRect(ox + 7, oy + 21, p, p);
+    ctx.fillRect(ox + 18, oy + 21, p, p);
+    /* Blush */
+    ctx.fillStyle = 'rgba(255,50,50,0.25)';
+    ctx.fillRect(ox + 2, oy + 20, p*2, p*2);
+    ctx.fillRect(ox + 20, oy + 20, p*2, p*2);
+    /* Crown */
     ctx.fillStyle = '#FF4444';
-    ctx.fillRect(10, 2, 2, 2);
-    ctx.fillRect(18, 2, 2, 2);
-    ctx.fillRect(26, 2, 2, 2);
+    ctx.fillRect(ox + 4, oy + 4, p*10, p*2);
+    ctx.fillStyle = '#FFD700';
+    ctx.fillRect(ox + 4, oy + 2, p*2, p*2);
+    ctx.fillRect(ox + 10, oy + 1, p*2, p*3);
+    ctx.fillRect(ox + 18, oy + 2, p*2, p*2);
+    /* Gem on crown */
+    ctx.fillStyle = '#FF0044';
+    ctx.fillRect(ox + 11, oy + 2, p, p);
+    /* Tiny wings */
+    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+    ctx.fillRect(ox - 2, oy + 12, p*2, p*3);
+    ctx.fillRect(ox - 4, oy + 10, p*2, p*2);
+    ctx.fillRect(ox + 24, oy + 12, p*2, p*3);
+    ctx.fillRect(ox + 26, oy + 10, p*2, p*2);
+    /* Shadow */
+    ctx.fillStyle = 'rgba(0,0,0,0.12)';
+    drawPixelEllipse(ctx, ox + 12, oy + 28, 12, 2, p);
   }
 }
 
@@ -3586,6 +4535,84 @@ if (!S.isMobile && !S.reducedMotion) {
   });
 }
 
+
+/* ═══════════════════════════════════════
+   GAME ENHANCEMENTS
+   Hit sparks, sparkles, achievements
+   ═══════════════════════════════════════ */
+
+/* Hit spark on button clicks (Tekken-inspired) */
+function createHitSpark(event) {
+  if (S.reducedMotion) return;
+  const button = event.target.closest('button, .cta-button, a.work-card-cta');
+  if (!button) return;
+  const rect = button.getBoundingClientRect();
+  const x = rect.left + rect.width / 2;
+  const y = rect.top + rect.height / 2;
+  const sparkCount = 5 + Math.floor(Math.random() * 4);
+  for (let i = 0; i < sparkCount; i++) {
+    const spark = document.createElement('div');
+    spark.className = 'hit-spark burst';
+    const angle = (i / sparkCount) * Math.PI * 2;
+    const dist = 30 + Math.random() * 20;
+    spark.style.setProperty('--ox', x + 'px');
+    spark.style.setProperty('--oy', y + 'px');
+    spark.style.setProperty('--sx', (Math.cos(angle) * dist) + 'px');
+    spark.style.setProperty('--sy', (Math.sin(angle) * dist) + 'px');
+    spark.style.boxShadow = i % 2 === 0 ? '0 0 4px 2px var(--amber)' : '0 0 4px 2px var(--teal)';
+    document.body.appendChild(spark);
+    setTimeout(() => spark.remove(), 600);
+  }
+}
+document.addEventListener('click', createHitSpark);
+
+/* Floating sparkles on scroll */
+let activeSparkles = 0;
+const MAX_SPARKLES = 6;
+function createFloatingSparkle() {
+  if (S.reducedMotion || !S.particles || activeSparkles >= MAX_SPARKLES) return;
+  if (Math.random() > 0.12) return;
+  activeSparkles++;
+  const sparkle = document.createElement('div');
+  const types = ['gold', 'teal', 'amber'];
+  sparkle.className = 'sparkle-particle ' + types[Math.floor(Math.random() * 3)];
+  sparkle.style.left = (Math.random() * window.innerWidth) + 'px';
+  sparkle.style.top = (window.innerHeight + 20) + 'px';
+  sparkle.innerHTML = '<div class="sprite-sparkle"></div>';
+  document.body.appendChild(sparkle);
+  const dur = 2500 + Math.random() * 1500;
+  setTimeout(() => { sparkle.remove(); activeSparkles--; }, dur);
+}
+window.addEventListener('scroll', createFloatingSparkle, { passive: true });
+
+/* Sparkle container initialization */
+function initSparkleContainer() {
+  const container = document.getElementById('sparkle-container');
+  if (!container || S.reducedMotion) return;
+  /* Already has static sparkles from HTML, add slight random delays */
+  container.querySelectorAll('.sparkle-particle').forEach((s, i) => {
+    s.style.animationDelay = (Math.random() * 3) + 's';
+  });
+}
+initSparkleContainer();
+
+/* Rarity system - auto-apply glow to cards */
+function initRaritySystem() {
+  $$('[data-rarity]').forEach(card => {
+    card.classList.add('rarity-' + card.getAttribute('data-rarity'));
+  });
+}
+initRaritySystem();
+
+/* Console ASCII art (enhanced) */
+console.log('%c' +
+  '\n  ⚔️  WARRIOR MODE  ⚔️\n' +
+  '  "The greatest victory is patience"\n' +
+  '  - Ragnarok Online Wisdom\n' +
+  '  ↑↑↓↓←→←→BA for a surprise\n',
+  'color: #D4A233; font-size: 12px; font-family: monospace;'
+);
+
 /* ═══════════════════════════════════════
    BOOT SEQUENCE
    ═══════════════════════════════════════ */
@@ -3594,5 +4621,6 @@ runLoader();
 
 })();
 </script>
+
 </body>
 </html>
