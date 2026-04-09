@@ -821,19 +821,7 @@ section h2 {
   align-items: start;
 }
 
-.story-headshot {
-  width: 280px; height: 340px;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  border: 2px solid var(--border);
-  box-shadow: var(--shadow-lg);
-  position: sticky; top: calc(var(--nav-height) + 24px);
-}
-
-.story-headshot img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-}
+/* story-headshot removed - replaced by story-character sprite */
 
 .story-text p {
   font-size: 16px;
@@ -2464,8 +2452,10 @@ footer {
   position: fixed;
   width: 4px;
   height: 4px;
+  border-radius: 50%;
   pointer-events: none;
   will-change: transform;
+  z-index: 9999;
   --ox: 0;
   --oy: 0;
   --sx: 30px;
@@ -2591,16 +2581,41 @@ footer {
 /* Hero character positioning */
 .hero-character {
   position: absolute;
-  bottom: 40px;
-  right: 80px;
+  bottom: 60px;
+  right: 100px;
   z-index: 2;
-  animation: idle-bounce 1.5s ease-in-out infinite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  transform-origin: bottom center;
 }
 
-@keyframes idle-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
+.hero-character .sprite-novice {
+  transform: scale(3);
+  transform-origin: top left;
+  margin-bottom: 60px; /* space for scaled sprite */
 }
+
+.hero-character .character-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--amber);
+  white-space: nowrap;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+  letter-spacing: 0.5px;
+}
+
+@keyframes character-idle-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.hero-character {
+  animation: character-idle-bounce 1.5s ease-in-out infinite;
+}
+
+/* idle-bounce replaced by character-idle-bounce above */
 
 @media (prefers-reduced-motion: reduce) {
   .hero-character { animation: none; }
@@ -2890,7 +2905,7 @@ footer {
           </div>
           <div class="terminal-input-line">
             <span class="prompt">$ </span>
-            <input type="text" id="terminalInput" autocomplete="off" spellcheck="false" placeholder="type help...">
+            <input type="text" id="terminalInput" autocomplete="off" spellcheck="false" placeholder="type help..." aria-label="Terminal command input">
           </div>
         </div>
       </div>
