@@ -3175,100 +3175,33 @@ footer {
 }
 
 /* ============================================
-   FOOTER PIXEL CITYSCAPE
+   FOOTER JOURNEY WALK
    ============================================ */
-.pixel-cityscape {
+.journey-walk {
   width: 100%;
-  height: 80px;
+  height: 180px;
   margin: 2rem 0 0 0;
   position: relative;
   overflow: hidden;
-  opacity: 0.6;
 }
-
-.cityscape-building {
-  position: absolute;
-  bottom: 0;
-  background: linear-gradient(180deg, #4A3C34, #2A2420);
-  border: 1px solid #8B4513;
+.journey-walk canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: pixelated;
 }
-
-.cityscape-building.tall-1 {
-  left: 5%;
-  width: 12%;
-  height: 60px;
-  clip-path: polygon(0 100%, 20% 40%, 100% 40%, 100% 100%);
+.journey-walk-mini {
+  width: 100%;
+  height: 120px;
+  margin: 24px 0 0 0;
+  position: relative;
+  overflow: hidden;
 }
-
-.cityscape-building.tall-2 {
-  left: 25%;
-  width: 10%;
-  height: 50px;
-  clip-path: polygon(0 100%, 30% 50%, 100% 50%, 100% 100%);
-}
-
-.cityscape-building.tall-3 {
-  left: 42%;
-  width: 14%;
-  height: 70px;
-}
-
-.cityscape-building.short-1 {
-  left: 60%;
-  width: 8%;
-  height: 35px;
-}
-
-.cityscape-building.tall-4 {
-  left: 72%;
-  width: 11%;
-  height: 55px;
-  clip-path: polygon(0 100%, 25% 45%, 100% 45%, 100% 100%);
-}
-
-.cityscape-building.short-2 {
-  left: 87%;
-  width: 9%;
-  height: 40px;
-}
-
-/* Palm tree (stylized) */
-.palm-tree {
-  position: absolute;
-  bottom: 0;
-  width: 20px;
-  height: 60px;
-}
-
-.palm-trunk {
-  position: absolute;
-  bottom: 0;
-  left: 8px;
-  width: 4px;
-  height: 40px;
-  background: linear-gradient(90deg, #654321, #8B4513);
-  border: 1px solid #3D2817;
-}
-
-.palm-fronds {
-  position: absolute;
-  top: 0;
-  left: 10px;
-  width: 6px;
-  height: 20px;
-  background: radial-gradient(circle, #2EAA56, #1B6B35);
-  border-radius: 50% 50% 0 0;
-  box-shadow: -12px 2px 0 -8px #2EAA56, 12px 2px 0 -8px #2EAA56;
-}
-
-.palm-tree.left {
-  left: 12%;
-  bottom: 15px;
-}
-
-.palm-tree.right {
-  right: 15%;
-  bottom: 20px;
+.journey-walk-mini canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: pixelated;
 }
 
 /* ============================================
@@ -3427,6 +3360,9 @@ footer {
 <div id="charSelect" role="dialog" aria-label="Character select">
   <h2 style="font-family:var(--font-heading);font-size:28px;font-weight:700;color:#FFF;text-align:center;margin-bottom:32px;">SELECT YOUR CLASS</h2>
   <div class="char-grid" id="charGrid"></div>
+  <div class="journey-walk-mini" aria-hidden="true">
+    <canvas id="journeyWalkMini"></canvas>
+  </div>
   <button class="options-back" id="charBack" style="align-self:center;margin-top:24px;">← Back</button>
 </div>
 
@@ -4221,15 +4157,8 @@ footer {
     </div>
     <p class="footer-text">&copy; <script>document.write(new Date().getFullYear())</script> Joneil Caoile. Built with too much coffee. No frameworks. No build tools. Just HTML, CSS, and JavaScript.</p>
   </div>
-  <div class="pixel-cityscape" aria-hidden="true">
-    <div class="palm-tree left"><div class="palm-fronds"></div><div class="palm-trunk"></div></div>
-    <div class="cityscape-building tall-1"></div>
-    <div class="cityscape-building tall-2"></div>
-    <div class="cityscape-building tall-3"></div>
-    <div class="cityscape-building short-1"></div>
-    <div class="cityscape-building tall-4"></div>
-    <div class="cityscape-building short-2"></div>
-    <div class="palm-tree right"><div class="palm-fronds"></div><div class="palm-trunk"></div></div>
+  <div class="journey-walk" aria-hidden="true">
+    <canvas id="journeyWalkCanvas"></canvas>
   </div>
 </footer>
 
@@ -4673,6 +4602,329 @@ buildCharGrid();
     var ctx = cvs.getContext('2d');
     drawCharSprite(ctx, treeSprites[id], 40, 36);
   });
+})();
+
+/* ═══════════════════════════════════════
+   2c. JOURNEY WALK ANIMATION
+   ═══════════════════════════════════════ */
+(function initJourneyWalk() {
+  /* Milestones the sprite walks through */
+  var MILESTONES = [
+    { x: 0.05, label: 'CSULB', sub: 'Pre-Med', icon: 'campus', color: '#F9A825' },
+    { x: 0.22, label: 'Volunteering', sub: 'PT Clinics', icon: 'clinic', color: '#66BB6A' },
+    { x: 0.40, label: 'PT School', sub: 'Kinesiology', icon: 'school', color: '#42A5F5' },
+    { x: 0.58, label: 'Stevens', sub: 'M.S. BME', icon: 'lab', color: '#AB47BC' },
+    { x: 0.78, label: '???', sub: 'Character Select', icon: 'crossroads', color: '#FFD700' },
+  ];
+
+  var CAREER_SPRITES = [
+    { type: 'acolyte', label: 'Validation' },
+    { type: 'sage', label: 'Applications' },
+    { type: 'blacksmith', label: 'R&D' },
+    { type: 'creator', label: 'HFE' },
+  ];
+
+  function setupCanvas(canvasId, containerClass) {
+    var cvs = document.getElementById(canvasId);
+    if (!cvs) return null;
+    var container = cvs.parentElement;
+    var dpr = window.devicePixelRatio || 1;
+    var w = container.offsetWidth;
+    var h = container.offsetHeight;
+    cvs.width = w * dpr;
+    cvs.height = h * dpr;
+    var ctx = cvs.getContext('2d');
+    ctx.scale(dpr, dpr);
+    return { cvs: cvs, ctx: ctx, w: w, h: h };
+  }
+
+  /* Draw a tiny pixel building/landmark */
+  function drawIcon(ctx, type, x, y, scale) {
+    var s = scale || 1;
+    function r(rx, ry, rw, rh, c) {
+      ctx.fillStyle = c;
+      ctx.fillRect(x + rx * s, y + ry * s, rw * s, rh * s);
+    }
+    if (type === 'campus') {
+      /* University building with columns */
+      r(0, -20, 30, 20, '#5D4037'); r(2, -24, 26, 4, '#6D4C41');
+      r(10, -28, 10, 4, '#795548'); /* pediment */
+      r(5, -18, 3, 14, '#8D6E63'); r(13, -18, 3, 14, '#8D6E63'); r(22, -18, 3, 14, '#8D6E63');
+      r(8, -8, 6, 8, '#3E2723'); /* door */
+      r(18, -14, 4, 4, '#FFEE58'); /* window */
+    } else if (type === 'clinic') {
+      /* Clinic with cross */
+      r(0, -18, 24, 18, '#E8F5E9'); r(0, -20, 24, 2, '#66BB6A');
+      r(9, -15, 6, 2, '#EF5350'); r(11, -17, 2, 6, '#EF5350'); /* red cross */
+      r(3, -8, 5, 8, '#81C784'); /* door */
+      r(15, -12, 4, 4, '#B3E5FC'); /* window */
+    } else if (type === 'school') {
+      /* School building */
+      r(0, -18, 28, 18, '#BBDEFB'); r(0, -20, 28, 2, '#42A5F5');
+      r(10, -8, 8, 8, '#1565C0'); /* door */
+      r(3, -14, 4, 4, '#E3F2FD'); r(21, -14, 4, 4, '#E3F2FD'); /* windows */
+      r(12, -24, 4, 4, '#FDD835'); /* bell/flag */
+    } else if (type === 'lab') {
+      /* Stevens lab / castle-like */
+      r(0, -22, 30, 22, '#7B1FA2'); r(0, -26, 6, 4, '#9C27B0'); r(24, -26, 6, 4, '#9C27B0');
+      r(10, -28, 10, 6, '#AB47BC'); /* tower */
+      r(12, -8, 6, 8, '#4A148C'); /* door */
+      r(3, -16, 4, 4, '#CE93D8'); r(23, -16, 4, 4, '#CE93D8'); /* windows */
+      r(14, -22, 2, 2, '#FFD700'); /* star */
+    } else if (type === 'crossroads') {
+      /* Fork in the road / signpost */
+      r(12, -30, 2, 30, '#8D6E63'); /* post */
+      r(0, -30, 12, 6, '#FFD54F'); r(14, -30, 12, 6, '#FFD54F'); /* signs pointing L/R */
+      r(2, -22, 10, 6, '#FFB74D'); r(14, -22, 10, 6, '#FFB74D'); /* more signs */
+      r(14, -28, 2, 2, '#FFF'); r(4, -28, 2, 2, '#FFF'); /* dots on signs */
+    }
+  }
+
+  /* Draw the walking sprite at a position (reuses drawCharSprite approach) */
+  function drawWalkSprite(ctx, x, y, frame, thinking) {
+    var p = 2;
+    function px(ox, oy, c) { ctx.fillStyle = c; ctx.fillRect(x + ox * p, y + oy * p, p, p); }
+    function run(ox, oy, len, c) { ctx.fillStyle = c; ctx.fillRect(x + ox * p, y + oy * p, len * p, p); }
+
+    /* Hair back */
+    run(-3, -9, 6, '#332211');
+    /* Head */
+    run(-3, -8, 6, '#FFCC99');
+    run(-4, -7, 8, '#FFCC99');
+    run(-4, -6, 8, '#FFCC99');
+    run(-4, -5, 8, '#FFCC99');
+    run(-4, -4, 8, '#FFCC99');
+    run(-3, -3, 6, '#FFCC99');
+    /* Eyes: blink if thinking */
+    if (thinking && Math.floor(Date.now() / 400) % 6 === 0) {
+      px(-2, -6, '#FFCC99'); px(1, -6, '#FFCC99'); /* closed */
+      run(-2, -5, 1, '#222'); run(1, -5, 1, '#222'); /* squint line */
+    } else {
+      px(-2, -6, '#222'); px(1, -6, '#222');
+      px(-2, -5, '#FFF'); px(1, -5, '#FFF');
+    }
+    /* Mouth */
+    if (thinking) {
+      px(0, -4, '#D4566A'); /* small mouth, contemplating */
+    } else {
+      px(-1, -4, '#D4566A'); px(0, -4, '#D4566A');
+    }
+    /* Hair spiky */
+    run(-3, -9, 6, '#332211'); run(-4, -8, 8, '#332211');
+    px(-3, -10, '#332211'); px(0, -11, '#332211'); px(2, -10, '#332211');
+    /* Shirt (orange like SoCal kid at first, then evolves) */
+    run(-3, -2, 6, '#5C6BC0');
+    run(-3, -1, 6, '#5C6BC0');
+    run(-4, 0, 8, '#5C6BC0');
+    run(-4, 1, 8, '#5C6BC0');
+    /* Arms */
+    var armOff = (frame % 2 === 0) ? 0 : 1;
+    px(-5, -1 + armOff, '#FFCC99'); px(-5, 0 - armOff, '#FFCC99');
+    px(4, -1 - armOff, '#FFCC99'); px(4, 0 + armOff, '#FFCC99');
+    /* Pants */
+    run(-3, 2, 6, '#37474F');
+    run(-3, 3, 6, '#37474F');
+    /* Walking legs */
+    if (thinking) {
+      /* Standing still */
+      run(-3, 4, 2, '#553322'); run(1, 4, 2, '#553322');
+    } else {
+      var step = Math.floor(frame / 4) % 4;
+      if (step === 0) { run(-3, 4, 2, '#553322'); run(1, 4, 2, '#553322'); }
+      else if (step === 1) { run(-4, 4, 2, '#553322'); run(2, 4, 2, '#553322'); }
+      else if (step === 2) { run(-3, 4, 2, '#553322'); run(1, 4, 2, '#553322'); }
+      else { run(-2, 4, 2, '#553322'); run(0, 4, 2, '#553322'); }
+    }
+
+    /* Thinking bubble */
+    if (thinking) {
+      var blink = Math.floor(Date.now() / 600) % 3;
+      px(5, -10, '#AAA');
+      px(6, -12, '#CCC');
+      ctx.fillStyle = '#DDD';
+      ctx.beginPath();
+      ctx.arc(x + 9 * p, y - 16 * p, 4 * p, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#222';
+      ctx.font = (6 * p) + 'px monospace';
+      var dots = '.'.repeat(blink + 1);
+      ctx.fillText(dots, x + 6 * p, y - 14 * p);
+    }
+  }
+
+  /* Draw a career role sprite in mini form */
+  function drawMiniRole(ctx, type, x, y) {
+    /* Use the existing drawCharSprite but with a temp canvas for offset drawing */
+    var tmp = document.createElement('canvas');
+    tmp.width = 40; tmp.height = 40;
+    var tmpCtx = tmp.getContext('2d');
+    drawCharSprite(tmpCtx, type, 40, 40);
+    ctx.drawImage(tmp, x - 20, y - 20);
+  }
+
+  /* Main render function for a journey canvas */
+  function renderJourney(setup, scrollProgress, isMini) {
+    if (!setup) return;
+    var ctx = setup.ctx, w = setup.w, h = setup.h;
+    ctx.clearRect(0, 0, w, h);
+
+    var groundY = h - 16;
+    var iconScale = isMini ? 1.2 : 1.8;
+
+    /* Ground line */
+    ctx.fillStyle = '#2A2420';
+    ctx.fillRect(0, groundY, w, h - groundY);
+    /* Path */
+    ctx.fillStyle = '#3E3530';
+    ctx.fillRect(0, groundY - 2, w, 4);
+    /* Dotted path line */
+    ctx.setLineDash([6, 4]);
+    ctx.strokeStyle = '#5A4E45';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, groundY);
+    ctx.lineTo(w, groundY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    /* Draw milestones */
+    MILESTONES.forEach(function(m) {
+      var mx = m.x * w;
+      var iconY = groundY - 4;
+      drawIcon(ctx, m.icon, mx - 12, iconY, iconScale);
+
+      /* Label below */
+      ctx.fillStyle = m.color;
+      ctx.font = 'bold ' + (isMini ? 8 : 10) + 'px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(m.label, mx + 3, groundY + (isMini ? 10 : 12));
+      if (!isMini) {
+        ctx.fillStyle = '#888';
+        ctx.font = '8px monospace';
+        ctx.fillText(m.sub, mx + 3, groundY + 22);
+      }
+    });
+
+    /* Walking sprite position based on scroll progress */
+    var walkRange = 0.80; /* sprite walks 80% of canvas width */
+    var spriteX = 20 + scrollProgress * walkRange * w;
+    var spriteY = groundY - 6;
+    var isThinking = scrollProgress >= 0.95;
+    var frame = Math.floor(Date.now() / 120);
+
+    drawWalkSprite(ctx, spriteX, spriteY, frame, isThinking);
+
+    /* When at crossroads, show the 4 career sprites floating above the signpost */
+    if (scrollProgress >= 0.90) {
+      var fadeIn = Math.min(1, (scrollProgress - 0.90) / 0.08);
+      ctx.globalAlpha = fadeIn;
+      var crossX = 0.78 * w;
+      var roleSpacing = isMini ? 28 : 40;
+      var baseY = groundY - (isMini ? 50 : 70);
+      CAREER_SPRITES.forEach(function(cs, i) {
+        var rx = crossX - roleSpacing * 1.5 + i * roleSpacing;
+        var bob = Math.sin(Date.now() / 500 + i * 1.2) * 3;
+        drawMiniRole(ctx, cs.type, rx, baseY + bob);
+        /* Label */
+        ctx.fillStyle = '#FFD700';
+        ctx.font = (isMini ? 6 : 8) + 'px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(cs.label, rx, baseY + (isMini ? 18 : 22));
+      });
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  /* Set up both canvases */
+  var mainSetup = null, miniSetup = null;
+  var mainProgress = 0, miniProgress = 0;
+  var mainStarted = false, miniStarted = false;
+
+  function initCanvases() {
+    mainSetup = setupCanvas('journeyWalkCanvas');
+    miniSetup = setupCanvas('journeyWalkMini');
+  }
+
+  /* Scroll-driven progress for the footer version */
+  function updateMainScroll() {
+    var el = document.getElementById('journeyWalkCanvas');
+    if (!el) return;
+    var container = el.parentElement;
+    var rect = container.getBoundingClientRect();
+    var vh = window.innerHeight;
+    /* Start animating when footer comes into view, complete by the time it's centered */
+    var start = vh;
+    var end = -rect.height;
+    var raw = 1 - (rect.top - end) / (start - end);
+    mainProgress = Math.max(0, Math.min(1, raw));
+  }
+
+  /* The mini version in char select auto-plays when visible */
+  var miniAutoStart = 0;
+  function updateMiniProgress() {
+    var el = document.getElementById('journeyWalkMini');
+    if (!el) return;
+    var parent = document.getElementById('charSelect');
+    if (!parent || !parent.classList.contains('visible')) {
+      miniAutoStart = 0;
+      miniProgress = 0;
+      return;
+    }
+    if (!miniAutoStart) miniAutoStart = Date.now();
+    var elapsed = Date.now() - miniAutoStart;
+    miniProgress = Math.min(1, elapsed / 5000); /* 5s to walk across */
+  }
+
+  /* Animation loop */
+  var animRunning = false;
+  function animLoop() {
+    if (!mainSetup && !miniSetup) {
+      animRunning = false;
+      return;
+    }
+    updateMainScroll();
+    updateMiniProgress();
+    if (mainSetup) renderJourney(mainSetup, mainProgress, false);
+    if (miniSetup) renderJourney(miniSetup, miniProgress, true);
+    requestAnimationFrame(animLoop);
+  }
+
+  function startAnim() {
+    initCanvases();
+    if (!animRunning) {
+      animRunning = true;
+      animLoop();
+    }
+  }
+
+  /* Reinit on resize */
+  var resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      initCanvases();
+    }, 200);
+  });
+
+  /* Start after DOM ready */
+  if (document.readyState === 'complete') {
+    startAnim();
+  } else {
+    window.addEventListener('load', startAnim);
+  }
+
+  /* Also re-init when charSelect becomes visible */
+  var origCharSelectShow = null;
+  var charSelectEl = document.getElementById('charSelect');
+  if (charSelectEl) {
+    var observer = new MutationObserver(function() {
+      if (charSelectEl.classList.contains('visible')) {
+        miniSetup = setupCanvas('journeyWalkMini');
+        miniAutoStart = 0;
+      }
+    });
+    observer.observe(charSelectEl, { attributes: true, attributeFilter: ['class'] });
+  }
 })();
 
 /* ═══════════════════════════════════════
@@ -5490,7 +5742,7 @@ function awardXP(amount, reason) {
 function updateXPDisplay() {
   const stage = getStage(S.xp);
   const lvl = Math.floor(S.xp / 75) + 1;
-  DOM.xpTitle.textContent = `Lv.${lvl} ${stage.name}`;
+  DOM.xpTitle.textContent = `Lv(age).${lvl} ${stage.name}`;
   DOM.xpFill.style.width = (S.xp / S.maxXp * 100) + '%';
   DOM.xpText.textContent = `${S.xp.toLocaleString()} / ${S.maxXp.toLocaleString()} XP`;
 }
@@ -6291,7 +6543,7 @@ function showKonamiOverlay() {
       <h2 style="font-family:var(--font-heading);font-size:28px;color:#FFD700;margin-bottom:24px;">⚡ GOD MODE ACTIVATED</h2>
       <pre style="color:var(--text-muted);">
 CLASS:      Biomedical Engineer
-LVL:        27
+LVL(AGE):   27
 HP:         400+ (clinical observation hours)
 STR:        6 device projects
 INT:        M.S. BME (3.9+ GPA)
