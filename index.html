@@ -1834,10 +1834,14 @@ footer {
 .floating-pet {
   position: fixed;
   z-index: 100;
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: grab;
   transition: none;
   image-rendering: pixelated;
+  user-select: none;
 }
+
+.floating-pet.dragging { cursor: grabbing; }
 
 .floating-pet canvas {
   display: block;
@@ -1855,12 +1859,89 @@ footer {
   opacity: 0.8;
 }
 
+/* Pet Settings Panel */
+.pet-panel {
+  display: none;
+  position: fixed;
+  z-index: 101;
+  width: 240px;
+  background: rgba(15,14,12,0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-hover);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow-lg), 0 0 20px rgba(198,123,46,0.15);
+  font-family: var(--font-mono);
+}
+
+.pet-panel.open { display: block; }
+
+.pet-panel-title {
+  font-size: 11px;
+  color: var(--amber);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.pet-panel-section {
+  margin-bottom: 12px;
+}
+
+.pet-panel-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.pet-panel-row {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.pet-opt {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.pet-opt:hover { border-color: var(--amber); color: var(--text); }
+.pet-opt.active { border-color: var(--amber); color: var(--amber); background: rgba(198,123,46,0.1); }
+.pet-opt.locked { opacity: 0.3; cursor: not-allowed; }
+.pet-opt.locked:hover { border-color: var(--border); color: var(--text-secondary); }
+
+.pet-close {
+  position: absolute;
+  top: 8px; right: 8px;
+  background: none; border: none;
+  color: var(--text-muted);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+.pet-close:hover { color: var(--text); }
+
 @media (max-width: 900px) {
   .floating-pet { display: none; }
+  .pet-panel { display: none !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .floating-pet { display: none; }
+  .pet-panel { display: none !important; }
 }
 
 /* ═══════════════════════════════════════
@@ -3584,6 +3665,33 @@ footer {
   <div class="pet-name" id="petName">Egg</div>
 </div>
 
+<!-- Pet Settings Panel -->
+<div class="pet-panel" id="petPanel" role="dialog" aria-label="Pet settings">
+  <div class="pet-panel-title">PET SETTINGS <button class="pet-close" id="petPanelClose" aria-label="Close">&times;</button></div>
+  <div class="pet-panel-section">
+    <div class="pet-panel-label">MODEL</div>
+    <div class="pet-panel-row" id="petModelGrid"></div>
+  </div>
+  <div class="pet-panel-section">
+    <div class="pet-panel-label">BEHAVIOR</div>
+    <div class="pet-panel-row" id="petBehaviorGrid">
+      <button class="pet-opt active" data-behavior="wander">Wander</button>
+      <button class="pet-opt" data-behavior="follow">Follow</button>
+      <button class="pet-opt" data-behavior="stay">Stay</button>
+    </div>
+  </div>
+  <div class="pet-panel-section">
+    <div class="pet-panel-label">HIT SPARKS</div>
+    <div class="pet-panel-row" id="petSparkGrid">
+      <button class="pet-opt active" data-spark="default">Default</button>
+      <button class="pet-opt" data-spark="fire">Fire</button>
+      <button class="pet-opt" data-spark="ice">Ice</button>
+      <button class="pet-opt" data-spark="gold">Gold</button>
+      <button class="pet-opt" data-spark="off">Off</button>
+    </div>
+  </div>
+</div>
+
 <!-- XP HUD -->
 <div class="xp-hud" id="xpHud">
   <div class="xp-info">
@@ -3626,6 +3734,9 @@ const S = {
   konamiCode: ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','KeyB','KeyA'],
   termHistory: [],
   termHistIdx: -1,
+  petModel: ls('jc-pet-model') || null,
+  petBehavior: ls('jc-pet-behavior') || 'wander',
+  petSpark: ls('jc-pet-spark') || 'default',
 };
 
 /* ─── DOM refs ─── */
@@ -4245,6 +4356,11 @@ const pet = {
   vy: 0.3 + Math.random() * 0.2,
   bobPhase: 0,
   frame: 0,
+  dragging: false,
+  dragOffX: 0,
+  dragOffY: 0,
+  mouseX: window.innerWidth / 2,
+  mouseY: window.innerHeight / 2,
 };
 
 function drawCritter() {
@@ -4254,7 +4370,12 @@ function drawCritter() {
   const w = canvas.width, h = canvas.height;
   ctx.clearRect(0, 0, w, h);
   ctx.imageSmoothingEnabled = false;
-  const stage = getStage(S.xp);
+  /* Use override model if set and unlocked, else use XP stage */
+  let stage = getStage(S.xp);
+  if (S.petModel) {
+    const override = CRITTER_STAGES.find(s => s.name === S.petModel);
+    if (override && S.xp >= override.minXp) stage = override;
+  }
   const p = 3; /* pixel size */
 
   /* Update name tag */
@@ -4390,16 +4511,24 @@ function animatePet() {
   pet.bobPhase += 0.03;
   pet.frame++;
 
-  /* Gentle wander - change direction occasionally */
-  if (pet.frame % 180 === 0) {
-    pet.vx = (Math.random() - 0.5) * 1.2;
-    pet.vy = (Math.random() - 0.5) * 0.8;
+  if (!pet.dragging) {
+    if (S.petBehavior === 'wander') {
+      /* Gentle wander */
+      if (pet.frame % 180 === 0) {
+        pet.vx = (Math.random() - 0.5) * 1.2;
+        pet.vy = (Math.random() - 0.5) * 0.8;
+      }
+      pet.x += pet.vx;
+      pet.y += pet.vy;
+    } else if (S.petBehavior === 'follow') {
+      /* Lerp toward cursor */
+      pet.x += (pet.mouseX - pet.x) * 0.02;
+      pet.y += (pet.mouseY - pet.y) * 0.02;
+    }
+    /* 'stay' mode: don't move at all */
   }
 
-  pet.x += pet.vx;
-  pet.y += pet.vy;
-
-  /* Bounce off viewport edges */
+  /* Bounce off viewport edges (all modes) */
   const margin = 60;
   if (pet.x < margin) { pet.x = margin; pet.vx = Math.abs(pet.vx); }
   if (pet.x > window.innerWidth - margin) { pet.x = window.innerWidth - margin; pet.vx = -Math.abs(pet.vx); }
@@ -4407,8 +4536,7 @@ function animatePet() {
   if (pet.y > window.innerHeight - margin) { pet.y = window.innerHeight - margin; pet.vy = -Math.abs(pet.vy); }
 
   /* Bob float */
-  const bob = Math.sin(pet.bobPhase) * 6;
-  /* Squash/stretch on bob */
+  const bob = pet.dragging ? 0 : Math.sin(pet.bobPhase) * 6;
   const squash = 1 + Math.sin(pet.bobPhase * 2) * 0.04;
   const stretch = 1 - Math.sin(pet.bobPhase * 2) * 0.04;
 
@@ -4418,6 +4546,148 @@ function animatePet() {
 
   requestAnimationFrame(animatePet);
 }
+
+/* ─── Pet Drag ─── */
+if (pet.el) {
+  pet.el.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+    pet.dragging = true;
+    pet.dragOffX = e.clientX - pet.x;
+    pet.dragOffY = e.clientY - pet.y;
+    pet.el.classList.add('dragging');
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    pet.mouseX = e.clientX;
+    pet.mouseY = e.clientY;
+    if (pet.dragging) {
+      pet.x = e.clientX - pet.dragOffX;
+      pet.y = e.clientY - pet.dragOffY;
+    }
+  });
+
+  document.addEventListener('mouseup', function() {
+    if (pet.dragging) {
+      pet.dragging = false;
+      pet.el.classList.remove('dragging');
+      pet.vx = 0; pet.vy = 0;
+    }
+  });
+
+  /* Right-click pet to open settings */
+  pet.el.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    togglePetPanel();
+  });
+
+  /* Double-click pet to open settings (more discoverable) */
+  pet.el.addEventListener('dblclick', function(e) {
+    e.preventDefault();
+    togglePetPanel();
+  });
+}
+
+/* ─── Pet Settings Panel ─── */
+function togglePetPanel() {
+  const panel = $('#petPanel');
+  if (!panel) return;
+  const isOpen = panel.classList.contains('open');
+  if (isOpen) {
+    panel.classList.remove('open');
+    return;
+  }
+  /* Position panel near pet */
+  let px = pet.x + 40;
+  let py = pet.y - 80;
+  if (px + 260 > window.innerWidth) px = pet.x - 280;
+  if (py < 10) py = 10;
+  if (py + 300 > window.innerHeight) py = window.innerHeight - 310;
+  panel.style.left = px + 'px';
+  panel.style.top = py + 'px';
+  panel.classList.add('open');
+  buildModelGrid();
+}
+
+function buildModelGrid() {
+  const grid = $('#petModelGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  CRITTER_STAGES.forEach(function(s) {
+    const btn = document.createElement('button');
+    btn.className = 'pet-opt';
+    btn.textContent = s.name;
+    btn.dataset.model = s.name;
+    const unlocked = S.xp >= s.minXp;
+    if (!unlocked) {
+      btn.classList.add('locked');
+      btn.title = s.minXp + ' XP to unlock';
+    }
+    /* Active state */
+    const currentModel = S.petModel || getStage(S.xp).name;
+    if (s.name === currentModel) btn.classList.add('active');
+    btn.addEventListener('click', function() {
+      if (!unlocked) return;
+      S.petModel = s.name;
+      lsSet('jc-pet-model', s.name);
+      drawCritter();
+      /* Update active state */
+      $$('.pet-opt[data-model]').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+    });
+    grid.appendChild(btn);
+  });
+}
+
+/* Behavior buttons */
+$$('.pet-opt[data-behavior]').forEach(function(btn) {
+  if (btn.dataset.behavior === S.petBehavior) {
+    btn.classList.add('active');
+    $$('.pet-opt[data-behavior]').forEach(function(b) {
+      if (b !== btn) b.classList.remove('active');
+    });
+  }
+  btn.addEventListener('click', function() {
+    S.petBehavior = btn.dataset.behavior;
+    lsSet('jc-pet-behavior', S.petBehavior);
+    $$('.pet-opt[data-behavior]').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+  });
+});
+
+/* Spark style buttons */
+$$('.pet-opt[data-spark]').forEach(function(btn) {
+  if (btn.dataset.spark === S.petSpark) {
+    btn.classList.add('active');
+    $$('.pet-opt[data-spark]').forEach(function(b) {
+      if (b !== btn) b.classList.remove('active');
+    });
+  }
+  btn.addEventListener('click', function() {
+    S.petSpark = btn.dataset.spark;
+    lsSet('jc-pet-spark', S.petSpark);
+    $$('.pet-opt[data-spark]').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+  });
+});
+
+/* Close button */
+const petCloseBtn = $('#petPanelClose');
+if (petCloseBtn) petCloseBtn.addEventListener('click', function() {
+  const panel = $('#petPanel');
+  if (panel) panel.classList.remove('open');
+});
+
+/* Close panel when clicking outside */
+document.addEventListener('click', function(e) {
+  const panel = $('#petPanel');
+  if (!panel || !panel.classList.contains('open')) return;
+  if (!panel.contains(e.target) && !pet.el.contains(e.target)) {
+    panel.classList.remove('open');
+  }
+});
+
+/* Expose spark style getter for game-scripts.js */
+window.__petSpark = function() { return S.petSpark; };
 
 /* Initialize XP display */
 updateXPDisplay();
