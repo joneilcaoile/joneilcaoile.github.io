@@ -540,6 +540,7 @@ section h2 {
 .headshot-frame img {
   width: 100%; height: 100%;
   object-fit: cover;
+  object-position: center 20%;
 }
 
 /* Terminal */
@@ -821,7 +822,20 @@ section h2 {
   align-items: start;
 }
 
-/* story-headshot removed - replaced by story-character sprite */
+.story-headshot {
+  width: 280px; height: 340px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  position: sticky; top: calc(var(--nav-height) + 24px);
+}
+
+.story-headshot img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+}
 
 .story-text p {
   font-size: 16px;
@@ -1844,7 +1858,6 @@ footer {
   transform: translate(-50%, -50%);
   box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 0 6px rgba(198,123,46,0.5);
   transition: width 0.15s, height 0.15s, background 0.15s;
-  display: none;
 }
 
 .cursor-ring {
@@ -1856,7 +1869,6 @@ footer {
   z-index: 9996;
   transform: translate(-50%, -50%);
   transition: width 0.2s var(--ease), height 0.2s var(--ease), border-color 0.2s;
-  display: none;
   opacity: 0.5;
 }
 
