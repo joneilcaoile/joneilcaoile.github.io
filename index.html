@@ -454,7 +454,7 @@ section h2 {
 }
 
 #particleCanvas {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
@@ -3045,11 +3045,11 @@ footer {
   <a href="#contact" class="mm-link">Contact</a>
 </div>
 
+<canvas id="particleCanvas" aria-hidden="true"></canvas>
 <main id="main">
 
 <!-- ═══════════════════════ HERO ═══════════════════════ -->
 <section id="hero">
-  <canvas id="particleCanvas" aria-hidden="true"></canvas>
   <div class="hero-orb hero-orb--1" aria-hidden="true"></div>
   <div class="hero-orb hero-orb--2" aria-hidden="true"></div>
   <div class="container">
@@ -4161,7 +4161,7 @@ function initParticleSystem() {
 
   function resizeCanvas() {
     canvas.width = window.innerWidth;
-    canvas.height = document.getElementById('hero').offsetHeight;
+    canvas.height = window.innerHeight;
     initWaves();
   }
 
