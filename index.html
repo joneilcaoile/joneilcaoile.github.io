@@ -252,6 +252,24 @@ section {
   opacity: 0.8;
 }
 
+/* Colored text accents */
+.text-amber { color: var(--amber); }
+.text-gold { color: var(--gold); }
+.text-teal { color: var(--teal); }
+.text-coral { color: var(--coral); }
+.text-gradient {
+  background: linear-gradient(135deg, var(--amber), var(--gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.text-gradient-teal {
+  background: linear-gradient(135deg, var(--teal), #5ED4D1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 section h2 {
   font-family: var(--font-heading);
   font-size: clamp(32px, 5vw, 56px);
@@ -259,6 +277,16 @@ section h2 {
   line-height: 1.1;
   margin-bottom: 24px;
   letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--text) 0%, var(--text) 60%, var(--amber) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+[data-theme="light"] section h2 {
+  background: linear-gradient(135deg, #1A1916 0%, #1A1916 60%, #A86820 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Scroll reveal base */
@@ -785,8 +813,11 @@ section h2 {
 }
 
 .statement-text strong {
-  color: var(--text);
   font-weight: 600;
+  background: linear-gradient(135deg, var(--amber), var(--gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .spec-table {
@@ -820,7 +851,10 @@ section h2 {
   font-family: var(--font-heading);
   font-size: 20px;
   font-weight: 600;
-  color: var(--text);
+  background: linear-gradient(135deg, var(--text), var(--gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* ═══════════════════════════════════════
@@ -923,7 +957,13 @@ section h2 {
   margin-bottom: 20px;
 }
 
-.story-text p strong { color: var(--text); }
+.story-text p strong {
+  background: linear-gradient(135deg, var(--amber), var(--gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+}
 
 .story-timeline {
   display: flex; align-items: center; gap: 12px;
@@ -1635,8 +1675,11 @@ section h2 {
   font-family: var(--font-heading);
   font-size: 24px;
   font-weight: 700;
-  color: var(--amber);
-  opacity: 0.6;
+  background: linear-gradient(180deg, var(--gold), var(--coral));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0.8;
 }
 
 .criteria-item h3 {
@@ -1644,6 +1687,10 @@ section h2 {
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 4px;
+  background: linear-gradient(135deg, var(--text), var(--teal));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .criteria-item p {
@@ -2996,6 +3043,137 @@ footer {
   }
 }
 
+/* ═══════════════════════════════════════
+   XP ORBS (collectible)
+   ═══════════════════════════════════════ */
+.xp-orb {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FFE566, #D4A233 50%, #C67B2E);
+  box-shadow: 0 0 8px rgba(212,162,51,0.6), 0 0 2px rgba(255,229,102,0.8);
+  z-index: 88;
+  pointer-events: none;
+  transition: transform 0.2s, opacity 0.2s;
+  animation: orb-bob 2s ease-in-out infinite;
+}
+.xp-orb.collecting {
+  animation: orb-collect 0.4s ease-in forwards;
+}
+.xp-orb--big {
+  width: 16px;
+  height: 16px;
+  box-shadow: 0 0 12px rgba(212,162,51,0.8), 0 0 4px rgba(255,229,102,1);
+}
+@keyframes orb-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes orb-collect {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.8; }
+  100% { transform: scale(0); opacity: 0; }
+}
+[data-theme="light"] .xp-orb {
+  background: radial-gradient(circle at 35% 35%, #FFD166, #A86820 50%, #8B5A13);
+  box-shadow: 0 0 8px rgba(168,104,32,0.5), 0 0 2px rgba(255,209,102,0.6);
+}
+
+/* ═══════════════════════════════════════
+   PET EATING ANIMATION
+   ═══════════════════════════════════════ */
+.floating-pet.eating canvas {
+  animation: pet-eat 0.3s ease-in-out;
+}
+@keyframes pet-eat {
+  0% { transform: scaleX(1) scaleY(1); }
+  30% { transform: scaleX(1.2) scaleY(0.8); }
+  60% { transform: scaleX(0.9) scaleY(1.15); }
+  100% { transform: scaleX(1) scaleY(1); }
+}
+.pet-yum {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--gold);
+  pointer-events: none;
+  animation: yum-float 0.8s ease-out forwards;
+  z-index: 103;
+  white-space: nowrap;
+}
+@keyframes yum-float {
+  0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+}
+
+/* ═══════════════════════════════════════
+   POKEMON EVOLUTION ANIMATION
+   ═══════════════════════════════════════ */
+.evo-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0,0,0,0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition: background 0.5s;
+}
+.evo-overlay.active {
+  background: rgba(0,0,0,0.85);
+  pointer-events: auto;
+}
+.evo-text {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--gold);
+  margin-top: 24px;
+  opacity: 0;
+  transition: opacity 0.5s;
+  text-align: center;
+}
+.evo-overlay.active .evo-text { opacity: 1; }
+.evo-canvas {
+  image-rendering: pixelated;
+  transition: transform 0.3s;
+}
+.evo-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  background: #FFF;
+  pointer-events: none;
+  opacity: 0;
+}
+@keyframes evo-flash {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes evo-glow {
+  0%, 100% { filter: brightness(1) drop-shadow(0 0 0 transparent); }
+  50% { filter: brightness(2) drop-shadow(0 0 20px rgba(255,255,255,0.8)); }
+}
+@keyframes evo-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* ═══════════════════════════════════════
+   JOURNEY SPRITES
+   ═══════════════════════════════════════ */
+.timeline-sprite {
+  display: block;
+  margin: 0 auto 8px;
+  image-rendering: pixelated;
+}
+
 /* ============================================
    FOOTER PIXEL CITYSCAPE
    ============================================ */
@@ -3309,7 +3487,7 @@ footer {
         <div class="hero-badge"><span class="pulse"></span> Available May 2026 · SoCal</div>
         <p class="hero-tag">Biomedical Engineer</p>
         <h1 class="hero-name">Joneil<br>Caoile</h1>
-        <p class="hero-desc">Two years watching devices fail patients. Now I test them, validate them, and build tools so they don't.</p>
+        <p class="hero-desc">Two years watching devices fail patients. Now I <span class="text-gradient">test them</span>, <span class="text-gradient">validate them</span>, and <span class="text-gradient-teal">build tools</span> so they don't.</p>
         <p class="hero-targets">Targeting validation, applications, R&D, and human factors roles in SoCal medtech.</p>
         <div class="hero-ctas">
           <a href="#featured" class="btn btn--primary">View device projects</a>
@@ -3746,7 +3924,7 @@ footer {
   <div class="container">
     <p class="section-label r">07 / Journey</p>
     <h2 class="r">From clinics to code.</h2>
-    <p class="journey-intro r">Kinesiology to biomedical engineering. Clinical observation to device design. Each step got me closer to the intersection of users, technology, and patient safety.</p>
+    <p class="journey-intro r">Kinesiology to biomedical engineering. Clinical observation to device design. Each step got me closer to the intersection of <span class="text-teal">users</span>, <span class="text-amber">technology</span>, and <span class="text-coral">patient safety</span>.</p>
 
     <div class="timeline">
       <div class="timeline-item r">
@@ -4204,18 +4382,20 @@ function showGameMenu() {
     DOM.gameMenu.classList.add('visible');
     DOM.gmStart.focus();
     S.menuOpen = true;
-    /* Auto-dismiss after 2s if user hasn't interacted with menu */
+    /* Auto-dismiss after 8s if user hasn't interacted with menu */
     let menuInteracted = false;
     const markInteraction = () => { menuInteracted = true; };
     DOM.gameMenu.addEventListener('click', markInteraction, { once: true });
     DOM.gameMenu.addEventListener('keydown', markInteraction, { once: true });
+    DOM.gameMenu.addEventListener('mousemove', markInteraction, { once: true });
     setTimeout(() => {
       if (!menuInteracted && S.menuOpen) {
         DOM.gameMenu.removeEventListener('click', markInteraction);
         DOM.gameMenu.removeEventListener('keydown', markInteraction);
+        DOM.gameMenu.removeEventListener('mousemove', markInteraction);
         dismissMenu();
       }
-    }, 2000);
+    }, 8000);
   }, 300);
 }
 
@@ -5294,11 +5474,17 @@ function getStage(xp) {
 }
 
 function awardXP(amount, reason) {
+  var prevStage = getStage(S.xp).name;
   S.xp = Math.min(S.xp + amount, S.maxXp);
   lsSet('jc-xp', S.xp);
   updateXPDisplay();
   drawCritter();
   if (reason) showToast(`+${amount} XP: ${reason}`);
+  /* Check for evolution */
+  var newStage = getStage(S.xp).name;
+  if (newStage !== prevStage && typeof triggerEvolution === 'function') {
+    setTimeout(function() { triggerEvolution(prevStage, newStage); }, 500);
+  }
 }
 
 function updateXPDisplay() {
@@ -6268,6 +6454,254 @@ console.log('%c' +
   '  ↑↑↓↓←→←→BA for a surprise\n',
   'color: #D4A233; font-size: 12px; font-family: monospace;'
 );
+
+/* ═══════════════════════════════════════
+   XP ORB COLLECTION SYSTEM
+   ═══════════════════════════════════════ */
+var xpOrbs = [];
+var ORB_CONFIG = {
+  maxOrbs: 8,
+  spawnInterval: 12000,
+  collectRadius: 50,
+  petCollectRadius: 40,
+  orbXP: 10,
+  bigOrbXP: 25,
+  bigOrbChance: 0.15,
+};
+
+function spawnXPOrb() {
+  if (S.isMobile || S.reducedMotion) return;
+  if (xpOrbs.length >= ORB_CONFIG.maxOrbs) return;
+
+  var orb = document.createElement('div');
+  var isBig = Math.random() < ORB_CONFIG.bigOrbChance;
+  orb.className = 'xp-orb' + (isBig ? ' xp-orb--big' : '');
+
+  /* Random position within viewport */
+  var x = 80 + Math.random() * (window.innerWidth - 160);
+  var y = 80 + Math.random() * (window.innerHeight - 160);
+  orb.style.left = x + 'px';
+  orb.style.top = y + 'px';
+  orb.style.animationDelay = (Math.random() * 2) + 's';
+
+  var orbData = { el: orb, x: x, y: y, xp: isBig ? ORB_CONFIG.bigOrbXP : ORB_CONFIG.orbXP, collected: false };
+  xpOrbs.push(orbData);
+  document.body.appendChild(orb);
+
+  /* Auto-despawn after 20s */
+  setTimeout(function() {
+    if (!orbData.collected) removeOrb(orbData);
+  }, 20000);
+}
+
+function removeOrb(orbData) {
+  orbData.collected = true;
+  if (orbData.el.parentNode) orbData.el.remove();
+  xpOrbs = xpOrbs.filter(function(o) { return o !== orbData; });
+}
+
+function collectOrb(orbData) {
+  if (orbData.collected) return;
+  orbData.collected = true;
+  orbData.el.classList.add('collecting');
+
+  /* Pet eating animation */
+  if (pet.el) {
+    pet.el.classList.add('eating');
+    setTimeout(function() { pet.el.classList.remove('eating'); }, 300);
+
+    /* Yum text */
+    var yum = document.createElement('div');
+    yum.className = 'pet-yum';
+    var yumTexts = ['+' + orbData.xp + ' XP', 'nom!', 'yum!', '*munch*', 'tasty!'];
+    yum.textContent = yumTexts[Math.floor(Math.random() * yumTexts.length)];
+    pet.el.appendChild(yum);
+    setTimeout(function() { yum.remove(); }, 800);
+  }
+
+  /* Award XP */
+  var prevStage = getStage(S.xp).name;
+  awardXP(orbData.xp, 'Orb collected');
+
+  /* Check for evolution */
+  var newStage = getStage(S.xp).name;
+  if (newStage !== prevStage) {
+    triggerEvolution(prevStage, newStage);
+  }
+
+  /* Boost happiness */
+  if (typeof petMood !== 'undefined') {
+    petMood.happiness = Math.min(100, petMood.happiness + 8);
+    petMood.lastInteraction = Date.now();
+  }
+
+  setTimeout(function() { removeOrb(orbData); }, 400);
+}
+
+/* Check cursor proximity to orbs every frame */
+function checkOrbCollection() {
+  if (S.isMobile || S.reducedMotion) return;
+  var mx = pet.mouseX;
+  var my = pet.mouseY;
+
+  for (var i = xpOrbs.length - 1; i >= 0; i--) {
+    var o = xpOrbs[i];
+    if (o.collected) continue;
+
+    /* Check if cursor is near orb */
+    var dx = mx - o.x;
+    var dy = my - o.y;
+    var dist = Math.sqrt(dx * dx + dy * dy);
+
+    if (dist < ORB_CONFIG.collectRadius) {
+      /* Magnetic pull toward cursor */
+      o.x += (mx - o.x) * 0.15;
+      o.y += (my - o.y) * 0.15;
+      o.el.style.left = o.x + 'px';
+      o.el.style.top = o.y + 'px';
+      o.el.style.transform = 'scale(1.2)';
+
+      if (dist < 20) {
+        collectOrb(o);
+        continue;
+      }
+    }
+
+    /* Also check pet proximity (pet eats orbs it touches) */
+    if (pet.el) {
+      var pdx = pet.x - o.x;
+      var pdy = pet.y - o.y;
+      var pdist = Math.sqrt(pdx * pdx + pdy * pdy);
+      if (pdist < ORB_CONFIG.petCollectRadius) {
+        collectOrb(o);
+      }
+    }
+  }
+
+  requestAnimationFrame(checkOrbCollection);
+}
+requestAnimationFrame(checkOrbCollection);
+
+/* Spawn orbs periodically */
+setInterval(spawnXPOrb, ORB_CONFIG.spawnInterval);
+/* Initial batch */
+setTimeout(function() {
+  for (var i = 0; i < 3; i++) setTimeout(spawnXPOrb, i * 2000);
+}, 2000);
+
+/* ═══════════════════════════════════════
+   POKEMON EVOLUTION ANIMATION
+   ═══════════════════════════════════════ */
+function triggerEvolution(fromName, toName) {
+  /* Create overlay */
+  var overlay = document.createElement('div');
+  overlay.className = 'evo-overlay';
+
+  var canvas = document.createElement('canvas');
+  canvas.className = 'evo-canvas';
+  canvas.width = 96;
+  canvas.height = 96;
+  canvas.style.width = '96px';
+  canvas.style.height = '96px';
+  overlay.appendChild(canvas);
+
+  var text = document.createElement('div');
+  text.className = 'evo-text';
+  text.textContent = 'What? ' + fromName + ' is evolving!';
+  overlay.appendChild(text);
+
+  var flash = document.createElement('div');
+  flash.className = 'evo-flash';
+
+  document.body.appendChild(overlay);
+  document.body.appendChild(flash);
+
+  /* Draw the "from" sprite */
+  var ctx = canvas.getContext('2d');
+  ctx.imageSmoothingEnabled = false;
+  drawCritterOnCtx(ctx, fromName, 96, 96);
+
+  /* Phase 1: fade in overlay */
+  requestAnimationFrame(function() {
+    overlay.classList.add('active');
+  });
+
+  /* Phase 2: pulsing glow (1.5s) */
+  setTimeout(function() {
+    canvas.style.animation = 'evo-glow 0.5s ease-in-out 3';
+  }, 800);
+
+  /* Phase 3: flicker between forms */
+  var flickerCount = 0;
+  var flickerMax = 8;
+  var flickerInterval = setInterval(function() {
+    flickerCount++;
+    ctx.clearRect(0, 0, 96, 96);
+    if (flickerCount % 2 === 0) {
+      drawCritterOnCtx(ctx, fromName, 96, 96);
+    } else {
+      drawCritterOnCtx(ctx, toName, 96, 96);
+      canvas.style.filter = 'brightness(2) drop-shadow(0 0 12px rgba(255,255,255,0.8))';
+    }
+    setTimeout(function() { canvas.style.filter = ''; }, 80);
+
+    if (flickerCount >= flickerMax) {
+      clearInterval(flickerInterval);
+      /* Phase 4: white flash */
+      flash.style.animation = 'evo-flash 0.6s ease-out forwards';
+
+      /* Phase 5: show new form */
+      setTimeout(function() {
+        ctx.clearRect(0, 0, 96, 96);
+        drawCritterOnCtx(ctx, toName, 96, 96);
+        canvas.style.animation = 'evo-pulse 0.5s ease-out';
+        text.textContent = fromName + ' evolved into ' + toName + '!';
+        flash.remove();
+
+        /* Pet says something */
+        if (typeof petSay === 'function') {
+          var evoLines = [
+            'I feel... POWERFUL!',
+            'New form unlocked!',
+            'Is this what leveling up feels like?',
+            'I can feel my pixels sharpening!',
+          ];
+          petSay(evoLines[Math.floor(Math.random() * evoLines.length)], 4000);
+        }
+      }, 400);
+
+      /* Phase 6: dismiss */
+      setTimeout(function() {
+        overlay.style.transition = 'opacity 0.5s';
+        overlay.style.opacity = '0';
+        setTimeout(function() { overlay.remove(); }, 500);
+      }, 3000);
+    }
+  }, 200);
+}
+
+/* ═══════════════════════════════════════
+   JOURNEY TIMELINE SPRITES
+   ═══════════════════════════════════════ */
+(function initJourneySprites() {
+  var timelineItems = $$('.timeline-item');
+  var spriteMap = ['socal', 'analyst', 'acolyte', 'prospector'];
+  timelineItems.forEach(function(item, i) {
+    if (i >= spriteMap.length) return;
+    var dot = item.querySelector('.timeline-dot');
+    if (!dot) return;
+    var cvs = document.createElement('canvas');
+    cvs.className = 'timeline-sprite';
+    cvs.width = 36;
+    cvs.height = 32;
+    cvs.style.width = '36px';
+    cvs.style.height = '32px';
+    var ctx = cvs.getContext('2d');
+    drawCharSprite(ctx, spriteMap[i], 36, 32);
+    /* Insert sprite before the dot */
+    item.insertBefore(cvs, dot);
+  });
+})();
 
 /* ═══════════════════════════════════════
    BOOT SEQUENCE
