@@ -458,11 +458,11 @@ section h2 {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.25;
+  opacity: 0.5;
 }
 
 [data-theme="light"] #particleCanvas {
-  opacity: 0.2;
+  opacity: 0.35;
 }
 
 .hero-grid {
@@ -4152,7 +4152,7 @@ function initParticleSystem() {
   const TEAL = '#3CB8B5';
   const GRID_SPACING = 80;
   const GRID_DOT_RADIUS = 1.2;
-  const GRID_OPACITY = 0.08;
+  const GRID_OPACITY = 0.14;
   const WAVE_SPEED = 0.6;
   const WAVE_COUNT = 4;
 
@@ -4173,8 +4173,8 @@ function initParticleSystem() {
         y: h * 0.15 + (h * 0.7 / WAVE_COUNT) * i,
         offset: i * 200,
         color: i % 2 === 0 ? AMBER : TEAL,
-        opacity: 0.35 - i * 0.06,
-        lineWidth: 1.5 - i * 0.2
+        opacity: 0.55 - i * 0.08,
+        lineWidth: 2.2 - i * 0.25
       });
     }
   }
