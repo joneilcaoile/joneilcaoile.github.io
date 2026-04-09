@@ -344,7 +344,7 @@ section h2 {
 .theme-toggle {
   background: none; border: none; cursor: pointer;
   color: var(--text-secondary);
-  width: 36px; height: 36px;
+  width: 44px; height: 44px;
   display: flex; align-items: center; justify-content: center;
   border-radius: 50%;
   transition: color 0.2s, background 0.2s;
@@ -1961,6 +1961,15 @@ footer {
   .career-paths { grid-template-columns: 1fr; }
   .personal-grid { grid-template-columns: 1fr; }
   .hero-name { font-size: 36px; }
+  #charSelect { padding: 20px; }
+  .char-grid { grid-template-columns: 1fr; }
+  .featured-card { padding: 20px 16px; }
+  .toolkit-cell { padding: 8px 12px; }
+  .headshot-frame { width: clamp(200px, 80vw, 280px); height: clamp(200px, 80vw, 280px); }
+  .story-headshot { width: clamp(200px, 80vw, 280px); height: auto; position: static; }
+  .mobile-menu a { font-size: 22px; }
+  .gm-opt { padding: 12px 16px; }
+  .toast { right: 12px; left: 12px; max-width: none; }
 }
 
 /* ═══════════════════════════════════════
@@ -2601,12 +2610,13 @@ footer {
   align-items: center;
   gap: 2px;
   transform-origin: bottom center;
+  animation: character-idle-bounce 1.5s ease-in-out infinite;
 }
 
 .hero-character .sprite-novice {
   transform: scale(3);
   transform-origin: top left;
-  margin-bottom: 60px; /* space for scaled sprite */
+  margin-bottom: 60px;
 }
 
 .hero-character .character-label {
@@ -2622,12 +2632,6 @@ footer {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
 }
-
-.hero-character {
-  animation: character-idle-bounce 1.5s ease-in-out infinite;
-}
-
-/* idle-bounce replaced by character-idle-bounce above */
 
 @media (prefers-reduced-motion: reduce) {
   .hero-character { animation: none; }
@@ -3589,19 +3593,27 @@ footer {
 (function(){
 'use strict';
 
+/* ─── Safe localStorage wrapper ─── */
+function ls(key, fallback) {
+  try { return localStorage.getItem(key); } catch { return fallback || null; }
+}
+function lsSet(key, val) {
+  try { localStorage.setItem(key, val); } catch { /* private mode */ }
+}
+
 /* ─── State ─── */
 const S = {
-  theme: localStorage.getItem('jc-theme') || 'dark',
-  particles: localStorage.getItem('jc-particles') !== 'off',
-  crt: localStorage.getItem('jc-crt') === 'on',
-  xp: parseInt(localStorage.getItem('jc-xp')) || 0,
+  theme: ls('jc-theme') || 'dark',
+  particles: ls('jc-particles') !== 'off',
+  crt: ls('jc-crt') === 'on',
+  xp: parseInt(ls('jc-xp')) || 0,
   maxXp: 2026,
   menuOpen: false,
-  sectionsRevealed: JSON.parse(localStorage.getItem('jc-sections') || '{}'),
+  sectionsRevealed: JSON.parse(ls('jc-sections') || '{}'),
   isMobile: matchMedia('(pointer:coarse)').matches,
   reducedMotion: matchMedia('(prefers-reduced-motion:reduce)').matches,
   konami: [],
-  konamiCode: [38,38,40,40,37,39,37,39,66,65],
+  konamiCode: ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','KeyB','KeyA'],
   termHistory: [],
   termHistIdx: -1,
 };
@@ -3741,10 +3753,10 @@ function buildCharGrid() {
     const card = document.createElement('div');
     card.className = 'char-card';
     card.innerHTML = `
-      <div class="char-emoji">${c.emoji}</div>
-      <div class="char-name">${c.name}</div>
-      <div class="char-class">${c.class}</div>
-      <div class="char-desc">${c.desc}</div>
+      <div class="char-card-emoji" style="font-size:32px;margin-bottom:8px;">${c.emoji}</div>
+      <div class="char-card-name">${c.name}</div>
+      <div class="char-card-class">${c.class}</div>
+      <div class="char-card-desc">${c.desc}</div>
     `;
     card.addEventListener('click', () => {
       showToast(`Class selected: ${c.name}`);
@@ -3770,12 +3782,12 @@ updateOptionsUI();
 DOM.optTheme.addEventListener('click', () => { toggleTheme(); updateOptionsUI(); });
 DOM.optParticles.addEventListener('click', () => {
   S.particles = !S.particles;
-  localStorage.setItem('jc-particles', S.particles ? 'on' : 'off');
+  lsSet('jc-particles', S.particles ? 'on' : 'off');
   updateOptionsUI();
 });
 DOM.optCRT.addEventListener('click', () => {
   S.crt = !S.crt;
-  localStorage.setItem('jc-crt', S.crt ? 'on' : 'off');
+  lsSet('jc-crt', S.crt ? 'on' : 'off');
   document.body.classList.toggle('crt-on', S.crt);
   updateOptionsUI();
 });
@@ -3786,7 +3798,7 @@ DOM.optCRT.addEventListener('click', () => {
 function setTheme(t) {
   S.theme = t;
   document.documentElement.setAttribute('data-theme', t);
-  localStorage.setItem('jc-theme', t);
+  lsSet('jc-theme', t);
 }
 setTheme(S.theme);
 
@@ -3916,7 +3928,7 @@ function initScrollReveals() {
           const sec = el.closest('section');
           if (sec && sec.id && !S.sectionsRevealed[sec.id]) {
             S.sectionsRevealed[sec.id] = true;
-            localStorage.setItem('jc-sections', JSON.stringify(S.sectionsRevealed));
+            lsSet('jc-sections', JSON.stringify(S.sectionsRevealed));
             awardXP(15, `Discovered: ${sec.id}`);
           }
         }
@@ -4200,7 +4212,7 @@ function getStage(xp) {
 
 function awardXP(amount, reason) {
   S.xp = Math.min(S.xp + amount, S.maxXp);
-  localStorage.setItem('jc-xp', S.xp);
+  lsSet('jc-xp', S.xp);
   updateXPDisplay();
   drawCritter();
   if (reason) showToast(`+${amount} XP: ${reason}`);
@@ -4444,6 +4456,7 @@ if (contactForm) {
   contactForm.addEventListener('submit', async e => {
     e.preventDefault();
     const btn = contactForm.querySelector('.form-submit');
+    if (!btn) return;
     const origText = btn.textContent;
     btn.textContent = 'Sending...';
     btn.disabled = true;
@@ -4475,7 +4488,7 @@ if (contactForm) {
    12. KONAMI CODE EASTER EGG
    ═══════════════════════════════════════ */
 document.addEventListener('keydown', e => {
-  S.konami.push(e.keyCode);
+  S.konami.push(e.code);
   if (S.konami.length > S.konamiCode.length) S.konami.shift();
   if (S.konami.join(',') === S.konamiCode.join(',')) {
     awardXP(200, 'KONAMI CODE ACTIVATED');
