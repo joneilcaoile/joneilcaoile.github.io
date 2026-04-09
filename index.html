@@ -409,6 +409,13 @@ section h2 {
   overflow: hidden;
 }
 
+#particleCanvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
 .hero-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2974,6 +2981,7 @@ footer {
 
 <!-- ═══════════════════════ HERO ═══════════════════════ -->
 <section id="hero">
+  <canvas id="particleCanvas" aria-hidden="true"></canvas>
   <div class="hero-orb hero-orb--1" aria-hidden="true"></div>
   <div class="hero-orb hero-orb--2" aria-hidden="true"></div>
   <div class="container">
@@ -3816,6 +3824,8 @@ function dismissMenu() {
   S.menuOpen = false;
   document.body.style.overflow = '';
   if (!S.reducedMotion) initScrollReveals();
+  initParticleSystem();
+  initMagneticButtons();
   awardXP(50, 'Welcome bonus');
 }
 
@@ -3961,6 +3971,217 @@ if (!S.isMobile) {
   document.addEventListener('mouseout', e => {
     const t = e.target.closest('a, button, .work-card, .bring-card, .char-card, .gm-opt, input, textarea, .career-path, .personal-item, .criteria-item');
     if (t) { hovering = false; DOM.cursorRing.style.borderColor = ''; }
+  });
+}
+
+/* ═══════════════════════════════════════
+   5.2 MAGNETIC BUTTON HOVER
+   ═══════════════════════════════════════ */
+function initMagneticButtons() {
+  if (S.isMobile) return;
+
+  const buttons = $$('.btn');
+  const ATTRACTION_RANGE = 40;
+  const MAX_DISPLACEMENT = 8;
+
+  let mouseX = 0;
+  let mouseY = 0;
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+    buttons.forEach(btn => {
+      const rect = btn.getBoundingClientRect();
+      const btnCenterX = rect.left + rect.width / 2;
+      const btnCenterY = rect.top + rect.height / 2;
+
+      const dx = mouseX - btnCenterX;
+      const dy = mouseY - btnCenterY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < ATTRACTION_RANGE && dist > 0) {
+        const force = (1 - dist / ATTRACTION_RANGE);
+        const offsetX = (dx / dist) * force * MAX_DISPLACEMENT;
+        const offsetY = (dy / dist) * force * MAX_DISPLACEMENT;
+        btn.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+      } else {
+        btn.style.transform = 'translate(0, 0)';
+      }
+    });
+  });
+
+  /* Reset on page blur */
+  window.addEventListener('mouseleave', () => {
+    buttons.forEach(btn => {
+      btn.style.transform = 'translate(0, 0)';
+    });
+  });
+}
+
+/* ═══════════════════════════════════════
+   5.3 TEXT SCRAMBLE EFFECT (Section H2)
+   ═══════════════════════════════════════ */
+function scrambleText(element, finalText, duration) {
+  if (S.reducedMotion) {
+    element.textContent = finalText;
+    return;
+  }
+
+  const charset = '!<>-_\\/[]{}=+*^?#';
+  const chars = finalText.split('');
+  const startTime = Date.now();
+
+  function update() {
+    const elapsed = Date.now() - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const charsToReveal = Math.floor(chars.length * progress);
+
+    let result = '';
+    for (let i = 0; i < chars.length; i++) {
+      if (i < charsToReveal) {
+        result += chars[i];
+      } else {
+        result += charset[Math.floor(Math.random() * charset.length)];
+      }
+    }
+
+    element.textContent = result;
+
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    } else {
+      element.textContent = finalText;
+    }
+  }
+
+  update();
+}
+
+/* ═══════════════════════════════════════
+   5.5 PARTICLE CONSTELLATION (Hero Canvas)
+   ═══════════════════════════════════════ */
+function initParticleSystem() {
+  if (S.reducedMotion || !S.particles) return;
+
+  const canvas = $('#particleCanvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  const PARTICLE_COUNT = 100;
+  const CONNECTION_DIST = 120;
+  const MOUSE_RADIUS = 150;
+  const PARTICLE_RADIUS = 2.5;
+  const PARTICLE_SPEED = 0.15;
+  const AMBER_COLOR = '#C67B2E';
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let particles = [];
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = document.getElementById('hero').offsetHeight;
+  }
+
+  function initParticles() {
+    particles = [];
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * PARTICLE_SPEED,
+        vy: (Math.random() - 0.5) * PARTICLE_SPEED,
+        ax: 0,
+        ay: 0
+      });
+    }
+  }
+
+  function updateParticles() {
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+
+      /* Bounce off edges */
+      if (p.x < 0 || p.x > canvas.width) p.vx *= -0.8;
+      if (p.y < 0 || p.y > canvas.height) p.vy *= -0.8;
+
+      p.x = Math.max(0, Math.min(canvas.width, p.x + p.vx));
+      p.y = Math.max(0, Math.min(canvas.height, p.y + p.vy));
+
+      /* Mouse repulsion */
+      const dx = p.x - mouseX;
+      const dy = p.y - mouseY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < MOUSE_RADIUS && dist > 0) {
+        const force = (1 - dist / MOUSE_RADIUS) * 0.8;
+        p.vx += (dx / dist) * force;
+        p.vy += (dy / dist) * force;
+      }
+
+      /* Damping */
+      p.vx *= 0.98;
+      p.vy *= 0.98;
+    }
+  }
+
+  function drawParticles() {
+    /* Clear canvas */
+    ctx.fillStyle = 'rgba(15, 14, 12, 0)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    /* Draw connections */
+    ctx.strokeStyle = AMBER_COLOR;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const p1 = particles[i];
+        const p2 = particles[j];
+        const dx = p1.x - p2.x;
+        const dy = p1.y - p2.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < CONNECTION_DIST) {
+          const opacity = (1 - dist / CONNECTION_DIST) * 0.25;
+          ctx.globalAlpha = opacity;
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+          ctx.globalAlpha = 1;
+        }
+      }
+    }
+
+    /* Draw particles */
+    ctx.fillStyle = AMBER_COLOR;
+    for (let p of particles) {
+      ctx.globalAlpha = 0.4;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, PARTICLE_RADIUS, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  function animate() {
+    updateParticles();
+    drawParticles();
+    requestAnimationFrame(animate);
+  }
+
+  resizeCanvas();
+  initParticles();
+  animate();
+
+  window.addEventListener('resize', () => {
+    resizeCanvas();
+  });
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
   });
 }
 
@@ -4141,6 +4362,22 @@ function initScrollReveals() {
     scrollTrigger: { trigger: '#hero', start: 'bottom 80%', end: 'bottom 60%', scrub: true }
   });
 
+  /* Section heading text scramble effect */
+  const revealedHeadings = new Set();
+  const headingObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !revealedHeadings.has(entry.target)) {
+        revealedHeadings.add(entry.target);
+        const finalText = entry.target.textContent;
+        scrambleText(entry.target, finalText, 800);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  $$('section h2').forEach(h2 => {
+    headingObserver.observe(h2);
+  });
+
   /* Refresh after all triggers are set up */
   ScrollTrigger.refresh();
 }
@@ -4160,7 +4397,7 @@ const TERM_COMMANDS = {
   tools       Engineering tools
   hire        Why hire me
   criteria    What I'm looking for
-  arcade      Play a game
+  arcade      Play Device Quest
   neofetch    System info
   clear       Clear terminal
   sudo        Nice try
@@ -4169,7 +4406,10 @@ const TERM_COMMANDS = {
   date        Today's date
   echo [msg]  Repeat message
   cat [file]  Read a file
-  ping        Test connection`,
+  ping        Test connection
+  matrix      Enter the Matrix
+  ascii       ASCII art portrait
+  hack        Hack sequence`,
 
   whoami: () => 'Joneil Caoile. M.S. Biomedical Engineering, Stevens 2026. Device tester, tool builder, validation nerd. Available May 2026 in SoCal.',
 
@@ -4222,9 +4462,20 @@ Software:   Web apps, data pipelines, client-side ML, APIs`,
 
   arcade: () => {
     awardXP(10, 'Arcade discovered');
-    return `🎮 ARCADE MODE
-No games installed yet. But you found it.
-  +10 XP for the discovery.`;
+    setTimeout(() => { window.location.href = 'quest.html'; }, 800);
+    return `Loading Device Quest...\nNavigate the medtech facility. Defeat bugs. Survive the audit.`;
+  },
+
+  quest: () => {
+    awardXP(10, 'Quest discovered');
+    setTimeout(() => { window.location.href = 'quest.html'; }, 800);
+    return `Loading Device Quest: The Validation Engineer...\nPrepare for the FDA audit.`;
+  },
+
+  play: () => {
+    awardXP(10, 'Play discovered');
+    setTimeout(() => { window.location.href = 'quest.html'; }, 800);
+    return `Loading Device Quest...\nGood luck, engineer.`;
   },
 
   neofetch: () => {
@@ -4256,6 +4507,101 @@ headshot.webp       og-preview.png       README.md`,
 
   pwd: () => '/home/joneil/portfolio',
   date: () => new Date().toLocaleString(),
+
+  matrix: () => {
+    awardXP(25, 'Entered the Matrix');
+    const canvas = document.createElement('canvas');
+    canvas.id = 'matrixOverlay';
+    canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:9999;pointer-events:none;';
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const charset = 'ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤラリルレロワヲン0123456789';
+    const fontSize = 20;
+    const cols = Math.ceil(canvas.width / fontSize);
+    const drops = Array(cols).fill(0);
+
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#00FF41';
+      ctx.font = fontSize + 'px monospace';
+
+      for (let i = 0; i < drops.length; i++) {
+        const char = charset[Math.floor(Math.random() * charset.length)];
+        ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    let matrixInterval = setInterval(draw, 30);
+
+    setTimeout(() => {
+      clearInterval(matrixInterval);
+      let fade = 1;
+      const fadeInterval = setInterval(() => {
+        fade -= 0.02;
+        canvas.style.opacity = fade;
+        if (fade <= 0) {
+          clearInterval(fadeInterval);
+          document.body.removeChild(canvas);
+        }
+      }, 30);
+    }, 8000);
+
+    return 'Entering the Matrix...';
+  },
+
+  ascii: () => {
+    awardXP(10, 'ASCII art discovered');
+    return `     ___  ____
+    / _ \\/ ___|
+   | | | |
+   | |_| | |___
+    \\___/ \\____|
+
+    JONEIL CAOILE
+    Biomedical Engineer
+    Available May 2026`;
+  },
+
+  hack: () => {
+    awardXP(15, 'Hacking sequence initiated');
+    let output = '';
+
+    const steps = [
+      'Accessing mainframe...',
+      'Bypassing firewall...',
+      'Cracking encryption...',
+      'Downloading patient data...',
+      'JUST KIDDING.',
+      'This is a regulatory nightmare.',
+      'FDA audit incoming.'
+    ];
+
+    let stepIdx = 0;
+    const interval = setInterval(() => {
+      if (stepIdx < steps.length) {
+        const inLine = document.createElement('div');
+        inLine.innerHTML = `<span class="response">${steps[stepIdx]}</span>`;
+        DOM.termBody.appendChild(inLine);
+        DOM.termBody.scrollTop = DOM.termBody.scrollHeight;
+        stepIdx++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 300);
+
+    return '';
+  },
 };
 
 function termExec(input) {
