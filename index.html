@@ -5773,17 +5773,23 @@ buildCharGrid();
       var roleAlpha = Math.min(1, thinkT / 600) * fadeAlpha;
       ctx.globalAlpha = roleAlpha;
       var crossX = MILESTONES[4].x * w;
-      var roleSpacing = isMini ? 44 : 96;
+      var roleSpacing = isMini ? 36 : 68;
       var baseY = groundY - (isMini ? 48 : 78);
+      var groupW = roleSpacing * 3;
+      var startX = crossX - groupW / 2;
       CAREER_SPRITES.forEach(function(cs, i) {
-        var rx = crossX - roleSpacing * 1.5 + i * roleSpacing;
+        var rx = startX + i * roleSpacing;
         var bob = Math.sin(now / 500 + i * 1.2) * 3;
         var cached = roleCache[cs.type];
         if (cached) ctx.drawImage(cached, rx - 28, baseY + bob - 36);
         ctx.fillStyle = '#FFD700';
         ctx.font = 'bold ' + (isMini ? 8 : 11) + 'px monospace';
         ctx.textAlign = 'center';
-        ctx.fillText(cs.label, rx, baseY + (isMini ? 24 : 34));
+        /* Stagger labels: even indices above sprites, odd indices below */
+        var labelY = (i % 2 === 0)
+          ? baseY - (isMini ? 28 : 42)
+          : baseY + (isMini ? 24 : 34);
+        ctx.fillText(cs.label, rx, labelY);
       });
     }
     ctx.globalAlpha = 1;
