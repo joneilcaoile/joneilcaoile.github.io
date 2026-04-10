@@ -155,6 +155,19 @@
       * { animation: none !important; transition: none !important; }
     }
 
+    /* Mouse spotlight overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(198,123,46,0.06), transparent 40%);
+      transition: opacity 0.3s;
+      opacity: 1;
+    }
+    @media (pointer: coarse) { body::before { display: none; } }
+    @media (prefers-reduced-motion: reduce) { body::before { display: none; } }
+
     /* ===== READING PROGRESS BAR ===== */
     #reading-progress {
       position: fixed;
@@ -1387,7 +1400,7 @@
     </section>
 
     <!-- ===== CTA ===== -->
-    <div class="cta-section">
+    <div class="cta-section r">
       <div class="cta-inner">
         <h2 class="section-title r">Looking for a role where the engineering has real clinical stakes</h2>
         <p class="cta-body r">
@@ -1551,6 +1564,12 @@
   (function(){ var el = document.querySelector('.footer-year'); if (el) el.textContent = new Date().getFullYear(); })();
   </script>
 <script>
+/* Mouse spotlight */
+document.addEventListener('mousemove', function(e) {
+  document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
+  document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
+}, { passive: true });
+
 (function pageTransitions(){
   var ov=document.getElementById('pageTransition');if(!ov)return;
   document.addEventListener('click',function(e){

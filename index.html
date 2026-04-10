@@ -558,6 +558,23 @@ section h2 {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  clip-path: inset(0 100% 0 0);
+  animation: hero-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+@keyframes hero-reveal {
+  to { clip-path: inset(0 0% 0 0); }
+}
+
+/* Stagger hero elements */
+.hero-tag { opacity: 0; animation: hero-fade-up 0.6s var(--ease-out) 0.1s forwards; }
+.hero-badge { opacity: 0; animation: hero-fade-up 0.6s var(--ease-out) 0s forwards; }
+.hero-desc { opacity: 0; animation: hero-fade-up 0.6s var(--ease-out) 0.9s forwards; }
+.hero-targets { opacity: 0; animation: hero-fade-up 0.6s var(--ease-out) 1.1s forwards; }
+.hero-ctas { opacity: 0; animation: hero-fade-up 0.6s var(--ease-out) 1.3s forwards; }
+.hero-right { opacity: 0; animation: hero-fade-up 0.8s var(--ease-out) 0.5s forwards; }
+@keyframes hero-fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 [data-theme="light"] .hero-name {
   background: linear-gradient(135deg, #1A1916 0%, #A86820 45%, #C4872A 75%, #D4A233 100%);
@@ -833,10 +850,24 @@ section h2 {
 .spec-cell {
   background: var(--bg-card);
   padding: 20px 24px;
-  transition: background 0.2s var(--ease);
+  transition: background 0.2s var(--ease), border-color 0.2s, transform 0.15s;
+  position: relative;
 }
 
-.spec-cell:hover { background: var(--bg-card-hover); }
+.spec-cell:hover {
+  background: var(--bg-card-hover);
+  transform: translateY(-1px);
+}
+.spec-cell::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 20px; right: 20px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--amber), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.spec-cell:hover::after { opacity: 0.4; }
 
 .spec-label {
   font-family: var(--font-mono);
@@ -1350,10 +1381,14 @@ section h2 {
   display: grid;
   grid-template-columns: 200px 1fr 1fr 140px;
   background: var(--bg-card);
-  transition: background 0.2s var(--ease);
+  transition: background 0.2s var(--ease), box-shadow 0.3s;
+  position: relative;
 }
 
-.toolkit-row:hover { background: var(--bg-card-hover); }
+.toolkit-row:hover {
+  background: var(--bg-card-hover);
+  box-shadow: inset 3px 0 0 var(--amber);
+}
 
 .toolkit-row--header {
   background: var(--bg-elevated);
@@ -1363,6 +1398,7 @@ section h2 {
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+.toolkit-row--header:hover { box-shadow: none; }
 
 .toolkit-cell {
   padding: 16px 20px;
@@ -1597,6 +1633,7 @@ section h2 {
 
 @media (max-width: 768px) {
   .bring-grid { grid-template-columns: repeat(2, 1fr); }
+  .personal-grid { grid-template-columns: repeat(2, 1fr); }
   .ct-branches { grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .ct-hbar { margin: 0 25%; }
 }
@@ -1746,7 +1783,7 @@ tr.sk-data td:first-child { border-left: 3px solid #FFB74D; }
    ═══════════════════════════════════════ */
 .personal-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
 }
 
@@ -1755,14 +1792,26 @@ tr.sk-data td:first-child { border-left: 3px solid #FFB74D; }
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  transition: border-color 0.2s, transform 0.2s;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.3s;
   position: relative;
+  overflow: hidden;
+}
+.personal-item::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--item-accent, var(--amber));
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
 .personal-item:hover {
-  border-color: var(--border-hover);
-  transform: translateY(-2px);
+  border-color: var(--item-accent, var(--border-hover));
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
 }
+.personal-item:hover::before { opacity: 1; }
 
 .personal-item-icon {
   font-size: 24px;
@@ -1930,6 +1979,41 @@ footer {
   color: var(--text-muted);
 }
 
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.footer-brand { display: flex; flex-direction: column; gap: 2px; }
+.footer-name {
+  font-family: var(--font-heading);
+  font-size: 16px; font-weight: 600;
+  color: var(--text);
+}
+.footer-tagline {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+.btn-back-top {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.2s, color 0.2s, transform 0.2s;
+}
+.btn-back-top:hover {
+  border-color: var(--amber);
+  color: var(--amber);
+  transform: translateY(-2px);
+}
+
 .footer-links {
   display: flex; justify-content: center; gap: 24px;
   margin-bottom: 12px;
@@ -1962,10 +2046,20 @@ footer {
   font-family: var(--font-heading);
   font-size: clamp(36px, 8vw, 72px);
   font-weight: 700;
-  color: #FFFFFF;
   letter-spacing: -0.02em;
   margin-bottom: 8px;
-  text-shadow: 0 0 40px rgba(198,123,46,0.3);
+  background: linear-gradient(135deg, #FFFFFF 0%, #FFE0B2 40%, #FFD700 60%, #FFFFFF 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gm-title-shimmer 4s ease-in-out infinite;
+  text-shadow: none;
+  filter: drop-shadow(0 0 30px rgba(198,123,46,0.25));
+}
+@keyframes gm-title-shimmer {
+  0%, 100% { background-position: 200% 0; }
+  50% { background-position: 0% 0; }
 }
 
 .gm-sub {
@@ -2008,7 +2102,9 @@ footer {
 
 .gm-opt[aria-selected="true"],
 .gm-opt:hover {
-  color: rgba(255,255,255,0.9);
+  color: #FFF;
+  text-shadow: 0 0 12px rgba(198,123,46,0.4);
+  transform: translateX(4px);
 }
 
 .gm-opt[aria-selected="true"]::before,
@@ -2033,6 +2129,21 @@ footer {
 }
 
 #charSelect.visible { display: flex; }
+
+.char-select-title {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 32px;
+  background: linear-gradient(135deg, #FFF 0%, #FFD700 50%, #FFF 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gm-title-shimmer 5s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px rgba(255,215,0,0.15));
+}
 
 .char-grid {
   display: grid;
@@ -2059,16 +2170,18 @@ footer {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 80%, rgba(198,123,46,0.08), transparent 60%);
+  background: radial-gradient(ellipse at 50% 80%, color-mix(in srgb, var(--card-glow, var(--amber)) 12%, transparent), transparent 60%);
   opacity: 0;
   transition: opacity 0.3s;
 }
 .char-card:hover::before { opacity: 1; }
 
 .char-card:hover {
-  border-color: var(--amber);
+  border-color: var(--card-glow, var(--amber));
   transform: translateY(-2px);
   background: rgba(255,255,255,0.05);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--card-glow, var(--amber)) 15%, transparent),
+              0 4px 12px rgba(0,0,0,0.3);
 }
 
 .char-card canvas.char-sprite {
@@ -2086,13 +2199,18 @@ footer {
   font-size: 18px; font-weight: 600;
   color: #FFF;
   margin-bottom: 2px;
+  transition: text-shadow 0.3s;
+}
+.char-card:hover .char-card-name {
+  text-shadow: 0 0 12px var(--card-glow, var(--amber));
 }
 
 .char-card-class {
   font-family: var(--font-mono);
   font-size: 11px;
-  color: var(--amber);
+  color: var(--card-glow, var(--amber));
   margin-bottom: 4px;
+  transition: color 0.3s;
 }
 
 .char-card-period {
@@ -3438,7 +3556,8 @@ footer {
 
 <!-- Character Select -->
 <div id="charSelect" role="dialog" aria-label="Character select">
-  <h2 style="font-family:var(--font-heading);font-size:28px;font-weight:700;color:#FFF;text-align:center;margin-bottom:32px;">SELECT YOUR CLASS</h2>
+  <h2 class="char-select-title">SELECT YOUR CLASS</h2>
+  <p style="font-family:var(--font-mono);font-size:11px;color:rgba(255,255,255,0.3);text-align:center;margin:-20px 0 32px;">Choose a specialization. Each path leads somewhere different.</p>
   <div class="char-grid" id="charGrid"></div>
   <div class="journey-walk-mini" aria-hidden="true">
     <canvas id="journeyWalkMini"></canvas>
@@ -4094,12 +4213,12 @@ footer {
   <div class="container">
     <p class="section-label r">08.5 / Off the Clock</p>
     <div class="personal-grid">
-      <div class="personal-item r">
+      <div class="personal-item r" style="--item-accent: #E57373">
         <span class="personal-item-icon" aria-hidden="true">📷</span>
         <h3>Fujifilm X-T5</h3>
         <p>Mood-driven photography. XF 33mm f/1.4, soft highlights, analog character. Built PhotoCull because I got tired of paying to cull my own shots.</p>
       </div>
-      <div class="personal-item r">
+      <div class="personal-item r" style="--item-accent: #66BB6A">
         <span class="personal-item-icon" aria-hidden="true">🎮</span>
         <h3>Gamer</h3>
         <p>Valorant, Minecraft, Clash Royale, Tekken, and whatever else looks fun. Yes, I have a Minecraft server.</p>
@@ -4112,20 +4231,25 @@ footer {
           <div class="craft-result"><span class="craft-arrow">→</span> BME Engineer x1</div>
         </div>
       </div>
-      <div class="personal-item r">
+      <div class="personal-item r" style="--item-accent: #42A5F5">
         <span class="personal-item-icon" aria-hidden="true">🚲</span>
         <h3>E-Bike Commuter</h3>
         <p>Lectric XP 4.0. Jersey City to Hoboken daily. Minimalist gear philosophy, maximum efficiency.</p>
       </div>
-      <div class="personal-item r">
+      <div class="personal-item r" style="--item-accent: #8D6E63">
         <span class="personal-item-icon" aria-hidden="true">☕</span>
         <h3>Coffee-Powered</h3>
         <p>Strong opinions about test protocols. Even stronger opinions about pour-over ratios.</p>
       </div>
-      <div class="personal-item r">
+      <div class="personal-item r" style="--item-accent: #FFB74D">
         <span class="personal-item-icon" aria-hidden="true">🌴</span>
         <h3>SoCal Native</h3>
         <p>Grew up in Carson/Torrance. Came to Jersey City for my masters. Heading home after graduation. If your office is between Long Beach and Irvine, even better.</p>
+      </div>
+      <div class="personal-item r" style="--item-accent: #AB47BC">
+        <span class="personal-item-icon" aria-hidden="true">🎵</span>
+        <h3>Music & Focus</h3>
+        <p>Lofi beats for deep work, Filipino OPM for vibes. The right playlist is a productivity multiplier.</p>
       </div>
     </div>
   </div>
@@ -4231,12 +4355,22 @@ footer {
 <!-- Footer -->
 <footer>
   <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="footer-name">Joneil Caoile</span>
+        <span class="footer-tagline">M.S. Biomedical Engineering, Stevens Institute of Technology</span>
+      </div>
+      <button class="btn-back-top" id="btnBackTop" aria-label="Back to top" title="Back to top">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12V4M4 7l4-4 4 4"/></svg>
+      </button>
+    </div>
     <div class="footer-links">
       <a href="https://linkedin.com/in/joneilcaoile" target="_blank" rel="noopener">LinkedIn</a>
       <a href="https://github.com/joneilcaoile" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:joneilcaoile@gmail.com">Email</a>
       <a href="https://github.com/joneilcaoile/joneilcaoile.github.io" target="_blank" rel="noopener">Source</a>
     </div>
-    <p class="footer-text">&copy; <script>document.write(new Date().getFullYear())</script> Joneil Caoile. Built with too much coffee. No frameworks. No build tools. Just HTML, CSS, and JavaScript.</p>
+    <p class="footer-text">&copy; <script>document.write(new Date().getFullYear())</script> Joneil Caoile. No frameworks. No build tools. Just HTML, CSS, and JavaScript.</p>
   </div>
   <div class="journey-walk" aria-hidden="true">
     <canvas id="journeyWalkCanvas"></canvas>
@@ -4477,14 +4611,14 @@ document.addEventListener('keydown', e => {
    2. CHARACTER SELECT
    ═══════════════════════════════════════ */
 const CHARACTERS = [
-  { name: 'SoCal Kid', class: 'Origin', desc: 'Carson/Torrance native. 400+ hrs clinical observation. The starting build.', sprite: 'socal' },
-  { name: 'Prospector', class: 'Job Seeker', desc: 'Actively hunting SoCal medtech roles. Validation, apps, R&D, HFE.', sprite: 'prospector' },
-  { name: 'Field Analyst', class: 'Applications', desc: 'End-user training, field feedback, troubleshooting docs.', sprite: 'analyst' },
-  { name: 'Duck', class: 'Debug Companion', desc: 'Rubber duck debugging partner. Surprisingly effective.', sprite: 'duck' },
-  { name: 'Acolyte', class: 'Validation', desc: 'IQ/OQ/PQ protocols, risk-based test strategies, CAPA workflows.', sprite: 'acolyte' },
-  { name: 'Sage', class: 'Regulatory', desc: 'FDA 21 CFR 820, IEC 62366-1, ISO 14971. Knows the regs.', sprite: 'sage' },
-  { name: 'Blacksmith', class: 'R&D', desc: 'Sensor systems, signal processing, rapid prototyping.', sprite: 'blacksmith' },
-  { name: 'Creator', class: 'Human Factors', desc: 'Usability studies, use error classification, HFE reports.', sprite: 'creator' },
+  { name: 'SoCal Kid', class: 'Origin', desc: 'Carson/Torrance native. 400+ hrs clinical observation. The starting build.', sprite: 'socal', glow: '#FF6B35' },
+  { name: 'Prospector', class: 'Job Seeker', desc: 'Actively hunting SoCal medtech roles. Validation, apps, R&D, HFE.', sprite: 'prospector', glow: '#D4A233' },
+  { name: 'Field Analyst', class: 'Applications', desc: 'End-user training, field feedback, troubleshooting docs.', sprite: 'analyst', glow: '#42A5F5' },
+  { name: 'Duck', class: 'Debug Companion', desc: 'Rubber duck debugging partner. Surprisingly effective.', sprite: 'duck', glow: '#FFD700' },
+  { name: 'Acolyte', class: 'Validation', desc: 'IQ/OQ/PQ protocols, risk-based test strategies, CAPA workflows.', sprite: 'acolyte', glow: '#8866CC' },
+  { name: 'Sage', class: 'Regulatory', desc: 'FDA 21 CFR 820, IEC 62366-1, ISO 14971. Knows the regs.', sprite: 'sage', glow: '#2E5BD0' },
+  { name: 'Blacksmith', class: 'R&D', desc: 'Sensor systems, signal processing, rapid prototyping.', sprite: 'blacksmith', glow: '#FF6600' },
+  { name: 'Creator', class: 'Human Factors', desc: 'Usability studies, use error classification, HFE reports.', sprite: 'creator', glow: '#FF69B4' },
 ];
 
 /* Pixel art character sprite renderer (Ragnarok-inspired chibi style) */
@@ -4738,6 +4872,7 @@ function buildCharGrid() {
   CHARACTERS.forEach(c => {
     const card = document.createElement('div');
     card.className = 'char-card';
+    if (c.glow) card.style.setProperty('--card-glow', c.glow);
 
     /* Pixel art sprite canvas */
     var cvs = document.createElement('canvas');
@@ -4966,9 +5101,31 @@ buildCharGrid();
     var groundY = h - 20;
     var iconScale = isMini ? 1.2 : 1.8;
 
+    /* Pixel stars (seeded from canvas width for consistency) */
+    if (!isMini) {
+      var starSeed = w * 7;
+      for (var si = 0; si < 18; si++) {
+        starSeed = (starSeed * 9301 + 49297) % 233280;
+        var sx = (starSeed / 233280) * w;
+        starSeed = (starSeed * 9301 + 49297) % 233280;
+        var sy = (starSeed / 233280) * (groundY - 30);
+        var twinkle = Math.sin(now / 1200 + si * 2.1) * 0.3 + 0.5;
+        ctx.globalAlpha = twinkle;
+        ctx.fillStyle = si % 3 === 0 ? '#FFD700' : '#AABBCC';
+        ctx.fillRect(Math.floor(sx), Math.floor(sy), 2, 2);
+      }
+      ctx.globalAlpha = 1;
+    }
+
     /* Ground */
     ctx.fillStyle = '#1E1B18';
     ctx.fillRect(0, groundY, w, h - groundY);
+    /* Ground texture (subtle pixel dots) */
+    ctx.fillStyle = '#2A2520';
+    for (var gi = 0; gi < w; gi += 12) {
+      ctx.fillRect(gi, groundY + 4, 2, 2);
+      ctx.fillRect(gi + 6, groundY + 10, 2, 2);
+    }
     /* Path surface */
     ctx.fillStyle = '#3E3530';
     ctx.fillRect(0, groundY - 2, w, 3);
@@ -5419,6 +5576,34 @@ $$('.mm-link').forEach(a => a.addEventListener('click', () => {
   DOM.mobileMenu.classList.remove('open');
   DOM.hamburger.setAttribute('aria-expanded', 'false');
 }));
+
+/* ── Back to top ── */
+document.getElementById('btnBackTop').addEventListener('click', function() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+/* ── Scrollspy: highlight active nav link ── */
+(function() {
+  var navLinks = $$('.nav-links a[href^="#"]');
+  var sections = [];
+  navLinks.forEach(function(a) {
+    var el = $(a.getAttribute('href'));
+    if (el) sections.push({ el: el, link: a });
+  });
+  if (!sections.length) return;
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        navLinks.forEach(function(l) { l.classList.remove('active'); });
+        var match = sections.find(function(s) { return s.el === entry.target; });
+        if (match) match.link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+
+  sections.forEach(function(s) { observer.observe(s.el); });
+})();
 
 /* Smooth scroll for anchor links */
 $$('a[href^="#"]').forEach(a => {
@@ -6240,6 +6425,14 @@ var PET_LINES = {
     'That\'s a nice portfolio you have there... sssSSS',
     'Have you tried putting it in rice? Works in Minecraft.',
     'I would survive a creeper explosion. Probably.',
+    'Design controls? My favorite bedtime story.',
+    'I dream in V-model diagrams.',
+    'My threat model includes being ignored.',
+    'ISO 14971 risk matrix: me being here = acceptable.',
+    'Somewhere out there a 510(k) is being filed.',
+    'I am technically a digital twin of myself.',
+    'Just sitting here. Maintaining traceability.',
+    'Fun fact: porings are FDA-exempt.',
   ],
   click: [
     'Hey! That tickles!',
@@ -6252,6 +6445,10 @@ var PET_LINES = {
     'My IFU clearly says "do not poke."',
     '*wobbles indignantly*',
     'That\'s going in the complaint log.',
+    'User interaction logged. Sample size: 1.',
+    'Nonconformance report: excessive clicking.',
+    'Stop. I have feelings. And a complaint form.',
+    'That input was not in the requirements spec.',
   ],
   drag: [
     'WEEEE!',
@@ -6259,12 +6456,19 @@ var PET_LINES = {
     'Unauthorized device relocation detected!',
     'I need to file an MDR for this.',
     'Put me down near the contact section. Trust me.',
+    'This violates my environmental specifications!',
+    'At least this counts as usability testing.',
+    'Wheee... wait, this is an adverse event!',
   ],
   scroll: [
     'Ooh, nice projects down here.',
     'Keep scrolling. The good stuff is below.',
     'You found the case studies? Good.',
     'The skills matrix is pretty cool, right?',
+    'Every section is a verified deliverable.',
+    'Scroll faster. I want to see the contact form.',
+    'You\'re reviewing the portfolio? Same.',
+    'I audit every section as you scroll past.',
   ],
   konami: [
     'KONAMI CODE DETECTED. You are a person of culture.',

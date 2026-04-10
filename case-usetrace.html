@@ -155,6 +155,19 @@
       * { animation: none !important; transition: none !important; }
     }
 
+    /* Mouse spotlight overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(198,123,46,0.06), transparent 40%);
+      transition: opacity 0.3s;
+      opacity: 1;
+    }
+    @media (pointer: coarse) { body::before { display: none; } }
+    @media (prefers-reduced-motion: reduce) { body::before { display: none; } }
+
     /* ===== READING PROGRESS BAR ===== */
     #reading-progress {
       position: fixed;
@@ -1310,7 +1323,7 @@
     </section>
 
     <!-- CTA -->
-    <section class="cta-section" aria-labelledby="cta-heading">
+    <section class="cta-section r" aria-labelledby="cta-heading">
       <p class="s-label r">What's Next</p>
       <h2 class="cta-title r" id="cta-heading">Want to see the repo or talk HFE?</h2>
       <p class="cta-text r">
@@ -1471,6 +1484,12 @@
   (function(){ var el = document.querySelector('.footer-year'); if (el) el.textContent = new Date().getFullYear(); })();
   </script>
 <script>
+/* Mouse spotlight */
+document.addEventListener('mousemove', function(e) {
+  document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
+  document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
+}, { passive: true });
+
 (function pageTransitions(){
   var ov=document.getElementById('pageTransition');if(!ov)return;
   document.addEventListener('click',function(e){

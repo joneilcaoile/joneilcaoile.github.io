@@ -154,6 +154,19 @@
       * { animation: none !important; transition: none !important; }
     }
 
+    /* Mouse spotlight overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(198,123,46,0.06), transparent 40%);
+      transition: opacity 0.3s;
+      opacity: 1;
+    }
+    @media (pointer: coarse) { body::before { display: none; } }
+    @media (prefers-reduced-motion: reduce) { body::before { display: none; } }
+
     ::selection {
       background: var(--accent-glow);
       color: var(--text);
@@ -977,7 +990,7 @@
 
     <!-- Problem / Solution -->
     <section class="section">
-      <h2 class="section-title">The hidden cost of reliability discovery</h2>
+      <h2 class="section-title r">The hidden cost of reliability discovery</h2>
       <p class="prose">In fall-risk research, multiple clinicians watch the same video recordings and independently rate patient movement patterns. Agreement between raters is critical for study validity. It determines whether the assessment tool is trustworthy and publishable.</p>
       <p class="prose">The problem: inter-rater reliability calculations happen <strong>after</strong> data collection and analysis are complete. If Krippendorff's Alpha drops below 0.667 (minimum acceptable), or you can't reach 0.80 (target), it's too late. The items are already baked into your study design. Revising the instrument mid-way through means recoding hundreds of responses or scrapping months of work.</p>
 
@@ -996,8 +1009,8 @@
     </section>
 
     <!-- Architecture -->
-    <section class="section dark-section">
-      <h2 class="section-title">How it works</h2>
+    <section class="section dark-section r">
+      <h2 class="section-title r">How it works</h2>
       <p class="prose">The tool ingests survey responses from Qualtrics, transforms them into a format suitable for reliability analysis, computes inter-rater agreement metrics, and produces a dashboard report highlighting problem areas.</p>
 
       <div class="arch">
@@ -1043,7 +1056,7 @@
 
     <!-- Research context -->
     <section class="section">
-      <h2 class="section-title">Research foundation</h2>
+      <h2 class="section-title r">Research foundation</h2>
       <p class="prose">Inter-rater reliability is non-negotiable in clinical research. These metrics and standards ensure that assessment tools are trustworthy before they're used to evaluate patient outcomes.</p>
 
       <div class="standards">
@@ -1068,7 +1081,7 @@
 
     <!-- Metrics -->
     <section class="section">
-      <h2 class="section-title">Reliability benchmarks</h2>
+      <h2 class="section-title r">Reliability benchmarks</h2>
       <p class="prose">These thresholds guide the analysis and flag items that fall short of clinical research standards.</p>
 
       <div class="metric-grid">
@@ -1093,7 +1106,7 @@
 
     <!-- Tech stack -->
     <section class="section">
-      <h2 class="section-title">Built with</h2>
+      <h2 class="section-title r">Built with</h2>
       <div class="tech-tags">
         <span class="tech-tag">Python</span>
         <span class="tech-tag">SQLite</span>
@@ -1112,8 +1125,8 @@
     </section>
 
     <!-- Field deployment readiness -->
-    <section class="section dark-section">
-      <h2 class="section-title">Field deployment readiness</h2>
+    <section class="section dark-section r">
+      <h2 class="section-title r">Field deployment readiness</h2>
       <div class="metric-grid" style="grid-template-columns: 1fr;">
         <div class="metric-card" style="background: #1A1815; border: 1px solid rgba(217,119,6,0.2); border-radius: 12px; padding: 2rem; text-align: left;">
           <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600; color: #FEF3C7; margin-bottom: 1rem; margin-top: 0;">Zero-friction deployment</h3>
@@ -1124,7 +1137,7 @@
 
     <!-- What I learned -->
     <section class="section">
-      <h2 class="section-title">What I learned</h2>
+      <h2 class="section-title r">What I learned</h2>
       <p class="prose"><strong>Data quality is upstream of analysis.</strong> The first version failed silently on malformed ratings, out-of-range values, missing data, and misaligned columns. Now every input gets validated hard. Garbage in equals garbage out, so I catch it before the Krippendorff's computation.</p>
       <p class="prose"><strong>Reliability is a conversation, not a report.</strong> Researchers don't just need numbers. They need to understand which items failed and why. Low alpha might mean the item is poorly worded, the raters need more training, or the construct itself is ambiguous. A good dashboard flags the item and prompts the right questions.</p>
       <p class="prose" style="padding: 1.75rem; background: rgba(217,119,6,0.08); border-left: 3px solid #D97706; border-radius: 8px; margin: 1.5rem 0;"><strong>Researchers don't have 3 weeks to wait for reliability feedback.</strong> They have IRB deadlines, grant reporting cycles, and data collection windows that close whether the instrument is ready or not. One Stevens research team discovered their fall risk assessment had problematic inter-rater agreement (alpha = 0.58) only after collecting 200 responses. Without the tool, they would have spent 3 weeks manually recoding and retraining raters. With it, they identified the 3 problematic items in under a minute, revised the wording in one afternoon, and were back on schedule the next day.</p>
@@ -1194,8 +1207,8 @@
     </nav>
 
     <!-- CTA -->
-    <section class="cta-section">
-      <h2 class="section-title">Interested in this work?</h2>
+    <section class="cta-section r">
+      <h2 class="section-title r">Interested in this work?</h2>
       <p class="cta-desc">I'm looking for roles where I can bring this kind of thinking. Clinical rigor, automated data pipelines, and research collaboration matter in validation and quality teams in medtech.</p>
       <div class="cta-buttons">
         <a href="https://github.com/joneilcaoile/fall-study-reliability" target="_blank" rel="noopener noreferrer" class="btn btn-primary">View on GitHub</a>
@@ -1386,6 +1399,12 @@
   });
   </script>
 <script>
+/* Mouse spotlight */
+document.addEventListener('mousemove', function(e) {
+  document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
+  document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
+}, { passive: true });
+
 (function pageTransitions(){
   var ov=document.getElementById('pageTransition');if(!ov)return;
   document.addEventListener('click',function(e){

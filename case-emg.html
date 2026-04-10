@@ -155,6 +155,19 @@
       * { animation: none !important; transition: none !important; }
     }
 
+    /* Mouse spotlight overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(198,123,46,0.06), transparent 40%);
+      transition: opacity 0.3s;
+      opacity: 1;
+    }
+    @media (pointer: coarse) { body::before { display: none; } }
+    @media (prefers-reduced-motion: reduce) { body::before { display: none; } }
+
     /* ===== READING PROGRESS BAR ===== */
     #reading-progress {
       position: fixed;
@@ -1101,7 +1114,7 @@
 
     <!-- ===== ARCHITECTURE ===== -->
     <section class="section dark-section r">
-      <h2 class="section-title" id="arch-title">System architecture</h2>
+      <h2 class="section-title r" id="arch-title">System architecture</h2>
       <p class="prose">
         The wearable system follows a classical real-time biomedical signal processing flow. EMG sensors on the forearm capture muscle electrical activity, which is then processed through a tight filtering and feature extraction pipeline to identify tremor-specific signatures.
       </p>
@@ -1150,7 +1163,7 @@
 
     <!-- ===== INTERACTIVE DEMO ===== -->
     <section class="section dark-section r">
-      <h2 class="section-title">Interactive: See the filter in action</h2>
+      <h2 class="section-title r">Interactive: See the filter in action</h2>
       <p class="prose">
         This visualization shows a live EMG signal being processed through a 6th-order Butterworth bandpass filter. Watch how the filter isolates the 5.8 Hz tremor signal from power line interference and motion artifacts.
       </p>
@@ -1214,7 +1227,7 @@
 
     <!-- ===== METRICS ===== -->
     <section class="section dark-section r">
-      <h2 class="section-title">Signal processing targets</h2>
+      <h2 class="section-title r">Signal processing targets</h2>
       <p class="prose">
         Validation metrics measure both the accuracy of our tremor detection algorithm and the real-time feasibility of the system.
       </p>
@@ -1267,7 +1280,7 @@
 
     <!-- ===== LEARNINGS ===== -->
     <section class="section learnings-section">
-      <h2 class="section-title">What this taught me</h2>
+      <h2 class="section-title r">What this taught me</h2>
 
       <div class="learning-item r">
         <div class="learning-num">01</div>
@@ -1880,6 +1893,12 @@
 })();
 </script>
 <script>
+/* Mouse spotlight */
+document.addEventListener('mousemove', function(e) {
+  document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
+  document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
+}, { passive: true });
+
 /* ANIMATED METRIC COUNTERS - numbers count up on scroll */
 (function() {
   var counters = document.querySelectorAll('[data-count-to]');
