@@ -5340,35 +5340,53 @@ function drawCharSprite(ctx, type, w, h, frame) {
     px(3, -6, '#3498DB');
 
   } else if (type === 'duck') {
-    var dk = '#FFD700', dl = '#FFED4A', dd = '#E6C200', ds = '#C8A800';
-    /* Body */
-    run(-3, -14, 6, dk);
-    run(-5, -13, 10, dk);
-    run(-6, -12, 12, dk);
-    run(-6, -11, 12, dk);
-    run(-6, -10, 12, dl);
-    run(-6, -9, 12, dl);
-    run(-6, -8, 12, dl);
-    run(-5, -7, 10, dk);
-    run(-5, -6, 10, dk);
+    var dw = '#FAFAFA', dl = '#FFFFFF', dd = '#E0E0E0', ds = '#C8C8C8';
+    /* Shadow */
+    runG(-5, 1, 10, 'rgba(0,0,0,0.12)');
+    /* Round fluffy body */
+    run(-3, -6, 6, dw);
     run(-5, -5, 10, dl);
-    run(-4, -4, 8, dl);
-    run(-4, -3, 8, dk);
-    run(-3, -2, 6, dd);
-    /* Shading */
-    run(3, -12, 2, dd); run(3, -11, 2, dd); run(3, -10, 2, ds);
-    /* Eyes */
-    px(-3, -11, '#111'); px(-2, -11, '#111'); px(2, -11, '#111'); px(3, -11, '#111');
-    px(-2, -12, '#FFF'); px(3, -12, '#FFF');
-    /* Beak */
-    run(-2, -9, 5, '#FF8C00'); run(-1, -8, 3, '#FF8C00'); px(0, -7, '#E07000');
-    /* Blush */
-    px(-5, -9, '#FFBB77'); px(4, -9, '#FFBB77');
-    /* Wings */
-    px(-7, -7, dd); px(-7, -6, dd); px(-7, -5, dk);
-    px(6, -7, dd); px(6, -6, dd); px(6, -5, dk);
-    /* Feet */
-    run(-3, -1, 3, '#FF8C00'); run(1, -1, 3, '#FF8C00');
+    run(-6, -4, 12, dl);
+    run(-6, -3, 12, dw);
+    run(-6, -2, 12, dw);
+    run(-5, -1, 10, dd);
+    run(-4, 0, 8, dd);
+    /* Body shading */
+    run(3, -4, 2, dd); run(3, -3, 2, ds); run(3, -2, 2, ds);
+    /* Big round head */
+    run(-3, -15, 6, dw);
+    run(-5, -14, 10, dl);
+    run(-6, -13, 12, dl);
+    run(-6, -12, 12, dw);
+    run(-6, -11, 12, dw);
+    run(-6, -10, 12, dw);
+    run(-5, -9, 10, dw);
+    run(-4, -8, 8, dd);
+    run(-3, -7, 6, dd);
+    /* Head shading */
+    run(3, -13, 2, dd); run(3, -12, 2, dd);
+    /* Big cute eyes (3x3 with large highlight) */
+    run(-4, -12, 3, '#1a1a2e'); run(-4, -11, 3, '#222'); run(-4, -10, 3, '#1a1a2e');
+    px(-3, -12, '#FFF'); px(-3, -11, '#FFF');
+    run(2, -12, 3, '#1a1a2e'); run(2, -11, 3, '#222'); run(2, -10, 3, '#1a1a2e');
+    px(3, -12, '#FFF'); px(3, -11, '#FFF');
+    /* Orange beak (cute small) */
+    run(-1, -9, 3, '#FF8C00'); px(0, -8, '#FF8C00');
+    px(1, -9, '#FFa530');
+    /* Rosy cheeks */
+    px(-5, -10, '#FFB0B0'); px(-5, -9, '#FFB0B0');
+    px(4, -10, '#FFB0B0'); px(4, -9, '#FFB0B0');
+    /* Little wings */
+    px(-7, -4, dd); px(-7, -3, ds); px(-7, -2, dd);
+    px(6, -4, dd); px(6, -3, ds); px(6, -2, dd);
+    /* Orange feet */
+    run(-4, 1, 3, '#FF8C00'); run(1, 1, 3, '#FF8C00');
+    px(-4, 1, '#FFa530'); px(1, 1, '#FFa530');
+    /* Red Stevens scarf */
+    run(-4, -7, 8, '#CC2233'); run(-5, -6, 10, '#CC2233');
+    px(-4, -7, '#EE3344'); px(-3, -7, '#EE3344');
+    /* Scarf tail */
+    px(5, -5, '#CC2233'); px(5, -4, '#AA1122'); px(6, -5, '#AA1122');
     /* Crown */
     px(-2, -15, dk); px(0, -16, '#FFF176'); px(2, -15, dk);
     px(-1, -16, dk); px(1, -16, dk);
