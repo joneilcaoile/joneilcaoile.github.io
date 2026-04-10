@@ -5388,11 +5388,11 @@ buildCharGrid();
   /* 13..14s = brief fade/reset */
 
   var MILESTONES = [
-    { x: 0.08, label: 'CSULB', sub: 'Pre-Med', icon: 'campus', color: '#F9A825' },
-    { x: 0.26, label: 'Volunteering', sub: 'PT Clinics', icon: 'clinic', color: '#66BB6A' },
-    { x: 0.44, label: 'PT School', sub: 'Kinesiology', icon: 'school', color: '#42A5F5' },
-    { x: 0.62, label: 'Stevens', sub: 'M.S. BME', icon: 'lab', color: '#AB47BC' },
-    { x: 0.82, label: '???', sub: 'Character Select', icon: 'crossroads', color: '#FFD700' },
+    { x: 0.06, label: 'B.S. Kinesiology', sub: 'CSULB', icon: 'campus', color: '#F9A825' },
+    { x: 0.24, label: '400+ Hrs Clinical', sub: 'PT Clinics', icon: 'clinic', color: '#66BB6A' },
+    { x: 0.42, label: 'Career Pivot', sub: 'Engineering Path', icon: 'school', color: '#42A5F5' },
+    { x: 0.60, label: 'M.S. BME', sub: 'Stevens 2026', icon: 'lab', color: '#AB47BC' },
+    { x: 0.80, label: '???', sub: 'Next Chapter', icon: 'crossroads', color: '#FFD700' },
   ];
 
   var CAREER_SPRITES = [
@@ -5531,7 +5531,7 @@ buildCharGrid();
     var ctx = setup.ctx, w = setup.w, h = setup.h;
     ctx.clearRect(0, 0, w, h);
 
-    var groundY = h - 20;
+    var groundY = h - 30;
     var iconScale = isMini ? 1.2 : 1.8;
 
     /* Pixel stars (seeded from canvas width for consistency) */
@@ -5622,7 +5622,7 @@ buildCharGrid();
       var roleAlpha = Math.min(1, thinkT / 600) * fadeAlpha;
       ctx.globalAlpha = roleAlpha;
       var crossX = MILESTONES[4].x * w;
-      var roleSpacing = isMini ? 28 : 40;
+      var roleSpacing = isMini ? 34 : 52;
       var baseY = groundY - (isMini ? 48 : 68);
       CAREER_SPRITES.forEach(function(cs, i) {
         var rx = crossX - roleSpacing * 1.5 + i * roleSpacing;
@@ -5630,9 +5630,9 @@ buildCharGrid();
         var cached = roleCache[cs.type];
         if (cached) ctx.drawImage(cached, rx - 20, baseY + bob - 20);
         ctx.fillStyle = '#FFD700';
-        ctx.font = (isMini ? 6 : 8) + 'px monospace';
+        ctx.font = (isMini ? 7 : 9) + 'px monospace';
         ctx.textAlign = 'center';
-        ctx.fillText(cs.label, rx, baseY + (isMini ? 18 : 22));
+        ctx.fillText(cs.label, rx, baseY + (isMini ? 18 : 24));
       });
     }
     ctx.globalAlpha = 1;
