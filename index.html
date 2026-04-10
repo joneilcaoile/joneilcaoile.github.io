@@ -1068,31 +1068,33 @@ section h2 {
 }
 
 .bring-card p {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: 16px;
+  line-height: 1.7;
+  margin-bottom: 20px;
 }
 
 .bring-card-refs {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-muted);
-  line-height: 1.6;
+  line-height: 1.7;
+  padding-bottom: 12px;
 }
 
 .bring-card-refs strong { color: var(--amber); font-weight: 500; }
 
 .bring-skill-bar {
   position: absolute; bottom: 0; left: 0;
-  height: 3px;
+  height: 2px;
   background: linear-gradient(90deg, var(--amber), var(--gold));
   border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-  transition: width 0.8s var(--ease-out);
+  transition: width 0.8s var(--ease-out), opacity 0.4s;
   width: 0;
+  opacity: 0;
 }
 
-.bring-card:hover .bring-skill-bar { width: var(--skill-pct, 80%); }
+.bring-card:hover .bring-skill-bar { width: var(--skill-pct, 80%); opacity: 0.6; }
 
 /* ═══════════════════════════════════════
    STORY
@@ -3567,8 +3569,10 @@ footer {
    ═══════════════════════════════════════ */
 .timeline-sprite {
   display: block;
-  margin: 0 auto 8px;
   image-rendering: pixelated;
+  position: absolute;
+  left: -90px;
+  top: -12px;
 }
 
 /* ============================================
@@ -5762,17 +5766,17 @@ buildCharGrid();
       var roleAlpha = Math.min(1, thinkT / 600) * fadeAlpha;
       ctx.globalAlpha = roleAlpha;
       var crossX = MILESTONES[4].x * w;
-      var roleSpacing = isMini ? 34 : 52;
-      var baseY = groundY - (isMini ? 48 : 68);
+      var roleSpacing = isMini ? 40 : 72;
+      var baseY = groundY - (isMini ? 48 : 74);
       CAREER_SPRITES.forEach(function(cs, i) {
         var rx = crossX - roleSpacing * 1.5 + i * roleSpacing;
         var bob = Math.sin(now / 500 + i * 1.2) * 3;
         var cached = roleCache[cs.type];
         if (cached) ctx.drawImage(cached, rx - 28, baseY + bob - 36);
         ctx.fillStyle = '#FFD700';
-        ctx.font = (isMini ? 7 : 9) + 'px monospace';
+        ctx.font = 'bold ' + (isMini ? 8 : 11) + 'px monospace';
         ctx.textAlign = 'center';
-        ctx.fillText(cs.label, rx, baseY + (isMini ? 18 : 24));
+        ctx.fillText(cs.label, rx, baseY + (isMini ? 22 : 30));
       });
     }
     ctx.globalAlpha = 1;
