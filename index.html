@@ -232,15 +232,32 @@ section {
   position: relative;
 }
 
-/* Alternating section depth */
+/* Alternating section depth + color journey */
 #bring, #work, #skills-matrix, #criteria {
   background: var(--bg-elevated);
 }
+/* Subtle hue tints per section create a color journey as you scroll */
+#statement { background: linear-gradient(180deg, var(--bg) 0%, rgba(30,20,12,1) 100%); }
+#bring { background: linear-gradient(180deg, rgba(18,16,22,1) 0%, rgba(18,16,22,1) 100%); }
+#featured { background: linear-gradient(180deg, var(--bg) 0%, rgba(20,14,12,1) 100%); }
+#work { background: linear-gradient(180deg, rgba(14,18,22,1) 0%, rgba(14,18,22,1) 100%); }
+#toolkit { background: linear-gradient(180deg, var(--bg) 0%, rgba(14,20,18,1) 100%); }
+#journey { background: linear-gradient(180deg, var(--bg) 0%, rgba(18,14,22,1) 100%); }
+#skills-matrix { background: linear-gradient(180deg, rgba(20,16,14,1) 0%, rgba(20,16,14,1) 100%); }
+#criteria { background: linear-gradient(180deg, rgba(14,16,20,1) 0%, rgba(14,16,20,1) 100%); }
+#contact { background: linear-gradient(180deg, var(--bg) 0%, rgba(22,16,10,1) 100%); }
 [data-theme="light"] #bring,
 [data-theme="light"] #work,
 [data-theme="light"] #skills-matrix,
 [data-theme="light"] #criteria {
   background: #F0EDE6;
+}
+[data-theme="light"] #statement,
+[data-theme="light"] #featured,
+[data-theme="light"] #toolkit,
+[data-theme="light"] #journey,
+[data-theme="light"] #contact {
+  background: var(--bg);
 }
 
 .section-label {
@@ -262,12 +279,22 @@ section {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  filter: brightness(0.7);
+  transition: filter 0.6s ease;
+}
+.text-gradient.keyword-lit {
+  filter: brightness(1.3);
 }
 .text-gradient-teal {
   background: linear-gradient(135deg, var(--teal), #5ED4D1);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  filter: brightness(0.7);
+  transition: filter 0.6s ease;
+}
+.text-gradient-teal.keyword-lit {
+  filter: brightness(1.3);
 }
 
 section h2 {
@@ -381,6 +408,27 @@ section h2 {
   color: var(--text);
   cursor: pointer;
   transition: color 0.2s;
+}
+
+.nav-section-indicator {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--amber);
+  opacity: 0;
+  margin-left: 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: opacity 0.4s, transform 0.4s;
+  transform: translateX(-4px);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.nav-section-indicator.visible {
+  opacity: 0.7;
+  transform: translateX(0);
+}
+@media (max-width: 768px) {
+  .nav-section-indicator { display: none; }
 }
 
 .nav-brand:hover { color: var(--amber); }
@@ -612,6 +660,19 @@ section h2 {
   transition: all 0.2s var(--ease);
   border: none;
   min-height: 44px;
+  position: relative;
+  overflow: hidden;
+}
+.btn-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  transform: scale(0);
+  animation: ripple-expand 0.6s ease-out forwards;
+  pointer-events: none;
+}
+@keyframes ripple-expand {
+  to { transform: scale(4); opacity: 0; }
 }
 
 .btn--primary {
@@ -1181,6 +1242,11 @@ section h2 {
   display: flex; align-items: center; justify-content: center;
   position: relative;
   overflow: hidden;
+  filter: saturate(0.6);
+  transition: filter 0.5s var(--ease);
+}
+.work-card:hover .work-card-visual {
+  filter: saturate(1.15);
   border-bottom: 1px solid var(--border);
 }
 
@@ -1219,6 +1285,7 @@ section h2 {
 }
 
 /* Image-based card visuals */
+.work-card-visual--img { position: relative; }
 .work-card-visual--img img {
   width: 100%; height: 100%;
   object-fit: cover;
@@ -1226,10 +1293,21 @@ section h2 {
   transition: transform 0.5s var(--ease), filter 0.5s var(--ease);
   filter: brightness(0.85) saturate(0.9);
 }
+.work-card-visual--img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: linear-gradient(to top, rgba(15,14,12,0.6), transparent 50%);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease);
+  pointer-events: none;
+}
 .work-card:hover .work-card-visual--img img {
   transform: scale(1.06);
   filter: brightness(1) saturate(1);
 }
+.work-card:hover .work-card-visual--img::after { opacity: 1; }
 
 /* Rarity accent line at top of card */
 .work-card::before {
@@ -1240,8 +1318,31 @@ section h2 {
   background: var(--border);
   transition: background 0.3s;
 }
-.work-card:has(.rarity--legendary)::before { background: var(--gold); }
-.work-card:has(.rarity--epic)::before { background: #B370E8; }
+.work-card:has(.rarity--legendary)::before {
+  background: linear-gradient(90deg, #FFD700, #FF6B35, #B370E8, #42A5F5, #66BB6A, #FFD700);
+  background-size: 300% 100%;
+}
+.work-card:has(.rarity--legendary):hover::before {
+  animation: holo-shimmer 2s linear infinite;
+  height: 3px;
+  box-shadow: 0 0 12px rgba(255,215,0,0.4);
+}
+@keyframes holo-shimmer {
+  0% { background-position: 0% 0; }
+  100% { background-position: 300% 0; }
+}
+.work-card:has(.rarity--epic)::before {
+  background: linear-gradient(90deg, #B370E8, #7E57C2, #B370E8);
+  background-size: 200% 100%;
+}
+.work-card:has(.rarity--epic):hover::before {
+  animation: epic-shimmer 1.5s linear infinite;
+  box-shadow: 0 0 8px rgba(179,112,232,0.3);
+}
+@keyframes epic-shimmer {
+  0% { background-position: 0% 0; }
+  100% { background-position: 200% 0; }
+}
 .work-card:has(.rarity--rare)::before { background: var(--teal); }
 .work-card:has(.rarity--uncommon)::before { background: #66BB6A; }
 
@@ -1945,7 +2046,7 @@ tr.sk-data td:first-child { border-left: 3px solid #FFB74D; }
   color: var(--text);
   font-family: var(--font-body);
   font-size: 14px;
-  transition: border-color 0.2s;
+  transition: border-color 0.3s, box-shadow 0.3s;
   min-height: 44px;
 }
 
@@ -1953,7 +2054,12 @@ tr.sk-data td:first-child { border-left: 3px solid #FFB74D; }
 .form-group textarea:focus {
   outline: none;
   border-color: var(--amber);
-  box-shadow: 0 0 0 3px var(--amber-glow);
+  box-shadow: 0 0 0 3px var(--amber-glow), 0 0 20px rgba(198,123,46,0.1);
+  animation: input-glow 2s ease-in-out infinite;
+}
+@keyframes input-glow {
+  0%, 100% { box-shadow: 0 0 0 3px var(--amber-glow), 0 0 20px rgba(198,123,46,0.1); }
+  50% { box-shadow: 0 0 0 4px var(--amber-glow), 0 0 28px rgba(198,123,46,0.18); }
 }
 
 .form-group textarea { min-height: 120px; resize: vertical; }
@@ -2910,8 +3016,15 @@ footer {
 .pixel-divider::after {
   content: '';
   flex: 1;
-  height: 2px;
-  background: linear-gradient(to right, transparent, #C67B2E, transparent);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(198,123,46,0.15), var(--amber), rgba(198,123,46,0.15), transparent);
+  background-size: 200% 100%;
+  animation: divider-flow 4s ease-in-out infinite;
+}
+.pixel-divider::after { animation-delay: -2s; }
+@keyframes divider-flow {
+  0%, 100% { background-position: 200% 0; }
+  50% { background-position: 0% 0; }
 }
 
 .pixel-divider-sprite {
@@ -3581,6 +3694,7 @@ footer {
 <nav class="nav" id="mainNav" aria-label="Main navigation">
   <div class="nav-inner">
     <a href="#hero" class="nav-brand" aria-label="Joneil Caoile - Back to top">JC</a>
+    <span class="nav-section-indicator" id="navSectionIndicator" aria-hidden="true"></span>
     <ul class="nav-links">
       <li><a href="#statement">About</a></li>
       <li><a href="#bring">Skills</a></li>
@@ -5559,6 +5673,15 @@ window.addEventListener('scroll', () => {
     DOM.nav.classList.toggle('scrolled', sy > 60);
     const docH = document.documentElement.scrollHeight - window.innerHeight;
     DOM.scrollFill.style.transform = `scaleX(${docH > 0 ? sy / docH : 0})`;
+
+    /* Hero parallax depth (after entrance animation completes) */
+    if (sy < window.innerHeight && document.body.classList.contains('hero-ready')) {
+      var heroRight = document.querySelector('.hero-right');
+      var heroLeft = document.querySelector('.hero-left');
+      if (heroRight) heroRight.style.transform = 'translateY(' + (sy * 0.12) + 'px)';
+      if (heroLeft) heroLeft.style.transform = 'translateY(' + (sy * 0.04) + 'px)';
+    }
+
     ticking = false;
   });
 }, { passive: true });
@@ -5577,15 +5700,38 @@ $$('.mm-link').forEach(a => a.addEventListener('click', () => {
   DOM.hamburger.setAttribute('aria-expanded', 'false');
 }));
 
+/* ── Hero entrance complete flag (enables parallax) ── */
+setTimeout(function() { document.body.classList.add('hero-ready'); }, 1500);
+
+/* ── Hero keyword sequential highlight ── */
+(function() {
+  var keywords = $$('.hero-desc .text-gradient, .hero-desc .text-gradient-teal');
+  if (!keywords.length) return;
+  var delay = 1800; /* after hero entrance */
+  keywords.forEach(function(kw, i) {
+    setTimeout(function() {
+      kw.classList.add('keyword-lit');
+    }, delay + i * 400);
+  });
+  /* After all lit, keep them lit permanently */
+})();
+
 /* ── Back to top ── */
 document.getElementById('btnBackTop').addEventListener('click', function() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
-/* ── Scrollspy: highlight active nav link ── */
+/* ── Scrollspy: highlight active nav link + section indicator ── */
 (function() {
   var navLinks = $$('.nav-links a[href^="#"]');
+  var indicator = document.getElementById('navSectionIndicator');
   var sections = [];
+  var sectionLabels = {
+    hero: '', statement: 'About', bring: 'Skills', featured: 'Featured',
+    work: 'Projects', toolkit: 'Toolkit', journey: 'Journey',
+    'skills-matrix': 'Matrix', personal: 'Personal',
+    criteria: 'Criteria', contact: 'Contact'
+  };
   navLinks.forEach(function(a) {
     var el = $(a.getAttribute('href'));
     if (el) sections.push({ el: el, link: a });
@@ -5598,6 +5744,15 @@ document.getElementById('btnBackTop').addEventListener('click', function() {
         navLinks.forEach(function(l) { l.classList.remove('active'); });
         var match = sections.find(function(s) { return s.el === entry.target; });
         if (match) match.link.classList.add('active');
+        if (indicator) {
+          var label = sectionLabels[entry.target.id] || '';
+          if (label) {
+            indicator.textContent = '/ ' + label;
+            indicator.classList.add('visible');
+          } else {
+            indicator.classList.remove('visible');
+          }
+        }
       }
     });
   }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
@@ -6520,6 +6675,43 @@ var idleSpeechInterval = setInterval(function() {
   if (Math.random() < 0.4) petSayRandom('idle');
 }, 30000 + Math.random() * 15000);
 
+/* ── Pet reacts to which section is in view ── */
+(function() {
+  var sectionLines = {
+    'hero': ['Home sweet home.', 'We starting from the top!'],
+    'statement': ['400 hours of observation. That\'s a lot of clipboards.', 'This is the \"why\" section.'],
+    'bring': ['Four skill sets. I can only bounce.', 'These skill bars look healthy.'],
+    'featured': ['LEGENDARY item detected.', 'The capstone. The big one.'],
+    'work': ['Six projects! Let me audit each one.', 'Ooh, case studies. My favorite reading.'],
+    'toolkit': ['I recognize those standards. IEC 62366 gang.', 'That\'s a solid tech stack.'],
+    'journey': ['From clinics to code. What a journey.', 'The timeline looks good from here.'],
+    'skills-matrix': ['Colorful dots. Very official.', 'Cross-project coverage confirmed.'],
+    'personal': ['Off the clock? I never clock out.', 'Is that a Minecraft crafting recipe?!'],
+    'criteria': ['Hiring criteria: must tolerate slimes.', 'SoCal only. I get it. The weather.'],
+    'contact': ['You should send a message. I\'ll vouch for him.', 'Form detected. Go ahead, I\'ll wait.'],
+  };
+  var lastSection = '';
+  var sectionObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (!e.isIntersecting) return;
+      var id = e.target.id;
+      if (id === lastSection) return;
+      lastSection = id;
+      var lines = sectionLines[id];
+      if (!lines || petSpeechCooldown) return;
+      if (Math.random() < 0.35) {
+        var line = lines[Math.floor(Math.random() * lines.length)];
+        petSay(line, 4000);
+      }
+    });
+  }, { rootMargin: '-40% 0px -40% 0px', threshold: 0 });
+
+  ['hero','statement','bring','featured','work','toolkit','journey','skills-matrix','personal','criteria','contact'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) sectionObserver.observe(el);
+  });
+})();
+
 /* Say something on drag start */
 if (pet.el) {
   var origMousedown = null;
@@ -6988,6 +7180,23 @@ if (!S.isMobile && !S.reducedMotion) {
   });
 }
 
+
+/* ═══════════════════════════════════════
+   BUTTON RIPPLE EFFECT
+   ═══════════════════════════════════════ */
+$$('.btn').forEach(function(btn) {
+  btn.addEventListener('click', function(e) {
+    var r = btn.getBoundingClientRect();
+    var ripple = document.createElement('span');
+    ripple.className = 'btn-ripple';
+    var size = Math.max(r.width, r.height);
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = (e.clientX - r.left - size / 2) + 'px';
+    ripple.style.top = (e.clientY - r.top - size / 2) + 'px';
+    btn.appendChild(ripple);
+    ripple.addEventListener('animationend', function() { ripple.remove(); });
+  });
+});
 
 /* ═══════════════════════════════════════
    GAME ENHANCEMENTS
