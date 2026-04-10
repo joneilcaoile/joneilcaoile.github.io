@@ -1314,77 +1314,88 @@ section h2 {
   transform: translateY(-6px) scale(1.01);
 }
 
+/* ── Animated Pipeline Visual ── */
 .work-card-visual {
-  height: 200px;
+  height: 140px;
   display: flex; align-items: center; justify-content: center;
   position: relative;
   overflow: hidden;
-  filter: saturate(0.6);
-  transition: filter 0.5s var(--ease);
+  padding: 0 20px;
 }
-.work-card:hover .work-card-visual {
-  filter: saturate(1.15);
-  border-bottom: 1px solid var(--border);
-}
-
-/* Grid dot pattern overlay on card visuals */
 .work-card-visual::before {
   content: '';
   position: absolute; inset: 0;
-  background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
-  background-size: 20px 20px;
-  z-index: 1;
-}
-
-/* Gradient glow behind icon */
-.work-card-visual::after {
-  content: '';
-  position: absolute;
-  width: 120px; height: 120px;
-  border-radius: 50%;
-  background: inherit;
-  filter: blur(50px);
-  opacity: 0.4;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 16px 16px;
   z-index: 0;
 }
-
-.work-card-visual svg {
-  width: 72px; height: 72px;
-  opacity: 0.85;
-  z-index: 2;
-  filter: drop-shadow(0 0 20px currentColor);
-  transition: transform 0.4s var(--ease), opacity 0.3s;
+.pipeline {
+  display: flex; align-items: center; gap: 0;
+  z-index: 1; width: 100%; justify-content: center;
 }
-
-.work-card:hover .work-card-visual svg {
-  transform: scale(1.12);
-  opacity: 1;
+.pipe-node {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  opacity: 0; transform: translateY(8px);
 }
-
-/* Image-based card visuals */
-.work-card-visual--img { position: relative; }
-.work-card-visual--img img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  z-index: 2;
-  transition: transform 0.5s var(--ease), filter 0.5s var(--ease);
-  filter: brightness(0.85) saturate(0.9);
+.pipeline.in-view .pipe-node {
+  animation: pipeIn 0.5s var(--ease) forwards;
 }
-.work-card-visual--img::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  background: linear-gradient(to top, rgba(15,14,12,0.6), transparent 50%);
+.pipeline.in-view .pipe-node:nth-child(1) { animation-delay: 0.2s; }
+.pipeline.in-view .pipe-node:nth-child(3) { animation-delay: 0.7s; }
+.pipeline.in-view .pipe-node:nth-child(5) { animation-delay: 1.2s; }
+.pipe-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.04);
+  transition: border-color 0.4s, box-shadow 0.4s;
+}
+.work-card:hover .pipe-icon {
+  border-color: var(--accent);
+  box-shadow: 0 0 12px rgba(198,123,46,0.2);
+}
+.pipe-label {
+  font-size: 9px; font-family: var(--font-mono);
+  color: var(--text-muted); text-transform: uppercase;
+  letter-spacing: 0.5px; white-space: nowrap;
+  max-width: 80px; text-align: center;
+  line-height: 1.2;
+}
+.pipe-arrow {
+  display: flex; align-items: center; padding: 0 6px 16px;
   opacity: 0;
-  transition: opacity 0.4s var(--ease);
-  pointer-events: none;
 }
-.work-card:hover .work-card-visual--img img {
-  transform: scale(1.06);
-  filter: brightness(1) saturate(1);
+.pipeline.in-view .pipe-arrow {
+  animation: pipeIn 0.3s var(--ease) forwards;
 }
-.work-card:hover .work-card-visual--img::after { opacity: 1; }
+.pipeline.in-view .pipe-arrow:nth-child(2) { animation-delay: 0.5s; }
+.pipeline.in-view .pipe-arrow:nth-child(4) { animation-delay: 1.0s; }
+.pipe-arrow svg { width: 20px; height: 20px; }
+.pipe-arrow path {
+  stroke: var(--accent); stroke-width: 1.5;
+  stroke-dasharray: 16; stroke-dashoffset: 16;
+}
+.pipeline.in-view .pipe-arrow path {
+  animation: dashDraw 0.8s var(--ease) forwards;
+}
+.pipeline.in-view .pipe-arrow:nth-child(2) path { animation-delay: 0.5s; }
+.pipeline.in-view .pipe-arrow:nth-child(4) path { animation-delay: 1.0s; }
+/* Pulse glow on output node */
+.pipeline.in-view .pipe-node:nth-child(5) .pipe-icon {
+  animation: pipeIn 0.5s var(--ease) forwards, pipePulse 2s ease-in-out 1.8s infinite;
+}
+@keyframes pipeIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes dashDraw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes pipePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(198,123,46,0); }
+  50% { box-shadow: 0 0 16px 2px rgba(198,123,46,0.25); }
+}
 
 /* Rarity accent line at top of card */
 .work-card::before {
@@ -4042,8 +4053,14 @@ footer {
 
       <!-- PhotoCull AI -->
       <div class="work-card r">
-        <div class="work-card-visual work-card-visual--img" style="background:linear-gradient(145deg, #1a1229 0%, #2a1640 40%, #1a2040 100%)">
-          <img src="img/photocull-preview.jpg" alt="PhotoCull AI interface showing photo quality scoring" loading="lazy" />
+        <div class="work-card-visual" style="background:linear-gradient(145deg, #1a1229 0%, #2a1640 40%, #1a2040 100%)">
+          <div class="pipeline">
+            <div class="pipe-node"><div class="pipe-icon">🖼️</div><div class="pipe-label">Raw Photos</div></div>
+            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
+            <div class="pipe-node"><div class="pipe-icon">🔬</div><div class="pipe-label">10-Dim Scoring</div></div>
+            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
+            <div class="pipe-node"><div class="pipe-icon">⭐</div><div class="pipe-label">Quality Rank</div></div>
+          </div>
         </div>
         <div class="work-card-body">
           <div class="work-card-meta">
@@ -4072,7 +4089,13 @@ footer {
       <!-- Pneumothorax -->
       <div class="work-card r">
         <div class="work-card-visual" style="background:linear-gradient(145deg, #0a1a18 0%, #0d2926 40%, #142420 100%)">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          <div class="pipeline">
+            <div class="pipe-node"><div class="pipe-icon">💨</div><div class="pipe-label">Airflow Sensors</div></div>
+            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
+            <div class="pipe-node"><div class="pipe-icon">📊</div><div class="pipe-label">Volume Compare</div></div>
+            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
+            <div class="pipe-node"><div class="pipe-icon">🫁</div><div class="pipe-label">Leak Severity</div></div>
+          </div>
         </div>
         <div class="work-card-body">
           <div class="work-card-meta">
@@ -4099,7 +4122,13 @@ footer {
       <!-- EMG Cuff -->
       <div class="work-card r">
         <div class="work-card-visual" style="background:linear-gradient(145deg, #1a0d1a 0%, #2e1428 40%, #1a1028 100%)">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="1.5" stroke-linecap="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <div class="pipeline">
+            <div class="pipe-node"><div class="pipe-icon">💪</div><div class="pipe-label">EMG Signal</div></div>
+            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
+            <div class="pipe-node"><div class="pipe-icon">📈</div><div class="pipe-label">4-8 Hz Filter</div></div>
+            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
+            <div class="pipe-node"><div class="pipe-icon">🎯</div><div class="pipe-label">Suppress Tremor</div></div>
+          </div>
         </div>
         <div class="work-card-body">
           <div class="work-card-meta">
@@ -4125,7 +4154,13 @@ footer {
       <!-- Fall Risk -->
       <div class="work-card r">
         <div class="work-card-visual" style="background:linear-gradient(145deg, #0a1618 0%, #102828 40%, #0d2020 100%)">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#3CB8B5" stroke-width="1.5" stroke-linecap="round"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 14l2 2 4-4"/></svg>
+          <div class="pipeline">
+            <div class="pipe-node"><div class="pipe-icon">🚶</div><div class="pipe-label">Gait Capture</div></div>
+            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
+            <div class="pipe-node"><div class="pipe-icon">🤖</div><div class="pipe-label">ML Classify</div></div>
+            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
+            <div class="pipe-node"><div class="pipe-icon">📋</div><div class="pipe-label">Fall Risk Score</div></div>
+          </div>
         </div>
         <div class="work-card-body">
           <div class="work-card-meta">
@@ -4151,8 +4186,14 @@ footer {
 
       <!-- PhysioRep -->
       <div class="work-card r">
-        <div class="work-card-visual work-card-visual--img" style="background:linear-gradient(145deg, #1a1608 0%, #28220c 40%, #1e1a0a 100%)">
-          <img src="img/physiorep-preview.jpg" alt="PhysioRep pose estimation interface" loading="lazy" />
+        <div class="work-card-visual" style="background:linear-gradient(145deg, #1a1608 0%, #28220c 40%, #1e1a0a 100%)">
+          <div class="pipeline">
+            <div class="pipe-node"><div class="pipe-icon">🧍</div><div class="pipe-label">Pose Detect</div></div>
+            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
+            <div class="pipe-node"><div class="pipe-icon">🦴</div><div class="pipe-label">Joint Track</div></div>
+            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
+            <div class="pipe-node"><div class="pipe-icon">✅</div><div class="pipe-label">Form Coach</div></div>
+          </div>
         </div>
         <div class="work-card-body">
           <div class="work-card-meta">
@@ -4181,7 +4222,13 @@ footer {
       <!-- Fuji Vibes -->
       <div class="work-card r">
         <div class="work-card-visual" style="background:linear-gradient(145deg, #1a0d0d 0%, #281414 40%, #1e1010 100%)">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="1.5" stroke-linecap="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <div class="pipeline">
+            <div class="pipe-node"><div class="pipe-icon">📸</div><div class="pipe-label">Upload Photo</div></div>
+            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
+            <div class="pipe-node"><div class="pipe-icon">🎨</div><div class="pipe-label">19 Film Sims</div></div>
+            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
+            <div class="pipe-node"><div class="pipe-icon">🖼️</div><div class="pipe-label">Preview</div></div>
+          </div>
         </div>
         <div class="work-card-body">
           <div class="work-card-meta">
@@ -4300,7 +4347,7 @@ footer {
       <!-- Root: Novice -->
       <div class="ct-root">
         <div class="ct-node ct-node--root" id="ctNovice">
-          <canvas id="ctNoviceSprite" width="40" height="36" style="width:40px;height:36px;"></canvas>
+          <canvas id="ctNoviceSprite" width="48" height="64" style="width:48px;height:64px;"></canvas>
           <div class="ct-node-class">Novice</div>
           <div class="ct-node-title">BME Student</div>
         </div>
@@ -4315,7 +4362,7 @@ footer {
         <div class="ct-branch">
           <div class="ct-connector ct-connector--branch"></div>
           <div class="ct-node" id="ctAcolyte">
-            <canvas id="ctAcolyteSprite" width="40" height="36" style="width:40px;height:36px;"></canvas>
+            <canvas id="ctAcolyteSprite" width="48" height="64" style="width:48px;height:64px;"></canvas>
             <div class="ct-node-class">Acolyte</div>
             <div class="ct-node-title">Validation Engineer</div>
           </div>
@@ -4329,7 +4376,7 @@ footer {
         <div class="ct-branch">
           <div class="ct-connector ct-connector--branch"></div>
           <div class="ct-node" id="ctSage">
-            <canvas id="ctSageSprite" width="40" height="36" style="width:40px;height:36px;"></canvas>
+            <canvas id="ctSageSprite" width="48" height="64" style="width:48px;height:64px;"></canvas>
             <div class="ct-node-class">Sage</div>
             <div class="ct-node-title">Applications Engineer</div>
           </div>
@@ -4343,7 +4390,7 @@ footer {
         <div class="ct-branch">
           <div class="ct-connector ct-connector--branch"></div>
           <div class="ct-node" id="ctBlacksmith">
-            <canvas id="ctBlacksmithSprite" width="40" height="36" style="width:40px;height:36px;"></canvas>
+            <canvas id="ctBlacksmithSprite" width="48" height="64" style="width:48px;height:64px;"></canvas>
             <div class="ct-node-class">Blacksmith</div>
             <div class="ct-node-title">R&D Engineer</div>
           </div>
@@ -4357,7 +4404,7 @@ footer {
         <div class="ct-branch">
           <div class="ct-connector ct-connector--branch"></div>
           <div class="ct-node" id="ctCreator">
-            <canvas id="ctCreatorSprite" width="40" height="36" style="width:40px;height:36px;"></canvas>
+            <canvas id="ctCreatorSprite" width="48" height="64" style="width:48px;height:64px;"></canvas>
             <div class="ct-node-class">Creator</div>
             <div class="ct-node-title">Human Factors Engineer</div>
           </div>
@@ -5051,250 +5098,337 @@ const CHARACTERS = [
   { name: 'Creator', class: 'Human Factors', desc: 'Usability studies, use error classification, HFE reports.', sprite: 'creator', glow: '#FF69B4' },
 ];
 
-/* Pixel art character sprite renderer (Ragnarok-inspired chibi style) */
-function drawCharSprite(ctx, type, w, h) {
+/* ══════════════════════════════════════════════════════
+   Pixel art character sprite renderer (RO chibi style)
+   Resolution: 2px per pixel (~24x36 pixel art grid)
+   Features: large round head, small body, detail shading,
+   idle breathing frame support
+   ══════════════════════════════════════════════════════ */
+function drawCharSprite(ctx, type, w, h, frame) {
   ctx.clearRect(0, 0, w, h);
   ctx.imageSmoothingEnabled = false;
-  var p = 3; /* 3px per pixel */
+  var p = 2;
   var cx = Math.floor(w / 2);
-  var cy = Math.floor(h / 2) + 2;
-  function px(x, y, c) { ctx.fillStyle = c; ctx.fillRect(cx + x * p, cy + y * p, p, p); }
-  function run(x, y, len, c) { ctx.fillStyle = c; ctx.fillRect(cx + x * p, cy + y * p, len * p, p); }
+  var cy = Math.floor(h / 2) + 4;
+  /* Breathing offset: frame 0 = normal, frame 1 = slight rise */
+  var breathY = (frame === 1) ? -1 : 0;
 
-  /* ── RO-style chibi base: big round head, tiny body ── */
-  function drawBody(skinC, skinShade, shirtC, shirtHi, pantsC, hairC, hairHi, hairStyle, extras) {
+  function px(x, y, c) { ctx.fillStyle = c; ctx.fillRect(cx + x * p, cy + (y + breathY) * p, p, p); }
+  function run(x, y, len, c) { ctx.fillStyle = c; ctx.fillRect(cx + x * p, cy + (y + breathY) * p, len * p, p); }
+  /* No-breath versions for shadow/ground elements */
+  function pxG(x, y, c) { ctx.fillStyle = c; ctx.fillRect(cx + x * p, cy + y * p, p, p); }
+  function runG(x, y, len, c) { ctx.fillStyle = c; ctx.fillRect(cx + x * p, cy + y * p, len * p, p); }
+
+  function drawBody(skinC, skinShade, skinHi, shirtC, shirtHi, shirtShade, pantsC, pantsShade, hairC, hairHi, hairShade, hairStyle, extras) {
     var e = extras || {};
 
-    /* Hair back layer (behind head for long styles) */
+    /* ── Shadow under feet (no breath offset) ── */
+    ctx.fillStyle = 'rgba(0,0,0,0.18)';
+    ctx.fillRect(cx - 6 * p, cy + 10 * p, 12 * p, 2 * p);
+
+    /* ── Hair back layer ── */
     if (hairStyle === 'long' || hairStyle === 'flowing') {
-      run(-5, -10, 10, hairC); run(-5, -9, 10, hairC);
-      run(-5, -8, 1, hairC); run(4, -8, 1, hairC);
-      run(-5, -7, 1, hairC); run(4, -7, 1, hairC);
-      run(-5, -6, 1, hairC); run(4, -6, 1, hairC);
-      run(-5, -5, 1, hairC); run(4, -5, 1, hairC);
-      run(-5, -4, 1, hairC); run(4, -4, 1, hairC);
-      run(-5, -3, 1, hairHi); run(4, -3, 1, hairHi);
-      run(-4, -2, 1, hairHi); run(3, -2, 1, hairHi);
+      run(-7, -14, 14, hairShade); run(-7, -13, 14, hairC);
+      run(-7, -12, 1, hairC); run(6, -12, 1, hairC);
+      run(-7, -11, 1, hairShade); run(6, -11, 1, hairShade);
+      run(-7, -10, 1, hairC); run(6, -10, 1, hairC);
+      run(-7, -9, 1, hairShade); run(6, -9, 1, hairShade);
+      run(-7, -8, 1, hairC); run(6, -8, 1, hairC);
+      run(-6, -7, 1, hairShade); run(5, -7, 1, hairShade);
     }
 
-    /* Head (round, bigger than body = RO chibi style) */
-    run(-2, -10, 4, skinC);
-    run(-4, -9, 8, skinC);
+    /* ── Head (large, round = RO chibi) ── */
+    run(-3, -17, 6, skinC);
+    run(-5, -16, 10, skinC);
+    run(-6, -15, 12, skinC);
+    run(-6, -14, 12, skinC);
+    run(-6, -13, 12, skinC);
+    run(-6, -12, 12, skinC);
+    run(-6, -11, 12, skinC);
+    run(-6, -10, 12, skinC);
+    run(-5, -9, 10, skinC);
     run(-4, -8, 8, skinC);
-    run(-4, -7, 8, skinC);
-    run(-4, -6, 8, skinC);
-    run(-4, -5, 8, skinC);
-    run(-4, -4, 8, skinC);
-    run(-3, -3, 6, skinC);
+    /* Skin shading (right side + chin) */
+    run(3, -15, 2, skinShade); run(3, -14, 2, skinShade);
+    run(3, -13, 2, skinShade); run(3, -12, 2, skinShade);
+    run(3, -11, 2, skinShade);
+    run(-3, -8, 6, skinShade);
+    /* Highlight on forehead */
+    run(-2, -16, 2, skinHi);
+
+    /* ── Eyes: big RO-style 3x2 with iris + highlight ── */
+    /* Left eye */
+    run(-4, -13, 3, '#1a1a2e'); /* top lid */
+    px(-4, -12, '#2a3a5a'); px(-3, -12, '#3a5a8a'); px(-2, -12, '#2a3a5a'); /* iris */
+    px(-4, -11, '#334'); px(-3, -11, '#445'); px(-2, -11, '#334'); /* lower */
+    px(-3, -13, '#FFF'); /* highlight dot */
+    /* Right eye */
+    run(1, -13, 3, '#1a1a2e');
+    px(1, -12, '#2a3a5a'); px(2, -12, '#3a5a8a'); px(3, -12, '#2a3a5a');
+    px(1, -11, '#334'); px(2, -11, '#445'); px(3, -11, '#334');
+    px(2, -13, '#FFF');
+
     /* Cheek blush */
-    px(-3, -4, '#FFB8A0'); px(2, -4, '#FFB8A0');
-    /* Chin shade */
-    run(-2, -3, 4, skinShade);
+    px(-5, -11, '#FFB8A0'); px(-5, -10, '#FFB8A0');
+    px(4, -11, '#FFB8A0'); px(4, -10, '#FFB8A0');
 
-    /* Eyes: big RO-style with highlight dot */
-    px(-2, -7, '#222'); px(1, -7, '#222'); /* top of eye */
-    px(-2, -6, '#334'); px(1, -6, '#334'); /* iris */
-    px(-2, -5, '#556'); px(1, -5, '#556'); /* lower iris */
-    px(-1, -7, '#FFF'); px(2, -7, '#FFF'); /* eye highlight (key to cuteness!) */
+    /* Nose hint */
+    px(0, -10, skinShade);
 
-    /* Tiny smile */
-    px(-1, -4, '#C45'); px(0, -4, '#C45');
+    /* Mouth */
+    px(-1, -9, '#C45'); px(0, -9, '#C45');
 
-    /* ── Hair styles ── */
+    /* ── Hair ── */
     if (hairStyle === 'spiky') {
-      run(-4, -10, 8, hairC); run(-4, -9, 8, hairC);
-      /* Spikes going up */
-      px(-3, -11, hairC); px(-1, -12, hairC); px(1, -12, hairHi); px(3, -11, hairC);
-      px(0, -13, hairHi); /* tallest spike */
+      run(-6, -16, 12, hairC); run(-6, -15, 12, hairC); run(-5, -14, 10, hairC);
+      /* Spikes */
+      px(-4, -17, hairC); px(-2, -18, hairC); px(0, -19, hairHi); px(2, -18, hairC); px(4, -17, hairC);
+      px(-1, -20, hairHi); px(1, -20, hairHi); /* tallest */
+      px(0, -21, hairHi);
       /* Side fringe */
-      run(-4, -8, 2, hairC); run(2, -8, 2, hairC);
+      run(-6, -13, 2, hairC); run(4, -13, 2, hairC);
+      run(-6, -12, 1, hairShade); run(5, -12, 1, hairShade);
+      /* Highlights */
+      px(-1, -17, hairHi); px(1, -16, hairHi);
     } else if (hairStyle === 'bowl') {
-      run(-3, -11, 6, hairC);
-      run(-4, -10, 8, hairC); run(-4, -9, 8, hairC);
-      run(-4, -8, 2, hairC); run(2, -8, 2, hairC);
-      /* Highlight streak */
-      px(-1, -11, hairHi); px(0, -10, hairHi);
+      run(-4, -18, 8, hairC);
+      run(-5, -17, 10, hairC); run(-6, -16, 12, hairC); run(-6, -15, 12, hairC);
+      run(-6, -14, 3, hairC); run(3, -14, 3, hairC);
+      run(-6, -13, 2, hairC); run(4, -13, 2, hairC);
+      /* Highlights */
+      px(-2, -18, hairHi); px(0, -17, hairHi); px(2, -16, hairHi);
     } else if (hairStyle === 'long' || hairStyle === 'flowing') {
-      run(-3, -11, 6, hairC);
-      run(-4, -10, 8, hairC); run(-4, -9, 8, hairC);
-      px(-1, -11, hairHi); px(1, -11, hairHi); /* highlights */
+      run(-4, -18, 8, hairC);
+      run(-5, -17, 10, hairC); run(-6, -16, 12, hairC); run(-6, -15, 12, hairC);
+      run(-6, -14, 3, hairC); run(3, -14, 3, hairC);
+      /* Highlights */
+      px(-2, -18, hairHi); px(1, -17, hairHi);
       /* Side bangs */
-      run(-4, -8, 2, hairC); run(2, -8, 2, hairC);
+      run(-6, -13, 2, hairC); run(4, -13, 2, hairC);
     } else if (hairStyle === 'mohawk') {
-      run(-1, -13, 2, hairHi); run(-1, -12, 2, hairC); run(-2, -11, 4, hairC);
-      run(-3, -10, 6, hairC); run(-4, -9, 8, hairC);
-      /* Undercut sides */
-      run(-4, -8, 1, skinShade); run(3, -8, 1, skinShade);
+      run(-1, -21, 2, hairHi); run(-2, -20, 4, hairHi); run(-2, -19, 4, hairC);
+      run(-3, -18, 6, hairC); run(-4, -17, 8, hairC);
+      run(-6, -16, 12, hairC); run(-6, -15, 12, hairC);
+      /* Shaved sides */
+      run(-6, -14, 2, skinShade); run(4, -14, 2, skinShade);
+      run(-6, -13, 1, skinShade); run(5, -13, 1, skinShade);
     } else if (hairStyle === 'twin') {
-      /* Twin tails (cute) */
-      run(-3, -11, 6, hairC);
-      run(-4, -10, 8, hairC); run(-4, -9, 8, hairC);
-      px(-1, -11, hairHi); px(0, -11, hairHi);
-      /* Tails hanging down sides */
-      px(-5, -8, hairC); px(-5, -7, hairC); px(-5, -6, hairHi); px(-5, -5, hairC);
-      px(4, -8, hairC); px(4, -7, hairC); px(4, -6, hairHi); px(4, -5, hairC);
+      run(-4, -18, 8, hairC);
+      run(-5, -17, 10, hairC); run(-6, -16, 12, hairC); run(-6, -15, 12, hairC);
+      run(-6, -14, 3, hairC); run(3, -14, 3, hairC);
+      px(-2, -18, hairHi); px(0, -17, hairHi);
+      /* Twin tail left */
+      px(-7, -14, hairC); px(-7, -13, hairC); px(-7, -12, hairHi);
+      px(-7, -11, hairC); px(-7, -10, hairC); px(-7, -9, hairShade);
+      px(-8, -13, hairC); px(-8, -12, hairC); px(-8, -11, hairHi);
+      /* Twin tail right */
+      px(6, -14, hairC); px(6, -13, hairC); px(6, -12, hairHi);
+      px(6, -11, hairC); px(6, -10, hairC); px(6, -9, hairShade);
+      px(7, -13, hairC); px(7, -12, hairC); px(7, -11, hairHi);
       /* Ribbons */
-      px(-5, -9, '#FF6B9D'); px(4, -9, '#FF6B9D');
+      px(-7, -15, '#FF6B9D'); px(-8, -14, '#FF6B9D');
+      px(6, -15, '#FF6B9D'); px(7, -14, '#FF6B9D');
     }
 
-    /* ── Body (tiny compared to head = chibi) ── */
-    /* Shirt with highlight */
-    run(-3, -2, 6, shirtC);
-    run(-3, -1, 6, shirtC);
-    run(-3, 0, 6, shirtC);
-    run(-3, 1, 6, shirtC);
-    /* Shirt highlight (left side catch light) */
-    px(-3, -2, shirtHi); px(-3, -1, shirtHi);
+    /* ── Neck ── */
+    run(-2, -7, 4, skinC);
+    px(-2, -7, skinShade); px(1, -7, skinShade);
+
+    /* ── Body (small = chibi proportion) ── */
+    /* Shirt */
+    run(-5, -6, 10, shirtC);
+    run(-5, -5, 10, shirtC);
+    run(-5, -4, 10, shirtC);
+    run(-5, -3, 10, shirtC);
+    run(-4, -2, 8, shirtC);
+    /* Shirt shading (right side) */
+    run(2, -6, 2, shirtShade); run(2, -5, 2, shirtShade);
+    run(2, -4, 2, shirtShade); run(2, -3, 2, shirtShade);
+    /* Shirt highlight (left) */
+    px(-5, -6, shirtHi); px(-5, -5, shirtHi);
+    px(-4, -6, shirtHi);
     /* Collar */
-    px(-1, -2, skinC); px(0, -2, skinC);
+    px(-1, -6, skinC); px(0, -6, skinC); px(1, -6, skinC);
 
-    /* Arms (skin) */
-    px(-4, -1, skinC); px(-4, 0, skinC); px(-4, 1, skinShade);
-    px(3, -1, skinC); px(3, 0, skinC); px(3, 1, skinShade);
+    /* Arms */
+    run(-6, -5, 1, skinC); run(-6, -4, 1, skinC); run(-6, -3, 1, skinC);
+    px(-6, -2, skinShade);
+    run(5, -5, 1, skinC); run(5, -4, 1, skinC); run(5, -3, 1, skinC);
+    px(5, -2, skinShade);
+    /* Hands */
+    px(-6, -2, skinC); px(5, -2, skinC);
 
-    /* Pants / skirt */
-    run(-3, 2, 6, pantsC);
-    run(-3, 3, 6, pantsC);
+    /* Pants */
+    run(-4, -1, 8, pantsC);
+    run(-4, 0, 8, pantsC);
+    run(-4, 1, 8, pantsC);
+    run(-4, 2, 3, pantsC); run(1, 2, 3, pantsC);
+    /* Pants shading */
+    run(1, -1, 2, pantsShade); run(1, 0, 2, pantsShade);
 
-    /* Shoes (cute rounded) */
-    run(-3, 4, 2, '#443'); px(-4, 4, '#332');
-    run(1, 4, 2, '#443'); px(3, 4, '#332');
+    /* Belt */
+    run(-4, -1, 8, e.beltC || shirtShade);
 
-    /* Shadow under feet */
-    ctx.fillStyle = 'rgba(0,0,0,0.15)';
-    ctx.fillRect(cx - 4 * p, cy + 5 * p, 8 * p, p);
+    /* Shoes */
+    run(-5, 3, 3, '#443'); run(-5, 4, 3, '#332');
+    run(2, 3, 3, '#443'); run(2, 4, 3, '#332');
+    /* Shoe highlight */
+    px(-5, 3, '#554'); px(2, 3, '#554');
+
+    /* ── Accessories from extras ── */
+    if (e.cape) {
+      run(-5, -6, 1, e.cape); run(-5, -5, 1, e.cape);
+      run(4, -6, 1, e.cape); run(4, -5, 1, e.cape);
+      run(-5, -4, 1, e.cape); run(4, -4, 1, e.cape);
+      run(-5, -3, 1, e.cape); run(4, -3, 1, e.cape);
+    }
   }
 
   /* ══════ Character definitions ══════ */
   if (type === 'socal') {
-    drawBody('#FFCC99', '#E8B888', '#FF6B35', '#FF8F5E', '#4A90D9', '#332211', '#5A3D1A', 'spiky');
-    /* Sunglasses (cool shades) */
-    run(-3, -7, 2, '#111'); run(0, -7, 2, '#111'); /* frames */
-    px(-3, -6, '#1a3a5a'); px(-2, -6, '#1a3a5a'); /* left lens */
-    px(0, -6, '#1a3a5a'); px(1, -6, '#1a3a5a'); /* right lens */
-    px(-1, -7, '#333'); /* bridge */
-    px(-2, -7, '#FFF'); /* lens glint */
+    drawBody('#FFCC99','#E8B888','#FFE0C0', '#FF6B35','#FF8F5E','#CC5528', '#4A90D9','#3670B0', '#332211','#5A3D1A','#221100', 'spiky');
+    /* Sunglasses */
+    run(-4, -13, 3, '#111'); run(1, -13, 3, '#111');
+    px(-4, -12, '#1a3a5a'); px(-3, -12, '#2a5a8a'); px(-2, -12, '#1a3a5a');
+    px(1, -12, '#1a3a5a'); px(2, -12, '#2a5a8a'); px(3, -12, '#1a3a5a');
+    px(0, -13, '#333'); px(-3, -13, '#FFF');
     /* Shell necklace */
-    px(-1, -2, '#88DDCC'); px(0, -2, '#66CCBB');
-    /* Surf shorts detail */
-    px(-2, 3, '#3A80C9'); px(1, 3, '#3A80C9');
+    px(-1, -6, '#88DDCC'); px(0, -6, '#66CCBB'); px(1, -6, '#88DDCC');
+    /* Board shorts detail */
+    px(-3, 1, '#3A80C9'); px(2, 1, '#3A80C9');
+
   } else if (type === 'prospector') {
-    drawBody('#FFCC99', '#E8B888', '#8B5E3C', '#A97850', '#555', '#332211', '#4A3520', 'bowl');
+    drawBody('#FFCC99','#E8B888','#FFE0C0', '#8B5E3C','#A97850','#6B4020', '#555','#3D3D3D', '#332211','#4A3520','#1A0F00', 'bowl');
     /* Mining helmet */
-    run(-3, -12, 6, '#D4A233'); run(-4, -11, 8, '#C67B2E');
-    px(0, -12, '#FFD700'); /* headlamp glow */
-    px(0, -13, '#FFFFAA'); /* lamp beam */
+    run(-4, -19, 8, '#D4A233'); run(-5, -18, 10, '#C67B2E'); run(-6, -17, 12, '#B06B20');
+    px(0, -19, '#FFD700'); px(0, -20, '#FFFFAA'); px(1, -20, '#FFFF66');
     /* Pickaxe on back */
-    px(4, -3, '#888'); px(5, -4, '#999'); px(5, -5, '#AAA');
-    px(6, -5, '#C67B2E'); px(6, -6, '#C67B2E'); /* pick head */
-    /* Belt */
-    run(-3, 2, 6, '#A97850');
+    px(6, -5, '#888'); px(7, -6, '#999'); px(7, -7, '#AAA'); px(8, -7, '#AAA');
+    px(8, -8, '#C67B2E'); px(9, -8, '#C67B2E'); px(8, -9, '#C67B2E');
+    /* Belt + buckle */
+    run(-4, -1, 8, '#A97850'); px(0, -1, '#FFD700');
+
   } else if (type === 'analyst') {
-    drawBody('#FFCC99', '#E8B888', '#FFFFFF', '#F0F0F0', '#2C3E50', '#554433', '#6E5A45', 'bowl');
-    /* Glasses (round, cute) */
-    px(-3, -7, '#AAA'); px(-2, -7, '#AAA'); px(-1, -7, '#AAA');
-    px(0, -7, '#AAA'); px(1, -7, '#AAA'); px(2, -7, '#AAA');
-    /* Clipboard held in front */
-    run(-5, -1, 2, '#C67B2E'); run(-5, 0, 2, '#FFF'); run(-5, 1, 2, '#F5F5F5');
-    px(-5, -2, '#C67B2E'); /* clip */
+    drawBody('#FFCC99','#E8B888','#FFE0C0', '#FFFFFF','#F8F8F8','#DDDDDD', '#2C3E50','#1A2838', '#554433','#6E5A45','#3D2E1F', 'bowl');
+    /* Glasses (round frames) */
+    px(-5, -13, '#AAA'); run(-4, -13, 3, '#999'); px(-1, -13, '#AAA');
+    px(0, -13, '#AAA'); run(1, -13, 3, '#999'); px(4, -13, '#AAA');
+    /* Clipboard */
+    run(-7, -4, 2, '#C67B2E'); run(-7, -3, 2, '#FFF'); run(-7, -2, 2, '#F5F5F5'); run(-7, -1, 2, '#EAEAEA');
+    px(-7, -5, '#C67B2E');
     /* Tie */
-    px(0, -1, '#E74C3C'); px(0, 0, '#C0392B');
-    /* Pen in pocket */
-    px(2, -2, '#3498DB');
+    px(0, -5, '#E74C3C'); px(0, -4, '#C0392B'); px(0, -3, '#C0392B');
+    /* Pen */
+    px(3, -6, '#3498DB');
+
   } else if (type === 'duck') {
-    /* Cute rubber duck / debug companion */
-    var dk = '#FFD700', dl = '#FFED4A', dd = '#E6C200';
-    /* Body (round) */
-    run(-2, -8, 4, dk);
-    run(-3, -7, 6, dk);
-    run(-4, -6, 8, dk);
-    run(-4, -5, 8, dk);
-    run(-4, -4, 8, dk);
+    var dk = '#FFD700', dl = '#FFED4A', dd = '#E6C200', ds = '#C8A800';
+    /* Body */
+    run(-3, -14, 6, dk);
+    run(-5, -13, 10, dk);
+    run(-6, -12, 12, dk);
+    run(-6, -11, 12, dk);
+    run(-6, -10, 12, dl);
+    run(-6, -9, 12, dl);
+    run(-6, -8, 12, dl);
+    run(-5, -7, 10, dk);
+    run(-5, -6, 10, dk);
+    run(-5, -5, 10, dl);
+    run(-4, -4, 8, dl);
     run(-4, -3, 8, dk);
-    run(-3, -2, 6, dl);
-    run(-3, -1, 6, dl);
-    run(-3, 0, 6, dl);
-    run(-3, 1, 6, dk);
-    run(-2, 2, 4, dd);
-    /* Eyes (big cute) */
-    px(-2, -6, '#111'); px(1, -6, '#111');
-    px(-1, -6, '#FFF'); px(2, -6, '#FFF'); /* highlights */
-    /* Beak (bigger, cuter) */
-    run(-1, -4, 3, '#FF8C00'); run(0, -3, 2, '#FF8C00');
+    run(-3, -2, 6, dd);
+    /* Shading */
+    run(3, -12, 2, dd); run(3, -11, 2, dd); run(3, -10, 2, ds);
+    /* Eyes */
+    px(-3, -11, '#111'); px(-2, -11, '#111'); px(2, -11, '#111'); px(3, -11, '#111');
+    px(-2, -12, '#FFF'); px(3, -12, '#FFF');
+    /* Beak */
+    run(-2, -9, 5, '#FF8C00'); run(-1, -8, 3, '#FF8C00'); px(0, -7, '#E07000');
     /* Blush */
-    px(-3, -4, '#FFBB77'); px(2, -4, '#FFBB77');
+    px(-5, -9, '#FFBB77'); px(4, -9, '#FFBB77');
     /* Wings */
-    px(-5, -2, '#FFBB00'); px(-5, -1, '#FFBB00'); px(-5, 0, '#FFD700');
-    px(4, -2, '#FFBB00'); px(4, -1, '#FFBB00'); px(4, 0, '#FFD700');
+    px(-7, -7, dd); px(-7, -6, dd); px(-7, -5, dk);
+    px(6, -7, dd); px(6, -6, dd); px(6, -5, dk);
     /* Feet */
-    run(-2, 3, 2, '#FF8C00'); run(1, 3, 2, '#FF8C00');
-    px(-3, 3, '#FF8C00'); px(3, 3, '#FF8C00');
+    run(-3, -1, 3, '#FF8C00'); run(1, -1, 3, '#FF8C00');
     /* Crown */
-    px(-1, -9, '#FFD700'); px(0, -10, '#FFD700'); px(1, -9, '#FFD700');
-    px(0, -11, '#FFF176'); /* gem on crown */
+    px(-2, -15, dk); px(0, -16, '#FFF176'); px(2, -15, dk);
+    px(-1, -16, dk); px(1, -16, dk);
+    px(0, -17, '#FFF176');
     /* Shadow */
-    ctx.fillStyle = 'rgba(0,0,0,0.15)';
-    ctx.fillRect(cx - 4 * p, cy + 4 * p, 8 * p, p);
+    ctx.fillStyle = 'rgba(0,0,0,0.18)';
+    ctx.fillRect(cx - 6 * p, cy + 0 * p, 12 * p, 2 * p);
     return;
+
   } else if (type === 'acolyte') {
-    drawBody('#FFCC99', '#E8B888', '#F5F0E8', '#FFFDF5', '#E8E0D4', '#8866CC', '#AA88EE', 'long');
-    /* White robe detail (flowing hem) */
-    run(-4, 2, 8, '#F5F0E8'); run(-4, 3, 8, '#EDE5D8');
-    px(-4, 4, '#E8E0D4'); px(-3, 4, '#F5F0E8'); px(2, 4, '#F5F0E8'); px(3, 4, '#E8E0D4');
+    drawBody('#FFCC99','#E8B888','#FFE0C0', '#F5F0E8','#FFFDF5','#DDD8CC', '#E8E0D4','#D0C8B8', '#8866CC','#AA88EE','#6644AA', 'long', {cape: '#F5F0E8'});
+    /* White robe extends */
+    run(-5, 1, 10, '#F5F0E8'); run(-5, 2, 10, '#EDE5D8');
+    run(-5, 3, 4, '#E8E0D4'); run(1, 3, 4, '#F5F0E8');
+    run(-5, 4, 4, '#DDD8CC'); run(1, 4, 4, '#EDE5D8');
     /* Holy staff */
-    px(5, -7, '#66CCFF'); px(5, -8, '#99DDFF'); /* orb glow */
-    px(5, -6, '#8B6B4A'); px(5, -5, '#8B6B4A'); px(5, -4, '#8B6B4A');
-    px(5, -3, '#7A5C3C'); px(5, -2, '#7A5C3C'); px(5, -1, '#7A5C3C');
-    px(5, 0, '#6B4E33'); px(5, 1, '#6B4E33');
-    /* Cross emblem on chest */
-    px(0, -1, '#FFD700'); px(-1, 0, '#FFD700'); px(0, 0, '#FFD700'); px(1, 0, '#FFD700');
-    /* Halo hint */
-    px(-1, -12, '#FFFFAA'); px(0, -12, '#FFFFCC'); px(1, -12, '#FFFFAA');
+    px(7, -12, '#66CCFF'); px(7, -13, '#99DDFF'); px(8, -12, '#44AADD'); /* orb */
+    px(7, -11, '#8B6B4A'); px(7, -10, '#8B6B4A'); px(7, -9, '#8B6B4A');
+    px(7, -8, '#7A5C3C'); px(7, -7, '#7A5C3C'); px(7, -6, '#7A5C3C');
+    px(7, -5, '#6B4E33'); px(7, -4, '#6B4E33'); px(7, -3, '#6B4E33');
+    /* Cross emblem */
+    px(0, -4, '#FFD700'); px(-1, -3, '#FFD700'); px(0, -3, '#FFD700'); px(1, -3, '#FFD700');
+    /* Halo */
+    run(-3, -19, 6, 'rgba(255,255,200,0.5)'); run(-2, -20, 4, 'rgba(255,255,200,0.3)');
+
   } else if (type === 'sage') {
-    drawBody('#FFCC99', '#E8B888', '#1A3FA0', '#2E5BD0', '#141650', '#DDEEFF', '#FFFFFF', 'flowing');
+    drawBody('#FFCC99','#E8B888','#FFE0C0', '#1A3FA0','#2E5BD0','#0D2580', '#141650','#0A0C30', '#DDEEFF','#FFFFFF','#AACCDD', 'flowing', {cape: '#1A3FA0'});
     /* Wizard hat */
-    run(-4, -11, 8, '#1A3FA0'); run(-3, -12, 6, '#2244BB');
-    run(-2, -13, 4, '#2244BB'); run(-1, -14, 2, '#2E5BD0');
-    px(0, -15, '#3366DD'); /* hat tip */
-    px(0, -14, '#FFD700'); /* star on hat */
-    /* Book held */
-    run(-5, -1, 2, '#8B4513'); run(-5, 0, 2, '#FFFDE8'); run(-5, 1, 2, '#F5E6C8');
+    run(-6, -17, 12, '#1A3FA0'); run(-5, -18, 10, '#2244BB');
+    run(-4, -19, 8, '#2244BB'); run(-3, -20, 6, '#2E5BD0');
+    run(-2, -21, 4, '#2E5BD0'); run(-1, -22, 2, '#3366DD');
+    px(0, -23, '#3366DD');
+    px(0, -22, '#FFD700'); /* star */
+    /* Wide brim */
+    run(-7, -16, 14, '#152E80');
+    /* Book */
+    run(-7, -4, 2, '#8B4513'); run(-7, -3, 2, '#FFFDE8'); run(-7, -2, 2, '#F5E6C8');
     /* Cape clasp */
-    px(0, -2, '#FFD700');
+    px(0, -6, '#FFD700');
     /* Robe trim */
-    run(-3, 3, 6, '#0D2580');
-    /* Magical particles */
-    px(-6, -3, '#66CCFF'); px(5, -6, '#AADDFF');
+    run(-4, 2, 8, '#0D2580');
+    /* Magic particles */
+    px(-8, -6, '#66CCFF'); px(7, -10, '#AADDFF'); px(-7, -2, '#88EEFF');
+
   } else if (type === 'blacksmith') {
-    drawBody('#FFCC99', '#E8B888', '#555555', '#777777', '#3D3D3D', '#CC4400', '#FF6622', 'mohawk');
+    drawBody('#FFCC99','#E8B888','#FFE0C0', '#555555','#777777','#3D3D3D', '#3D3D3D','#2A2A2A', '#CC4400','#FF6622','#882200', 'mohawk');
     /* Leather apron */
-    run(-2, -1, 4, '#8B5E3C'); run(-2, 0, 4, '#8B5E3C'); run(-2, 1, 4, '#7A4E2E');
-    run(-2, 2, 4, '#6B4020');
-    /* Hammer (big, impressive) */
-    px(5, -3, '#888'); px(5, -2, '#888'); px(5, -1, '#777'); /* handle */
-    run(4, -5, 3, '#B0B0B0'); run(4, -4, 3, '#CCCCCC'); /* hammer head */
-    px(5, -6, '#DDD'); /* hammer top shine */
-    /* Goggles pushed up */
-    run(-2, -10, 4, '#556'); px(-2, -10, '#88CCDD'); px(1, -10, '#88CCDD');
+    run(-3, -4, 6, '#8B5E3C'); run(-3, -3, 6, '#8B5E3C');
+    run(-3, -2, 6, '#7A4E2E'); run(-3, -1, 6, '#6B4020');
+    /* Apron stitching */
+    px(-1, -3, '#A97850'); px(1, -3, '#A97850');
+    /* Hammer */
+    px(7, -6, '#888'); px(7, -5, '#888'); px(7, -4, '#777'); px(7, -3, '#666');
+    run(6, -8, 3, '#B0B0B0'); run(6, -7, 3, '#CCCCCC'); /* head */
+    px(7, -9, '#DDD');
+    /* Goggles */
+    run(-3, -17, 6, '#556'); px(-3, -16, '#88CCDD'); px(2, -16, '#88CCDD');
     /* Sparks */
-    px(-6, -1, '#FFD700'); px(7, -4, '#FF6600'); px(-5, -4, '#FFAA00');
-    /* Muscly arms (slightly bigger) */
-    px(-4, -1, '#E8B888'); px(3, -1, '#E8B888');
+    px(-8, -3, '#FFD700'); px(9, -7, '#FF6600'); px(-7, -7, '#FFAA00');
+    /* Muscly arms */
+    px(-6, -5, '#E8B888'); px(-6, -4, '#E8B888');
+    px(5, -5, '#E8B888'); px(5, -4, '#E8B888');
+
   } else if (type === 'creator') {
-    drawBody('#FFCC99', '#E8B888', '#FF69B4', '#FF8DC7', '#9B59B6', '#332211', '#5A3D1A', 'twin');
+    drawBody('#FFCC99','#E8B888','#FFE0C0', '#FF69B4','#FF8DC7','#DD4D90', '#9B59B6','#7A3E90', '#332211','#5A3D1A','#1A0F00', 'twin');
     /* Beret */
-    run(-4, -12, 8, '#8E44AD'); run(-5, -11, 9, '#9B59B6');
-    px(3, -12, '#B06DD0'); /* beret highlight */
-    /* Paintbrush held up */
-    px(4, -4, '#8B6B4A'); px(4, -3, '#8B6B4A'); px(4, -2, '#7A5C3C');
-    px(4, -5, '#FF4444'); px(4, -6, '#FF6666'); /* paint tip */
-    px(5, -5, '#FFAA00'); /* paint splatter */
-    /* Palette on other hand */
-    run(-5, 0, 2, '#DDBB88'); px(-6, 0, '#FF4444'); px(-6, -1, '#44BB44'); px(-5, -1, '#4488FF');
+    run(-5, -19, 10, '#8E44AD'); run(-6, -18, 12, '#9B59B6');
+    px(4, -19, '#B06DD0');
+    /* Paintbrush */
+    px(6, -7, '#8B6B4A'); px(6, -6, '#8B6B4A'); px(6, -5, '#7A5C3C');
+    px(6, -8, '#FF4444'); px(6, -9, '#FF6666'); px(7, -8, '#FFAA00');
+    /* Palette */
+    run(-7, -3, 2, '#DDBB88'); run(-7, -2, 2, '#DDBB88');
+    px(-8, -3, '#FF4444'); px(-8, -2, '#44BB44'); px(-7, -4, '#4488FF');
     /* Smock detail */
-    px(-1, 0, '#FF88BB'); px(0, 0, '#FF88BB');
-    /* Paint spots on clothes */
-    px(1, 1, '#44CC44'); px(-2, -1, '#FFAA00');
+    px(-1, -3, '#FF88BB'); px(0, -3, '#FF88BB');
+    /* Paint spots */
+    px(2, -2, '#44CC44'); px(-3, -4, '#FFAA00'); px(1, 0, '#4488FF');
   }
 }
 
@@ -5328,20 +5462,22 @@ function buildCharGrid() {
     descEl.textContent = c.desc;
     card.appendChild(descEl);
 
-    /* Draw sprite */
+    /* Draw sprite + permanent idle breathing */
     var ctx = cvs.getContext('2d');
-    drawCharSprite(ctx, c.sprite, 72, 72);
-
-    /* Idle bob on hover */
-    var bobPhase = 0, hovering = false, animId = null;
-    function animBob() {
-      if (!hovering) { animId = null; return; }
-      bobPhase += 0.08;
-      cvs.style.transform = 'translateY(' + (Math.sin(bobPhase) * 3 - 4) + 'px)';
-      animId = requestAnimationFrame(animBob);
+    var sprType = c.sprite;
+    var breathFrame = 0, lastBreath = 0, hovering = false;
+    function idleLoop(ts) {
+      /* Alternate breath frame every 800ms */
+      if (ts - lastBreath > 800) { breathFrame = 1 - breathFrame; lastBreath = ts; }
+      drawCharSprite(ctx, sprType, 72, 72, breathFrame);
+      /* Gentle bob when hovering */
+      if (hovering) { cvs.style.transform = 'translateY(' + (Math.sin(ts / 300) * 3 - 2) + 'px)'; }
+      else { cvs.style.transform = ''; }
+      requestAnimationFrame(idleLoop);
     }
-    card.addEventListener('mouseenter', function() { hovering = true; if (!animId) animBob(); });
-    card.addEventListener('mouseleave', function() { hovering = false; cvs.style.transform = ''; });
+    requestAnimationFrame(idleLoop);
+    card.addEventListener('mouseenter', function() { hovering = true; });
+    card.addEventListener('mouseleave', function() { hovering = false; });
 
     card.addEventListener('click', () => {
       showToast(`Class selected: ${c.name}`);
@@ -5365,12 +5501,19 @@ buildCharGrid();
     ctBlacksmithSprite: 'blacksmith',
     ctCreatorSprite: 'creator',
   };
+  var entries = [];
   Object.keys(treeSprites).forEach(function(id) {
     var cvs = document.getElementById(id);
     if (!cvs) return;
-    var ctx = cvs.getContext('2d');
-    drawCharSprite(ctx, treeSprites[id], 40, 36);
+    entries.push({ ctx: cvs.getContext('2d'), type: treeSprites[id] });
   });
+  var breathFrame = 0, lastBreath = 0;
+  function treeBreathLoop(ts) {
+    if (ts - lastBreath > 800) { breathFrame = 1 - breathFrame; lastBreath = ts; }
+    entries.forEach(function(e) { drawCharSprite(e.ctx, e.type, 48, 64, breathFrame); });
+    requestAnimationFrame(treeBreathLoop);
+  }
+  requestAnimationFrame(treeBreathLoop);
 })();
 
 /* ═══════════════════════════════════════
@@ -5404,8 +5547,8 @@ buildCharGrid();
   function cacheRoleSprites() {
     CAREER_SPRITES.forEach(function(cs) {
       var tmp = document.createElement('canvas');
-      tmp.width = 40; tmp.height = 40;
-      drawCharSprite(tmp.getContext('2d'), cs.type, 40, 40);
+      tmp.width = 56; tmp.height = 72;
+      drawCharSprite(tmp.getContext('2d'), cs.type, 56, 72, 0);
       roleCache[cs.type] = tmp;
     });
   }
@@ -5625,7 +5768,7 @@ buildCharGrid();
         var rx = crossX - roleSpacing * 1.5 + i * roleSpacing;
         var bob = Math.sin(now / 500 + i * 1.2) * 3;
         var cached = roleCache[cs.type];
-        if (cached) ctx.drawImage(cached, rx - 20, baseY + bob - 20);
+        if (cached) ctx.drawImage(cached, rx - 28, baseY + bob - 36);
         ctx.fillStyle = '#FFD700';
         ctx.font = (isMini ? 7 : 9) + 'px monospace';
         ctx.textAlign = 'center';
@@ -6074,6 +6217,21 @@ document.getElementById('btnBackTop').addEventListener('click', function() {
   }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
 
   sections.forEach(function(s) { observer.observe(s.el); });
+})();
+
+/* Pipeline animation trigger on scroll into view */
+(function initPipelineObserver() {
+  var pipes = $$('.pipeline');
+  if (!pipes.length) return;
+  var pipeObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        pipeObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  pipes.forEach(function(p) { pipeObs.observe(p); });
 })();
 
 /* Smooth scroll for anchor links */
@@ -7835,21 +7993,27 @@ function triggerEvolution(fromName, toName) {
 (function initJourneySprites() {
   var timelineItems = $$('.timeline-item');
   var spriteMap = ['socal', 'analyst', 'acolyte', 'prospector'];
+  var entries = [];
   timelineItems.forEach(function(item, i) {
     if (i >= spriteMap.length) return;
     var dot = item.querySelector('.timeline-dot');
     if (!dot) return;
     var cvs = document.createElement('canvas');
     cvs.className = 'timeline-sprite';
-    cvs.width = 36;
-    cvs.height = 32;
-    cvs.style.width = '36px';
-    cvs.style.height = '32px';
-    var ctx = cvs.getContext('2d');
-    drawCharSprite(ctx, spriteMap[i], 36, 32);
-    /* Insert sprite before the dot */
+    cvs.width = 48;
+    cvs.height = 64;
+    cvs.style.width = '48px';
+    cvs.style.height = '64px';
+    entries.push({ ctx: cvs.getContext('2d'), type: spriteMap[i] });
     item.insertBefore(cvs, dot);
   });
+  var breathFrame = 0, lastBreath = 0;
+  function tlBreathLoop(ts) {
+    if (ts - lastBreath > 800) { breathFrame = 1 - breathFrame; lastBreath = ts; }
+    entries.forEach(function(e) { drawCharSprite(e.ctx, e.type, 48, 64, breathFrame); });
+    requestAnimationFrame(tlBreathLoop);
+  }
+  requestAnimationFrame(tlBreathLoop);
 })();
 
 /* ═══════════════════════════════════════
