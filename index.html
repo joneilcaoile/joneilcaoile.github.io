@@ -2180,14 +2180,15 @@ footer {
 }
 
 .footer-top {
+  position: relative;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-bottom: 20px;
   padding-bottom: 16px;
   border-bottom: 1px solid var(--border);
 }
-.footer-brand { display: flex; flex-direction: column; gap: 2px; }
+.footer-brand { display: flex; flex-direction: column; align-items: center; gap: 2px; }
 .footer-name {
   font-family: var(--font-heading);
   font-size: 16px; font-weight: 600;
@@ -2199,6 +2200,10 @@ footer {
   font-family: var(--font-mono);
 }
 .btn-back-top {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
   width: 36px; height: 36px;
   border-radius: 50%;
   border: 1px solid var(--border);
@@ -2211,7 +2216,7 @@ footer {
 .btn-back-top:hover {
   border-color: var(--amber);
   color: var(--amber);
-  transform: translateY(-2px);
+  transform: translateY(calc(-50% - 2px));
 }
 
 .footer-links {
@@ -3571,8 +3576,9 @@ footer {
    ═══════════════════════════════════════ */
 .timeline-sprite-wrap {
   position: absolute;
-  right: 0;
-  top: 0;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -5537,7 +5543,7 @@ buildCharGrid();
     { x: 0.30, label: '400+ Hrs Clinical', sub: 'PT Clinics', icon: 'clinic', color: '#66BB6A' },
     { x: 0.50, label: 'Career Pivot', sub: 'Engineering Path', icon: 'school', color: '#42A5F5' },
     { x: 0.70, label: 'M.S. BME', sub: 'Stevens 2026', icon: 'lab', color: '#AB47BC' },
-    { x: 0.90, label: '???', sub: 'Next Chapter', icon: 'crossroads', color: '#FFD700' },
+    { x: 0.88, label: '???', sub: 'Next Chapter', icon: 'crossroads', color: '#FFD700' },
   ];
 
   var CAREER_SPRITES = [
