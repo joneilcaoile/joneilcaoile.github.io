@@ -5766,8 +5766,8 @@ buildCharGrid();
       var roleAlpha = Math.min(1, thinkT / 600) * fadeAlpha;
       ctx.globalAlpha = roleAlpha;
       var crossX = MILESTONES[4].x * w;
-      var roleSpacing = isMini ? 40 : 72;
-      var baseY = groundY - (isMini ? 48 : 74);
+      var roleSpacing = isMini ? 44 : 96;
+      var baseY = groundY - (isMini ? 48 : 78);
       CAREER_SPRITES.forEach(function(cs, i) {
         var rx = crossX - roleSpacing * 1.5 + i * roleSpacing;
         var bob = Math.sin(now / 500 + i * 1.2) * 3;
@@ -5776,7 +5776,7 @@ buildCharGrid();
         ctx.fillStyle = '#FFD700';
         ctx.font = 'bold ' + (isMini ? 8 : 11) + 'px monospace';
         ctx.textAlign = 'center';
-        ctx.fillText(cs.label, rx, baseY + (isMini ? 22 : 30));
+        ctx.fillText(cs.label, rx, baseY + (isMini ? 24 : 34));
       });
     }
     ctx.globalAlpha = 1;
