@@ -3828,7 +3828,7 @@ footer {
         <div class="hero-ctas">
           <a href="#featured" class="btn btn--primary">View device projects</a>
           <a href="#contact" class="btn btn--secondary">Get in touch</a>
-          <a href="Joneil_Caoile_Resume.pdf" class="btn btn--ghost" download aria-label="Download resume (PDF)">Resume ↓</a>
+          <a href="Joneil_Caoile_Resume.pdf" class="btn btn--ghost" target="_blank" rel="noopener" aria-label="View resume (PDF)">Resume</a>
         </div>
       </div>
       <div class="hero-right">
@@ -4943,10 +4943,7 @@ function initConstellation() {
     }
   });
 
-  /* Auto-dismiss after 4 seconds (much faster than old 8s game menu) */
-  setTimeout(function() {
-    triggerDismiss();
-  }, 4000);
+  /* No auto-dismiss: wait for user click, scroll, or keypress */
 
   /* Reduced motion: skip animation, show static */
   if (S.reducedMotion) {
