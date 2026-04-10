@@ -4779,10 +4779,7 @@ var constellationRAF = null;
 function initConstellation() {
   var canvas = DOM.entranceCanvas;
   var ctx = canvas.getContext('2d');
-  var W, H, particles, mouse, dismissed;
-
-  dismissed = false;
-  mouse = { x: -9999, y: -9999, active: false };
+  var W, H, dismissed = false;
 
   function resize() {
     W = canvas.width = window.innerWidth;
@@ -4791,215 +4788,192 @@ function initConstellation() {
   resize();
   window.addEventListener('resize', resize);
 
-  /* Particle count: desktop ~120, mobile ~50 */
-  var COUNT = S.isMobile ? 50 : 120;
-  var CONNECTION_DIST = S.isMobile ? 100 : 150;
-  var MOUSE_RADIUS = 180;
+  /* ── ECG Waveform Data ── */
+  function ecgSample(t) {
+    t = t % 1;
+    if (t < 0.10) return 0;
+    /* P wave */
+    if (t < 0.18) { var p = (t - 0.10) / 0.08; return Math.sin(p * Math.PI) * 0.12; }
+    if (t < 0.22) return 0;
+    /* Q dip */
+    if (t < 0.25) { var q = (t - 0.22) / 0.03; return -Math.sin(q * Math.PI) * 0.08; }
+    /* R spike */
+    if (t < 0.30) { var r = (t - 0.25) / 0.05; return Math.sin(r * Math.PI) * 1.0; }
+    /* S dip */
+    if (t < 0.34) { var s = (t - 0.30) / 0.04; return -Math.sin(s * Math.PI) * 0.15; }
+    if (t < 0.42) return 0;
+    /* T wave */
+    if (t < 0.56) { var tw = (t - 0.42) / 0.14; return Math.sin(tw * Math.PI) * 0.2; }
+    return 0;
+  }
 
-  /* Create particles */
-  particles = [];
-  for (var i = 0; i < COUNT; i++) {
+  var startTime = Date.now();
+  var TRACE_SPEED = 200;
+  var BEAT_PERIOD = 0.9;
+  var traceHistory = [];
+  var TRAIL_LEN = 500;
+  var phase = 'tracing';
+  var flatlineStart = 0;
+  var pulseTime = 0;
+  var flashAlpha = 0;
+  var traceX = 0;
+
+  /* Grid dots for monitor feel */
+  var gridDots = [];
+  function buildGrid() {
+    gridDots = [];
+    for (var gx = 40; gx < W; gx += 40) {
+      for (var gy = 40; gy < H; gy += 40) {
+        gridDots.push({ x: gx, y: gy });
+      }
+    }
+  }
+  buildGrid();
+
+  /* Subtle floating particles */
+  var particles = [];
+  var PCOUNT = S.isMobile ? 20 : 40;
+  for (var i = 0; i < PCOUNT; i++) {
     particles.push({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      r: Math.random() * 2 + 0.5,
-      alpha: Math.random() * 0.5 + 0.3,
-      /* Explosion velocity (used on dismiss) */
-      ex: 0, ey: 0
+      x: Math.random() * W, y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.2, vy: (Math.random() - 0.5) * 0.2,
+      r: Math.random() * 1.5 + 0.3, alpha: Math.random() * 0.15 + 0.05
     });
   }
 
-  /* Mouse tracking */
-  DOM.entranceOverlay.addEventListener('mousemove', function(e) {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-    mouse.active = true;
-  });
-  DOM.entranceOverlay.addEventListener('mouseleave', function() {
-    mouse.active = false;
-  });
-
-  /* Touch support */
-  DOM.entranceOverlay.addEventListener('touchmove', function(e) {
-    if (e.touches.length > 0) {
-      mouse.x = e.touches[0].clientX;
-      mouse.y = e.touches[0].clientY;
-      mouse.active = true;
-    }
-  }, { passive: true });
-
-  /* Animation loop */
   function draw() {
+    var now = Date.now();
+    var elapsed = (now - startTime) / 1000;
     ctx.clearRect(0, 0, W, H);
 
-    /* Update + draw particles */
-    for (var i = 0; i < particles.length; i++) {
-      var p = particles[i];
+    /* Grid */
+    ctx.fillStyle = 'rgba(198,123,46,0.035)';
+    for (var gi = 0; gi < gridDots.length; gi++) {
+      ctx.fillRect(gridDots[gi].x, gridDots[gi].y, 1, 1);
+    }
 
-      if (dismissed) {
-        /* Explosion: accelerate outward */
-        p.x += p.ex;
-        p.y += p.ey;
-        p.ex *= 1.02;
-        p.ey *= 1.02;
-        p.alpha *= 0.96;
-      } else {
-        /* Normal drift */
-        p.x += p.vx;
-        p.y += p.vy;
-
-        /* Mouse interaction: gentle repulsion */
-        if (mouse.active) {
-          var dx = p.x - mouse.x;
-          var dy = p.y - mouse.y;
-          var dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < MOUSE_RADIUS && dist > 0) {
-            var force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS * 0.8;
-            p.vx += (dx / dist) * force * 0.3;
-            p.vy += (dy / dist) * force * 0.3;
-          }
-        }
-
-        /* Dampen velocity */
-        p.vx *= 0.995;
-        p.vy *= 0.995;
-
-        /* Wrap edges */
-        if (p.x < -10) p.x = W + 10;
-        if (p.x > W + 10) p.x = -10;
-        if (p.y < -10) p.y = H + 10;
-        if (p.y > H + 10) p.y = -10;
-      }
-
-      /* Draw particle */
+    /* Particles */
+    for (var pi = 0; pi < particles.length; pi++) {
+      var pt = particles[pi];
+      pt.x += pt.vx; pt.y += pt.vy;
+      if (pt.x < 0) pt.x = W; if (pt.x > W) pt.x = 0;
+      if (pt.y < 0) pt.y = H; if (pt.y > H) pt.y = 0;
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(198,123,46,' + p.alpha + ')';
+      ctx.arc(pt.x, pt.y, pt.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(198,123,46,' + pt.alpha + ')';
       ctx.fill();
     }
 
-    /* Draw connections (skip during explosion for perf) */
-    if (!dismissed) {
-      ctx.lineWidth = 0.5;
-      for (var i = 0; i < particles.length; i++) {
-        for (var j = i + 1; j < particles.length; j++) {
-          var dx = particles[i].x - particles[j].x;
-          var dy = particles[i].y - particles[j].y;
-          var dist = dx * dx + dy * dy;
-          if (dist < CONNECTION_DIST * CONNECTION_DIST) {
-            var alpha = (1 - Math.sqrt(dist) / CONNECTION_DIST) * 0.15;
+    /* ECG Trace */
+    var midY = H * 0.48;
+    var amp = Math.min(H * 0.16, 90);
 
-            /* Brighter connections near mouse */
-            if (mouse.active) {
-              var mx = (particles[i].x + particles[j].x) / 2 - mouse.x;
-              var my = (particles[i].y + particles[j].y) / 2 - mouse.y;
-              var md = Math.sqrt(mx * mx + my * my);
-              if (md < MOUSE_RADIUS) {
-                alpha += (1 - md / MOUSE_RADIUS) * 0.2;
-              }
-            }
-
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = 'rgba(198,123,46,' + alpha + ')';
-            ctx.stroke();
-          }
-        }
-      }
-
-      /* Mouse glow */
-      if (mouse.active) {
-        var grd = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, MOUSE_RADIUS);
-        grd.addColorStop(0, 'rgba(198,123,46,0.06)');
-        grd.addColorStop(1, 'rgba(198,123,46,0)');
-        ctx.fillStyle = grd;
-        ctx.fillRect(mouse.x - MOUSE_RADIUS, mouse.y - MOUSE_RADIUS, MOUSE_RADIUS * 2, MOUSE_RADIUS * 2);
-      }
+    if (phase === 'tracing') {
+      traceX += TRACE_SPEED / 60;
+      var beatT = (elapsed / BEAT_PERIOD) % 1;
+      var sample = ecgSample(beatT);
+      traceHistory.push({ x: traceX % W, y: midY - sample * amp });
+      if (traceHistory.length > TRAIL_LEN) traceHistory.shift();
+      if (elapsed > 2.5) { phase = 'flatline'; flatlineStart = now; }
+    } else if (phase === 'flatline') {
+      traceX += TRACE_SPEED / 60;
+      traceHistory.push({ x: traceX % W, y: midY });
+      if (traceHistory.length > TRAIL_LEN) traceHistory.shift();
+      if (now - flatlineStart > 1200) { phase = 'pulse'; pulseTime = now; flashAlpha = 0.5; }
+    } else if (phase === 'pulse') {
+      var pt2 = (now - pulseTime) / 1000;
+      traceX += TRACE_SPEED / 60;
+      var sample2 = pt2 < 0.8 ? ecgSample(pt2 / 0.8) * 1.5 : ecgSample(((pt2 - 0.8) / BEAT_PERIOD) % 1);
+      traceHistory.push({ x: traceX % W, y: midY - sample2 * amp });
+      if (traceHistory.length > TRAIL_LEN) traceHistory.shift();
     }
 
-    constellationRAF = requestAnimationFrame(draw);
+    /* Draw trail */
+    if (traceHistory.length > 1) {
+      for (var ti = 1; ti < traceHistory.length; ti++) {
+        var age = ti / traceHistory.length;
+        var pv = traceHistory[ti - 1], cu = traceHistory[ti];
+        if (Math.abs(cu.x - pv.x) > W * 0.5) continue;
+        ctx.beginPath();
+        ctx.moveTo(pv.x, pv.y);
+        ctx.lineTo(cu.x, cu.y);
+        ctx.strokeStyle = 'rgba(198,123,46,' + (age * 0.8) + ')';
+        ctx.lineWidth = 1 + age * 1.5;
+        ctx.stroke();
+      }
+      /* Glow at head */
+      var hd = traceHistory[traceHistory.length - 1];
+      var grd = ctx.createRadialGradient(hd.x, hd.y, 0, hd.x, hd.y, 24);
+      grd.addColorStop(0, 'rgba(198,123,46,0.4)');
+      grd.addColorStop(1, 'rgba(198,123,46,0)');
+      ctx.fillStyle = grd;
+      ctx.fillRect(hd.x - 24, hd.y - 24, 48, 48);
+    }
+
+    /* Flash on pulse */
+    if (flashAlpha > 0) {
+      ctx.fillStyle = 'rgba(198,123,46,' + flashAlpha + ')';
+      ctx.fillRect(0, 0, W, H);
+      flashAlpha *= 0.92;
+      if (flashAlpha < 0.01) flashAlpha = 0;
+    }
+
+    if (!dismissed) constellationRAF = requestAnimationFrame(draw);
   }
 
   draw();
 
-  /* Animate in title text after 800ms */
+  /* Text reveal: name appears with the pulse beat */
   setTimeout(function() {
     if (dismissed) return;
-    DOM.entranceTitle.style.transition = 'opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
+    DOM.entranceTitle.style.transition = 'opacity 0.6s cubic-bezier(0.4,0,0.2,1), transform 0.6s cubic-bezier(0.4,0,0.2,1)';
     DOM.entranceTitle.style.transform = 'translateY(0)';
     DOM.entranceTitle.style.opacity = '1';
-  }, 600);
+  }, 3700);
 
   setTimeout(function() {
     if (dismissed) return;
-    DOM.entranceSubtitle.style.transition = 'opacity 1s cubic-bezier(0.4, 0, 0.2, 1)';
+    DOM.entranceSubtitle.style.transition = 'opacity 1s cubic-bezier(0.4,0,0.2,1)';
     DOM.entranceSubtitle.style.opacity = '1';
-  }, 1200);
+  }, 4400);
 
   setTimeout(function() {
     if (dismissed) return;
     DOM.entranceCta.style.opacity = '1';
     DOM.entranceCta.style.pointerEvents = 'auto';
-  }, 2000);
+  }, 5200);
 
-  /* Dismiss handlers */
+  /* Dismiss */
   function triggerDismiss() {
     if (dismissed) return;
     dismissed = true;
-
-    /* Set explosion vectors from center */
-    var cx = W / 2;
-    var cy = H / 2;
-    for (var i = 0; i < particles.length; i++) {
-      var dx = particles[i].x - cx;
-      var dy = particles[i].y - cy;
-      var dist = Math.sqrt(dx * dx + dy * dy) || 1;
-      var speed = 2 + Math.random() * 6;
-      particles[i].ex = (dx / dist) * speed;
-      particles[i].ey = (dy / dist) * speed;
-    }
-
-    /* Fade out text immediately */
     DOM.entranceTitle.style.transition = 'opacity 0.4s';
     DOM.entranceTitle.style.opacity = '0';
     DOM.entranceSubtitle.style.transition = 'opacity 0.3s';
     DOM.entranceSubtitle.style.opacity = '0';
     DOM.entranceCta.style.transition = 'opacity 0.2s';
     DOM.entranceCta.style.opacity = '0';
-
-    /* Fade out entire overlay after particles scatter */
     setTimeout(function() {
       DOM.entranceOverlay.classList.add('fade-out');
       setTimeout(function() {
         DOM.entranceOverlay.style.display = 'none';
         cancelAnimationFrame(constellationRAF);
-        /* Clean up canvas */
-        canvas.width = 0;
-        canvas.height = 0;
+        canvas.width = 0; canvas.height = 0;
         window.removeEventListener('resize', resize);
       }, 800);
-    }, 500);
-
-    /* Enter the site */
+    }, 300);
     enterSite();
   }
 
-  /* Click or scroll to dismiss */
   DOM.entranceOverlay.addEventListener('click', triggerDismiss);
   DOM.entranceOverlay.addEventListener('wheel', triggerDismiss, { passive: true });
-  DOM.entranceOverlay.addEventListener('touchstart', function(e) {
-    /* Allow touch interaction without immediate dismiss */
-  }, { passive: true });
   var touchStartY = 0;
   DOM.entranceOverlay.addEventListener('touchstart', function(e) {
     touchStartY = e.touches[0].clientY;
   }, { passive: true });
   DOM.entranceOverlay.addEventListener('touchend', function(e) {
     var dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
-    if (dy < 10) triggerDismiss(); /* Tap (not swipe) */
+    if (dy < 10) triggerDismiss();
   }, { passive: true });
   document.addEventListener('keydown', function onKey(e) {
     if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') {
@@ -5008,7 +4982,7 @@ function initConstellation() {
     }
   });
 
-  /* No auto-dismiss: wait for user click, scroll, or keypress */
+  /* No auto-dismiss: wait for user interaction */
 
   /* Reduced motion: skip animation, show static */
   if (S.reducedMotion) {
