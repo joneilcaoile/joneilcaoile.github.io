@@ -71,7 +71,7 @@
 
   --text: #F5F3EE;
   --text-secondary: rgba(245,243,238,0.6);
-  --text-muted: rgba(245,243,238,0.35);
+  --text-muted: rgba(245,243,238,0.5);
 
   --amber: #C67B2E;
   --amber-glow: rgba(198,123,46,0.15);
@@ -340,10 +340,81 @@ section h2 {
 /* ═══════════════════════════════════════
    LOADER
    ═══════════════════════════════════════ */
+/* ── Entrance Constellation Overlay ── */
+#entranceOverlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #07060a;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+#entranceOverlay.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+#entranceCanvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+}
+.entrance-title {
+  position: relative; z-index: 2;
+  font-family: var(--font-heading);
+  font-size: clamp(32px, 7vw, 64px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff;
+  opacity: 0;
+  pointer-events: none;
+  text-align: center;
+  line-height: 1.15;
+  transform: translateY(12px);
+  background: linear-gradient(135deg, #FFFFFF 0%, #FFE0B2 40%, #FFD700 60%, #FFFFFF 100%);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: entrance-shimmer 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 40px rgba(198,123,46,0.3));
+}
+@keyframes entrance-shimmer {
+  0%, 100% { background-position: 300% 0; }
+  50% { background-position: 0% 0; }
+}
+.entrance-subtitle {
+  position: relative; z-index: 2;
+  font-family: var(--font-mono);
+  font-size: clamp(11px, 1.4vw, 14px);
+  color: rgba(198,123,46,0.6);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0;
+  pointer-events: none;
+  margin-top: 12px;
+  text-align: center;
+}
+.entrance-cta {
+  position: relative; z-index: 2;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.08em;
+  opacity: 0;
+  pointer-events: none;
+  margin-top: 48px;
+  text-align: center;
+  animation: entrance-pulse 2s ease-in-out infinite;
+}
+@keyframes entrance-pulse {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.5; }
+}
+
+/* Legacy loader kept for JS refs */
 #loader {
   position: fixed; inset: 0; z-index: 9999;
   background: var(--bg);
-  display: flex; align-items: center; justify-content: center;
+  display: none; align-items: center; justify-content: center;
   flex-direction: column; gap: 16px;
   transition: opacity 0.6s var(--ease), visibility 0.6s;
 }
@@ -381,7 +452,13 @@ section h2 {
   display: flex; align-items: center;
   padding: 0 clamp(20px, 5vw, 48px);
   background: transparent;
-  transition: background 0.3s var(--ease), box-shadow 0.3s var(--ease), height 0.3s var(--ease);
+  transition: background 0.3s var(--ease), box-shadow 0.3s var(--ease), height 0.3s var(--ease), opacity 0.6s var(--ease), transform 0.6s var(--ease);
+  opacity: 0;
+  transform: translateY(-10px);
+}
+.nav.nav-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .nav.scrolled {
@@ -682,8 +759,8 @@ section h2 {
 .btn--primary:hover {
   background: var(--gold);
   color: #0F0E0C;
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md), 0 0 20px rgba(198,123,46,0.3), 0 0 40px rgba(198,123,46,0.1);
 }
 
 .btn--secondary {
@@ -1233,8 +1310,8 @@ section h2 {
 
 .work-card:hover {
   border-color: var(--amber);
-  box-shadow: 0 8px 40px rgba(212,162,51,0.08), var(--shadow-md);
-  transform: translateY(-6px);
+  box-shadow: 0 8px 40px rgba(212,162,51,0.12), 0 0 60px rgba(198,123,46,0.06), var(--shadow-md);
+  transform: translateY(-6px) scale(1.01);
 }
 
 .work-card-visual {
@@ -3649,7 +3726,15 @@ footer {
 <!-- Scroll progress -->
 <div class="scroll-progress" aria-hidden="true"><div class="scroll-progress-fill" id="scrollFill"></div></div>
 
-<!-- Loader -->
+<!-- Entrance Constellation -->
+<div id="entranceOverlay" role="status" aria-label="Loading portfolio">
+  <canvas id="entranceCanvas" aria-hidden="true"></canvas>
+  <div class="entrance-title" id="entranceTitle">JONEIL CAOILE</div>
+  <div class="entrance-subtitle" id="entranceSubtitle">Biomedical Engineer</div>
+  <div class="entrance-cta" id="entranceCta">Click anywhere or scroll to enter</div>
+</div>
+
+<!-- Loader (legacy, hidden) -->
 <div id="loader" role="status" aria-label="Loading portfolio">
   <div class="loader-text" id="loaderText">INITIALIZING</div>
   <div class="loader-bar"><div class="loader-fill" id="loaderFill"></div></div>
@@ -3741,7 +3826,7 @@ footer {
         <div class="hero-ctas">
           <a href="#featured" class="btn btn--primary">View device projects</a>
           <a href="#contact" class="btn btn--secondary">Get in touch</a>
-          <a href="Joneil_Caoile_Resume.pdf" class="btn btn--ghost" target="_blank" rel="noopener">Resume</a>
+          <a href="Joneil_Caoile_Resume.pdf" class="btn btn--ghost" download aria-label="Download resume (PDF)">Resume ↓</a>
         </div>
       </div>
       <div class="hero-right">
@@ -4325,7 +4410,7 @@ footer {
 <!-- ═══════════════════════ PERSONAL ═══════════════════════ -->
 <section id="personal">
   <div class="container">
-    <p class="section-label r">08.5 / Off the Clock</p>
+    <p class="section-label r">09 / Off the Clock</p>
     <div class="personal-grid">
       <div class="personal-item r" style="--item-accent: #E57373">
         <span class="personal-item-icon" aria-hidden="true">📷</span>
@@ -4372,7 +4457,7 @@ footer {
 <!-- ═══════════════════════ CRITERIA ═══════════════════════ -->
 <section id="criteria">
   <div class="container">
-    <p class="section-label r">08.5 / My Criteria</p>
+    <p class="section-label r">10 / My Criteria</p>
     <h2 class="r">What I'm looking for.</h2>
     <div class="criteria-list">
       <div class="criteria-item r">
@@ -4426,7 +4511,7 @@ footer {
 <!-- ═══════════════════════ CONTACT ═══════════════════════ -->
 <section id="contact">
   <div class="container">
-    <p class="section-label r">09 / Contact</p>
+    <p class="section-label r">11 / Contact</p>
     <h2 class="r">Available May 2026.<br>Let's talk.</h2>
     <div class="contact-grid">
       <div class="contact-info r">
@@ -4472,7 +4557,7 @@ footer {
     <div class="footer-top">
       <div class="footer-brand">
         <span class="footer-name">Joneil Caoile</span>
-        <span class="footer-tagline">M.S. Biomedical Engineering, Stevens Institute of Technology</span>
+        <span class="footer-tagline">M.S. Biomedical Engineering, Stevens Institute of Technology &middot; Available May 2026 in SoCal</span>
       </div>
       <button class="btn-back-top" id="btnBackTop" aria-label="Back to top" title="Back to top">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12V4M4 7l4-4 4 4"/></svg>
@@ -4580,6 +4665,11 @@ const $ = (s, p) => (p || document).querySelector(s);
 const $$ = (s, p) => [...(p || document).querySelectorAll(s)];
 
 const DOM = {
+  entranceOverlay: $('#entranceOverlay'),
+  entranceCanvas: $('#entranceCanvas'),
+  entranceTitle: $('#entranceTitle'),
+  entranceSubtitle: $('#entranceSubtitle'),
+  entranceCta: $('#entranceCta'),
   loader: $('#loader'),
   loaderText: $('#loaderText'),
   loaderFill: $('#loaderFill'),
@@ -4614,62 +4704,289 @@ const DOM = {
 };
 
 /* ═══════════════════════════════════════
-   1. LOADER + GAME MENU SEQUENCE
+   1. INTERACTIVE CONSTELLATION ENTRANCE
    ═══════════════════════════════════════ */
-const BOOT_LINES = [
-  'INITIALIZING', 'Loading device projects...',
-  'Running validation checks...', 'SYSTEM READY'
-];
 
-function runLoader() {
-  let step = 0;
-  const total = BOOT_LINES.length;
-  const int = setInterval(() => {
-    if (step >= total) {
-      clearInterval(int);
-      DOM.loaderFill.style.width = '100%';
-      setTimeout(showGameMenu, 300);
-      return;
+var constellationRAF = null;
+
+function initConstellation() {
+  var canvas = DOM.entranceCanvas;
+  var ctx = canvas.getContext('2d');
+  var W, H, particles, mouse, dismissed;
+
+  dismissed = false;
+  mouse = { x: -9999, y: -9999, active: false };
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  /* Particle count: desktop ~120, mobile ~50 */
+  var COUNT = S.isMobile ? 50 : 120;
+  var CONNECTION_DIST = S.isMobile ? 100 : 150;
+  var MOUSE_RADIUS = 180;
+
+  /* Create particles */
+  particles = [];
+  for (var i = 0; i < COUNT; i++) {
+    particles.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      r: Math.random() * 2 + 0.5,
+      alpha: Math.random() * 0.5 + 0.3,
+      /* Explosion velocity (used on dismiss) */
+      ex: 0, ey: 0
+    });
+  }
+
+  /* Mouse tracking */
+  DOM.entranceOverlay.addEventListener('mousemove', function(e) {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+    mouse.active = true;
+  });
+  DOM.entranceOverlay.addEventListener('mouseleave', function() {
+    mouse.active = false;
+  });
+
+  /* Touch support */
+  DOM.entranceOverlay.addEventListener('touchmove', function(e) {
+    if (e.touches.length > 0) {
+      mouse.x = e.touches[0].clientX;
+      mouse.y = e.touches[0].clientY;
+      mouse.active = true;
     }
-    DOM.loaderText.textContent = BOOT_LINES[step];
-    DOM.loaderFill.style.width = ((step + 1) / total * 100) + '%';
-    step++;
-  }, 180);
-}
+  }, { passive: true });
 
-function showGameMenu() {
-  DOM.loader.style.opacity = '0';
-  setTimeout(() => {
-    DOM.loader.style.display = 'none';
-    DOM.gameMenu.classList.add('visible');
-    DOM.gmStart.focus();
-    S.menuOpen = true;
-    /* Auto-dismiss after 8s if user hasn't interacted with menu */
-    let menuInteracted = false;
-    const markInteraction = () => { menuInteracted = true; };
-    DOM.gameMenu.addEventListener('click', markInteraction, { once: true });
-    DOM.gameMenu.addEventListener('keydown', markInteraction, { once: true });
-    DOM.gameMenu.addEventListener('mousemove', markInteraction, { once: true });
-    setTimeout(() => {
-      if (!menuInteracted && S.menuOpen) {
-        DOM.gameMenu.removeEventListener('click', markInteraction);
-        DOM.gameMenu.removeEventListener('keydown', markInteraction);
-        DOM.gameMenu.removeEventListener('mousemove', markInteraction);
-        dismissMenu();
+  /* Animation loop */
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    /* Update + draw particles */
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+
+      if (dismissed) {
+        /* Explosion: accelerate outward */
+        p.x += p.ex;
+        p.y += p.ey;
+        p.ex *= 1.02;
+        p.ey *= 1.02;
+        p.alpha *= 0.96;
+      } else {
+        /* Normal drift */
+        p.x += p.vx;
+        p.y += p.vy;
+
+        /* Mouse interaction: gentle repulsion */
+        if (mouse.active) {
+          var dx = p.x - mouse.x;
+          var dy = p.y - mouse.y;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < MOUSE_RADIUS && dist > 0) {
+            var force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS * 0.8;
+            p.vx += (dx / dist) * force * 0.3;
+            p.vy += (dy / dist) * force * 0.3;
+          }
+        }
+
+        /* Dampen velocity */
+        p.vx *= 0.995;
+        p.vy *= 0.995;
+
+        /* Wrap edges */
+        if (p.x < -10) p.x = W + 10;
+        if (p.x > W + 10) p.x = -10;
+        if (p.y < -10) p.y = H + 10;
+        if (p.y > H + 10) p.y = -10;
       }
-    }, 8000);
-  }, 300);
+
+      /* Draw particle */
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(198,123,46,' + p.alpha + ')';
+      ctx.fill();
+    }
+
+    /* Draw connections (skip during explosion for perf) */
+    if (!dismissed) {
+      ctx.lineWidth = 0.5;
+      for (var i = 0; i < particles.length; i++) {
+        for (var j = i + 1; j < particles.length; j++) {
+          var dx = particles[i].x - particles[j].x;
+          var dy = particles[i].y - particles[j].y;
+          var dist = dx * dx + dy * dy;
+          if (dist < CONNECTION_DIST * CONNECTION_DIST) {
+            var alpha = (1 - Math.sqrt(dist) / CONNECTION_DIST) * 0.15;
+
+            /* Brighter connections near mouse */
+            if (mouse.active) {
+              var mx = (particles[i].x + particles[j].x) / 2 - mouse.x;
+              var my = (particles[i].y + particles[j].y) / 2 - mouse.y;
+              var md = Math.sqrt(mx * mx + my * my);
+              if (md < MOUSE_RADIUS) {
+                alpha += (1 - md / MOUSE_RADIUS) * 0.2;
+              }
+            }
+
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = 'rgba(198,123,46,' + alpha + ')';
+            ctx.stroke();
+          }
+        }
+      }
+
+      /* Mouse glow */
+      if (mouse.active) {
+        var grd = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, MOUSE_RADIUS);
+        grd.addColorStop(0, 'rgba(198,123,46,0.06)');
+        grd.addColorStop(1, 'rgba(198,123,46,0)');
+        ctx.fillStyle = grd;
+        ctx.fillRect(mouse.x - MOUSE_RADIUS, mouse.y - MOUSE_RADIUS, MOUSE_RADIUS * 2, MOUSE_RADIUS * 2);
+      }
+    }
+
+    constellationRAF = requestAnimationFrame(draw);
+  }
+
+  draw();
+
+  /* Animate in title text after 800ms */
+  setTimeout(function() {
+    if (dismissed) return;
+    DOM.entranceTitle.style.transition = 'opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
+    DOM.entranceTitle.style.transform = 'translateY(0)';
+    DOM.entranceTitle.style.opacity = '1';
+  }, 600);
+
+  setTimeout(function() {
+    if (dismissed) return;
+    DOM.entranceSubtitle.style.transition = 'opacity 1s cubic-bezier(0.4, 0, 0.2, 1)';
+    DOM.entranceSubtitle.style.opacity = '1';
+  }, 1200);
+
+  setTimeout(function() {
+    if (dismissed) return;
+    DOM.entranceCta.style.opacity = '1';
+    DOM.entranceCta.style.pointerEvents = 'auto';
+  }, 2000);
+
+  /* Dismiss handlers */
+  function triggerDismiss() {
+    if (dismissed) return;
+    dismissed = true;
+
+    /* Set explosion vectors from center */
+    var cx = W / 2;
+    var cy = H / 2;
+    for (var i = 0; i < particles.length; i++) {
+      var dx = particles[i].x - cx;
+      var dy = particles[i].y - cy;
+      var dist = Math.sqrt(dx * dx + dy * dy) || 1;
+      var speed = 2 + Math.random() * 6;
+      particles[i].ex = (dx / dist) * speed;
+      particles[i].ey = (dy / dist) * speed;
+    }
+
+    /* Fade out text immediately */
+    DOM.entranceTitle.style.transition = 'opacity 0.4s';
+    DOM.entranceTitle.style.opacity = '0';
+    DOM.entranceSubtitle.style.transition = 'opacity 0.3s';
+    DOM.entranceSubtitle.style.opacity = '0';
+    DOM.entranceCta.style.transition = 'opacity 0.2s';
+    DOM.entranceCta.style.opacity = '0';
+
+    /* Fade out entire overlay after particles scatter */
+    setTimeout(function() {
+      DOM.entranceOverlay.classList.add('fade-out');
+      setTimeout(function() {
+        DOM.entranceOverlay.style.display = 'none';
+        cancelAnimationFrame(constellationRAF);
+        /* Clean up canvas */
+        canvas.width = 0;
+        canvas.height = 0;
+        window.removeEventListener('resize', resize);
+      }, 800);
+    }, 500);
+
+    /* Enter the site */
+    enterSite();
+  }
+
+  /* Click or scroll to dismiss */
+  DOM.entranceOverlay.addEventListener('click', triggerDismiss);
+  DOM.entranceOverlay.addEventListener('wheel', triggerDismiss, { passive: true });
+  DOM.entranceOverlay.addEventListener('touchstart', function(e) {
+    /* Allow touch interaction without immediate dismiss */
+  }, { passive: true });
+  var touchStartY = 0;
+  DOM.entranceOverlay.addEventListener('touchstart', function(e) {
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+  DOM.entranceOverlay.addEventListener('touchend', function(e) {
+    var dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
+    if (dy < 10) triggerDismiss(); /* Tap (not swipe) */
+  }, { passive: true });
+  document.addEventListener('keydown', function onKey(e) {
+    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') {
+      triggerDismiss();
+      document.removeEventListener('keydown', onKey);
+    }
+  });
+
+  /* Auto-dismiss after 4 seconds (much faster than old 8s game menu) */
+  setTimeout(function() {
+    triggerDismiss();
+  }, 4000);
+
+  /* Reduced motion: skip animation, show static */
+  if (S.reducedMotion) {
+    DOM.entranceTitle.style.opacity = '1';
+    DOM.entranceSubtitle.style.opacity = '1';
+    DOM.entranceCta.style.opacity = '1';
+    cancelAnimationFrame(constellationRAF);
+    setTimeout(triggerDismiss, 1500);
+  }
 }
 
-function dismissMenu() {
-  DOM.gameMenu.classList.remove('visible');
+function enterSite() {
   S.menuOpen = false;
   document.body.style.overflow = '';
   if (!S.reducedMotion) initScrollReveals();
   initParticleSystem();
   initMagneticButtons();
   awardXP(50, 'Welcome bonus');
-  /* Show the reopen button */
+  /* Reveal nav with a smooth slide-down */
+  setTimeout(function() { DOM.nav.classList.add('nav-visible'); }, 300);
+  /* Show the menu reopen button */
+  setTimeout(function() { DOM.menuReopen.classList.add('visible'); }, 600);
+}
+
+/* Legacy loader functions (kept for compatibility) */
+const BOOT_LINES = [
+  'INITIALIZING', 'Loading device projects...',
+  'Running validation checks...', 'SYSTEM READY'
+];
+function runLoader() {
+  /* Now just starts the constellation entrance */
+  initConstellation();
+}
+function showGameMenu() {
+  /* No longer called from loader. Game menu accessible via MENU button. */
+}
+
+function dismissMenu() {
+  DOM.gameMenu.classList.remove('visible');
+  S.menuOpen = false;
+  document.body.style.overflow = '';
+  /* If enterSite hasn't run yet (menu opened from reopen), just close it */
   setTimeout(function() { DOM.menuReopen.classList.add('visible'); }, 600);
 }
 
