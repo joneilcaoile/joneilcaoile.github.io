@@ -5773,10 +5773,13 @@ buildCharGrid();
       var roleAlpha = Math.min(1, thinkT / 600) * fadeAlpha;
       ctx.globalAlpha = roleAlpha;
       var crossX = MILESTONES[4].x * w;
-      var roleSpacing = isMini ? 36 : 68;
+      var roleSpacing = isMini ? 36 : 64;
       var baseY = groundY - (isMini ? 48 : 78);
       var groupW = roleSpacing * 3;
       var startX = crossX - groupW / 2;
+      /* Clamp so rightmost sprite + label stays on canvas */
+      var maxStart = w - groupW - 40;
+      if (startX > maxStart) startX = maxStart;
       CAREER_SPRITES.forEach(function(cs, i) {
         var rx = startX + i * roleSpacing;
         var bob = Math.sin(now / 500 + i * 1.2) * 3;
