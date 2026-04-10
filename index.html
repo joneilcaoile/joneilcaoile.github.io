@@ -862,7 +862,7 @@ section h2 {
    ═══════════════════════════════════════ */
 .bring-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
@@ -1596,6 +1596,7 @@ section h2 {
 }
 
 @media (max-width: 768px) {
+  .bring-grid { grid-template-columns: repeat(2, 1fr); }
   .ct-branches { grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .ct-hbar { margin: 0 25%; }
 }
@@ -2163,6 +2164,36 @@ footer {
 /* ═══════════════════════════════════════
    XP HUD + CRITTER
    ═══════════════════════════════════════ */
+.menu-reopen {
+  position: fixed;
+  top: 16px; right: 16px;
+  z-index: 91;
+  padding: 6px 14px;
+  background: rgba(15,14,12,0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--amber);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity 0.4s, transform 0.4s var(--ease);
+}
+.menu-reopen.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.menu-reopen:hover {
+  background: rgba(198,123,46,0.15);
+  border-color: var(--amber);
+  color: var(--gold);
+}
+
 .xp-hud {
   position: fixed;
   bottom: 16px; left: 16px;
@@ -3895,6 +3926,7 @@ footer {
 
     <div class="class-tree r" id="classTree">
       <div class="class-tree-title">Class Tree</div>
+      <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);text-align:center;margin:-4px 0 8px;opacity:0.7;">My BME career path, RPG-style. Each branch is a role I'm qualified for.</div>
 
       <!-- Root: Novice -->
       <div class="ct-root">
@@ -4196,6 +4228,9 @@ footer {
   </div>
 </div>
 
+<!-- Menu Reopen Button -->
+<button class="menu-reopen" id="menuReopen" aria-label="Open game menu" title="MENU">&#9776; MENU</button>
+
 <!-- XP HUD -->
 <div class="xp-hud" id="xpHud">
   <div class="xp-info">
@@ -4252,6 +4287,7 @@ const DOM = {
   loaderText: $('#loaderText'),
   loaderFill: $('#loaderFill'),
   gameMenu: $('#gameMenu'),
+  menuReopen: $('#menuReopen'),
   gmStart: $('#gmStart'),
   gmCharSelect: $('#gmCharSelect'),
   gmOptions: $('#gmOptions'),
@@ -4336,7 +4372,21 @@ function dismissMenu() {
   initParticleSystem();
   initMagneticButtons();
   awardXP(50, 'Welcome bonus');
+  /* Show the reopen button */
+  setTimeout(function() { DOM.menuReopen.classList.add('visible'); }, 600);
 }
+
+function reopenMenu() {
+  DOM.menuReopen.classList.remove('visible');
+  DOM.charSelect.classList.remove('visible');
+  DOM.optionsPanel.classList.remove('visible');
+  DOM.gameMenu.classList.add('visible');
+  S.menuOpen = true;
+  DOM.gmStart.focus();
+}
+
+/* Menu reopen button */
+DOM.menuReopen.addEventListener('click', reopenMenu);
 
 /* Game menu buttons */
 DOM.gmStart.addEventListener('click', dismissMenu);
@@ -4392,141 +4442,246 @@ const CHARACTERS = [
 function drawCharSprite(ctx, type, w, h) {
   ctx.clearRect(0, 0, w, h);
   ctx.imageSmoothingEnabled = false;
-  var p = 3; /* 3px grid */
+  var p = 3; /* 3px per pixel */
   var cx = Math.floor(w / 2);
   var cy = Math.floor(h / 2) + 2;
   function px(x, y, c) { ctx.fillStyle = c; ctx.fillRect(cx + x * p, cy + y * p, p, p); }
   function run(x, y, len, c) { ctx.fillStyle = c; ctx.fillRect(cx + x * p, cy + y * p, len * p, p); }
 
-  /* Shared body base (chibi proportions: big head, small body) */
-  function drawBody(skinC, shirtC, pantsC, hairC, hairStyle) {
-    /* Hair back (behind head) */
-    if (hairStyle === 'long') { run(-4, -10, 8, hairC); run(-5, -9, 10, hairC); }
-    /* Head */
-    run(-3, -8, 6, skinC);
+  /* ── RO-style chibi base: big round head, tiny body ── */
+  function drawBody(skinC, skinShade, shirtC, shirtHi, pantsC, hairC, hairHi, hairStyle, extras) {
+    var e = extras || {};
+
+    /* Hair back layer (behind head for long styles) */
+    if (hairStyle === 'long' || hairStyle === 'flowing') {
+      run(-5, -10, 10, hairC); run(-5, -9, 10, hairC);
+      run(-5, -8, 1, hairC); run(4, -8, 1, hairC);
+      run(-5, -7, 1, hairC); run(4, -7, 1, hairC);
+      run(-5, -6, 1, hairC); run(4, -6, 1, hairC);
+      run(-5, -5, 1, hairC); run(4, -5, 1, hairC);
+      run(-5, -4, 1, hairC); run(4, -4, 1, hairC);
+      run(-5, -3, 1, hairHi); run(4, -3, 1, hairHi);
+      run(-4, -2, 1, hairHi); run(3, -2, 1, hairHi);
+    }
+
+    /* Head (round, bigger than body = RO chibi style) */
+    run(-2, -10, 4, skinC);
+    run(-4, -9, 8, skinC);
+    run(-4, -8, 8, skinC);
     run(-4, -7, 8, skinC);
     run(-4, -6, 8, skinC);
     run(-4, -5, 8, skinC);
     run(-4, -4, 8, skinC);
     run(-3, -3, 6, skinC);
-    /* Eyes */
-    px(-2, -6, '#222'); px(1, -6, '#222');
-    px(-2, -5, '#FFF'); px(1, -5, '#FFF');
-    /* Mouth */
-    px(-1, -4, '#D4566A'); px(0, -4, '#D4566A');
-    /* Hair */
+    /* Cheek blush */
+    px(-3, -4, '#FFB8A0'); px(2, -4, '#FFB8A0');
+    /* Chin shade */
+    run(-2, -3, 4, skinShade);
+
+    /* Eyes: big RO-style with highlight dot */
+    px(-2, -7, '#222'); px(1, -7, '#222'); /* top of eye */
+    px(-2, -6, '#334'); px(1, -6, '#334'); /* iris */
+    px(-2, -5, '#556'); px(1, -5, '#556'); /* lower iris */
+    px(-1, -7, '#FFF'); px(2, -7, '#FFF'); /* eye highlight (key to cuteness!) */
+
+    /* Tiny smile */
+    px(-1, -4, '#C45'); px(0, -4, '#C45');
+
+    /* ── Hair styles ── */
     if (hairStyle === 'spiky') {
-      run(-3, -9, 6, hairC); run(-4, -8, 8, hairC);
-      px(-3, -10, hairC); px(0, -11, hairC); px(2, -10, hairC);
+      run(-4, -10, 8, hairC); run(-4, -9, 8, hairC);
+      /* Spikes going up */
+      px(-3, -11, hairC); px(-1, -12, hairC); px(1, -12, hairHi); px(3, -11, hairC);
+      px(0, -13, hairHi); /* tallest spike */
+      /* Side fringe */
+      run(-4, -8, 2, hairC); run(2, -8, 2, hairC);
     } else if (hairStyle === 'bowl') {
-      run(-4, -9, 8, hairC); run(-4, -8, 8, hairC); run(-4, -7, 2, hairC); run(2, -7, 2, hairC);
-    } else if (hairStyle === 'long') {
-      run(-4, -9, 8, hairC); run(-4, -8, 8, hairC);
-      run(-5, -7, 2, hairC); run(3, -7, 2, hairC);
-      run(-5, -6, 1, hairC); run(4, -6, 1, hairC);
-      run(-5, -5, 1, hairC); run(4, -5, 1, hairC);
-      run(-5, -4, 1, hairC); run(4, -4, 1, hairC);
-      run(-5, -3, 1, hairC); run(4, -3, 1, hairC);
+      run(-3, -11, 6, hairC);
+      run(-4, -10, 8, hairC); run(-4, -9, 8, hairC);
+      run(-4, -8, 2, hairC); run(2, -8, 2, hairC);
+      /* Highlight streak */
+      px(-1, -11, hairHi); px(0, -10, hairHi);
+    } else if (hairStyle === 'long' || hairStyle === 'flowing') {
+      run(-3, -11, 6, hairC);
+      run(-4, -10, 8, hairC); run(-4, -9, 8, hairC);
+      px(-1, -11, hairHi); px(1, -11, hairHi); /* highlights */
+      /* Side bangs */
+      run(-4, -8, 2, hairC); run(2, -8, 2, hairC);
     } else if (hairStyle === 'mohawk') {
-      run(-1, -11, 2, hairC); run(-1, -10, 2, hairC); run(-2, -9, 4, hairC);
-      run(-4, -8, 8, hairC);
-    } else if (hairStyle === 'bald') {
-      run(-3, -9, 6, hairC); run(-4, -8, 8, hairC);
-    } else if (hairStyle === 'feathers') {
-      /* Duck has no hair, just head tuft */
-      px(-1, -9, hairC); px(0, -10, hairC); px(1, -9, hairC);
+      run(-1, -13, 2, hairHi); run(-1, -12, 2, hairC); run(-2, -11, 4, hairC);
+      run(-3, -10, 6, hairC); run(-4, -9, 8, hairC);
+      /* Undercut sides */
+      run(-4, -8, 1, skinShade); run(3, -8, 1, skinShade);
+    } else if (hairStyle === 'twin') {
+      /* Twin tails (cute) */
+      run(-3, -11, 6, hairC);
+      run(-4, -10, 8, hairC); run(-4, -9, 8, hairC);
+      px(-1, -11, hairHi); px(0, -11, hairHi);
+      /* Tails hanging down sides */
+      px(-5, -8, hairC); px(-5, -7, hairC); px(-5, -6, hairHi); px(-5, -5, hairC);
+      px(4, -8, hairC); px(4, -7, hairC); px(4, -6, hairHi); px(4, -5, hairC);
+      /* Ribbons */
+      px(-5, -9, '#FF6B9D'); px(4, -9, '#FF6B9D');
     }
-    /* Body / shirt */
+
+    /* ── Body (tiny compared to head = chibi) ── */
+    /* Shirt with highlight */
     run(-3, -2, 6, shirtC);
     run(-3, -1, 6, shirtC);
-    run(-4, 0, 8, shirtC);
-    run(-4, 1, 8, shirtC);
-    /* Arms */
-    px(-5, -1, skinC); px(-5, 0, skinC);
-    px(4, -1, skinC); px(4, 0, skinC);
-    /* Pants/legs */
+    run(-3, 0, 6, shirtC);
+    run(-3, 1, 6, shirtC);
+    /* Shirt highlight (left side catch light) */
+    px(-3, -2, shirtHi); px(-3, -1, shirtHi);
+    /* Collar */
+    px(-1, -2, skinC); px(0, -2, skinC);
+
+    /* Arms (skin) */
+    px(-4, -1, skinC); px(-4, 0, skinC); px(-4, 1, skinShade);
+    px(3, -1, skinC); px(3, 0, skinC); px(3, 1, skinShade);
+
+    /* Pants / skirt */
     run(-3, 2, 6, pantsC);
     run(-3, 3, 6, pantsC);
-    /* Feet */
-    run(-3, 4, 2, '#553322'); run(1, 4, 2, '#553322');
+
+    /* Shoes (cute rounded) */
+    run(-3, 4, 2, '#443'); px(-4, 4, '#332');
+    run(1, 4, 2, '#443'); px(3, 4, '#332');
+
+    /* Shadow under feet */
+    ctx.fillStyle = 'rgba(0,0,0,0.15)';
+    ctx.fillRect(cx - 4 * p, cy + 5 * p, 8 * p, p);
   }
 
+  /* ══════ Character definitions ══════ */
   if (type === 'socal') {
-    drawBody('#FFCC99', '#FF6B35', '#4A90D9', '#332211', 'spiky');
-    /* Sunglasses */
-    run(-3, -6, 2, '#222'); run(0, -6, 2, '#222'); px(-1, -6, '#333');
-    /* Palm tree necklace/pendant */
-    px(0, -2, '#4CAF50');
+    drawBody('#FFCC99', '#E8B888', '#FF6B35', '#FF8F5E', '#4A90D9', '#332211', '#5A3D1A', 'spiky');
+    /* Sunglasses (cool shades) */
+    run(-3, -7, 2, '#111'); run(0, -7, 2, '#111'); /* frames */
+    px(-3, -6, '#1a3a5a'); px(-2, -6, '#1a3a5a'); /* left lens */
+    px(0, -6, '#1a3a5a'); px(1, -6, '#1a3a5a'); /* right lens */
+    px(-1, -7, '#333'); /* bridge */
+    px(-2, -7, '#FFF'); /* lens glint */
+    /* Shell necklace */
+    px(-1, -2, '#88DDCC'); px(0, -2, '#66CCBB');
+    /* Surf shorts detail */
+    px(-2, 3, '#3A80C9'); px(1, 3, '#3A80C9');
   } else if (type === 'prospector') {
-    drawBody('#FFCC99', '#8B4513', '#555', '#332211', 'bowl');
+    drawBody('#FFCC99', '#E8B888', '#8B5E3C', '#A97850', '#555', '#332211', '#4A3520', 'bowl');
+    /* Mining helmet */
+    run(-3, -12, 6, '#D4A233'); run(-4, -11, 8, '#C67B2E');
+    px(0, -12, '#FFD700'); /* headlamp glow */
+    px(0, -13, '#FFFFAA'); /* lamp beam */
     /* Pickaxe on back */
-    px(4, -3, '#888'); px(5, -4, '#888'); px(5, -5, '#C67B2E');
-    /* Headlamp */
-    px(0, -9, '#FFD700');
+    px(4, -3, '#888'); px(5, -4, '#999'); px(5, -5, '#AAA');
+    px(6, -5, '#C67B2E'); px(6, -6, '#C67B2E'); /* pick head */
+    /* Belt */
+    run(-3, 2, 6, '#A97850');
   } else if (type === 'analyst') {
-    drawBody('#FFCC99', '#EEEEEE', '#333', '#554433', 'bowl');
-    /* Clipboard */
-    px(-5, -1, '#C67B2E'); px(-5, 0, '#FFF'); px(-5, 1, '#FFF');
-    /* Glasses */
-    px(-3, -6, '#777'); px(2, -6, '#777');
+    drawBody('#FFCC99', '#E8B888', '#FFFFFF', '#F0F0F0', '#2C3E50', '#554433', '#6E5A45', 'bowl');
+    /* Glasses (round, cute) */
+    px(-3, -7, '#AAA'); px(-2, -7, '#AAA'); px(-1, -7, '#AAA');
+    px(0, -7, '#AAA'); px(1, -7, '#AAA'); px(2, -7, '#AAA');
+    /* Clipboard held in front */
+    run(-5, -1, 2, '#C67B2E'); run(-5, 0, 2, '#FFF'); run(-5, 1, 2, '#F5F5F5');
+    px(-5, -2, '#C67B2E'); /* clip */
+    /* Tie */
+    px(0, -1, '#E74C3C'); px(0, 0, '#C0392B');
+    /* Pen in pocket */
+    px(2, -2, '#3498DB');
   } else if (type === 'duck') {
-    /* Yellow duck, no human body */
-    run(-3, -7, 6, '#FFD700');
-    run(-4, -6, 8, '#FFD700');
-    run(-4, -5, 8, '#FFD700');
-    run(-4, -4, 8, '#FFD700');
-    run(-4, -3, 8, '#FFD700');
-    run(-3, -2, 6, '#FFD700');
-    run(-3, -1, 6, '#FFED4A');
-    run(-4, 0, 8, '#FFED4A');
-    run(-4, 1, 8, '#FFED4A');
-    run(-3, 2, 6, '#FFD700');
-    /* Eyes */
-    px(-2, -5, '#222'); px(1, -5, '#222');
-    /* Beak */
-    run(-1, -4, 2, '#FF8C00'); px(0, -3, '#FF8C00');
+    /* Cute rubber duck / debug companion */
+    var dk = '#FFD700', dl = '#FFED4A', dd = '#E6C200';
+    /* Body (round) */
+    run(-2, -8, 4, dk);
+    run(-3, -7, 6, dk);
+    run(-4, -6, 8, dk);
+    run(-4, -5, 8, dk);
+    run(-4, -4, 8, dk);
+    run(-4, -3, 8, dk);
+    run(-3, -2, 6, dl);
+    run(-3, -1, 6, dl);
+    run(-3, 0, 6, dl);
+    run(-3, 1, 6, dk);
+    run(-2, 2, 4, dd);
+    /* Eyes (big cute) */
+    px(-2, -6, '#111'); px(1, -6, '#111');
+    px(-1, -6, '#FFF'); px(2, -6, '#FFF'); /* highlights */
+    /* Beak (bigger, cuter) */
+    run(-1, -4, 3, '#FF8C00'); run(0, -3, 2, '#FF8C00');
+    /* Blush */
+    px(-3, -4, '#FFBB77'); px(2, -4, '#FFBB77');
     /* Wings */
-    px(-5, 0, '#FFBB00'); px(4, 0, '#FFBB00');
+    px(-5, -2, '#FFBB00'); px(-5, -1, '#FFBB00'); px(-5, 0, '#FFD700');
+    px(4, -2, '#FFBB00'); px(4, -1, '#FFBB00'); px(4, 0, '#FFD700');
     /* Feet */
-    run(-2, 3, 1, '#FF8C00'); run(1, 3, 1, '#FF8C00');
-    px(-3, 4, '#FF8C00'); run(-2, 4, 2, '#FF8C00'); px(0, 4, '#FF8C00'); run(1, 4, 2, '#FF8C00');
-    /* Crown (debug king) */
-    px(-1, -8, '#FFD700'); px(0, -9, '#FFD700'); px(1, -8, '#FFD700');
+    run(-2, 3, 2, '#FF8C00'); run(1, 3, 2, '#FF8C00');
+    px(-3, 3, '#FF8C00'); px(3, 3, '#FF8C00');
+    /* Crown */
+    px(-1, -9, '#FFD700'); px(0, -10, '#FFD700'); px(1, -9, '#FFD700');
+    px(0, -11, '#FFF176'); /* gem on crown */
+    /* Shadow */
+    ctx.fillStyle = 'rgba(0,0,0,0.15)';
+    ctx.fillRect(cx - 4 * p, cy + 4 * p, 8 * p, p);
     return;
   } else if (type === 'acolyte') {
-    drawBody('#FFCC99', '#EEEEDD', '#DDDDCC', '#8866CC', 'long');
-    /* Staff */
-    px(5, -5, '#8B4513'); px(5, -4, '#8B4513'); px(5, -3, '#8B4513'); px(5, -2, '#8B4513');
-    px(5, -1, '#8B4513'); px(5, 0, '#8B4513'); px(5, 1, '#8B4513');
-    /* Orb on staff */
-    px(5, -6, '#66CCFF');
-    /* Robe hem detail */
-    run(-3, 3, 6, '#CCCCBB');
+    drawBody('#FFCC99', '#E8B888', '#F5F0E8', '#FFFDF5', '#E8E0D4', '#8866CC', '#AA88EE', 'long');
+    /* White robe detail (flowing hem) */
+    run(-4, 2, 8, '#F5F0E8'); run(-4, 3, 8, '#EDE5D8');
+    px(-4, 4, '#E8E0D4'); px(-3, 4, '#F5F0E8'); px(2, 4, '#F5F0E8'); px(3, 4, '#E8E0D4');
+    /* Holy staff */
+    px(5, -7, '#66CCFF'); px(5, -8, '#99DDFF'); /* orb glow */
+    px(5, -6, '#8B6B4A'); px(5, -5, '#8B6B4A'); px(5, -4, '#8B6B4A');
+    px(5, -3, '#7A5C3C'); px(5, -2, '#7A5C3C'); px(5, -1, '#7A5C3C');
+    px(5, 0, '#6B4E33'); px(5, 1, '#6B4E33');
+    /* Cross emblem on chest */
+    px(0, -1, '#FFD700'); px(-1, 0, '#FFD700'); px(0, 0, '#FFD700'); px(1, 0, '#FFD700');
+    /* Halo hint */
+    px(-1, -12, '#FFFFAA'); px(0, -12, '#FFFFCC'); px(1, -12, '#FFFFAA');
   } else if (type === 'sage') {
-    drawBody('#FFCC99', '#2244AA', '#1a1a4e', '#FFFFFF', 'long');
-    /* Book */
-    px(-5, 0, '#8B4513'); px(-5, 1, '#FFF');
-    /* Hat */
-    run(-3, -10, 6, '#2244AA'); run(-5, -9, 10, '#2244AA');
-    /* Star on hat */
-    px(0, -10, '#FFD700');
+    drawBody('#FFCC99', '#E8B888', '#1A3FA0', '#2E5BD0', '#141650', '#DDEEFF', '#FFFFFF', 'flowing');
+    /* Wizard hat */
+    run(-4, -11, 8, '#1A3FA0'); run(-3, -12, 6, '#2244BB');
+    run(-2, -13, 4, '#2244BB'); run(-1, -14, 2, '#2E5BD0');
+    px(0, -15, '#3366DD'); /* hat tip */
+    px(0, -14, '#FFD700'); /* star on hat */
+    /* Book held */
+    run(-5, -1, 2, '#8B4513'); run(-5, 0, 2, '#FFFDE8'); run(-5, 1, 2, '#F5E6C8');
+    /* Cape clasp */
+    px(0, -2, '#FFD700');
+    /* Robe trim */
+    run(-3, 3, 6, '#0D2580');
+    /* Magical particles */
+    px(-6, -3, '#66CCFF'); px(5, -6, '#AADDFF');
   } else if (type === 'blacksmith') {
-    drawBody('#FFCC99', '#666', '#444', '#AA4400', 'mohawk');
-    /* Hammer */
-    px(5, -2, '#888'); px(5, -1, '#888'); px(4, -3, '#AAA'); px(5, -3, '#AAA'); px(6, -3, '#AAA');
-    /* Apron */
-    run(-2, 0, 4, '#8B4513');
-    run(-2, 1, 4, '#8B4513');
+    drawBody('#FFCC99', '#E8B888', '#555555', '#777777', '#3D3D3D', '#CC4400', '#FF6622', 'mohawk');
+    /* Leather apron */
+    run(-2, -1, 4, '#8B5E3C'); run(-2, 0, 4, '#8B5E3C'); run(-2, 1, 4, '#7A4E2E');
+    run(-2, 2, 4, '#6B4020');
+    /* Hammer (big, impressive) */
+    px(5, -3, '#888'); px(5, -2, '#888'); px(5, -1, '#777'); /* handle */
+    run(4, -5, 3, '#B0B0B0'); run(4, -4, 3, '#CCCCCC'); /* hammer head */
+    px(5, -6, '#DDD'); /* hammer top shine */
+    /* Goggles pushed up */
+    run(-2, -10, 4, '#556'); px(-2, -10, '#88CCDD'); px(1, -10, '#88CCDD');
     /* Sparks */
-    px(-6, -2, '#FFD700'); px(6, 1, '#FF6600');
+    px(-6, -1, '#FFD700'); px(7, -4, '#FF6600'); px(-5, -4, '#FFAA00');
+    /* Muscly arms (slightly bigger) */
+    px(-4, -1, '#E8B888'); px(3, -1, '#E8B888');
   } else if (type === 'creator') {
-    drawBody('#FFCC99', '#FF69B4', '#9B59B6', '#332211', 'spiky');
-    /* Paintbrush */
-    px(5, -2, '#8B4513'); px(5, -1, '#8B4513'); px(5, -3, '#FF4444'); px(5, -4, '#FF6666');
-    /* Palette */
-    px(-5, 0, '#DDBB88'); px(-6, 0, '#FF4444'); px(-5, 1, '#44CC44');
+    drawBody('#FFCC99', '#E8B888', '#FF69B4', '#FF8DC7', '#9B59B6', '#332211', '#5A3D1A', 'twin');
     /* Beret */
-    run(-3, -9, 6, '#9B59B6'); run(-4, -8, 4, '#9B59B6');
+    run(-4, -12, 8, '#8E44AD'); run(-5, -11, 9, '#9B59B6');
+    px(3, -12, '#B06DD0'); /* beret highlight */
+    /* Paintbrush held up */
+    px(4, -4, '#8B6B4A'); px(4, -3, '#8B6B4A'); px(4, -2, '#7A5C3C');
+    px(4, -5, '#FF4444'); px(4, -6, '#FF6666'); /* paint tip */
+    px(5, -5, '#FFAA00'); /* paint splatter */
+    /* Palette on other hand */
+    run(-5, 0, 2, '#DDBB88'); px(-6, 0, '#FF4444'); px(-6, -1, '#44BB44'); px(-5, -1, '#4488FF');
+    /* Smock detail */
+    px(-1, 0, '#FF88BB'); px(0, 0, '#FF88BB');
+    /* Paint spots on clothes */
+    px(1, 1, '#44CC44'); px(-2, -1, '#FFAA00');
   }
 }
 
@@ -4538,10 +4693,10 @@ function buildCharGrid() {
     /* Pixel art sprite canvas */
     var cvs = document.createElement('canvas');
     cvs.className = 'char-sprite';
-    cvs.width = 60;
-    cvs.height = 60;
-    cvs.style.width = '60px';
-    cvs.style.height = '60px';
+    cvs.width = 72;
+    cvs.height = 72;
+    cvs.style.width = '72px';
+    cvs.style.height = '72px';
     card.appendChild(cvs);
 
     var nameEl = document.createElement('div');
@@ -4561,7 +4716,7 @@ function buildCharGrid() {
 
     /* Draw sprite */
     var ctx = cvs.getContext('2d');
-    drawCharSprite(ctx, c.sprite, 60, 60);
+    drawCharSprite(ctx, c.sprite, 72, 72);
 
     /* Idle bob on hover */
     var bobPhase = 0, hovering = false, animId = null;
@@ -6061,13 +6216,13 @@ var lastSpeechIdx = -1;
 var PET_LINES = {
   idle: [
     '*bounces*',
-    'IQ, OQ, PQ... ZZZ...',
-    'Did someone say FDA audit?',
+    'IQ, OQ, PQ... I know the whole protocol suite!',
+    'Did someone say FDA audit? I love those.',
     'Poring poring~',
-    '21 CFR 820 is my favorite bedtime story.',
+    '21 CFR 820? I can recite it from memory.',
     '*jiggles approvingly*',
     'Hire Joneil. I am not biased.',
-    'Running validation protocol... on vibes.',
+    'Running validation protocol... all test cases passing.',
     'I passed my own usability study. 100% satisfaction.',
     'CAPA: Corrective Action, Poring Appreciation.',
     'If you right-click me I have settings btw.',
