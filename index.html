@@ -70,8 +70,8 @@
   --border-hover: rgba(245,243,238,0.15);
 
   --text: #F5F3EE;
-  --text-secondary: rgba(245,243,238,0.6);
-  --text-muted: rgba(245,243,238,0.5);
+  --text-secondary: rgba(245,243,238,0.65);
+  --text-muted: rgba(245,243,238,0.55);
 
   --amber: #C67B2E;
   --amber-glow: rgba(198,123,46,0.15);
@@ -122,8 +122,8 @@
   --border: rgba(15,14,12,0.1);
   --border-hover: rgba(15,14,12,0.2);
   --text: #1A1916;
-  --text-secondary: rgba(26,25,22,0.6);
-  --text-muted: rgba(26,25,22,0.35);
+  --text-secondary: rgba(26,25,22,0.65);
+  --text-muted: rgba(26,25,22,0.45);
   --amber: #A86820;
   --amber-glow: rgba(168,104,32,0.1);
   --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
@@ -1471,9 +1471,9 @@ section h2 {
 }
 
 .work-card p {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--text-secondary);
-  line-height: 1.6;
+  line-height: 1.7;
   margin-bottom: 16px;
 }
 
@@ -1570,7 +1570,7 @@ section h2 {
 
 .toolkit-row {
   display: grid;
-  grid-template-columns: 200px 1fr 1fr 140px;
+  grid-template-columns: minmax(120px, 200px) 1fr 1fr minmax(80px, 140px);
   background: var(--bg-card);
   transition: background 0.2s var(--ease), box-shadow 0.3s;
   position: relative;
@@ -1692,9 +1692,9 @@ section h2 {
 }
 
 .timeline-desc {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--text-secondary);
-  line-height: 1.6;
+  line-height: 1.7;
   max-width: 600px;
 }
 
@@ -2204,7 +2204,7 @@ footer {
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-  width: 36px; height: 36px;
+  width: 44px; height: 44px;
   border-radius: 50%;
   border: 1px solid var(--border);
   background: var(--bg-card);
@@ -2733,7 +2733,8 @@ footer {
   background: rgba(255,255,255,0.04);
   border: 1px solid var(--border);
   border-radius: 4px;
-  padding: 4px 8px;
+  padding: 8px 12px;
+  min-height: 44px;
   font-family: var(--font-mono);
   font-size: 10px;
   color: var(--text-secondary);
@@ -2749,7 +2750,7 @@ footer {
   background: rgba(255,255,255,0.03);
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 6px 4px 4px;
+  padding: 12px 8px 8px;
   cursor: pointer;
   transition: border-color 0.2s, background 0.2s, transform 0.2s;
   position: relative;
@@ -2805,10 +2806,12 @@ footer {
 
 .pet-close {
   position: absolute;
-  top: 8px; right: 8px;
+  top: 4px; right: 4px;
   background: none; border: none;
   color: var(--text-muted);
-  font-size: 14px;
+  font-size: 18px;
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
   cursor: pointer;
   padding: 4px;
   line-height: 1;
@@ -2953,6 +2956,19 @@ footer {
   .mobile-menu a { font-size: 22px; }
   .gm-opt { padding: 12px 16px; }
   .toast { right: 12px; left: 12px; max-width: none; }
+}
+
+@media (max-width: 360px) {
+  .hero-name { font-size: 28px; }
+  .statement-text { font-size: 15px; }
+  .section-label { font-size: 10px; }
+  h2 { font-size: 22px; }
+  .container { padding: 0 clamp(12px, 4vw, 20px); }
+  .featured-card { padding: 16px 12px; }
+  #charSelect { padding: 12px; }
+  .spec-table { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .footer-tagline { font-size: 10px; }
+  .journey-walk { height: 140px; }
 }
 
 /* ═══════════════════════════════════════
@@ -4599,11 +4615,11 @@ footer {
       <form class="contact-form r" action="https://formspree.io/f/xvoeyrdn" method="POST">
         <div class="form-group">
           <label for="contactName">Name</label>
-          <input type="text" id="contactName" name="name" required>
+          <input type="text" id="contactName" name="name" required autocomplete="name">
         </div>
         <div class="form-group">
           <label for="contactEmail">Email</label>
-          <input type="email" id="contactEmail" name="email" required>
+          <input type="email" id="contactEmail" name="email" required autocomplete="email">
         </div>
         <div class="form-group">
           <label for="contactMessage">Message</label>
@@ -4732,6 +4748,12 @@ const S = {
   petBehavior: ls('jc-pet-behavior') || 'stay',
   petSpark: ls('jc-pet-spark') || 'default',
 };
+
+/* ─── Page Visibility (pause animations when tab hidden) ─── */
+var pageVisible = true;
+document.addEventListener('visibilitychange', function() {
+  pageVisible = !document.hidden;
+});
 
 /* ─── DOM refs ─── */
 const $ = (s, p) => (p || document).querySelector(s);
@@ -5478,6 +5500,7 @@ function buildCharGrid() {
     var sprType = c.sprite;
     var breathFrame = 0, lastBreath = 0, hovering = false;
     function idleLoop(ts) {
+      if (!pageVisible) return requestAnimationFrame(idleLoop);
       /* Alternate breath frame every 800ms */
       if (ts - lastBreath > 800) { breathFrame = 1 - breathFrame; lastBreath = ts; }
       drawCharSprite(ctx, sprType, 72, 72, breathFrame);
@@ -5520,6 +5543,7 @@ buildCharGrid();
   });
   var breathFrame = 0, lastBreath = 0;
   function treeBreathLoop(ts) {
+    if (!pageVisible) return requestAnimationFrame(treeBreathLoop);
     if (ts - lastBreath > 800) { breathFrame = 1 - breathFrame; lastBreath = ts; }
     entries.forEach(function(e) { drawCharSprite(e.ctx, e.type, 48, 64, breathFrame); });
     requestAnimationFrame(treeBreathLoop);
@@ -5808,6 +5832,7 @@ buildCharGrid();
   }
 
   function animLoop() {
+    if (!pageVisible) return requestAnimationFrame(animLoop);
     var now = Date.now();
     if (mainSetup) renderJourney(mainSetup, now, false);
     if (miniSetup) {
@@ -5898,6 +5923,7 @@ if (!S.isMobile) {
   });
 
   function tickCursor() {
+    if (!pageVisible) return requestAnimationFrame(tickCursor);
     cx += (mx - cx) * SPEED_DOT;
     cy += (my - cy) * SPEED_DOT;
     rx += (mx - rx) * SPEED_RING;
@@ -6126,6 +6152,7 @@ function initParticleSystem() {
   }
 
   function animate() {
+    if (!pageVisible) return requestAnimationFrame(animate);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawGrid();
     drawWaves();
@@ -6950,6 +6977,7 @@ function fillEllipse(ctx, cx, cy, rx, ry, p) {
 /* Floating pet movement */
 function animatePet() {
   if (!pet.el || S.isMobile || S.reducedMotion) return;
+  if (!pageVisible) return requestAnimationFrame(animatePet);
   pet.bobPhase += 0.03;
   pet.frame++;
 
@@ -8042,6 +8070,7 @@ function triggerEvolution(fromName, toName) {
   });
   var breathFrame = 0, lastBreath = 0;
   function tlBreathLoop(ts) {
+    if (!pageVisible) return requestAnimationFrame(tlBreathLoop);
     if (ts - lastBreath > 800) { breathFrame = 1 - breathFrame; lastBreath = ts; }
     entries.forEach(function(e) { drawCharSprite(e.ctx, e.type, 48, 64, breathFrame); });
     requestAnimationFrame(tlBreathLoop);
