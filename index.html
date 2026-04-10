@@ -3569,12 +3569,24 @@ footer {
 /* ═══════════════════════════════════════
    JOURNEY SPRITES
    ═══════════════════════════════════════ */
-.timeline-sprite {
-  display: block;
-  image-rendering: pixelated;
+.timeline-sprite-wrap {
   position: absolute;
   right: 0;
   top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.timeline-sprite {
+  display: block;
+  image-rendering: pixelated;
+}
+.timeline-sprite-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  white-space: nowrap;
 }
 
 /* ============================================
@@ -7998,20 +8010,33 @@ function triggerEvolution(fromName, toName) {
    ═══════════════════════════════════════ */
 (function initJourneySprites() {
   var timelineItems = $$('.timeline-item');
-  var spriteMap = ['socal', 'analyst', 'acolyte', 'prospector'];
+  var spriteData = [
+    { type: 'socal', label: 'Beach Boy' },
+    { type: 'sage', label: 'Clinic Observer' },
+    { type: 'duck', label: 'Stevens Duck' },
+    { type: 'prospector', label: 'Job Hunter' },
+  ];
   var entries = [];
   timelineItems.forEach(function(item, i) {
-    if (i >= spriteMap.length) return;
+    if (i >= spriteData.length) return;
     var dot = item.querySelector('.timeline-dot');
     if (!dot) return;
+    /* Wrapper for sprite + label */
+    var wrap = document.createElement('div');
+    wrap.className = 'timeline-sprite-wrap';
     var cvs = document.createElement('canvas');
     cvs.className = 'timeline-sprite';
     cvs.width = 48;
     cvs.height = 64;
     cvs.style.width = '48px';
     cvs.style.height = '64px';
-    entries.push({ ctx: cvs.getContext('2d'), type: spriteMap[i] });
-    item.insertBefore(cvs, dot);
+    wrap.appendChild(cvs);
+    var lbl = document.createElement('div');
+    lbl.className = 'timeline-sprite-label';
+    lbl.textContent = spriteData[i].label;
+    wrap.appendChild(lbl);
+    entries.push({ ctx: cvs.getContext('2d'), type: spriteData[i].type });
+    item.insertBefore(wrap, dot);
   });
   var breathFrame = 0, lastBreath = 0;
   function tlBreathLoop(ts) {
