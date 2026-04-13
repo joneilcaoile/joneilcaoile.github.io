@@ -1559,9 +1559,12 @@
       'case-pneumothorax.html': { prev: 'case-physiorep.html', next: 'case-usetrace.html' },
       'case-usetrace.html': { prev: 'case-pneumothorax.html', next: 'case-photocull.html' },
       'case-photocull.html': { prev: 'case-usetrace.html', next: 'case-emg.html' },
-      'case-emg.html': { prev: 'case-photocull.html', next: 'case-fall.html' },
-      'case-fall.html': { prev: 'case-emg.html', next: 'case-physiorep.html' },
-      'case-physiorep.html': { prev: 'case-fall.html', next: 'case-pneumothorax.html' }
+      'case-emg.html': { prev: 'case-photocull.html', next: 'case-biofeedback.html' },
+      'case-biofeedback.html': { prev: 'case-emg.html', next: 'case-fall.html' },
+      'case-fall.html': { prev: 'case-biofeedback.html', next: 'case-biostats.html' },
+      'case-biostats.html': { prev: 'case-fall.html', next: 'case-biomaterials.html' },
+      'case-biomaterials.html': { prev: 'case-biostats.html', next: 'case-physiorep.html' },
+      'case-physiorep.html': { prev: 'case-biomaterials.html', next: 'case-pneumothorax.html' }
     };
 
     const currentFile = window.location.pathname.split('/').pop() || 'case-photocull.html';

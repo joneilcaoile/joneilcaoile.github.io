@@ -18,44 +18,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Parkinson's Tremor-Suppression EMG Cuff | Case Study | Joneil Caoile</title>
-  <meta name="description" content="Wearable EMG cuff for real-time detection of Parkinsonian tremor. Built Python simulation to model 4–8 Hz tremor and validate suppression approach before hardware.">
+  <title>BMI and ICU Recovery: A Biostatistics Study | Case Study | Joneil Caoile</title>
+  <meta name="description" content="MIMIC-III retrospective analysis of BMI and ICU length of stay after cardiac surgery. Non-parametric tests, honest null result, clean reporting.">
   <meta name="author" content="Joneil Caoile">
-  <meta name="keywords" content="EMG, tremor suppression, Parkinson's disease, wearable device, signal processing, Python simulation, biomedical engineering, Joneil Caoile">
-  <meta property="og:title" content="Parkinson's Tremor-Suppression EMG Cuff | Case Study | Joneil Caoile">
-  <meta property="og:description" content="Wearable system for detecting Parkinsonian tremor and suppressing it via pneumatic actuation. Full Python simulation built from scratch.">
+  <meta name="keywords" content="biostatistics, MIMIC-III, ICU length of stay, BMI, Spearman correlation, Kruskal-Wallis, Chi-square, clinical research, biomedical engineering, Joneil Caoile">
+  <meta property="og:title" content="BMI and ICU Recovery: A Biostatistics Study | Joneil Caoile">
+  <meta property="og:description" content="MIMIC-III retrospective study. n=31 cardiac surgery patients. Non-parametric tests, honest null result.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://joneilcaoile.github.io/case-emg.html">
+  <meta property="og:url" content="https://joneilcaoile.github.io/case-biostats.html">
   <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Parkinson's Tremor-Suppression EMG Cuff | Case Study | Joneil Caoile">
-  <meta name="twitter:description" content="Wearable EMG system for detecting and suppressing Parkinsonian tremor via pneumatic actuation. Full Python simulation.">
+  <meta name="twitter:title" content="BMI and ICU Recovery: A Biostatistics Study | Joneil Caoile">
+  <meta name="twitter:description" content="MIMIC-III retrospective study of BMI and ICU length of stay after cardiac surgery.">
   <meta name="twitter:image" content="https://joneilcaoile.github.io/og-preview.png">
-  <link rel="canonical" href="https://joneilcaoile.github.io/case-emg.html">
-  <link rel="prev" href="https://joneilcaoile.github.io/case-photocull.html">
-  <link rel="next" href="https://joneilcaoile.github.io/case-biofeedback.html">
+  <link rel="canonical" href="https://joneilcaoile.github.io/case-biostats.html">
+  <link rel="prev" href="https://joneilcaoile.github.io/case-fall.html">
+  <link rel="next" href="https://joneilcaoile.github.io/case-biomaterials.html">
   <meta name="theme-color" content="#FAFAF8">
   <meta name="color-scheme" content="light dark">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; frame-src 'none'; object-src 'none'; base-uri 'self';">
+
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-  <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; frame-src 'none'; object-src 'none'; base-uri 'self';">
 
-  <!-- Fonts (same as main portfolio) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- GSAP CDN -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 
-  <!-- GSAP -->
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
 
@@ -64,9 +62,9 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "EMG Tremor Detection System",
-    "description": "Wearable EMG signal processing system with Butterworth filtering for real-time tremor classification and monitoring.",
-    "keywords": "EMG, electromyography, signal processing, tremor detection, wearable, biomedical",
+    "headline": "BMI and ICU Recovery: A Biostatistics Study",
+    "description": "MIMIC-III retrospective analysis of BMI and ICU length of stay after cardiac surgery. Non-parametric tests, honest null result.",
+    "keywords": "biostatistics, MIMIC-III, ICU, BMI, Spearman, clinical research",
     "author": {
       "@type": "Person",
       "name": "Joneil Caoile",
@@ -80,7 +78,7 @@
     "dateModified": "2026-04-01",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https://joneilcaoile.github.io/case-emg.html"
+      "@id": "https://joneilcaoile.github.io/case-biostats.html"
     }
   }
   </script>
@@ -91,7 +89,7 @@
     "@type": "BreadcrumbList",
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Portfolio", "item": "https://joneilcaoile.github.io/" },
-      { "@type": "ListItem", "position": 2, "name": "EMG Tremor-Suppression Cuff", "item": "https://joneilcaoile.github.io/case-emg.html" }
+      { "@type": "ListItem", "position": 2, "name": "Biostatistics Study", "item": "https://joneilcaoile.github.io/case-biostats.html" }
     ]
   }
   </script>
@@ -108,7 +106,7 @@
     @keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
     @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 
-    /* ===== DESIGN SYSTEM (matches main portfolio) ===== */
+    /* ===== DESIGN SYSTEM (warm light theme) ===== */
     :root {
       --bg: #FAFAF8;
       --bg-warm: #F5F3EE;
@@ -149,6 +147,7 @@
       color: var(--text);
       line-height: 1.65;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -167,6 +166,22 @@
     }
     @media (pointer: coarse) { body::before { display: none; } }
     @media (prefers-reduced-motion: reduce) { body::before { display: none; } }
+
+    ::selection {
+      background: var(--accent-glow);
+      color: var(--text);
+    }
+
+    a {
+      color: var(--amber);
+      text-decoration: none;
+    }
+
+    *:focus-visible {
+      outline: 2px solid var(--amber);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
 
     /* ===== READING PROGRESS BAR ===== */
     #reading-progress {
@@ -224,25 +239,12 @@
     .back-link:hover { color: var(--amber); }
     .back-link:focus-visible { outline: 2px solid var(--amber); outline-offset: 4px; border-radius: 4px; }
 
-    .github-link {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: var(--text-muted);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.35rem 0.75rem;
-      border: 1px solid rgba(0,0,0,0.12);
-      border-radius: var(--radius-sm);
-      transition: color 0.2s, border-color 0.2s, background 0.2s;
-      letter-spacing: 0.05em;
-    }
-    .github-link:hover {
-      color: var(--amber);
-      border-color: var(--amber);
-      background: var(--amber-light);
+    .back-link svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
     }
 
     /* ===== SKIP NAV ===== */
@@ -259,6 +261,7 @@
       z-index: 1000;
       transition: top 0.2s;
     }
+
     .skip-nav:focus { top: 1rem; }
 
     /* ===== MAIN LAYOUT ===== */
@@ -272,8 +275,11 @@
       margin: 0 auto;
     }
 
-    /* Reveal class - initial state set by GSAP JS, not CSS */
-    .r { }
+    .section-wide {
+      padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 3rem);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
 
     /* ===== HERO ===== */
     .hero {
@@ -303,6 +309,12 @@
       width: 6px; height: 6px;
       border-radius: 50%;
       background: var(--amber);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(217,119,6,0.4); }
+      50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(217,119,6,0); }
     }
 
     .hero-title {
@@ -353,14 +365,16 @@
       text-transform: uppercase;
     }
 
-    .meta-divider {
-      width: 1px;
-      height: 1.2em;
-      background: rgba(0,0,0,0.12);
-      align-self: center;
+    /* ===== SECTION HEADINGS ===== */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.75rem;
     }
 
-    /* ===== SECTION HEADINGS ===== */
     .section-title {
       font-family: var(--font-head);
       font-size: clamp(1.6rem, 3vw, 2.2rem);
@@ -430,6 +444,7 @@
       color: #F5F3EE;
     }
 
+    .dark-section .section-label { color: var(--amber-mid); }
     .dark-section .section-title { color: #F5F3EE; }
     .dark-section .prose { color: rgba(245,243,238,0.7); }
     .dark-section .prose strong { color: #F5F3EE; }
@@ -475,7 +490,10 @@
       text-align: center;
       min-width: 90px;
       border: 1px solid transparent;
+      transition: transform 0.3s ease;
     }
+
+    .arch-node:hover { transform: translateY(-2px); }
 
     .arch-node.input { background: rgba(59,130,246,0.15); border-color: rgba(59,130,246,0.3); color: #93C5FD; }
     .arch-node.process { background: rgba(20,184,166,0.15); border-color: rgba(20,184,166,0.3); color: #5EEAD4; }
@@ -496,166 +514,175 @@
       flex-shrink: 0;
     }
 
-    /* ===== STANDARDS GRID ===== */
-    .standards-grid {
+    /* ===== STANDARDS CARDS ===== */
+    .standards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 1rem;
-      margin-top: 2rem;
+      margin: 2rem 0;
     }
 
     .std-card {
-      background: var(--bg-dark-2);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: var(--radius);
       padding: 1.5rem 1.25rem;
-      text-align: center;
+      border-radius: var(--radius);
+      background: var(--bg-warm);
+      border: 1px solid rgba(0,0,0,0.08);
+      transition: border-color 0.3s;
     }
 
-    .std-card-title {
+    .std-card:hover { border-color: rgba(217,119,6,0.25); }
+
+    .std-card h4 {
       font-family: var(--font-mono);
       font-size: 0.75rem;
+      color: var(--amber);
+      margin-bottom: 0.6rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--amber-mid);
-      margin-bottom: 0.75rem;
     }
 
     .std-card p {
-      font-size: 0.8rem;
-      color: rgba(245,243,238,0.65);
+      font-size: 0.8125rem;
       line-height: 1.6;
+      margin: 0;
+      color: var(--text-muted);
     }
 
     /* ===== METRICS GRID ===== */
     .metric-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 1rem;
-      margin-top: 2rem;
-    }
-
-    @media (max-width: 768px) {
-      .metric-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    @media (max-width: 480px) {
-      .metric-grid { grid-template-columns: 1fr; }
+      margin: 2rem 0;
     }
 
     .metric-card {
-      background: var(--bg-dark-2);
-      border: 1px solid rgba(255,255,255,0.06);
+      background: var(--bg-warm);
+      border: 1px solid rgba(0,0,0,0.08);
       border-radius: var(--radius);
-      padding: 1.75rem 1.25rem;
+      padding: 1.5rem 1.25rem;
       text-align: center;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .metric-card:hover {
+      border-color: rgba(217,119,6,0.25);
+      transform: translateY(-2px);
     }
 
     .metric-value {
       font-family: var(--font-head);
       font-size: clamp(1.5rem, 3vw, 2rem);
       font-weight: 700;
-      color: var(--amber-mid);
+      color: var(--text);
+      letter-spacing: -0.02em;
       line-height: 1;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .metric-unit {
+      font-size: 0.75em;
+      color: var(--amber);
+      font-weight: 400;
     }
 
     .metric-label {
-      font-size: 0.8rem;
-      color: rgba(245,243,238,0.55);
-      letter-spacing: 0.02em;
+      font-size: 0.78rem;
+      color: var(--text-light);
+      margin-top: 0.35rem;
     }
 
-    /* ===== TECH STACK ===== */
+    /* ===== TECH TAGS ===== */
     .tech-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 2rem;
+      gap: 0.75rem;
+      margin: 2rem 0;
     }
 
     .tech-tag {
+      padding: 0.45rem 0.9rem;
+      border-radius: 6px;
       font-family: var(--font-mono);
       font-size: 0.75rem;
-      padding: 0.3rem 0.75rem;
-      border-radius: 100px;
-      background: rgba(217,119,6,0.12);
-      color: var(--amber-mid);
+      font-weight: 500;
+      background: var(--amber-light);
+      color: var(--amber);
       border: 1px solid rgba(217,119,6,0.25);
+      transition: transform 0.2s, border-color 0.2s;
     }
 
-    /* ===== LEARNINGS SECTION ===== */
-    .learnings-section {
-      background: var(--bg-dark);
+    .tech-tag:hover {
+      transform: translateY(-1px);
+      border-color: rgba(217,119,6,0.4);
     }
 
-    .learning-item {
-      padding: 1.5rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .learning-item:last-child { border-bottom: none; }
-
-    .learning-num {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: var(--amber-mid);
-      letter-spacing: 0.1em;
-      margin-bottom: 0.5rem;
-    }
-
-    .learning-title {
-      font-family: var(--font-head);
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: #F5F3EE;
-      margin-bottom: 0.6rem;
-    }
-
-    .learning-body {
-      font-size: 0.92rem;
-      color: rgba(245,243,238,0.65);
-      line-height: 1.75;
-    }
-
-    /* ===== CASE STUDY NAV ===== */
-    .case-nav {
-      border-top: 1px solid rgba(0,0,0,0.08);
-      padding: 2.5rem clamp(1.5rem, 5vw, 3rem);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
+    /* ===== CTA SECTION ===== */
+    .cta-section {
+      padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 3rem);
+      text-align: center;
       max-width: 900px;
       margin: 0 auto;
     }
 
-    .case-nav-link {
+    .cta-section .section-title {
+      margin-bottom: 1rem;
+    }
+
+    .cta-desc {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-buttons {
       display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-      text-decoration: none;
-      transition: opacity 0.2s;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
     }
 
-    .case-nav-link:hover { opacity: 0.7; }
-
-    .case-nav-dir {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-light);
-    }
-
-    .case-nav-name {
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.65rem 1.5rem;
+      border-radius: var(--radius-sm);
       font-family: var(--font-head);
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 600;
-      color: var(--text);
+      border: 1.5px solid transparent;
+      text-decoration: none;
+      transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+      letter-spacing: -0.01em;
     }
 
-    .case-nav-link.right { text-align: right; }
+    .btn-primary {
+      background: var(--amber);
+      color: white;
+      border-color: var(--amber);
+    }
+
+    .btn-primary:hover {
+      background: var(--amber-mid);
+      border-color: var(--amber-mid);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border-color: rgba(0,0,0,0.12);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--amber);
+      color: var(--amber);
+      transform: translateY(-2px);
+    }
 
     /* ===== KEYBOARD NAVIGATION HINT ===== */
     .keyboard-hint {
@@ -681,8 +708,14 @@
     }
 
     @keyframes hint-fade {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     @media (max-width: 640px) {
@@ -693,71 +726,6 @@
         padding: 0.6rem 1rem;
       }
     }
-
-    /* ===== CTA ===== */
-    .cta-section {
-      background: var(--bg-warm);
-      border-top: 1px solid rgba(0,0,0,0.06);
-    }
-
-    .cta-inner {
-      max-width: 600px;
-      margin: 0 auto;
-      text-align: center;
-      padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 3rem);
-    }
-
-    .cta-title {
-      font-family: var(--font-head);
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 1rem;
-    }
-
-    .cta-body {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      margin-bottom: 2rem;
-      line-height: 1.75;
-    }
-
-    .btn-row {
-      display: flex;
-      gap: 0.75rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      padding: 0.75rem 1.5rem;
-      border-radius: var(--radius-sm);
-      font-family: var(--font-head);
-      font-size: 0.9rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
-      cursor: pointer;
-      border: none;
-    }
-
-    .btn-primary {
-      background: var(--amber);
-      color: #fff;
-    }
-    .btn-primary:hover { background: var(--amber-mid); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(217,119,6,0.3); }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--text);
-      border: 1.5px solid rgba(0,0,0,0.15);
-    }
-    .btn-outline:hover { border-color: var(--amber); color: var(--amber); transform: translateY(-1px); }
-
-    .btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 4px; }
 
     /* ===== FOOTER ===== */
     footer {
@@ -773,101 +741,44 @@
     footer a { color: var(--amber-mid); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
 
-    /* ===== INTERACTIVE DEMO ===== */
-    .demo-container {
-      background: var(--bg-dark-2);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: var(--radius);
-      padding: 2rem 1.5rem;
-      margin: 2rem 0;
-      overflow: hidden;
-    }
-
-    .signal-canvas {
-      display: block;
-      width: 100%;
-      height: 300px;
-      background: #0a0905;
-      border-radius: 8px;
-      cursor: crosshair;
-    }
-
-    .demo-controls {
+    /* ===== CASE NAV ===== */
+    .case-nav {
+      border-top: 1px solid rgba(0,0,0,0.08);
+      padding: 2.5rem clamp(1.5rem, 5vw, 3rem);
       display: flex;
-      gap: 1rem;
-      margin: 2rem 0;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .demo-btn {
-      display: inline-flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      border-radius: var(--radius-sm);
+      gap: 1rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .case-nav-link {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .case-nav-link:hover { opacity: 0.7; }
+    .case-nav-dir {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+    .case-nav-name {
       font-family: var(--font-head);
       font-size: 0.9rem;
       font-weight: 600;
-      background: rgba(217,119,6,0.15);
-      color: var(--amber-mid);
-      border: 1.5px solid rgba(217,119,6,0.3);
-      cursor: pointer;
-      transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+      color: var(--text);
     }
+    .case-nav-link.right { text-align: right; }
 
-    .demo-btn:hover {
-      background: rgba(217,119,6,0.25);
-      border-color: var(--amber-mid);
-      transform: translateY(-2px);
-    }
-
-    .demo-btn.active {
-      background: var(--amber);
-      color: #fff;
-      border-color: var(--amber);
-      box-shadow: 0 4px 16px rgba(217,119,6,0.3);
-    }
-
-    .demo-btn:focus-visible {
-      outline: 2px solid var(--amber);
-      outline-offset: 4px;
-    }
-
-    .btn-state {
-      display: inline;
-    }
-
-    .demo-note {
-      background: rgba(217,119,6,0.08);
-      border: 1px solid rgba(217,119,6,0.2);
-      border-radius: var(--radius-sm);
-      padding: 1rem 1.25rem;
-      margin: 1.5rem 0;
-    }
-
-    .note-text {
-      font-size: 0.85rem;
-      color: rgba(245,243,238,0.7);
-      line-height: 1.6;
-    }
-
-    .metrics-demo-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-
-    @media (max-width: 600px) {
-      .metrics-demo-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .demo-metric {
-      background: var(--bg-dark-2);
-      border: 1px solid rgba(255,255,255,0.06);
+    /* ===== MEDIA QUERIES ===== */
+    @media (max-width: 768px) {
+      .metric-grid { grid-template-columns: repeat(2, 1fr); }
+      .standards { grid-template-columns: 1fr; }
     }
     .scroll-top {
       position: fixed;
@@ -1027,302 +938,230 @@
 <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 <div class="nav-progress" id="navProgress" aria-hidden="true"></div>
 <div class="page-transition" id="pageTransition"></div>
+  <a href="#main" class="skip-nav">Skip to main content</a>
 
-  <a class="skip-nav" href="#main">Skip to content</a>
+  <!-- Progress bar -->
   <div id="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
 
   <!-- Back nav -->
   <nav class="back-nav" aria-label="Case study navigation">
-    <a class="back-link" href="index.html">
+    <a href="index.html" class="back-link">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
       Back to portfolio
     </a>
-    <a class="github-link" href="https://github.com/joneilcaoile" target="_blank" rel="noopener noreferrer">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
-      GitHub
-    </a>
+    <!-- No public repo for this study -->
   </nav>
 
   <main id="main">
-
-    <!-- ===== HERO ===== -->
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="status-badge r">
-        <span class="status-dot" aria-hidden="true"></span>
-        Research Prototype
+    <!-- Hero -->
+    <section class="hero">
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        Graduate coursework
       </div>
-
-      <h1 class="hero-title r" id="hero-title">
-        Parkinson's Tremor-Suppression <span class="accent">EMG Cuff</span>
-      </h1>
-
-      <p class="hero-desc r">
-        Wearable system for real-time detection of Parkinsonian tremor using forearm EMG signals. Built Python simulation to validate signal processing approach and suppression triggers before hardware integration.
-      </p>
-
-      <div class="meta-row r">
+      <h1 class="hero-title">BMI and ICU Recovery: <span class="accent">A Biostatistics Study</span></h1>
+      <p class="hero-desc">Retrospective analysis of whether BMI category predicts ICU length of stay after cardiac surgery. MIMIC-III database, non-parametric tests, honest null result. The finding was that there is no statistically significant association, and that matters.</p>
+      <div class="meta-row">
         <div class="meta-item">
           <span class="meta-label">Role</span>
-          Lead developer, signal processing
+          <span>Data analyst (3-person team)</span>
         </div>
-        <div class="meta-divider" aria-hidden="true"></div>
         <div class="meta-item">
           <span class="meta-label">Timeline</span>
-          Sep – Dec 2024
+          <span>Sep - Dec 2025</span>
         </div>
-        <div class="meta-divider" aria-hidden="true"></div>
         <div class="meta-item">
           <span class="meta-label">Type</span>
-          Course project / Research prototype
+          <span>Biostatistics / Clinical Research</span>
         </div>
-        <div class="meta-divider" aria-hidden="true"></div>
         <div class="meta-item">
-          <span class="meta-label">Standards</span>
-          IEC 60601-1-2, ISO 10993
+          <span class="meta-label">Dataset</span>
+          <span>MIMIC-III · n = 31</span>
         </div>
-        <div class="meta-divider" aria-hidden="true"></div>
         <div class="meta-item">
           <span class="meta-label">Read time</span>
-          6 min
+          <span>8 min</span>
         </div>
       </div>
     </section>
 
-    <!-- ===== PROBLEM / SOLUTION ===== -->
-    <section class="section" aria-labelledby="need-title">
-      <h2 class="section-title r" id="need-title">The clinical need</h2>
-      <p class="prose r">
-        Parkinson's disease affects approximately 1 million people in the U.S., with resting tremor (4–8 Hz) being one of the most disabling symptoms. Tremor impairs fine motor tasks: writing, eating, grasping objects. This severely reduces quality of life. Current treatment options are limited. <strong>Pharmacological interventions</strong> have variable efficacy and side effects, while <strong>deep brain stimulation (DBS)</strong> is invasive, costly, and not accessible to all patients.
-      </p>
-      <p class="prose r">
-        Non-invasive wearable solutions that can detect tremor onset in real time and trigger suppression mechanisms remain underdeveloped. A wearable EMG cuff capable of identifying tremor timing could enable counter-stimulation or mechanical dampening strategies, offering patients a low-risk intervention option.
-      </p>
+    <!-- Problem / Solution -->
+    <section class="section">
+      <h2 class="section-title r">The question we asked</h2>
+      <p class="prose">Does BMI category predict how long cardiac surgery patients stay in the ICU? Intuitively, it seems like it should. Higher BMI is associated with more surgical complications, longer ventilation times, and higher rates of post-operative infection. Multiple studies have investigated the relationship, with mixed results.</p>
+      <p class="prose">We used the MIMIC-III clinical database to pull a retrospective cohort of adult patients who underwent cardiac surgery (ICD-9 procedure codes 35.x-39.x). After applying exclusion criteria (missing BMI, ICU stays under 24 hours, patients under 18), we had 31 patients across 5 BMI categories.</p>
 
-      <div class="ps-grid r">
+      <div class="ps-grid">
         <div class="ps-card problem">
-          <div class="ps-card-label">The Challenge</div>
-          <h3 class="ps-card-title">Detection complexity</h3>
-          <p>Parkinsonian tremor occurs at 4–8 Hz in forearm musculature. Detecting this narrow frequency band in real time from EMG requires robust signal processing. Noise, motion artifacts, and physiological variation complicate detection. Hardware-first approaches risk wasting time on non-viable signal chains.</p>
+          <div class="ps-card-label">The assumption</div>
+          <h3 class="ps-card-title">Higher BMI = longer ICU stay</h3>
+          <p>Clinical intuition and some prior literature suggest obese patients recover more slowly. If true, BMI could serve as a pre-operative risk factor for ICU resource planning.</p>
         </div>
         <div class="ps-card solution">
-          <div class="ps-card-label">The Approach</div>
-          <h3 class="ps-card-title">Simulation-driven validation</h3>
-          <p>Build a complete Python signal processing pipeline modeling the EMG flow through bandpass filter, feature extraction, and detection algorithm. Simulate tremor dynamics at known frequencies. Validate detection sensitivity and latency before any hardware fabrication. De-risk the hardware build.</p>
+          <div class="ps-card-label">What we found</div>
+          <h3 class="ps-card-title">No significant association</h3>
+          <p>Spearman correlation: p = 0.291. Chi-square test: p = 0.413. Kruskal-Wallis: p = 0.603. None of our three independent tests found a statistically significant relationship between BMI category and ICU length of stay in this cohort.</p>
         </div>
       </div>
     </section>
 
-    <!-- ===== ARCHITECTURE ===== -->
+    <!-- Architecture -->
     <section class="section dark-section r">
-      <h2 class="section-title r" id="arch-title">System architecture</h2>
-      <p class="prose">
-        The wearable system follows a classical real-time biomedical signal processing flow. EMG sensors on the forearm capture muscle electrical activity, which is then processed through a tight filtering and feature extraction pipeline to identify tremor-specific signatures.
-      </p>
+      <h2 class="section-title r">Analysis pipeline</h2>
+      <p class="prose">The study followed a standard retrospective cohort design. We queried the MIMIC-III database for cardiac surgery patients, computed BMI from recorded height and weight, categorized patients using WHO BMI classes, and ran three non-parametric statistical tests.</p>
 
       <div class="arch">
-        <div class="arch-title">Signal Processing Pipeline</div>
+        <div class="arch-title">Analysis Flow</div>
         <div class="arch-flow">
           <div class="arch-node input">
-            EMG Sensors
-            <span class="arch-sub">Forearm surface electrodes</span>
+            MIMIC-III Query
+            <span class="arch-sub">ICD-9 codes 35.x-39.x</span>
           </div>
           <span class="arch-arrow">→</span>
           <div class="arch-node process">
-            Bandpass Filter
-            <span class="arch-sub">4–8 Hz tremor band</span>
+            Cohort Selection
+            <span class="arch-sub">Exclusion criteria, n = 31</span>
           </div>
           <span class="arch-arrow">→</span>
           <div class="arch-node process">
-            Feature Extraction
-            <span class="arch-sub">RMS, spectral power, coherence</span>
+            BMI Categorization
+            <span class="arch-sub">WHO classes (5 groups)</span>
           </div>
           <span class="arch-arrow">→</span>
-          <div class="arch-node process">
-            Tremor Detection
-            <span class="arch-sub">Threshold + coherence check</span>
+          <div class="arch-node ai">
+            Statistical Tests
+            <span class="arch-sub">Spearman, Chi-square, Kruskal-Wallis</span>
           </div>
           <span class="arch-arrow">→</span>
           <div class="arch-node output">
-            Suppression Trigger
-            <span class="arch-sub">Counter-stim / dampening</span>
+            Honest Result
+            <span class="arch-sub">No significant association</span>
           </div>
         </div>
       </div>
 
-      <h3 class="section-title" style="margin-top: 2.5rem; margin-bottom: 1.5rem;">Design decisions</h3>
-      <p class="prose">
-        <strong>Bandpass filter centered at 6 Hz.</strong> Parkinsonian tremor peaks around 4–8 Hz. A Butterworth bandpass filter (6th order, 4–8 Hz) isolates tremor signatures while rejecting DC drift, low-frequency movement, and high-frequency noise. Real-time latency is critical. We target less than 100 ms end-to-end detection.
-      </p>
-      <p class="prose">
-        <strong>Multi-feature detection, not single threshold.</strong> RMS energy alone generates false positives from voluntary muscle activation. We combine RMS, spectral power concentration, and coherence across electrode channels. A tremor detection event requires all three features to align, raising specificity without sacrificing sensitivity.
-      </p>
-      <p class="prose">
-        <strong>Python simulation before hardware.</strong> We modeled tremor dynamics (sinusoidal + noise) and stress-tested the pipeline against realistic EMG corruption. Only after validating detection accuracy on simulated data did we move toward hardware fabrication. This iterative de-risking prevented costly false starts.
-      </p>
-    </section>
+      <h3 class="section-title" style="color: #F5F3EE; margin-top: 3rem;">Key decisions</h3>
+      <p class="prose"><strong>Non-parametric tests, not parametric.</strong> ICU length of stay is right-skewed. Patients cluster around 2-5 days, but a few stay 20+ days. Parametric tests assume normality, which doesn't hold here. Spearman rank correlation, Chi-square, and Kruskal-Wallis all handle non-normal distributions correctly.</p>
+      <p class="prose"><strong>Three independent tests, not one.</strong> Any single test can miss or overstate a relationship depending on the data structure. Spearman tests monotonic correlation. Chi-square tests categorical independence. Kruskal-Wallis tests whether group distributions differ. All three returning non-significant results strengthens the null finding.</p>
+      <p class="prose"><strong>WHO BMI categories, not continuous BMI.</strong> Clinicians think in terms of "underweight," "normal," "overweight," "obese." Using WHO-defined cutoffs (18.5, 25, 30, 35) makes the analysis clinically interpretable rather than just statistically convenient.</p>
 
-    <!-- ===== INTERACTIVE DEMO ===== -->
-    <section class="section dark-section r">
-      <h2 class="section-title r">Interactive: See the filter in action</h2>
-      <p class="prose">
-        This visualization shows a live EMG signal being processed through a 6th-order Butterworth bandpass filter. Watch how the filter isolates the 5.8 Hz tremor signal from power line interference and motion artifacts.
-      </p>
-
-      <div class="demo-container">
-        <canvas id="signal-canvas" class="signal-canvas"></canvas>
-      </div>
-
-      <div class="demo-controls">
-        <button id="toggle-filter" class="demo-btn active" aria-pressed="true">
-          <span class="btn-state">Filtered Signal</span>
-        </button>
-      </div>
-
-      <div class="demo-note">
-        <p class="note-text">This is a simplified simulation. The real device uses a 6th-order Butterworth bandpass filter at 4 to 8 Hz.</p>
-      </div>
-
-      <div class="metrics-demo-grid">
-        <div class="metric-card demo-metric">
-          <div class="metric-value" id="freq-value">N/A</div>
-          <div class="metric-label">Detected Frequency</div>
-        </div>
-        <div class="metric-card demo-metric">
-          <div class="metric-value" id="snr-value">1.2</div>
-          <div class="metric-label">Signal-to-Noise Ratio</div>
-        </div>
-        <div class="metric-card demo-metric">
-          <div class="metric-value" id="class-value">Too Noisy</div>
-          <div class="metric-label">Classification</div>
-        </div>
+      <h3 class="section-title" style="color: #F5F3EE; margin-top: 3rem;">Why the null result matters</h3>
+      <div style="background: #1A1815; border: 1px solid rgba(217,119,6,0.15); border-radius: 12px; padding: 1.75rem 1.5rem; margin: 2rem 0;">
+        <p style="font-size: 0.95rem; line-height: 1.8; color: #F5F3EE; margin: 0;">In clinical research, null results are underreported. Publication bias favors studies that find effects. But knowing that BMI category does not independently predict ICU length of stay (at least in this cohort) is actionable information. It means pre-operative risk models shouldn't over-weight BMI for ICU resource planning without additional covariates. Our small sample size (n = 31) limits generalizability, but the consistency across all three tests suggests the effect, if it exists, is smaller than clinical intuition assumes.</p>
       </div>
     </section>
 
-    <!-- ===== STANDARDS ===== -->
+    <!-- Research context -->
     <section class="section">
-      <h2 class="section-title r" id="standards-title">Regulatory and safety framework</h2>
-      <p class="prose r">
-        This wearable medical device concept must adhere to international standards for medical device safety, biocompatibility, and electromagnetic compatibility. Understanding regulatory pathways early shapes architecture choices and validation protocols.
-      </p>
+      <h2 class="section-title r">Statistical foundation</h2>
+      <p class="prose">Each test was chosen for a specific reason. Together they cover different aspects of the BMI-LOS relationship.</p>
 
-      <div class="standards-grid r">
+      <div class="standards">
         <div class="std-card">
-          <div class="std-card-title">IEC 60601-1-2</div>
-          <p>Electromagnetic compatibility (EMC) for medical electrical equipment. Critical for wearables operating near body and in varying EM environments.</p>
+          <h3>Spearman Rank Correlation</h3>
+          <p>Tests monotonic relationship between two ordinal/continuous variables. Does not assume normality. Our result: rho = -0.196, p = 0.291.</p>
         </div>
         <div class="std-card">
-          <div class="std-card-title">ISO 10993 Series</div>
-          <p>Biocompatibility of medical devices. Electrode materials and skin-contact components must meet cytocompatibility and irritation thresholds.</p>
+          <h3>Chi-Square Test</h3>
+          <p>Tests independence between two categorical variables (BMI category vs. binned LOS). Our result: chi-squared = 9.26, p = 0.413.</p>
         </div>
         <div class="std-card">
-          <div class="std-card-title">IEC 60601-1 General</div>
-          <p>Safety requirements for medical electrical equipment. Risk analysis, electrical safety, and design controls.</p>
+          <h3>Kruskal-Wallis H Test</h3>
+          <p>Non-parametric one-way ANOVA. Tests whether ICU LOS distributions differ across BMI groups. Our result: H = 1.85, p = 0.603.</p>
         </div>
         <div class="std-card">
-          <div class="std-card-title">FDA De Novo Pathway</div>
-          <p>For novel wearable neurotech devices without predicate. Requires comprehensive design history file and clinical validation.</p>
+          <h3>MIMIC-III Database</h3>
+          <p>De-identified critical care data from Beth Israel Deaconess Medical Center. Over 40,000 ICU stays. Requires PhysioNet credentialing and CITI training.</p>
         </div>
       </div>
     </section>
 
-    <!-- ===== METRICS ===== -->
-    <section class="section dark-section r">
-      <h2 class="section-title r">Signal processing targets</h2>
-      <p class="prose">
-        Validation metrics measure both the accuracy of our tremor detection algorithm and the real-time feasibility of the system.
-      </p>
+    <!-- Metrics -->
+    <section class="section">
+      <h2 class="section-title r">Key numbers</h2>
+      <p class="prose">Every number here is directly from the analysis. No rounding to make things look better.</p>
 
       <div class="metric-grid">
         <div class="metric-card">
-          <div class="metric-value"><span data-count-prefix="">4</span>–<span data-count-to="8">8</span><span style="font-size: 0.5em; display: block;">Hz</span></div>
-          <div class="metric-label">Tremor band targeted</div>
+          <div class="metric-value"><span data-count-to="31" data-count-decimals="0">31</span></div>
+          <div class="metric-label">patients in final cohort</div>
         </div>
         <div class="metric-card">
-          <div class="metric-value">&lt;<span data-count-to="100">100</span><span style="font-size: 0.5em; display: block;">ms</span></div>
-          <div class="metric-label">Detection latency target</div>
+          <div class="metric-value">-0.196</div>
+          <div class="metric-label">Spearman rho (p = 0.291)</div>
         </div>
         <div class="metric-card">
-          <div class="metric-value"><span data-count-to="95">95</span><span style="font-size: 0.5em; display: block;">%</span></div>
-          <div class="metric-label">Simulated sensitivity</div>
+          <div class="metric-value"><span data-count-to="5" data-count-decimals="0">5</span></div>
+          <div class="metric-label">WHO BMI categories tested</div>
         </div>
         <div class="metric-card">
-          <div class="metric-value"><span data-count-to="6">6</span></div>
-          <div class="metric-label">Filter order (Butterworth)</div>
+          <div class="metric-value"><span data-count-to="3" data-count-decimals="0">3</span></div>
+          <div class="metric-label">independent statistical tests</div>
         </div>
       </div>
     </section>
 
-    <!-- ===== TECH STACK ===== -->
+    <!-- Tech stack -->
     <section class="section">
-      <h2 class="section-title r" id="tech-title">Implementation stack</h2>
-      <div class="tech-tags r">
+      <h2 class="section-title r">Built with</h2>
+      <div class="tech-tags">
         <span class="tech-tag">Python</span>
-        <span class="tech-tag">scipy.signal</span>
-        <span class="tech-tag">numpy</span>
-        <span class="tech-tag">matplotlib</span>
-        <span class="tech-tag">EMG Processing</span>
-        <span class="tech-tag">Signal Filtering</span>
-        <span class="tech-tag">Feature Extraction</span>
-        <span class="tech-tag">Real-time Simulation</span>
+        <span class="tech-tag">R</span>
+        <span class="tech-tag">Pandas</span>
+        <span class="tech-tag">SciPy</span>
+        <span class="tech-tag">MIMIC-III</span>
+        <span class="tech-tag">SQL</span>
+        <span class="tech-tag">Biostatistics</span>
+        <span class="tech-tag">Clinical Research</span>
       </div>
 
-      <h3 class="section-title" style="margin-top: 2.5rem; margin-bottom: 1.5rem; font-size: 1.2rem;">Technology rationale</h3>
-      <p class="prose">
-        <strong>scipy.signal:</strong> Production-grade filtering (Butterworth, Chebyshev, Bessel). We compared multiple designs for phase distortion and attenuation characteristics before settling on 6th-order Butterworth, offering excellent rolloff without excessive phase lag.
-      </p>
-      <p class="prose">
-        <strong>numpy for vector operations:</strong> EMG processing is array-heavy. numpy's C-backend ensures real-time throughput even with 1+ kHz sampling rates across multiple channels.
-      </p>
-      <p class="prose">
-        <strong>matplotlib for validation:</strong> Time-domain waveforms, FFT spectrograms, and filter response plots proved critical for debugging detection failures and tuning thresholds iteratively.
-      </p>
+      <h3 class="section-title" style="margin-top: 2rem;">Why these choices?</h3>
+      <p class="prose"><strong>Python + Pandas for data wrangling.</strong> MIMIC-III queries return raw relational data across multiple tables (admissions, chartevents, patients). Joining, filtering, and computing BMI from height/weight records requires reliable data manipulation. Pandas handled the merge logic and missing-value filtering.</p>
+      <p class="prose"><strong>SciPy for statistical testing.</strong> Spearman, Chi-square, and Kruskal-Wallis are all available in scipy.stats. No need for custom implementations when the library is well-validated and widely cited in published biostatistics research.</p>
+      <p class="prose"><strong>R for verification.</strong> We cross-checked Python results against R (cor.test, chisq.test, kruskal.test) to make sure our p-values matched. They did. This dual-language check caught a rounding issue in our BMI categorization early on.</p>
     </section>
 
-    <!-- ===== LEARNINGS ===== -->
-    <section class="section learnings-section">
-      <h2 class="section-title r">What this taught me</h2>
-
-      <div class="learning-item r">
-        <div class="learning-num">01</div>
-        <h3 class="learning-title">Simulating before building saves months</h3>
-        <p class="learning-body">A week of Python modeling revealed that naive single-channel thresholding would produce unacceptable false positive rates. Multi-channel coherence checks added complexity but eliminated the problem. Hardware teams found this out the hard way. We caught it in simulation.</p>
+    <!-- Limitations -->
+    <section class="section dark-section r">
+      <h2 class="section-title r">Limitations we reported</h2>
+      <div class="metric-grid" style="grid-template-columns: 1fr;">
+        <div class="metric-card" style="background: #1A1815; border: 1px solid rgba(217,119,6,0.2); border-radius: 12px; padding: 2rem; text-align: left;">
+          <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600; color: #FEF3C7; margin-bottom: 1rem; margin-top: 0;">Small sample, single center, retrospective</h3>
+          <p style="font-size: 0.95rem; line-height: 1.7; color: #F5F3EE; margin: 0;">n = 31 is underpowered. We acknowledged this in the paper. MIMIC-III is a single-center database (Beth Israel Deaconess), so the cohort may not represent other hospitals. BMI was computed from a single recorded height and weight, not longitudinal measurements. And retrospective studies can't establish causation, only association. We reported all of this because honest reporting of limitations is part of doing biostatistics correctly, not an afterthought.</p>
+        </div>
       </div>
+    </section>
 
-      <div class="learning-item r">
-        <div class="learning-num">02</div>
-        <h3 class="learning-title">Biomedical signals are hostile</h3>
-        <p class="learning-body">Textbooks show clean sinusoids. Real EMG is fractional-volt noise contaminated with motion artifacts, ECG cross-talk, and 60 Hz hum. Every design choice (filter order, feature set, threshold) had to survive adversarial noise tests before acceptance.</p>
-      </div>
-
-      <div class="learning-item r">
-        <div class="learning-num">03</div>
-        <h3 class="learning-title">Regulatory thinking must start early</h3>
-        <p class="learning-body">EMC, biocompatibility, and design controls are not afterthoughts. Building regulatory awareness into the signal processing design (choosing components with certified datasheets, documenting filter design rationale) streamlines later validation.</p>
-      </div>
+    <!-- What I learned -->
+    <section class="section">
+      <h2 class="section-title r">What I learned</h2>
+      <p class="prose"><strong>Null results are results.</strong> There's a temptation to keep slicing data until something reaches p &lt; 0.05. We didn't do that. Three tests, three non-significant results, reported as-is. In a field plagued by p-hacking and selective reporting, publishing null findings honestly is more useful than manufacturing significance.</p>
+      <p class="prose"><strong>MIMIC-III teaches you to respect data provenance.</strong> Every value in that database has a chain of custody: which caregiver entered it, what device recorded it, when it was validated. Working with clinical data made me appreciate that a number on a spreadsheet is only as trustworthy as the process that put it there.</p>
+      <p class="prose" style="padding: 1.75rem; background: rgba(217,119,6,0.08); border-left: 3px solid #D97706; border-radius: 8px; margin: 1.5rem 0;"><strong>Small samples teach statistical humility.</strong> With n = 31, even a moderate effect might not reach significance. That doesn't mean the effect doesn't exist. It means we can't detect it with this sample. The difference between "no effect" and "insufficient power to detect an effect" is a distinction that matters in clinical decision-making, and this project forced me to articulate it clearly.</p>
     </section>
 
     <!-- ===== WHAT I GOT WRONG ===== -->
     <section class="section" aria-labelledby="wrong-heading" style="padding-top: 48px;">
       <p class="section-label r">Post-Mortem</p>
       <h2 class="section-title r" id="wrong-heading">What I got wrong.</h2>
-      <p class="r" style="max-width: 720px; color: var(--text-muted, #635B52); margin-bottom: 32px;">The simulation worked. But that doesn't mean every decision along the way was right.</p>
+      <p class="r" style="max-width: 720px; color: var(--text-muted, #635B52); margin-bottom: 32px;">The analysis was clean and the reporting was honest. But the study design had problems I should have caught earlier.</p>
 
       <div class="learning-item r">
         <div class="learning-num">01</div>
-        <div class="learning-title">I tuned the filter on clean synthetic data and called it validated.</div>
-        <p class="learning-body">The 6th-order Butterworth performed beautifully on my generated tremor signals: clean sinusoids plus Gaussian noise. When I later tested with publicly available EMG datasets that included real motion artifacts, the filter's performance dropped noticeably. Real forearm EMG during daily activities contains bursts of voluntary muscle activation that overlap the tremor band. My simulation didn't model that overlap, so the detection thresholds I'd tuned were too aggressive. I should have incorporated published EMG datasets from the start, not after the pipeline was "done."</p>
+        <div class="learning-title">We should have done a power analysis before committing to n = 31.</div>
+        <p class="learning-body">We pulled patients matching our criteria and ended up with 31. That's what MIMIC-III gave us after exclusions. But we didn't run a power analysis first to determine the minimum sample size needed to detect a clinically meaningful effect. A post-hoc power calculation showed that detecting a moderate correlation (r = 0.3) at alpha = 0.05 with 80% power requires roughly 85 patients. We had 31. The study was underpowered from the start, and we should have either broadened our inclusion criteria, included additional surgical categories, or acknowledged the power limitation in our study design rather than discovering it in our discussion section.</p>
       </div>
 
       <div class="learning-item r">
         <div class="learning-num">02</div>
-        <div class="learning-title">I ignored the suppression side of the system for too long.</div>
-        <p class="learning-body">The project was framed as "tremor detection and suppression," but I spent 90% of the time on detection. The suppression trigger was a binary output: detected or not. I never modeled what happens downstream. How fast does the pneumatic actuator respond? What happens if the detection is right but the suppression fires 200 ms late? Those questions matter for clinical viability, and I treated them as someone else's problem. In a real device program, the detection and actuation teams would need to co-design the latency budget from day one.</p>
+        <div class="learning-title">BMI from a single measurement is a weak exposure variable.</div>
+        <p class="learning-body">MIMIC-III records height and weight at ICU admission. We computed BMI from that single data point. But BMI at the moment of ICU entry may not reflect the patient's chronic weight status. Post-surgical fluid retention, edema, and perioperative weight changes all affect the number. A patient categorized as "obese" at ICU admission might have been "overweight" the week before surgery. We should have discussed this measurement validity issue more prominently. In retrospective database studies, you use what's available, but acknowledging the gap between what you measure and what you actually want to measure is important.</p>
       </div>
 
       <div class="learning-item r">
         <div class="learning-num">03</div>
-        <div class="learning-title">I didn't quantify false positive cost.</div>
-        <p class="learning-body">My metrics were sensitivity and specificity, reported as percentages. I never asked: what does a false positive actually do to the patient? If the cuff fires suppression during voluntary movement, it fights the patient's own muscles. That's not just annoying. It could cause injury or erode trust in the device within days. The cost of a false positive is categorically different from the cost of a false negative, and my evaluation framework treated them as symmetric. A clinical engineer would have caught that immediately.</p>
+        <div class="learning-title">We didn't control for confounders.</div>
+        <p class="learning-body">BMI doesn't exist in isolation. Age, comorbidities, surgical complexity, and pre-operative health status all affect ICU length of stay. Our analysis tested the bivariate relationship between BMI and LOS without adjusting for confounders. A multivariable regression or stratified analysis would have been more informative. We flagged this as a limitation, but the better approach would have been to include at least age and Charlson comorbidity index as covariates from the start. The simple bivariate design was appropriate for a semester project, but it limits what the null result can actually tell us.</p>
       </div>
     </section>
 
@@ -1334,71 +1173,59 @@
 
       <div class="learning-item r">
         <div class="learning-num">Q1</div>
-        <div class="learning-title">Why simulation instead of building the hardware first?</div>
-        <p class="learning-body">Because the signal processing pipeline is the highest-risk subsystem. If the filter design can't isolate tremor from noise at the frequencies we care about, no amount of good hardware saves the project. A week of Python modeling told us the detection approach was viable before we spent money on electrodes, ADCs, and PCB fabrication. The simulation also let us iterate on filter order, feature sets, and detection thresholds at a pace that hardware prototyping can't match. The tradeoff is that simulation can't catch everything (see "What I got wrong" above), but it de-risked the most expensive failure mode.</p>
+        <div class="learning-title">Why include a study with a null result in your portfolio?</div>
+        <p class="learning-body">Because null results are honest results. The temptation in a portfolio is to only show projects where everything worked and the numbers were impressive. But in clinical research and medical device validation, the ability to report what the data actually shows, even when it contradicts your hypothesis, is more important than flashy results. I included this project because it demonstrates that I can design a study, execute the analysis, and report findings without inflating them. If I'm going to work in a regulated industry where data integrity matters, this is the kind of work that proves I take it seriously.</p>
       </div>
 
       <div class="learning-item r">
         <div class="learning-num">Q2</div>
-        <div class="learning-title">How would this hold up with real patient data?</div>
-        <p class="learning-body">It wouldn't, not without significant rework. The simulation uses synthetic tremor signals that model the frequency content but not the variability of real Parkinsonian tremor. Real patients show intermittent tremor, variable amplitude, and co-occurring voluntary movement. The multi-feature detection approach (RMS + spectral power + coherence) is designed to handle that, but the thresholds would need recalibration on clinical recordings. If I continued this project, the next step would be validating against the PhysioNet Parkinson's tremor dataset before touching hardware.</p>
+        <div class="learning-title">How does this relate to medical device work?</div>
+        <p class="learning-body">Clinical outcome analysis is a core competency in medical device post-market surveillance and clinical studies. Understanding how to query clinical databases, apply appropriate statistical tests, handle missing data, and interpret results is directly applicable to clinical investigations under 21 CFR 812, post-market clinical follow-up studies, and real-world evidence submissions. The specific question (BMI vs. ICU LOS) is less important than the methodology: retrospective cohort design, non-parametric testing for non-normal distributions, honest reporting of limitations, and cross-validation of results between Python and R.</p>
       </div>
 
       <div class="learning-item r">
         <div class="learning-num">Q3</div>
-        <div class="learning-title">What would you do differently with another semester?</div>
-        <p class="learning-body">Three things. First, validate against real EMG data from published datasets on day one, not after the pipeline is built. Second, model the full closed-loop system including suppression actuator dynamics, because detection latency and actuation latency are coupled. Third, bring in a clinician or movement disorder specialist early to pressure-test whether the detection sensitivity targets actually matter for patient quality of life. The 95% sensitivity target I set was an engineering number, not a clinical one. A neurologist might tell me 80% sensitivity with zero false positives during voluntary movement is more valuable than 95% sensitivity with occasional misfires.</p>
+        <div class="learning-title">What would you do differently with more data?</div>
+        <p class="learning-body">First, I'd expand the cohort to at least 100 patients by broadening surgical categories or using MIMIC-IV (larger dataset, more recent). Second, I'd include confounders: a multivariable logistic regression with age, Charlson comorbidity index, and surgical complexity as covariates. Third, I'd switch from WHO BMI categories to continuous BMI with restricted cubic splines to capture non-linear relationships. The current study answers a narrow question with limited data. A larger study could answer the more useful clinical question: after adjusting for known risk factors, does BMI independently predict prolonged ICU stay?</p>
       </div>
     </section>
 
+    <!-- Project navigation -->
     <!-- ===== CASE NAV ===== -->
-    <nav class="case-nav r" aria-label="Adjacent case studies">
-      <a href="case-photocull.html" class="case-nav-link">
+    <nav class="case-nav" aria-label="Adjacent case studies">
+      <a href="case-fall.html" class="case-nav-link">
         <span class="case-nav-dir">Previous</span>
-        <span class="case-nav-name">PhotoCull AI</span>
+        <span class="case-nav-name">Fall Study Reliability Tool</span>
       </a>
-      <a href="case-biofeedback.html" class="case-nav-link right">
+      <a href="case-biomaterials.html" class="case-nav-link right">
         <span class="case-nav-dir">Next</span>
-        <span class="case-nav-name">Biofeedback Rehab Study</span>
+        <span class="case-nav-name">Artificial ACL Graft</span>
       </a>
     </nav>
 
-    <!-- ===== CTA ===== -->
+    <!-- CTA -->
     <section class="cta-section r">
-      <div class="cta-inner">
-        <h2 class="cta-title">Interested in this work?</h2>
-        <p class="cta-body">
-          I bring signal processing rigor, medical device regulatory depth, and a bias toward validation-before-build to every project. Looking for roles in wearable biomedtech, diagnostics, or neural interfaces.
-        </p>
-        <div class="btn-row">
-          <a href="index.html#contact" class="btn btn-primary">Get in touch</a>
-          <a href="index.html" class="btn btn-outline">Back to portfolio</a>
-        </div>
+      <h2 class="section-title r">Interested in this work?</h2>
+      <p class="cta-desc">Clinical data analysis, honest statistical reporting, and the ability to work with regulated healthcare databases. These are the skills I'd bring to a validation or clinical affairs team.</p>
+      <div class="cta-buttons">
+        <a href="index.html#contact" class="btn btn-primary">Get in touch</a>
       </div>
     </section>
 
+    <!-- Footer -->
+    <footer>
+      <p>&copy; <span class="footer-year">2026</span> Joneil Caoile · M.S. Biomedical Engineering · Stevens Institute of Technology · <a href="https://joneilcaoile.github.io">joneilcaoile.github.io</a></p>
+    </footer>
   </main>
 
   <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">&uarr;</button>
 
-  <footer>
-    <p>&copy; <span class="footer-year">2026</span> Joneil Caoile · M.S. Biomedical Engineering · Stevens Institute of Technology · <a href="https://joneilcaoile.github.io">joneilcaoile.github.io</a></p>
-  </footer>
-
   <script>
-    // GSAP scroll animations - wait for load to ensure defer scripts are ready
-    window.addEventListener('load', function() {
-    if (typeof gsap === 'undefined') {
-      document.querySelectorAll('.r').forEach(function(el) { el.style.opacity = 1; el.style.transform = 'none'; });
-      return;
-    }
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Progress bar
+    // Reading progress bar using CSS transform for performance
     function updateReadingProgress() {
-      const scrolled = window.scrollY;
-      const total = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = total > 0 ? scrolled / total : 0;
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? scrollTop / docHeight : 0;
       const progressBar = document.getElementById('reading-progress');
       progressBar.style.transform = `scaleX(${progress})`;
       progressBar.setAttribute('aria-valuenow', Math.round(progress * 100));
@@ -1406,33 +1233,37 @@
     window.addEventListener('scroll', updateReadingProgress, { passive: true });
     updateReadingProgress();
 
+    // GSAP scroll animations - guarded for defer timing
+    if (typeof gsap !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+
     // Fade in sections
-    gsap.utils.toArray('.r').forEach(el => {
+    gsap.utils.toArray('.section, .hero, .cta-section').forEach(el => {
       gsap.from(el, {
         opacity: 0,
-        y: 24,
-        duration: 0.6,
+        y: 30,
+        duration: 0.7,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: el,
           start: 'top 88%',
-          once: true,
-        },
+          once: true
+        }
       });
     });
 
-    // Stagger arch nodes
+    // Stagger architecture nodes
     gsap.from('.arch-node', {
       opacity: 0,
       y: 16,
       duration: 0.4,
-      stagger: 0.1,
+      stagger: 0.12,
       ease: 'power3.out',
       scrollTrigger: {
         trigger: '.arch',
         start: 'top 85%',
-        once: true,
-      },
+        once: true
+      }
     });
 
     // Stagger metric cards
@@ -1445,8 +1276,8 @@
       scrollTrigger: {
         trigger: '.metric-grid',
         start: 'top 88%',
-        once: true,
-      },
+        once: true
+      }
     });
 
     // Stagger standards cards
@@ -1457,10 +1288,10 @@
       stagger: 0.08,
       ease: 'power3.out',
       scrollTrigger: {
-        trigger: '.standards-grid',
+        trigger: '.standards',
         start: 'top 88%',
-        once: true,
-      },
+        once: true
+      }
     });
 
     // Stagger tech tags
@@ -1473,197 +1304,24 @@
       scrollTrigger: {
         trigger: '.tech-tags',
         start: 'top 90%',
-        once: true,
-      },
+        once: true
+      }
     });
 
-    // Stagger learning items
-    gsap.from('.learning-item', {
+    // Stagger problem/solution cards
+    gsap.from('.ps-card', {
       opacity: 0,
       y: 16,
       duration: 0.4,
-      stagger: 0.1,
+      stagger: 0.12,
       ease: 'power3.out',
       scrollTrigger: {
-        trigger: '.learnings-section',
-        start: 'top 85%',
-        once: true,
-      },
+        trigger: '.ps-grid',
+        start: 'top 88%',
+        once: true
+      }
     });
-    }); // end window load listener for GSAP
-
-    // ===== INTERACTIVE EMG FILTER DEMO =====
-    const canvas = document.getElementById('signal-canvas');
-    const ctx = canvas.getContext('2d');
-    const toggleBtn = document.getElementById('toggle-filter');
-    const freqValue = document.getElementById('freq-value');
-    const snrValue = document.getElementById('snr-value');
-    const classValue = document.getElementById('class-value');
-
-    // Set canvas resolution
-    function resizeCanvas() {
-      const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width * window.devicePixelRatio;
-      canvas.height = rect.height * window.devicePixelRatio;
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas, { passive: true });
-
-    let showFiltered = true;
-    let animationPhase = 0;
-    const sampleRate = 1000; // Hz
-    const tremor_freq = 5.8; // Hz (target signal)
-    const noise_freq = 60; // Hz (power line)
-    const drift_freq = 1.0; // Hz (motion artifact)
-
-    // Simple Butterworth bandpass coefficients (4-8 Hz, 6th order approximation)
-    const filterCoeffs = {
-      b: [0.00015, 0.0009, 0.00225, 0.003, 0.00225, 0.0009, 0.00015],
-      a: [1, -5.8, 14.88, -19.84, 14.5, -5.6, 0.86]
-    };
-
-    // Filter state (delay line for IIR filter)
-    let filterState = { y: [0, 0, 0, 0, 0, 0, 0], x: [0, 0, 0, 0, 0, 0, 0] };
-
-    // Simple IIR filter implementation
-    function applyButterworthFilter(sample) {
-      const { b, a } = filterCoeffs;
-      filterState.x.pop();
-      filterState.x.unshift(sample);
-
-      let y = 0;
-      for (let i = 0; i < b.length; i++) {
-        y += b[i] * filterState.x[i];
-      }
-      for (let i = 1; i < a.length; i++) {
-        y -= a[i] * filterState.y[i];
-      }
-      y /= a[0];
-
-      filterState.y.pop();
-      filterState.y.unshift(y);
-      return y;
-    }
-
-    function generateSignal(t) {
-      // Tremor component (5.8 Hz sine wave)
-      const tremor = 0.8 * Math.sin(2 * Math.PI * tremor_freq * t);
-
-      // 60 Hz power line noise
-      const noise = 0.5 * Math.sin(2 * Math.PI * noise_freq * t);
-
-      // Motion artifact (low-freq drift + random walk)
-      const drift = 0.3 * Math.sin(2 * Math.PI * drift_freq * t + Math.random() * 0.5);
-
-      // Return raw signal (all components mixed)
-      return tremor + noise + drift;
-    }
-
-    function drawGrid() {
-      const width = canvas.width / window.devicePixelRatio;
-      const height = canvas.height / window.devicePixelRatio;
-      const gridSpacingX = width / 10;
-      const gridSpacingY = height / 4;
-
-      ctx.strokeStyle = 'rgba(245, 243, 238, 0.08)';
-      ctx.lineWidth = 0.5;
-
-      for (let x = 0; x <= width; x += gridSpacingX) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, height);
-        ctx.stroke();
-      }
-
-      for (let y = 0; y <= height; y += gridSpacingY) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(width, y);
-        ctx.stroke();
-      }
-    }
-
-    function drawSignal(filteredSignal, alpha = 1) {
-      const width = canvas.width / window.devicePixelRatio;
-      const height = canvas.height / window.devicePixelRatio;
-      const centerY = height / 2;
-      const pixelsPerSample = width / 200;
-
-      ctx.globalAlpha = alpha;
-      ctx.lineWidth = 2;
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-
-      const color = filteredSignal ? 'rgba(198, 123, 46, 0.9)' : 'rgba(200, 200, 200, 0.8)';
-      ctx.strokeStyle = color;
-
-      ctx.beginPath();
-      for (let i = 0; i < 200; i++) {
-        const t = (animationPhase + i) / sampleRate;
-        let sample = generateSignal(t);
-
-        if (filteredSignal) {
-          sample = applyButterworthFilter(sample);
-        }
-
-        const x = i * pixelsPerSample;
-        const y = centerY - sample * (height / 4);
-
-        if (i === 0) {
-          ctx.moveTo(x, y);
-        } else {
-          ctx.lineTo(x, y);
-        }
-      }
-      ctx.stroke();
-      ctx.globalAlpha = 1;
-    }
-
-    function updateMetrics() {
-      if (showFiltered) {
-        freqValue.textContent = '5.8 Hz';
-        snrValue.textContent = '8.4 dB';
-        classValue.textContent = 'Tremor Detected';
-        classValue.style.color = 'rgba(76, 175, 80, 0.9)';
-      } else {
-        freqValue.textContent = 'N/A';
-        snrValue.textContent = '1.2 dB';
-        classValue.textContent = 'Too Noisy';
-        classValue.style.color = 'rgba(255, 152, 0, 0.9)';
-      }
-    }
-
-    function animate() {
-      const width = canvas.width / window.devicePixelRatio;
-      const height = canvas.height / window.devicePixelRatio;
-
-      ctx.fillStyle = '#0a0905';
-      ctx.fillRect(0, 0, width, height);
-
-      drawGrid();
-
-      if (showFiltered) {
-        drawSignal(false, 0.15);
-        drawSignal(true, 1);
-      } else {
-        drawSignal(false, 1);
-      }
-
-      animationPhase = (animationPhase + 1) % sampleRate;
-      updateMetrics();
-
-      requestAnimationFrame(animate);
-    }
-
-    toggleBtn.addEventListener('click', () => {
-      showFiltered = !showFiltered;
-      toggleBtn.classList.toggle('active');
-      const stateText = showFiltered ? 'Filtered Signal' : 'Raw Signal';
-      document.querySelector('.btn-state').textContent = stateText;
-    });
-
-    animate();
+    } // end gsap guard
 
     /* KEYBOARD NAVIGATION */
     const caseStudyNav = {
@@ -1678,7 +1336,7 @@
       'case-physiorep.html': { prev: 'case-biomaterials.html', next: 'case-pneumothorax.html' }
     };
 
-    const currentFile = window.location.pathname.split('/').pop() || 'case-emg.html';
+    const currentFile = window.location.pathname.split('/').pop() || 'case-fall.html';
     const nav = caseStudyNav[currentFile];
 
     document.addEventListener('keydown', (e) => {
@@ -1732,14 +1390,20 @@
   })();
   /* Dynamic footer year */
   (function(){ var el = document.querySelector('.footer-year'); if (el) el.textContent = new Date().getFullYear(); })();
-  // Tab title easter egg
-  document.addEventListener('visibilitychange', () => {
+  /* Tab title easter egg */
+  document.addEventListener('visibilitychange', function() {
     document.title = document.hidden
-      ? '⚡ Come back! The tremor data needs you.'
-      : "Parkinson's Tremor-Suppression EMG Cuff | Case Study | Joneil Caoile";
+      ? 'Come back! The fall data misses you.'
+      : 'Fall Study Reliability Tool | Case Study | Joneil Caoile';
   });
   </script>
 <script>
+/* Mouse spotlight */
+document.addEventListener('mousemove', function(e) {
+  document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
+  document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
+}, { passive: true });
+
 (function pageTransitions(){
   var ov=document.getElementById('pageTransition');if(!ov)return;
   document.addEventListener('click',function(e){
@@ -1896,31 +1560,24 @@
 })();
 </script>
 <script>
-/* Mouse spotlight */
-document.addEventListener('mousemove', function(e) {
-  document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
-  document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
-}, { passive: true });
-
 /* ANIMATED METRIC COUNTERS - numbers count up on scroll */
 (function() {
   var counters = document.querySelectorAll('[data-count-to]');
   if (!counters.length || typeof gsap === 'undefined') return;
   counters.forEach(function(el) {
     var target = parseFloat(el.dataset.countTo);
-    var isDecimal = target % 1 !== 0;
+    var decimals = parseInt(el.dataset.countDecimals) || 0;
     ScrollTrigger.create({
       trigger: el.closest('.metric-grid') || el,
       start: 'top 85%',
       once: true,
       onEnter: function() {
-        gsap.fromTo(el, { textContent: 0 }, {
-          textContent: target,
-          duration: 1.5,
+        gsap.to({ val: 0 }, {
+          val: target,
+          duration: 1.8,
           ease: 'power2.out',
-          snap: { textContent: isDecimal ? 0.001 : 1 },
           onUpdate: function() {
-            el.textContent = isDecimal ? parseFloat(el.textContent).toFixed(3) : Math.round(parseFloat(el.textContent));
+            el.textContent = this.targets()[0].val.toFixed(decimals);
           }
         });
       }
