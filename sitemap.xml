@@ -2,50 +2,67 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://joneilcaoile.github.io/</loc>
-    <lastmod>2026-04-04</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-04-13</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://joneilcaoile.github.io/tools.html</loc>
-    <lastmod>2026-04-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://joneilcaoile.github.io/case-usetrace.html</loc>
-    <lastmod>2026-04-01</lastmod>
-    <changefreq>monthly</changefreq>
+    <loc>https://joneilcaoile.github.io/case-pneumothorax.html</loc>
+    <lastmod>2026-04-12</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://joneilcaoile.github.io/case-photocull.html</loc>
-    <lastmod>2026-04-01</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-04-12</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://joneilcaoile.github.io/case-physiorep.html</loc>
-    <lastmod>2026-04-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://joneilcaoile.github.io/case-pneumothorax.html</loc>
-    <lastmod>2026-04-01</lastmod>
-    <changefreq>monthly</changefreq>
+    <loc>https://joneilcaoile.github.io/case-usetrace.html</loc>
+    <lastmod>2026-04-12</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://joneilcaoile.github.io/case-emg.html</loc>
-    <lastmod>2026-04-01</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-04-12</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://joneilcaoile.github.io/case-biofeedback.html</loc>
+    <lastmod>2026-04-11</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://joneilcaoile.github.io/case-fall.html</loc>
-    <lastmod>2026-04-01</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-04-12</lastmod>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://joneilcaoile.github.io/case-biostats.html</loc>
+    <lastmod>2026-04-11</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://joneilcaoile.github.io/case-biomaterials.html</loc>
+    <lastmod>2026-04-12</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://joneilcaoile.github.io/case-physiorep.html</loc>
+    <lastmod>2026-04-12</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://joneilcaoile.github.io/tools.html</loc>
+    <lastmod>2026-04-05</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://joneilcaoile.github.io/hfe-sample.html</loc>
+    <lastmod>2026-04-05</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://joneilcaoile.github.io/quest.html</loc>
+    <lastmod>2026-04-09</lastmod>
+    <priority>0.4</priority>
   </url>
 </urlset>

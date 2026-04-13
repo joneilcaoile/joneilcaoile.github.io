@@ -17,3 +17,10 @@ Desktop.ini
 # Backups
 *.bak
 *.backup
+
+# Large photo assets (use photos-web/ for optimized web versions)
+photos/
+_Trash__files__*
+
+# Internal audit docs
+AUDIT-*.md
