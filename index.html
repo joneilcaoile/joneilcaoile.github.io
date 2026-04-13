@@ -8173,7 +8173,28 @@ function triggerEvolution(fromName, toName) {
    BOOT SEQUENCE
    ═══════════════════════════════════════ */
 document.body.style.overflow = 'hidden';
-runLoader();
+
+/* ── Hash navigation: skip entrance overlay if URL has a hash ── */
+if (window.location.hash) {
+  /* Immediately hide entrance overlay and enter site */
+  DOM.entranceOverlay.style.display = 'none';
+  document.body.style.overflow = '';
+  if (!S.reducedMotion) initScrollReveals();
+  initParticleSystem();
+  initMagneticButtons();
+  awardXP(50, 'Welcome bonus');
+  setTimeout(function() { DOM.nav.classList.add('nav-visible'); }, 100);
+  setTimeout(function() { DOM.menuReopen.classList.add('visible'); }, 300);
+  /* Scroll to hash target after a brief paint delay */
+  setTimeout(function() {
+    var target = document.querySelector(window.location.hash);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, 200);
+} else {
+  runLoader();
+}
 
 })();
 
