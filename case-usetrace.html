@@ -97,6 +97,17 @@
   </script>
 
   <style>
+  .page-transition {
+    position: fixed; inset: 0; z-index: 99999;
+    background: #0F0E0C;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .page-transition.active {
+    opacity: 1;
+    pointer-events: all;
+  }
     /* VIEW TRANSITION API - smooth cross-document page transitions */
     @view-transition { navigation: auto; }
     ::view-transition-old(root) {
@@ -984,6 +995,7 @@
   <noscript><style>.r { opacity: 1 !important; transform: none !important; } .scroll-top { display: none !important; }</style></noscript>
 </head>
 <body>
+  <div class="page-transition" id="pageTransition" aria-hidden="true"></div>
 <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
 <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 <div class="nav-progress" id="navProgress" aria-hidden="true"></div>
@@ -1644,6 +1656,35 @@ document.addEventListener('mousemove', function(e) {
     if (!ticking) { requestAnimationFrame(updateIndicator); ticking = true; }
   }, { passive: true });
   updateIndicator();
+})();
+
+/* Page transition */
+(function(){
+  var overlay = document.getElementById('pageTransition');
+  if (!overlay) return;
+  if (sessionStorage.getItem('jc-page-transition')) {
+    overlay.style.opacity = '1';
+    overlay.style.pointerEvents = 'all';
+    overlay.style.transition = 'none';
+    requestAnimationFrame(function() {
+      overlay.style.transition = 'opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+      overlay.style.opacity = '0';
+      overlay.style.pointerEvents = 'none';
+    });
+    sessionStorage.removeItem('jc-page-transition');
+  }
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('a[href]');
+    if (!link) return;
+    var href = link.getAttribute('href');
+    if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('http') || href.endsWith('.pdf') || link.target === '_blank') return;
+    if (href.endsWith('.html') || href === '/' || href === '') {
+      e.preventDefault();
+      overlay.classList.add('active');
+      sessionStorage.setItem('jc-page-transition', '1');
+      setTimeout(function() { window.location.href = href; }, 350);
+    }
+  });
 })();
 </script>
 </body>

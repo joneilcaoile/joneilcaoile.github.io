@@ -260,6 +260,80 @@ section {
   background: var(--bg);
 }
 
+/* ── Page Transition Overlay ── */
+.page-transition {
+  position: fixed; inset: 0; z-index: 99999;
+  background: var(--bg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.page-transition.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ── Text Split Animation ── */
+.split-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+.split-word-inner {
+  display: inline-block;
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+/* ── By the Numbers Section ── */
+#numbers {
+  padding: clamp(48px, 8vh, 80px) 0;
+  background: linear-gradient(180deg, var(--bg) 0%, rgba(22,18,12,1) 100%);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+[data-theme="light"] #numbers {
+  background: linear-gradient(180deg, #F5F3EE 0%, #EDE9E0 100%);
+}
+.numbers-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  text-align: center;
+}
+.number-card {
+  padding: 24px 16px;
+  opacity: 0;
+  transform: translateY(20px);
+}
+.number-value {
+  font-family: var(--font-heading);
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 700;
+  color: var(--amber);
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.number-value .counter-suffix {
+  font-size: 0.7em;
+  color: var(--amber);
+  opacity: 0.8;
+}
+.number-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+@media (max-width: 768px) {
+  .numbers-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+}
+@media (max-width: 480px) {
+  .numbers-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .number-value { font-size: 32px; }
+}
+
 .section-label {
   font-family: var(--font-mono);
   font-size: 13px;
@@ -3776,6 +3850,7 @@ footer {
 </style>
 
 <body>
+<div class="page-transition" id="pageTransition" aria-hidden="true"></div>
 <a href="#main" class="skip-nav">Skip to content</a>
 
 <!-- Custom cursor -->
@@ -3924,6 +3999,30 @@ footer {
   <div class="scroll-indicator" aria-hidden="true">
     <span>scroll</span>
     <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ BY THE NUMBERS ═══════════════════════ -->
+<section id="numbers" aria-label="Key metrics">
+  <div class="container">
+    <div class="numbers-grid">
+      <div class="number-card">
+        <div class="number-value"><span class="counter" data-target="400" data-suffix="+">0</span><span class="counter-suffix">+</span></div>
+        <div class="number-label">Clinical hours</div>
+      </div>
+      <div class="number-card">
+        <div class="number-value"><span class="counter" data-target="9">0</span></div>
+        <div class="number-label">Device projects</div>
+      </div>
+      <div class="number-card">
+        <div class="number-value"><span class="counter" data-target="6">0</span></div>
+        <div class="number-label">Certifications</div>
+      </div>
+      <div class="number-card">
+        <div class="number-value"><span class="counter" data-target="2">0</span></div>
+        <div class="number-label">Engineering degrees</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -6533,6 +6632,109 @@ function initScrollReveals() {
     headingObserver.observe(h2);
   });
 
+  /* ── Text Split Animations (hero name + section headings) ── */
+  function splitWords(el) {
+    var text = el.textContent;
+    var html = '';
+    text.split(' ').forEach(function(word, i) {
+      html += '<span class="split-word"><span class="split-word-inner">' + word + '</span></span> ';
+    });
+    el.innerHTML = html.trim();
+    return el.querySelectorAll('.split-word-inner');
+  }
+
+  /* Hero name: word-by-word reveal */
+  var heroName = document.querySelector('.hero-name');
+  if (heroName) {
+    var nameWords = splitWords(heroName);
+    gsap.to(nameWords, {
+      y: 0,
+      opacity: 1,
+      duration: 0.8,
+      stagger: 0.12,
+      ease: 'expo.out',
+      delay: 0.2
+    });
+  }
+
+  /* Hero description: word-by-word reveal */
+  var heroDesc = document.querySelector('.hero-desc');
+  if (heroDesc) {
+    var descWords = splitWords(heroDesc);
+    gsap.to(descWords, {
+      y: 0,
+      opacity: 1,
+      duration: 0.6,
+      stagger: 0.03,
+      ease: 'power3.out',
+      delay: 0.8
+    });
+  }
+
+  /* ── By the Numbers: counter animation ── */
+  $$('.number-card').forEach(function(card) {
+    gsap.to(card, {
+      y: 0,
+      opacity: 1,
+      duration: 0.6,
+      ease: 'power2.out',
+      stagger: 0.1,
+      scrollTrigger: { trigger: '#numbers', start: 'top 80%', once: true }
+    });
+  });
+
+  /* Animate counter numbers */
+  $$('.counter').forEach(function(counter) {
+    var target = parseInt(counter.getAttribute('data-target'), 10);
+    var obj = { val: 0 };
+    gsap.to(obj, {
+      val: target,
+      duration: 1.8,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '#numbers',
+        start: 'top 80%',
+        once: true
+      },
+      onUpdate: function() {
+        counter.textContent = Math.round(obj.val);
+      }
+    });
+  });
+
+  /* Number cards stagger */
+  gsap.fromTo('.number-card',
+    { y: 30, opacity: 0 },
+    { y: 0, opacity: 1, duration: 0.6, stagger: 0.12, ease: 'power3.out',
+      scrollTrigger: { trigger: '#numbers', start: 'top 80%', once: true }
+    }
+  );
+
+  /* ── Hero Parallax: slow-scroll the particle canvas and hero orbs ── */
+  gsap.to('#particleCanvas', {
+    y: 200,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '#hero',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: true
+    }
+  });
+
+  $$('.hero-orb').forEach(function(orb, i) {
+    gsap.to(orb, {
+      y: 100 + i * 40,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true
+      }
+    });
+  });
+
   /* Refresh after all triggers are set up */
   ScrollTrigger.refresh();
 }
@@ -8213,6 +8415,47 @@ if (window.location.hash) {
   menu.querySelectorAll('.resume-item').forEach(function(a){
     a.addEventListener('mouseenter', function(){ a.style.background='rgba(255,255,255,.08)'; });
     a.addEventListener('mouseleave', function(){ a.style.background='transparent'; });
+  });
+})();
+
+/* ═══════════════════════════════════════
+   PAGE TRANSITIONS
+   ═══════════════════════════════════════ */
+(function(){
+  var overlay = document.getElementById('pageTransition');
+  if (!overlay) return;
+
+  /* Fade in on page load (if navigating from another page) */
+  if (performance.navigation && performance.navigation.type === 1) {
+    /* Normal reload, skip */
+  } else if (sessionStorage.getItem('jc-page-transition')) {
+    overlay.style.opacity = '1';
+    overlay.style.pointerEvents = 'all';
+    overlay.style.transition = 'none';
+    requestAnimationFrame(function() {
+      overlay.style.transition = 'opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+      overlay.style.opacity = '0';
+      overlay.style.pointerEvents = 'none';
+    });
+    sessionStorage.removeItem('jc-page-transition');
+  }
+
+  /* Intercept internal link clicks for smooth fade-out */
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('a[href]');
+    if (!link) return;
+    var href = link.getAttribute('href');
+    /* Skip hash links, external links, new tabs, PDFs */
+    if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('http') || href.endsWith('.pdf') || link.target === '_blank') return;
+    /* Only intercept internal .html links */
+    if (href.endsWith('.html') || href === '/' || href === '') {
+      e.preventDefault();
+      overlay.classList.add('active');
+      sessionStorage.setItem('jc-page-transition', '1');
+      setTimeout(function() {
+        window.location.href = href;
+      }, 350);
+    }
   });
 })();
 </script>
