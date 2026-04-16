@@ -1,11 +1,10 @@
 User-agent: *
 Allow: /
 Disallow: /Joneil_Caoile_Resume.pdf
-Disallow: /index-backup.html
-Disallow: /index-v1-backup.html
-Disallow: /index-v2.html
-Disallow: /index-v3.html
-Disallow: /index-v4.html
+Disallow: /Joneil_Caoile_Resume_Applications_Engineer.pdf
+Disallow: /Joneil_Caoile_Resume_Human_Factors_Engineer.pdf
+Disallow: /Joneil_Caoile_Resume_RnD_Engineer.pdf
+Disallow: /Joneil_Caoile_Resume_Validation_Engineer.pdf
 Disallow: /hfe-sample.html
 Disallow: /pixel-team.html
 

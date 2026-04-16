@@ -4,14 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Joneil Caoile | Biomedical Engineer</title>
-  <meta name="description" content="M.S. Biomedical Engineering portfolio. Device validation, human factors, and engineering tools for medtech. Available May 2026 in SoCal.">
-  <meta name="keywords" content="biomedical engineer, medical device, validation, human factors, usability, IEC 62366, FDA, SoCal">
+  <meta name="description" content="Joneil Caoile, M.S. Biomedical Engineering. Device validation, human factors, and regulatory compliance for medtech. Validation Engineer, Applications Engineer. Available May 2026 in Southern California.">
+  <meta name="keywords" content="biomedical engineer, medical device, validation engineer, applications engineer, human factors, usability, IEC 62366, FDA, 21 CFR 820, SoCal, Southern California, Torrance, Los Angeles, medtech">
   <meta name="author" content="Joneil Caoile">
   <meta name="theme-color" content="#0F0E0C">
+  <meta name="color-scheme" content="dark light">
+
+  <!-- Security headers -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io;">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
 
   <!-- Open Graph -->
   <meta property="og:title" content="Joneil Caoile | Biomedical Engineer">
-  <meta property="og:description" content="Device validation, human factors, and engineering tools for medtech.">
+  <meta property="og:description" content="M.S. Biomedical Engineering. Device validation, human factors, and regulatory compliance for medtech. Available May 2026 in SoCal.">
   <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -19,7 +26,7 @@
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Joneil Caoile | Biomedical Engineer">
-  <meta name="twitter:description" content="Device validation, human factors, and engineering tools for medtech.">
+  <meta name="twitter:description" content="M.S. Biomedical Engineering. Device validation, human factors, and regulatory compliance for medtech. Available May 2026 in SoCal.">
   <meta name="twitter:image" content="https://joneilcaoile.github.io/og-preview.png">
 
   <!-- Favicon -->
@@ -27,16 +34,27 @@
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
+  <!-- Canonical -->
+  <link rel="canonical" href="https://joneilcaoile.github.io/">
+
+  <!-- Prevent flash of wrong theme -->
+  <script>
+    (function(){try{var t=localStorage.getItem('jc-theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');else if(!t&&window.matchMedia('(prefers-color-scheme:light)').matches)document.documentElement.setAttribute('data-theme','light');}catch(e){}})();
+  </script>
+
+  <!-- Preload LCP image -->
+  <link rel="preload" href="headshot.webp" as="image" type="image/webp">
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- GSAP -->
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+  <!-- GSAP (SRI-pinned to 3.12.5 on cdnjs) -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js" integrity="sha384-RVPQwTb0fPz9kI8s5GwAq1Qioto9fnEQt1aKGSQSm8xV6+DIdBSgcCShoHqfKnhv" crossorigin="anonymous"></script>
 
   <!-- JSON-LD -->
   <script type="application/ld+json">
@@ -45,12 +63,26 @@
     "@type": "Person",
     "name": "Joneil Caoile",
     "url": "https://joneilcaoile.github.io",
+    "image": "https://joneilcaoile.github.io/headshot.webp",
     "jobTitle": "Biomedical Engineer",
+    "description": "M.S. Biomedical Engineering specializing in device validation, human factors, and regulatory compliance for medtech. Available May 2026 in Southern California.",
+    "email": "joneilcaoile@gmail.com",
+    "telephone": "+1-424-421-9173",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Torrance",
+      "addressRegion": "CA",
+      "addressCountry": "US"
+    },
     "alumniOf": [
-      {"@type": "CollegeOrUniversity", "name": "Stevens Institute of Technology"},
+      {"@type": "CollegeOrUniversity", "name": "Stevens Institute of Technology", "department": "Biomedical Engineering"},
       {"@type": "CollegeOrUniversity", "name": "California State University, Long Beach"}
     ],
-    "knowsAbout": ["Medical Devices", "Human Factors Engineering", "Validation", "IEC 62366-1", "FDA Design Controls"]
+    "knowsAbout": ["Medical Devices", "Human Factors Engineering", "Validation", "IEC 62366-1", "FDA Design Controls", "21 CFR 820", "Usability Testing"],
+    "sameAs": [
+      "https://linkedin.com/in/joneilcaoile",
+      "https://github.com/joneilcaoile"
+    ]
   }
   </script>
 </head>
@@ -124,8 +156,8 @@
   --text: #1A1916;
   --text-secondary: rgba(26,25,22,0.65);
   --text-muted: rgba(26,25,22,0.45);
-  --amber: #A86820;
-  --amber-glow: rgba(168,104,32,0.1);
+  --amber: #8A5518;
+  --amber-glow: rgba(138,85,24,0.1);
   --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
   --shadow-md: 0 4px 24px rgba(0,0,0,0.08);
   --shadow-lg: 0 8px 48px rgba(0,0,0,0.12);
@@ -151,6 +183,20 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Focus-visible: visible keyboard focus ring, hidden for mouse */
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+a:focus-visible { outline-offset: 2px; }
+button:focus-visible { outline-offset: 2px; }
+
+/* Dark theme body text: bump weight to counter halation */
+body { font-variation-settings: "wght" 420; letter-spacing: 0.01em; }
+[data-theme="light"] body { font-variation-settings: "wght" 400; letter-spacing: 0; }
 
 /* Mouse spotlight overlay */
 body::before {
@@ -230,6 +276,13 @@ img { max-width: 100%; height: auto; display: block; }
 section {
   padding: var(--section-pad) 0;
   position: relative;
+  contain: layout paint;
+}
+
+/* Defer rendering of off-screen sections for faster initial paint */
+#bring, #work, #toolkit, #journey, #skills-matrix, #criteria, #contact {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
 }
 
 /* Alternating section depth + color journey */
@@ -526,7 +579,7 @@ section h2 {
   display: flex; align-items: center;
   padding: 0 clamp(20px, 5vw, 48px);
   background: transparent;
-  transition: background 0.3s var(--ease), box-shadow 0.3s var(--ease), height 0.3s var(--ease), opacity 0.6s var(--ease), transform 0.6s var(--ease);
+  transition: background 0.3s var(--ease), box-shadow 0.3s var(--ease), height 0.3s var(--ease), opacity 0.3s var(--ease), transform 0.3s var(--ease);
   opacity: 0;
   transform: translateY(-10px);
 }
@@ -605,10 +658,12 @@ section h2 {
   position: absolute; bottom: -4px; left: 0; right: 0;
   height: 2px; background: var(--amber);
   transform: scaleX(0);
-  transition: transform 0.2s var(--ease);
+  transform-origin: left;
+  transition: transform 0.25s var(--ease);
 }
 
 .nav-links a:hover::after,
+.nav-links a:focus-visible::after,
 .nav-links a.active::after { transform: scaleX(1); }
 
 /* Theme toggle */
@@ -1360,6 +1415,22 @@ section h2 {
   gap: 24px;
 }
 
+/* Horizontal scroll gallery on desktop */
+@media (min-width: 901px) {
+  #work { overflow: hidden; }
+  .work-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 28px;
+    width: max-content;
+    will-change: transform;
+  }
+  .work-card {
+    flex: 0 0 380px;
+    max-width: 380px;
+  }
+}
+
 .work-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -1433,7 +1504,7 @@ section h2 {
   box-shadow: 0 0 12px rgba(198,123,46,0.2);
 }
 .pipe-label {
-  font-size: 9px; font-family: var(--font-mono);
+  font-size: 10px; font-family: var(--font-mono);
   color: var(--text-muted); text-transform: uppercase;
   letter-spacing: 0.5px; white-space: nowrap;
   max-width: 80px; text-align: center;
@@ -2186,7 +2257,19 @@ tr.sk-data td:first-child { border-left: 3px solid #FFB74D; }
   transition: color 0.2s;
 }
 
+.contact-link a {
+  position: relative;
+}
+.contact-link a::after {
+  content: '';
+  position: absolute; bottom: -1px; left: 0; right: 0;
+  height: 1px; background: var(--amber);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s var(--ease);
+}
 .contact-link:hover { color: var(--amber); }
+.contact-link:hover a::after { transform: scaleX(1); }
 
 .contact-link-label {
   font-family: var(--font-mono);
@@ -2223,7 +2306,7 @@ tr.sk-data td:first-child { border-left: 3px solid #FFB74D; }
   outline: none;
   border-color: var(--amber);
   box-shadow: 0 0 0 3px var(--amber-glow), 0 0 20px rgba(198,123,46,0.1);
-  animation: input-glow 2s ease-in-out infinite;
+  animation: input-glow 2s ease-in-out 2;
 }
 @keyframes input-glow {
   0%, 100% { box-shadow: 0 0 0 3px var(--amber-glow), 0 0 20px rgba(198,123,46,0.1); }
@@ -2293,6 +2376,11 @@ footer {
   transform: translateY(calc(-50% - 2px));
 }
 
+.footer-cta {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
 .footer-links {
   display: flex; justify-content: center; gap: 24px;
   margin-bottom: 12px;
@@ -2301,9 +2389,18 @@ footer {
 .footer-links a {
   font-size: 13px;
   color: var(--text-secondary);
+  position: relative;
 }
-
+.footer-links a::after {
+  content: '';
+  position: absolute; bottom: -2px; left: 0; right: 0;
+  height: 1px; background: var(--amber);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s var(--ease);
+}
 .footer-links a:hover { color: var(--amber); }
+.footer-links a:hover::after { transform: scaleX(1); }
 
 /* ═══════════════════════════════════════
    GAME MENU
@@ -2696,7 +2793,7 @@ footer {
 
 .pet-name {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 10px;
   color: var(--amber);
   text-align: center;
   white-space: nowrap;
@@ -2907,6 +3004,11 @@ footer {
    ═══════════════════════════════════════ */
 @media (pointer: fine) {
   html, html * { cursor: none; }
+  /* Restore native cursors on interactive elements for accessibility */
+  input, textarea, select, [contenteditable] { cursor: text; }
+  input[type="submit"], input[type="button"], input[type="checkbox"],
+  input[type="radio"], input[type="range"], button, a, label[for],
+  summary, [role="button"] { cursor: pointer; }
 }
 
 .cursor-dot {
@@ -3006,7 +3108,8 @@ footer {
     margin-bottom: 4px;
   }
 
-  .work-grid { grid-template-columns: 1fr; }
+  .work-grid { display: grid; grid-template-columns: 1fr; width: auto; flex-wrap: wrap; }
+  .work-card { flex: none; max-width: none; }
   .career-paths { grid-template-columns: repeat(2, 1fr); }
 
   .featured-card { padding: 28px 20px; }
@@ -4297,6 +4400,7 @@ footer {
             <span class="work-card-tag">EMG Processing</span>
             <span class="work-card-tag">Control Systems</span>
             <span class="work-card-tag">Python</span>
+            <span class="work-card-tag">Class II Device Concept</span>
           </div>
           <div class="work-card-links">
             <a href="case-emg.html">Case Study →</a>
@@ -4329,7 +4433,7 @@ footer {
             <span class="work-card-tag">MATLAB</span>
             <span class="work-card-tag">OptiTrack</span>
             <span class="work-card-tag">Max/MSP</span>
-            <span class="work-card-tag">Signal Processing</span>
+            <span class="work-card-tag">Usability Testing</span>
           </div>
           <div class="work-card-links">
             <a href="case-biofeedback.html">Case Study →</a>
@@ -4361,8 +4465,8 @@ footer {
           <div class="work-card-tags">
             <span class="work-card-tag">Python</span>
             <span class="work-card-tag">SQLite</span>
-            <span class="work-card-tag">Statistical Analysis</span>
-            <span class="work-card-tag">Qualtrics</span>
+            <span class="work-card-tag">Inter-Rater Reliability</span>
+            <span class="work-card-tag">V&V Methods</span>
           </div>
           <div class="work-card-links">
             <a href="case-fall.html">Case Study →</a>
@@ -4837,6 +4941,9 @@ footer {
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12V4M4 7l4-4 4 4"/></svg>
       </button>
     </div>
+    <div class="footer-cta">
+      <a href="#contact" class="btn btn--primary" style="font-size:14px;padding:10px 24px;">Let's talk</a>
+    </div>
     <div class="footer-links">
       <a href="https://linkedin.com/in/joneilcaoile" target="_blank" rel="noopener">LinkedIn</a>
       <a href="https://github.com/joneilcaoile" target="_blank" rel="noopener">GitHub</a>
@@ -4916,7 +5023,7 @@ function lsSet(key, val) {
 
 /* ─── State ─── */
 const S = {
-  theme: ls('jc-theme') || 'dark',
+  theme: ls('jc-theme') || (matchMedia('(prefers-color-scheme:light)').matches ? 'light' : 'dark'),
   particles: ls('jc-particles') !== 'off',
   crt: ls('jc-crt') === 'on',
   xp: parseInt(ls('jc-xp')) || 0,
@@ -6354,8 +6461,9 @@ function initParticleSystem() {
 /* ═══════════════════════════════════════
    6. NAVIGATION
    ═══════════════════════════════════════ */
-/* Scroll behavior: shrink nav + progress bar */
+/* Scroll behavior: shrink nav + progress bar + direction-aware hide/show */
 let ticking = false;
+let lastSy = 0;
 window.addEventListener('scroll', () => {
   if (ticking) return;
   ticking = true;
@@ -6364,6 +6472,18 @@ window.addEventListener('scroll', () => {
     DOM.nav.classList.toggle('scrolled', sy > 60);
     const docH = document.documentElement.scrollHeight - window.innerHeight;
     DOM.scrollFill.style.transform = `scaleX(${docH > 0 ? sy / docH : 0})`;
+
+    /* Hide nav on scroll down, show on scroll up (only after passing hero) */
+    if (sy > 400) {
+      if (sy > lastSy + 8) {
+        DOM.nav.style.transform = 'translateY(-100%)';
+      } else if (sy < lastSy - 4) {
+        DOM.nav.style.transform = 'translateY(0)';
+      }
+    } else {
+      DOM.nav.style.transform = 'translateY(0)';
+    }
+    lastSy = sy;
 
     /* Hero parallax depth (after entrance animation completes) */
     if (sy < window.innerHeight && document.body.classList.contains('hero-ready')) {
@@ -6382,6 +6502,7 @@ DOM.hamburger.addEventListener('click', () => {
   const open = DOM.hamburger.classList.toggle('open');
   DOM.mobileMenu.classList.toggle('open', open);
   DOM.hamburger.setAttribute('aria-expanded', open);
+  document.body.style.overflow = open ? 'hidden' : '';
 });
 
 /* Close mobile on link click */
@@ -6389,7 +6510,19 @@ $$('.mm-link').forEach(a => a.addEventListener('click', () => {
   DOM.hamburger.classList.remove('open');
   DOM.mobileMenu.classList.remove('open');
   DOM.hamburger.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
 }));
+
+/* Escape key closes mobile menu */
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && DOM.mobileMenu.classList.contains('open')) {
+    DOM.hamburger.classList.remove('open');
+    DOM.mobileMenu.classList.remove('open');
+    DOM.hamburger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    DOM.hamburger.focus();
+  }
+});
 
 /* ── Hero entrance complete flag (enables parallax) ── */
 setTimeout(function() { document.body.classList.add('hero-ready'); }, 1500);
@@ -6536,13 +6669,95 @@ function initScrollReveals() {
     }
   );
 
-  /* Stagger work cards with scale entrance */
-  gsap.fromTo('.work-card',
-    { y: 60, opacity: 0, scale: 0.92 },
-    { y: 0, opacity: 1, scale: 1, duration: 0.7, stagger: 0.12, ease: 'power3.out',
-      scrollTrigger: { trigger: '.work-grid', start: 'top 85%', once: true }
+  /* Horizontal scroll gallery on desktop, stagger on mobile */
+  (function() {
+    var workGrid = document.querySelector('.work-grid');
+    var workCards = document.querySelectorAll('.work-card');
+    if (!workGrid || !workCards.length) return;
+
+    if (window.innerWidth > 900) {
+      /* Make cards visible immediately (no opacity reveal needed) */
+      workCards.forEach(function(c) { c.style.opacity = '1'; c.style.transform = 'none'; c.classList.remove('r'); });
+
+      /* Calculate scroll distance */
+      var scrollDist = workGrid.scrollWidth - workGrid.parentElement.offsetWidth;
+
+      var workST = gsap.to(workGrid, {
+        x: -scrollDist,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#work',
+          start: 'top 10%',
+          end: function() { return '+=' + scrollDist; },
+          pin: true,
+          scrub: 1,
+          invalidateOnRefresh: true,
+          anticipatePin: 1
+        }
+      });
+
+      /* ── Click-and-drag for horizontal gallery ── */
+      (function() {
+        var dragActive = false, startX = 0, startScroll = 0;
+        var workSection = document.getElementById('work');
+        if (!workSection) return;
+
+        workSection.style.cursor = 'grab';
+
+        function onPointerDown(e) {
+          /* Only activate when gallery is pinned */
+          var st = workST.scrollTrigger;
+          if (!st || !st.isActive) return;
+          dragActive = true;
+          startX = e.touches ? e.touches[0].clientX : e.clientX;
+          startScroll = window.pageYOffset;
+          workSection.style.cursor = 'grabbing';
+          workSection.style.userSelect = 'none';
+        }
+
+        function onPointerMove(e) {
+          if (!dragActive) return;
+          var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+          var dx = startX - clientX;
+          /* Map horizontal drag to vertical scroll (GSAP scrub reads scroll position) */
+          window.scrollTo(0, startScroll + dx);
+          /* Prevent text selection and default touch scroll */
+          if (e.cancelable) e.preventDefault();
+        }
+
+        function onPointerUp() {
+          if (!dragActive) return;
+          dragActive = false;
+          workSection.style.cursor = 'grab';
+          workSection.style.userSelect = '';
+        }
+
+        workSection.addEventListener('mousedown', onPointerDown);
+        workSection.addEventListener('touchstart', onPointerDown, { passive: true });
+        document.addEventListener('mousemove', onPointerMove);
+        document.addEventListener('touchmove', onPointerMove, { passive: false });
+        document.addEventListener('mouseup', onPointerUp);
+        document.addEventListener('touchend', onPointerUp);
+
+        /* Prevent click on cards after drag */
+        workSection.addEventListener('click', function(e) {
+          if (Math.abs(window.pageYOffset - startScroll) > 5) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        }, true);
+      })();
+
+    } else {
+      /* Mobile: stagger entrance */
+      gsap.fromTo('.work-card',
+        { y: 60, opacity: 0, scale: 0.92 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.7, stagger: 0.12, ease: 'power3.out',
+          scrollTrigger: { trigger: '.work-grid', start: 'top 85%', once: true }
+        }
+      );
     }
-  );
+  })();
 
   /* Timeline stagger */
   gsap.to('.timeline-item', {
@@ -6635,11 +6850,18 @@ function initScrollReveals() {
   /* ── Text Split Animations (hero name + section headings) ── */
   function splitWords(el) {
     var text = el.textContent;
-    var html = '';
-    text.split(' ').forEach(function(word, i) {
-      html += '<span class="split-word"><span class="split-word-inner">' + word + '</span></span> ';
+    var words = text.split(' ').filter(function(w){ return w.length > 0; });
+    el.textContent = '';
+    words.forEach(function(word, i) {
+      var outer = document.createElement('span');
+      outer.className = 'split-word';
+      var inner = document.createElement('span');
+      inner.className = 'split-word-inner';
+      inner.textContent = word;
+      outer.appendChild(inner);
+      el.appendChild(outer);
+      if (i < words.length - 1) el.appendChild(document.createTextNode(' '));
     });
-    el.innerHTML = html.trim();
     return el.querySelectorAll('.split-word-inner');
   }
 
@@ -7983,14 +8205,15 @@ if (!S.isMobile && !S.reducedMotion) {
       const r = card.getBoundingClientRect();
       const x = (e.clientX - r.left) / r.width - 0.5;
       const y = (e.clientY - r.top) / r.height - 0.5;
-      card.style.transform = `perspective(800px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateZ(8px)`;
+      /* Include the hover lift (-6px) so CSS hover and JS tilt don't fight */
+      card.style.transform = `perspective(800px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateY(-6px) translateZ(8px)`;
       card.style.setProperty('--card-mouse-x', (e.clientX - r.left) + 'px');
       card.style.setProperty('--card-mouse-y', (e.clientY - r.top) + 'px');
     });
     card.addEventListener('mouseleave', () => {
       card.style.transform = '';
-      card.style.transition = 'transform 0.4s ease';
-      setTimeout(() => card.style.transition = '', 400);
+      card.style.transition = 'transform 0.3s ease';
+      setTimeout(() => card.style.transition = '', 300);
     });
   });
 }

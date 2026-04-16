@@ -17,6 +17,13 @@ Desktop.ini
 # Backups
 *.bak
 *.backup
+*.backup.html
+*-backup.html
+index-v[0-9]*.html
+
+# Node
+node_modules/
+npm-debug.log*
 
 # Large photo assets (use photos-web/ for optimized web versions)
 photos/
@@ -24,3 +31,4 @@ _Trash__files__*
 
 # Internal audit docs
 AUDIT-*.md
+portfolio-audit-*.txt
