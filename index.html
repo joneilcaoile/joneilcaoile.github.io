@@ -2706,9 +2706,9 @@ footer {
   font-size: 11px;
   color: var(--amber);
   cursor: pointer;
-  opacity: 0;
-  transform: translateY(-10px);
-  pointer-events: none;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
   transition: opacity 0.4s, transform 0.4s var(--ease);
 }
 .menu-reopen.visible {
@@ -2996,7 +2996,8 @@ footer {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .floating-pet { display: none; }
+  /* Keep the pet visible for reduced-motion users. Animation is canvas-based and subtle.
+     Only hide the settings panel which has heavier transitions. */
   .pet-panel { display: none !important; }
 }
 
@@ -4308,70 +4309,35 @@ footer {
     <h2 class="r">Eight more projects. Zero fluff.</h2>
     <div class="work-grid">
 
-      <!-- PhotoCull AI -->
+      <!-- Biofeedback Study -->
       <div class="work-card r">
-        <div class="work-card-visual" style="background:linear-gradient(145deg, #1a1229 0%, #2a1640 40%, #1a2040 100%)">
+        <div class="work-card-visual" style="background:linear-gradient(145deg, #0a1a14 0%, #0e2a1e 40%, #10201a 100%)">
           <div class="pipeline">
-            <div class="pipe-node"><div class="pipe-icon">🖼️</div><div class="pipe-label">Raw Photos</div></div>
+            <div class="pipe-node"><div class="pipe-icon">🎯</div><div class="pipe-label">Motion Cap</div></div>
             <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
-            <div class="pipe-node"><div class="pipe-icon">🔬</div><div class="pipe-label">10-Dim Scoring</div></div>
+            <div class="pipe-node"><div class="pipe-icon">🔊</div><div class="pipe-label">Audio Cue</div></div>
             <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
-            <div class="pipe-node"><div class="pipe-icon">⭐</div><div class="pipe-label">Quality Rank</div></div>
+            <div class="pipe-node"><div class="pipe-icon">🦵</div><div class="pipe-label">Knee Align</div></div>
           </div>
         </div>
         <div class="work-card-body">
           <div class="work-card-meta">
-            <span class="work-card-rarity rarity--epic">EPIC</span>
-            <span class="work-card-category">CV / ML</span>
+            <span class="work-card-rarity rarity--rare">RARE</span>
+            <span class="work-card-category">Biofeedback / HFE</span>
           </div>
-          <h3>PhotoCull AI</h3>
-          <p>Free, local-only photo quality scorer. Analyzes sharpness, faces, duplicates, and composition across 10 dimensions. Built it because I got tired of paying $10/month for Aftershoot.</p>
-          <div class="work-card-outcome">10-dimension scoring model · 100% client-side, zero data leaves the browser</div>
-          <div class="work-card-roles"><span class="work-card-role">R&D</span><span class="work-card-role">Applications</span></div>
-          <div class="work-card-evidence">2,754 lines · ML model trained with differential evolution + 5-fold cross-validation</div>
+          <h3>Biofeedback Rehab Study</h3>
+          <p>Motion-capture study testing real-time audio feedback to improve knee alignment during Taekwondo kicks. Led a 4-person team through study design, test execution, and data analysis. Essentially usability testing for a biofeedback system.</p>
+          <div class="work-card-outcome">3 athletes · 15 kick trials · Validated audio feedback against ground-truth motion data</div>
+          <div class="work-card-roles"><span class="work-card-role">Human Factors</span><span class="work-card-role">R&D</span><span class="work-card-role">Validation</span></div>
+          <div class="work-card-evidence">OptiTrack motion capture · EMG + joint-angle analysis in MATLAB · Max/MSP audio feedback system</div>
           <div class="work-card-tags">
-            <span class="work-card-tag">JavaScript</span>
-            <span class="work-card-tag">TensorFlow.js</span>
-            <span class="work-card-tag">Client-side ML</span>
-            <span class="work-card-tag">Open source</span>
+            <span class="work-card-tag">MATLAB</span>
+            <span class="work-card-tag">OptiTrack</span>
+            <span class="work-card-tag">Max/MSP</span>
+            <span class="work-card-tag">Usability Testing</span>
           </div>
           <div class="work-card-links">
-            <a href="case-photocull.html">Case Study →</a>
-            <a href="https://github.com/joneilcaoile/photocull-ai" target="_blank" rel="noopener">GitHub</a>
-            <a href="https://joneilcaoile.github.io/photocull-ai/photo-culler.html" target="_blank" rel="noopener">Live Demo</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- UseTrace HFE -->
-      <div class="work-card r">
-        <div class="work-card-visual" style="background:linear-gradient(145deg, #0d1a1a 0%, #0a2628 40%, #102020 100%)">
-          <div class="pipeline">
-            <div class="pipe-node"><div class="pipe-icon">📋</div><div class="pipe-label">Task Analysis</div></div>
-            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
-            <div class="pipe-node"><div class="pipe-icon">🤖</div><div class="pipe-label">Auto-Classify</div></div>
-            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
-            <div class="pipe-node"><div class="pipe-icon">📄</div><div class="pipe-label">HFE Report</div></div>
-          </div>
-        </div>
-        <div class="work-card-body">
-          <div class="work-card-meta">
-            <span class="work-card-rarity rarity--legendary">★ LEGENDARY</span>
-            <span class="work-card-category">HFE / Regulatory Tool</span>
-          </div>
-          <h3>UseTrace HFE</h3>
-          <p>AI-powered tool that automates the worst parts of HFE documentation: task analysis tables, use error categorization under IEC 62366-1, and simulated-use protocol generation. Built because I watched a safety engineer spend 3 hours reformatting a risk table in Word.</p>
-          <div class="work-card-outcome">Turns weeks of manual HFE formatting into hours · Engineer stays in control of all judgment calls</div>
-          <div class="work-card-roles"><span class="work-card-role">Validation</span><span class="work-card-role">Human Factors</span><span class="work-card-role">Applications</span></div>
-          <div class="work-card-evidence">Python CLI tool · IEC 62366-1 taxonomy · Inter-rater reliability metrics · Validated against 12 CFR requirements</div>
-          <div class="work-card-tags">
-            <span class="work-card-tag">Python</span>
-            <span class="work-card-tag">IEC 62366-1</span>
-            <span class="work-card-tag">FDA 510(k)</span>
-            <span class="work-card-tag">NLP</span>
-          </div>
-          <div class="work-card-links">
-            <a href="case-usetrace.html">Case Study →</a>
+            <a href="case-biofeedback.html">Case Study →</a>
           </div>
         </div>
       </div>
@@ -4405,39 +4371,6 @@ footer {
           </div>
           <div class="work-card-links">
             <a href="case-emg.html">Case Study →</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Biofeedback Study -->
-      <div class="work-card r">
-        <div class="work-card-visual" style="background:linear-gradient(145deg, #0a1a14 0%, #0e2a1e 40%, #10201a 100%)">
-          <div class="pipeline">
-            <div class="pipe-node"><div class="pipe-icon">🎯</div><div class="pipe-label">Motion Cap</div></div>
-            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
-            <div class="pipe-node"><div class="pipe-icon">🔊</div><div class="pipe-label">Audio Cue</div></div>
-            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
-            <div class="pipe-node"><div class="pipe-icon">🦵</div><div class="pipe-label">Knee Align</div></div>
-          </div>
-        </div>
-        <div class="work-card-body">
-          <div class="work-card-meta">
-            <span class="work-card-rarity rarity--rare">RARE</span>
-            <span class="work-card-category">Biofeedback / HFE</span>
-          </div>
-          <h3>Biofeedback Rehab Study</h3>
-          <p>Motion-capture study testing real-time audio feedback to improve knee alignment during Taekwondo kicks. Led a 4-person team through study design, test execution, and data analysis. Essentially usability testing for a biofeedback system.</p>
-          <div class="work-card-outcome">3 athletes · 15 kick trials · Validated audio feedback against ground-truth motion data</div>
-          <div class="work-card-roles"><span class="work-card-role">Human Factors</span><span class="work-card-role">R&D</span><span class="work-card-role">Validation</span></div>
-          <div class="work-card-evidence">OptiTrack motion capture · EMG + joint-angle analysis in MATLAB · Max/MSP audio feedback system</div>
-          <div class="work-card-tags">
-            <span class="work-card-tag">MATLAB</span>
-            <span class="work-card-tag">OptiTrack</span>
-            <span class="work-card-tag">Max/MSP</span>
-            <span class="work-card-tag">Usability Testing</span>
-          </div>
-          <div class="work-card-links">
-            <a href="case-biofeedback.html">Case Study →</a>
           </div>
         </div>
       </div>
@@ -4541,6 +4474,41 @@ footer {
         </div>
       </div>
 
+      <!-- PhotoCull AI -->
+      <div class="work-card r">
+        <div class="work-card-visual" style="background:linear-gradient(145deg, #1a1229 0%, #2a1640 40%, #1a2040 100%)">
+          <div class="pipeline">
+            <div class="pipe-node"><div class="pipe-icon">🖼️</div><div class="pipe-label">Raw Photos</div></div>
+            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
+            <div class="pipe-node"><div class="pipe-icon">🔬</div><div class="pipe-label">10-Dim Scoring</div></div>
+            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
+            <div class="pipe-node"><div class="pipe-icon">⭐</div><div class="pipe-label">Quality Rank</div></div>
+          </div>
+        </div>
+        <div class="work-card-body">
+          <div class="work-card-meta">
+            <span class="work-card-rarity rarity--epic">EPIC</span>
+            <span class="work-card-category">CV / ML</span>
+          </div>
+          <h3>PhotoCull AI</h3>
+          <p>Free, local-only photo quality scorer. Analyzes sharpness, faces, duplicates, and composition across 10 dimensions. Built it because I got tired of paying $10/month for Aftershoot.</p>
+          <div class="work-card-outcome">10-dimension scoring model · 100% client-side, zero data leaves the browser</div>
+          <div class="work-card-roles"><span class="work-card-role">R&D</span><span class="work-card-role">Applications</span></div>
+          <div class="work-card-evidence">2,754 lines · ML model trained with differential evolution + 5-fold cross-validation</div>
+          <div class="work-card-tags">
+            <span class="work-card-tag">JavaScript</span>
+            <span class="work-card-tag">TensorFlow.js</span>
+            <span class="work-card-tag">Client-side ML</span>
+            <span class="work-card-tag">Open source</span>
+          </div>
+          <div class="work-card-links">
+            <a href="case-photocull.html">Case Study →</a>
+            <a href="https://github.com/joneilcaoile/photocull-ai" target="_blank" rel="noopener">GitHub</a>
+            <a href="https://joneilcaoile.github.io/photocull-ai/photo-culler.html" target="_blank" rel="noopener">Live Demo</a>
+          </div>
+        </div>
+      </div>
+
       <!-- PhysioRep -->
       <div class="work-card r">
         <div class="work-card-visual" style="background:linear-gradient(145deg, #1a1608 0%, #28220c 40%, #1e1a0a 100%)">
@@ -4572,6 +4540,39 @@ footer {
             <a href="case-physiorep.html">Case Study →</a>
             <a href="https://joneilcaoile.github.io/physiorep" target="_blank" rel="noopener">Live Demo</a>
             <a href="https://github.com/joneilcaoile/physiorep" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- UseTrace HFE -->
+      <div class="work-card r">
+        <div class="work-card-visual" style="background:linear-gradient(145deg, #0d1a1a 0%, #0a2628 40%, #102020 100%)">
+          <div class="pipeline">
+            <div class="pipe-node"><div class="pipe-icon">📋</div><div class="pipe-label">Task Analysis</div></div>
+            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
+            <div class="pipe-node"><div class="pipe-icon">🤖</div><div class="pipe-label">Auto-Classify</div></div>
+            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
+            <div class="pipe-node"><div class="pipe-icon">📄</div><div class="pipe-label">HFE Report</div></div>
+          </div>
+        </div>
+        <div class="work-card-body">
+          <div class="work-card-meta">
+            <span class="work-card-rarity rarity--legendary">★ LEGENDARY</span>
+            <span class="work-card-category">HFE / Regulatory Tool</span>
+          </div>
+          <h3>UseTrace HFE</h3>
+          <p>AI-powered tool that automates the worst parts of HFE documentation: task analysis tables, use error categorization under IEC 62366-1, and simulated-use protocol generation. Built because I watched a safety engineer spend 3 hours reformatting a risk table in Word.</p>
+          <div class="work-card-outcome">Turns weeks of manual HFE formatting into hours · Engineer stays in control of all judgment calls</div>
+          <div class="work-card-roles"><span class="work-card-role">Validation</span><span class="work-card-role">Human Factors</span><span class="work-card-role">Applications</span></div>
+          <div class="work-card-evidence">Python CLI tool · IEC 62366-1 taxonomy · Inter-rater reliability metrics · Validated against 12 CFR requirements</div>
+          <div class="work-card-tags">
+            <span class="work-card-tag">Python</span>
+            <span class="work-card-tag">IEC 62366-1</span>
+            <span class="work-card-tag">FDA 510(k)</span>
+            <span class="work-card-tag">NLP</span>
+          </div>
+          <div class="work-card-links">
+            <a href="case-usetrace.html">Case Study →</a>
           </div>
         </div>
       </div>
