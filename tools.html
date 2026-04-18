@@ -509,7 +509,7 @@
   <footer>
     <div class="container">
       <div class="footer-cta">If one of these saved you an hour, tell me.</div>
-      <div class="footer-sub">I'm Joneil — biomedical engineer, M.S. Stevens Institute, graduating May 2026. Looking for SoCal medtech roles: validation, applications, R&D, human factors.</div>
+      <div class="footer-sub">I'm Joneil. Biomedical engineer, M.S. Stevens Institute, graduating May 2026. Looking for SoCal medtech roles: validation, applications, R&D, human factors.</div>
       <div class="footer-links">
         <a href="/">← Portfolio</a>
         <a href="mailto:joneilcaoile@gmail.com">joneilcaoile@gmail.com</a>
@@ -573,7 +573,7 @@
     const R = parseFloat(ssRel.value);
     const f = parseInt(ssFail.value) || 0;
     const n = sampleSize(C, R, f);
-    ssResult.innerHTML = (n === null ? '—' : n.toLocaleString()) + '<span class="output-unit">units</span>';
+    ssResult.innerHTML = (n === null ? 'N/A' : n.toLocaleString()) + '<span class="output-unit">units</span>';
     const confPct = (C * 100).toFixed(0);
     const relPct = (R * 100).toFixed(R >= 0.999 ? 1 : 0);
     ssNote.textContent = `At ${confPct}% confidence / ${relPct}% reliability with ${f} failure${f === 1 ? '' : 's'} allowed.`;
@@ -812,12 +812,12 @@
   // CONSOLE EASTER EGG
   // ============================================
   const hi = [
-    '%cHey — you opened devtools. Respect.',
+    '%cHey. You opened devtools. Respect.',
     'color:#A85A04;font-size:14px;font-weight:600;font-family:Space Grotesk,sans-serif;'
   ];
   console.log(...hi);
   console.log('%cI built these tools because I kept needing them.\nIf you\'re hiring a biomedical engineer in SoCal, let\'s talk.\n\n  joneilcaoile@gmail.com\n  https://joneilcaoile.github.io\n', 'color:#4A4641;font-family:Inter,sans-serif;font-size:12px;line-height:1.6;');
-  console.log('%c— Joneil', 'color:#A85A04;font-style:italic;font-family:Inter,sans-serif;');
+  console.log('%c· Joneil', 'color:#A85A04;font-style:italic;font-family:Inter,sans-serif;');
 })();
 
 /* Page transition */
