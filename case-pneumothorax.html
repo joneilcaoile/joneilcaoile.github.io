@@ -1238,8 +1238,8 @@
         <h2 class="section-title r" id="scope-heading">Where we are</h2>
 
         <div class="inprogress-callout r">
-          <div class="inprogress-callout-label">Status: Delivered</div>
-          <p>The capstone delivered in May 2026. Final paper, final presentation, and bench-tested prototype were all completed. The scope below describes the design and development arc; updated test results and outcomes will be folded into this case study in a follow-up pass.</p>
+          <div class="inprogress-callout-label">Status: Delivered May 2026</div>
+          <p>Final paper, final presentation, and bench-tested prototype shipped. Four balloons (intact, slight, moderate, severe) were tested on a benchtop rig with pressure-based severity classification on a 16x2 LCD. Bench test table and the FS3000 sensor saturation finding are documented in the Bench Test Results section below.</p>
         </div>
 
         <!-- Scope - verified facts only, no fabricated metrics -->
@@ -1257,8 +1257,8 @@
             <div class="scope-label">commercial equivalents exist</div>
           </div>
           <div class="scope-card r">
-            <div class="scope-value">Bench</div>
-            <div class="scope-label">prototype level, simulated use</div>
+            <div class="scope-value">4</div>
+            <div class="scope-label">severity tiers, bench-validated</div>
           </div>
         </div>
         <!-- Source: vault note "01 - Projects/Job Search/Projects/🫁 Pneumothorax Air Leak Monitor.md" -->
@@ -1364,7 +1364,38 @@
       </section>
     </div>
 
-    <!-- ===== WHAT I GOT WRONG ===== -->
+    <!-- ===== BENCH TEST RESULTS ===== -->
+    <section class="section" aria-labelledby="bench-heading" style="padding-top: 48px;">
+      <p class="section-label r">Bench Test Results</p>
+      <h2 class="section-title r" id="bench-heading">Four balloons, four severity tiers, real numbers.</h2>
+      <p class="r" style="max-width: 720px; color: var(--text-muted, #635B52); margin-bottom: 32px;">An Ambu bag and a T-piece manifold push air into a balloon that simulates the lung. Each balloon represents a different leak severity. The MPRLS pressure sensor reads gauge pressure inside the simulated pleural cavity. Steady-state held pressure is what the LCD classifies.</p>
+
+      <div class="failure-modes-wrap r" style="margin-top:1rem;">
+        <table class="failure-modes-table">
+          <thead>
+            <tr>
+              <th>Test condition</th>
+              <th>Held pressure (cmH2O)</th>
+              <th>LCD classification</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Intact (sealed balloon)</td><td>31.0</td><td>Damage: NONE</td></tr>
+            <tr><td>Slight leak (pinhole)</td><td>17.0</td><td>Damage: SLIGHT</td></tr>
+            <tr><td>Moderate leak (medium puncture)</td><td>12.9</td><td>Damage: MODERATE</td></tr>
+            <tr><td>Severe leak (large breach)</td><td>10.5</td><td>Damage: SEVERE</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="prose r" style="margin-top:1.5rem;">Pressure readings cleanly separated the four tiers, monotonically decreasing as severity increased. Classification thresholds (24, 15, 11.5 cmH2O) sit at the midpoints between adjacent calibration values, giving margin on either side. The LCD switched between tiers in real time as balloons were swapped, with no flicker at boundaries.</p>
+
+      <p class="prose r"><strong>Honest finding on the flow sensor.</strong> The FS3000 returned values at or near maximum range during pressurization across all four balloons and near zero during the held phase. Neither phase varied with severity, which is what drove the pivot to pressure-only classification. The FS3000 still reads on the LCD as a sensor-status indicator, but it does not contribute to the severity decision in this rig. See the post-mortem section below for the full debrief.</p>
+
+      <p class="prose r"><strong>Custom 3D-printed adapter.</strong> The FS3000 ships as a small breakout with a 7.8 by 4.0 mm rectangular flow channel and no native fitting for laboratory tubing. I designed a parametric saddle-cap adapter that mates to the module on its inner side and transitions to a 6 mm ID barb on the outer side. Two adapters were printed on a Bambu Lab FDM printer with silicone sealant for an airtight seal. The adapter is parametric so tubing ID can be changed in one line and regenerated. Without this part, dual-sensor characterization on the bench rig would not have been possible.</p>
+    </section>
+
+        <!-- ===== WHAT I GOT WRONG ===== -->
     <section class="section" aria-labelledby="wrong-heading" style="padding-top: 48px;">
       <p class="section-label r">Post-Mortem</p>
       <h2 class="section-title r" id="wrong-heading">What I got wrong.</h2>
@@ -1372,8 +1403,8 @@
 
       <div class="learning-item r">
         <div class="learning-num">01</div>
-        <div class="learning-title">I picked the sensor before I understood the noise floor.</div>
-        <p class="learning-body">Early in the design I spec'd a pressure transducer based on range and cost, not on the noise characteristics at the small differential pressures this device actually measures. When I wired up the first bench prototype, the sensor's inherent noise was the same order of magnitude as the signal I was trying to detect. I had to add aggressive smoothing to compensate, which introduced latency into the alarm path. The lesson is boring and I now believe it: start the sensor selection from the signal you need to preserve, not from the part's datasheet top-line spec.</p>
+        <div class="learning-title">The flow sensor saturated in bench testing, and I had to pivot to pressure-only classification.</div>
+        <p class="learning-body">The original design used a Honeywell MPRLS pressure sensor and a Renesas FS3000 flow sensor on a shared I2C bus. The classification logic took the higher of the two severities to be conservative. When I ran the four-balloon bench test, the FS3000 saturated at maximum range during the pressurization phase across all four balloons and dropped below useful resolution during the held phase. It did not discriminate severity in this rig. I pivoted to pressure-only classification and kept the FS3000 reading on the LCD as a sensor-status indicator. The lesson: characterize each sensor in the actual operating envelope before locking the classification logic. The FS3000 was spec'd for HVAC airflow ranges, not the brief high-velocity transients my Ambu bag produces. I would still pick a flow sensor for v2; I would just pick one with a higher saturation ceiling and run a saturation-bound test before integrating.</p>
       </div>
 
       <div class="learning-item r">
@@ -1410,7 +1441,7 @@
       <div class="learning-item r">
         <div class="learning-num">Q3</div>
         <div class="learning-title">If you had another semester, what would you do differently?</div>
-        <p class="learning-body">I'd run a formative usability study with at least three ICU nurses and a respiratory therapist before finalizing the user interface. Right now the interface decisions are defensible but based on one informal conversation and literature. Summative validation would still require a clinical environment and ethics approval we don't have academic access to, but formative work is cheap and I should have planned it in from week one. Second, I'd instrument the prototype with data logging so every bench test produces a record I can hand to a reviewer. The ad-hoc test notes I kept are fine for a class project and insufficient for a design history file.</p>
+        <p class="learning-body">Three changes. First, swap the FS3000 for a flow sensor with a higher saturation ceiling and run a sensor-bound test on the bench rig before integrating it into the classification logic. The dual-sensor design was sound; the part choice was wrong. Second, run a formative usability study with at least three ICU nurses and a respiratory therapist before finalizing the user interface. The current interface decisions are defensible but based on one informal conversation and literature. Formative work is cheap and I should have planned it in from week one. Third, instrument the prototype with structured data logging so every bench test produces a record I can hand to a reviewer. The ad-hoc test notes I kept are fine for a class project and insufficient for a design history file.</p>
       </div>
     </section>
 
