@@ -67,7 +67,7 @@
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "PhotoCull AI Photo Curation",
-    "description": "Computer vision tool for automated photo quality scoring using Laplacian variance, luminance statistics, and ML classification.",
+    "description": "Computer vision tool for automated photo quality scoring using Tenengrad sharpness, luminance statistics, and ML classification.",
     "keywords": "computer vision, machine learning, photo quality, image classification, Python, OpenCV",
     "author": {
       "@type": "Person",
@@ -1436,7 +1436,7 @@
       <div class="learning-item r">
         <div class="learning-num">03</div>
         <div class="learning-title">I didn't test with non-photographers.</div>
-        <p class="learning-body">Every early tester was someone who already understands exposure, composition, and what "a good photo" means. The onboarding flow, the scoring explanations, and the threshold labels all assume photographic literacy. When a friend's parent tried it to sort vacation photos, they didn't understand what "Laplacian sharpness" meant and couldn't interpret why some photos scored low. The tool is technically accessible (WCAG compliant, keyboard navigable) but not cognitively accessible to its broadest potential audience. If I'd tested with non-photographers earlier, the UI language would be different.</p>
+        <p class="learning-body">Every early tester was someone who already understands exposure, composition, and what "a good photo" means. The onboarding flow, the scoring explanations, and the threshold labels all assume photographic literacy. When a friend's parent tried it to sort vacation photos, they didn't understand what "Tenengrad sharpness" meant and couldn't interpret why some photos scored low. The tool is technically accessible (WCAG compliant, keyboard navigable) but not cognitively accessible to its broadest potential audience. If I'd tested with non-photographers earlier, the UI language would be different.</p>
       </div>
     </section>
 
@@ -1455,7 +1455,7 @@
       <div class="learning-item r">
         <div class="learning-num">Q2</div>
         <div class="learning-title">How do you know the scoring is accurate?</div>
-        <p class="learning-body">I don't, not rigorously. The scoring correlates with my judgment on the calibration set, and user feedback suggests it's directionally useful for bulk culling. But I haven't run a formal validation study with multiple raters, and the feature weights are optimized for my photographic preferences. What I can say is that the individual features (sharpness via Laplacian variance, exposure via luminance histogram, face detection via MobileNet) are well-established in computer vision literature. The composite score that combines them is where the subjectivity lives. I'd want inter-rater reliability data before calling the scoring "validated" in any clinical or professional context.</p>
+        <p class="learning-body">I don't, not rigorously. The scoring correlates with my judgment on the calibration set, and user feedback suggests it's directionally useful for bulk culling. But I haven't run a formal validation study with multiple raters, and the feature weights are optimized for my photographic preferences. What I can say is that the individual features (sharpness via Tenengrad gradient energy, exposure via luminance histogram, face detection via BlazeFace) are well-established in computer vision literature. The composite score that combines them is where the subjectivity lives. I'd want inter-rater reliability data before calling the scoring "validated" in any clinical or professional context.</p>
       </div>
 
       <div class="learning-item r">

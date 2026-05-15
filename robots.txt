@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /Joneil_Caoile_Resume.pdf
 Disallow: /Joneil_Caoile_Resume_Applications_Engineer.pdf
 Disallow: /Joneil_Caoile_Resume_Human_Factors_Engineer.pdf
 Disallow: /Joneil_Caoile_Resume_RnD_Engineer.pdf

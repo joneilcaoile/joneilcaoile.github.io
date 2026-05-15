@@ -78,10 +78,4 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-  <url>
-    <loc>https://joneilcaoile.github.io/quest.html</loc>
-    <lastmod>2026-04-16</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
-  </url>
 </urlset>

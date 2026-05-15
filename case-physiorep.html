@@ -1427,14 +1427,13 @@
         </div>
         <!-- Source: vault note "01 - Projects/PhysioRep.md" -->
 
-        <h3 class="r" style="margin-top:2.5rem;font-size:1.1rem;color:var(--text);">Performance & Validation</h3>
+        <h3 class="r" style="margin-top:2.5rem;font-size:1.1rem;color:var(--text);">Performance</h3>
         <p class="section-body r" style="margin-top:0.75rem;">
           Pose detection runs at 25-30 fps on a mid-range phone (Pixel 6a) using MediaPipe Pose's
-          lite model. Form scoring accuracy was validated against manual physical therapist
-          ratings on a test set of 50 exercise repetitions across 6 exercises, achieving 88%
-          agreement on form quality classification (good/acceptable/poor). The rPPG heart rate
-          module tracks within +/- 5 bpm of a Polar H10 chest strap under controlled lighting
-          conditions.
+          lite model. Form scoring thresholds were tuned by hand, exercise by exercise, against my
+          own test reps and adjusted from Reddit user feedback. The tool has not been through a
+          formal validation study with physical therapists. See the Validation Status section below
+          for the honest accounting.
         </p>
 
         <h3 class="r" style="margin-top:2rem;font-size:1.1rem;color:var(--text);">Real User Feedback</h3>
@@ -1457,7 +1456,7 @@
         <h2 class="section-title r" id="clinical-heading">Designed for physical therapy adherence</h2>
 
         <p class="section-body r" style="margin-top:0.75rem;">
-          Home exercise adherence drops below 35% within 2 weeks of discharge. The primary
+          Home exercise adherence drops off sharply after discharge, with dropout near 50% by 6 weeks. The primary
           reasons: patients forget the correct form, lose motivation without feedback, and
           can't tell if they're doing exercises right. PhysioRep addresses all three by giving
           real-time form scoring and voice coaching using pose estimation.
@@ -1534,14 +1533,13 @@
         <h2 class="section-title r" id="validation-heading">Medical device rigor in a consumer product</h2>
 
         <p class="section-body r" style="margin-top:0.75rem;">
-          <strong>Regulatory-ready validation framework:</strong> PhysioRep applies the same
-          validation methodology used in medical device development. Pre-defined acceptance criteria
-          (88% form accuracy vs. PT manual ratings on 50 reps x 6 exercises). Representative test
-          data stratified by exercise type. Documented failure modes (standing too close, feedback
-          misinterpretation, limited mobility calibration). Performance monitoring through real user
-          feedback (Reddit field testing). In a regulated context, this framework satisfies 21 CFR
-          820.75 process validation and would require the same documentation of design inputs,
-          acceptance criteria, and failure mode analysis.
+          <strong>Built with medical-device discipline:</strong> PhysioRep was built the way I
+          would approach a device project. I defined what "good form" means per exercise before
+          writing the scoring code, documented failure modes (standing too close, feedback
+          misinterpretation, limited mobility calibration), and treated Reddit field feedback as a
+          real bug-reporting channel. What it does not have yet is a formal validation study against
+          physical therapist ratings. That work is scoped in a separate 4-phase validation plan and
+          has not started.
         </p>
 
         <p class="section-body r" style="margin-top:0.75rem;">
@@ -1588,7 +1586,7 @@
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.75rem;">
           <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
             <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">Pose Tracking</div>
-            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">30fps (MoveNet Lightning)</div>
+            <div style="font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:0.88rem;color:#FAFAF8;font-weight:600;">30fps (MediaPipe Pose)</div>
           </div>
           <div style="background:var(--bg-dark-2,#1A1815);border-radius:var(--radius-sm,8px);padding:1rem;">
             <div style="font-size:0.78rem;color:var(--text-light,#9A9490);margin-bottom:0.35rem;">First Paint</div>
@@ -1614,62 +1612,14 @@
       </div>
     </section>
 
-    <!-- ===== VALIDATION RESULTS ===== -->
+    <!-- ===== VALIDATION STATUS ===== -->
     <section class="section" aria-labelledby="validation-results-heading" style="margin-top:3rem;">
-      <p class="section-label r" style="color:var(--amber-mid);">Validation Results</p>
-      <h2 class="section-title r" id="validation-results-heading">Rep counting and form scoring validation on 12 participants, 5 exercises</h2>
-
-      <div style="overflow-x:auto;margin-top:1.5rem;">
-        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
-          <thead>
-            <tr style="background:rgba(168,90,4,0.15);border-bottom:2px solid var(--amber,#A85A04);">
-              <th style="padding:0.85rem;text-align:left;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Test Case</th>
-              <th style="padding:0.85rem;text-align:left;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Method</th>
-              <th style="padding:0.85rem;text-align:left;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Result</th>
-              <th style="padding:0.85rem;text-align:center;font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber,#A85A04);">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Rep Counting Accuracy</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">12 participants, 5 exercises (push-ups, squats, lunges, pull-ups, burpees), manual count reference</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">97.2% (420/432 reps correct)</td>
-              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Form Scoring ICC (vs PT Expert)</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">50 reps across all exercises, PT rated form 1-5 scale</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">ICC(2,1) = 0.89 (strong agreement)</td>
-              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Pose Detection Latency</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">Frame-to-keypoint latency, iPhone 12, 60fps video</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">60ms average</td>
-              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">Low-Light Accuracy (100 lux)</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">Basement lighting condition, 30 reps per exercise</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">94.3% (141/150 reps correct)</td>
-              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">User Satisfaction (Form Feedback)</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-light);">Post-workout survey, 12 participants, 5-point scale</td>
-              <td style="padding:0.75rem 0.85rem;color:var(--text-default);">4.3/5 (helpful, not too strict)</td>
-              <td style="padding:0.75rem 0.85rem;text-align:center;color:#10B981;">Pass</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <p style="font-size:0.85rem;color:var(--text-muted,#6B6560);line-height:1.6;margin-top:1.5rem;">The 12 missed reps were edge cases where camera angle made depth ambiguous or hand placement was partially occluded. User feedback indicated the feedback was encouraging without being frustratingly strict, which was the design goal.</p>
-
-      <div style="background:rgba(168,90,4,0.08);border-left:3px solid var(--amber,#A85A04);padding:1.5rem;border-radius:0.4rem;margin-top:2rem;" class="r">
-        <div style="font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber,#A85A04);margin-bottom:0.8rem;">Validation Methodology</div>
-        <p style="font-size:0.9rem;color:var(--text-default);line-height:1.6;margin:0;">Validation methodology: 12 participants performed 5 exercises (squats, lunges, bicep curls, shoulder press, push-ups) under controlled lighting conditions. Ground truth was established by 3 certified physical therapists who independently scored each rep for form quality on a 0-100 scale. Inter-rater reliability among PTs was ICC(3,1) = 0.93. For the 6 cases where PhysioRep scores diverged from PT consensus by more than 15 points, all 3 raters re-evaluated and reached unanimous agreement on the correct score. Final model-to-expert agreement: ICC = 0.89 across all exercises, with lowest agreement on push-ups (ICC = 0.81) due to camera angle limitations on floor exercises.</p>
-      </div>
+      <p class="section-label r" style="color:var(--amber-mid);">Validation Status</p>
+      <h2 class="section-title r" id="validation-results-heading">Self-tested and field-tested. Not yet formally validated.</h2>
+      <p class="section-body r" style="margin-top:0.75rem;">An honest accounting of where PhysioRep's validation actually stands. The engineering works. The clinical validation is planned, not done, and I am not going to pretend otherwise.</p>
+      <p class="section-body r" style="margin-top:0.75rem;"><strong>What has been done.</strong> Built and self-tested across all 18 supported exercises on my own devices. Posted to r/bodyweightfitness for field testing, where real users surfaced bugs I then fixed: a CSP misconfiguration that blocked MediaPipe model loading on Firefox, an onboarding gap around camera permissions, and push-up form thresholds that were too strict and flagged good reps as bad. Form scoring thresholds were tuned by hand, exercise by exercise.</p>
+      <p class="section-body r" style="margin-top:0.75rem;"><strong>What has not been done.</strong> There is no formal validation study. No participant cohort, no physical therapist inter-rater study, no published accuracy numbers. A side project does not get clinical-grade validation numbers without a study behind it, and this one does not have that study yet.</p>
+      <p class="section-body r" style="margin-top:0.75rem;"><strong>What is planned.</strong> A 4-phase validation plan exists, built on customer-discovery methodology with falsifiable kill criteria: clinician and patient interviews, then a small pilot with a partner PT clinic, then structured discovery through an I-Corps cohort. The work is scoped and scheduled. It has not started.</p>
     </section>
 
     <!-- ===== DESIGN ITERATION ===== -->
@@ -1777,7 +1727,7 @@
             </div>
             <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
               <div style="font-size:0.78rem;color:var(--amber,#A85A04);margin-bottom:0.5rem;font-weight:600;">Offline Sync Fails</div>
-              <div style="font-size:0.85rem;color:var(--text-light);line-height:1.5;">Queue actions, retry every 10s when connectivity returns</div>
+              <div style="font-size:0.85rem;color:var(--text-light);line-height:1.5;">Queue actions, retry on a backoff when connectivity returns</div>
             </div>
             <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(168,90,4,0.15);border-radius:0.4rem;padding:1rem;">
               <div style="font-size:0.78rem;color:var(--amber,#A85A04);margin-bottom:0.5rem;font-weight:600;">Low Light Detection</div>
