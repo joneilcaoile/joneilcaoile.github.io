@@ -1,6 +1,6 @@
 # joneilcaoile.github.io
 
-Personal portfolio site for Joneil Caoile. Biomedical engineer, medical device builder, SoCal-bound.
+Personal portfolio site for Joneil Caoile. Biomedical engineer in healthcare technology, based in Torrance, CA.
 
 **Live:** [joneilcaoile.github.io](https://joneilcaoile.github.io)
 

@@ -10,8 +10,6 @@
   ║  No frameworks. No build tools. No tracking.         ║
   ║  Just HTML, CSS, and JavaScript.                     ║
   ║                                                      ║
-  ║  Looking for someone who writes clean code            ║
-  ║  and validates medical devices?                      ║
   ║  joneilcaoile@gmail.com                              ║
   ╚══════════════════════════════════════════════════════╝
 -->
@@ -1149,7 +1147,7 @@
       <div class="metric-grid" style="grid-template-columns: 1fr;">
         <div class="metric-card" style="background: #1A1815; border: 1px solid rgba(217,119,6,0.2); border-radius: 12px; padding: 2rem; text-align: left;">
           <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600; color: #FEF3C7; margin-bottom: 1rem; margin-top: 0;">Small dataset, single source, no clinical validation</h3>
-          <p style="font-size: 0.95rem; line-height: 1.7; color: #F5F3EE; margin: 0;">303 patients from one institution in 1988 is a tiny dataset by modern ML standards. The class distribution is mildly imbalanced (54/46) but not severely. We did not perform hyperparameter tuning, since the goal was a like-for-like comparison at default settings. The coefficients align with clinical literature, but a real clinical decision support tool would require external validation against contemporary data, calibration analysis, decision-curve analysis, and a regulatory pathway under FDA SaMD guidance. None of that was in scope for a semester project, but a recruiter should know we can articulate the gap.</p>
+          <p style="font-size: 0.95rem; line-height: 1.7; color: #F5F3EE; margin: 0;">303 patients from one institution in 1988 is a tiny dataset by modern ML standards. The class distribution is mildly imbalanced (54/46) but not severely. We did not perform hyperparameter tuning, since the goal was a like-for-like comparison at default settings. The coefficients align with clinical literature, but a real clinical decision support tool would require external validation against contemporary data, calibration analysis, decision-curve analysis, and a regulatory pathway under FDA SaMD guidance. None of that was in scope for a semester project, but it matters that we can name the gap.</p>
         </div>
       </div>
     </section>
@@ -1187,11 +1185,11 @@
       </div>
     </section>
 
-    <!-- ===== PRE-EMPT THE INTERVIEWER ===== -->
+    <!-- ===== COMMON QUESTIONS ===== -->
     <section class="section" aria-labelledby="preempt-heading" style="padding-top: 48px;">
-      <p class="section-label r">Questions You Might Ask</p>
-      <h2 class="section-title r" id="preempt-heading">Answers before the interview.</h2>
-      <p class="r" style="max-width: 720px; color: var(--text-muted, #635B52); margin-bottom: 32px;">Three questions a recruiter or hiring manager would reasonably ask about this project, answered up front.</p>
+      <p class="section-label r">Common Questions</p>
+      <h2 class="section-title r" id="preempt-heading">Questions I get about this one.</h2>
+      <p class="r" style="max-width: 720px; color: var(--text-muted, #635B52); margin-bottom: 32px;">Three questions people ask about this project, answered up front.</p>
 
       <div class="learning-item r">
         <div class="learning-num">Q1</div>
@@ -1202,7 +1200,7 @@
       <div class="learning-item r">
         <div class="learning-num">Q2</div>
         <div class="learning-title">You only owned one model in a 4-person team. What was the actual contribution?</div>
-        <p class="learning-body">The Logistic Regression notebook, the verified results on real UCI data (5-fold CV ROC-AUC 0.911 +/- 0.020, holdout 0.939), and the Introduction and Background section of the paper. I also pushed the team to lock in shared preprocessing, a fixed train/test split, and a common metrics format before anyone trained a model. Without that, the comparative analysis at the end of the paper would have been three different models trained on three different datasets and labeled the same. I am explicit about this on the portfolio because misattributing team work is a fast way to fail an interview reference check.</p>
+        <p class="learning-body">The Logistic Regression notebook, the verified results on real UCI data (5-fold CV ROC-AUC 0.911 +/- 0.020, holdout 0.939), and the Introduction and Background section of the paper. I also pushed the team to lock in shared preprocessing, a fixed train/test split, and a common metrics format before anyone trained a model. Without that, the comparative analysis at the end of the paper would have been three different models trained on three different datasets and labeled the same. I am explicit about this on the portfolio because misattributing team work is a fast way to lose people's trust.</p>
       </div>
 
       <div class="learning-item r">
@@ -1228,7 +1226,7 @@
     <!-- CTA -->
     <section class="cta-section r">
       <h2 class="section-title r">Interested in this work?</h2>
-      <p class="cta-desc">Interpretable ML on clinical data, shared preprocessing pipelines for honest comparisons, and the regulatory awareness needed to take a model from notebook to clinical use. These are skills I would bring to a clinical decision support, validation, or applications team.</p>
+      <p class="cta-desc">Interpretable ML on clinical data, shared preprocessing pipelines for honest comparisons, and the regulatory awareness needed to take a model from notebook to clinical use.</p>
       <div class="cta-buttons">
         <a href="index.html#contact" class="btn btn-primary">Get in touch</a>
       </div>
@@ -1533,7 +1531,7 @@ document.addEventListener('mousemove', function(e) {
   var sectionNames = {
     'problem': 'Problem', 'arch': 'Architecture', 'standards': 'Standards',
     'scope': 'Scope', 'tech': 'Tech Stack', 'learnings': 'Learnings',
-    'wrong': 'Post-Mortem', 'preempt': 'Interview Q&A',
+    'wrong': 'Post-Mortem', 'preempt': 'Q&A',
     'need': 'Problem', 'validation': 'Validation', 'results': 'Results',
     'metrics': 'Metrics', 'approach': 'Approach', 'features': 'Features'
   };

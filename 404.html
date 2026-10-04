@@ -10,8 +10,6 @@
   ║  No frameworks. No build tools. No tracking.         ║
   ║  Just HTML, CSS, and JavaScript.                     ║
   ║                                                      ║
-  ║  Looking for someone who writes clean code            ║
-  ║  and validates medical devices?                      ║
   ║  joneilcaoile@gmail.com                              ║
   ╚══════════════════════════════════════════════════════╝
 -->
@@ -302,7 +300,7 @@
     "This endpoint returned null. Try the homepage.",
     "Looks like this URL failed validation.",
     "No signal detected. Recalibrating...",
-    "Hint: try typing 'hire' for a reward."
+    "Hint: try typing 'joneil' for a reward."
   ];
   var el = document.getElementById('fun-msg');
   if (el) el.textContent = msgs[Math.floor(Math.random() * msgs.length)];
@@ -313,7 +311,7 @@
       : "404 | Page Not Found | Joneil Caoile";
   });
 
-  // Secret puzzle: type HIRE to unlock
+  // Secret puzzle: type JONEIL to unlock
   var buffer = '';
   var secretPop = document.getElementById('secretPop');
   document.addEventListener('keydown', function(e){
@@ -323,7 +321,7 @@
     }
     if (e.key && e.key.length === 1 && /[a-zA-Z]/.test(e.key)) {
       buffer = (buffer + e.key.toLowerCase()).slice(-8);
-      if (buffer.endsWith('hire') || buffer.endsWith('joneil')) {
+      if (buffer.endsWith('joneil')) {
         secretPop.classList.add('on');
         buffer = '';
       }
@@ -335,7 +333,7 @@
 
   // Console easter egg
   try {
-    console.log('%c404. Not the end of the road.\nType "hire" on this page for a bonus link.\n\nJoneil · joneilcaoile@gmail.com',
+    console.log('%c404. Not the end of the road.\nType "joneil" on this page for a bonus link.\n\nJoneil · joneilcaoile@gmail.com',
       'color:#A85A04;font-family:JetBrains Mono,monospace;font-size:12px;line-height:1.6;');
   } catch(e){}
 </script>
