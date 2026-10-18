@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /hfe-sample.html
 Disallow: /pixel-team.html
 
 Sitemap: https://joneilcaoile.github.io/sitemap.xml

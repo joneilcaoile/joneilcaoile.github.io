@@ -17,11 +17,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pneumothorax Air Leak Monitor | Case Study | Joneil Caoile</title>
-  <meta name="description" content="A ventilator-integrated device concept for objective, continuous pneumothorax air leak monitoring. BME 565 capstone, Stevens Institute of Technology.">
+  <meta name="description" content="Inline retrofit chest-drain air leak monitor. MPRLS pressure + FS3000 flow on I2C, Arduino Nano Every, 4-tier severity classification bench-tested on a balloon rig. BME 565 capstone, Stevens.">
   <meta name="author" content="Joneil Caoile">
-  <meta name="keywords" content="pneumothorax, air leak monitor, medical device design, ventilator, capstone project, biomedical engineering, Stevens Institute, FDA, Joneil Caoile">
+  <meta name="keywords" content="pneumothorax, air leak monitor, medical device design, chest drain, bench testing, capstone project, biomedical engineering, Stevens Institute, FDA, Joneil Caoile">
   <meta property="og:title" content="Pneumothorax Air Leak Monitor | Case Study | Joneil Caoile">
-  <meta property="og:description" content="A device concept that estimates pulmonary air leak severity by comparing ventilator-delivered tidal volume with chest tube outflow. Built as a bench-level prototype with no existing commercial equivalent.">
+  <meta property="og:description" content="Inline retrofit chest-drain air leak monitor. MPRLS pressure + FS3000 flow on I2C, Arduino Nano Every, 4-tier severity classification bench-tested on a balloon rig. BME 565 capstone, Stevens.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://joneilcaoile.github.io/case-pneumothorax.html">
   <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.jpg">
@@ -29,11 +29,11 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Pneumothorax Air Leak Monitor | Case Study | Joneil Caoile">
-  <meta name="twitter:description" content="Ventilator-integrated device concept for continuous pneumothorax air leak monitoring. BME 565 capstone project.">
+  <meta name="twitter:description" content="Inline retrofit chest-drain air leak monitor. MPRLS pressure + FS3000 flow on I2C, Arduino Nano Every, 4-tier severity classification bench-tested on a balloon rig. BME 565 capstone, Stevens.">
   <meta name="twitter:image" content="https://joneilcaoile.github.io/og-preview.jpg">
   <link rel="canonical" href="https://joneilcaoile.github.io/case-pneumothorax.html">
-  <link rel="prev" href="https://joneilcaoile.github.io/case-physiorep.html">
-  <link rel="next" href="https://joneilcaoile.github.io/case-photocull.html">
+  <link rel="prev" href="https://joneilcaoile.github.io/case-biomaterials.html">
+  <link rel="next" href="https://joneilcaoile.github.io/case-emg.html">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; frame-src 'none'; object-src 'none'; base-uri 'self';">
   <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()">
@@ -65,8 +65,8 @@
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Pneumothorax Air Leak Monitor",
-    "description": "Real-time chest tube air leak detection system with 96% sensitivity. IEC 62366-1 usability-validated with ICU nurses.",
-    "keywords": "pneumothorax, air leak, medical device, chest tube, IEC 62366-1, usability testing",
+    "description": "Inline chest-drain air leak monitor with pressure-based 4-tier severity classification, bench-tested on a four-balloon rig. BME 565 capstone.",
+    "keywords": "pneumothorax, air leak, medical device, chest tube, bench testing, Arduino, MPRLS, FS3000",
     "author": {
       "@type": "Person",
       "name": "Joneil Caoile",
@@ -77,7 +77,7 @@
       "name": "Joneil Caoile"
     },
     "datePublished": "2026-03-23",
-    "dateModified": "2026-04-01",
+    "dateModified": "2026-10-18",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://joneilcaoile.github.io/case-pneumothorax.html"
@@ -1054,10 +1054,6 @@
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
       Back to portfolio
     </a>
-    <a class="github-link" href="https://docs.google.com/document/d/1C0AL9XNVWHgxx7miGX3OMHbf6qp8rv27t3ATvTXH1ac/edit" target="_blank" rel="noopener noreferrer">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-      Team Notebook
-    </a>
   </nav>
 
   <main id="main">
@@ -1074,13 +1070,13 @@
       </h1>
 
       <p class="hero-desc r">
-        A ventilator-integrated device prototype that continuously estimates pulmonary air leak severity by comparing delivered tidal volume with chest tube outflow. Gives clinicians an objective number where today they make a visual guess.
+        An inline retrofit monitor for a standard chest drain. It reads pressure in real time and shows one of four damage tiers on a bedside LCD, so leak severity becomes a number instead of a guess from watching bubbles. Built and bench-tested in a 3-person capstone team.
       </p>
 
       <div class="meta-row r">
         <div class="meta-item">
           <span class="meta-label">Role</span>
-          Concept Lead (3-person team)
+          Bench testing + adapter design (3-person team)
         </div>
         <div class="meta-divider" aria-hidden="true"></div>
         <div class="meta-item">
@@ -1108,26 +1104,26 @@
     <!-- ===== PROBLEM ===== -->
     <section class="section" aria-labelledby="problem-heading">
       <p class="section-label r">The Clinical Problem</p>
-      <h2 class="section-title r" id="problem-heading">A real gap with no commercial solution</h2>
+      <h2 class="section-title r" id="problem-heading">Leak severity is still judged by eye</h2>
 
       <p class="prose r">
-        When a pneumothorax patient is on a ventilator, a chest tube drains the leaked air from the pleural space. Clinicians need to know how severe the leak is to decide when it's safe to remove the tube. The current method: watch the bubbling in the drainage chamber and make a subjective judgment.
+        After a chest tube goes in for a pneumothorax, the drainage system shows whether air is still leaking from the lung. In most setups, clinicians judge severity by watching bubbles in a water-seal chamber. That call is subjective, it isn&#39;t trended, and two people can read the same chamber differently.
       </p>
 
       <p class="prose r">
-        There's no standardized, objective measurement. No device on the market measures pulmonary air leak severity continuously and quantitatively. <strong>Patients stay on chest tubes longer than necessary</strong> because there's no clear data-driven threshold to trigger a weaning decision. This means more hospital days, more infection risk, and more discomfort for no clinical benefit.
+        Digital drainage systems like the Medela Thopaz+ measure air flow directly, but they cost thousands of dollars. Our question was narrower: can a cheap inline add-on give a standard drain an objective severity reading?
       </p>
 
       <div class="ps-grid">
         <div class="ps-card problem r">
           <div class="ps-card-label">Current state</div>
-          <div class="ps-card-title">Visual assessment, no standard threshold</div>
-          <p>Clinicians assess air leak severity by watching a water-seal chamber. The observation is categorical at best, subjective in practice. No measurement. No trend data. No objective weaning criteria.</p>
+          <div class="ps-card-title">Visual assessment, no shared threshold</div>
+          <p>Bubble counting in a water-seal chamber. Categorical at best, subjective in practice, no trend data.</p>
         </div>
         <div class="ps-card solution r">
           <div class="ps-card-label">Our approach</div>
-          <div class="ps-card-title">Continuous, quantified leak severity</div>
-          <p>By comparing ventilator-delivered tidal volume with measured chest tube outflow, we can compute a leak differential: a real number that can be trended over time and used as a weaning trigger.</p>
+          <div class="ps-card-title">Inline sensing, four severity tiers</div>
+          <p>Pressure and flow sensors on the drain line feed a microcontroller that maps held pressure to NONE, SLIGHT, MODERATE, or SEVERE on a 16x2 LCD. About $80 in core hardware.</p>
         </div>
       </div>
     </section>
@@ -1136,46 +1132,34 @@
     <div class="dark-section">
       <section class="section" aria-labelledby="arch-heading">
         <p class="section-label r">Device Architecture</p>
-        <h2 class="section-title r" id="arch-heading">Two measurement points. One differential.</h2>
+        <h2 class="section-title r" id="arch-heading">Two sensors on one bus. One verdict on the screen.</h2>
 
         <p class="prose r">
-          The core idea is straightforward: measure what the ventilator delivers and what escapes through the chest tube. The difference is the leak. We use gas flow and pressure sensors at both points, feed the signals into a microcontroller, and compute the differential in real time.
+          An Adafruit MPRLS pressure sensor and a Renesas FS3000 flow sensor share an I2C bus on an Arduino Nano Every. The firmware takes a 10-sample baseline at startup, reads both sensors at 2 Hz, classifies the held pressure into one of four tiers, and writes the result to a 16x2 LCD and a CSV serial log.
         </p>
 
         <div class="arch r">
-          <div class="arch-title">Sensing Architecture</div>
+          <div class="arch-title">Signal Chain</div>
           <div class="arch-pipeline">
             <div class="arch-row">
               <div class="arch-node input">
-                Ventilator
-                <span class="arch-sub">Tidal volume delivered</span>
+                Drain line
+                <span class="arch-sub">Ambu bag + balloon rig on the bench</span>
               </div>
               <span class="arch-arrow">→</span>
               <div class="arch-node process">
-                Inlet Sensor
-                <span class="arch-sub">Gas flow + pressure</span>
-              </div>
-            </div>
-            <div class="arch-row" style="justify-content:center;color:rgba(245,243,238,0.2);font-size:1.1rem;">↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓</div>
-            <div class="arch-row">
-              <div class="arch-node process">
-                Chest Tube Sensor
-                <span class="arch-sub">Outflow gas measurement</span>
+                MPRLS + FS3000
+                <span class="arch-sub">Pressure (cmH2O) + flow, shared I2C</span>
               </div>
               <span class="arch-arrow">→</span>
               <div class="arch-node process">
-                Microcontroller
-                <span class="arch-sub">Compute leak differential</span>
+                Arduino Nano Every
+                <span class="arch-sub">Baseline, 2 Hz loop, classify()</span>
               </div>
               <span class="arch-arrow">→</span>
               <div class="arch-node output">
-                Severity Score
-                <span class="arch-sub">Continuous quantified output</span>
-              </div>
-              <span class="arch-arrow">→</span>
-              <div class="arch-node clinical">
-                Clinical Decision
-                <span class="arch-sub">Data-driven weaning trigger</span>
+                16x2 LCD + CSV log
+                <span class="arch-sub">NONE / SLIGHT / MODERATE / SEVERE</span>
               </div>
             </div>
           </div>
@@ -1185,18 +1169,23 @@
           <p class="section-label r" style="color:var(--amber-mid);">Key Design Decisions</p>
 
           <div class="tech-note r">
-            <div class="tech-note-title">Comparative measurement over absolute measurement</div>
-            <p>We don't need to know the exact air leak volume. We need to know how much of what the ventilator sent didn't stay in the lungs. A differential approach is more robust to sensor drift and calibration variance than trying to measure absolute outflow, and it maps directly to the clinical question: how much is leaking?</p>
+            <div class="tech-note-title">One verdict, not raw numbers</div>
+            <p>The LCD shows a severity tier in the same words clinicians already use, with the raw pressure underneath. A busy nurse should be able to read it at a glance.</p>
           </div>
 
           <div class="tech-note r" style="margin-top:1.25rem;">
-            <div class="tech-note-title">Bench prototype scope: by design</div>
-            <p>BME 565 is a device design course, not a clinical trial. We scoped the prototype to demonstrate the sensing principle and computation without attempting patient contact. A bench-level prototype that proves the measurement concept is the appropriate deliverable at this stage. The right next step would be animal model validation, not human use.</p>
+            <div class="tech-note-title">50 kHz I2C clock</div>
+            <p>Both breakouts sit on one bus with uneven pull-up loading, so we ran the bus at 50 kHz instead of the default 100 kHz, with 4.7 kΩ pull-ups, for noise margin.</p>
           </div>
 
           <div class="tech-note r" style="margin-top:1.25rem;">
-            <div class="tech-note-title">Simulated-use workflow first</div>
-            <p>Before touching hardware, I designed the simulated-use workflow: the sequence of steps a clinician would follow to set up, use, and interpret the device. Starting from use first rather than specs first kept the design anchored to what the user actually needs, not just what we could build.</p>
+            <div class="tech-note-title">Fail loud, not silent</div>
+            <p>If a sensor fails to start, the firmware halts instead of running on bad data. For a measurement meant for clinical use, a dead screen is safer than a confident wrong number.</p>
+          </div>
+
+          <div class="tech-note r" style="margin-top:1.25rem;">
+            <div class="tech-note-title">Cut scope before adding alarms</div>
+            <p>I pushed to verify the core sensing on the bench before adding alarm logic. Alarms on top of an unverified sensor would only make the wrong answer louder. Alarm logic is listed as future work, not something we built.</p>
           </div>
         </div>
       </section>
@@ -1206,24 +1195,24 @@
     <div class="dark-section" style="background:var(--bg-dark-2);border-top:1px solid rgba(255,255,255,0.04);">
       <section class="section" aria-labelledby="standards-heading">
         <p class="section-label r" style="color:var(--amber-mid);">Regulatory Context</p>
-        <h2 class="section-title r" id="standards-heading">Designed with the regulatory path in mind</h2>
+        <h2 class="section-title r" id="standards-heading">Where a clinical version would land</h2>
 
         <p class="prose r">
-          BME 565 teaches device design as a regulated practice, not just engineering. The concepts and frameworks below were part of the course curriculum and informed how we approached the design process: from risk management to use specification.
+          The final report includes a regulatory pathway section. It is analysis of what a clinical version would need, not a filing and not a completed risk file.
         </p>
 
         <div class="standards r">
           <div class="std-card">
-            <h3>ISO 14971:2019</h3>
-            <p>Risk management for medical devices. Risk identification and mitigation thinking: failure modes, hazardous situations, and acceptable risk criteria shaped the design from the start, not as a compliance layer tacked on at the end.</p>
+            <h3>FDA Class II, 510(k)</h3>
+            <p>A clinical version would most likely be Class II and go through 510(k), claiming substantial equivalence to an existing drainage monitor.</p>
           </div>
           <div class="std-card">
-            <h3>IEC 62366-1:2015</h3>
-            <p>Usability engineering for medical devices. The simulated-use workflow I designed follows the use specification structure from IEC 62366-1: intended users, use environment, task analysis, use errors that could harm.</p>
+            <h3>Predicate: Medela Thopaz+</h3>
+            <p>A digital chest drainage system that already measures air flow. It sets the bar we would be compared against.</p>
           </div>
           <div class="std-card">
-            <h3>21 CFR Part 820</h3>
-            <p>FDA Quality System Regulation for medical device design controls. Design inputs, outputs, verification, and validation planning are concepts that frame how a prototype like this would eventually move through a formal development process.</p>
+            <h3>Future compliance</h3>
+            <p>Named in the report as future work for a clinical version: 21 CFR Part 820, ISO 13485:2016, and IEC 60601-1. None of these were performed on the prototype.</p>
           </div>
         </div>
       </section>
@@ -1251,8 +1240,8 @@
             <div class="scope-label">months, Jan–May 2026</div>
           </div>
           <div class="scope-card r">
-            <div class="scope-value">0</div>
-            <div class="scope-label">commercial equivalents exist</div>
+            <div class="scope-value">~$80</div>
+            <div class="scope-label">core hardware cost</div>
           </div>
           <div class="scope-card r">
             <div class="scope-value">4</div>
@@ -1266,97 +1255,72 @@
     <div class="dark-section" style="background:var(--bg-dark-2);border-top:1px solid rgba(255,255,255,0.04);">
       <section class="section" aria-labelledby="tech-heading">
         <p class="section-label r" style="color:var(--amber-mid);">Technical Components</p>
-        <h2 class="section-title r" id="tech-heading">Hardware + software, both sides of the signal chain</h2>
+        <h2 class="section-title r" id="tech-heading">What went into the build</h2>
 
         <div class="tech-tags r">
-          <span class="tech-tag">Gas Sensors</span>
-          <span class="tech-tag">Pressure Sensors</span>
-          <span class="tech-tag">Microcontroller Processing</span>
-          <span class="tech-tag">Differential Measurement</span>
-          <span class="tech-tag">CAD / Form Factor</span>
-          <span class="tech-tag">Simulated-Use Workflow</span>
-          <span class="tech-tag">Risk Analysis (ISO 14971)</span>
-          <span class="tech-tag">Use Specification (IEC 62366)</span>
+          <span class="tech-tag">Adafruit MPRLS</span>
+          <span class="tech-tag">Renesas FS3000</span>
+          <span class="tech-tag">Arduino Nano Every</span>
+          <span class="tech-tag">I2C @ 50 kHz</span>
+          <span class="tech-tag">16x2 LCD</span>
+          <span class="tech-tag">Arduino C++</span>
+          <span class="tech-tag">SolidWorks</span>
+          <span class="tech-tag">Bambu Lab FDM</span>
         </div>
 
         <div class="tech-note r">
-          <div class="tech-note-title">Sensing at both ends of the airway</div>
-          <p>Gas flow and pressure sensors are placed at the ventilator circuit (inlet) and at the chest tube (outflow). The microcontroller computes the differential between delivered volume and measured outflow, which represents the volume leaking into the pleural space. Two measurement points, one clinically meaningful number.</p>
+          <div class="tech-note-title">Firmware</div>
+          <p>Arduino C++ using the Adafruit MPRLS, SparkFun FS3000, and LiquidCrystal libraries, co-written with the team. setup() takes a 10-sample pressure baseline. loop() runs at 2 Hz, calls classify() to map pressure to a tier, and prints a 4-column CSV line (ms, P_cmH2O, F_mLmin, damage) at 115200 baud so every run can be logged.</p>
         </div>
 
         <div class="tech-note r" style="margin-top:1.25rem;">
-          <div class="tech-note-title">CAD and form factor planning</div>
-          <p>Form factor matters for a bedside ICU device. The enclosure needs to be cleanable, mountable to a ventilator pole or bed rail, and interpretable at a glance by a nurse who's managing multiple patients. Early CAD work focused on those constraints before finalizing the sensing architecture. A technically correct sensor in an unusable housing doesn't get adopted.</p>
-        </div>
-
-        <div class="tech-note r" style="margin-top:1.5rem;">
-          <div class="tech-note-title">Failure mode detection and in-field monitoring</div>
-          <p>The device must detect and respond to sensor failures, calibration drift, and microcontroller errors. Failures are flagged to nurses with clear instructions. Failed measurements are marked unreliable; the system either switches to fallback mode or triggers a manual recalibration workflow. No silent failure.</p>
+          <div class="tech-note-title">Bench rig</div>
+          <p>An adult Ambu bag and a T-piece manifold push air into latex balloons in four sizes, one per leak severity, through 6 mm OD / 4 mm ID PU tubing. Two 3D-printed adapters connect the FS3000 to the tubing.</p>
         </div>
 
         <div class="failure-modes-wrap r" style="margin-top:1.5rem;">
           <table class="failure-modes-table">
             <thead>
               <tr>
-                <th>Failure Mode</th>
-                <th>Detection Method</th>
-                <th>Response</th>
-                <th>Recovery</th>
+                <th>Tier</th>
+                <th>Held pressure threshold (cmH2O)</th>
+                <th>Where it came from</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Inlet sensor signal loss</td>
-                <td>Continuous impedance monitoring, alert if signal drops below threshold for more than 3 seconds</td>
-                <td>Display "Inlet Sensor: Check Connection", switch to single-sensor estimation mode</td>
-                <td>Nurse reconnects sensor, device auto-recalibrates within 30 seconds</td>
-              </tr>
-              <tr>
-                <td>Outlet sensor displacement</td>
-                <td>Pressure spike detection (sudden drop in measured outflow)</td>
-                <td>Audible alarm plus visual alert "Outlet Sensor Displaced", flag all readings as unreliable</td>
-                <td>Weekly verification protocol. Nurse confirms sensor position during routine checks</td>
-              </tr>
-              <tr>
-                <td>Calibration drift (greater than 2 percent over 24 hours)</td>
-                <td>Internal reference signal check every 4 hours, compares current baseline to initial calibration</td>
-                <td>Display "Recalibration Recommended" after 24 hours continuous use</td>
-                <td>One-button recalibration. Device runs 60-second baseline capture with known zero-flow state</td>
-              </tr>
-              <tr>
-                <td>Microcontroller hang</td>
-                <td>Hardware watchdog timer (60-second timeout)</td>
-                <td>Automatic system reset, preserves last 30 minutes of data in non-volatile memory</td>
-                <td>Device restarts in less than 10 seconds, resumes monitoring with last-known calibration</td>
-              </tr>
+              <tr><td>NONE</td><td>24 or higher</td><td>Midpoint between intact (31.0) and slight (17.0)</td></tr>
+              <tr><td>SLIGHT</td><td>15 to 24</td><td>Midpoint between slight (17.0) and moderate (12.9)</td></tr>
+              <tr><td>MODERATE</td><td>11.5 to 15</td><td>Midpoint between moderate (12.9) and severe (10.5)</td></tr>
+              <tr><td>SEVERE</td><td>Below 11.5</td><td>Below the moderate/severe midpoint</td></tr>
             </tbody>
           </table>
         </div>
+        <p class="prose r" style="margin-top:1rem;">Thresholds come from our balloon calibration, not from clinical data. Validating them against real patient flow data is the first item on the future-work list.</p>
       </section>
     </div>
 
     <!-- ===== LEARNINGS ===== -->
     <div class="dark-section">
       <section class="section" aria-labelledby="learnings-heading">
-        <p class="section-label r">What I've Learned So Far</p>
-        <h2 class="section-title r" id="learnings-heading">The gap between concept and prototype is mostly process</h2>
+        <p class="section-label r">What I Learned</p>
+        <h2 class="section-title r" id="learnings-heading">Most of the work was proving the measurement</h2>
 
         <div class="learning-item r">
           <div class="learning-num">01</div>
-          <div class="learning-title">The literature review changed what we thought we were building.</div>
-          <p class="learning-body">Before I touched any hardware or CAD, I spent time in the literature on air leak monitoring methods: existing research, tried approaches, why they didn't become commercial products. That review moved us away from our first-pass concept (simple flow meter at the chest tube) toward the differential approach. The hard design decisions got easier once we understood why no one had solved this with a simpler method.</p>
+          <div class="learning-title">Write the pass/fail criteria before the test, not after.</div>
+          <p class="learning-body">I wrote the bench test protocol and the pass/fail criteria before we ran the balloons. When the flow sensor misbehaved, there was no arguing about whether it passed. It didn&#39;t, and the protocol said so.</p>
         </div>
 
         <div class="learning-item r">
           <div class="learning-num">02</div>
-          <div class="learning-title">Starting from use specification, not engineering specs, keeps a device design honest.</div>
-          <p class="learning-body">The instinct in an engineering course is to start with what you can build and work backward to a use case. I pushed us to define the simulated-use workflow first: who uses this, in what environment, under what time pressure, with what prior training? That kept us from designing a device that would work in a lab but not in an ICU. The use specification flagged constraints: alarm management, cleanability, one-handed operation. These would never appear in a component-level spec.</p>
+          <div class="learning-title">A part that doesn&#39;t fit the rig blocks everything.</div>
+          <p class="learning-body">The FS3000 has a tiny rectangular flow channel and no tubing fitting. Until the adapter existed, we couldn&#39;t test the flow side at all. A small mechanical part held up the whole electrical test plan.</p>
         </div>
 
         <div class="learning-item r">
           <div class="learning-num">03</div>
-          <div class="learning-title">Risk management isn't a document you write at the end.</div>
-          <p class="learning-body">Working through ISO 14971 risk analysis during the design phase, not after, caught at least two design choices that could have created hazardous situations. Sensor failure modes, alarm conditions, and edge cases in the differential computation aren't obvious until you ask the question: what happens if this fails, and who gets hurt? Running that analysis early changed the design, not just the documentation.</p>
+          <div class="learning-title">Report the limitation instead of hiding it.</div>
+          <p class="learning-body">Reporting dual-sensor output that we knew was unreliable would have looked better on a slide. We documented the saturation, moved classification to pressure only, and listed a wider-range flow sensor as future work.</p>
         </div>
       </section>
     </div>
@@ -1389,7 +1353,7 @@
 
       <p class="prose r"><strong>Honest finding on the flow sensor.</strong> The FS3000 returned values at or near maximum range during pressurization across all four balloons and near zero during the held phase. Neither phase varied with severity, which is what drove the pivot to pressure-only classification. The FS3000 still reads on the LCD as a sensor-status indicator, but it does not contribute to the severity decision in this rig. See the post-mortem section below for the full debrief.</p>
 
-      <p class="prose r"><strong>Custom 3D-printed adapter.</strong> The FS3000 ships as a small breakout with a 7.8 by 4.0 mm rectangular flow channel and no native fitting for laboratory tubing. I designed a parametric saddle-cap adapter that mates to the module on its inner side and transitions to a 6 mm ID barb on the outer side. Two adapters were printed on a Bambu Lab FDM printer with silicone sealant for an airtight seal. The adapter is parametric so tubing ID can be changed in one line and regenerated. Without this part, dual-sensor characterization on the bench rig would not have been possible.</p>
+      <p class="prose r"><strong>Custom 3D-printed adapter.</strong> The FS3000 ships as a small breakout with a 7.8 by 4.0 mm rectangular flow channel and no native fitting for laboratory tubing. I designed a parametric saddle-cap adapter that mates to the module on its inner side and transitions to a 6 mm ID barb on the outer side. I modeled it in SolidWorks (7.8 x 4.0 mm cavity with 0.4 mm print clearance, 7.5 mm OD barb) and printed two on a Bambu Lab FDM printer. Without this part, dual-sensor characterization on the bench rig would not have been possible.</p>
     </section>
 
         <!-- ===== WHAT I GOT WRONG ===== -->
@@ -1400,20 +1364,20 @@
 
       <div class="learning-item r">
         <div class="learning-num">01</div>
-        <div class="learning-title">The flow sensor saturated in bench testing, and I had to pivot to pressure-only classification.</div>
-        <p class="learning-body">The original design used a Honeywell MPRLS pressure sensor and a Renesas FS3000 flow sensor on a shared I2C bus. The classification logic took the higher of the two severities to be conservative. When I ran the four-balloon bench test, the FS3000 saturated at maximum range during the pressurization phase across all four balloons and dropped below useful resolution during the held phase. It did not discriminate severity in this rig. I pivoted to pressure-only classification and kept the FS3000 reading on the LCD as a sensor-status indicator. The lesson: characterize each sensor in the actual operating envelope before locking the classification logic. The FS3000 was spec'd for HVAC airflow ranges, not the brief high-velocity transients my Ambu bag produces. I would still pick a flow sensor for v2; I would just pick one with a higher saturation ceiling and run a saturation-bound test before integrating.</p>
+        <div class="learning-title">The flow sensor saturated in bench testing, so classification moved to pressure only.</div>
+        <p class="learning-body">The original design used an Adafruit MPRLS pressure sensor and a Renesas FS3000 flow sensor on a shared I2C bus. In the four-balloon test, the FS3000 sat at maximum range during pressurization for every balloon and fell below useful resolution during the held phase. It could not tell the severities apart in this rig. We moved classification to pressure only and kept the FS3000 on the LCD as a sensor-status readout. The lesson: characterize each sensor in the real operating range before locking the classification logic. For a v2, I would pick a flow sensor with a higher ceiling and run a saturation test before integrating it.</p>
       </div>
 
       <div class="learning-item r">
         <div class="learning-num">02</div>
-        <div class="learning-title">I underestimated alarm fatigue.</div>
-        <p class="learning-body">My first alarm logic was a simple threshold: if the differential pressure exceeds a value for 200 ms, alarm. In simulated use, the alarm triggered correctly on real leaks and also triggered on patient coughs, chest-tube repositioning, and ambient pressure swings when a door opened. A clinician who hears a false alarm three times an hour starts ignoring all alarms. I had to rebuild with hysteresis, a rolling-average threshold, and a debounce timer. In hindsight, the IEC 60601-1-8 alarm standard exists specifically to prevent the mistake I made, and I should have read it on day one instead of day sixty.</p>
+        <div class="learning-title">The thresholds come from balloons, not patients.</div>
+        <p class="learning-body">The four tiers separate cleanly on our rig, but a latex balloon is not a lung. Until the thresholds are checked against clinical air leak data (Cerfolio&#39;s work or Thopaz+ flow data are the obvious references), they are a bench result, not a clinical one.</p>
       </div>
 
       <div class="learning-item r">
         <div class="learning-num">03</div>
-        <div class="learning-title">I didn't talk to a nurse early enough.</div>
-        <p class="learning-body">I spent the first six weeks reading clinical literature and thinking about engineering. When I finally described the device to a nurse with ICU experience, she told me in 90 seconds that the mounting location I'd assumed was wrong, the one-handed operation requirement was real, and the alarm-silence button had to be larger than I'd sketched because gloves. Those three comments reshaped the industrial design and the firmware. None of that would have come out of more literature review. Next project, I'm showing a paper sketch to a clinician before I open CAD.</p>
+        <div class="learning-title">A breadboard can&#39;t go near a patient.</div>
+        <p class="learning-body">The prototype lives on a breadboard and can&#39;t be sterilized. The future-work plan in the report is a sealed inline cartridge with wireless logging and an active alarm. That is the version a clinician could actually use.</p>
       </div>
     </section>
 
@@ -1425,20 +1389,20 @@
 
       <div class="learning-item r">
         <div class="learning-num">Q1</div>
-        <div class="learning-title">What's the hardest engineering decision you made on this project?</div>
-        <p class="learning-body">Choosing differential pressure over flow-rate detection. Flow was simpler to instrument, simpler to explain, and two existing research devices had already tried it. I spent a week working through why those research devices hadn't matured into products and concluded the signal-to-noise problem was fundamental at clinical leak rates. Differential pressure added complexity in the sensor array and calibration, but gave us a signal that was actually above the noise floor in the operating range we cared about. If I'd picked flow, we'd have a device that worked in a lab and failed in a patient room. I'd make the same call again.</p>
+        <div class="learning-title">What was your part, specifically?</div>
+        <p class="learning-body">I designed and printed the FS3000 tubing adapter in SolidWorks, wrote the bench test protocols and pass/fail criteria, and pushed for the scope cut that put sensing verification ahead of alarm logic. I co-wrote the firmware with the team. The final report, presentation, and bench testing were shared across all three of us.</p>
       </div>
 
       <div class="learning-item r">
         <div class="learning-num">Q2</div>
-        <div class="learning-title">Who else deserves credit for this?</div>
-        <p class="learning-body">My capstone advisor, who pushed back on my first concept hard enough that I had to defend it or drop it. I dropped it. A respiratory therapist I interviewed who described, in detail, how clinicians currently estimate air leaks by watching water columns in drainage chambers, which is how I understood the clinical inertia around the existing approach. And the two classmates on my team who built out the enclosure CAD and the battery subsystem while I focused on signal chain and alarm logic. This was never a solo project.</p>
+        <div class="learning-title">Why not just buy a digital drainage system?</div>
+        <p class="learning-body">Hospitals can, and the Medela Thopaz+ is the obvious comparison. It also costs thousands of dollars. Our core hardware cost about $80. The question was whether a cheap add-on could give a standard drain an objective reading. On the bench, pressure alone was enough to separate four severities.</p>
       </div>
 
       <div class="learning-item r">
         <div class="learning-num">Q3</div>
-        <div class="learning-title">If you had another semester, what would you do differently?</div>
-        <p class="learning-body">Three changes. First, swap the FS3000 for a flow sensor with a higher saturation ceiling and run a sensor-bound test on the bench rig before integrating it into the classification logic. The dual-sensor design was sound; the part choice was wrong. Second, run a formative usability study with at least three ICU nurses and a respiratory therapist before finalizing the user interface. The current interface decisions are defensible but based on one informal conversation and literature. Formative work is cheap and I should have planned it in from week one. Third, instrument the prototype with structured data logging so every bench test produces a record I can hand to a reviewer. The ad-hoc test notes I kept are fine for a class project and insufficient for a design history file.</p>
+        <div class="learning-title">If you had another semester, what would you do?</div>
+        <p class="learning-body">Three things, all from the report&#39;s future-work section. Check the thresholds against clinical air leak data. Swap in a wider-range flow sensor so both channels work and back each other up. Package it as a sealed inline cartridge with wireless logging and an alarm.</p>
       </div>
     </section>
 
@@ -1447,7 +1411,7 @@
       <div class="cta-inner">
         <h2 class="section-title r">Questions about this project?</h2>
         <p class="cta-body r">
-          This project is the clearest example of the work I like most: find a gap where the clinical need is obvious and the engineering solution is non-trivial, then build it. Happy to talk through the design, the bench testing, or what I'd change.
+          Happy to talk through the build, the bench testing, or what I would change.
         </p>
         <div class="btn-row r">
           <a class="btn btn-primary" href="index.html#contact">
@@ -1463,13 +1427,13 @@
 
     <!-- Case study nav -->
     <nav class="case-nav" aria-label="Adjacent case studies">
-      <a class="case-nav-link" href="case-physiorep.html">
+      <a class="case-nav-link" href="case-biomaterials.html">
         <span class="case-nav-dir">← Previous</span>
-        <span class="case-nav-name">PhysioRep</span>
+        <span class="case-nav-name">Artificial ACL Graft</span>
       </a>
-      <a class="case-nav-link right" href="case-photocull.html">
+      <a class="case-nav-link right" href="case-emg.html">
         <span class="case-nav-dir">Next →</span>
-        <span class="case-nav-name">PhotoCull AI</span>
+        <span class="case-nav-name">EMG Tremor Cuff</span>
       </a>
     </nav>
 
@@ -1544,17 +1508,14 @@
 
     /* KEYBOARD NAVIGATION */
     const caseStudyNav = {
-      'case-pneumothorax.html': { prev: 'case-physiorep.html', next: 'case-photocull.html' },
-      'case-photocull.html': { prev: 'case-pneumothorax.html', next: 'case-usetrace.html' },
-      'case-usetrace.html': { prev: 'case-photocull.html', next: 'case-emg.html' },
-      'case-emg.html': { prev: 'case-usetrace.html', next: 'case-biofeedback.html' },
+      'case-pneumothorax.html': { prev: 'case-biomaterials.html', next: 'case-emg.html' },
+      'case-emg.html': { prev: 'case-pneumothorax.html', next: 'case-biofeedback.html' },
       'case-biofeedback.html': { prev: 'case-emg.html', next: 'case-fall.html' },
       'case-fall.html': { prev: 'case-biofeedback.html', next: 'case-biostats.html' },
       'case-biostats.html': { prev: 'case-fall.html', next: 'case-ml-heart.html' },
       'case-ml-heart.html': { prev: 'case-biostats.html', next: 'case-irb-nanomedicine.html' },
       'case-irb-nanomedicine.html': { prev: 'case-ml-heart.html', next: 'case-biomaterials.html' },
-      'case-biomaterials.html': { prev: 'case-irb-nanomedicine.html', next: 'case-physiorep.html' },
-      'case-physiorep.html': { prev: 'case-biomaterials.html', next: 'case-pneumothorax.html' }
+      'case-biomaterials.html': { prev: 'case-irb-nanomedicine.html', next: 'case-pneumothorax.html' }
     };
 
     const currentFile = window.location.pathname.split('/').pop() || 'case-pneumothorax.html';

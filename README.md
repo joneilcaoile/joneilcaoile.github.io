@@ -4,13 +4,12 @@ Personal portfolio site for Joneil Caoile. Biomedical engineer in healthcare tec
 
 **Live:** [joneilcaoile.github.io](https://joneilcaoile.github.io)
 
-Built as a single-file HTML page (~1950 lines). Features WebGL shaders, GSAP animations, dark mode, and a few easter eggs.
+Static site: one HTML file per page, no build step. GSAP animations, dark mode, and a few easter eggs.
 
 ## Tech Stack
 
 - Vanilla HTML/CSS/JS (no framework)
 - GSAP (animations)
-- Three.js (WebGL hero shader)
 - Formspree (contact form)
 - GitHub Pages (hosting)
 

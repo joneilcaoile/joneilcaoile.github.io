@@ -32,7 +32,7 @@
   <meta name="twitter:description" content="Wearable EMG system for detecting and suppressing Parkinsonian tremor via pneumatic actuation. Full Python simulation.">
   <meta name="twitter:image" content="https://joneilcaoile.github.io/og-preview.jpg">
   <link rel="canonical" href="https://joneilcaoile.github.io/case-emg.html">
-  <link rel="prev" href="https://joneilcaoile.github.io/case-usetrace.html">
+  <link rel="prev" href="https://joneilcaoile.github.io/case-pneumothorax.html">
   <link rel="next" href="https://joneilcaoile.github.io/case-biofeedback.html">
   <meta name="theme-color" content="#FAFAF8">
   <meta name="color-scheme" content="light dark">
@@ -1365,9 +1365,9 @@
 
     <!-- ===== CASE NAV ===== -->
     <nav class="case-nav r" aria-label="Adjacent case studies">
-      <a href="case-usetrace.html" class="case-nav-link">
+      <a href="case-pneumothorax.html" class="case-nav-link">
         <span class="case-nav-dir">Previous</span>
-        <span class="case-nav-name">UseTrace HFE</span>
+        <span class="case-nav-name">Pneumothorax Air Leak Monitor</span>
       </a>
       <a href="case-biofeedback.html" class="case-nav-link right">
         <span class="case-nav-dir">Next</span>
@@ -1679,17 +1679,14 @@
 
     /* KEYBOARD NAVIGATION */
     const caseStudyNav = {
-      'case-pneumothorax.html': { prev: 'case-physiorep.html', next: 'case-photocull.html' },
-      'case-photocull.html': { prev: 'case-pneumothorax.html', next: 'case-usetrace.html' },
-      'case-usetrace.html': { prev: 'case-photocull.html', next: 'case-emg.html' },
-      'case-emg.html': { prev: 'case-usetrace.html', next: 'case-biofeedback.html' },
+      'case-pneumothorax.html': { prev: 'case-biomaterials.html', next: 'case-emg.html' },
+      'case-emg.html': { prev: 'case-pneumothorax.html', next: 'case-biofeedback.html' },
       'case-biofeedback.html': { prev: 'case-emg.html', next: 'case-fall.html' },
       'case-fall.html': { prev: 'case-biofeedback.html', next: 'case-biostats.html' },
       'case-biostats.html': { prev: 'case-fall.html', next: 'case-ml-heart.html' },
       'case-ml-heart.html': { prev: 'case-biostats.html', next: 'case-irb-nanomedicine.html' },
       'case-irb-nanomedicine.html': { prev: 'case-ml-heart.html', next: 'case-biomaterials.html' },
-      'case-biomaterials.html': { prev: 'case-irb-nanomedicine.html', next: 'case-physiorep.html' },
-      'case-physiorep.html': { prev: 'case-biomaterials.html', next: 'case-pneumothorax.html' }
+      'case-biomaterials.html': { prev: 'case-irb-nanomedicine.html', next: 'case-pneumothorax.html' }
     };
 
     const currentFile = window.location.pathname.split('/').pop() || 'case-emg.html';
