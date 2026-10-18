@@ -65,7 +65,8 @@
     "name": "Joneil Caoile",
     "url": "https://joneilcaoile.github.io",
     "image": "https://joneilcaoile.github.io/headshot.webp",
-    "jobTitle": "Biomedical Engineer",
+    "jobTitle": "Biomed Service Specialist",
+    "worksFor": {"@type": "Organization", "name": "DaVita"},
     "description": "Joneil Caoile, M.S. Biomedical Engineering (Stevens, 3.96 GPA). Biomed Service Specialist at DaVita on hemodialysis and RO water equipment. Bench-tested capstone device, clinical research, and clinical data projects. 400+ clinical hours. Torrance, CA.",
     "email": "joneilcaoile@gmail.com",
     "telephone": "+1-424-421-9173",
@@ -4181,72 +4182,6 @@ html, body { overflow-x: clip; }
     <h2 class="r">Seven more projects. Zero fluff.</h2>
     <div class="work-grid">
 
-      <!-- Biofeedback Study -->
-      <div class="work-card r">
-        <div class="work-card-visual" style="background:linear-gradient(145deg, #0a1a14 0%, #0e2a1e 40%, #10201a 100%)">
-          <div class="pipeline">
-            <div class="pipe-node"><div class="pipe-icon">🎯</div><div class="pipe-label">Motion Cap</div></div>
-            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
-            <div class="pipe-node"><div class="pipe-icon">🔊</div><div class="pipe-label">Audio Cue</div></div>
-            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
-            <div class="pipe-node"><div class="pipe-icon">🦵</div><div class="pipe-label">Knee Align</div></div>
-          </div>
-        </div>
-        <div class="work-card-body">
-          <div class="work-card-meta">
-            <span class="work-card-rarity rarity--rare">RARE</span>
-            <span class="work-card-category">Biofeedback / Clinical Research</span>
-          </div>
-          <h3>Biofeedback Rehab Study</h3>
-          <p>Motion-capture study testing real-time audio feedback to improve knee alignment during Taekwondo kicks. Study and iteration lead on a 4-person team, from study design through data analysis.</p>
-          <div class="work-card-outcome">3 athletes analyzed · Audio cue checked against motion-capture data</div>
-          <div class="work-card-roles"><span class="work-card-role">Clinical Research</span><span class="work-card-role">R&D</span><span class="work-card-role">Test</span></div>
-          <div class="work-card-evidence">OptiTrack motion capture · EMG + joint-angle analysis in MATLAB · Max/MSP audio feedback system</div>
-          <div class="work-card-tags">
-            <span class="work-card-tag">MATLAB</span>
-            <span class="work-card-tag">OptiTrack</span>
-            <span class="work-card-tag">Max/MSP</span>
-            <span class="work-card-tag">Usability Testing</span>
-          </div>
-          <div class="work-card-links">
-            <a href="case-biofeedback.html">Case Study →</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- EMG Cuff -->
-      <div class="work-card r">
-        <div class="work-card-visual" style="background:linear-gradient(145deg, #1a0d1a 0%, #2e1428 40%, #1a1028 100%)">
-          <div class="pipeline">
-            <div class="pipe-node"><div class="pipe-icon">💪</div><div class="pipe-label">EMG Signal</div></div>
-            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
-            <div class="pipe-node"><div class="pipe-icon">📈</div><div class="pipe-label">4-8 Hz Filter</div></div>
-            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
-            <div class="pipe-node"><div class="pipe-icon">🎯</div><div class="pipe-label">Suppress Tremor</div></div>
-          </div>
-        </div>
-        <div class="work-card-body">
-          <div class="work-card-meta">
-            <span class="work-card-rarity rarity--rare">RARE</span>
-            <span class="work-card-category">Wearable / Simulation</span>
-          </div>
-          <h3>EMG Tremor-Suppression Cuff</h3>
-          <p>Wearable EMG cuff concept for Parkinson&#39;s tremor. I built a Python simulation from scratch to check tremor-detection timing and controller response before any hardware, with pass/fail criteria set from physiological benchmarks. Simulation only; the hardware stayed at concept stage.</p>
-          <div class="work-card-outcome">4-8 Hz tremor band · About 45% simulated tremor reduction · Detection fit r = 0.994</div>
-          <div class="work-card-roles"><span class="work-card-role">R&D</span><span class="work-card-role">Test</span></div>
-          <div class="work-card-evidence">Python simulation (NumPy/SciPy) · Pass/fail criteria for detection latency and suppression accuracy · RMSE about 0.12</div>
-          <div class="work-card-tags">
-            <span class="work-card-tag">EMG Processing</span>
-            <span class="work-card-tag">Signal Processing</span>
-            <span class="work-card-tag">Python</span>
-            <span class="work-card-tag">Simulation</span>
-          </div>
-          <div class="work-card-links">
-            <a href="case-emg.html">Case Study →</a>
-          </div>
-        </div>
-      </div>
-
       <!-- Fall Study Reliability Tool -->
       <div class="work-card r">
         <div class="work-card-visual" style="background:linear-gradient(145deg, #0a1618 0%, #102828 40%, #0d2020 100%)">
@@ -4346,6 +4281,39 @@ html, body { overflow-x: clip; }
         </div>
       </div>
 
+      <!-- EMG Cuff -->
+      <div class="work-card r">
+        <div class="work-card-visual" style="background:linear-gradient(145deg, #1a0d1a 0%, #2e1428 40%, #1a1028 100%)">
+          <div class="pipeline">
+            <div class="pipe-node"><div class="pipe-icon">💪</div><div class="pipe-label">EMG Signal</div></div>
+            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
+            <div class="pipe-node"><div class="pipe-icon">📈</div><div class="pipe-label">4-8 Hz Filter</div></div>
+            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
+            <div class="pipe-node"><div class="pipe-icon">🎯</div><div class="pipe-label">Suppress Tremor</div></div>
+          </div>
+        </div>
+        <div class="work-card-body">
+          <div class="work-card-meta">
+            <span class="work-card-rarity rarity--rare">RARE</span>
+            <span class="work-card-category">Wearable / Simulation</span>
+          </div>
+          <h3>EMG Tremor-Suppression Cuff</h3>
+          <p>Wearable EMG cuff concept for Parkinson&#39;s tremor. I built a Python simulation from scratch to check tremor-detection timing and controller response before any hardware, with pass/fail criteria set from physiological benchmarks. Simulation only; the hardware stayed at concept stage.</p>
+          <div class="work-card-outcome">4-8 Hz tremor band · About 45% simulated tremor reduction · Detection fit r = 0.994</div>
+          <div class="work-card-roles"><span class="work-card-role">R&D</span><span class="work-card-role">Test</span></div>
+          <div class="work-card-evidence">Python simulation (NumPy/SciPy) · Pass/fail criteria for detection latency and suppression accuracy · RMSE about 0.12</div>
+          <div class="work-card-tags">
+            <span class="work-card-tag">EMG Processing</span>
+            <span class="work-card-tag">Signal Processing</span>
+            <span class="work-card-tag">Python</span>
+            <span class="work-card-tag">Simulation</span>
+          </div>
+          <div class="work-card-links">
+            <a href="case-emg.html">Case Study →</a>
+          </div>
+        </div>
+      </div>
+
       <!-- IRB Protocol: BME 509 -->
       <div class="work-card r">
         <div class="work-card-visual" style="background:linear-gradient(145deg, #0d1a18 0%, #122a26 40%, #0a201c 100%)">
@@ -4375,6 +4343,39 @@ html, body { overflow-x: clip; }
           </div>
           <div class="work-card-links">
             <a href="case-irb-nanomedicine.html">Case Study →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Biofeedback Study -->
+      <div class="work-card r">
+        <div class="work-card-visual" style="background:linear-gradient(145deg, #0a1a14 0%, #0e2a1e 40%, #10201a 100%)">
+          <div class="pipeline">
+            <div class="pipe-node"><div class="pipe-icon">🎯</div><div class="pipe-label">Motion Cap</div></div>
+            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
+            <div class="pipe-node"><div class="pipe-icon">🔊</div><div class="pipe-label">Audio Cue</div></div>
+            <div class="pipe-arrow"><svg viewBox="0 0 20 12"><path d="M2 6h14l-4-4M16 6l-4 4" fill="none"/></svg></div>
+            <div class="pipe-node"><div class="pipe-icon">🦵</div><div class="pipe-label">Knee Align</div></div>
+          </div>
+        </div>
+        <div class="work-card-body">
+          <div class="work-card-meta">
+            <span class="work-card-rarity rarity--rare">RARE</span>
+            <span class="work-card-category">Biofeedback / Clinical Research</span>
+          </div>
+          <h3>Biofeedback Rehab Study</h3>
+          <p>Motion-capture study testing real-time audio feedback to improve knee alignment during Taekwondo kicks. Study and iteration lead on a 4-person team, from study design through data analysis.</p>
+          <div class="work-card-outcome">3 athletes analyzed · Audio cue checked against motion-capture data</div>
+          <div class="work-card-roles"><span class="work-card-role">Clinical Research</span><span class="work-card-role">R&D</span><span class="work-card-role">Test</span></div>
+          <div class="work-card-evidence">OptiTrack motion capture · EMG + joint-angle analysis in MATLAB · Max/MSP audio feedback system</div>
+          <div class="work-card-tags">
+            <span class="work-card-tag">MATLAB</span>
+            <span class="work-card-tag">OptiTrack</span>
+            <span class="work-card-tag">Max/MSP</span>
+            <span class="work-card-tag">Usability Testing</span>
+          </div>
+          <div class="work-card-links">
+            <a href="case-biofeedback.html">Case Study →</a>
           </div>
         </div>
       </div>
