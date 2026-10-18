@@ -17,11 +17,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Heart Disease Prediction with Logistic Regression | Case Study | Joneil Caoile</title>
-  <meta name="description" content="Comparative ML study on the UCI Heart Disease dataset. Logistic Regression model with interpretable coefficients tied to documented clinical risk factors. ROC-AUC 0.94 on holdout.">
+  <meta name="description" content="Logistic regression on the UCI Heart Disease dataset in a 4-person comparative ML study. Holdout ROC-AUC 0.939, 5-fold CV ROC-AUC 0.911, coefficients tied to clinical risk factors.">
   <meta name="author" content="Joneil Caoile">
   <meta name="keywords" content="machine learning, logistic regression, UCI Heart Disease, classification, ROC-AUC, clinical decision support, scikit-learn, interpretable ML, biomedical engineering, Joneil Caoile">
   <meta property="og:title" content="Heart Disease Prediction with Logistic Regression | Joneil Caoile">
-  <meta property="og:description" content="UCI Heart Disease, 303 patients. Logistic Regression with interpretable coefficients. ROC-AUC 0.94 on holdout.">
+  <meta property="og:description" content="Logistic regression on the UCI Heart Disease dataset in a 4-person comparative ML study. Holdout ROC-AUC 0.939, 5-fold CV ROC-AUC 0.911, coefficients tied to clinical risk factors.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://joneilcaoile.github.io/case-ml-heart.html">
   <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.jpg">
@@ -29,7 +29,7 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Heart Disease Prediction with Logistic Regression | Joneil Caoile">
-  <meta name="twitter:description" content="UCI Heart Disease comparative ML study. Interpretable Logistic Regression. ROC-AUC 0.94.">
+  <meta name="twitter:description" content="Logistic regression on the UCI Heart Disease dataset in a 4-person comparative ML study. Holdout ROC-AUC 0.939, 5-fold CV ROC-AUC 0.911, coefficients tied to clinical risk factors.">
   <meta name="twitter:image" content="https://joneilcaoile.github.io/og-preview.jpg">
   <link rel="canonical" href="https://joneilcaoile.github.io/case-ml-heart.html">
   <link rel="prev" href="https://joneilcaoile.github.io/case-biostats.html">
@@ -62,8 +62,8 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "Heart Disease Prediction with Logistic Regression: A Comparative ML Study",
-    "description": "Comparative ML study on the UCI Heart Disease dataset. Logistic Regression coefficients map onto documented clinical risk factors for coronary artery disease.",
+    "headline": "Heart Disease Prediction with Logistic Regression",
+    "description": "Logistic regression on the UCI Heart Disease dataset in a 4-person comparative ML study. Holdout ROC-AUC 0.939, 5-fold CV ROC-AUC 0.911, coefficients tied to clinical risk factors.",
     "keywords": "machine learning, logistic regression, UCI Heart Disease, classification, ROC-AUC, clinical decision support",
     "author": {
       "@type": "Person",
@@ -75,7 +75,7 @@
       "name": "Joneil Caoile"
     },
     "datePublished": "2026-05-07",
-    "dateModified": "2026-05-07",
+    "dateModified": "2026-10-18",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://joneilcaoile.github.io/case-ml-heart.html"
@@ -941,7 +941,17 @@
       .metric-card, .std-card, .arch-node { border: 1px solid #ccc !important; background: white !important; }
       .metric-card *, .std-card *, .arch-node * { color: #1a1a1a !important; }
     }
-  </style>
+  
+    /* ===== LEARNINGS (added 2026-10-18) ===== */
+    .learning-item { padding: 1.25rem 0; border-bottom: 1px solid rgba(128,128,128,0.18); }
+    .learning-item:last-child { border-bottom: none; }
+    .learning-num { font-family: var(--font-mono); font-size: 0.7rem; color: var(--amber); letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+    .learning-title { font-family: var(--font-head); font-size: 1.05rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
+    .learning-body { font-size: 0.95rem; color: var(--text-muted); line-height: 1.75; }
+    .dark-section .learning-title { color: #F5F3EE; }
+    .dark-section .learning-body { color: rgba(245,243,238,0.7); }
+    .dark-section table td, .dark-section table th { color: rgba(245,243,238,0.85); }
+</style>
   <noscript><style>.r { opacity: 1 !important; transform: none !important; } .scroll-top { display: none !important; }</style></noscript>
 </head>
 <body>
@@ -965,252 +975,111 @@
   </nav>
 
   <main id="main">
-    <!-- Hero -->
+
+    <!-- ===== HERO ===== -->
     <section class="hero">
       <div class="status-badge">
         <span class="status-dot"></span>
-        Graduate coursework
+        Graduate coursework · BME 571 Machine Learning
       </div>
       <h1 class="hero-title">Heart Disease Prediction with <span class="accent">Logistic Regression</span></h1>
-      <p class="hero-desc">A 4-person comparative ML study on the UCI Heart Disease dataset. I owned the Logistic Regression model and the Introduction. The model hit a 5-fold cross-validated ROC-AUC of 0.911, and its top coefficients lined up with documented clinical risk factors for coronary artery disease. That alignment is the part that matters.</p>
+      <p class="hero-desc">A 4-person comparative ML study on the UCI Heart Disease dataset. I owned the logistic regression model and the Introduction/Background section. The model reached a holdout ROC-AUC of 0.939, and its largest coefficients matched known clinical risk factors.</p>
       <div class="meta-row">
         <div class="meta-item">
           <span class="meta-label">Role</span>
-          <span>ML modeling + Background section (4-person team)</span>
+          <span>Logistic regression + Background (4-person team)</span>
         </div>
         <div class="meta-item">
           <span class="meta-label">Timeline</span>
-          <span>Apr - May 2026</span>
+          <span>Jan – May 2026</span>
         </div>
         <div class="meta-item">
           <span class="meta-label">Type</span>
-          <span>Machine Learning / Clinical Decision Support</span>
+          <span>Machine learning / Clinical data</span>
         </div>
         <div class="meta-item">
           <span class="meta-label">Dataset</span>
-          <span>UCI Heart Disease (Cleveland) &middot; n = 303</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Read time</span>
-          <span>8 min</span>
+          <span>UCI Heart Disease (Cleveland) · n = 303</span>
         </div>
       </div>
     </section>
 
-    <!-- Problem / Solution -->
     <section class="section">
-      <h2 class="section-title r">The question we asked</h2>
-      <p class="prose">Can a simple, interpretable model predict whether a patient has coronary artery disease from a routine cardiology workup, and does it reason about features the way a clinician would? Heart disease is the leading cause of death in the United States. The strongest risk factors are already collected during a standard workup. The harder problem is combining them into a consistent risk estimate that a clinician can defend to a patient.</p>
-      <p class="prose">Our team picked the UCI Heart Disease dataset, Cleveland subset (303 patients, 13 features). I owned Logistic Regression and the Introduction section. My teammates ran SVM and Random Forest on the same shared preprocessing pipeline so all three models could be compared like-for-like.</p>
-
-      <div class="ps-grid">
+      <p class="section-label r">The Question</p>
+      <h2 class="section-title r">Can a simple model reason like a clinician?</h2>
+      <p class="prose r">Can an interpretable model predict heart disease from a routine cardiology workup, and does it weigh the same factors a clinician would? We used the UCI Heart Disease dataset (Cleveland, 303 patients, 13 clinical features).</p>
+      <p class="prose r">Each teammate built a different model on the same preprocessing so the results could be compared fairly. Mine was logistic regression, chosen because every coefficient can be read and checked.</p>
+      <div class="ps-grid r">
         <div class="ps-card problem">
-          <div class="ps-card-label">The trade-off</div>
-          <h3 class="ps-card-title">Interpretability vs. raw accuracy</h3>
-          <p>Random Forest typically scores higher on this dataset, but its decision logic is opaque. A clinician who has to defend a screening recommendation needs to know why the model fired. That made the comparison a question about cost, not just performance.</p>
+          <div class="ps-card-label">Trade-off</div>
+          <h3 class="ps-card-title">Accuracy vs. explanation</h3>
+          <p>Complex models can score well but can&#39;t say why. A clinician who has to defend a recommendation needs the why.</p>
         </div>
         <div class="ps-card solution">
-          <div class="ps-card-label">What we found</div>
-          <h3 class="ps-card-title">LogReg gets you 90% of the AUC, all of the interpretability</h3>
-          <p>5-fold CV ROC-AUC: LogReg 0.911, SVM 0.894, Random Forest ~0.87. On the holdout test set LogReg hit 0.939. The top five coefficients matched documented coronary artery disease risk factors. The strongest negative predictor matched the cardiovascular fitness literature.</p>
+          <div class="ps-card-label">My piece</div>
+          <h3 class="ps-card-title">Logistic regression</h3>
+          <p>Coefficients show exactly how much each feature pushes the prediction up or down.</p>
         </div>
       </div>
     </section>
 
-    <!-- Architecture -->
     <section class="section dark-section r">
-      <h2 class="section-title r">Modeling pipeline</h2>
-      <p class="prose">All three models share the same preprocessing pipeline so the comparison is honest. Median imputation and StandardScaler are wrapped in a sklearn Pipeline so they re-fit inside each cross-validation fold. The 80/20 split uses a fixed random seed for reproducibility.</p>
-
-      <div class="arch">
-        <div class="arch-title">Pipeline Flow</div>
-        <div class="arch-flow">
-          <div class="arch-node input">
-            UCI Cleveland
-            <span class="arch-sub">303 patients, 13 features</span>
-          </div>
-          <span class="arch-arrow">&rarr;</span>
-          <div class="arch-node process">
-            Preprocessing
-            <span class="arch-sub">One-hot, impute, scale</span>
-          </div>
-          <span class="arch-arrow">&rarr;</span>
-          <div class="arch-node process">
-            80/20 Split
-            <span class="arch-sub">Stratified, seed 42</span>
-          </div>
-          <span class="arch-arrow">&rarr;</span>
-          <div class="arch-node ai">
-            Logistic Regression
-            <span class="arch-sub">5-fold stratified CV</span>
-          </div>
-          <span class="arch-arrow">&rarr;</span>
-          <div class="arch-node output">
-            Coefficients + ROC
-            <span class="arch-sub">Tied to clinical risk factors</span>
-          </div>
-        </div>
+      <p class="section-label r">The Pipeline</p>
+      <h2 class="section-title r">Same data, same split, same metrics</h2>
+      <p class="prose r"><strong>Shared preprocessing.</strong> Median imputation and StandardScaler sit inside an sklearn Pipeline, so they are re-fit within each cross-validation fold and nothing leaks from test data into training.</p>
+      <p class="prose r"><strong>One-hot encoding.</strong> Chest pain type, resting ECG, ST slope and thalassemia are categories, not ordered numbers. One-hot encoding them gave 18 model features in total.</p>
+      <p class="prose r"><strong>Two kinds of evaluation.</strong> Stratified 5-fold cross-validation for a stable estimate, plus an 80/20 holdout split (seed 42) the model never trained on.</p>
+      <p class="prose r">I pushed the team early to lock in the shared preprocessing and a common metrics format before anyone trained a model. Both were adopted.</p>
+      <div class="r" style="overflow-x:auto;margin:1.5rem 0;">
+        <table style="width:100%;border-collapse:collapse;font-size:0.95rem;">
+          <thead><tr style="text-align:left;border-bottom:1px solid rgba(128,128,128,0.35);"><th>Metric</th><th>5-fold CV (mean ± SD)</th><th>Holdout (n = 61)</th></tr></thead>
+          <tbody><tr><td>ROC-AUC</td><td>0.911 ± 0.020</td><td>0.939</td></tr><tr><td>Accuracy</td><td>0.848 ± 0.030</td><td>0.820</td></tr><tr><td>Precision</td><td>0.868 ± 0.051</td><td>0.793</td></tr><tr><td>Recall</td><td></td><td>0.821</td></tr><tr><td>F1</td><td></td><td>0.807</td></tr></tbody>
+        </table>
       </div>
-
-      <h3 class="section-title" style="color: #F5F3EE; margin-top: 3rem;">Key decisions</h3>
-      <p class="prose"><strong>Shared preprocessing module across all three models.</strong> If each teammate ran their own train/test split and scaler, the cross-model comparison would be meaningless. We agreed on one preprocessing.py with median imputation and StandardScaler in a Pipeline. All three models import and use the same fixed split.</p>
-      <p class="prose"><strong>One-hot encoding for ordinal categoricals.</strong> Chest pain type, resting ECG, ST slope, and thalassemia status are categorical, not ordered numerical quantities. Treating them as continuous would have introduced a false ordering. One-hot encoding turned 4 categorical features into 14 binary features that the model could weight independently.</p>
-      <p class="prose"><strong>5-fold stratified CV plus a holdout split.</strong> CV gives a stable estimate of out-of-sample performance with confidence bounds. The holdout split keeps a portion of data the model has never seen for a final, single-shot evaluation. Reporting both keeps the reader from being misled by either alone.</p>
-
-      <h3 class="section-title" style="color: #F5F3EE; margin-top: 3rem;">Why interpretability mattered here</h3>
-      <div style="background: #1A1815; border: 1px solid rgba(217,119,6,0.15); border-radius: 12px; padding: 1.75rem 1.5rem; margin: 2rem 0;">
-        <p style="font-size: 0.95rem; line-height: 1.8; color: #F5F3EE; margin: 0;">In a clinical screening tool, a model that scores 1-2 points higher on accuracy is not always the right model. Logistic Regression coefficients can be inspected one by one. A clinician can confirm that the model is weighting fluoroscopy vessel count, asymptomatic chest pain, and a flat ST slope as positive risk signals, and weighting maximum exercise heart rate as a protective factor. Black-box models that predict equally well still have to be trusted blind. For a first-pass risk stratification tool that gets followed by confirmatory testing, that trust is the differentiator.</p>
-      </div>
-    </section>
-
-    <!-- Research context -->
-    <section class="section">
-      <h2 class="section-title r">Top predictors and clinical context</h2>
-      <p class="prose">The whole point of choosing Logistic Regression was that you can read the coefficients. Here are the strongest signals the model learned, ranked by absolute coefficient magnitude on the standardized features.</p>
-
-      <div class="standards">
-        <div class="std-card">
-          <h3>ca (vessels on fluoroscopy)</h3>
-          <p>Strongest positive predictor. Coefficient +1.15. Direct anatomical evidence of coronary disease. The more colored vessels, the higher the predicted risk.</p>
-        </div>
-        <div class="std-card">
-          <h3>cp_4 (asymptomatic chest pain)</h3>
-          <p>Coefficient +0.87. Counter-intuitive at first read, but consistent with the literature: asymptomatic presentations in this dataset are largely incidental findings during a workup, biasing toward true disease.</p>
-        </div>
-        <div class="std-card">
-          <h3>sex (male)</h3>
-          <p>Coefficient +0.74. Male sex is a non-modifiable cardiovascular risk factor in every major guideline.</p>
-        </div>
-        <div class="std-card">
-          <h3>thal_7 (reversible perfusion defect)</h3>
-          <p>Coefficient +0.68. Reversible defects on thallium imaging indicate ischemic but viable myocardium. A documented marker of coronary artery disease.</p>
-        </div>
-        <div class="std-card">
-          <h3>slope_2 (flat ST slope)</h3>
-          <p>Coefficient +0.60. Flat or downsloping ST during exercise is one of the classic ECG signs of myocardial ischemia.</p>
-        </div>
-        <div class="std-card">
-          <h3>thalach (max exercise heart rate)</h3>
-          <p>Strongest negative predictor. Coefficient -0.36. Higher exercise capacity is consistently associated with lower cardiovascular risk.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Metrics -->
-    <section class="section">
-      <h2 class="section-title r">Key numbers</h2>
-      <p class="prose">All numbers are from a Logistic Regression model trained on the shared preprocessing pipeline, evaluated with 5-fold stratified cross-validation and a separate 20% holdout test set.</p>
-
-      <div class="metric-grid">
-        <div class="metric-card">
-          <div class="metric-value">0.939</div>
-          <div class="metric-label">ROC-AUC (holdout, n=61)</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value">0.911</div>
-          <div class="metric-label">ROC-AUC (5-fold CV mean)</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value">0.848</div>
-          <div class="metric-label">Accuracy (5-fold CV mean)</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value">0.868</div>
-          <div class="metric-label">Precision (5-fold CV mean)</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Tech stack -->
-    <section class="section">
-      <h2 class="section-title r">Built with</h2>
-      <div class="tech-tags">
+      <style>main table td,main table th{padding:10px 12px;border-bottom:1px solid rgba(128,128,128,0.18);vertical-align:top}</style>
+      <div class="tech-tags r">
         <span class="tech-tag">Python</span>
         <span class="tech-tag">scikit-learn</span>
-        <span class="tech-tag">Pandas</span>
-        <span class="tech-tag">NumPy</span>
-        <span class="tech-tag">Matplotlib</span>
-        <span class="tech-tag">UCI ML Repository</span>
+        <span class="tech-tag">pandas</span>
+        <span class="tech-tag">matplotlib</span>
         <span class="tech-tag">Jupyter</span>
-        <span class="tech-tag">Logistic Regression</span>
-      </div>
-
-      <h3 class="section-title" style="margin-top: 2rem;">Why these choices?</h3>
-      <p class="prose"><strong>scikit-learn for the model and the pipeline.</strong> Pipeline + StratifiedKFold gives you correct cross-validation behavior almost for free. Imputation and scaling re-fit inside each fold instead of leaking statistics from the test data into training. That detail is the difference between a defensible result and a misleading one.</p>
-      <p class="prose"><strong>UCI dataset, not a bigger one.</strong> 303 patients is small. But the comparative goal here was methodology, not headline accuracy. UCI Cleveland is the well-known reference dataset for this task, which makes our results comparable to a large body of published work.</p>
-      <p class="prose"><strong>Coefficient inspection over feature importance from a black box.</strong> Random Forest gives feature importance numbers, but they reflect splits across an ensemble of trees, not how a single decision is made. A LogReg coefficient is the actual log-odds contribution of that feature on every prediction. That is the kind of explanation a clinician can read.</p>
-    </section>
-
-    <!-- Limitations -->
-    <section class="section dark-section r">
-      <h2 class="section-title r">Limitations we reported</h2>
-      <div class="metric-grid" style="grid-template-columns: 1fr;">
-        <div class="metric-card" style="background: #1A1815; border: 1px solid rgba(217,119,6,0.2); border-radius: 12px; padding: 2rem; text-align: left;">
-          <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600; color: #FEF3C7; margin-bottom: 1rem; margin-top: 0;">Small dataset, single source, no clinical validation</h3>
-          <p style="font-size: 0.95rem; line-height: 1.7; color: #F5F3EE; margin: 0;">303 patients from one institution in 1988 is a tiny dataset by modern ML standards. The class distribution is mildly imbalanced (54/46) but not severely. We did not perform hyperparameter tuning, since the goal was a like-for-like comparison at default settings. The coefficients align with clinical literature, but a real clinical decision support tool would require external validation against contemporary data, calibration analysis, decision-curve analysis, and a regulatory pathway under FDA SaMD guidance. None of that was in scope for a semester project, but it matters that we can name the gap.</p>
-        </div>
+        <span class="tech-tag">Git/GitHub</span>
       </div>
     </section>
 
-    <!-- What I learned -->
     <section class="section">
-      <h2 class="section-title r">What I learned</h2>
-      <p class="prose"><strong>The simplest model that works is usually the right model.</strong> Logistic Regression sits one hair behind Random Forest on this dataset, and well within Random Forest's confidence interval. That tiny gap is not worth the loss of interpretability when the downstream user has to defend a recommendation. This is the same lesson Cynthia Rudin has been making for years: stop explaining black boxes for high-stakes decisions, and use models that are interpretable to begin with.</p>
-      <p class="prose"><strong>Shared preprocessing is the unsung half of a comparative study.</strong> The result table is only meaningful if every model saw the same train/test split, the same imputation, and the same scaler fit. Building the shared preprocessing module before anyone trained a model saved us from comparing a model that benefited from data leakage to one that did not.</p>
-      <p class="prose" style="padding: 1.75rem; background: rgba(217,119,6,0.08); border-left: 3px solid #D97706; border-radius: 8px; margin: 1.5rem 0;"><strong>Coefficients are a hypothesis-generating tool, not just a deliverable.</strong> When the model put +0.87 on asymptomatic chest pain, my first instinct was that the coding was wrong. Reading the data dictionary clarified that the asymptomatic class in this dataset captures incidental findings during workup, not low-risk patients. The model was teaching me about the data. That kind of feedback is impossible to get from a black-box predictor.</p>
+      <p class="section-label r">Reading the Model</p>
+      <h2 class="section-title r">The top coefficients match the clinical literature</h2>
+      <div class="r" style="overflow-x:auto;margin:1.5rem 0;">
+        <table style="width:100%;border-collapse:collapse;font-size:0.95rem;">
+          <thead><tr style="text-align:left;border-bottom:1px solid rgba(128,128,128,0.35);"><th>Feature</th><th>Coefficient</th><th>Clinical meaning</th></tr></thead>
+          <tbody><tr><td>ca (major vessels on fluoroscopy)</td><td>+1.15</td><td>Direct anatomical evidence of coronary disease</td></tr><tr><td>Asymptomatic chest pain</td><td>+0.87</td><td>In this dataset, mostly incidental findings during a workup</td></tr><tr><td>Male sex</td><td>+0.74</td><td>Non-modifiable cardiovascular risk factor</td></tr><tr><td>Reversible thalassemia defect</td><td>+0.68</td><td>Ischemic but viable heart muscle on imaging</td></tr><tr><td>Flat ST slope</td><td>+0.60</td><td>Classic ECG sign of ischemia during exercise</td></tr><tr><td>Max exercise heart rate</td><td>−0.36</td><td>Strongest protective factor: higher capacity, lower risk</td></tr></tbody>
+        </table>
+      </div>
+      <style>main table td,main table th{padding:10px 12px;border-bottom:1px solid rgba(128,128,128,0.18);vertical-align:top}</style>
+      <p class="prose r">These line up with the risk factors I wrote up in the report&#39;s Background section, which was the point of choosing a model you can read.</p>
     </section>
 
-    <!-- ===== WHAT I GOT WRONG ===== -->
-    <section class="section" aria-labelledby="wrong-heading" style="padding-top: 48px;">
-      <p class="section-label r">Post-Mortem</p>
-      <h2 class="section-title r" id="wrong-heading">What I got wrong.</h2>
-      <p class="r" style="max-width: 720px; color: var(--text-muted, #635B52); margin-bottom: 32px;">The model and the comparison were clean. The way I scoped the project had real gaps that a real clinical ML role would catch.</p>
-
+    <section class="section">
+      <p class="section-label r">Reflection</p>
+      <h2 class="section-title r">What I would add</h2>
       <div class="learning-item r">
         <div class="learning-num">01</div>
-        <div class="learning-title">No calibration analysis.</div>
-        <p class="learning-body">A model with strong ROC-AUC can still be poorly calibrated. ROC-AUC measures ranking, not probability accuracy. If the model says 70% disease probability, is that actually a 70% rate of disease in that bucket of patients? I did not run a reliability diagram, Brier score, or Platt scaling. For any model that would influence a clinical decision, calibration is non-optional. I would add it on a v2.</p>
+        <div class="learning-title">Calibration.</div>
+        <p class="learning-body">ROC-AUC measures ranking, not whether a predicted 70% really means 70%. A calibration check is the next step for any model meant to inform a decision.</p>
       </div>
-
       <div class="learning-item r">
         <div class="learning-num">02</div>
-        <div class="learning-title">No decision-curve analysis or threshold tuning for clinical use.</div>
-        <p class="learning-body">The default 0.5 probability cutoff is rarely the right operating point for a screening tool. For heart disease, the cost of a false negative (missed disease) is much higher than the cost of a false positive (extra confirmatory test). A decision-curve analysis would show the net benefit at different thresholds and identify where the model adds value over treat-all or treat-none. Without that, the recall-precision tradeoff in the paper is informative but not actionable.</p>
+        <div class="learning-title">A clinical threshold.</div>
+        <p class="learning-body">A 0.5 cutoff is rarely right for screening, where a missed case costs more than an extra test. The operating point should be chosen on purpose.</p>
       </div>
-
       <div class="learning-item r">
         <div class="learning-num">03</div>
-        <div class="learning-title">I did not stress-test the model on age and sex subgroups.</div>
-        <p class="learning-body">Performance averaged over the whole test set can hide subgroup failures. The model could be excellent for older male patients and useless for younger female patients, and the aggregate ROC-AUC of 0.94 would not show that. A subgroup analysis stratified by age band and sex would have caught this. In a regulated clinical decision support setting, FDA Good Machine Learning Practice principles call out subgroup performance as a baseline expectation. I would add the table on a v2.</p>
+        <div class="learning-title">Subgroups.</div>
+        <p class="learning-body">An overall AUC can hide a model that works well for one group and poorly for another. Breaking results out by age and sex would show that.</p>
       </div>
     </section>
 
-    <!-- ===== COMMON QUESTIONS ===== -->
-    <section class="section" aria-labelledby="preempt-heading" style="padding-top: 48px;">
-      <p class="section-label r">Common Questions</p>
-      <h2 class="section-title r" id="preempt-heading">Questions I get about this one.</h2>
-      <p class="r" style="max-width: 720px; color: var(--text-muted, #635B52); margin-bottom: 32px;">Three questions people ask about this project, answered up front.</p>
-
-      <div class="learning-item r">
-        <div class="learning-num">Q1</div>
-        <div class="learning-title">Why is this on a medtech portfolio? Isn't this a standard ML coursework problem?</div>
-        <p class="learning-body">Two reasons. First, classification on tabular clinical data is the bread-and-butter of clinical decision support, post-market surveillance ML, and risk stratification tools. The methodology I used here, shared preprocessing, stratified CV, holdout evaluation, calibration thinking, and subgroup awareness, is the exact methodology you bring to a regulated clinical model. Second, the AI/ML SaMD space is one of the fastest-growing regulatory areas at the FDA. Engineers who can talk fluently about both the model and the validation framework around it are scarce. This project shows I can do both.</p>
-      </div>
-
-      <div class="learning-item r">
-        <div class="learning-num">Q2</div>
-        <div class="learning-title">You only owned one model in a 4-person team. What was the actual contribution?</div>
-        <p class="learning-body">The Logistic Regression notebook, the verified results on real UCI data (5-fold CV ROC-AUC 0.911 +/- 0.020, holdout 0.939), and the Introduction and Background section of the paper. I also pushed the team to lock in shared preprocessing, a fixed train/test split, and a common metrics format before anyone trained a model. Without that, the comparative analysis at the end of the paper would have been three different models trained on three different datasets and labeled the same. I am explicit about this on the portfolio because misattributing team work is a fast way to lose people's trust.</p>
-      </div>
-
-      <div class="learning-item r">
-        <div class="learning-num">Q3</div>
-        <div class="learning-title">What would a production version of this look like?</div>
-        <p class="learning-body">External validation on a contemporary multi-institution dataset (MIMIC-IV, eICU, or institutional EHR data). Calibration analysis with reliability diagrams and Platt or isotonic scaling. Decision-curve analysis to find a clinical operating threshold. Subgroup performance tables for age, sex, and major comorbidities. A model card documenting all of the above. And a regulatory framing under the FDA's AI/ML SaMD action plan and Good Machine Learning Practice principles. The semester version answered the methodology question. The production version would answer the deployment question.</p>
-      </div>
-    </section>
-
-    <!-- Project navigation -->
     <!-- ===== CASE NAV ===== -->
     <nav class="case-nav" aria-label="Adjacent case studies">
       <a href="case-biostats.html" class="case-nav-link">
@@ -1226,7 +1095,7 @@
     <!-- CTA -->
     <section class="cta-section r">
       <h2 class="section-title r">Interested in this work?</h2>
-      <p class="cta-desc">Interpretable ML on clinical data, shared preprocessing pipelines for honest comparisons, and the regulatory awareness needed to take a model from notebook to clinical use.</p>
+      <p class="cta-desc">Interpretable ML on clinical data and fair comparisons between models. Happy to talk through the pipeline or the coefficients.</p>
       <div class="cta-buttons">
         <a href="index.html#contact" class="btn btn-primary">Get in touch</a>
       </div>
@@ -1486,13 +1355,15 @@ document.addEventListener('mousemove', function(e) {
     el.classList.add('img-reveal');
   });
   var imgEls=document.querySelectorAll('.img-reveal');
-  if(imgEls.length && !matchMedia('(prefers-reduced-motion:reduce)').matches){
+  if(imgEls.length && !matchMedia('(prefers-reduced-motion:reduce)').matches && 'IntersectionObserver' in window){
     var imgObs=new IntersectionObserver(function(entries){
       entries.forEach(function(e){
         if(e.isIntersecting){e.target.classList.add('visible');imgObs.unobserve(e.target);}
       });
-    },{threshold:0.15});
+    },{threshold:0});
     imgEls.forEach(function(el){imgObs.observe(el);});
+  } else {
+    imgEls.forEach(function(el){el.classList.add('visible');});
   }
 
   /* Section title underline reveal */

@@ -17,11 +17,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Parkinson's Tremor-Suppression EMG Cuff | Case Study | Joneil Caoile</title>
-  <meta name="description" content="Wearable EMG cuff for real-time detection of Parkinsonian tremor. Built Python simulation to model 4–8 Hz tremor and validate suppression approach before hardware.">
+  <meta name="description" content="Wearable EMG cuff concept for Parkinson&#x27;s tremor. Python simulation with Butterworth filtering, detection fit r = 0.994, about 45% simulated tremor reduction. Simulation only.">
   <meta name="author" content="Joneil Caoile">
   <meta name="keywords" content="EMG, tremor suppression, Parkinson's disease, wearable device, signal processing, Python simulation, biomedical engineering, Joneil Caoile">
   <meta property="og:title" content="Parkinson's Tremor-Suppression EMG Cuff | Case Study | Joneil Caoile">
-  <meta property="og:description" content="Wearable system for detecting Parkinsonian tremor and suppressing it via pneumatic actuation. Full Python simulation built from scratch.">
+  <meta property="og:description" content="Wearable EMG cuff concept for Parkinson&#x27;s tremor. Python simulation with Butterworth filtering, detection fit r = 0.994, about 45% simulated tremor reduction. Simulation only.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://joneilcaoile.github.io/case-emg.html">
   <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.jpg">
@@ -29,7 +29,7 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Parkinson's Tremor-Suppression EMG Cuff | Case Study | Joneil Caoile">
-  <meta name="twitter:description" content="Wearable EMG system for detecting and suppressing Parkinsonian tremor via pneumatic actuation. Full Python simulation.">
+  <meta name="twitter:description" content="Wearable EMG cuff concept for Parkinson&#x27;s tremor. Python simulation with Butterworth filtering, detection fit r = 0.994, about 45% simulated tremor reduction. Simulation only.">
   <meta name="twitter:image" content="https://joneilcaoile.github.io/og-preview.jpg">
   <link rel="canonical" href="https://joneilcaoile.github.io/case-emg.html">
   <link rel="prev" href="https://joneilcaoile.github.io/case-pneumothorax.html">
@@ -64,8 +64,8 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "EMG Tremor Detection System",
-    "description": "Wearable EMG signal processing system with Butterworth filtering for real-time tremor classification and monitoring.",
+    "headline": "Parkinson's Tremor-Suppression EMG Cuff (Simulation)",
+    "description": "Python simulation of tremor detection and suppression for a wearable EMG cuff concept. About 45% simulated tremor reduction, detection fit r = 0.994.",
     "keywords": "EMG, electromyography, signal processing, tremor detection, wearable, biomedical",
     "author": {
       "@type": "Person",
@@ -77,7 +77,7 @@
       "name": "Joneil Caoile"
     },
     "datePublished": "2026-03-23",
-    "dateModified": "2026-04-01",
+    "dateModified": "2026-10-18",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://joneilcaoile.github.io/case-emg.html"
@@ -1030,8 +1030,15 @@
       .metric-card, .std-card, .arch-node { border: 1px solid #ccc !important; background: white !important; }
       .metric-card *, .std-card *, .arch-node * { color: #1a1a1a !important; }
     }
+    /* ===== light-section overrides (added 2026-10-18) ===== */
+    .section:not(.dark-section) .learning-title { color: var(--text); }
+    .section:not(.dark-section) .learning-body { color: var(--text-muted); }
+    .section:not(.dark-section) .learning-item { border-bottom-color: rgba(128,128,128,0.18); }
+    .section-label { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber); margin-bottom: 0.75rem; }
+    .dark-section .section-label { color: var(--amber-mid, #F59E0B); }
   </style>
-  <noscript><style>.r { opacity: 1 !important; transform: none !important; } .scroll-top { display: none !important; }</style></noscript>
+  <noscript><style>.r { opacity: 1 !important; transform: none !important; } .scroll-top { display: none !important; }
+</style></noscript>
 </head>
 <body>
   <div class="page-transition" id="pageTransition" aria-hidden="true"></div>
@@ -1058,126 +1065,73 @@
   <main id="main">
 
     <!-- ===== HERO ===== -->
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="status-badge r">
-        <span class="status-dot" aria-hidden="true"></span>
-        Research Prototype
+    <section class="hero">
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        Simulation project
       </div>
-
-      <h1 class="hero-title r" id="hero-title">
-        Parkinson's Tremor-Suppression <span class="accent">EMG Cuff</span>
-      </h1>
-
-      <p class="hero-desc r">
-        Wearable system for real-time detection of Parkinsonian tremor using forearm EMG signals. Built Python simulation to validate signal processing approach and suppression triggers before hardware integration.
-      </p>
-
-      <div class="meta-row r">
+      <h1 class="hero-title">Parkinson&#39;s Tremor-Suppression <span class="accent">EMG Cuff</span></h1>
+      <p class="hero-desc">A wearable EMG cuff concept for Parkinson&#39;s tremor. I built a Python simulation from scratch to test tremor detection and suppression before any hardware. Simulation only: the hardware stayed at concept stage.</p>
+      <div class="meta-row">
         <div class="meta-item">
           <span class="meta-label">Role</span>
-          Lead developer, signal processing
+          <span>Product &amp; prototyping lead</span>
         </div>
-        <div class="meta-divider" aria-hidden="true"></div>
         <div class="meta-item">
           <span class="meta-label">Timeline</span>
-          Sep – Dec 2024
+          <span>Sep – Dec 2025</span>
         </div>
-        <div class="meta-divider" aria-hidden="true"></div>
         <div class="meta-item">
           <span class="meta-label">Type</span>
-          Course project / Research prototype
+          <span>Course project / Simulation</span>
         </div>
-        <div class="meta-divider" aria-hidden="true"></div>
         <div class="meta-item">
-          <span class="meta-label">Standards</span>
-          IEC 60601-1-2, ISO 10993
-        </div>
-        <div class="meta-divider" aria-hidden="true"></div>
-        <div class="meta-item">
-          <span class="meta-label">Read time</span>
-          6 min
+          <span class="meta-label">Tools</span>
+          <span>Python · NumPy · SciPy</span>
         </div>
       </div>
     </section>
 
-    <!-- ===== PROBLEM / SOLUTION ===== -->
-    <section class="section" aria-labelledby="need-title">
-      <h2 class="section-title r" id="need-title">The clinical need</h2>
-      <p class="prose r">
-        Parkinson's disease affects approximately 1 million people in the U.S., with resting tremor (4–8 Hz) being one of the most disabling symptoms. Tremor impairs fine motor tasks: writing, eating, grasping objects. This severely reduces quality of life. Current treatment options are limited. <strong>Pharmacological interventions</strong> have variable efficacy and side effects, while <strong>deep brain stimulation (DBS)</strong> is invasive, costly, and not accessible to all patients.
-      </p>
-      <p class="prose r">
-        Non-invasive wearable solutions that can detect tremor onset in real time and trigger suppression mechanisms remain underdeveloped. A wearable EMG cuff capable of identifying tremor timing could enable counter-stimulation or mechanical dampening strategies, offering patients a low-risk intervention option.
-      </p>
-
+    <section class="section">
+      <p class="section-label r">The Need</p>
+      <h2 class="section-title r">Tremor gets in the way of everyday tasks</h2>
+      <p class="prose r">Parkinsonian tremor sits around 4 to 8 Hz and gets in the way of writing, eating and holding things. Medication helps some people, and deep brain stimulation is invasive. A wearable that can detect tremor as it happens could trigger a non-invasive suppression response.</p>
       <div class="ps-grid r">
         <div class="ps-card problem">
-          <div class="ps-card-label">The Challenge</div>
-          <h3 class="ps-card-title">Detection complexity</h3>
-          <p>Parkinsonian tremor occurs at 4–8 Hz in forearm musculature. Detecting this narrow frequency band in real time from EMG requires robust signal processing. Noise, motion artifacts, and physiological variation complicate detection. Hardware-first approaches risk wasting time on non-viable signal chains.</p>
+          <div class="ps-card-label">The risk</div>
+          <h3 class="ps-card-title">Detection has to be right first</h3>
+          <p>If the system can&#39;t pick tremor out of the signal reliably and quickly, no amount of good hardware fixes it.</p>
         </div>
         <div class="ps-card solution">
-          <div class="ps-card-label">The Approach</div>
-          <h3 class="ps-card-title">Simulation-driven validation</h3>
-          <p>Build a complete Python signal processing pipeline modeling the EMG flow through bandpass filter, feature extraction, and detection algorithm. Simulate tremor dynamics at known frequencies. Validate detection sensitivity and latency before any hardware fabrication. De-risk the hardware build.</p>
+          <div class="ps-card-label">The approach</div>
+          <h3 class="ps-card-title">Simulate before building</h3>
+          <p>Model the signal chain in Python and set pass/fail criteria before spending anything on electrodes or electronics.</p>
         </div>
       </div>
     </section>
 
-    <!-- ===== ARCHITECTURE ===== -->
     <section class="section dark-section r">
-      <h2 class="section-title r" id="arch-title">System architecture</h2>
-      <p class="prose">
-        The wearable system follows a classical real-time biomedical signal processing flow. EMG sensors on the forearm capture muscle electrical activity, which is then processed through a tight filtering and feature extraction pipeline to identify tremor-specific signatures.
-      </p>
-
-      <div class="arch">
-        <div class="arch-title">Signal Processing Pipeline</div>
-        <div class="arch-flow">
-          <div class="arch-node input">
-            EMG Sensors
-            <span class="arch-sub">Forearm surface electrodes</span>
-          </div>
-          <span class="arch-arrow">→</span>
-          <div class="arch-node process">
-            Bandpass Filter
-            <span class="arch-sub">4–8 Hz tremor band</span>
-          </div>
-          <span class="arch-arrow">→</span>
-          <div class="arch-node process">
-            Feature Extraction
-            <span class="arch-sub">RMS, spectral power, coherence</span>
-          </div>
-          <span class="arch-arrow">→</span>
-          <div class="arch-node process">
-            Tremor Detection
-            <span class="arch-sub">Threshold + coherence check</span>
-          </div>
-          <span class="arch-arrow">→</span>
-          <div class="arch-node output">
-            Suppression Trigger
-            <span class="arch-sub">Counter-stim / dampening</span>
-          </div>
-        </div>
+      <p class="section-label r">The Simulation</p>
+      <h2 class="section-title r">What the model did</h2>
+      <p class="prose r"><strong>Synthetic EMG.</strong> I generated simulated EMG at 200 Hz with tremor built into it.</p>
+      <p class="prose r"><strong>Filtering.</strong> Butterworth bandpass filters: 20 to 80 Hz for the EMG carrier and 4 to 8 Hz for the tremor band.</p>
+      <p class="prose r"><strong>Detection.</strong> An RMS envelope tracked tremor activity. The detection fit reached Pearson r = 0.994 with RMSE about 0.12.</p>
+      <p class="prose r"><strong>Suppression.</strong> A simulated peripheral-stimulation response cut mean tremor amplitude by about 45%.</p>
+      <p class="prose r"><strong>Pass/fail first.</strong> I defined criteria for tremor-onset detection latency and suppression accuracy from physiological benchmarks, and measured outcomes as tremor power in the 4 to 8 Hz band.</p>
+      <div class="tech-tags r">
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">NumPy</span>
+        <span class="tech-tag">SciPy</span>
+        <span class="tech-tag">matplotlib</span>
+        <span class="tech-tag">Butterworth filtering</span>
+        <span class="tech-tag">EMG simulation</span>
       </div>
-
-      <h3 class="section-title" style="margin-top: 2.5rem; margin-bottom: 1.5rem;">Design decisions</h3>
-      <p class="prose">
-        <strong>Bandpass filter centered at 6 Hz.</strong> Parkinsonian tremor peaks around 4–8 Hz. A Butterworth bandpass filter (6th order, 4–8 Hz) isolates tremor signatures while rejecting DC drift, low-frequency movement, and high-frequency noise. Real-time latency is critical. We target less than 100 ms end-to-end detection.
-      </p>
-      <p class="prose">
-        <strong>Multi-feature detection, not single threshold.</strong> RMS energy alone generates false positives from voluntary muscle activation. We combine RMS, spectral power concentration, and coherence across electrode channels. A tremor detection event requires all three features to align, raising specificity without sacrificing sensitivity.
-      </p>
-      <p class="prose">
-        <strong>Python simulation before hardware.</strong> We modeled tremor dynamics (sinusoidal + noise) and stress-tested the pipeline against realistic EMG corruption. Only after validating detection accuracy on simulated data did we move toward hardware fabrication. This iterative de-risking prevented costly false starts.
-      </p>
     </section>
-
     <!-- ===== INTERACTIVE DEMO ===== -->
     <section class="section dark-section r">
       <h2 class="section-title r">Interactive: See the filter in action</h2>
       <p class="prose">
-        This visualization shows a live EMG signal being processed through a 6th-order Butterworth bandpass filter. Watch how the filter isolates the 5.8 Hz tremor signal from power line interference and motion artifacts.
+        A simplified browser illustration of the idea: a noisy signal with a tremor component, before and after bandpass filtering. It is not the project code.
       </p>
 
       <div class="demo-container">
@@ -1191,7 +1145,7 @@
       </div>
 
       <div class="demo-note">
-        <p class="note-text">This is a simplified simulation. The real device uses a 6th-order Butterworth bandpass filter at 4 to 8 Hz.</p>
+        <p class="note-text">Illustration only. The project simulation used Butterworth bandpass filters at 20 to 80 Hz (EMG) and 4 to 8 Hz (tremor) on 200 Hz synthetic data.</p>
       </div>
 
       <div class="metrics-demo-grid">
@@ -1210,156 +1164,30 @@
       </div>
     </section>
 
-    <!-- ===== STANDARDS ===== -->
+
     <section class="section">
-      <h2 class="section-title r" id="standards-title">Regulatory and safety framework</h2>
-      <p class="prose r">
-        This wearable medical device concept must adhere to international standards for medical device safety, biocompatibility, and electromagnetic compatibility. Understanding regulatory pathways early shapes architecture choices and validation protocols.
-      </p>
-
-      <div class="standards-grid r">
-        <div class="std-card">
-          <div class="std-card-title">IEC 60601-1-2</div>
-          <p>Electromagnetic compatibility (EMC) for medical electrical equipment. Critical for wearables operating near body and in varying EM environments.</p>
-        </div>
-        <div class="std-card">
-          <div class="std-card-title">ISO 10993 Series</div>
-          <p>Biocompatibility of medical devices. Electrode materials and skin-contact components must meet cytocompatibility and irritation thresholds.</p>
-        </div>
-        <div class="std-card">
-          <div class="std-card-title">IEC 60601-1 General</div>
-          <p>Safety requirements for medical electrical equipment. Risk analysis, electrical safety, and design controls.</p>
-        </div>
-        <div class="std-card">
-          <div class="std-card-title">FDA De Novo Pathway</div>
-          <p>For novel wearable neurotech devices without predicate. Requires comprehensive design history file and clinical validation.</p>
-        </div>
-      </div>
+      <p class="section-label r">Design Side</p>
+      <h2 class="section-title r">A cuff someone would actually wear</h2>
+      <p class="prose r">The cuff concept focused on wearability and comfort for people with motor impairments: easy to put on, comfortable through a day, and simple to live with. I talked through the design trade-offs with a multidisciplinary team before anyone planned hardware.</p>
     </section>
 
-    <!-- ===== METRICS ===== -->
-    <section class="section dark-section r">
-      <h2 class="section-title r">Signal processing targets</h2>
-      <p class="prose">
-        Validation metrics measure both the accuracy of our tremor detection algorithm and the real-time feasibility of the system.
-      </p>
-
-      <div class="metric-grid">
-        <div class="metric-card">
-          <div class="metric-value"><span data-count-prefix="">4</span>–<span data-count-to="8">8</span><span style="font-size: 0.5em; display: block;">Hz</span></div>
-          <div class="metric-label">Tremor band targeted</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value">&lt;<span data-count-to="100">100</span><span style="font-size: 0.5em; display: block;">ms</span></div>
-          <div class="metric-label">Detection latency target</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value"><span data-count-to="95">95</span><span style="font-size: 0.5em; display: block;">%</span></div>
-          <div class="metric-label">Simulated sensitivity</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value"><span data-count-to="6">6</span></div>
-          <div class="metric-label">Filter order (Butterworth)</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== TECH STACK ===== -->
     <section class="section">
-      <h2 class="section-title r" id="tech-title">Implementation stack</h2>
-      <div class="tech-tags r">
-        <span class="tech-tag">Python</span>
-        <span class="tech-tag">scipy.signal</span>
-        <span class="tech-tag">numpy</span>
-        <span class="tech-tag">matplotlib</span>
-        <span class="tech-tag">EMG Processing</span>
-        <span class="tech-tag">Signal Filtering</span>
-        <span class="tech-tag">Feature Extraction</span>
-        <span class="tech-tag">Real-time Simulation</span>
-      </div>
-
-      <h3 class="section-title" style="margin-top: 2.5rem; margin-bottom: 1.5rem; font-size: 1.2rem;">Technology rationale</h3>
-      <p class="prose">
-        <strong>scipy.signal:</strong> Production-grade filtering (Butterworth, Chebyshev, Bessel). We compared multiple designs for phase distortion and attenuation characteristics before settling on 6th-order Butterworth, offering excellent rolloff without excessive phase lag.
-      </p>
-      <p class="prose">
-        <strong>numpy for vector operations:</strong> EMG processing is array-heavy. numpy's C-backend ensures real-time throughput even with 1+ kHz sampling rates across multiple channels.
-      </p>
-      <p class="prose">
-        <strong>matplotlib for validation:</strong> Time-domain waveforms, FFT spectrograms, and filter response plots proved critical for debugging detection failures and tuning thresholds iteratively.
-      </p>
-    </section>
-
-    <!-- ===== LEARNINGS ===== -->
-    <section class="section learnings-section">
-      <h2 class="section-title r">What this taught me</h2>
-
+      <p class="section-label r">Reflection</p>
+      <h2 class="section-title r">What I learned</h2>
       <div class="learning-item r">
         <div class="learning-num">01</div>
-        <h3 class="learning-title">Simulating before building saves months</h3>
-        <p class="learning-body">A week of Python modeling revealed that naive single-channel thresholding would produce unacceptable false positive rates. Multi-channel coherence checks added complexity but eliminated the problem. Hardware teams found this out the hard way. We caught it in simulation.</p>
+        <div class="learning-title">I taught myself signal processing for this.</div>
+        <p class="learning-body">I came in with no signal processing background and built the pipeline from scratch. Getting it working meant learning filters, envelopes and frequency bands as I went.</p>
       </div>
-
       <div class="learning-item r">
         <div class="learning-num">02</div>
-        <h3 class="learning-title">Biomedical signals are hostile</h3>
-        <p class="learning-body">Textbooks show clean sinusoids. Real EMG is fractional-volt noise contaminated with motion artifacts, ECG cross-talk, and 60 Hz hum. Every design choice (filter order, feature set, threshold) had to survive adversarial noise tests before acceptance.</p>
+        <div class="learning-title">Synthetic data is the easy case.</div>
+        <p class="learning-body">Real EMG has motion artifacts and voluntary muscle activity that overlap the tremor band. The next step is testing on recorded EMG, not more synthetic data.</p>
       </div>
-
       <div class="learning-item r">
         <div class="learning-num">03</div>
-        <h3 class="learning-title">Regulatory thinking must start early</h3>
-        <p class="learning-body">EMC, biocompatibility, and design controls are not afterthoughts. Building regulatory awareness into the signal processing design (choosing components with certified datasheets, documenting filter design rationale) streamlines later validation.</p>
-      </div>
-    </section>
-
-    <!-- ===== WHAT I GOT WRONG ===== -->
-    <section class="section" aria-labelledby="wrong-heading" style="padding-top: 48px;">
-      <p class="section-label r">Post-Mortem</p>
-      <h2 class="section-title r" id="wrong-heading">What I got wrong.</h2>
-      <p class="r" style="max-width: 720px; color: var(--text-muted, #635B52); margin-bottom: 32px;">The simulation worked. But that doesn't mean every decision along the way was right.</p>
-
-      <div class="learning-item r">
-        <div class="learning-num">01</div>
-        <div class="learning-title">I tuned the filter on clean synthetic data and called it validated.</div>
-        <p class="learning-body">The 6th-order Butterworth performed beautifully on my generated tremor signals: clean sinusoids plus Gaussian noise. When I later tested with publicly available EMG datasets that included real motion artifacts, the filter's performance dropped noticeably. Real forearm EMG during daily activities contains bursts of voluntary muscle activation that overlap the tremor band. My simulation didn't model that overlap, so the detection thresholds I'd tuned were too aggressive. I should have incorporated published EMG datasets from the start, not after the pipeline was "done."</p>
-      </div>
-
-      <div class="learning-item r">
-        <div class="learning-num">02</div>
-        <div class="learning-title">I ignored the suppression side of the system for too long.</div>
-        <p class="learning-body">The project was framed as "tremor detection and suppression," but I spent 90% of the time on detection. The suppression trigger was a binary output: detected or not. I never modeled what happens downstream. How fast does the pneumatic actuator respond? What happens if the detection is right but the suppression fires 200 ms late? Those questions matter for clinical viability, and I treated them as someone else's problem. In a real device program, the detection and actuation teams would need to co-design the latency budget from day one.</p>
-      </div>
-
-      <div class="learning-item r">
-        <div class="learning-num">03</div>
-        <div class="learning-title">I didn't quantify false positive cost.</div>
-        <p class="learning-body">My metrics were sensitivity and specificity, reported as percentages. I never asked: what does a false positive actually do to the patient? If the cuff fires suppression during voluntary movement, it fights the patient's own muscles. That's not just annoying. It could cause injury or erode trust in the device within days. The cost of a false positive is categorically different from the cost of a false negative, and my evaluation framework treated them as symmetric. A clinical engineer would have caught that immediately.</p>
-      </div>
-    </section>
-
-    <!-- ===== COMMON QUESTIONS ===== -->
-    <section class="section" aria-labelledby="preempt-heading" style="padding-top: 48px;">
-      <p class="section-label r">Common Questions</p>
-      <h2 class="section-title r" id="preempt-heading">Questions I get about this one.</h2>
-      <p class="r" style="max-width: 720px; color: var(--text-muted, #635B52); margin-bottom: 32px;">Three questions people ask about this project, answered up front.</p>
-
-      <div class="learning-item r">
-        <div class="learning-num">Q1</div>
-        <div class="learning-title">Why simulation instead of building the hardware first?</div>
-        <p class="learning-body">Because the signal processing pipeline is the highest-risk subsystem. If the filter design can't isolate tremor from noise at the frequencies we care about, no amount of good hardware saves the project. A week of Python modeling told us the detection approach was viable before we spent money on electrodes, ADCs, and PCB fabrication. The simulation also let us iterate on filter order, feature sets, and detection thresholds at a pace that hardware prototyping can't match. The tradeoff is that simulation can't catch everything (see "What I got wrong" above), but it de-risked the most expensive failure mode.</p>
-      </div>
-
-      <div class="learning-item r">
-        <div class="learning-num">Q2</div>
-        <div class="learning-title">How would this hold up with real patient data?</div>
-        <p class="learning-body">It wouldn't, not without significant rework. The simulation uses synthetic tremor signals that model the frequency content but not the variability of real Parkinsonian tremor. Real patients show intermittent tremor, variable amplitude, and co-occurring voluntary movement. The multi-feature detection approach (RMS + spectral power + coherence) is designed to handle that, but the thresholds would need recalibration on clinical recordings. If I continued this project, the next step would be validating against the PhysioNet Parkinson's tremor dataset before touching hardware.</p>
-      </div>
-
-      <div class="learning-item r">
-        <div class="learning-num">Q3</div>
-        <div class="learning-title">What would you do differently with another semester?</div>
-        <p class="learning-body">Three things. First, validate against real EMG data from published datasets on day one, not after the pipeline is built. Second, model the full closed-loop system including suppression actuator dynamics, because detection latency and actuation latency are coupled. Third, bring in a clinician or movement disorder specialist early to pressure-test whether the detection sensitivity targets actually matter for patient quality of life. The 95% sensitivity target I set was an engineering number, not a clinical one. A neurologist might tell me 80% sensitivity with zero false positives during voluntary movement is more valuable than 95% sensitivity with occasional misfires.</p>
+        <div class="learning-title">Detection and suppression are one system.</div>
+        <p class="learning-body">How fast and how accurately you detect decides what the suppression side can do. A real design would set both together from the start.</p>
       </div>
     </section>
 
@@ -1380,7 +1208,7 @@
       <div class="cta-inner">
         <h2 class="cta-title">Interested in this work?</h2>
         <p class="cta-body">
-          Signal processing, regulatory thinking, and a bias toward validating before building. Happy to talk through the filter design or the simulation.
+          Signal processing and a habit of testing the idea before building it. Happy to talk through the filters or the simulation.
         </p>
         <div class="btn-row">
           <a href="index.html#contact" class="btn btn-primary">Get in touch</a>
@@ -1814,13 +1642,15 @@
     el.classList.add('img-reveal');
   });
   var imgEls=document.querySelectorAll('.img-reveal');
-  if(imgEls.length && !matchMedia('(prefers-reduced-motion:reduce)').matches){
+  if(imgEls.length && !matchMedia('(prefers-reduced-motion:reduce)').matches && 'IntersectionObserver' in window){
     var imgObs=new IntersectionObserver(function(entries){
       entries.forEach(function(e){
         if(e.isIntersecting){e.target.classList.add('visible');imgObs.unobserve(e.target);}
       });
-    },{threshold:0.15});
+    },{threshold:0});
     imgEls.forEach(function(el){imgObs.observe(el);});
+  } else {
+    imgEls.forEach(function(el){el.classList.add('visible');});
   }
 
   /* Section title underline reveal */

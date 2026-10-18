@@ -17,11 +17,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Fall Study Reliability Tool | Case Study | Joneil Caoile</title>
-  <meta name="description" content="Automated inter-rater reliability assessment for clinical fall-risk research. Flags unreliable assessment items before study finalization.">
+  <meta name="description" content="Item-level inter-rater reliability tool for a 77-patient clinical fall-risk survey. Krippendorff&#x27;s Alpha, percent agreement, and Not sure rates in SQLite, with a dashboard for clinicians.">
   <meta name="author" content="Joneil Caoile">
   <meta name="keywords" content="fall risk, inter-rater reliability, clinical research, Krippendorff's Alpha, patient safety, statistical analysis, biomedical engineering, Joneil Caoile">
   <meta property="og:title" content="Fall Study Reliability Tool | Case Study | Joneil Caoile">
-  <meta property="og:description" content="Automated inter-rater reliability assessment for clinical fall-risk research. Krippendorff's Alpha, Qualtrics pipeline, item-level flagging.">
+  <meta property="og:description" content="Item-level inter-rater reliability tool for a 77-patient clinical fall-risk survey. Krippendorff&#x27;s Alpha, percent agreement, and Not sure rates in SQLite, with a dashboard for clinicians.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://joneilcaoile.github.io/case-fall.html">
   <meta property="og:image" content="https://joneilcaoile.github.io/og-preview.jpg">
@@ -29,7 +29,7 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Fall Study Reliability Tool | Case Study | Joneil Caoile">
-  <meta name="twitter:description" content="Automated inter-rater reliability assessment for clinical fall-risk research using Krippendorff's Alpha.">
+  <meta name="twitter:description" content="Item-level inter-rater reliability tool for a 77-patient clinical fall-risk survey. Krippendorff&#x27;s Alpha, percent agreement, and Not sure rates in SQLite, with a dashboard for clinicians.">
   <meta name="twitter:image" content="https://joneilcaoile.github.io/og-preview.jpg">
   <link rel="canonical" href="https://joneilcaoile.github.io/case-fall.html">
   <link rel="prev" href="https://joneilcaoile.github.io/case-biofeedback.html">
@@ -62,8 +62,8 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "Fall Risk Assessment Tool",
-    "description": "Clinical fall risk scoring tool with atomic SQLite computations and zero-friction deployment for researcher workflows.",
+    "headline": "Fall Study Reliability Tool",
+    "description": "Item-level inter-rater reliability tool for a 77-patient clinical fall-risk survey. Krippendorff's Alpha, percent agreement, and Not sure rates in SQLite, with a dashboard for clinicians.",
     "keywords": "fall risk, clinical assessment, patient safety, SQLite, healthcare",
     "author": {
       "@type": "Person",
@@ -75,7 +75,7 @@
       "name": "Joneil Caoile"
     },
     "datePublished": "2026-03-23",
-    "dateModified": "2026-04-01",
+    "dateModified": "2026-10-18",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://joneilcaoile.github.io/case-fall.html"
@@ -941,7 +941,17 @@
       .metric-card, .std-card, .arch-node { border: 1px solid #ccc !important; background: white !important; }
       .metric-card *, .std-card *, .arch-node * { color: #1a1a1a !important; }
     }
-  </style>
+  
+    /* ===== LEARNINGS (added 2026-10-18) ===== */
+    .learning-item { padding: 1.25rem 0; border-bottom: 1px solid rgba(128,128,128,0.18); }
+    .learning-item:last-child { border-bottom: none; }
+    .learning-num { font-family: var(--font-mono); font-size: 0.7rem; color: var(--amber); letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+    .learning-title { font-family: var(--font-head); font-size: 1.05rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
+    .learning-body { font-size: 0.95rem; color: var(--text-muted); line-height: 1.75; }
+    .dark-section .learning-title { color: #F5F3EE; }
+    .dark-section .learning-body { color: rgba(245,243,238,0.7); }
+    .dark-section table td, .dark-section table th { color: rgba(245,243,238,0.85); }
+</style>
   <noscript><style>.r { opacity: 1 !important; transform: none !important; } .scroll-top { display: none !important; }</style></noscript>
 </head>
 <body>
@@ -964,244 +974,98 @@
   </nav>
 
   <main id="main">
-    <!-- Hero -->
+
+    <!-- ===== HERO ===== -->
     <section class="hero">
       <div class="status-badge">
         <span class="status-dot"></span>
-        Research collaboration
+        Clinical research tool
       </div>
       <h1 class="hero-title">Fall Study <span class="accent">Reliability Tool</span></h1>
-      <p class="hero-desc">Automated inter-rater reliability assessment for clinical fall-risk research. Flags unreliable assessment items before study finalization so researchers can fix them rather than discover them in publication.</p>
+      <p class="hero-desc">A tool that checks whether clinicians rating the same patients agree with each other, question by question, so the research team could see which survey items needed rewriting.</p>
       <div class="meta-row">
         <div class="meta-item">
           <span class="meta-label">Role</span>
-          <span>Developer & data analyst</span>
+          <span>Sole developer</span>
         </div>
         <div class="meta-item">
           <span class="meta-label">Timeline</span>
-          <span>Sep – Dec 2024</span>
+          <span>Jan – May 2025</span>
         </div>
         <div class="meta-item">
           <span class="meta-label">Type</span>
-          <span>Research tool / Clinical collaboration</span>
+          <span>Clinical research tool</span>
         </div>
         <div class="meta-item">
-          <span class="meta-label">Standard</span>
-          <span>Krippendorff's Alpha · ICC</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Read time</span>
-          <span>10 min</span>
+          <span class="meta-label">Dataset</span>
+          <span>77-patient clinical survey</span>
         </div>
       </div>
     </section>
 
-    <!-- Problem / Solution -->
     <section class="section">
-      <h2 class="section-title r">The hidden cost of reliability discovery</h2>
-      <p class="prose">In fall-risk research, multiple clinicians watch the same video recordings and independently rate patient movement patterns. Agreement between raters is critical for study validity. It determines whether the assessment tool is trustworthy and publishable.</p>
-      <p class="prose">The problem: inter-rater reliability calculations happen <strong>after</strong> data collection and analysis are complete. If Krippendorff's Alpha drops below 0.667 (minimum acceptable), or you can't reach 0.80 (target), it's too late. The items are already baked into your study design. Revising the instrument mid-way through means recoding hundreds of responses or scrapping months of work.</p>
-
-      <div class="ps-grid">
+      <p class="section-label r">The Problem</p>
+      <h2 class="section-title r">A survey is only as good as its agreement</h2>
+      <p class="prose r">A fall-risk survey only works if two clinicians looking at the same patient answer the same way. When they don&#39;t, either the question is unclear or people are reading it differently, and the data from that question can&#39;t be trusted.</p>
+      <p class="prose r">The research team had responses from a 77-patient clinical survey collected in Qualtrics. They needed to know which questions held up and which ones to rewrite before using the instrument further.</p>
+      <div class="ps-grid r">
         <div class="ps-card problem">
-          <div class="ps-card-label">Before automated analysis</div>
-          <h3 class="ps-card-title">Manual assessment</h3>
-          <p>Manual calculation or basic Excel formulas. Reliability computed after all data collected. Low-confidence items discovered too late to fix. No real-time visibility into which assessment items are problematic.</p>
+          <div class="ps-card-label">The question</div>
+          <h3 class="ps-card-title">Which items can we trust?</h3>
+          <p>One overall reliability score hides the problem. Some questions agree well and some don&#39;t, and the team needed to know which was which.</p>
         </div>
         <div class="ps-card solution">
-          <div class="ps-card-label">With the reliability tool</div>
-          <h3 class="ps-card-title">Automated pipeline</h3>
-          <p>Qualtrics exports flow into an automated Python pipeline. Krippendorff's Alpha computed per item, per group. Unreliable items flagged immediately. Researchers can refine the instrument, recalibrate raters, or remove problem items before finalizing the study.</p>
+          <div class="ps-card-label">What I built</div>
+          <h3 class="ps-card-title">Item-level reliability, shown plainly</h3>
+          <p>A tool that cleans the exports, scores agreement for every item, and shows the results in a format clinicians can read without a statistics background.</p>
         </div>
       </div>
     </section>
 
-    <!-- Architecture -->
     <section class="section dark-section r">
-      <h2 class="section-title r">How it works</h2>
-      <p class="prose">The tool ingests survey responses from Qualtrics, transforms them into a format suitable for reliability analysis, computes inter-rater agreement metrics, and produces a dashboard report highlighting problem areas.</p>
-
-      <div class="arch">
-        <div class="arch-title">System Architecture</div>
-        <div class="arch-flow">
-          <div class="arch-node input">
-            Qualtrics Export
-            <span class="arch-sub">CSV survey responses</span>
-          </div>
-          <span class="arch-arrow">→</span>
-          <div class="arch-node process">
-            Python ETL
-            <span class="arch-sub">Data cleaning, reshaping, validation</span>
-          </div>
-          <span class="arch-arrow">→</span>
-          <div class="arch-node process">
-            SQLite Database
-            <span class="arch-sub">Rater responses, item metadata</span>
-          </div>
-          <span class="arch-arrow">→</span>
-          <div class="arch-node ai">
-            Krippendorff's Alpha
-            <span class="arch-sub">Per-item reliability computation</span>
-          </div>
-          <span class="arch-arrow">→</span>
-          <div class="arch-node output">
-            Reliability Dashboard
-            <span class="arch-sub">Flag items, export reports</span>
-          </div>
-        </div>
-      </div>
-
-      <h3 class="section-title" style="color: #F5F3EE; margin-top: 3rem;">Key design decisions</h3>
-      <p class="prose"><strong>Qualtrics as the single source of truth.</strong> Rather than build a custom form system, we export directly from the research team's existing survey platform. No double-entry, no manual transcription. The pipeline pulls new responses and recomputes automatically.</p>
-      <p class="prose"><strong>Krippendorff's Alpha for ordinal scale agreement.</strong> Fall-risk assessments use Likert scales, 1 through 5 ordinal ratings. Krippendorff's Alpha handles ordinal data correctly, accounts for missing values, and works with any number of raters. It's the gold standard for inter-rater reliability in clinical research.</p>
-      <p class="prose"><strong>Item-level flagging, not global thresholds.</strong> A single global reliability score hides the real problem. Some items agree well, others don't. The tool flags each item independently so researchers know exactly which assessment question is unreliable and needs refinement.</p>
-
-      <h3 class="section-title" style="color: #F5F3EE; margin-top: 3rem;">Failure recovery and data integrity</h3>
-      <div style="background: #1A1815; border: 1px solid rgba(217,119,6,0.15); border-radius: 12px; padding: 1.75rem 1.5rem; margin: 2rem 0;">
-        <p style="font-size: 0.95rem; line-height: 1.8; color: #F5F3EE; margin: 0;">If the analysis crashes mid-computation, tested by force-killing the process at random intervals, the SQLite database preserves all prior state. Re-running the analysis picks up exactly where it left off with no data loss. For large datasets (tested up to 2,000 responses across 10 raters), the tool displays a progress indicator with estimated time remaining and supports cancellation without corrupting the database. All computations are atomic: either the full reliability matrix completes, or nothing changes.</p>
-      </div>
-    </section>
-
-    <!-- Research context -->
-    <section class="section">
-      <h2 class="section-title r">Research foundation</h2>
-      <p class="prose">Inter-rater reliability is non-negotiable in clinical research. These metrics and standards ensure that assessment tools are trustworthy before they're used to evaluate patient outcomes.</p>
-
-      <div class="standards">
-        <div class="std-card">
-          <h3>Krippendorff's Alpha</h3>
-          <p>Measures agreement for ordinal and nominal data. Minimum 0.667 for exploratory research, 0.80+ for regulatory and clinical use.</p>
-        </div>
-        <div class="std-card">
-          <h3>Intraclass Correlation (ICC)</h3>
-          <p>Assesses consistency of continuous ratings. Complements Krippendorff's for interval-scale assessments.</p>
-        </div>
-        <div class="std-card">
-          <h3>Rater Calibration</h3>
-          <p>Multiple clinicians must be trained to apply the same standards. Low reliability often signals training gaps, not flawed items.</p>
-        </div>
-        <div class="std-card">
-          <h3>COSMIN Guidelines</h3>
-          <p>Standards for evaluating the quality of outcome measurement instruments in medical research and practice.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Metrics -->
-    <section class="section">
-      <h2 class="section-title r">Reliability benchmarks</h2>
-      <p class="prose">These thresholds guide the analysis and flag items that fall short of clinical research standards.</p>
-
-      <div class="metric-grid">
-        <div class="metric-card">
-          <div class="metric-value"><span data-count-to="0.667" data-count-decimals="3">0.667</span><span class="metric-unit">+</span></div>
-          <div class="metric-label">minimum acceptable Krippendorff's Alpha</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value"><span data-count-to="0.80" data-count-decimals="2">0.80</span></div>
-          <div class="metric-label">target inter-rater reliability</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value">N×M</div>
-          <div class="metric-label">raters × items handled</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value">Real-time</div>
-          <div class="metric-label">flagging and reporting</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Tech stack -->
-    <section class="section">
-      <h2 class="section-title r">Built with</h2>
-      <div class="tech-tags">
+      <p class="section-label r">How It Works</p>
+      <h2 class="section-title r">From survey exports to a list of items to fix</h2>
+      <p class="prose r"><strong>Clean and merge.</strong> Qualtrics exports get cleaned and merged into SQLite databases so every rating sits in one place.</p>
+      <p class="prose r"><strong>Score every item.</strong> For each question the tool calculates Krippendorff&#39;s Alpha, percent agreement, and the rate of &quot;Not sure&quot; answers. Items under an alpha of 0.67 get flagged.</p>
+      <p class="prose r"><strong>Show it to the people who use it.</strong> A decision-support dashboard presents the scores in plain language for clinicians who are not statisticians.</p>
+      <p class="prose r"><strong>Built to grow.</strong> The SQLite design can move to PostgreSQL or SQL Server if the dataset gets bigger.</p>
+      <div class="tech-tags r">
         <span class="tech-tag">Python</span>
         <span class="tech-tag">SQLite</span>
-        <span class="tech-tag">Pandas</span>
-        <span class="tech-tag">Krippendorff's Alpha</span>
-        <span class="tech-tag">Qualtrics API</span>
-        <span class="tech-tag">Statistical Analysis</span>
-        <span class="tech-tag">Data Pipeline</span>
-        <span class="tech-tag">Reliability Metrics</span>
-      </div>
-
-      <h3 class="section-title" style="margin-top: 2rem;">Why these choices?</h3>
-      <p class="prose"><strong>Python + Pandas.</strong> Fast data manipulation and transformation. The Qualtrics CSV export can be messy with nested columns and encoded values. Pandas cleans it up reliably.</p>
-      <p class="prose"><strong>SQLite for persistence.</strong> The database outlives any single run. Researchers can query historical reliability scores, track how items improve after recalibration, and audit the analysis pipeline.</p>
-      <p class="prose"><strong>Krippendorff's Alpha computation.</strong> Implemented from first principles so every step is auditable and transparent. No black-box calculation. Researchers can verify the math and cite the methodology.</p>
-    </section>
-
-    <!-- Field deployment readiness -->
-    <section class="section dark-section r">
-      <h2 class="section-title r">Field deployment readiness</h2>
-      <div class="metric-grid" style="grid-template-columns: 1fr;">
-        <div class="metric-card" style="background: #1A1815; border: 1px solid rgba(217,119,6,0.2); border-radius: 12px; padding: 2rem; text-align: left;">
-          <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600; color: #FEF3C7; margin-bottom: 1rem; margin-top: 0;">Zero-friction deployment</h3>
-          <p style="font-size: 0.95rem; line-height: 1.7; color: #F5F3EE; margin: 0;">The tool runs entirely within a researcher's existing infrastructure. No IT involvement required. Researchers export their Qualtrics data as CSV, drag it into the tool, and receive reliability metrics in under 2 seconds. During pilot use across 3 Stevens research projects, zero participants needed live support after completing the 10-minute onboarding video. The most common question was "How do I interpret low alpha for a single item?" This prompted adding an inline tooltip that shows interpretation guidelines directly in the dashboard output.</p>
-        </div>
+        <span class="tech-tag">Qualtrics exports</span>
+        <span class="tech-tag">Krippendorff&#39;s Alpha</span>
+        <span class="tech-tag">Percent agreement</span>
+        <span class="tech-tag">Data visualization</span>
       </div>
     </section>
 
-    <!-- What I learned -->
     <section class="section">
-      <h2 class="section-title r">What I learned</h2>
-      <p class="prose"><strong>Data quality is upstream of analysis.</strong> The first version failed silently on malformed ratings, out-of-range values, missing data, and misaligned columns. Now every input gets validated hard. Garbage in equals garbage out, so I catch it before the Krippendorff's computation.</p>
-      <p class="prose"><strong>Reliability is a conversation, not a report.</strong> Researchers don't just need numbers. They need to understand which items failed and why. Low alpha might mean the item is poorly worded, the raters need more training, or the construct itself is ambiguous. A good dashboard flags the item and prompts the right questions.</p>
-      <p class="prose" style="padding: 1.75rem; background: rgba(217,119,6,0.08); border-left: 3px solid #D97706; border-radius: 8px; margin: 1.5rem 0;"><strong>Researchers don't have 3 weeks to wait for reliability feedback.</strong> They have IRB deadlines, grant reporting cycles, and data collection windows that close whether the instrument is ready or not. One Stevens research team discovered their fall risk assessment had problematic inter-rater agreement (alpha = 0.58) only after collecting 200 responses. Without the tool, they would have spent 3 weeks manually recoding and retraining raters. With it, they identified the 3 problematic items in under a minute, revised the wording in one afternoon, and were back on schedule the next day.</p>
+      <p class="section-label r">Working With Clinicians</p>
+      <h2 class="section-title r">The output changed because of the people reading it</h2>
+      <p class="prose r">I iterated on the tool&#39;s outputs based on clinician feedback until the reliability scores were accurate and easy to read. Then I reviewed the dashboards with faculty stakeholders, and we used them to pick out confusing items and decide which survey questions should be rewritten.</p>
+      <p class="prose r">The &quot;Not sure&quot; rate turned out to be worth showing next to agreement. A question that a lot of clinicians can&#39;t answer is a wording problem, even when the people who do answer it happen to agree.</p>
     </section>
 
-    <!-- ===== WHAT I GOT WRONG ===== -->
-    <section class="section" aria-labelledby="wrong-heading" style="padding-top: 48px;">
-      <p class="section-label r">Post-Mortem</p>
-      <h2 class="section-title r" id="wrong-heading">What I got wrong.</h2>
-      <p class="r" style="max-width: 720px; color: var(--text-muted, #635B52); margin-bottom: 32px;">This tool worked for the research team that used it. But I made decisions early on that limited how far it could go.</p>
-
+    <section class="section">
+      <p class="section-label r">Reflection</p>
+      <h2 class="section-title r">What I would do next</h2>
       <div class="learning-item r">
         <div class="learning-num">01</div>
-        <div class="learning-title">I assumed all rater disagreement meant the item was bad.</div>
-        <p class="learning-body">When Krippendorff's Alpha came back low for an item, I flagged it as "unreliable" and recommended revision. That's the obvious interpretation. But after talking with the research team, I learned that some items have legitimately ambiguous cases where reasonable clinicians disagree. A patient who scores 2 or 3 on a 5-point fall risk scale might genuinely be on the boundary. Low alpha for those items doesn't mean the item is broken. It means the construct is fuzzy at that range. The tool should have distinguished between "raters disagree because the item is poorly worded" and "raters disagree because the patient is genuinely borderline." I treated all disagreement the same, and that oversimplification led to recommendations that would have removed clinically useful items.</p>
+        <div class="learning-title">Track items over time.</div>
+        <p class="learning-body">The tool scores one snapshot. The useful next step is showing how an item&#39;s agreement changes after it gets reworded.</p>
       </div>
-
       <div class="learning-item r">
         <div class="learning-num">02</div>
-        <div class="learning-title">I built the pipeline for Qualtrics and only Qualtrics.</div>
-        <p class="learning-body">The ETL layer expects Qualtrics CSV exports with specific column naming conventions. When a second Stevens research group wanted to use the tool with REDCap data, I couldn't accommodate them without rewriting the data ingestion. I'd hardcoded the Qualtrics format assumptions throughout the pipeline instead of building an abstraction layer that could accept different input schemas. The fix would have been straightforward: define a canonical internal format and write adapters per source system. I didn't do that because I was building for one team and one deadline. That shortcut means every new data source requires code changes instead of configuration.</p>
+        <div class="learning-title">Show which rater is the outlier.</div>
+        <p class="learning-body">Knowing that an item has low agreement is step one. Knowing whether one rater is driving it tells the team whether to fix the question or retrain a person.</p>
       </div>
-
       <div class="learning-item r">
         <div class="learning-num">03</div>
-        <div class="learning-title">I didn't plan for longitudinal use.</div>
-        <p class="learning-body">The tool computes reliability on a snapshot of data. Run it once, get a report. But the research team's actual workflow is iterative: they collect responses, check reliability, revise items, retrain raters, and collect more responses. They wanted to see how reliability changed over time for each item. The SQLite database stores everything, so the data is there, but I never built the comparison view. Showing "alpha was 0.58 last month and is 0.74 now after rater retraining" would have been the most valuable feature for the team's workflow, and I didn't build it because I was thinking about the tool as a one-shot analysis, not a longitudinal instrument.</p>
+        <div class="learning-title">Why this matters outside research.</div>
+        <p class="learning-body">Checking whether a measurement gives the same answer twice is the same question quality and test engineers ask about any instrument.</p>
       </div>
     </section>
 
-    <!-- ===== COMMON QUESTIONS ===== -->
-    <section class="section" aria-labelledby="preempt-heading" style="padding-top: 48px;">
-      <p class="section-label r">Common Questions</p>
-      <h2 class="section-title r" id="preempt-heading">Questions I get about this one.</h2>
-      <p class="r" style="max-width: 720px; color: var(--text-muted, #635B52); margin-bottom: 32px;">Three questions people ask about this project, answered up front.</p>
-
-      <div class="learning-item r">
-        <div class="learning-num">Q1</div>
-        <div class="learning-title">Why Krippendorff's Alpha instead of Cohen's Kappa or ICC?</div>
-        <p class="learning-body">Cohen's Kappa only works for two raters and nominal data. This study had variable numbers of raters (2 to 4 per item) and ordinal scales (1 through 5 Likert). ICC handles continuous data well but doesn't account for ordinal structure correctly. Krippendorff's Alpha handles any number of raters, works with ordinal data, and accounts for missing values gracefully. It's also the metric recommended by COSMIN guidelines for evaluating outcome measurement instruments, which is exactly what this research was doing. The choice wasn't arbitrary. It was the statistically appropriate metric for the data structure.</p>
-      </div>
-
-      <div class="learning-item r">
-        <div class="learning-num">Q2</div>
-        <div class="learning-title">Would this hold up in a regulatory submission?</div>
-        <p class="learning-body">For a clinical research tool used internally by a research team, regulatory submission isn't the relevant bar. But the methodology would hold up to scrutiny. Krippendorff's Alpha is widely cited in clinical research literature, the computation is implemented from first principles with full auditability, and the SQLite database provides a complete audit trail of every input and output. If this were part of a clinical investigation used to support a device submission, the tool's output would need to be validated per 21 CFR Part 11 (electronic records) and the computation would need formal software verification. The current implementation doesn't meet those standards, but the architecture was designed with that upgrade path in mind.</p>
-      </div>
-
-      <div class="learning-item r">
-        <div class="learning-num">Q3</div>
-        <div class="learning-title">What would you add with another semester?</div>
-        <p class="learning-body">The longitudinal comparison view is the clear first priority. Researchers need to see how reliability changes over time as they revise items and retrain raters. The data already exists in the database. It just needs a front-end. Second, I'd build adapters for REDCap and Google Forms, since those are the other two platforms Stevens research teams commonly use. Third, I'd add a rater performance view that shows which specific rater is the outlier on low-agreement items. Right now the tool says "this item has low reliability" but not "Rater 3 consistently disagrees with Raters 1, 2, and 4 on this item." That distinction matters for targeted rater retraining instead of retraining everyone.</p>
-      </div>
-    </section>
-
-    <!-- Project navigation -->
     <!-- ===== CASE NAV ===== -->
     <nav class="case-nav" aria-label="Adjacent case studies">
       <a href="case-biofeedback.html" class="case-nav-link">
@@ -1217,7 +1081,7 @@
     <!-- CTA -->
     <section class="cta-section r">
       <h2 class="section-title r">Interested in this work?</h2>
-      <p class="cta-desc">Clinical rigor, automated data pipelines, and research collaboration. If you're working on rater reliability or clinical survey tooling, I'd enjoy comparing notes.</p>
+      <p class="cta-desc">Measurement reliability and tools clinicians can actually read. Happy to compare notes.</p>
       <div class="cta-buttons">
         <a href="index.html#contact" class="btn btn-primary">Get in touch</a>
       </div>
@@ -1477,13 +1341,15 @@ document.addEventListener('mousemove', function(e) {
     el.classList.add('img-reveal');
   });
   var imgEls=document.querySelectorAll('.img-reveal');
-  if(imgEls.length && !matchMedia('(prefers-reduced-motion:reduce)').matches){
+  if(imgEls.length && !matchMedia('(prefers-reduced-motion:reduce)').matches && 'IntersectionObserver' in window){
     var imgObs=new IntersectionObserver(function(entries){
       entries.forEach(function(e){
         if(e.isIntersecting){e.target.classList.add('visible');imgObs.unobserve(e.target);}
       });
-    },{threshold:0.15});
+    },{threshold:0});
     imgEls.forEach(function(el){imgObs.observe(el);});
+  } else {
+    imgEls.forEach(function(el){el.classList.add('visible');});
   }
 
   /* Section title underline reveal */

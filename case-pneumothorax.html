@@ -1076,7 +1076,7 @@
       <div class="meta-row r">
         <div class="meta-item">
           <span class="meta-label">Role</span>
-          Bench testing + adapter design (3-person team)
+          Team lead, firmware, technical verification (3-person team)
         </div>
         <div class="meta-divider" aria-hidden="true"></div>
         <div class="meta-item">
@@ -1185,7 +1185,7 @@
 
           <div class="tech-note r" style="margin-top:1.25rem;">
             <div class="tech-note-title">Cut scope before adding alarms</div>
-            <p>I pushed to verify the core sensing on the bench before adding alarm logic. Alarms on top of an unverified sensor would only make the wrong answer louder. Alarm logic is listed as future work, not something we built.</p>
+            <p>An early firmware version drove a buzzer alarm off the tier thresholds. I pushed to verify the core sensing on the bench first, because an alarm on top of an unverified sensor only makes a wrong answer louder. The final prototype shows the classification on the LCD with no audible alarm, and an active alarm is listed as future work.</p>
           </div>
         </div>
       </section>
@@ -1270,7 +1270,7 @@
 
         <div class="tech-note r">
           <div class="tech-note-title">Firmware</div>
-          <p>Arduino C++ using the Adafruit MPRLS, SparkFun FS3000, and LiquidCrystal libraries, co-written with the team. setup() takes a 10-sample pressure baseline. loop() runs at 2 Hz, calls classify() to map pressure to a tier, and prints a 4-column CSV line (ms, P_cmH2O, F_mLmin, damage) at 115200 baud so every run can be logged.</p>
+          <p>Arduino C++ using the Adafruit MPRLS, SparkFun FS3000, and LiquidCrystal libraries. setup() takes a 10-sample pressure baseline. loop() runs at 2 Hz, calls classify() to map pressure to a tier, and prints a 4-column CSV line (ms, P_cmH2O, F_mLmin, damage) at 115200 baud so every run can be logged.</p>
         </div>
 
         <div class="tech-note r" style="margin-top:1.25rem;">
@@ -1307,18 +1307,24 @@
 
         <div class="learning-item r">
           <div class="learning-num">01</div>
+          <div class="learning-title">The first concept was too big for one semester.</div>
+          <p class="learning-body">We started with a ventilator-integrated monitor that would compare delivered tidal volume to chest tube outflow. We scoped it down early to an inline drain monitor we could actually build and test by May. Cutting scope on purpose beat finishing nothing.</p>
+        </div>
+
+        <div class="learning-item r">
+          <div class="learning-num">02</div>
           <div class="learning-title">Write the pass/fail criteria before the test, not after.</div>
           <p class="learning-body">I wrote the bench test protocol and the pass/fail criteria before we ran the balloons. When the flow sensor misbehaved, there was no arguing about whether it passed. It didn&#39;t, and the protocol said so.</p>
         </div>
 
         <div class="learning-item r">
-          <div class="learning-num">02</div>
+          <div class="learning-num">03</div>
           <div class="learning-title">A part that doesn&#39;t fit the rig blocks everything.</div>
           <p class="learning-body">The FS3000 has a tiny rectangular flow channel and no tubing fitting. Until the adapter existed, we couldn&#39;t test the flow side at all. A small mechanical part held up the whole electrical test plan.</p>
         </div>
 
         <div class="learning-item r">
-          <div class="learning-num">03</div>
+          <div class="learning-num">04</div>
           <div class="learning-title">Report the limitation instead of hiding it.</div>
           <p class="learning-body">Reporting dual-sensor output that we knew was unreliable would have looked better on a slide. We documented the saturation, moved classification to pressure only, and listed a wider-range flow sensor as future work.</p>
         </div>
@@ -1390,7 +1396,7 @@
       <div class="learning-item r">
         <div class="learning-num">Q1</div>
         <div class="learning-title">What was your part, specifically?</div>
-        <p class="learning-body">I designed and printed the FS3000 tubing adapter in SolidWorks, wrote the bench test protocols and pass/fail criteria, and pushed for the scope cut that put sensing verification ahead of alarm logic. I co-wrote the firmware with the team. The final report, presentation, and bench testing were shared across all three of us.</p>
+        <p class="learning-body">I was team lead. I wrote the firmware, handled the clinical literature and the bill of materials, and ran technical verification, including the bench test protocols and pass/fail criteria. I also designed and printed the FS3000 tubing adapter in SolidWorks. My teammates handled hardware assembly and the test rig, and logistics and validation runs. The report and presentation were shared.</p>
       </div>
 
       <div class="learning-item r">
@@ -1640,13 +1646,15 @@ document.addEventListener('mousemove', function(e) {
     el.classList.add('img-reveal');
   });
   var imgEls=document.querySelectorAll('.img-reveal');
-  if(imgEls.length && !matchMedia('(prefers-reduced-motion:reduce)').matches){
+  if(imgEls.length && !matchMedia('(prefers-reduced-motion:reduce)').matches && 'IntersectionObserver' in window){
     var imgObs=new IntersectionObserver(function(entries){
       entries.forEach(function(e){
         if(e.isIntersecting){e.target.classList.add('visible');imgObs.unobserve(e.target);}
       });
-    },{threshold:0.15});
+    },{threshold:0});
     imgEls.forEach(function(el){imgObs.observe(el);});
+  } else {
+    imgEls.forEach(function(el){el.classList.add('visible');});
   }
 
   /* Section title underline reveal */
